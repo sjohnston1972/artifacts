@@ -1,4 +1,5 @@
 import { requireWrite } from "../auth.js";
+import { importEntries } from "../db.js";
 
 const FORMATS = new Set(["html", "tailwind", "react"]);
 const TIERS = new Set(["core", "useful", "reference", "deleted"]);
@@ -13,8 +14,7 @@ function validateEntry(e, i) {
   if (typeof e.slug !== "string" || !e.slug) return `entries[${i}] needs a slug`;
   if (typeof e.name !== "string" || !e.name.trim()) return `entries[${i}] needs a name`;
   // D1's bind() throws on undefined, so a missing definition would crash the
-  // whole batch (and the entries updated before it in the same .batch() call
-  // along with it) rather than failing this one row cleanly.
+  // whole batch rather than failing this one row cleanly.
   if (typeof e.definition !== "string") return `entries[${i}] needs a definition string`;
   if (e.tier != null && !TIERS.has(e.tier)) return `entries[${i}] has unknown tier "${e.tier}"`;
   if (e.templates != null) {
@@ -46,27 +46,6 @@ export async function importJson(request, env) {
     if (error) return Response.json({ error }, { status: 400 });
   }
 
-  // Snapshot everything currently present before replacing it.
-  const now = new Date().toISOString();
-  const { results: current } = await env.DB.prepare("SELECT id, slug FROM entries").all();
-  const snapshots = current.map((row) =>
-    env.DB.prepare("INSERT INTO revisions (entry_id, snapshot, changed_at) VALUES (?, (SELECT json_object('slug', slug, 'name', name, 'definition', definition, 'notes', notes, 'aliases', aliases, 'templates', templates, 'controls_schema', controls_schema, 'tier', tier) FROM entries WHERE id = ?), ?)")
-      .bind(row.id, row.id, now));
-  if (snapshots.length) await env.DB.batch(snapshots);
-
-  const statements = payload.entries.map((e) =>
-    env.DB.prepare(
-      `UPDATE entries SET name=?, aliases=?, definition=?, notes=?,
-         controls_schema=?, templates=?, tier=?, has_example=?, updated_at=?
-       WHERE slug=?`
-    ).bind(
-      e.name, JSON.stringify(e.aliases ?? []), e.definition, e.notes ?? null,
-      JSON.stringify(e.controls_schema ?? []), JSON.stringify(e.templates ?? {}),
-      e.tier ?? "reference", e.templates?.html?.trim() ? 1 : 0, now, e.slug
-    ));
-  await env.DB.batch(statements);
-  await env.DB.prepare(
-    "UPDATE meta SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT) WHERE key='index_version'"
-  ).run();
-  return Response.json({ imported: payload.entries.length });
+  const result = await importEntries(env.DB, payload);
+  return Response.json(result);
 }

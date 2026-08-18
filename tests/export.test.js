@@ -1,6 +1,7 @@
 import { env, SELF, createExecutionContext, waitOnExecutionContext } from "cloudflare:test";
 import { describe, it, expect, beforeAll } from "vitest";
 import { applySchema } from "./helpers/db.js";
+import * as db from "../src/db.js";
 import { seed } from "../src/seed/run.js";
 import { parseGlossary } from "../src/seed/parse.js";
 import worker from "../src/worker.js";
@@ -42,6 +43,20 @@ describe("GET /api/export.md", () => {
       expect(line.split(/(?<!\\)\|/).length).toBe(4); // leading, term, def, trailing
     }
   });
+
+  it("survives a definition containing a pipe", async () => {
+    // No seeded definition contains "|", so the escape half of the round trip
+    // is otherwise untested — deleting cell()'s escaping would go unnoticed.
+    await db.saveEntry(env.DB, "toast", {
+      definition: "Shows a | separated hint | inline.",
+    });
+    const md = await (await SELF.fetch("https://example.com/api/export.md")).text();
+    const reparsed = parseGlossary(md);
+    const rows = reparsed.categories.flatMap((c) => c.rows);
+    const toast = rows.find((r) => r.term === "Toast");
+    expect(toast.definition).toBe("Shows a | separated hint | inline.");
+    expect(rows).toHaveLength(918);
+  });
 });
 
 describe("GET /e/:slug/export.html", () => {
@@ -51,6 +66,34 @@ describe("GET /e/:slug/export.html", () => {
     const body = await res.text();
     expect(body).toContain("<!doctype html>");
     expect(body).not.toMatch(/<(script|link|img)[^>]+(src|href)="https?:/);
+  });
+});
+
+describe("POST /api/import", () => {
+  it("restores a deleted entry from a backup, including its categories", async () => {
+    const backup = await (await SELF.fetch("https://example.com/api/export.json")).json();
+    const before = backup.entries.find((e) => e.slug === "toast");
+    expect(before).toBeDefined();
+
+    // Deleted outright, not soft-deleted, to prove import can INSERT rows
+    // back — not just UPDATE ones that still exist.
+    await env.DB.prepare("DELETE FROM entries WHERE slug = ?").bind("toast").run();
+    expect((await SELF.fetch("https://example.com/e/toast")).status).toBe(404);
+
+    const res = await SELF.fetch("https://example.com/api/import", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(backup),
+    });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ created: 1 });
+
+    const after = await (await SELF.fetch("https://example.com/api/export.json")).json();
+    const restored = after.entries.find((e) => e.slug === "toast");
+    expect(restored).toBeDefined();
+    expect(restored.definition).toBe(before.definition);
+    expect(restored.categories.map((c) => c.slug).sort())
+      .toEqual(before.categories.map((c) => c.slug).sort());
   });
 });
 

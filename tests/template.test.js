@@ -44,6 +44,15 @@ describe("render", () => {
     expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
   });
 
+  it("does not warn for a placeholder in JavaScript, only in markup", () => {
+    // `disabled = {{disabled}}` in a React template is an assignment, not an
+    // unquoted attribute. Warning here is noise, and pushes authors toward
+    // {{{raw}}} to silence it — trading escaping away for quiet.
+    expect(render("export function B({ disabled = {{d}} }) {}", { d: false }).warnings)
+      .toEqual([]);
+    expect(render("const r = {{radius}};", { radius: 8 }).warnings).toEqual([]);
+  });
+
   it("warns when a placeholder sits in an unquoted attribute", () => {
     const r = render("<div class={{x}}>", { x: "a b" });
     expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');

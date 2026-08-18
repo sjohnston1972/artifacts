@@ -72,9 +72,19 @@ function escape(s) {
 // attribute — so this is surfaced as an authoring warning in the Edit view
 // instead of being silently mis-escaped.
 function inUnquotedAttribute(source, offset) {
+  // Must actually be inside a tag. Without this guard the check fires on any
+  // JavaScript assignment — `disabled = {{disabled}}` in a React template —
+  // which is noise, and worse, pushes authors to silence a security warning
+  // by switching to {{{raw}}} and turning escaping off.
+  if (!insideTag(source, offset)) return false;
   let i = offset - 1;
   while (i >= 0 && source[i] === " ") i--;
   return i >= 0 && source[i] === "=";
+}
+
+function insideTag(source, offset) {
+  const open = source.lastIndexOf("<", offset);
+  return open !== -1 && source.lastIndexOf(">", offset) < open;
 }
 
 // HTML decodes character references in attribute values BEFORE JavaScript
@@ -88,6 +98,7 @@ function inUnquotedAttribute(source, offset) {
 const EVENT_ATTR_RE = /([A-Za-z_:][-\w:.]*)\s*=\s*(?:"[^"]*|'[^']*)$/;
 
 function inEventHandler(source, offset) {
+  if (!insideTag(source, offset)) return false;
   const match = EVENT_ATTR_RE.exec(source.slice(0, offset));
   return Boolean(match) && /^on[a-z]+$/i.test(match[1]);
 }

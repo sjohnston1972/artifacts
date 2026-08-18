@@ -31,8 +31,17 @@ const BOOL_ATTR_RE = new RegExp(
   String.raw`\b(${BOOL_ATTRS.join("|")})\s*=\s*["']\{\{`, "g"
 );
 
+// Optional slug arguments scope the run to just those files. Authors working
+// concurrently must scope to their own category, or one author can see
+// another's half-written file and "fix" work that is not theirs.
+//   node scripts/check-examples.mjs            -> everything
+//   node scripts/check-examples.mjs hero grid  -> just those two
+const only = new Set(process.argv.slice(2));
 const dir = "examples";
-const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "PLAN.json");
+const files = fs
+  .readdirSync(dir)
+  .filter((f) => f.endsWith(".json") && f !== "PLAN.json")
+  .filter((f) => only.size === 0 || only.has(f.replace(/\.json$/, "")));
 const problems = [];
 
 for (const file of files) {

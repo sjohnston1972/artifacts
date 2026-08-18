@@ -1582,9 +1582,36 @@ describe("render", () => {
       .toBe("<b>&lt;script&gt;x&lt;/script&gt;</b>");
   });
 
-  it("escapes attribute context differently from text", () => {
+  it("escapes the same value identically wherever it appears", () => {
     const out = render('<a title="{{t}}">{{t}}</a>', { t: 'a"b' }).output;
-    expect(out).toBe('<a title="a&quot;b">a"b</a>');
+    expect(out).toBe('<a title="a&quot;b">a&quot;b</a>');
+  });
+
+  it("contains a value inside a single-quoted attribute", () => {
+    const out = render("<img alt='{{x}}'>", { x: "' onerror='alert(1)" }).output;
+    expect(out).toBe("<img alt='&#39; onerror=&#39;alert(1)'>");
+  });
+
+  it("is not fooled by a > inside an earlier attribute value", () => {
+    const out = render('<a title="a>b {{t}}">x</a>', { t: 'x" onmouseover="alert(1)' }).output;
+    expect(out).not.toContain('onmouseover="alert(1)"');
+  });
+
+  it("contains a value inside a script block", () => {
+    const out = render('<script>var x = "{{x}}";</script>', { x: '";alert(1);var y="' }).output;
+    expect(out).not.toContain('";alert(1);');
+  });
+
+  it("warns when a placeholder sits in an unquoted attribute", () => {
+    const r = render("<div class={{x}}>", { x: "a b" });
+    expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
+  });
+
+  it("never re-scans substituted content for placeholders", () => {
+    // A raw value shaped like {{secret}} must stay literal, or a template
+    // could pull in a key it never named.
+    const r = render("{{{m}}}", { m: "{{secret}}", secret: "LEAKED" });
+    expect(r.output).toBe("{{secret}}");
   });
 
   it("passes triple-brace values through raw", () => {
@@ -1636,6 +1663,11 @@ describe("defaultsFor", () => {
     expect(defaultsFor(schema)).toEqual({ label: "Click me", radius: 8, disabled: false });
   });
 
+  it("ignores malformed schema entries instead of throwing", () => {
+    expect(defaultsFor([null, { type: "text" }, { id: "ok", type: "text" }]))
+      .toEqual({ ok: "" });
+  });
+
   it("falls back sensibly when a default is missing", () => {
     expect(defaultsFor([
       { id: "a", type: "text" },
@@ -1655,24 +1687,24 @@ Expected: FAIL — cannot resolve `../public/js/template.js`.
 
 - [ ] **Step 3: Implement `public/js/template.js`**
 
-```js
-// Tiny placeholder engine shared by the Worker and the browser. Deliberately
+```js// Tiny placeholder engine shared by the Worker and the browser. Deliberately
 // not a general templating language: {{id}}, {{{id}}}, and if/unless blocks
 // are the whole surface.
 
-const BLOCK_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g;
-const RAW_RE = /\{\{\{\s*([\w.-]+)\s*\}\}\}/g;
-const VAR_RE = /\{\{\s*([\w.-]+)\s*\}\}/g;
+const BLOCK_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}([\s\S]*?)\{\{\/\}\}/g;
+
+// ONE regex matching both raw and escaped placeholders, so substitution is a
+// single pass. Two sequential passes would let a raw value shaped like
+// {{other}} be re-scanned, pulling in a key the template never named.
+const TOKEN_RE = /\{\{\{\s*([\w.-]+)\s*\}\}\}|\{\{\s*([\w.-]+)\s*\}\}/g;
 
 export function render(template, values) {
   const warnings = [];
-  const warned = new Set();
-
-  const note = (id) => {
-    if (!warned.has(id)) {
-      warned.add(id);
-      warnings.push(`unknown placeholder "${id}"`);
-    }
+  const seen = new Set();
+  const warn = (message) => {
+    if (seen.has(message)) return;
+    seen.add(message);
+    warnings.push(message);
   };
 
   let out = String(template);
@@ -1683,49 +1715,58 @@ export function render(template, values) {
     previous = out;
     out = out.replace(BLOCK_RE, (_, kind, id, body) => {
       const truthy = Boolean(values[id]);
-      const keep = kind === "if" ? truthy : !truthy;
-      return keep ? body : "";
+      return (kind === "if" ? truthy : !truthy) ? body : "";
     });
   } while (out !== previous);
 
-  out = out.replace(RAW_RE, (_, id) => {
-    if (!(id in values)) { note(id); return ""; }
-    return String(values[id]);
-  });
-
-  out = out.replace(VAR_RE, (match, id, offset, whole) => {
-    if (!(id in values)) { note(id); return ""; }
+  // String.replace never re-examines text it inserted, so this single pass is
+  // what makes injection-through-data impossible.
+  out = out.replace(TOKEN_RE, (match, rawId, varId, offset, whole) => {
+    const id = rawId ?? varId;
+    if (!(id in values)) {
+      warn(`unknown placeholder "${id}"`);
+      return "";
+    }
     const value = String(values[id]);
-    return inAttribute(whole, offset) ? escapeAttr(value) : escapeText(value);
+    if (rawId !== undefined) return value;
+    if (inUnquotedAttribute(whole, offset)) {
+      warn(`placeholder "${id}" sits in an unquoted attribute; wrap it in quotes`);
+    }
+    return escape(value);
   });
 
   return { output: out, warnings };
 }
 
-// A placeholder is in attribute context if the nearest unclosed `<` before it
-// is followed by an odd number of quotes — i.e. we are inside a quoted
-// attribute value within a tag.
-function inAttribute(source, offset) {
-  const open = source.lastIndexOf("<", offset);
-  if (open === -1) return false;
-  const close = source.lastIndexOf(">", offset);
-  if (close > open) return false;
-  const between = source.slice(open, offset);
-  const quotes = (between.match(/"/g) || []).length;
-  return quotes % 2 === 1;
+// One escaping rule for every context. Context-aware escaping was tried and
+// proved unsound: single-quoted attributes, unquoted attributes, a `>` inside
+// an earlier attribute value, and <script> blocks each defeated the scanner
+// and produced a breakout. Escaping the full set everywhere is the only
+// version that is correct without parsing the surrounding markup. The cost is
+// that a quote in visible text copies as &quot; — valid, renders identically,
+// and worth it.
+function escape(s) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-function escapeText(s) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function escapeAttr(s) {
-  return escapeText(s).replace(/"/g, "&quot;");
+// Escaping cannot save an unquoted attribute — a space alone starts a new
+// attribute — so this is surfaced as an authoring warning in the Edit view
+// instead of being silently mis-escaped.
+function inUnquotedAttribute(source, offset) {
+  let i = offset - 1;
+  while (i >= 0 && source[i] === " ") i--;
+  return i >= 0 && source[i] === "=";
 }
 
 export function defaultsFor(schema) {
   const values = {};
   for (const control of schema || []) {
+    if (!control || typeof control !== "object" || !control.id) continue;
     if ("default" in control) {
       values[control.id] = control.default;
       continue;
@@ -1745,7 +1786,7 @@ export function defaultsFor(schema) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/template.test.js`
-Expected: PASS, 13 tests.
+Expected: PASS, 20 tests.
 
 - [ ] **Step 5: Commit and push**
 

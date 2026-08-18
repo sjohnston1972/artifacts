@@ -1,0 +1,39 @@
+{
+  "slug": "spacer",
+  "controls_schema": [
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Spacer size",
+      "default": 32,
+      "min": 8,
+      "max": 96,
+      "step": 8
+    },
+    {
+      "id": "axis",
+      "type": "select",
+      "label": "Axis",
+      "default": "vertical",
+      "options": ["vertical", "horizontal"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Guide colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "guide",
+      "type": "toggle",
+      "label": "Show measurement guide",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"spacer-demo spacer-demo--{{axis}}\">\n  <div class=\"spacer-demo__block\">Block A</div>\n  <div class=\"spacer-demo__gap{{#if guide}} spacer-demo__gap--guide{{/if}}\" style=\"--size:{{size}}px;--accent:{{accent}};\">{{#if guide}}<span class=\"spacer-demo__label\" style=\"color:{{accent}};\">{{size}}px</span>{{/if}}</div>\n  <div class=\"spacer-demo__block\">Block B</div>\n</div>\n<style>\n.spacer-demo { display: flex; font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; align-items: center; }\n.spacer-demo--vertical { flex-direction: column; align-items: stretch; }\n.spacer-demo__block { background: #fff; border: 1px solid #24143022; border-radius: 6px; padding: 14px; text-align: center; }\n.spacer-demo--horizontal .spacer-demo__block { flex: none; }\n.spacer-demo__gap { position: relative; }\n.spacer-demo--vertical .spacer-demo__gap { height: var(--size); }\n.spacer-demo--horizontal .spacer-demo__gap { width: var(--size); flex: none; }\n.spacer-demo__gap--guide { outline: 1px dashed var(--accent); }\n.spacer-demo__label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #FAF7F2; padding: 0 4px; font-weight: 700; white-space: nowrap; }\n</style>",
+    "tailwind": "<div class=\"flex items-center font-sans text-xs text-[#241430] bg-[#FAF7F2] p-4 spacer-tw spacer-tw--{{axis}}\">\n  <div class=\"bg-white border border-[#24143022] rounded-md p-3.5 text-center spacer-tw__block\">Block A</div>\n  <div class=\"relative spacer-tw__gap{{#if guide}} spacer-tw__gap--guide{{/if}}\" style=\"--size:{{size}}px;--accent:{{accent}};\">{{#if guide}}<span class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#FAF7F2] px-1 font-bold whitespace-nowrap\" style=\"color:{{accent}};\">{{size}}px</span>{{/if}}</div>\n  <div class=\"bg-white border border-[#24143022] rounded-md p-3.5 text-center spacer-tw__block\">Block B</div>\n</div>\n<style>\n.spacer-tw--vertical { flex-direction: column; align-items: stretch; }\n.spacer-tw--vertical .spacer-tw__gap { height: var(--size); }\n.spacer-tw--horizontal .spacer-tw__gap { width: var(--size); flex: none; }\n.spacer-tw--horizontal .spacer-tw__block { flex: none; }\n.spacer-tw__gap--guide { outline: 1px dashed var(--accent); }\n</style>",
+    "react": "export function Spacer({\n  size = {{size}},\n  axis = \"{{axis}}\",\n  accent = \"{{accent}}\",\n  guide = {{guide}},\n}) {\n  const vertical = axis === \"vertical\";\n  return (\n    <div style={{ display: \"flex\", flexDirection: vertical ? \"column\" : \"row\", alignItems: vertical ? \"stretch\" : \"center\", fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <div style={{ background: \"#fff\", border: \"1px solid #24143022\", borderRadius: 6, padding: 14, textAlign: \"center\", flex: vertical ? undefined : \"none\" }}>Block A</div>\n      <div style={{ position: \"relative\", height: vertical ? size : \"auto\", width: vertical ? \"auto\" : size, flex: vertical ? undefined : \"none\", outline: guide ? `1px dashed ${accent}` : \"none\" }}>\n        {guide && <span style={{ position: \"absolute\", top: \"50%\", left: \"50%\", transform: \"translate(-50%, -50%)\", background: \"#FAF7F2\", padding: \"0 4px\", fontWeight: 700, whiteSpace: \"nowrap\", color: accent }}>{size}px</span>}\n      </div>\n      <div style={{ background: \"#fff\", border: \"1px solid #24143022\", borderRadius: 6, padding: 14, textAlign: \"center\", flex: vertical ? undefined : \"none\" }}>Block B</div>\n    </div>\n  );\n}"
+  }
+}

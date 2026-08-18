@@ -1,0 +1,42 @@
+{
+  "slug": "quote-request-form",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Request a quote"
+    },
+    {
+      "id": "submitLabel",
+      "type": "text",
+      "label": "Submit button label",
+      "default": "Get my quote"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Field layout",
+      "default": "stacked",
+      "options": ["stacked", "inline"]
+    },
+    {
+      "id": "showBudgetField",
+      "type": "toggle",
+      "label": "Show budget field",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"qrf qrf--{{layout}}\" style=\"--accent:{{accent}};\" aria-label=\"{{heading}}\">\n  <h3 class=\"qrf__heading\">{{heading}}</h3>\n  <div class=\"qrf__field\">\n    <label for=\"qrf-name\">Name</label>\n    <input id=\"qrf-name\" name=\"name\" type=\"text\" required>\n  </div>\n  <div class=\"qrf__field\">\n    <label for=\"qrf-email\">Email</label>\n    <input id=\"qrf-email\" name=\"email\" type=\"email\" required>\n  </div>\n  {{#if showBudgetField}}\n  <div class=\"qrf__field\">\n    <label for=\"qrf-budget\">Estimated budget</label>\n    <select id=\"qrf-budget\" name=\"budget\">\n      <option>Under $1,000</option>\n      <option>$1,000 - $5,000</option>\n      <option>$5,000+</option>\n    </select>\n  </div>\n  {{/if}}\n  <div class=\"qrf__field\">\n    <label for=\"qrf-details\">Project details</label>\n    <textarea id=\"qrf-details\" name=\"details\" rows=\"4\" required></textarea>\n  </div>\n  <button class=\"qrf__submit\" type=\"submit\">{{submitLabel}}</button>\n</form>\n<style>\n.qrf { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 24px; border-radius: 14px; max-width: 380px; display: grid; gap: 16px; }\n.qrf__heading { margin: 0; font-size: 18px; font-weight: 600; }\n.qrf__field { display: flex; flex-direction: column; gap: 6px; }\n.qrf--inline .qrf__field { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }\n.qrf__field label { font-size: 13px; font-weight: 600; }\n.qrf__field input, .qrf__field select, .qrf__field textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #24143030; background: #fff; color: #241430; }\n.qrf__field input:focus-visible, .qrf__field select:focus-visible, .qrf__field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }\n.qrf__submit { padding: 12px; border-radius: 8px; border: none; background: var(--accent); color: #241430; font: 600 15px system-ui, sans-serif; cursor: pointer; }\n.qrf__submit:hover, .qrf__submit:focus-visible { filter: brightness(0.95); outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<form class=\"qrf-tw qrf-tw--{{layout}} flex flex-col gap-4 max-w-sm p-6 rounded-2xl bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\" aria-label=\"{{heading}}\">\n  <h3 class=\"m-0 text-lg font-semibold\">{{heading}}</h3>\n  <div class=\"qrf-tw__field flex flex-col gap-1.5\">\n    <label for=\"qrf-tw-name\" class=\"text-[13px] font-semibold\">Name</label>\n    <input id=\"qrf-tw-name\" name=\"name\" type=\"text\" required class=\"font-sans px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430]\" style=\"outline-color:{{accent}}\">\n  </div>\n  <div class=\"qrf-tw__field flex flex-col gap-1.5\">\n    <label for=\"qrf-tw-email\" class=\"text-[13px] font-semibold\">Email</label>\n    <input id=\"qrf-tw-email\" name=\"email\" type=\"email\" required class=\"font-sans px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430]\" style=\"outline-color:{{accent}}\">\n  </div>\n  {{#if showBudgetField}}\n  <div class=\"qrf-tw__field flex flex-col gap-1.5\">\n    <label for=\"qrf-tw-budget\" class=\"text-[13px] font-semibold\">Estimated budget</label>\n    <select id=\"qrf-tw-budget\" name=\"budget\" class=\"font-sans px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430]\">\n      <option>Under $1,000</option>\n      <option>$1,000 - $5,000</option>\n      <option>$5,000+</option>\n    </select>\n  </div>\n  {{/if}}\n  <div class=\"qrf-tw__field flex flex-col gap-1.5\">\n    <label for=\"qrf-tw-details\" class=\"text-[13px] font-semibold\">Project details</label>\n    <textarea id=\"qrf-tw-details\" name=\"details\" rows=\"4\" required class=\"font-sans px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430]\"></textarea>\n  </div>\n  <button type=\"submit\" class=\"qrf-tw__submit py-3 rounded-lg border-none font-semibold text-[15px] cursor-pointer text-[#241430]\" style=\"background:{{accent}}\">{{submitLabel}}</button>\n</form>\n<style>\n.qrf-tw--inline .qrf-tw__field { flex-direction: row; align-items: center; justify-content: space-between; }\n.qrf-tw__submit:hover, .qrf-tw__submit:focus-visible { filter: brightness(0.95); outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "react": "export function QuoteRequestForm({\n  heading = \"{{heading}}\",\n  submitLabel = \"{{submitLabel}}\",\n  layout = \"{{layout}}\",\n  showBudgetField = {{showBudgetField}},\n  accent = \"{{accent}}\",\n}) {\n  const fieldStyle = {\n    display: \"flex\",\n    flexDirection: layout === \"inline\" ? \"row\" : \"column\",\n    alignItems: layout === \"inline\" ? \"center\" : \"stretch\",\n    justifyContent: layout === \"inline\" ? \"space-between\" : \"flex-start\",\n    gap: layout === \"inline\" ? 12 : 6,\n  };\n  const inputStyle = { font: \"inherit\", padding: \"8px 10px\", borderRadius: 8, border: \"1.5px solid #24143030\", background: \"#fff\", color: \"#241430\" };\n  return (\n    <form aria-label={heading} style={{ display: \"grid\", gap: 16, maxWidth: 380, padding: 24, borderRadius: 14, background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\" }}>\n      <h3 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{heading}</h3>\n      <div style={fieldStyle}>\n        <label htmlFor=\"qrf-r-name\" style={{ fontSize: 13, fontWeight: 600 }}>Name</label>\n        <input id=\"qrf-r-name\" name=\"name\" type=\"text\" required style={inputStyle} />\n      </div>\n      <div style={fieldStyle}>\n        <label htmlFor=\"qrf-r-email\" style={{ fontSize: 13, fontWeight: 600 }}>Email</label>\n        <input id=\"qrf-r-email\" name=\"email\" type=\"email\" required style={inputStyle} />\n      </div>\n      {showBudgetField && (\n        <div style={fieldStyle}>\n          <label htmlFor=\"qrf-r-budget\" style={{ fontSize: 13, fontWeight: 600 }}>Estimated budget</label>\n          <select id=\"qrf-r-budget\" name=\"budget\" style={inputStyle}>\n            <option>Under $1,000</option>\n            <option>$1,000 - $5,000</option>\n            <option>$5,000+</option>\n          </select>\n        </div>\n      )}\n      <div style={fieldStyle}>\n        <label htmlFor=\"qrf-r-details\" style={{ fontSize: 13, fontWeight: 600 }}>Project details</label>\n        <textarea id=\"qrf-r-details\" name=\"details\" rows={4} required style={inputStyle} />\n      </div>\n      <button type=\"submit\" style={{ padding: 12, borderRadius: 8, border: \"none\", background: accent, color: \"#241430\", fontSize: 15, fontWeight: 600, cursor: \"pointer\" }}>\n        {submitLabel}\n      </button>\n    </form>\n  );\n}"
+  }
+}

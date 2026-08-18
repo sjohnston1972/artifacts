@@ -1,0 +1,42 @@
+{
+  "slug": "cookie-consent-banner",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "We use cookies to improve your experience and analyse traffic."
+    },
+    {
+      "id": "acceptText",
+      "type": "text",
+      "label": "Accept button text",
+      "default": "Accept all"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "bottom-bar",
+      "options": ["bottom-bar", "bottom-corner", "top-bar"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showManage",
+      "type": "toggle",
+      "label": "Show manage preferences button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cookie cookie--{{position}}\" role=\"region\" aria-label=\"Cookie consent\">\n  <p class=\"cookie__msg\">{{message}}</p>\n  <div class=\"cookie__actions\">\n    {{#if showManage}}<button type=\"button\" class=\"cookie__manage\">Manage preferences</button>{{/if}}\n    <button type=\"button\" class=\"cookie__accept\" style=\"background:{{accent}};\">{{acceptText}}</button>\n  </div>\n</div>\n<style>\n.cookie { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1px solid #24143022; box-shadow: 0 8px 24px rgba(36,20,48,.14); }\n.cookie--bottom-bar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 14px 20px; border-radius: 0; }\n.cookie--top-bar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 14px 20px; border-radius: 0; }\n.cookie--bottom-corner { position: relative; max-width: 320px; padding: 18px; border-radius: 14px; }\n.cookie__msg { margin: 0 0 0; }\n.cookie--bottom-corner .cookie__msg { margin-bottom: 14px; }\n.cookie__actions { display: flex; gap: 8px; flex-shrink: 0; }\n.cookie--bottom-corner .cookie__actions { flex-wrap: wrap; }\n.cookie__manage { background: transparent; border: 1.5px solid #24143033; color: #241430; padding: 8px 14px; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer; }\n.cookie__manage:hover, .cookie__manage:focus-visible { border-color: #241430; }\n.cookie__accept { border: none; color: #FAF7F2; padding: 8px 16px; border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }\n.cookie__accept:hover, .cookie__accept:focus-visible { opacity: .9; }\n</style>",
+    "tailwind": "<div class=\"cookie-tw cookie-tw--{{position}} font-sans text-sm text-[#241430] bg-[#FAF7F2] border border-[#24143022] shadow-lg\" role=\"region\" aria-label=\"Cookie consent\">\n  <p class=\"cookie-tw__msg m-0\">{{message}}</p>\n  <div class=\"flex gap-2 flex-shrink-0\">\n    {{#if showManage}}<button type=\"button\" class=\"bg-transparent border-[1.5px] border-[#24143033] text-[#241430] px-3.5 py-2 rounded-lg font-semibold cursor-pointer hover:border-[#241430]\">Manage preferences</button>{{/if}}\n    <button type=\"button\" class=\"border-0 text-[#FAF7F2] px-4 py-2 rounded-lg font-bold cursor-pointer hover:opacity-90\" style=\"background:{{accent}};\">{{acceptText}}</button>\n  </div>\n</div>\n<style>\n.cookie-tw--bottom-bar, .cookie-tw--top-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 14px 20px; }\n.cookie-tw--bottom-corner { max-width: 320px; padding: 18px; border-radius: 14px; }\n.cookie-tw--bottom-corner .cookie-tw__msg { margin-bottom: 14px; }\n.cookie-tw--bottom-corner > div { flex-wrap: wrap; }\n</style>",
+    "react": "export function CookieConsentBanner({\n  message = \"{{message}}\",\n  acceptText = \"{{acceptText}}\",\n  position = \"{{position}}\",\n  accent = \"{{accent}}\",\n  showManage = {{showManage}},\n}) {\n  const isBar = position === \"bottom-bar\" || position === \"top-bar\";\n  const wrapStyle = isBar\n    ? { display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 16, width: \"100%\", padding: \"14px 20px\" }\n    : { maxWidth: 320, padding: 18, borderRadius: 14 };\n  return (\n    <div role=\"region\" aria-label=\"Cookie consent\" style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\",\n      background: \"#FAF7F2\", border: \"1px solid #24143022\", boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", ...wrapStyle }}>\n      <p style={{ margin: isBar ? 0 : \"0 0 14px\" }}>{message}</p>\n      <div style={{ display: \"flex\", gap: 8, flexShrink: 0, flexWrap: isBar ? \"nowrap\" : \"wrap\" }}>\n        {showManage && (\n          <button type=\"button\" style={{ background: \"transparent\", border: \"1.5px solid #24143033\", color: \"#241430\",\n            padding: \"8px 14px\", borderRadius: 8, fontWeight: 600, cursor: \"pointer\" }}>Manage preferences</button>\n        )}\n        <button type=\"button\" style={{ border: \"none\", color: \"#FAF7F2\", padding: \"8px 16px\", borderRadius: 8,\n          fontWeight: 700, cursor: \"pointer\", background: accent }}>{acceptText}</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

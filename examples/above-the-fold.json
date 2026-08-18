@@ -1,0 +1,42 @@
+{
+  "slug": "above-the-fold",
+  "controls_schema": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Everything you need, nothing you don't"
+    },
+    {
+      "id": "subtext",
+      "type": "text",
+      "label": "Subtext",
+      "default": "See it before you scroll, or don't see it at all."
+    },
+    {
+      "id": "device",
+      "type": "select",
+      "label": "Device frame",
+      "default": "desktop",
+      "options": ["desktop", "tablet", "mobile"]
+    },
+    {
+      "id": "showFold",
+      "type": "toggle",
+      "label": "Show fold line",
+      "default": true
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fold fold--{{device}}\" style=\"background:{{bg}};\">\n  <div class=\"fold__chrome\"><span></span><span></span><span></span></div>\n  <div class=\"fold__viewport\">\n    <h2 class=\"fold__headline\">{{headline}}</h2>\n    <p class=\"fold__sub\">{{subtext}}</p>\n    {{#if showFold}}<div class=\"fold__line\" aria-hidden=\"true\"><span>fold</span></div>{{/if}}\n    <p class=\"fold__below\">More content continues below…</p>\n  </div>\n</div>\n<style>\n.fold { font: 16px/1.5 system-ui, sans-serif; color: #241430; border-radius: 12px; overflow: hidden; border: 1px solid #24143022; margin: 0 auto; }\n.fold--desktop { max-width: 560px; }\n.fold--tablet { max-width: 420px; }\n.fold--mobile { max-width: 280px; }\n.fold__chrome { display: flex; gap: 6px; padding: 10px 14px; background: #24143010; }\n.fold__chrome span { width: 9px; height: 9px; border-radius: 50%; background: #24143040; }\n.fold__viewport { padding: 28px 24px 40px; position: relative; }\n.fold__headline { margin: 0 0 8px; font-size: 24px; font-weight: 700; }\n.fold__sub { margin: 0; color: #241430cc; }\n.fold__line { border-top: 2px dashed #24143055; margin: 24px 0 16px; position: relative; text-align: center; }\n.fold__line span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: inherit; padding: 0 8px; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: #24143088; }\n.fold__below { opacity: .35; margin: 0; font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"fold-tw fold-tw--{{device}} font-sans text-[#241430] rounded-xl overflow-hidden border border-[#24143022] mx-auto\" style=\"background:{{bg}};\">\n  <div class=\"flex gap-1.5 px-3.5 py-2.5 bg-[#24143010]\"><span class=\"w-2.5 h-2.5 rounded-full bg-[#24143040]\"></span><span class=\"w-2.5 h-2.5 rounded-full bg-[#24143040]\"></span><span class=\"w-2.5 h-2.5 rounded-full bg-[#24143040]\"></span></div>\n  <div class=\"px-6 pt-7 pb-10 relative\">\n    <h2 class=\"m-0 mb-2 text-2xl font-bold\">{{headline}}</h2>\n    <p class=\"m-0 text-[#241430]/80\">{{subtext}}</p>\n    {{#if showFold}}<div class=\"relative text-center my-6 border-t-2 border-dashed border-[#24143055]\" aria-hidden=\"true\"><span class=\"absolute -top-2.5 left-1/2 -translate-x-1/2 bg-inherit px-2 text-[11px] uppercase tracking-wide text-[#24143088]\">fold</span></div>{{/if}}\n    <p class=\"opacity-35 m-0 text-sm\">More content continues below…</p>\n  </div>\n</div>\n<style>\n.fold-tw--desktop { max-width: 560px; }\n.fold-tw--tablet { max-width: 420px; }\n.fold-tw--mobile { max-width: 280px; }\n</style>",
+    "react": "export function AboveTheFold({\n  headline = \"{{headline}}\",\n  subtext = \"{{subtext}}\",\n  device = \"{{device}}\",\n  showFold = {{showFold}},\n  bg = \"{{bg}}\",\n}) {\n  const width = { desktop: 560, tablet: 420, mobile: 280 }[device] ?? 560;\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", borderRadius: 12, overflow: \"hidden\",\n      border: \"1px solid #24143022\", margin: \"0 auto\", maxWidth: width, background: bg }}>\n      <div style={{ display: \"flex\", gap: 6, padding: \"10px 14px\", background: \"#24143010\" }}>\n        <span style={{ width: 9, height: 9, borderRadius: \"50%\", background: \"#24143040\" }} />\n        <span style={{ width: 9, height: 9, borderRadius: \"50%\", background: \"#24143040\" }} />\n        <span style={{ width: 9, height: 9, borderRadius: \"50%\", background: \"#24143040\" }} />\n      </div>\n      <div style={{ padding: \"28px 24px 40px\", position: \"relative\" }}>\n        <h2 style={{ margin: \"0 0 8px\", fontSize: 24, fontWeight: 700 }}>{headline}</h2>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>{subtext}</p>\n        {showFold && (\n          <div aria-hidden=\"true\" style={{ borderTop: \"2px dashed #24143055\", margin: \"24px 0 16px\", position: \"relative\", textAlign: \"center\" }}>\n            <span style={{ position: \"absolute\", top: -10, left: \"50%\", transform: \"translateX(-50%)\", background: bg,\n              padding: \"0 8px\", fontSize: 11, letterSpacing: \"0.05em\", textTransform: \"uppercase\", color: \"#24143088\" }}>fold</span>\n          </div>\n        )}\n        <p style={{ opacity: 0.35, margin: 0, fontSize: 14 }}>More content continues below…</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

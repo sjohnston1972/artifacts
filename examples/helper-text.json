@@ -1,0 +1,52 @@
+{
+  "slug": "helper-text",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Password"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "••••••••"
+    },
+    {
+      "id": "helper",
+      "type": "text",
+      "label": "Helper text",
+      "default": "Must be at least 8 characters."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Text size",
+      "default": "small",
+      "options": [
+        "small",
+        "medium"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ht\">\n  <label class=\"ht__label\" for=\"ht-1\">{{label}}</label>\n  <input class=\"ht__input\" id=\"ht-1\" type=\"password\" placeholder=\"{{placeholder}}\" style=\"--accent:{{accent}};\" aria-describedby=\"ht-help-1\">\n  <p class=\"ht__helper ht__helper--{{size}}\" id=\"ht-help-1\">{{helper}}</p>\n</div>\n<style>\n.ht { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.ht__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ht__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ht__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ht__helper { margin: 6px 0 0; color: #24143099; }\n.ht__helper--small { font-size: 11px; }\n.ht__helper--medium { font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[260px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"ht-tw-1\">{{label}}</label>\n  <input id=\"ht-tw-1\" type=\"password\" placeholder=\"{{placeholder}}\" aria-describedby=\"ht-tw-help-1\"\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  <p id=\"ht-tw-help-1\" class=\"ht-tw-help ht-tw-help--{{size}} mt-1.5 text-[#24143099]\">{{helper}}</p>\n</div>\n<style>\n.ht-tw-help--small { font-size: 11px; }\n.ht-tw-help--medium { font-size: 13px; }\n</style>",
+    "react": "export function HelperText({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  helper = \"{{helper}}\",\n  accent = \"{{accent}}\",\n  size = \"{{size}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label htmlFor=\"ht-react-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <input id=\"ht-react-1\" type=\"password\" placeholder={placeholder} aria-describedby=\"ht-react-help-1\" style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n      <p id=\"ht-react-help-1\" style={{ margin: \"6px 0 0\", color: \"#24143099\", fontSize: size === \"medium\" ? 13 : 11 }}>{helper}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "exit-intent-modal",
+  "controls_schema": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Before you go..."
+    },
+    {
+      "id": "offer",
+      "type": "text",
+      "label": "Offer text",
+      "default": "Take 15% off your first order with code STAY15."
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "standard",
+      "options": ["compact", "standard", "large"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showDismiss",
+      "type": "toggle",
+      "label": "Show dismiss link",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"exit-backdrop\">\n  <div class=\"exit-modal exit-modal--{{size}}\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"exit-title\">\n    <button type=\"button\" class=\"exit-modal__close\" aria-label=\"Close dialog\">&times;</button>\n    <h2 id=\"exit-title\" class=\"exit-modal__headline\">{{headline}}</h2>\n    <p class=\"exit-modal__offer\">{{offer}}</p>\n    <button type=\"button\" class=\"exit-modal__cta\" style=\"background:{{accent}};\">Claim offer</button>\n    {{#if showDismiss}}<a href=\"#\" class=\"exit-modal__dismiss\">No thanks</a>{{/if}}\n  </div>\n</div>\n<style>\n.exit-backdrop { background: #24143099; padding: 40px 20px; display: flex; justify-content: center; border-radius: 12px; }\n.exit-modal { background: #FAF7F2; border-radius: 16px; padding: 28px; text-align: center; font: 16px/1.5 system-ui, sans-serif; color: #241430; box-shadow: 0 20px 48px rgba(0,0,0,.3); }\n.exit-modal--compact { width: 240px; padding: 20px; }\n.exit-modal--standard { width: 340px; }\n.exit-modal--large { width: 460px; padding: 36px; }\n.exit-modal__close { position: absolute; margin: -24px 0 0 calc(100% - 22px); background: none; border: none; font-size: 20px; cursor: pointer; color: #241430aa; }\n.exit-modal__close:hover, .exit-modal__close:focus-visible { color: #241430; }\n.exit-modal__headline { margin: 0 0 10px; font-size: 22px; font-weight: 800; }\n.exit-modal__offer { margin: 0 0 20px; color: #241430cc; }\n.exit-modal__cta { display: block; width: 100%; border: none; color: #FAF7F2; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }\n.exit-modal__cta:hover, .exit-modal__cta:focus-visible { opacity: .9; }\n.exit-modal__dismiss { display: inline-block; margin-top: 14px; font-size: 13px; color: #241430aa; text-decoration: underline; }\n</style>",
+    "tailwind": "<div class=\"bg-[#24143099] p-10 flex justify-center rounded-xl\">\n  <div class=\"exit-tw exit-tw--{{size}} bg-[#FAF7F2] rounded-2xl p-7 text-center font-sans text-[#241430] shadow-2xl relative\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"exit-tw-title\">\n    <button type=\"button\" class=\"absolute top-2 right-2 bg-transparent border-0 text-xl cursor-pointer text-[#241430]/65 hover:text-[#241430]\" aria-label=\"Close dialog\">&times;</button>\n    <h2 id=\"exit-tw-title\" class=\"m-0 mb-2.5 text-xl font-extrabold\">{{headline}}</h2>\n    <p class=\"m-0 mb-5 text-[#241430]/80\">{{offer}}</p>\n    <button type=\"button\" class=\"block w-full border-0 text-[#FAF7F2] p-3 rounded-lg font-bold cursor-pointer hover:opacity-90\" style=\"background:{{accent}};\">Claim offer</button>\n    {{#if showDismiss}}<a href=\"#\" class=\"inline-block mt-3.5 text-[13px] text-[#241430]/65 underline\">No thanks</a>{{/if}}\n  </div>\n</div>\n<style>\n.exit-tw--compact { width: 240px; padding: 20px; }\n.exit-tw--standard { width: 340px; }\n.exit-tw--large { width: 460px; padding: 36px; }\n</style>",
+    "react": "export function ExitIntentModal({\n  headline = \"{{headline}}\",\n  offer = \"{{offer}}\",\n  size = \"{{size}}\",\n  accent = \"{{accent}}\",\n  showDismiss = {{showDismiss}},\n}) {\n  const width = { compact: 240, standard: 340, large: 460 }[size] ?? 340;\n  return (\n    <div style={{ background: \"#24143099\", padding: \"40px 20px\", display: \"flex\", justifyContent: \"center\", borderRadius: 12 }}>\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"exit-r-title\" style={{ position: \"relative\", width,\n        background: \"#FAF7F2\", borderRadius: 16, padding: size === \"large\" ? 36 : size === \"compact\" ? 20 : 28,\n        textAlign: \"center\", font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", boxShadow: \"0 20px 48px rgba(0,0,0,.3)\" }}>\n        <button type=\"button\" aria-label=\"Close dialog\" style={{ position: \"absolute\", top: 8, right: 8, background: \"none\",\n          border: \"none\", fontSize: 20, cursor: \"pointer\", color: \"#241430aa\" }}>&times;</button>\n        <h2 id=\"exit-r-title\" style={{ margin: \"0 0 10px\", fontSize: 22, fontWeight: 800 }}>{headline}</h2>\n        <p style={{ margin: \"0 0 20px\", color: \"#241430cc\" }}>{offer}</p>\n        <button type=\"button\" style={{ display: \"block\", width: \"100%\", border: \"none\", color: \"#FAF7F2\", padding: 12,\n          borderRadius: 10, fontWeight: 700, cursor: \"pointer\", background: accent }}>Claim offer</button>\n        {showDismiss && <a href=\"#\" style={{ display: \"inline-block\", marginTop: 14, fontSize: 13, color: \"#241430aa\", textDecoration: \"underline\" }}>No thanks</a>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

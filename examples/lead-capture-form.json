@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Get a free consultation"
+    },
+    {
+      "id": "buttonLabel",
+      "type": "text",
+      "label": "Button label",
+      "default": "Request a callback"
+    },
+    {
+      "id": "fields",
+      "type": "select",
+      "label": "Fields shown",
+      "default": "name-email",
+      "options": [
+        "email-only",
+        "name-email",
+        "full"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "consent",
+      "type": "toggle",
+      "label": "Show consent checkbox",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"lead-form lead-form--{{fields}}\" style=\"--accent:{{accent}};\">\n  <h2 class=\"lead-form__heading\">{{heading}}</h2>\n  <label class=\"lead-form__field lead-form__field--name\">\n    <span>Name</span>\n    <input type=\"text\" name=\"name\" placeholder=\"Jane Doe\" required />\n  </label>\n  <label class=\"lead-form__field lead-form__field--email\">\n    <span>Email</span>\n    <input type=\"email\" name=\"email\" placeholder=\"jane@example.com\" required />\n  </label>\n  <label class=\"lead-form__field lead-form__field--phone\">\n    <span>Phone</span>\n    <input type=\"tel\" name=\"phone\" placeholder=\"+1 555 010 2020\" />\n  </label>\n  {{#if consent}}\n  <label class=\"lead-form__consent\">\n    <input type=\"checkbox\" name=\"consent\" required />\n    <span>I agree to be contacted about this enquiry.</span>\n  </label>\n  {{/if}}\n  <button class=\"lead-form__submit\" type=\"submit\">{{buttonLabel}}</button>\n</form>\n<style>\n.lead-form { font: 16px/1.5 system-ui, sans-serif; max-width: 320px; display: flex; flex-direction: column; gap: 12px; padding: 22px; background: #FAF7F2; color: #241430; border-radius: 12px; border: 1.5px solid #24143022; }\n.lead-form__heading { margin: 0 0 4px; font-size: 18px; font-weight: 700; }\n.lead-form__field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }\n.lead-form__field input { font: 14px system-ui, sans-serif; padding: 9px 10px; border-radius: 8px; border: 1.5px solid #24143033; }\n.lead-form__field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }\n.lead-form--email-only .lead-form__field--name,\n.lead-form--email-only .lead-form__field--phone { display: none; }\n.lead-form--name-email .lead-form__field--phone { display: none; }\n.lead-form__consent { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #241430aa; font-weight: 400; }\n.lead-form__submit { border: none; background: var(--accent); color: #FAF7F2; font: 600 14px system-ui, sans-serif; padding: 11px; border-radius: 8px; cursor: pointer; margin-top: 4px; }\n.lead-form__submit:hover { filter: brightness(.94); }\n</style>",
+    "tailwind": "<form class=\"lead-form-tw lead-form-tw--{{fields}} max-w-xs flex flex-col gap-3 p-5 bg-[#FAF7F2] text-[#241430] rounded-xl border-[1.5px] border-[#24143022] font-sans\" style=\"--accent:{{accent}};\">\n  <h2 class=\"m-0 mb-1 text-lg font-bold\">{{heading}}</h2>\n  <label class=\"lead-form-tw__field lead-form-tw__field--name flex flex-col gap-1 text-xs font-semibold\">\n    <span>Name</span>\n    <input type=\"text\" name=\"name\" placeholder=\"Jane Doe\" required class=\"text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143033]\" />\n  </label>\n  <label class=\"lead-form-tw__field lead-form-tw__field--email flex flex-col gap-1 text-xs font-semibold\">\n    <span>Email</span>\n    <input type=\"email\" name=\"email\" placeholder=\"jane@example.com\" required class=\"text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143033]\" />\n  </label>\n  <label class=\"lead-form-tw__field lead-form-tw__field--phone flex flex-col gap-1 text-xs font-semibold\">\n    <span>Phone</span>\n    <input type=\"tel\" name=\"phone\" placeholder=\"+1 555 010 2020\" class=\"text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143033]\" />\n  </label>\n  {{#if consent}}\n  <label class=\"flex items-start gap-2 text-xs text-[#241430aa] font-normal\">\n    <input type=\"checkbox\" name=\"consent\" required />\n    <span>I agree to be contacted about this enquiry.</span>\n  </label>\n  {{/if}}\n  <button type=\"submit\" class=\"border-none text-[#FAF7F2] text-sm font-semibold py-2.5 rounded-lg cursor-pointer mt-1 hover:brightness-95\" style=\"background:{{accent}};\">{{buttonLabel}}</button>\n</form>\n<style>\n.lead-form-tw--email-only .lead-form-tw__field--name,\n.lead-form-tw--email-only .lead-form-tw__field--phone { display: none; }\n.lead-form-tw--name-email .lead-form-tw__field--phone { display: none; }\n</style>",
+    "react": "export function LeadCaptureForm({\n  heading = \"{{heading}}\",\n  buttonLabel = \"{{buttonLabel}}\",\n  fields = \"{{fields}}\",\n  accent = \"{{accent}}\",\n  consent = {{consent}},\n}) {\n  const showName = fields !== \"email-only\";\n  const showPhone = fields === \"full\";\n  const inputStyle = { font: \"14px system-ui, sans-serif\", padding: \"9px 10px\", borderRadius: 8, border: \"1.5px solid #24143033\" };\n  const fieldLabelStyle = { display: \"flex\", flexDirection: \"column\", gap: 4, fontSize: 13, fontWeight: 600 };\n  return (\n    <form style={{ maxWidth: 320, display: \"flex\", flexDirection: \"column\", gap: 12, padding: 22, background: \"#FAF7F2\", color: \"#241430\", borderRadius: 12, border: \"1.5px solid #24143022\", fontFamily: \"system-ui, sans-serif\" }}>\n      <h2 style={{ margin: \"0 0 4px\", fontSize: 18, fontWeight: 700 }}>{heading}</h2>\n      {showName && (\n        <label style={fieldLabelStyle}>\n          <span>Name</span>\n          <input type=\"text\" name=\"name\" placeholder=\"Jane Doe\" required style={inputStyle} />\n        </label>\n      )}\n      <label style={fieldLabelStyle}>\n        <span>Email</span>\n        <input type=\"email\" name=\"email\" placeholder=\"jane@example.com\" required style={inputStyle} />\n      </label>\n      {showPhone && (\n        <label style={fieldLabelStyle}>\n          <span>Phone</span>\n          <input type=\"tel\" name=\"phone\" placeholder=\"+1 555 010 2020\" style={inputStyle} />\n        </label>\n      )}\n      {consent && (\n        <label style={{ display: \"flex\", alignItems: \"flex-start\", gap: 8, fontSize: 12, color: \"#241430aa\", fontWeight: 400 }}>\n          <input type=\"checkbox\" name=\"consent\" required />\n          <span>I agree to be contacted about this enquiry.</span>\n        </label>\n      )}\n      <button type=\"submit\" style={{ border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 600, fontSize: 14, padding: 11, borderRadius: 8, cursor: \"pointer\", marginTop: 4 }}>{buttonLabel}</button>\n    </form>\n  );\n}"
+  },
+  "slug": "lead-capture-form"
+}

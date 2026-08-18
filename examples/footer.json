@@ -1,0 +1,36 @@
+{
+  "slug": "footer",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Copyright text",
+      "default": "© 2026 Clydeford"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "columns",
+      "options": ["columns", "simple"]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "social",
+      "type": "toggle",
+      "label": "Show social links",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<footer class=\"foot-demo foot-demo--{{layout}}\" style=\"background:{{bg}};\">\n  <div class=\"foot-demo__cols\">\n    <div class=\"foot-demo__col\"><strong>Product</strong><a href=\"#\">Features</a><a href=\"#\">Pricing</a></div>\n    <div class=\"foot-demo__col\"><strong>Company</strong><a href=\"#\">About</a><a href=\"#\">Careers</a></div>\n  </div>\n  <div class=\"foot-demo__bottom\">\n    <span>{{text}}</span>\n    {{#if social}}<span class=\"foot-demo__social\"><a href=\"#\">X</a><a href=\"#\">in</a></span>{{/if}}\n  </div>\n</footer>\n<style>\n.foot-demo { font: 13px system-ui, sans-serif; color: #FAF7F2; padding: 18px 16px 14px; box-sizing: border-box; }\n.foot-demo__cols { display: flex; gap: 32px; margin-bottom: 14px; }\n.foot-demo--simple .foot-demo__cols { display: none; }\n.foot-demo__col { display: flex; flex-direction: column; gap: 6px; }\n.foot-demo__col strong { font-size: 12px; opacity: .7; margin-bottom: 2px; }\n.foot-demo__col a, .foot-demo__social a { color: #FAF7F2cc; text-decoration: none; }\n.foot-demo__col a:hover, .foot-demo__social a:hover { text-decoration: underline; }\n.foot-demo__bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #FAF7F233; font-size: 12px; opacity: .8; }\n.foot-demo--simple .foot-demo__bottom { border-top: none; padding-top: 0; }\n.foot-demo__social { display: flex; gap: 10px; }\n</style>",
+    "tailwind": "<footer class=\"font-sans text-[13px] text-[#FAF7F2] px-4 pt-[18px] pb-3.5 box-border foot-tw foot-tw--{{layout}}\" style=\"background:{{bg}};\">\n  <div class=\"flex gap-8 mb-3.5 foot-tw__cols\">\n    <div class=\"flex flex-col gap-1.5\"><strong class=\"text-xs opacity-70 mb-0.5\">Product</strong><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">Features</a><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">Pricing</a></div>\n    <div class=\"flex flex-col gap-1.5\"><strong class=\"text-xs opacity-70 mb-0.5\">Company</strong><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">About</a><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">Careers</a></div>\n  </div>\n  <div class=\"flex justify-between items-center pt-3 border-t border-[#FAF7F2]/20 text-xs opacity-80 foot-tw__bottom\">\n    <span>{{text}}</span>\n    {{#if social}}<span class=\"flex gap-2.5\"><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">X</a><a href=\"#\" class=\"text-[#FAF7F2]/80 no-underline hover:underline\">in</a></span>{{/if}}\n  </div>\n</footer>\n<style>\n.foot-tw--simple .foot-tw__cols { display: none; }\n.foot-tw--simple .foot-tw__bottom { border-top: none !important; padding-top: 0 !important; }\n</style>",
+    "react": "export function Footer({\n  text = \"{{text}}\",\n  layout = \"{{layout}}\",\n  bg = \"{{bg}}\",\n  social = {{social}},\n}) {\n  const simple = layout === \"simple\";\n  return (\n    <footer style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#FAF7F2\", background: bg, padding: \"18px 16px 14px\", boxSizing: \"border-box\" }}>\n      {!simple && (\n        <div style={{ display: \"flex\", gap: 32, marginBottom: 14 }}>\n          <div style={{ display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n            <strong style={{ fontSize: 12, opacity: .7 }}>Product</strong>\n            <a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>Features</a>\n            <a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>Pricing</a>\n          </div>\n          <div style={{ display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n            <strong style={{ fontSize: 12, opacity: .7 }}>Company</strong>\n            <a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>About</a>\n            <a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>Careers</a>\n          </div>\n        </div>\n      )}\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", paddingTop: simple ? 0 : 12, borderTop: simple ? \"none\" : \"1px solid #FAF7F233\", fontSize: 12, opacity: .8 }}>\n        <span>{text}</span>\n        {social && <span style={{ display: \"flex\", gap: 10 }}><a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>X</a><a href=\"#\" style={{ color: \"#FAF7F2cc\", textDecoration: \"none\" }}>in</a></span>}\n      </div>\n    </footer>\n  );\n}"
+  }
+}

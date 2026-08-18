@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Opening hours"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Table style",
+      "default": "list",
+      "options": [
+        "list",
+        "table"
+      ]
+    },
+    {
+      "id": "highlightToday",
+      "type": "toggle",
+      "label": "Highlight today",
+      "default": true
+    },
+    {
+      "id": "showNote",
+      "type": "toggle",
+      "label": "Show kitchen note",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"hours hours--{{style}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"hours__title\">{{title}}</h3>\n  <table class=\"hours__table\">\n    <caption class=\"sr-only\">Weekly opening hours</caption>\n    <thead>\n      <tr><th scope=\"col\">Day</th><th scope=\"col\">Hours</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">Monday</th><td>9:00–17:30</td></tr>\n      <tr><th scope=\"row\">Tuesday</th><td>9:00–17:30</td></tr>\n      <tr class=\"hours__row--today\"><th scope=\"row\">Wednesday</th><td>9:00–17:30</td></tr>\n      <tr><th scope=\"row\">Thursday</th><td>9:00–17:30</td></tr>\n      <tr><th scope=\"row\">Friday</th><td>9:00–18:00</td></tr>\n      <tr><th scope=\"row\">Saturday</th><td>10:00–14:00</td></tr>\n      <tr><th scope=\"row\">Sunday</th><td>Closed</td></tr>\n    </tbody>\n  </table>\n  {{#if showNote}}\n  <p class=\"hours__note\">Kitchen closes 30 minutes before close.</p>\n  {{/if}}\n</div>\n<style>\n.hours { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 320px; }\n.hours__title { margin: 0 0 12px; font-size: 17px; font-weight: 700; }\n.hours__table { width: 100%; border-collapse: collapse; font-size: 14px; }\n.hours--table .hours__table th, .hours--table .hours__table td { border: 1px solid #24143022; padding: 8px 10px; }\n.hours--list .hours__table thead { display: none; }\n.hours--list .hours__table th, .hours--list .hours__table td { border: none; border-bottom: 1px solid #24143014; padding: 6px 2px; }\n.hours__table th[scope=\"row\"] { text-align: left; font-weight: 600; }\n.hours__table td { text-align: right; }\n{{#if highlightToday}}\n.hours__row--today th, .hours__row--today td { color: var(--accent); font-weight: 700; }\n{{/if}}\n.hours__note { margin: 12px 0 0; font-size: 12px; color: #241430aa; }\n.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n</style>",
+    "tailwind": "<div class=\"hours-tw hours-tw--{{style}} max-w-xs font-sans text-[#241430]\" style=\"--accent:{{accent}};\">\n  <h3 class=\"m-0 mb-3 text-[17px] font-bold\">{{title}}</h3>\n  <table class=\"hours-tw__table w-full border-collapse text-sm\">\n    <caption class=\"sr-only\">Weekly opening hours</caption>\n    <thead>\n      <tr><th scope=\"col\" class=\"text-left\">Day</th><th scope=\"col\" class=\"text-right\">Hours</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Monday</th><td class=\"text-right py-1.5\">9:00–17:30</td></tr>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Tuesday</th><td class=\"text-right py-1.5\">9:00–17:30</td></tr>\n      <tr class=\"hours-tw__row--today\"><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Wednesday</th><td class=\"text-right py-1.5\">9:00–17:30</td></tr>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Thursday</th><td class=\"text-right py-1.5\">9:00–17:30</td></tr>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Friday</th><td class=\"text-right py-1.5\">9:00–18:00</td></tr>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Saturday</th><td class=\"text-right py-1.5\">10:00–14:00</td></tr>\n      <tr><th scope=\"row\" class=\"text-left font-semibold py-1.5\">Sunday</th><td class=\"text-right py-1.5\">Closed</td></tr>\n    </tbody>\n  </table>\n  {{#if showNote}}\n  <p class=\"mt-3 text-xs text-[#241430]/70\">Kitchen closes 30 minutes before close.</p>\n  {{/if}}\n</div>\n<style>\n.hours-tw--table .hours-tw__table th, .hours-tw--table .hours-tw__table td { border: 1px solid #24143022; padding-left: 10px; padding-right: 10px; }\n.hours-tw--list .hours-tw__table thead { display: none; }\n{{#if highlightToday}}\n.hours-tw__row--today th, .hours-tw__row--today td { color: var(--accent); font-weight: 700; }\n{{/if}}\n</style>",
+    "react": "export function OpeningHours({\n  title = \"{{title}}\",\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n  highlightToday = {{highlightToday}},\n  showNote = {{showNote}},\n}) {\n  const days = [\n    [\"Monday\", \"9:00–17:30\"],\n    [\"Tuesday\", \"9:00–17:30\"],\n    [\"Wednesday\", \"9:00–17:30\"],\n    [\"Thursday\", \"9:00–17:30\"],\n    [\"Friday\", \"9:00–18:00\"],\n    [\"Saturday\", \"10:00–14:00\"],\n    [\"Sunday\", \"Closed\"],\n  ];\n  const bordered = style === \"table\";\n  const cellStyle = bordered ? { border: \"1px solid #24143022\", padding: \"8px 10px\" } : { borderBottom: \"1px solid #24143014\", padding: \"6px 2px\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 320 }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 17, fontWeight: 700 }}>{title}</h3>\n      <table style={{ width: \"100%\", borderCollapse: \"collapse\", fontSize: 14 }}>\n        <caption style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\" }}>Weekly opening hours</caption>\n        {bordered && (\n          <thead>\n            <tr><th scope=\"col\" style={cellStyle}>Day</th><th scope=\"col\" style={{ ...cellStyle, textAlign: \"right\" }}>Hours</th></tr>\n          </thead>\n        )}\n        <tbody>\n          {days.map(([day, hours]) => {\n            const today = highlightToday && day === \"Wednesday\";\n            return (\n              <tr key={day}>\n                <th scope=\"row\" style={{ ...cellStyle, textAlign: \"left\", fontWeight: 600, color: today ? accent : \"inherit\" }}>{day}</th>\n                <td style={{ ...cellStyle, textAlign: \"right\", color: today ? accent : \"inherit\", fontWeight: today ? 700 : 400 }}>{hours}</td>\n              </tr>\n            );\n          })}\n        </tbody>\n      </table>\n      {showNote && <p style={{ margin: \"12px 0 0\", fontSize: 12, color: \"#241430aa\" }}>Kitchen closes 30 minutes before close.</p>}\n    </div>\n  );\n}"
+  },
+  "slug": "opening-hours"
+}

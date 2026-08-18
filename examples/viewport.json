@@ -1,0 +1,36 @@
+{
+  "slug": "viewport",
+  "controls_schema": [
+    {
+      "id": "url",
+      "type": "text",
+      "label": "Address bar text",
+      "default": "clydeford.net"
+    },
+    {
+      "id": "device",
+      "type": "select",
+      "label": "Device",
+      "default": "desktop",
+      "options": ["desktop", "mobile"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Chrome colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "addressBar",
+      "type": "toggle",
+      "label": "Show address bar",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"vp-demo\">\n  <div class=\"vp-demo__frame vp-demo__frame--{{device}}\">\n    <div class=\"vp-demo__chrome\" style=\"background:{{accent}};\">\n      <span class=\"vp-demo__dot\"></span><span class=\"vp-demo__dot\"></span><span class=\"vp-demo__dot\"></span>\n      {{#if addressBar}}<span class=\"vp-demo__url\">{{url}}</span>{{/if}}\n    </div>\n    <div class=\"vp-demo__viewport\">Visible viewport area</div>\n  </div>\n</div>\n<style>\n.vp-demo { font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; display: flex; justify-content: center; }\n.vp-demo__frame { width: 100%; max-width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 24px rgba(36,20,48,.18); background: #fff; }\n.vp-demo__frame--mobile { max-width: 200px; }\n.vp-demo__chrome { display: flex; align-items: center; gap: 6px; padding: 8px 10px; }\n.vp-demo__dot { width: 8px; height: 8px; border-radius: 50%; background: #FAF7F255; }\n.vp-demo__url { margin-left: 8px; background: #FAF7F222; color: #FAF7F2; border-radius: 4px; padding: 2px 8px; font-size: 11px; flex: 1; }\n.vp-demo__viewport { height: 110px; display: flex; align-items: center; justify-content: center; color: #24143066; background: repeating-linear-gradient(45deg, #24143006 0 8px, transparent 8px 16px); }\n</style>",
+    "tailwind": "<div class=\"font-sans text-xs text-[#241430] bg-[#FAF7F2] p-4 flex justify-center\">\n  <div class=\"w-full rounded-[10px] overflow-hidden shadow-lg bg-white vp-tw vp-tw--{{device}}\">\n    <div class=\"flex items-center gap-1.5 px-2.5 py-2\" style=\"background:{{accent}};\">\n      <span class=\"w-2 h-2 rounded-full bg-[#FAF7F2]/35\"></span><span class=\"w-2 h-2 rounded-full bg-[#FAF7F2]/35\"></span><span class=\"w-2 h-2 rounded-full bg-[#FAF7F2]/35\"></span>\n      {{#if addressBar}}<span class=\"ml-2 bg-[#FAF7F2]/15 text-[#FAF7F2] rounded px-2 py-0.5 text-[11px] flex-1\">{{url}}</span>{{/if}}\n    </div>\n    <div class=\"h-[110px] flex items-center justify-center text-[#24143066]\" style=\"background-image:repeating-linear-gradient(45deg, #24143006 0 8px, transparent 8px 16px);\">Visible viewport area</div>\n  </div>\n</div>\n<style>\n.vp-tw--mobile { max-width: 200px; }\n.vp-tw--desktop { max-width: 420px; }\n</style>",
+    "react": "export function Viewport({\n  url = \"{{url}}\",\n  device = \"{{device}}\",\n  accent = \"{{accent}}\",\n  addressBar = {{addressBar}},\n}) {\n  const maxWidth = device === \"mobile\" ? 200 : 420;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\", background: \"#FAF7F2\", padding: 16, display: \"flex\", justifyContent: \"center\" }}>\n      <div style={{ width: \"100%\", maxWidth, borderRadius: 10, overflow: \"hidden\", boxShadow: \"0 10px 24px rgba(36,20,48,.18)\", background: \"#fff\" }}>\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, padding: \"8px 10px\", background: accent }}>\n          <span style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#FAF7F255\" }} />\n          <span style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#FAF7F255\" }} />\n          <span style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#FAF7F255\" }} />\n          {addressBar && <span style={{ marginLeft: 8, background: \"#FAF7F222\", color: \"#FAF7F2\", borderRadius: 4, padding: \"2px 8px\", fontSize: 11, flex: 1 }}>{url}</span>}\n        </div>\n        <div style={{ height: 110, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#24143066\", backgroundImage: \"repeating-linear-gradient(45deg, #24143006 0 8px, transparent 8px 16px)\" }}>Visible viewport area</div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

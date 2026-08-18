@@ -1,0 +1,42 @@
+{
+  "slug": "pricing-tier",
+  "controls_schema": [
+    {
+      "id": "planName",
+      "type": "text",
+      "label": "Plan name",
+      "default": "Pro"
+    },
+    {
+      "id": "price",
+      "type": "text",
+      "label": "Price",
+      "default": "$29"
+    },
+    {
+      "id": "period",
+      "type": "select",
+      "label": "Billing period",
+      "default": "mo",
+      "options": ["mo", "yr"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "highlighted",
+      "type": "toggle",
+      "label": "Highlighted",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pricing-tier{{#if highlighted}} pricing-tier--highlighted{{/if}}\" style=\"--accent:{{accent}};\">\n  {{#if highlighted}}<span class=\"pricing-tier__badge\">Most popular</span>{{/if}}\n  <h3 class=\"pricing-tier__name\">{{planName}}</h3>\n  <p class=\"pricing-tier__price\">{{price}}<span class=\"pricing-tier__period\">/{{period}}</span></p>\n  <ul class=\"pricing-tier__features\">\n    <li>Unlimited projects</li>\n    <li>Priority support</li>\n    <li>Team collaboration</li>\n  </ul>\n  <button class=\"pricing-tier__cta\" type=\"button\">Choose {{planName}}</button>\n</div>\n<style>\n.pricing-tier { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid var(--accent); border-radius: 14px; padding: 24px 20px; max-width: 280px; position: relative; }\n.pricing-tier--highlighted { box-shadow: 0 8px 24px rgba(36,20,48,.16); transform: translateY(-4px); }\n.pricing-tier__badge { position: absolute; top: -12px; right: 20px; background: var(--accent); color: #241430; font: 600 11px system-ui, sans-serif; padding: 4px 10px; border-radius: 999px; }\n.pricing-tier__name { margin: 0 0 8px; font-size: 16px; font-weight: 600; }\n.pricing-tier__price { margin: 0 0 16px; font-size: 32px; font-weight: 700; }\n.pricing-tier__period { font-size: 14px; font-weight: 400; color: #241430aa; }\n.pricing-tier__features { list-style: none; margin: 0 0 20px; padding: 0; font-size: 14px; color: #241430cc; display: grid; gap: 8px; }\n.pricing-tier__cta { width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid var(--accent); background: transparent; color: #241430; font: 600 14px system-ui, sans-serif; cursor: pointer; }\n.pricing-tier__cta:hover, .pricing-tier__cta:focus-visible { background: var(--accent); outline: none; }\n</style>",
+    "tailwind": "<div class=\"pricing-tier-tw relative max-w-[280px] p-6 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] rounded-2xl{{#if highlighted}} shadow-lg{{/if}}\" style=\"border-color:{{accent}}\">\n  {{#if highlighted}}<span class=\"absolute -top-3 right-5 text-[11px] font-semibold px-2.5 py-1 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Most popular</span>{{/if}}\n  <h3 class=\"m-0 mb-2 text-base font-semibold\">{{planName}}</h3>\n  <p class=\"m-0 mb-4 text-3xl font-bold\">{{price}}<span class=\"text-sm font-normal text-[#241430]/70\">/{{period}}</span></p>\n  <ul class=\"list-none m-0 mb-5 p-0 text-sm text-[#241430]/80 grid gap-2\">\n    <li>Unlimited projects</li>\n    <li>Priority support</li>\n    <li>Team collaboration</li>\n  </ul>\n  <button type=\"button\" class=\"pricing-tier-tw__cta w-full py-2.5 rounded-lg border-[1.5px] bg-transparent text-[#241430] text-sm font-semibold cursor-pointer\" style=\"border-color:{{accent}}\">Choose {{planName}}</button>\n</div>\n<style>\n.pricing-tier-tw__cta:hover, .pricing-tier-tw__cta:focus-visible { background: {{accent}}; outline: none; }\n</style>",
+    "react": "export function PricingTier({\n  planName = \"{{planName}}\",\n  price = \"{{price}}\",\n  period = \"{{period}}\",\n  accent = \"{{accent}}\",\n  highlighted = {{highlighted}},\n}) {\n  return (\n    <div style={{\n      position: \"relative\", maxWidth: 280, padding: \"24px 20px\", background: \"#FAF7F2\", color: \"#241430\",\n      fontFamily: \"system-ui, sans-serif\", border: `1.5px solid ${accent}`, borderRadius: 16,\n      boxShadow: highlighted ? \"0 8px 24px rgba(36,20,48,.16)\" : \"none\",\n      transform: highlighted ? \"translateY(-4px)\" : \"none\",\n    }}>\n      {highlighted && (\n        <span style={{ position: \"absolute\", top: -12, right: 20, background: accent, color: \"#241430\",\n          fontSize: 11, fontWeight: 600, padding: \"4px 10px\", borderRadius: 999 }}>\n          Most popular\n        </span>\n      )}\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 16, fontWeight: 600 }}>{planName}</h3>\n      <p style={{ margin: \"0 0 16px\", fontSize: 32, fontWeight: 700 }}>\n        {price}<span style={{ fontSize: 14, fontWeight: 400, color: \"#241430aa\" }}>/{period}</span>\n      </p>\n      <ul style={{ listStyle: \"none\", margin: \"0 0 20px\", padding: 0, fontSize: 14, color: \"#241430cc\", display: \"grid\", gap: 8 }}>\n        <li>Unlimited projects</li>\n        <li>Priority support</li>\n        <li>Team collaboration</li>\n      </ul>\n      <button type=\"button\" style={{ width: \"100%\", padding: \"10px\", borderRadius: 8, border: `1.5px solid ${accent}`,\n        background: \"transparent\", color: \"#241430\", fontSize: 14, fontWeight: 600, cursor: \"pointer\" }}>\n        Choose {planName}\n      </button>\n    </div>\n  );\n}"
+  }
+}

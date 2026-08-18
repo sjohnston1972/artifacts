@@ -1,0 +1,42 @@
+{
+  "slug": "article-layout",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Why we rebuilt our onboarding from scratch"
+    },
+    {
+      "id": "showToc",
+      "type": "toggle",
+      "label": "Show table of contents",
+      "default": true
+    },
+    {
+      "id": "showByline",
+      "type": "toggle",
+      "label": "Show byline",
+      "default": true
+    },
+    {
+      "id": "width",
+      "type": "select",
+      "label": "Column width",
+      "default": "narrow",
+      "options": ["narrow", "wide"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"article article--{{width}}\">\n  {{#if showToc}}\n  <nav class=\"article__toc\" aria-label=\"Table of contents\">\n    <p class=\"article__toc-title\">On this page</p>\n    <ul><li><a href=\"#overview\">Overview</a></li><li><a href=\"#details\">Details</a></li><li><a href=\"#summary\">Summary</a></li></ul>\n  </nav>\n  {{/if}}\n  <article class=\"article__body\">\n    <h1 class=\"article__title\" style=\"color:{{accent}};\">{{title}}</h1>\n    {{#if showByline}}<p class=\"article__byline\">By Jordan Ames &middot; 5 min read</p>{{/if}}\n    <p>Long-form content flows in a single measured column, set for sustained reading rather than scanning.</p>\n    <p>Paragraph spacing, line length and a restrained type scale keep attention on the text itself.</p>\n  </article>\n</div>\n<style>\n.article { display: flex; gap: 32px; font: 16px/1.7 system-ui, sans-serif; color: #241430; padding: 24px; }\n.article--narrow .article__body { max-width: 52ch; }\n.article--wide .article__body { max-width: 74ch; }\n.article__toc { flex: 0 0 160px; font-size: 13px; }\n.article__toc-title { font-weight: 700; margin: 0 0 8px; text-transform: uppercase; letter-spacing: .04em; color: #241430aa; }\n.article__toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.article__toc a { color: #241430; text-decoration: none; }\n.article__toc a:hover, .article__toc a:focus-visible { text-decoration: underline; }\n.article__title { margin: 0 0 8px; font-size: 30px; font-weight: 800; }\n.article__byline { margin: 0 0 20px; color: #241430aa; font-size: 14px; }\n.article__body p { margin: 0 0 16px; color: #241430dd; }\n</style>",
+    "tailwind": "<div class=\"article-tw article-tw--{{width}} flex gap-8 font-sans text-[#241430] p-6\">\n  {{#if showToc}}\n  <nav class=\"flex-none w-40 text-[13px]\" aria-label=\"Table of contents\">\n    <p class=\"font-bold m-0 mb-2 uppercase tracking-wide text-[#241430]/70\">On this page</p>\n    <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\"><li><a href=\"#overview\" class=\"text-[#241430] no-underline hover:underline focus-visible:underline\">Overview</a></li><li><a href=\"#details\" class=\"text-[#241430] no-underline hover:underline focus-visible:underline\">Details</a></li><li><a href=\"#summary\" class=\"text-[#241430] no-underline hover:underline focus-visible:underline\">Summary</a></li></ul>\n  </nav>\n  {{/if}}\n  <article class=\"article-tw__body\">\n    <h1 class=\"m-0 mb-2 text-3xl font-extrabold\" style=\"color:{{accent}};\">{{title}}</h1>\n    {{#if showByline}}<p class=\"m-0 mb-5 text-[#241430]/70 text-sm\">By Jordan Ames &middot; 5 min read</p>{{/if}}\n    <p class=\"m-0 mb-4 text-[#241430]/85\">Long-form content flows in a single measured column, set for sustained reading rather than scanning.</p>\n    <p class=\"m-0 mb-4 text-[#241430]/85\">Paragraph spacing, line length and a restrained type scale keep attention on the text itself.</p>\n  </article>\n</div>\n<style>\n.article-tw--narrow .article-tw__body { max-width: 52ch; }\n.article-tw--wide .article-tw__body { max-width: 74ch; }\n</style>",
+    "react": "export function ArticleLayout({\n  title = \"{{title}}\",\n  showToc = {{showToc}},\n  showByline = {{showByline}},\n  width = \"{{width}}\",\n  accent = \"{{accent}}\",\n}) {\n  const maxWidth = width === \"wide\" ? \"74ch\" : \"52ch\";\n  return (\n    <div style={{ display: \"flex\", gap: 32, font: \"16px/1.7 system-ui, sans-serif\", color: \"#241430\", padding: 24 }}>\n      {showToc && (\n        <nav aria-label=\"Table of contents\" style={{ flex: \"0 0 160px\", fontSize: 13 }}>\n          <p style={{ fontWeight: 700, margin: \"0 0 8px\", textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: \"#241430aa\" }}>On this page</p>\n          <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n            <li><a href=\"#overview\" style={{ color: \"#241430\" }}>Overview</a></li>\n            <li><a href=\"#details\" style={{ color: \"#241430\" }}>Details</a></li>\n            <li><a href=\"#summary\" style={{ color: \"#241430\" }}>Summary</a></li>\n          </ul>\n        </nav>\n      )}\n      <article style={{ maxWidth: maxWidth }}>\n        <h1 style={{ margin: \"0 0 8px\", fontSize: 30, fontWeight: 800, color: accent }}>{title}</h1>\n        {showByline && <p style={{ margin: \"0 0 20px\", color: \"#241430aa\", fontSize: 14 }}>By Jordan Ames &middot; 5 min read</p>}\n        <p style={{ margin: \"0 0 16px\", color: \"#241430dd\" }}>Long-form content flows in a single measured column, set for sustained reading rather than scanning.</p>\n        <p style={{ margin: \"0 0 16px\", color: \"#241430dd\" }}>Paragraph spacing, line length and a restrained type scale keep attention on the text itself.</p>\n      </article>\n    </div>\n  );\n}"
+  }
+}

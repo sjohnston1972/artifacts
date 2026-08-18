@@ -1,0 +1,48 @@
+{
+  "slug": "container",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Container"
+    },
+    {
+      "id": "maxWidth",
+      "type": "number",
+      "label": "Max width",
+      "default": 420,
+      "min": 240,
+      "max": 640,
+      "step": 20
+    },
+    {
+      "id": "gutter",
+      "type": "number",
+      "label": "Gutter",
+      "default": 16,
+      "min": 0,
+      "max": 40,
+      "step": 4
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "center",
+      "options": ["center", "left"]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"container-demo\">\n  <div class=\"container-demo__box container-demo__box--{{align}}\" style=\"max-width:{{maxWidth}}px;padding-left:{{gutter}}px;padding-right:{{gutter}}px;background:{{bg}};\">\n    {{label}}\n  </div>\n</div>\n<style>\n.container-demo { background: repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 40px); padding: 16px 0; font: 14px system-ui, sans-serif; color: #241430; }\n.container-demo__box { box-sizing: border-box; margin: 0 auto; padding-top: 24px; padding-bottom: 24px; border: 1.5px dashed #24143055; text-align: center; font-weight: 600; }\n.container-demo__box--left { margin-left: 12px; margin-right: auto; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] py-4\" style=\"background-image:repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 40px);\">\n  <div class=\"box-border py-6 border-[1.5px] border-dashed border-[#24143055] text-center font-semibold container-tw container-tw--{{align}}\" style=\"max-width:{{maxWidth}}px;padding-left:{{gutter}}px;padding-right:{{gutter}}px;background:{{bg}};\">\n    {{label}}\n  </div>\n</div>\n<style>\n.container-tw { margin-left: auto; margin-right: auto; }\n.container-tw--left { margin-left: 12px; margin-right: auto; }\n</style>",
+    "react": "export function Container({\n  label = \"{{label}}\",\n  maxWidth = {{maxWidth}},\n  gutter = {{gutter}},\n  align = \"{{align}}\",\n  bg = \"{{bg}}\",\n}) {\n  return (\n    <div style={{ background: \"repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 40px)\", padding: \"16px 0\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{\n        boxSizing: \"border-box\", maxWidth, paddingLeft: gutter, paddingRight: gutter, paddingTop: 24, paddingBottom: 24,\n        background: bg, border: \"1.5px dashed #24143055\", textAlign: \"center\", fontWeight: 600,\n        marginLeft: align === \"left\" ? 12 : \"auto\", marginRight: \"auto\",\n      }}>\n        {label}\n      </div>\n    </div>\n  );\n}"
+  }
+}

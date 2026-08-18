@@ -1,0 +1,37 @@
+{
+  "slug": "footer-navigation",
+  "controls_schema": [
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "3",
+      "options": ["2", "3", "4"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Heading colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0"]
+    },
+    {
+      "id": "showDivider",
+      "type": "toggle",
+      "label": "Show top divider",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<footer class=\"ffoot ffoot--{{columns}}{{#if showDivider}} ffoot--divider{{/if}}\" style=\"background:{{bg}};\">\n  <nav aria-label=\"Footer\" class=\"ffoot__nav\">\n    <div>\n      <p class=\"ffoot__heading\" style=\"color:{{accent}};\">Product</p>\n      <ul><li><a href=\"#\">Features</a></li><li><a href=\"#\">Pricing</a></li><li><a href=\"#\">Changelog</a></li></ul>\n    </div>\n    <div>\n      <p class=\"ffoot__heading\" style=\"color:{{accent}};\">Company</p>\n      <ul><li><a href=\"#\">About</a></li><li><a href=\"#\">Careers</a></li><li><a href=\"#\">Blog</a></li></ul>\n    </div>\n    <div>\n      <p class=\"ffoot__heading\" style=\"color:{{accent}};\">Legal</p>\n      <ul><li><a href=\"#\">Privacy</a></li><li><a href=\"#\">Terms</a></li></ul>\n    </div>\n    <div>\n      <p class=\"ffoot__heading\" style=\"color:{{accent}};\">Resources</p>\n      <ul><li><a href=\"#\">Docs</a></li><li><a href=\"#\">Support</a></li></ul>\n    </div>\n  </nav>\n</footer>\n<style>\n.ffoot { font: 14px/1.6 system-ui, sans-serif; color: #241430; padding: 32px 24px; }\n.ffoot--divider { border-top: 1px solid #24143018; }\n.ffoot__nav { display: grid; gap: 24px; }\n.ffoot--2 .ffoot__nav { grid-template-columns: repeat(2, 1fr); }\n.ffoot--3 .ffoot__nav { grid-template-columns: repeat(3, 1fr); }\n.ffoot--4 .ffoot__nav { grid-template-columns: repeat(4, 1fr); }\n.ffoot--2 .ffoot__nav > div:nth-child(n+3) { display: none; }\n.ffoot--3 .ffoot__nav > div:nth-child(4) { display: none; }\n.ffoot__heading { margin: 0 0 10px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }\n.ffoot__nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.ffoot__nav a { color: #241430cc; text-decoration: none; }\n.ffoot__nav a:hover, .ffoot__nav a:focus-visible { text-decoration: underline; color: #241430; }\n</style>",
+    "tailwind": "<footer class=\"ffoot-tw ffoot-tw--{{columns}}{{#if showDivider}} border-t border-[#24143018]{{/if}} font-sans text-sm text-[#241430] px-6 py-8\" style=\"background:{{bg}};\">\n  <nav aria-label=\"Footer\" class=\"ffoot-tw__nav grid gap-6\">\n    <div>\n      <p class=\"m-0 mb-2.5 font-bold text-xs uppercase tracking-wide\" style=\"color:{{accent}};\">Product</p>\n      <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\"><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Features</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Pricing</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Changelog</a></li></ul>\n    </div>\n    <div>\n      <p class=\"m-0 mb-2.5 font-bold text-xs uppercase tracking-wide\" style=\"color:{{accent}};\">Company</p>\n      <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\"><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">About</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Careers</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Blog</a></li></ul>\n    </div>\n    <div>\n      <p class=\"m-0 mb-2.5 font-bold text-xs uppercase tracking-wide\" style=\"color:{{accent}};\">Legal</p>\n      <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\"><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Privacy</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Terms</a></li></ul>\n    </div>\n    <div>\n      <p class=\"m-0 mb-2.5 font-bold text-xs uppercase tracking-wide\" style=\"color:{{accent}};\">Resources</p>\n      <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\"><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Docs</a></li><li><a href=\"#\" class=\"text-[#241430]/80 no-underline hover:underline hover:text-[#241430]\">Support</a></li></ul>\n    </div>\n  </nav>\n</footer>\n<style>\n.ffoot-tw--2 .ffoot-tw__nav { grid-template-columns: repeat(2, 1fr); }\n.ffoot-tw--3 .ffoot-tw__nav { grid-template-columns: repeat(3, 1fr); }\n.ffoot-tw--4 .ffoot-tw__nav { grid-template-columns: repeat(4, 1fr); }\n.ffoot-tw--2 .ffoot-tw__nav > div:nth-child(n+3) { display: none; }\n.ffoot-tw--3 .ffoot-tw__nav > div:nth-child(4) { display: none; }\n</style>",
+    "react": "export function FooterNavigation({\n  columns = \"{{columns}}\",\n  accent = \"{{accent}}\",\n  bg = \"{{bg}}\",\n  showDivider = {{showDivider}},\n}) {\n  const groups = [\n    { title: \"Product\", links: [\"Features\", \"Pricing\", \"Changelog\"] },\n    { title: \"Company\", links: [\"About\", \"Careers\", \"Blog\"] },\n    { title: \"Legal\", links: [\"Privacy\", \"Terms\"] },\n    { title: \"Resources\", links: [\"Docs\", \"Support\"] },\n  ].slice(0, Number(columns));\n  return (\n    <footer style={{ font: \"14px/1.6 system-ui, sans-serif\", color: \"#241430\", padding: \"32px 24px\", background: bg,\n      borderTop: showDivider ? \"1px solid #24143018\" : \"none\" }}>\n      <nav aria-label=\"Footer\" style={{ display: \"grid\", gap: 24, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {groups.map((group) => (\n          <div key={group.title}>\n            <p style={{ margin: \"0 0 10px\", fontWeight: 700, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: accent }}>{group.title}</p>\n            <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n              {group.links.map((link) => (\n                <li key={link}><a href=\"#\" style={{ color: \"#241430cc\", textDecoration: \"none\" }}>{link}</a></li>\n              ))}\n            </ul>\n          </div>\n        ))}\n      </nav>\n    </footer>\n  );\n}"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "topbar",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "App name",
+      "default": "Planner"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "search",
+      "type": "toggle",
+      "label": "Show search field",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tb-demo tb-demo--{{density}}\" style=\"background:{{accent}};\">\n  <span class=\"tb-demo__title\">{{title}}</span>\n  {{#if search}}<input class=\"tb-demo__search\" type=\"text\" placeholder=\"Search...\" />{{/if}}\n  <div class=\"tb-demo__actions\">\n    <button class=\"tb-demo__icon\" type=\"button\">＋</button>\n    <button class=\"tb-demo__icon\" type=\"button\">⚙</button>\n  </div>\n</div>\n<style>\n.tb-demo { display: flex; align-items: center; gap: 12px; font: 13px system-ui, sans-serif; color: #FAF7F2; padding: 12px 16px; box-sizing: border-box; }\n.tb-demo--compact { padding: 6px 12px; gap: 8px; font-size: 12px; }\n.tb-demo__title { font-weight: 700; }\n.tb-demo__search { flex: 1; max-width: 220px; box-sizing: border-box; border: 1px solid #FAF7F244; background: #FAF7F21a; color: #FAF7F2; border-radius: 6px; padding: 6px 10px; font: inherit; }\n.tb-demo__search::placeholder { color: #FAF7F299; }\n.tb-demo__search:focus-visible { outline: 2px solid #FAF7F2; }\n.tb-demo__actions { display: flex; gap: 8px; margin-left: auto; }\n.tb-demo__icon { background: transparent; border: none; color: #FAF7F2; cursor: pointer; font-size: 14px; padding: 4px 8px; border-radius: 6px; }\n.tb-demo__icon:hover { background: #FAF7F21a; }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-3 font-sans text-[13px] text-[#FAF7F2] px-4 py-3 box-border tb-tw tb-tw--{{density}}\" style=\"background:{{accent}};\">\n  <span class=\"font-bold\">{{title}}</span>\n  {{#if search}}<input type=\"text\" placeholder=\"Search...\" class=\"flex-1 max-w-[220px] box-border border border-[#FAF7F2]/25 bg-[#FAF7F2]/10 text-[#FAF7F2] rounded-md px-2.5 py-1.5 placeholder:text-[#FAF7F2]/60 focus-visible:outline focus-visible:outline-2\" />{{/if}}\n  <div class=\"flex gap-2 ml-auto\">\n    <button type=\"button\" class=\"bg-transparent border-none text-[#FAF7F2] cursor-pointer text-sm px-2 py-1 rounded-md hover:bg-[#FAF7F2]/10\">＋</button>\n    <button type=\"button\" class=\"bg-transparent border-none text-[#FAF7F2] cursor-pointer text-sm px-2 py-1 rounded-md hover:bg-[#FAF7F2]/10\">⚙</button>\n  </div>\n</div>\n<style>\n.tb-tw--compact { padding: 6px 12px !important; gap: 8px; font-size: 12px; }\n</style>",
+    "react": "export function Topbar({\n  title = \"{{title}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  search = {{search}},\n}) {\n  const compact = density === \"compact\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: compact ? 8 : 12, fontFamily: \"system-ui, sans-serif\", fontSize: compact ? 12 : 13, color: \"#FAF7F2\", background: accent, padding: compact ? \"6px 12px\" : \"12px 16px\", boxSizing: \"border-box\" }}>\n      <span style={{ fontWeight: 700 }}>{title}</span>\n      {search && <input type=\"text\" placeholder=\"Search...\" style={{ flex: 1, maxWidth: 220, boxSizing: \"border-box\", border: \"1px solid #FAF7F244\", background: \"#FAF7F21a\", color: \"#FAF7F2\", borderRadius: 6, padding: \"6px 10px\", font: \"inherit\" }} />}\n      <div style={{ display: \"flex\", gap: 8, marginLeft: \"auto\" }}>\n        <button type=\"button\" style={{ background: \"transparent\", border: \"none\", color: \"#FAF7F2\", cursor: \"pointer\", fontSize: 14, padding: \"4px 8px\", borderRadius: 6 }}>＋</button>\n        <button type=\"button\" style={{ background: \"transparent\", border: \"none\", color: \"#FAF7F2\", cursor: \"pointer\", fontSize: 14, padding: \"4px 8px\", borderRadius: 6 }}>⚙</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

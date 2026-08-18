@@ -1,0 +1,63 @@
+{
+  "slug": "number-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Quantity"
+    },
+    {
+      "id": "min",
+      "type": "number",
+      "label": "Minimum",
+      "default": 0,
+      "min": -100,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "max",
+      "type": "number",
+      "label": "Maximum",
+      "default": 10,
+      "min": -100,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "step",
+      "type": "number",
+      "label": "Step",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ni\" for=\"ni-1\">\n  <span class=\"ni__label\">{{label}}{{#if required}} <span class=\"ni__req\">*</span>{{/if}}</span>\n  <input class=\"ni__input\" id=\"ni-1\" type=\"number\" min=\"{{min}}\" max=\"{{max}}\" step=\"{{step}}\" style=\"--accent:{{accent}};\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.ni { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 160px; }\n.ni__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ni__req { color: #241430; }\n.ni__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ni__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[160px] font-sans text-sm text-[#241430]\" for=\"ni-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"ni-tw-1\" type=\"number\" min=\"{{min}}\" max=\"{{max}}\" step=\"{{step}}\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n</label>",
+    "react": "export function NumberInput({\n  label = \"{{label}}\",\n  min = {{min}},\n  max = {{max}},\n  step = {{step}},\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 160, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"number\" min={min} max={max} step={step} required={required} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

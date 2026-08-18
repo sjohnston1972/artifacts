@@ -1,0 +1,51 @@
+{
+  "slug": "social-proof",
+  "controls_schema": [
+    {
+      "id": "statNumber",
+      "type": "text",
+      "label": "Stat number",
+      "default": "12,000+"
+    },
+    {
+      "id": "statLabel",
+      "type": "text",
+      "label": "Stat label",
+      "default": "teams trust us"
+    },
+    {
+      "id": "rating",
+      "type": "number",
+      "label": "Rating",
+      "default": 4.8,
+      "min": 0,
+      "max": 5,
+      "step": 0.1
+    },
+    {
+      "id": "showAvatars",
+      "type": "toggle",
+      "label": "Show avatar stack",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "horizontal",
+      "options": ["horizontal", "stacked"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"social-proof social-proof--{{layout}}\" style=\"--accent:{{accent}};\">\n  {{#if showAvatars}}\n  <div class=\"social-proof__avatars\" role=\"presentation\">\n    <span class=\"social-proof__avatar\">JM</span>\n    <span class=\"social-proof__avatar\">AK</span>\n    <span class=\"social-proof__avatar\">RT</span>\n    <span class=\"social-proof__avatar social-proof__avatar--more\">+9k</span>\n  </div>\n  {{/if}}\n  <p class=\"social-proof__text\"><strong>{{statNumber}}</strong> {{statLabel}}</p>\n  <div class=\"social-proof__rating\" role=\"img\" aria-label=\"Rated {{rating}} out of 5\">\n    <span class=\"social-proof__stars\" style=\"--fill:calc({{rating}} / 5 * 100%);\" aria-hidden=\"true\">\n      <span class=\"social-proof__stars-track\">★★★★★</span>\n      <span class=\"social-proof__stars-fill\">★★★★★</span>\n    </span>\n    <span class=\"social-proof__rating-value\">{{rating}}</span>\n  </div>\n</div>\n<style>\n.social-proof { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.social-proof--stacked { flex-direction: column; align-items: flex-start; gap: 8px; }\n.social-proof__avatars { display: flex; }\n.social-proof__avatar { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px; background: #241430; color: #FAF7F2; font: 600 11px system-ui, sans-serif; border: 2px solid #FAF7F2; margin-left: -8px; }\n.social-proof__avatar:first-child { margin-left: 0; }\n.social-proof__avatar--more { background: var(--accent); color: #241430; }\n.social-proof__text { margin: 0; }\n.social-proof__rating { display: inline-flex; align-items: center; gap: 6px; }\n.social-proof__stars { position: relative; display: inline-block; font-size: 15px; line-height: 1; letter-spacing: 1px; }\n.social-proof__stars-track { color: #24143026; }\n.social-proof__stars-fill { position: absolute; inset: 0; width: var(--fill); overflow: hidden; white-space: nowrap; color: var(--accent); }\n.social-proof__rating-value { color: #241430aa; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"social-proof-tw social-proof-tw--{{layout}} flex items-center gap-3.5 flex-wrap font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}}\">\n  {{#if showAvatars}}\n  <div class=\"flex\" role=\"presentation\">\n    <span class=\"social-proof-tw__avatar inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#241430] text-[#FAF7F2] text-[11px] font-semibold border-2 border-[#FAF7F2]\">JM</span>\n    <span class=\"social-proof-tw__avatar inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#241430] text-[#FAF7F2] text-[11px] font-semibold border-2 border-[#FAF7F2] -ml-2\">AK</span>\n    <span class=\"social-proof-tw__avatar inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#241430] text-[#FAF7F2] text-[11px] font-semibold border-2 border-[#FAF7F2] -ml-2\">RT</span>\n    <span class=\"social-proof-tw__avatar inline-flex items-center justify-center w-8 h-8 rounded-full text-[#241430] text-[11px] font-semibold border-2 border-[#FAF7F2] -ml-2\" style=\"background:{{accent}}\">+9k</span>\n  </div>\n  {{/if}}\n  <p class=\"m-0\"><strong>{{statNumber}}</strong> {{statLabel}}</p>\n  <div class=\"inline-flex items-center gap-1.5\" role=\"img\" aria-label=\"Rated {{rating}} out of 5\">\n    <span class=\"relative inline-block text-[15px] leading-none tracking-wide\" style=\"--fill:calc({{rating}} / 5 * 100%)\" aria-hidden=\"true\">\n      <span class=\"text-[#24143026]\">★★★★★</span>\n      <span class=\"absolute inset-0 overflow-hidden whitespace-nowrap\" style=\"width:var(--fill);color:{{accent}}\">★★★★★</span>\n    </span>\n    <span class=\"text-[13px] text-[#241430]/70\">{{rating}}</span>\n  </div>\n</div>\n<style>\n.social-proof-tw--stacked { flex-direction: column; align-items: flex-start; gap: 8px; }\n</style>",
+    "react": "export function SocialProof({\n  statNumber = \"{{statNumber}}\",\n  statLabel = \"{{statLabel}}\",\n  rating = {{rating}},\n  showAvatars = {{showAvatars}},\n  accent = \"{{accent}}\",\n  layout = \"{{layout}}\",\n}) {\n  const stacked = layout === \"stacked\";\n  return (\n    <div style={{\n      display: \"flex\", flexDirection: stacked ? \"column\" : \"row\", alignItems: stacked ? \"flex-start\" : \"center\",\n      gap: stacked ? 8 : 14, flexWrap: \"wrap\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\",\n    }}>\n      {showAvatars && (\n        <div style={{ display: \"flex\" }} role=\"presentation\">\n          {[\"JM\", \"AK\", \"RT\"].map((initials, i) => (\n            <span key={initials} style={{\n              display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 32, height: 32,\n              borderRadius: 999, background: \"#241430\", color: \"#FAF7F2\", fontSize: 11, fontWeight: 600,\n              border: \"2px solid #FAF7F2\", marginLeft: i === 0 ? 0 : -8,\n            }}>{initials}</span>\n          ))}\n          <span style={{\n            display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 32, height: 32,\n            borderRadius: 999, background: accent, color: \"#241430\", fontSize: 11, fontWeight: 600,\n            border: \"2px solid #FAF7F2\", marginLeft: -8,\n          }}>+9k</span>\n        </div>\n      )}\n      <p style={{ margin: 0 }}><strong>{statNumber}</strong> {statLabel}</p>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6 }} role=\"img\" aria-label={`Rated ${rating} out of 5`}>\n        <span style={{ position: \"relative\", display: \"inline-block\", fontSize: 15, lineHeight: 1, letterSpacing: 1 }} aria-hidden=\"true\">\n          <span style={{ color: \"#24143026\" }}>★★★★★</span>\n          <span style={{ position: \"absolute\", inset: 0, width: `calc(${rating} / 5 * 100%)`, overflow: \"hidden\",\n            whiteSpace: \"nowrap\", color: accent }}>★★★★★</span>\n        </span>\n        <span style={{ fontSize: 13, color: \"#241430aa\" }}>{rating}</span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

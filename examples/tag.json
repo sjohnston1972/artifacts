@@ -1,0 +1,36 @@
+{
+  "slug": "tag",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Bug"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "solid",
+      "options": ["solid", "outline"]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#E8A020", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "removable",
+      "type": "toggle",
+      "label": "Removable",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"tag tag--{{variant}}\" style=\"--c:{{color}};\">\n  {{label}}\n  {{#if removable}}<button type=\"button\" class=\"tag__remove\" aria-label=\"Remove {{label}} tag\">×</button>{{/if}}\n</span>\n<style>\n.tag { display: inline-flex; align-items: center; gap: 5px; font: 600 11.5px system-ui, sans-serif;\n  padding: 3px 8px; border-radius: 4px; box-sizing: border-box; border: 1.5px solid var(--c); line-height: 1.4; }\n.tag--solid { background: var(--c); color: #241430; }\n.tag--outline { background: transparent; color: var(--c); }\n.tag__remove { border: none; background: transparent; color: inherit; font-size: 12px; line-height: 1; cursor: pointer; padding: 0; opacity: .7; }\n.tag__remove:hover { opacity: 1; }\n.tag__remove:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<span class=\"tag-tw tag-tw--{{variant}} inline-flex items-center gap-1 font-semibold text-[11.5px] px-2 py-0.5 rounded box-border border-[1.5px] leading-snug\" style=\"--c:{{color}};\">\n  {{label}}\n  {{#if removable}}<button type=\"button\" aria-label=\"Remove {{label}} tag\" class=\"border-0 bg-transparent text-xs leading-none cursor-pointer p-0 opacity-70 hover:opacity-100\">×</button>{{/if}}\n</span>\n<style>\n.tag-tw { border-color: var(--c); }\n.tag-tw--solid { background: var(--c); color: #241430; }\n.tag-tw--outline { background: transparent; color: var(--c); }\n</style>",
+    "react": "export function Tag({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  color = \"{{color}}\",\n  removable = {{removable}},\n}) {\n  const palette = variant === \"solid\"\n    ? { background: color, color: \"#241430\", borderColor: color }\n    : { background: \"transparent\", color, borderColor: color };\n  return (\n    <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, fontWeight: 600, fontSize: 11.5,\n      padding: \"3px 8px\", borderRadius: 4, boxSizing: \"border-box\", border: \"1.5px solid\", lineHeight: 1.4, ...palette }}>\n      {label}\n      {removable && (\n        <button type=\"button\" aria-label={`Remove ${label} tag`} style={{ border: \"none\", background: \"transparent\",\n          color: \"inherit\", fontSize: 12, lineHeight: 1, cursor: \"pointer\", padding: 0, opacity: 0.7 }}>×</button>\n      )}\n    </span>\n  );\n}"
+  }
+}

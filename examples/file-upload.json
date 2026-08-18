@@ -1,0 +1,48 @@
+{
+  "slug": "file-upload",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Attach resume"
+    },
+    {
+      "id": "buttonText",
+      "type": "text",
+      "label": "Button text",
+      "default": "Choose file"
+    },
+    {
+      "id": "accept",
+      "type": "text",
+      "label": "Accepted types",
+      "default": ".pdf,.doc,.docx"
+    },
+    {
+      "id": "multiple",
+      "type": "toggle",
+      "label": "Allow multiple files",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fu\">\n  <span class=\"fu__label\" id=\"fu-label-1\">{{label}}</span>\n  <label class=\"fu__btn\" style=\"--accent:{{accent}};\" for=\"fu-1\">\n    {{buttonText}}\n    <input class=\"fu__input\" id=\"fu-1\" type=\"file\" accept=\"{{accept}}\" aria-labelledby=\"fu-label-1\"{{#if multiple}} multiple{{/if}}>\n  </label>\n  <span class=\"fu__hint\">{{accept}}</span>\n</div>\n<style>\n.fu { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.fu__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.fu__btn { display: inline-block; padding: 9px 16px; border-radius: 999px; background: var(--accent); color: #241430; font-weight: 600; cursor: pointer; }\n.fu__btn:hover { filter: brightness(0.95); }\n.fu__btn:focus-within { outline: 2px solid #241430; outline-offset: 2px; }\n.fu__input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }\n.fu__hint { display: block; margin-top: 6px; font-size: 11px; color: #24143080; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[260px]\">\n  <span class=\"block mb-1.5 font-medium\" id=\"fu-tw-label-1\">{{label}}</span>\n  <label class=\"inline-block px-4 py-2.5 rounded-full font-semibold cursor-pointer hover:brightness-95 focus-within:outline focus-within:outline-2 focus-within:outline-[#241430] focus-within:outline-offset-2\" style=\"background:{{accent}};\">\n    {{buttonText}}\n    <input type=\"file\" accept=\"{{accept}}\" aria-labelledby=\"fu-tw-label-1\"{{#if multiple}} multiple{{/if}} class=\"sr-only\">\n  </label>\n  <span class=\"block mt-1.5 text-[11px] text-[#24143080]\">{{accept}}</span>\n</div>",
+    "react": "export function FileUpload({\n  label = \"{{label}}\",\n  buttonText = \"{{buttonText}}\",\n  accept = \"{{accept}}\",\n  multiple = {{multiple}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <span id=\"fu-react-label-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</span>\n      <label style={{ display: \"inline-block\", padding: \"9px 16px\", borderRadius: 999, background: accent, color: \"#241430\", fontWeight: 600, cursor: \"pointer\" }}>\n        {buttonText}\n        <input type=\"file\" accept={accept} multiple={multiple} aria-labelledby=\"fu-react-label-1\" style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", opacity: 0 }} />\n      </label>\n      <span style={{ display: \"block\", marginTop: 6, fontSize: 11, color: \"#24143080\" }}>{accept}</span>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "notification",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Priya commented on your task"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "\"Can we push the deadline to Friday?\""
+    },
+    {
+      "id": "timeAgo",
+      "type": "text",
+      "label": "Time",
+      "default": "2m ago"
+    },
+    {
+      "id": "category",
+      "type": "select",
+      "label": "Category",
+      "default": "mention",
+      "options": ["mention", "system", "message"]
+    },
+    {
+      "id": "unread",
+      "type": "toggle",
+      "label": "Unread",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"notif notif--{{category}}{{#if unread}} notif--unread{{/if}}\" role=\"status\">\n  <span class=\"notif__icon\" aria-hidden=\"true\"></span>\n  <div class=\"notif__body\">\n    <p class=\"notif__title\">{{title}}</p>\n    <p class=\"notif__message\">{{message}}</p>\n    <p class=\"notif__time\">{{timeAgo}}</p>\n  </div>\n  {{#if unread}}<span class=\"notif__dot\" aria-label=\"Unread\"></span>{{/if}}\n</div>\n<style>\n.notif { display: flex; align-items: flex-start; gap: 10px; width: 300px; box-sizing: border-box; padding: 12px 14px;\n  border-radius: 10px; background: #FAF7F2; border: 1px solid #24143014; font: 13.5px/1.4 system-ui, sans-serif; color: #241430; }\n.notif--unread { background: #FFFFFF; box-shadow: 0 2px 10px rgba(36,20,48,.08); }\n.notif__icon { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; color: #FAF7F2; font-weight: 700; font-size: 12px; }\n.notif--mention .notif__icon { background: #D9A3E0; }\n.notif--mention .notif__icon::before { content: \"@\"; }\n.notif--system .notif__icon { background: #8A6FBF; }\n.notif--system .notif__icon::before { content: \"⚙\"; }\n.notif--message .notif__icon { background: #4E9BD9; }\n.notif--message .notif__icon::before { content: \"✉\"; }\n.notif__body { flex: 1; min-width: 0; }\n.notif__title { margin: 0; font-weight: 700; }\n.notif__message { margin: 2px 0 0; color: #241430b3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.notif__time { margin: 4px 0 0; font-size: 11px; color: #24143080; }\n.notif__dot { width: 8px; height: 8px; border-radius: 50%; background: #B3261E; flex-shrink: 0; margin-top: 4px; }\n</style>",
+    "tailwind": "<div role=\"status\" class=\"notif-tw notif-tw--{{category}}{{#if unread}} notif-tw--unread{{/if}} flex items-start gap-2.5 w-[300px] box-border px-3.5 py-3 rounded-lg bg-[#FAF7F2] border border-[#24143014] font-sans text-[13.5px] text-[#241430]\">\n  <span class=\"notif-tw__icon w-[26px] h-[26px] rounded-full flex-shrink-0 grid place-items-center text-[#FAF7F2] font-bold text-xs\" aria-hidden=\"true\"></span>\n  <div class=\"flex-1 min-w-0\">\n    <p class=\"m-0 font-bold\">{{title}}</p>\n    <p class=\"mt-0.5 mb-0 text-[#241430]/70 overflow-hidden text-ellipsis whitespace-nowrap\">{{message}}</p>\n    <p class=\"mt-1 mb-0 text-[11px] text-[#241430]/50\">{{timeAgo}}</p>\n  </div>\n  {{#if unread}}<span aria-label=\"Unread\" class=\"w-2 h-2 rounded-full bg-[#B3261E] flex-shrink-0 mt-1\"></span>{{/if}}\n</div>\n<style>\n.notif-tw--unread { background: #FFFFFF; box-shadow: 0 2px 10px rgba(36,20,48,.08); }\n.notif-tw--mention .notif-tw__icon { background: #D9A3E0; }\n.notif-tw--mention .notif-tw__icon::before { content: \"@\"; }\n.notif-tw--system .notif-tw__icon { background: #8A6FBF; }\n.notif-tw--system .notif-tw__icon::before { content: \"⚙\"; }\n.notif-tw--message .notif-tw__icon { background: #4E9BD9; }\n.notif-tw--message .notif-tw__icon::before { content: \"✉\"; }\n</style>",
+    "react": "export function Notification({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  timeAgo = \"{{timeAgo}}\",\n  category = \"{{category}}\",\n  unread = {{unread}},\n}) {\n  const palette = { mention: { c: \"#D9A3E0\", icon: \"@\" }, system: { c: \"#8A6FBF\", icon: \"⚙\" }, message: { c: \"#4E9BD9\", icon: \"✉\" } }[category] ?? { c: \"#8A6FBF\", icon: \"⚙\" };\n  return (\n    <div role=\"status\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 10, width: 300, boxSizing: \"border-box\",\n      padding: \"12px 14px\", borderRadius: 10, background: unread ? \"#FFFFFF\" : \"#FAF7F2\",\n      boxShadow: unread ? \"0 2px 10px rgba(36,20,48,.08)\" : \"none\", border: \"1px solid #24143014\",\n      font: \"13.5px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ width: 26, height: 26, borderRadius: \"50%\", flexShrink: 0, background: palette.c,\n        display: \"grid\", placeItems: \"center\", color: \"#FAF7F2\", fontWeight: 700, fontSize: 12 }}>{palette.icon}</span>\n      <div style={{ flex: 1, minWidth: 0 }}>\n        <p style={{ margin: 0, fontWeight: 700 }}>{title}</p>\n        <p style={{ margin: \"2px 0 0\", color: \"#241430b3\", overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{message}</p>\n        <p style={{ margin: \"4px 0 0\", fontSize: 11, color: \"#24143080\" }}>{timeAgo}</p>\n      </div>\n      {unread && <span aria-label=\"Unread\" style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#B3261E\", flexShrink: 0, marginTop: 4 }} />}\n    </div>\n  );\n}"
+  }
+}

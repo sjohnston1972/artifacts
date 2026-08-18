@@ -1,0 +1,42 @@
+{
+  "slug": "feature-card",
+  "controls_schema": [
+    {
+      "id": "icon",
+      "type": "text",
+      "label": "Icon (emoji)",
+      "default": "⚡"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Instant sync"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Description",
+      "default": "Changes appear everywhere within milliseconds, no refresh needed."
+    },
+    {
+      "id": "badgeShape",
+      "type": "select",
+      "label": "Icon badge shape",
+      "default": "circle",
+      "options": ["circle", "square", "hex"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"feature-card\">\n  <span class=\"feature-card__badge feature-card__badge--{{badgeShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">{{icon}}</span>\n  <h3 class=\"feature-card__title\">{{title}}</h3>\n  <p class=\"feature-card__desc\">{{description}}</p>\n</div>\n<style>\n.feature-card { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 260px; padding: 8px; }\n.feature-card__badge { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; font-size: 20px; margin-bottom: 14px; }\n.feature-card__badge--circle { border-radius: 50%; }\n.feature-card__badge--square { border-radius: 8px; }\n.feature-card__badge--hex { border-radius: 22% 22% 40% 40% / 30% 30% 30% 30%; }\n.feature-card__title { margin: 0 0 6px; font-size: 17px; font-weight: 700; }\n.feature-card__desc { margin: 0; font-size: 14px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] max-w-[260px] p-2\">\n  <span class=\"feature-card-tw__badge feature-card-tw__badge--{{badgeShape}} inline-flex items-center justify-center w-11 h-11 text-xl mb-3.5\" style=\"background:{{accent}};\" aria-hidden=\"true\">{{icon}}</span>\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-bold\">{{title}}</h3>\n  <p class=\"m-0 text-sm text-[#241430]/80\">{{description}}</p>\n</div>\n<style>\n.feature-card-tw__badge--circle { border-radius: 50%; }\n.feature-card-tw__badge--square { border-radius: 8px; }\n.feature-card-tw__badge--hex { border-radius: 22% 22% 40% 40% / 30% 30% 30% 30%; }\n</style>",
+    "react": "export function FeatureCard({\n  icon = \"{{icon}}\",\n  title = \"{{title}}\",\n  description = \"{{description}}\",\n  badgeShape = \"{{badgeShape}}\",\n  accent = \"{{accent}}\",\n}) {\n  const radius = { circle: \"50%\", square: \"8px\", hex: \"22% 22% 40% 40% / 30% 30% 30% 30%\" }[badgeShape] ?? \"50%\";\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 260, padding: 8 }}>\n      <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n        width: 44, height: 44, fontSize: 20, marginBottom: 14, background: accent, borderRadius: radius }}>{icon}</span>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 700 }}>{title}</h3>\n      <p style={{ margin: 0, fontSize: 14, color: \"#241430cc\" }}>{description}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "panel",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Panel title",
+      "default": "Notes"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "A bounded area for grouping information that belongs together."
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "bordered",
+      "options": ["bordered", "raised", "tinted"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "padding",
+      "type": "number",
+      "label": "Padding",
+      "default": 16,
+      "min": 8,
+      "max": 28,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"panel-demo panel-demo--{{variant}}\" style=\"padding:{{padding}}px;--accent:{{accent}};\">\n  <h4 class=\"panel-demo__title\">{{title}}</h4>\n  <p class=\"panel-demo__body\">{{body}}</p>\n</div>\n<style>\n.panel-demo { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; box-sizing: border-box; border-radius: 8px; max-width: 340px; }\n.panel-demo--bordered { border: 1.5px solid var(--accent); }\n.panel-demo--raised { border: 1px solid transparent; box-shadow: 0 6px 18px rgba(36,20,48,.14); }\n.panel-demo--tinted { border: 1px solid transparent; background: color-mix(in srgb, var(--accent) 22%, #FAF7F2); }\n.panel-demo__title { margin: 0 0 8px; font-size: 15px; font-weight: 600; }\n.panel-demo__body { margin: 0; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] bg-[#FAF7F2] box-border rounded-lg max-w-[340px] panel-tw panel-tw--{{variant}}\" style=\"padding:{{padding}}px;--accent:{{accent}};\">\n  <h4 class=\"m-0 mb-2 text-[15px] font-semibold\">{{title}}</h4>\n  <p class=\"m-0 text-[#241430]/80\">{{body}}</p>\n</div>\n<style>\n.panel-tw--bordered { border: 1.5px solid var(--accent); }\n.panel-tw--raised { border: 1px solid transparent; box-shadow: 0 6px 18px rgba(36,20,48,.14); }\n.panel-tw--tinted { border: 1px solid transparent; background: color-mix(in srgb, var(--accent) 22%, #FAF7F2); }\n</style>",
+    "react": "export function Panel({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  padding = {{padding}},\n}) {\n  const wrap = {\n    bordered: { border: `1.5px solid ${accent}` },\n    raised: { border: \"1px solid transparent\", boxShadow: \"0 6px 18px rgba(36,20,48,.14)\" },\n    tinted: { border: \"1px solid transparent\", background: `color-mix(in srgb, ${accent} 22%, #FAF7F2)` },\n  }[variant] ?? {};\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", boxSizing: \"border-box\", borderRadius: 8, maxWidth: 340, padding, ...wrap }}>\n      <h4 style={{ margin: \"0 0 8px\", fontSize: 15, fontWeight: 600 }}>{title}</h4>\n      <p style={{ margin: 0, color: \"#241430cc\" }}>{body}</p>\n    </div>\n  );\n}"
+  }
+}

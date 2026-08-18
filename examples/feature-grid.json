@@ -1,0 +1,36 @@
+{
+  "slug": "feature-grid",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Built for how teams actually work"
+    },
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "3",
+      "options": ["2", "3", "4"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showIcons",
+      "type": "toggle",
+      "label": "Show icon badges",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"fgrid\">\n  <h2 class=\"fgrid__heading\">{{heading}}</h2>\n  <div class=\"fgrid__grid fgrid__grid--cols-{{columns}}\">\n    <div class=\"fgrid__item\">\n      {{#if showIcons}}<span class=\"fgrid__icon\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#9889;</span>{{/if}}\n      <h3>Instant sync</h3>\n      <p>Changes appear everywhere within milliseconds.</p>\n    </div>\n    <div class=\"fgrid__item\">\n      {{#if showIcons}}<span class=\"fgrid__icon\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128274;</span>{{/if}}\n      <h3>Private by default</h3>\n      <p>Nothing leaves your workspace unless you say so.</p>\n    </div>\n    <div class=\"fgrid__item\">\n      {{#if showIcons}}<span class=\"fgrid__icon\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128200;</span>{{/if}}\n      <h3>Built-in reporting</h3>\n      <p>See trends without exporting a single spreadsheet.</p>\n    </div>\n  </div>\n</section>\n<style>\n.fgrid { font: 16px/1.5 system-ui, sans-serif; color: #241430; padding: 24px; }\n.fgrid__heading { margin: 0 0 20px; font-size: 24px; font-weight: 700; }\n.fgrid__grid { display: grid; gap: 24px; }\n.fgrid__grid--cols-2 { grid-template-columns: repeat(2, 1fr); }\n.fgrid__grid--cols-3 { grid-template-columns: repeat(3, 1fr); }\n.fgrid__grid--cols-4 { grid-template-columns: repeat(4, 1fr); }\n.fgrid__icon { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; font-size: 18px; margin-bottom: 12px; }\n.fgrid__item h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }\n.fgrid__item p { margin: 0; font-size: 14px; color: #241430cc; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[#241430] p-6\">\n  <h2 class=\"m-0 mb-5 text-2xl font-bold\">{{heading}}</h2>\n  <div class=\"fgrid-tw fgrid-tw--cols-{{columns}} grid gap-6\">\n    <div>\n      {{#if showIcons}}<span class=\"inline-flex items-center justify-center w-10 h-10 rounded-[10px] text-lg mb-3\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#9889;</span>{{/if}}\n      <h3 class=\"m-0 mb-1.5 text-base font-bold\">Instant sync</h3>\n      <p class=\"m-0 text-sm text-[#241430]/80\">Changes appear everywhere within milliseconds.</p>\n    </div>\n    <div>\n      {{#if showIcons}}<span class=\"inline-flex items-center justify-center w-10 h-10 rounded-[10px] text-lg mb-3\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128274;</span>{{/if}}\n      <h3 class=\"m-0 mb-1.5 text-base font-bold\">Private by default</h3>\n      <p class=\"m-0 text-sm text-[#241430]/80\">Nothing leaves your workspace unless you say so.</p>\n    </div>\n    <div>\n      {{#if showIcons}}<span class=\"inline-flex items-center justify-center w-10 h-10 rounded-[10px] text-lg mb-3\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128200;</span>{{/if}}\n      <h3 class=\"m-0 mb-1.5 text-base font-bold\">Built-in reporting</h3>\n      <p class=\"m-0 text-sm text-[#241430]/80\">See trends without exporting a single spreadsheet.</p>\n    </div>\n  </div>\n</section>\n<style>\n.fgrid-tw--cols-2 { grid-template-columns: repeat(2, 1fr); }\n.fgrid-tw--cols-3 { grid-template-columns: repeat(3, 1fr); }\n.fgrid-tw--cols-4 { grid-template-columns: repeat(4, 1fr); }\n</style>",
+    "react": "export function FeatureGrid({\n  heading = \"{{heading}}\",\n  columns = \"{{columns}}\",\n  accent = \"{{accent}}\",\n  showIcons = {{showIcons}},\n}) {\n  const items = [\n    { icon: \"\\u26a1\", title: \"Instant sync\", desc: \"Changes appear everywhere within milliseconds.\" },\n    { icon: \"\\ud83d\\udd12\", title: \"Private by default\", desc: \"Nothing leaves your workspace unless you say so.\" },\n    { icon: \"\\ud83d\\udcc8\", title: \"Built-in reporting\", desc: \"See trends without exporting a single spreadsheet.\" },\n  ];\n  return (\n    <section style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", padding: 24 }}>\n      <h2 style={{ margin: \"0 0 20px\", fontSize: 24, fontWeight: 700 }}>{heading}</h2>\n      <div style={{ display: \"grid\", gap: 24, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {items.map((item) => (\n          <div key={item.title}>\n            {showIcons && (\n              <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n                width: 40, height: 40, borderRadius: 10, fontSize: 18, marginBottom: 12, background: accent }}>{item.icon}</span>\n            )}\n            <h3 style={{ margin: \"0 0 6px\", fontSize: 16, fontWeight: 700 }}>{item.title}</h3>\n            <p style={{ margin: 0, fontSize: 14, color: \"#241430cc\" }}>{item.desc}</p>\n          </div>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "sidebar",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Sidebar title",
+      "default": "Workspace"
+    },
+    {
+      "id": "side",
+      "type": "select",
+      "label": "Side",
+      "default": "left",
+      "options": ["left", "right"]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 160,
+      "min": 60,
+      "max": 220,
+      "step": 10
+    },
+    {
+      "id": "collapsed",
+      "type": "toggle",
+      "label": "Collapsed",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sb-demo sb-demo--{{side}}\">\n  <aside class=\"sb-demo__aside{{#if collapsed}} sb-demo__aside--collapsed{{/if}}\" style=\"width:{{width}}px;\">\n    <div class=\"sb-demo__title\" style=\"border-color:{{accent}};\">{{#unless collapsed}}{{title}}{{/unless}}</div>\n    <div class=\"sb-demo__item\" style=\"background:{{accent}};\"></div>\n    <div class=\"sb-demo__item\"></div>\n    <div class=\"sb-demo__item\"></div>\n  </aside>\n  <main class=\"sb-demo__main\">Main content</main>\n</div>\n<style>\n.sb-demo { display: flex; height: 150px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.sb-demo--right { flex-direction: row-reverse; }\n.sb-demo__aside { flex: none; box-sizing: border-box; background: #241430; color: #FAF7F2; padding: 12px 10px; overflow: hidden; transition: width .15s; }\n.sb-demo__aside--collapsed { width: 48px !important; }\n.sb-demo__title { font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid; white-space: nowrap; }\n.sb-demo__item { height: 8px; border-radius: 4px; background: #FAF7F233; margin-bottom: 8px; }\n.sb-demo__main { flex: 1; background: #FAF7F2; display: flex; align-items: center; justify-content: center; color: #24143066; }\n</style>",
+    "tailwind": "<div class=\"flex h-[150px] font-sans text-[13px] text-[#241430] border border-[#24143022] sb-tw sb-tw--{{side}}\">\n  <aside class=\"flex-none box-border bg-[#241430] text-[#FAF7F2] px-2.5 py-3 overflow-hidden transition-[width] duration-150 sb-tw__aside{{#if collapsed}} sb-tw__aside--collapsed{{/if}}\" style=\"width:{{width}}px;\">\n    <div class=\"font-bold mb-2.5 pb-2 border-b-2 whitespace-nowrap\" style=\"border-color:{{accent}};\">{{#unless collapsed}}{{title}}{{/unless}}</div>\n    <div class=\"h-2 rounded mb-2\" style=\"background:{{accent}};\"></div>\n    <div class=\"h-2 rounded mb-2 bg-[#FAF7F2]/20\"></div>\n    <div class=\"h-2 rounded mb-2 bg-[#FAF7F2]/20\"></div>\n  </aside>\n  <main class=\"flex-1 bg-[#FAF7F2] flex items-center justify-center text-[#24143066]\">Main content</main>\n</div>\n<style>\n.sb-tw--right { flex-direction: row-reverse; }\n.sb-tw__aside--collapsed { width: 48px !important; }\n</style>",
+    "react": "export function Sidebar({\n  title = \"{{title}}\",\n  side = \"{{side}}\",\n  width = {{width}},\n  collapsed = {{collapsed}},\n  accent = \"{{accent}}\",\n}) {\n  const w = collapsed ? 48 : width;\n  return (\n    <div style={{ display: \"flex\", flexDirection: side === \"right\" ? \"row-reverse\" : \"row\", height: 150, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <aside style={{ flex: \"none\", boxSizing: \"border-box\", width: w, background: \"#241430\", color: \"#FAF7F2\", padding: \"12px 10px\", overflow: \"hidden\", transition: \"width .15s\" }}>\n        <div style={{ fontWeight: 700, marginBottom: 10, paddingBottom: 8, borderBottom: `2px solid ${accent}`, whiteSpace: \"nowrap\" }}>{!collapsed && title}</div>\n        <div style={{ height: 8, borderRadius: 4, background: accent, marginBottom: 8 }} />\n        <div style={{ height: 8, borderRadius: 4, background: \"#FAF7F233\", marginBottom: 8 }} />\n        <div style={{ height: 8, borderRadius: 4, background: \"#FAF7F233\", marginBottom: 8 }} />\n      </aside>\n      <main style={{ flex: 1, background: \"#FAF7F2\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#24143066\" }}>Main content</main>\n    </div>\n  );\n}"
+  }
+}

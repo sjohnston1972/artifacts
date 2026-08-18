@@ -1,0 +1,42 @@
+{
+  "slug": "hero",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Build interfaces faster"
+    },
+    {
+      "id": "subheading",
+      "type": "text",
+      "label": "Subheading",
+      "default": "A living glossary of layout patterns, ready to copy into your project."
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "center",
+      "options": ["center", "left"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "cta",
+      "type": "toggle",
+      "label": "Show call to action",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"hero-demo hero-demo--{{align}}\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\">\n  <h1 class=\"hero-demo__heading\">{{heading}}</h1>\n  <p class=\"hero-demo__sub\">{{subheading}}</p>\n  {{#if cta}}<button class=\"hero-demo__cta\" type=\"button\">Get started</button>{{/if}}\n</section>\n<style>\n.hero-demo { font: 14px system-ui, sans-serif; color: #241430; padding: 36px 24px; display: flex; flex-direction: column; }\n.hero-demo--center { align-items: center; text-align: center; }\n.hero-demo--left { align-items: flex-start; text-align: left; }\n.hero-demo__heading { margin: 0 0 10px; font-size: 26px; font-weight: 700; max-width: 26ch; }\n.hero-demo__sub { margin: 0 0 18px; max-width: 42ch; color: #241430cc; }\n.hero-demo__cta { background: #241430; color: #FAF7F2; border: none; padding: 10px 20px; border-radius: 999px; font: 600 14px system-ui, sans-serif; cursor: pointer; }\n.hero-demo__cta:hover { opacity: .88; }\n.hero-demo__cta:focus-visible { outline: 2px solid #241430; outline-offset: 3px; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-sm text-[#241430] px-6 py-9 flex flex-col hero-tw hero-tw--{{align}}\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\">\n  <h1 class=\"m-0 mb-2.5 text-2xl font-bold max-w-[26ch]\">{{heading}}</h1>\n  <p class=\"m-0 mb-4 max-w-[42ch] text-[#241430]/80\">{{subheading}}</p>\n  {{#if cta}}<button type=\"button\" class=\"bg-[#241430] text-[#FAF7F2] border-none px-5 py-2.5 rounded-full font-semibold text-sm cursor-pointer hover:opacity-90 focus-visible:outline focus-visible:outline-2\">Get started</button>{{/if}}\n</section>\n<style>\n.hero-tw--center { align-items: center; text-align: center; }\n.hero-tw--left { align-items: flex-start; text-align: left; }\n</style>",
+    "react": "export function Hero({\n  heading = \"{{heading}}\",\n  subheading = \"{{subheading}}\",\n  align = \"{{align}}\",\n  accent = \"{{accent}}\",\n  cta = {{cta}},\n}) {\n  const centered = align === \"center\";\n  return (\n    <section style={{\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", padding: \"36px 24px\",\n      display: \"flex\", flexDirection: \"column\", alignItems: centered ? \"center\" : \"flex-start\",\n      textAlign: centered ? \"center\" : \"left\", background: `linear-gradient(135deg, ${accent}, #FAF7F2)`,\n    }}>\n      <h1 style={{ margin: \"0 0 10px\", fontSize: 26, fontWeight: 700, maxWidth: \"26ch\" }}>{heading}</h1>\n      <p style={{ margin: \"0 0 18px\", maxWidth: \"42ch\", color: \"#241430cc\" }}>{subheading}</p>\n      {cta && (\n        <button type=\"button\" style={{ background: \"#241430\", color: \"#FAF7F2\", border: \"none\", padding: \"10px 20px\", borderRadius: 999, fontWeight: 600, fontSize: 14, cursor: \"pointer\" }}>\n          Get started\n        </button>\n      )}\n    </section>\n  );\n}"
+  }
+}

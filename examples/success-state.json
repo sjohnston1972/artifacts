@@ -1,0 +1,48 @@
+{
+  "slug": "success-state",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Email address"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "steven@example.com"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Success message",
+      "default": "Looks good!"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Success colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showSuccess",
+      "type": "toggle",
+      "label": "Show success",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ss\">\n  <label class=\"ss__label\" for=\"ss-1\">{{label}}</label>\n  <input class=\"ss__input\" id=\"ss-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\"\n    aria-invalid=\"false\"{{#if showSuccess}} aria-describedby=\"ss-msg-1\"{{/if}}>\n  {{#if showSuccess}}<p class=\"ss__msg\" id=\"ss-msg-1\">&#10003; {{message}}</p>{{/if}}\n</div>\n<style>\n.ss { font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.ss__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ss__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ss__input[aria-describedby] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, #FAF7F2); }\n.ss__input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ss__msg { margin: 6px 0 0; font-size: 12px; color: #241430; font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[280px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"ss-tw-1\">{{label}}</label>\n  <input id=\"ss-tw-1\" type=\"text\" value=\"{{value}}\" aria-invalid=\"false\"{{#if showSuccess}} aria-describedby=\"ss-tw-msg-1\"{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  {{#if showSuccess}}<p id=\"ss-tw-msg-1\" class=\"mt-1.5 text-xs font-semibold\">&#10003; {{message}}</p>{{/if}}\n</div>",
+    "react": "export function SuccessState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  message = \"{{message}}\",\n  accent = \"{{accent}}\",\n  showSuccess = {{showSuccess}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <label htmlFor=\"ss-react-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <input id=\"ss-react-1\" type=\"text\" defaultValue={value} aria-invalid=\"false\" aria-describedby={showSuccess ? \"ss-react-msg-1\" : undefined} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: showSuccess ? `color-mix(in srgb, ${accent} 10%, #FAF7F2)` : \"#FAF7F2\",\n        border: `1.5px solid ${showSuccess ? accent : \"#24143040\"}`, borderRadius: 8,\n      }} />\n      {showSuccess && <p id=\"ss-react-msg-1\" style={{ margin: \"6px 0 0\", fontSize: 12, color: \"#241430\", fontWeight: 600 }}>✓ {message}</p>}\n    </div>\n  );\n}"
+  }
+}

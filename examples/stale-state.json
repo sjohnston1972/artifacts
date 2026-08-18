@@ -1,0 +1,35 @@
+{
+  "slug": "stale-state",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "This data may be out of date."
+    },
+    {
+      "id": "lastUpdated",
+      "type": "text",
+      "label": "Last updated",
+      "default": "18 minutes ago"
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "notice",
+      "options": ["notice", "warning"]
+    },
+    {
+      "id": "showRefresh",
+      "type": "toggle",
+      "label": "Show refresh button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"stale stale--{{severity}}\" role=\"status\" aria-live=\"polite\">\n  <span class=\"stale__icon\" aria-hidden=\"true\">⟳</span>\n  <div class=\"stale__body\">\n    <p class=\"stale__message\">{{message}}</p>\n    <p class=\"stale__meta\">Updated {{lastUpdated}}</p>\n  </div>\n  {{#if showRefresh}}<button type=\"button\" class=\"stale__refresh\">Refresh</button>{{/if}}\n</div>\n<style>\n.stale { display: flex; align-items: center; gap: 10px; max-width: 380px; padding: 10px 14px; box-sizing: border-box;\n  border-radius: 9px; font: 13px/1.4 system-ui, sans-serif; color: #241430; border: 1px solid; }\n.stale--notice { background: color-mix(in srgb, #D9C8F0 40%, #FAF7F2); border-color: #8A6FBF; }\n.stale--notice .stale__icon { color: #8A6FBF; }\n.stale--warning { background: color-mix(in srgb, #E8A020 18%, #FAF7F2); border-color: #B4790A; }\n.stale--warning .stale__icon { color: #B4790A; }\n.stale__icon { font-size: 16px; flex-shrink: 0; }\n.stale__body { flex: 1; }\n.stale__message { margin: 0; font-weight: 700; }\n.stale__meta { margin: 2px 0 0; color: #241430b3; font-size: 11.5px; }\n.stale__refresh { border: 1px solid #241430; background: transparent; color: #241430; border-radius: 6px;\n  font: 600 11.5px system-ui, sans-serif; padding: 5px 10px; cursor: pointer; white-space: nowrap; }\n.stale__refresh:hover { background: #24143012; }\n.stale__refresh:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"status\" aria-live=\"polite\" class=\"stale-tw stale-tw--{{severity}} flex items-center gap-2.5 max-w-sm px-3.5 py-2.5 box-border rounded-lg border font-sans text-[13px] text-[#241430]\">\n  <span aria-hidden=\"true\" class=\"stale-tw__icon text-base flex-shrink-0\">⟳</span>\n  <div class=\"flex-1\">\n    <p class=\"m-0 font-bold\">{{message}}</p>\n    <p class=\"mt-0.5 mb-0 text-[#241430]/70 text-[11.5px]\">Updated {{lastUpdated}}</p>\n  </div>\n  {{#if showRefresh}}<button type=\"button\" class=\"border border-[#241430] bg-transparent text-[#241430] rounded-md font-semibold text-[11.5px] px-2.5 py-1.5 cursor-pointer whitespace-nowrap hover:bg-black/5\">Refresh</button>{{/if}}\n</div>\n<style>\n.stale-tw--notice { background: color-mix(in srgb, #D9C8F0 40%, #FAF7F2); border-color: #8A6FBF; }\n.stale-tw--notice .stale-tw__icon { color: #8A6FBF; }\n.stale-tw--warning { background: color-mix(in srgb, #E8A020 18%, #FAF7F2); border-color: #B4790A; }\n.stale-tw--warning .stale-tw__icon { color: #B4790A; }\n</style>",
+    "react": "export function StaleState({\n  message = \"{{message}}\",\n  lastUpdated = \"{{lastUpdated}}\",\n  severity = \"{{severity}}\",\n  showRefresh = {{showRefresh}},\n}) {\n  const palette = {\n    notice: { bg: \"color-mix(in srgb, #D9C8F0 40%, #FAF7F2)\", border: \"#8A6FBF\", icon: \"#8A6FBF\" },\n    warning: { bg: \"color-mix(in srgb, #E8A020 18%, #FAF7F2)\", border: \"#B4790A\", icon: \"#B4790A\" },\n  }[severity] ?? { bg: \"#FAF7F2\", border: \"#8A6FBF\", icon: \"#8A6FBF\" };\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ display: \"flex\", alignItems: \"center\", gap: 10, maxWidth: 380,\n      padding: \"10px 14px\", boxSizing: \"border-box\", borderRadius: 9, font: \"13px/1.4 system-ui, sans-serif\",\n      color: \"#241430\", border: `1px solid ${palette.border}`, background: palette.bg }}>\n      <span aria-hidden=\"true\" style={{ fontSize: 16, flexShrink: 0, color: palette.icon }}>⟳</span>\n      <div style={{ flex: 1 }}>\n        <p style={{ margin: 0, fontWeight: 700 }}>{message}</p>\n        <p style={{ margin: \"2px 0 0\", color: \"#241430b3\", fontSize: 11.5 }}>Updated {lastUpdated}</p>\n      </div>\n      {showRefresh && (\n        <button type=\"button\" style={{ border: \"1px solid #241430\", background: \"transparent\", color: \"#241430\",\n          borderRadius: 6, fontWeight: 600, fontSize: 11.5, padding: \"5px 10px\", cursor: \"pointer\", whiteSpace: \"nowrap\" }}>Refresh</button>\n      )}\n    </div>\n  );\n}"
+  }
+}

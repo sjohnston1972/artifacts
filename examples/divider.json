@@ -1,0 +1,45 @@
+{
+  "slug": "divider",
+  "controls_schema": [
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "horizontal",
+      "options": ["horizontal", "vertical"]
+    },
+    {
+      "id": "thickness",
+      "type": "number",
+      "label": "Thickness",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Inset label",
+      "default": "OR"
+    },
+    {
+      "id": "inset",
+      "type": "toggle",
+      "label": "Show inset label",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"div-demo div-demo--{{orientation}}\">\n  <div class=\"div-demo__block\">Section A</div>\n  <div class=\"div-demo__line-wrap\">\n    <span class=\"div-demo__line\" style=\"background:{{color}};--thick:{{thickness}}px;\"></span>\n    {{#if inset}}<span class=\"div-demo__inset\" style=\"color:{{color}};\">{{label}}</span>{{/if}}\n  </div>\n  <div class=\"div-demo__block\">Section B</div>\n</div>\n<style>\n.div-demo { display: flex; font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; align-items: center; }\n.div-demo--vertical { flex-direction: row; height: 90px; }\n.div-demo--horizontal { flex-direction: column; }\n.div-demo__block { flex: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #24143018; border-radius: 6px; padding: 14px; }\n.div-demo__line-wrap { position: relative; display: flex; align-items: center; justify-content: center; flex: none; }\n.div-demo--horizontal .div-demo__line-wrap { width: 100%; padding: 8px 0; }\n.div-demo--vertical .div-demo__line-wrap { height: 100%; padding: 0 8px; }\n.div-demo--horizontal .div-demo__line { width: 100%; height: var(--thick); }\n.div-demo--vertical .div-demo__line { height: 100%; width: var(--thick); }\n.div-demo__inset { position: absolute; background: #FAF7F2; padding: 0 8px; font-weight: 700; font-size: 11px; }\n</style>",
+    "tailwind": "<div class=\"flex items-center font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-4 div-tw div-tw--{{orientation}}\">\n  <div class=\"flex-1 flex items-center justify-center bg-white border border-[#24143018] rounded-md p-3.5\">Section A</div>\n  <div class=\"relative flex items-center justify-center flex-none div-tw__wrap\">\n    <span class=\"div-tw__line\" style=\"background:{{color}};--thick:{{thickness}}px;\"></span>\n    {{#if inset}}<span class=\"absolute bg-[#FAF7F2] px-2 font-bold text-[11px]\" style=\"color:{{color}};\">{{label}}</span>{{/if}}\n  </div>\n  <div class=\"flex-1 flex items-center justify-center bg-white border border-[#24143018] rounded-md p-3.5\">Section B</div>\n</div>\n<style>\n.div-tw--vertical { height: 90px; }\n.div-tw--horizontal { flex-direction: column; }\n.div-tw--horizontal .div-tw__wrap { width: 100%; padding: 8px 0; }\n.div-tw--vertical .div-tw__wrap { height: 100%; padding: 0 8px; }\n.div-tw--horizontal .div-tw__line { width: 100%; height: var(--thick); }\n.div-tw--vertical .div-tw__line { height: 100%; width: var(--thick); }\n</style>",
+    "react": "export function Divider({\n  orientation = \"{{orientation}}\",\n  thickness = {{thickness}},\n  color = \"{{color}}\",\n  label = \"{{label}}\",\n  inset = {{inset}},\n}) {\n  const vertical = orientation === \"vertical\";\n  return (\n    <div style={{ display: \"flex\", flexDirection: vertical ? \"row\" : \"column\", alignItems: \"center\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\", padding: 16, height: vertical ? 90 : \"auto\" }}>\n      <div style={{ flex: 1, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#fff\", border: \"1px solid #24143018\", borderRadius: 6, padding: 14 }}>Section A</div>\n      <div style={{ position: \"relative\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", flex: \"none\", width: vertical ? \"auto\" : \"100%\", height: vertical ? \"100%\" : \"auto\", padding: vertical ? \"0 8px\" : \"8px 0\" }}>\n        <span style={{ background: color, width: vertical ? thickness : \"100%\", height: vertical ? \"100%\" : thickness }} />\n        {inset && <span style={{ position: \"absolute\", background: \"#FAF7F2\", padding: \"0 8px\", fontWeight: 700, fontSize: 11, color }}>{label}</span>}\n      </div>\n      <div style={{ flex: 1, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#fff\", border: \"1px solid #24143018\", borderRadius: 6, padding: 14 }}>Section B</div>\n    </div>\n  );\n}"
+  }
+}

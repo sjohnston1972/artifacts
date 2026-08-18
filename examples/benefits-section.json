@@ -1,0 +1,42 @@
+{
+  "slug": "benefits-section",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "What you get"
+    },
+    {
+      "id": "outcome1",
+      "type": "text",
+      "label": "First outcome",
+      "default": "Spend less time on setup, more on the actual work"
+    },
+    {
+      "id": "outcome2",
+      "type": "text",
+      "label": "Second outcome",
+      "default": "Know exactly where every project stands, always"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "list",
+      "options": ["list", "grid"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"benefits\">\n  <h2 class=\"benefits__heading\">{{heading}}</h2>\n  <ul class=\"benefits__list benefits__list--{{layout}}\">\n    <li><span class=\"benefits__check\" style=\"color:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{outcome1}}</li>\n    <li><span class=\"benefits__check\" style=\"color:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{outcome2}}</li>\n  </ul>\n</section>\n<style>\n.benefits { font: 16px/1.5 system-ui, sans-serif; color: #241430; padding: 24px; }\n.benefits__heading { margin: 0 0 16px; font-size: 22px; font-weight: 700; }\n.benefits__list { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; }\n.benefits__list--list { flex-direction: column; }\n.benefits__list--grid { flex-direction: row; flex-wrap: wrap; }\n.benefits__list--grid li { flex: 1 1 200px; }\n.benefits__list li { display: flex; gap: 8px; align-items: flex-start; }\n.benefits__check { font-weight: 700; flex-shrink: 0; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[#241430] p-6\">\n  <h2 class=\"m-0 mb-4 text-xl font-bold\">{{heading}}</h2>\n  <ul class=\"benefits-tw benefits-tw--{{layout}} list-none m-0 p-0 flex gap-3\">\n    <li class=\"flex gap-2 items-start\"><span class=\"font-bold flex-shrink-0\" style=\"color:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{outcome1}}</li>\n    <li class=\"flex gap-2 items-start\"><span class=\"font-bold flex-shrink-0\" style=\"color:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{outcome2}}</li>\n  </ul>\n</section>\n<style>\n.benefits-tw--list { flex-direction: column; }\n.benefits-tw--grid { flex-direction: row; flex-wrap: wrap; }\n.benefits-tw--grid li { flex: 1 1 200px; }\n</style>",
+    "react": "export function BenefitsSection({\n  heading = \"{{heading}}\",\n  outcome1 = \"{{outcome1}}\",\n  outcome2 = \"{{outcome2}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n}) {\n  const listStyle = layout === \"grid\"\n    ? { flexDirection: \"row\", flexWrap: \"wrap\" }\n    : { flexDirection: \"column\" };\n  const itemStyle = { display: \"flex\", gap: 8, alignItems: \"flex-start\", flex: layout === \"grid\" ? \"1 1 200px\" : \"auto\" };\n  return (\n    <section style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", padding: 24 }}>\n      <h2 style={{ margin: \"0 0 16px\", fontSize: 22, fontWeight: 700 }}>{heading}</h2>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", gap: 12, ...listStyle }}>\n        <li style={itemStyle}><span aria-hidden=\"true\" style={{ fontWeight: 700, flexShrink: 0, color: accent }}>&#10003;</span>{outcome1}</li>\n        <li style={itemStyle}><span aria-hidden=\"true\" style={{ fontWeight: 700, flexShrink: 0, color: accent }}>&#10003;</span>{outcome2}</li>\n      </ul>\n    </section>\n  );\n}"
+  }
+}

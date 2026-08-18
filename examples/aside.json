@@ -1,0 +1,45 @@
+{
+  "slug": "aside",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Aside heading",
+      "default": "Related reading"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Aside body",
+      "default": "Three short links kept visually apart from the main flow of the article."
+    },
+    {
+      "id": "side",
+      "type": "select",
+      "label": "Side",
+      "default": "right",
+      "options": ["right", "left"]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Aside width",
+      "default": 180,
+      "min": 140,
+      "max": 260,
+      "step": 10
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"aside-demo aside-demo--{{side}}\">\n  <article class=\"aside-demo__main\">\n    <h4 class=\"aside-demo__title\">Article</h4>\n    <p>The primary content column keeps reading focus while a secondary area sits alongside it.</p>\n    <p>It carries context that supports the main text without interrupting it.</p>\n  </article>\n  <aside class=\"aside-demo__aside\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <h4 class=\"aside-demo__aside-title\" style=\"color:{{accent}};\">{{heading}}</h4>\n    <p class=\"aside-demo__aside-body\">{{body}}</p>\n  </aside>\n</div>\n<style>\n.aside-demo { display: flex; gap: 16px; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.aside-demo--left { flex-direction: row-reverse; }\n.aside-demo__main { flex: 1; min-width: 0; }\n.aside-demo__title { margin: 0 0 8px; font-size: 16px; }\n.aside-demo__main p { margin: 0 0 8px; color: #241430cc; }\n.aside-demo__aside { flex: none; box-sizing: border-box; border-left: 2px solid; padding: 4px 0 4px 14px; }\n.aside-demo--left .aside-demo__aside { border-left: none; border-right: 2px solid; padding: 4px 14px 4px 0; }\n.aside-demo__aside-title { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }\n.aside-demo__aside-body { margin: 0; font-size: 13px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"flex gap-4 font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 aside-tw aside-tw--{{side}}\">\n  <article class=\"flex-1 min-w-0\">\n    <h4 class=\"m-0 mb-2 text-base\">Article</h4>\n    <p class=\"m-0 mb-2 text-[#241430]/80\">The primary content column keeps reading focus while a secondary area sits alongside it.</p>\n    <p class=\"m-0 text-[#241430]/80\">It carries context that supports the main text without interrupting it.</p>\n  </article>\n  <aside class=\"flex-none box-border border-l-2 pl-3.5 py-1\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <h4 class=\"m-0 mb-1.5 text-[13px] uppercase tracking-wide\" style=\"color:{{accent}};\">{{heading}}</h4>\n    <p class=\"m-0 text-[13px] text-[#241430]/80\">{{body}}</p>\n  </aside>\n</div>\n<style>\n.aside-tw--left { flex-direction: row-reverse; }\n.aside-tw--left aside { border-left: none; border-right: 2px solid; padding-left: 0; padding-right: 14px; }\n</style>",
+    "react": "export function Aside({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  side = \"{{side}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n}) {\n  const isLeft = side === \"left\";\n  return (\n    <div style={{ display: \"flex\", flexDirection: isLeft ? \"row-reverse\" : \"row\", gap: 16, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <article style={{ flex: 1, minWidth: 0 }}>\n        <h4 style={{ margin: \"0 0 8px\", fontSize: 16 }}>Article</h4>\n        <p style={{ margin: \"0 0 8px\", color: \"#241430cc\" }}>The primary content column keeps reading focus while a secondary area sits alongside it.</p>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>It carries context that supports the main text without interrupting it.</p>\n      </article>\n      <aside style={{ flex: \"none\", boxSizing: \"border-box\", width, borderLeft: isLeft ? \"none\" : `2px solid ${accent}`, borderRight: isLeft ? `2px solid ${accent}` : \"none\", padding: isLeft ? \"4px 14px 4px 0\" : \"4px 0 4px 14px\" }}>\n        <h4 style={{ margin: \"0 0 6px\", fontSize: 13, textTransform: \"uppercase\", letterSpacing: \".04em\", color: accent }}>{heading}</h4>\n        <p style={{ margin: 0, fontSize: 13, color: \"#241430cc\" }}>{body}</p>\n      </aside>\n    </div>\n  );\n}"
+  }
+}

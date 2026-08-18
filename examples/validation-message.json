@@ -1,0 +1,42 @@
+{
+  "slug": "validation-message",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Password must include a number."
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "error",
+      "options": [
+        "error",
+        "success",
+        "warning"
+      ]
+    },
+    {
+      "id": "showIcon",
+      "type": "toggle",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "id": "textSize",
+      "type": "number",
+      "label": "Text size (px)",
+      "default": 13,
+      "min": 11,
+      "max": 18,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<p class=\"vm vm--{{severity}}\" style=\"font-size:{{textSize}}px;\" role=\"alert\">\n  {{#if showIcon}}<span class=\"vm__icon\" aria-hidden=\"true\"></span>{{/if}}\n  {{message}}\n</p>\n<style>\n.vm { display: flex; align-items: center; gap: 6px; font-family: system-ui, sans-serif; color: #241430; max-width: 280px; margin: 0; padding: 8px 10px; border-radius: 8px; border: 1.5px solid; }\n.vm--error { background: #E8A02015; border-color: #E8A020; }\n.vm--success { background: #A8E6C120; border-color: #A8E6C1; }\n.vm--warning { background: #F5C2E020; border-color: #F5C2E0; }\n.vm--error .vm__icon::before { content: \"\\26A0\"; }\n.vm--success .vm__icon::before { content: \"\\2713\"; }\n.vm--warning .vm__icon::before { content: \"\\2022\"; }\n</style>",
+    "tailwind": "<p role=\"alert\" class=\"vm-tw vm-tw--{{severity}} flex items-center gap-1.5 font-sans text-[#241430] max-w-[280px] m-0 px-2.5 py-2 rounded-lg border-[1.5px]\" style=\"font-size:{{textSize}}px;\">\n  {{#if showIcon}}<span class=\"vm-tw-icon vm-tw-icon--{{severity}}\" aria-hidden=\"true\"></span>{{/if}}\n  {{message}}\n</p>\n<style>\n.vm-tw--error { background: #E8A02015; border-color: #E8A020; }\n.vm-tw--success { background: #A8E6C120; border-color: #A8E6C1; }\n.vm-tw--warning { background: #F5C2E020; border-color: #F5C2E0; }\n.vm-tw-icon--error::before { content: \"\\26A0\"; }\n.vm-tw-icon--success::before { content: \"\\2713\"; }\n.vm-tw-icon--warning::before { content: \"\\2022\"; }\n</style>",
+    "react": "export function ValidationMessage({\n  message = \"{{message}}\",\n  severity = \"{{severity}}\",\n  showIcon = {{showIcon}},\n  textSize = {{textSize}},\n}) {\n  const palette = { error: \"#E8A020\", success: \"#A8E6C1\", warning: \"#F5C2E0\" };\n  const icons = { error: \"\\u26A0\", success: \"\\u2713\", warning: \"\\u2022\" };\n  const c = palette[severity] ?? palette.error;\n  return (\n    <p role=\"alert\" style={{\n      display: \"flex\", alignItems: \"center\", gap: 6, fontFamily: \"system-ui, sans-serif\", color: \"#241430\",\n      maxWidth: 280, margin: 0, padding: \"8px 10px\", borderRadius: 8, border: `1.5px solid ${c}`,\n      background: `${c}20`, fontSize: textSize,\n    }}>\n      {showIcon && <span aria-hidden=\"true\">{icons[severity] ?? icons.error}</span>}\n      {message}\n    </p>\n  );\n}"
+  }
+}

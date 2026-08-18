@@ -1,0 +1,42 @@
+{
+  "slug": "cta-section",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Ready to see it for yourself?"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Start a free trial today, no credit card required."
+    },
+    {
+      "id": "buttonText",
+      "type": "text",
+      "label": "Button text",
+      "default": "Start free trial"
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "center",
+      "options": ["center", "left"]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"cta cta--{{align}}\" style=\"background:{{bg}};\">\n  <h2 class=\"cta__heading\">{{heading}}</h2>\n  <p class=\"cta__body\">{{body}}</p>\n  <button type=\"button\" class=\"cta__button\" style=\"color:{{bg}};\">{{buttonText}}</button>\n</section>\n<style>\n.cta { padding: 56px 24px; border-radius: 16px; font: 16px/1.5 system-ui, sans-serif; color: #FAF7F2; }\n.cta--center { text-align: center; }\n.cta--left { text-align: left; }\n.cta__heading { margin: 0 0 12px; font-size: 30px; font-weight: 800; }\n.cta__body { margin: 0 0 24px; opacity: .85; max-width: 52ch; }\n.cta--center .cta__body { margin-left: auto; margin-right: auto; }\n.cta__button { background: #FAF7F2; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; }\n.cta__button:hover, .cta__button:focus-visible { opacity: .9; }\n</style>",
+    "tailwind": "<section class=\"cta-tw cta-tw--{{align}} px-6 py-14 rounded-2xl font-sans text-[#FAF7F2]\" style=\"background:{{bg}};\">\n  <h2 class=\"m-0 mb-3 text-3xl font-extrabold\">{{heading}}</h2>\n  <p class=\"m-0 mb-6 opacity-85 max-w-[52ch]\">{{body}}</p>\n  <button type=\"button\" class=\"bg-[#FAF7F2] border-0 px-7 py-3.5 rounded-xl font-bold text-[15px] cursor-pointer hover:opacity-90\" style=\"color:{{bg}};\">{{buttonText}}</button>\n</section>\n<style>\n.cta-tw--center { text-align: center; }\n.cta-tw--center p { margin-left: auto; margin-right: auto; }\n.cta-tw--left { text-align: left; }\n</style>",
+    "react": "export function CtaSection({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  buttonText = \"{{buttonText}}\",\n  bg = \"{{bg}}\",\n  align = \"{{align}}\",\n}) {\n  return (\n    <section style={{ padding: \"56px 24px\", borderRadius: 16, font: \"16px/1.5 system-ui, sans-serif\", color: \"#FAF7F2\", background: bg, textAlign: align }}>\n      <h2 style={{ margin: \"0 0 12px\", fontSize: 30, fontWeight: 800 }}>{heading}</h2>\n      <p style={{ margin: align === \"center\" ? \"0 auto 24px\" : \"0 0 24px\", opacity: 0.85, maxWidth: \"52ch\" }}>{body}</p>\n      <button type=\"button\" style={{ background: \"#FAF7F2\", border: \"none\", padding: \"14px 28px\", borderRadius: 10,\n        fontWeight: 700, fontSize: 15, cursor: \"pointer\", color: bg }}>\n        {buttonText}\n      </button>\n    </section>\n  );\n}"
+  }
+}

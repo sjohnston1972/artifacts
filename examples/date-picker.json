@@ -1,0 +1,53 @@
+{
+  "slug": "date-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Appointment date"
+    },
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Display format",
+      "default": "DD/MM/YYYY",
+      "options": [
+        "DD/MM/YYYY",
+        "MM/DD/YYYY",
+        "YYYY-MM-DD"
+      ]
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Selected date",
+      "default": "18/08/2026"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dp\">\n  <label class=\"dp__label\" for=\"dp-1\">{{label}}{{#if required}} <span class=\"dp__req\">*</span>{{/if}}</label>\n  <details class=\"dp__details\">\n    <summary class=\"dp__summary\" id=\"dp-1\">\n      <span class=\"dp__value\">{{value}}</span>\n      <span class=\"dp__format\">({{format}})</span>\n    </summary>\n    <div class=\"dp__panel\" style=\"--accent:{{accent}};\">\n      <div class=\"dp__grid\">\n        <span class=\"dp__day dp__day--head\">M</span><span class=\"dp__day dp__day--head\">T</span><span class=\"dp__day dp__day--head\">W</span><span class=\"dp__day dp__day--head\">T</span><span class=\"dp__day dp__day--head\">F</span><span class=\"dp__day dp__day--head\">S</span><span class=\"dp__day dp__day--head\">S</span>\n        <span class=\"dp__day\">3</span><span class=\"dp__day\">4</span><span class=\"dp__day\">5</span><span class=\"dp__day\">6</span><span class=\"dp__day\">7</span><span class=\"dp__day\">8</span><span class=\"dp__day\">9</span>\n        <span class=\"dp__day\">10</span><span class=\"dp__day\">11</span><span class=\"dp__day\">12</span><span class=\"dp__day\">13</span><span class=\"dp__day\">14</span><span class=\"dp__day\">15</span><span class=\"dp__day\">16</span>\n        <span class=\"dp__day dp__day--sel\">17</span><span class=\"dp__day dp__day--today\">18</span><span class=\"dp__day\">19</span><span class=\"dp__day\">20</span><span class=\"dp__day\">21</span><span class=\"dp__day\">22</span><span class=\"dp__day\">23</span>\n      </div>\n    </div>\n  </details>\n</div>\n<style>\n.dp { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.dp__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.dp__req { color: #241430; }\n.dp__summary { display: flex; justify-content: space-between; gap: 8px; align-items: center; list-style: none; cursor: pointer; padding: 10px 12px; border: 1.5px solid #24143040; border-radius: 8px; background: #FAF7F2; }\n.dp__summary::-webkit-details-marker { display: none; }\n.dp__format { color: #24143099; font-size: 12px; }\n.dp__details[open] .dp__summary { border-color: var(--accent); }\n.dp__panel { margin-top: 8px; padding: 10px; border: 1.5px solid #24143020; border-radius: 8px; }\n.dp__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 12px; }\n.dp__day--head { color: #24143080; font-weight: 600; }\n.dp__day--today { border: 1.5px solid var(--accent); border-radius: 4px; }\n.dp__day--sel { background: var(--accent); border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[260px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"dp-tw-1\">{{label}}{{#if required}} <span>*</span>{{/if}}</label>\n  <details class=\"dp-tw-details\">\n    <summary id=\"dp-tw-1\" class=\"flex justify-between items-center gap-2 list-none cursor-pointer px-3 py-2.5 border-[1.5px] border-[#24143040] rounded-lg bg-[#FAF7F2]\" style=\"border-color:{{accent}};\">\n      <span>{{value}}</span>\n      <span class=\"text-xs text-[#24143099]\">({{format}})</span>\n    </summary>\n    <div class=\"mt-2 p-2.5 border-[1.5px] border-[#24143020] rounded-lg grid grid-cols-7 gap-1 text-center text-xs\">\n      <span class=\"font-semibold text-[#24143080]\">M</span><span class=\"font-semibold text-[#24143080]\">T</span><span class=\"font-semibold text-[#24143080]\">W</span><span class=\"font-semibold text-[#24143080]\">T</span><span class=\"font-semibold text-[#24143080]\">F</span><span class=\"font-semibold text-[#24143080]\">S</span><span class=\"font-semibold text-[#24143080]\">S</span>\n      <span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>\n      <span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span>\n      <span class=\"rounded\" style=\"background:{{accent}};\">17</span><span class=\"rounded border-[1.5px]\" style=\"border-color:{{accent}};\">18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>\n    </div>\n  </details>\n</div>\n<style>\n.dp-tw-details summary::-webkit-details-marker { display: none; }\n</style>",
+    "react": "export function DatePicker({\n  label = \"{{label}}\",\n  format = \"{{format}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</label>\n      <details>\n        <summary style={{\n          display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", gap: 8, listStyle: \"none\",\n          cursor: \"pointer\", padding: \"10px 12px\", border: `1.5px solid ${accent}`, borderRadius: 8, background: \"#FAF7F2\",\n        }}>\n          <span>{value}</span>\n          <span style={{ color: \"#24143099\", fontSize: 12 }}>({format})</span>\n        </summary>\n        <div style={{ marginTop: 8, padding: 10, border: \"1.5px solid #24143020\", borderRadius: 8, display: \"grid\", gridTemplateColumns: \"repeat(7, 1fr)\", gap: 4, textAlign: \"center\", fontSize: 12 }}>\n          {[\"M\",\"T\",\"W\",\"T\",\"F\",\"S\",\"S\"].map((d, i) => <span key={i} style={{ fontWeight: 600, color: \"#24143080\" }}>{d}</span>)}\n          {[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map((d) => (\n            <span key={d} style={{\n              borderRadius: 4,\n              background: d === 17 ? accent : undefined,\n              border: d === 18 ? `1.5px solid ${accent}` : undefined,\n            }}>{d}</span>\n          ))}\n        </div>\n      </details>\n    </div>\n  );\n}"
+  }
+}

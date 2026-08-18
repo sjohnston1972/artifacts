@@ -1,0 +1,41 @@
+{
+  "slug": "author-byline",
+  "controls_schema": [
+    {
+      "id": "authorName",
+      "type": "text",
+      "label": "Author name",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "Senior Editor"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date",
+      "default": "18 Aug 2026"
+    },
+    {
+      "id": "showAvatar",
+      "type": "toggle",
+      "label": "Show avatar",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Avatar colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"byline\">\n  {{#if showAvatar}}<span class=\"byline__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128100;</span>{{/if}}\n  <p class=\"byline__text\">\n    <span class=\"byline__name\">{{authorName}}</span>\n    <span class=\"byline__role\">{{role}}</span>\n    <span aria-hidden=\"true\">&middot;</span>\n    <time class=\"byline__date\">{{date}}</time>\n  </p>\n</div>\n<style>\n.byline { display: flex; align-items: center; gap: 10px; font: 14px system-ui, sans-serif; color: #241430; }\n.byline__avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }\n.byline__text { margin: 0; display: flex; align-items: center; gap: 6px; }\n.byline__name { font-weight: 600; }\n.byline__role, .byline__date { color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-2.5 font-sans text-sm text-[#241430]\">\n  {{#if showAvatar}}<span class=\"w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#128100;</span>{{/if}}\n  <p class=\"m-0 flex items-center gap-1.5\">\n    <span class=\"font-semibold\">{{authorName}}</span>\n    <span class=\"text-[#241430]/70\">{{role}}</span>\n    <span aria-hidden=\"true\">&middot;</span>\n    <time class=\"text-[#241430]/70\">{{date}}</time>\n  </p>\n</div>",
+    "react": "export function AuthorByline({\n  authorName = \"{{authorName}}\",\n  role = \"{{role}}\",\n  date = \"{{date}}\",\n  showAvatar = {{showAvatar}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, font: \"14px system-ui, sans-serif\", color: \"#241430\" }}>\n      {showAvatar && (\n        <span aria-hidden=\"true\" style={{ width: 36, height: 36, borderRadius: \"50%\", display: \"flex\",\n          alignItems: \"center\", justifyContent: \"center\", fontSize: 16, flexShrink: 0, background: accent }}>\n          &#128100;\n        </span>\n      )}\n      <p style={{ margin: 0, display: \"flex\", alignItems: \"center\", gap: 6 }}>\n        <span style={{ fontWeight: 600 }}>{authorName}</span>\n        <span style={{ color: \"#241430aa\" }}>{role}</span>\n        <span aria-hidden=\"true\">&middot;</span>\n        <time style={{ color: \"#241430aa\" }}>{date}</time>\n      </p>\n    </div>\n  );\n}"
+  }
+}

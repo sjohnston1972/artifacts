@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Ship polished UI ten times faster"
+    },
+    {
+      "id": "supportingText",
+      "type": "text",
+      "label": "Supporting text",
+      "default": "Every element comes with production-ready code in three formats."
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "centered",
+      "options": [
+        "centered",
+        "left-aligned",
+        "split"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "emphasise",
+      "type": "toggle",
+      "label": "Emphasise headline",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"value-prop value-prop--{{layout}}\" style=\"--accent:{{accent}};\">\n  <h2 class=\"value-prop__headline{{#if emphasise}} value-prop__headline--emphasis{{/if}}\">{{headline}}</h2>\n  <p class=\"value-prop__support\">{{supportingText}}</p>\n</div>\n<style>\n.value-prop { font-family: system-ui, sans-serif; color: #241430; max-width: 480px; }\n.value-prop--centered { text-align: center; margin-inline: auto; }\n.value-prop--left-aligned { text-align: left; }\n.value-prop--split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; text-align: left; max-width: 640px; }\n.value-prop__headline { margin: 0 0 12px; font-size: 28px; font-weight: 700; line-height: 1.2; }\n.value-prop__headline--emphasis { font-size: 32px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 4px; text-underline-offset: 6px; }\n.value-prop__support { margin: 0; font-size: 16px; line-height: 1.5; color: #241430; opacity: .8; }\n</style>",
+    "tailwind": "<div class=\"value-prop-tw value-prop-tw--{{layout}} font-sans text-[#241430] max-w-[480px]\" style=\"--accent:{{accent}}\">\n  <h2 class=\"value-prop-tw__headline m-0 mb-3 text-[28px] font-bold leading-tight{{#if emphasise}} value-prop-tw__headline--emphasis{{/if}}\">{{headline}}</h2>\n  <p class=\"m-0 text-base leading-relaxed text-[#241430]/80\">{{supportingText}}</p>\n</div>\n<style>\n.value-prop-tw--centered { text-align: center; margin-inline: auto; }\n.value-prop-tw--left-aligned { text-align: left; }\n.value-prop-tw--split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; text-align: left; max-width: 640px; }\n.value-prop-tw__headline--emphasis { font-size: 32px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 4px; text-underline-offset: 6px; }\n</style>",
+    "react": "export function ValueProposition({\n  headline = \"{{headline}}\",\n  supportingText = \"{{supportingText}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  emphasise = {{emphasise}},\n}) {\n  const wrap = {\n    centered: { textAlign: \"center\", marginInline: \"auto\" },\n    \"left-aligned\": { textAlign: \"left\" },\n    split: { display: \"grid\", gridTemplateColumns: \"1fr 1fr\", alignItems: \"center\", gap: 24, textAlign: \"left\", maxWidth: 640 },\n  }[layout] ?? {};\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 480, ...wrap }}>\n      <h2 style={{\n        margin: \"0 0 12px\",\n        fontWeight: 700,\n        lineHeight: 1.2,\n        fontSize: emphasise ? 32 : 28,\n        textDecoration: emphasise ? \"underline\" : \"none\",\n        textDecorationColor: accent,\n        textDecorationThickness: emphasise ? \"4px\" : undefined,\n        textUnderlineOffset: emphasise ? \"6px\" : undefined,\n      }}>\n        {headline}\n      </h2>\n      <p style={{ margin: 0, fontSize: 16, lineHeight: 1.5, color: \"#241430\", opacity: 0.8 }}>{supportingText}</p>\n    </div>\n  );\n}"
+  },
+  "slug": "value-proposition"
+}

@@ -1,0 +1,51 @@
+{
+  "slug": "url-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Website"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "https://example.com"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ur\" for=\"ur-1\">\n  <span class=\"ur__label\">{{label}}{{#if required}} <span class=\"ur__req\">*</span>{{/if}}</span>\n  <input class=\"ur__input\" id=\"ur-1\" type=\"url\" placeholder=\"{{placeholder}}\" autocomplete=\"url\" inputmode=\"url\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.ur { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.ur__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ur__req { color: #241430; }\n.ur__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.ur__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-xs font-sans text-sm text-[#241430]\" for=\"ur-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"ur-tw-1\" type=\"url\" placeholder=\"{{placeholder}}\" autocomplete=\"url\" inputmode=\"url\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\"\n    style=\"border-radius:{{radius}}px;border-color:{{accent}};\">\n</label>",
+    "react": "export function UrlInput({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"url\" placeholder={placeholder} autoComplete=\"url\" inputMode=\"url\" required={required} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: radius,\n      }} />\n    </label>\n  );\n}"
+  }
+}

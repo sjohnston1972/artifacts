@@ -1,0 +1,52 @@
+{
+  "slug": "hero-section",
+  "controls_schema": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Build faster, ship sooner"
+    },
+    {
+      "id": "subhead",
+      "type": "text",
+      "label": "Subhead",
+      "default": "The all-in-one platform for teams who'd rather build than babysit infrastructure."
+    },
+    {
+      "id": "ctaLabel",
+      "type": "text",
+      "label": "CTA label",
+      "default": "Start free trial"
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        "left",
+        "center"
+      ]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"hero hero--{{align}}\" style=\"background:{{bg}};\">\n  <div class=\"hero__inner\">\n    <h1 class=\"hero__headline\">{{headline}}</h1>\n    <p class=\"hero__subhead\">{{subhead}}</p>\n    <button type=\"button\" class=\"hero__cta\">{{ctaLabel}}</button>\n  </div>\n</section>\n<style>\n.hero { padding: 64px 32px; color: #FAF7F2; font: 16px/1.5 system-ui, sans-serif; box-sizing: border-box; }\n.hero__inner { max-width: 560px; }\n.hero--center { text-align: center; }\n.hero--center .hero__inner { margin: 0 auto; }\n.hero--left { text-align: left; }\n.hero__headline { margin: 0 0 14px; font-size: 36px; font-weight: 700; letter-spacing: -.02em; }\n.hero__subhead { margin: 0 0 26px; font-size: 16px; opacity: .82; }\n.hero__cta { background: #FAF7F2; color: #241430; border: none; padding: 13px 26px; border-radius: 10px; font: 600 15px system-ui, sans-serif; cursor: pointer; }\n.hero__cta:hover { opacity: .9; }\n.hero__cta:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 3px; }\n</style>",
+    "tailwind": "<section class=\"hero-tw hero-tw--{{align}} px-8 py-16 text-[#FAF7F2] font-sans box-border\" style=\"background:{{bg}};\">\n  <div class=\"max-w-[560px]\">\n    <h1 class=\"m-0 mb-3.5 text-4xl font-bold tracking-tight\">{{headline}}</h1>\n    <p class=\"m-0 mb-6.5 text-base opacity-80\">{{subhead}}</p>\n    <button type=\"button\" class=\"bg-[#FAF7F2] text-[#241430] border-none px-6.5 py-3.5 rounded-[10px] font-semibold text-[15px] cursor-pointer hover:opacity-90\">{{ctaLabel}}</button>\n  </div>\n</section>\n<style>\n.hero-tw--center { text-align: center; }\n.hero-tw--center > div { margin: 0 auto; }\n.hero-tw--left { text-align: left; }\n</style>",
+    "react": "export function HeroSection({\n  headline = \"{{headline}}\",\n  subhead = \"{{subhead}}\",\n  ctaLabel = \"{{ctaLabel}}\",\n  align = \"{{align}}\",\n  bg = \"{{bg}}\",\n}) {\n  return (\n    <section style={{ padding: \"64px 32px\", color: \"#FAF7F2\", background: bg, textAlign: align, fontFamily: \"system-ui, sans-serif\", boxSizing: \"border-box\" }}>\n      <div style={{ maxWidth: 560, margin: align === \"center\" ? \"0 auto\" : \"0\" }}>\n        <h1 style={{ margin: \"0 0 14px\", fontSize: 36, fontWeight: 700, letterSpacing: \"-.02em\" }}>{headline}</h1>\n        <p style={{ margin: \"0 0 26px\", fontSize: 16, opacity: .82 }}>{subhead}</p>\n        <button type=\"button\" style={{ background: \"#FAF7F2\", color: \"#241430\", border: \"none\", padding: \"13px 26px\", borderRadius: 10, fontSize: 15, fontWeight: 600, cursor: \"pointer\" }}>{ctaLabel}</button>\n      </div>\n    </section>\n  );\n}"
+  }
+}

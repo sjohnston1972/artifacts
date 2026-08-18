@@ -1,0 +1,42 @@
+{
+  "slug": "about-section",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "The people behind the studio"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "We're a small team who've spent a decade building products for people who don't usually get asked what they need."
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "image-left",
+      "options": ["image-left", "image-right", "centered"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showStats",
+      "type": "toggle",
+      "label": "Show stats row",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"about about--{{layout}}\">\n  <div class=\"about__visual\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\" role=\"img\" aria-label=\"Photo of the team\"></div>\n  <div class=\"about__content\">\n    <h2 class=\"about__heading\">{{heading}}</h2>\n    <p class=\"about__body\">{{body}}</p>\n    {{#if showStats}}\n    <dl class=\"about__stats\">\n      <div><dt style=\"color:{{accent}};\">12</dt><dd>Years</dd></div>\n      <div><dt style=\"color:{{accent}};\">340+</dt><dd>Projects</dd></div>\n    </dl>\n    {{/if}}\n  </div>\n</section>\n<style>\n.about { display: flex; gap: 32px; align-items: center; font: 16px/1.6 system-ui, sans-serif; color: #241430; padding: 40px 24px; background: #FAF7F2; }\n.about--image-left { flex-direction: row; }\n.about--image-right { flex-direction: row-reverse; }\n.about--centered { flex-direction: column; text-align: center; }\n.about--centered .about__stats { justify-content: center; }\n.about__visual { flex: 1 1 240px; min-height: 180px; border-radius: 12px; }\n.about__content { flex: 1 1 320px; }\n.about__heading { margin: 0 0 12px; font-size: 26px; font-weight: 700; }\n.about__body { margin: 0 0 16px; color: #241430cc; }\n.about__stats { display: flex; gap: 24px; margin: 0; }\n.about__stats dt { font-size: 22px; font-weight: 700; }\n.about__stats dd { margin: 0; font-size: 13px; color: #241430aa; }\n</style>",
+    "tailwind": "<section class=\"about-tw about-tw--{{layout}} flex gap-8 items-center font-sans text-[#241430] p-10 bg-[#FAF7F2]\">\n  <div class=\"flex-1 min-w-[240px] min-h-[180px] rounded-xl\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\" role=\"img\" aria-label=\"Photo of the team\"></div>\n  <div class=\"flex-1 min-w-[320px]\">\n    <h2 class=\"m-0 mb-3 text-2xl font-bold\">{{heading}}</h2>\n    <p class=\"m-0 mb-4 text-[#241430]/80\">{{body}}</p>\n    {{#if showStats}}\n    <dl class=\"flex gap-6 m-0\">\n      <div><dt class=\"text-xl font-bold\" style=\"color:{{accent}};\">12</dt><dd class=\"m-0 text-xs text-[#241430]/70\">Years</dd></div>\n      <div><dt class=\"text-xl font-bold\" style=\"color:{{accent}};\">340+</dt><dd class=\"m-0 text-xs text-[#241430]/70\">Projects</dd></div>\n    </dl>\n    {{/if}}\n  </div>\n</section>\n<style>\n.about-tw--image-left { flex-direction: row; }\n.about-tw--image-right { flex-direction: row-reverse; }\n.about-tw--centered { flex-direction: column; text-align: center; }\n.about-tw--centered dl { justify-content: center; }\n</style>",
+    "react": "export function AboutSection({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showStats = {{showStats}},\n}) {\n  const wrap = {\n    \"image-left\": { flexDirection: \"row\" },\n    \"image-right\": { flexDirection: \"row-reverse\" },\n    centered: { flexDirection: \"column\", textAlign: \"center\" },\n  }[layout] ?? {};\n  return (\n    <section style={{ display: \"flex\", gap: 32, alignItems: \"center\", font: \"16px/1.6 system-ui, sans-serif\",\n      color: \"#241430\", padding: \"40px 24px\", background: \"#FAF7F2\", ...wrap }}>\n      <div style={{ flex: \"1 1 240px\", minHeight: 180, borderRadius: 12,\n        background: `linear-gradient(135deg, ${accent}, #FAF7F2)` }} role=\"img\" aria-label=\"Photo of the team\" />\n      <div style={{ flex: \"1 1 320px\" }}>\n        <h2 style={{ margin: \"0 0 12px\", fontSize: 26, fontWeight: 700 }}>{heading}</h2>\n        <p style={{ margin: \"0 0 16px\", color: \"#241430cc\" }}>{body}</p>\n        {showStats && (\n          <dl style={{ display: \"flex\", gap: 24, margin: 0, justifyContent: layout === \"centered\" ? \"center\" : \"flex-start\" }}>\n            <div><dt style={{ fontSize: 22, fontWeight: 700, color: accent }}>12</dt><dd style={{ margin: 0, fontSize: 13, color: \"#241430aa\" }}>Years</dd></div>\n            <div><dt style={{ fontSize: 22, fontWeight: 700, color: accent }}>340+</dt><dd style={{ margin: 0, fontSize: 13, color: \"#241430aa\" }}>Projects</dd></div>\n          </dl>\n        )}\n      </div>\n    </section>\n  );\n}"
+  }
+}

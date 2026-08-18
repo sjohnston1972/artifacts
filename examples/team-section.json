@@ -1,0 +1,62 @@
+{
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Meet the team"
+    },
+    {
+      "id": "memberName",
+      "type": "text",
+      "label": "First member name",
+      "default": "Priya Shah"
+    },
+    {
+      "id": "memberRole",
+      "type": "text",
+      "label": "First member role",
+      "default": "Head of Product"
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Columns",
+      "default": 3,
+      "min": 2,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "photoShape",
+      "type": "select",
+      "label": "Photo shape",
+      "default": "circle",
+      "options": [
+        "circle",
+        "rounded",
+        "square"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "First photo colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"team-section\" aria-labelledby=\"team-section-heading\">\n  <h2 id=\"team-section-heading\" class=\"team-section__heading\">{{heading}}</h2>\n  <div class=\"team-section__grid\" style=\"grid-template-columns:repeat({{columns}},1fr);\">\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">{{memberName}}</h3>\n      <p class=\"team-card__role\">{{memberRole}}</p>\n    </article>\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:#BFD9F2;\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">Marcus James</h3>\n      <p class=\"team-card__role\">Engineering Lead</p>\n    </article>\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:#F5C2E0;\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">Lena Torres</h3>\n      <p class=\"team-card__role\">Design Director</p>\n    </article>\n  </div>\n</section>\n<style>\n.team-section { font-family: system-ui, sans-serif; color: #241430; }\n.team-section__heading { margin: 0 0 20px; font-size: 24px; font-weight: 700; }\n.team-section__grid { display: grid; gap: 24px; }\n.team-card { text-align: center; }\n.team-card__photo { width: 80px; height: 80px; margin: 0 auto 12px; }\n.team-card__photo--circle { border-radius: 50%; }\n.team-card__photo--rounded { border-radius: 16px; }\n.team-card__photo--square { border-radius: 0; }\n.team-card__name { margin: 0 0 4px; font-size: 16px; font-weight: 600; }\n.team-card__role { margin: 0; font-size: 13px; color: #241430; opacity: .6; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[#241430]\" aria-labelledby=\"team-section-tw-heading\">\n  <h2 id=\"team-section-tw-heading\" class=\"m-0 mb-5 text-2xl font-bold\">{{heading}}</h2>\n  <div class=\"grid gap-6\" style=\"grid-template-columns:repeat({{columns}},1fr)\">\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:{{accent}}\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">{{memberName}}</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">{{memberRole}}</p>\n    </article>\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:#BFD9F2\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">Marcus James</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">Engineering Lead</p>\n    </article>\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:#F5C2E0\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">Lena Torres</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">Design Director</p>\n    </article>\n  </div>\n</section>\n<style>\n.team-photo-tw--circle { border-radius: 9999px; }\n.team-photo-tw--rounded { border-radius: 16px; }\n.team-photo-tw--square { border-radius: 0; }\n</style>",
+    "react": "export function TeamSection({\n  heading = \"{{heading}}\",\n  memberName = \"{{memberName}}\",\n  memberRole = \"{{memberRole}}\",\n  columns = {{columns}},\n  photoShape = \"{{photoShape}}\",\n  accent = \"{{accent}}\",\n}) {\n  const radius = { circle: \"9999px\", rounded: \"16px\", square: \"0\" }[photoShape] ?? \"9999px\";\n  const members = [\n    { name: memberName, role: memberRole, color: accent },\n    { name: \"Marcus James\", role: \"Engineering Lead\", color: \"#BFD9F2\" },\n    { name: \"Lena Torres\", role: \"Design Director\", color: \"#F5C2E0\" },\n  ];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }} aria-labelledby=\"team-section-react-heading\">\n      <h2 id=\"team-section-react-heading\" style={{ margin: \"0 0 20px\", fontSize: 24, fontWeight: 700 }}>{heading}</h2>\n      <div style={{ display: \"grid\", gap: 24, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {members.map((m) => (\n          <article key={m.name} style={{ textAlign: \"center\" }}>\n            <div aria-hidden=\"true\" style={{ width: 80, height: 80, margin: \"0 auto 12px\", borderRadius: radius, background: m.color }} />\n            <h3 style={{ margin: \"0 0 4px\", fontSize: 16, fontWeight: 600 }}>{m.name}</h3>\n            <p style={{ margin: 0, fontSize: 13, color: \"#241430\", opacity: 0.6 }}>{m.role}</p>\n          </article>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  },
+  "slug": "team-section"
+}

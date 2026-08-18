@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "SSL Secured"
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "shield",
+      "options": [
+        "shield",
+        "lock",
+        "check"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Icon size (px)",
+      "default": 40,
+      "min": 24,
+      "max": 72,
+      "step": 4
+    },
+    {
+      "id": "outlined",
+      "type": "toggle",
+      "label": "Outlined style",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"trust-badge{{#if outlined}} trust-badge--outlined{{/if}}\" style=\"--accent:{{accent}};\">\n  <span class=\"trust-badge__icon trust-badge__icon--{{icon}}\" style=\"width:{{size}}px;height:{{size}}px;\" aria-hidden=\"true\"></span>\n  <figcaption class=\"trust-badge__label\">{{label}}</figcaption>\n</figure>\n<style>\n.trust-badge { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; margin: 0; font-family: system-ui, sans-serif; }\n.trust-badge__icon { display: block; position: relative; background: var(--accent); }\n.trust-badge__icon--shield { clip-path: polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%); }\n.trust-badge__icon--lock { border-radius: 6px; }\n.trust-badge__icon--lock::before { content: \"\"; position: absolute; left: 25%; right: 25%; bottom: 100%; height: 40%; border: 4px solid var(--accent); border-bottom: none; border-radius: 50% 50% 0 0; }\n.trust-badge__icon--check { clip-path: circle(50% at 50% 50%); }\n.trust-badge__icon--check::after { content: \"\"; position: absolute; left: 28%; top: 46%; width: 24%; height: 12%; border-left: 4px solid #FAF7F2; border-bottom: 4px solid #FAF7F2; transform: rotate(-45deg) translateY(-30%); }\n.trust-badge--outlined .trust-badge__icon { background: transparent; border: 3px solid var(--accent); }\n.trust-badge__label { margin: 0; font-size: 13px; font-weight: 600; color: #241430; }\n</style>",
+    "tailwind": "<figure class=\"trust-badge-tw trust-badge-tw--{{icon}}{{#if outlined}} trust-badge-tw--outlined{{/if}} inline-flex flex-col items-center gap-2 m-0 font-sans\" style=\"--accent:{{accent}}\">\n  <span class=\"trust-badge-tw__icon block relative\" style=\"width:{{size}}px;height:{{size}}px;background:{{accent}}\" aria-hidden=\"true\"></span>\n  <figcaption class=\"m-0 text-[13px] font-semibold text-[#241430]\">{{label}}</figcaption>\n</figure>\n<style>\n.trust-badge-tw--shield .trust-badge-tw__icon { clip-path: polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%); }\n.trust-badge-tw--lock .trust-badge-tw__icon { border-radius: 6px; }\n.trust-badge-tw--lock .trust-badge-tw__icon::before { content: \"\"; position: absolute; left: 25%; right: 25%; bottom: 100%; height: 40%; border: 4px solid var(--accent); border-bottom: none; border-radius: 50% 50% 0 0; }\n.trust-badge-tw--check .trust-badge-tw__icon { clip-path: circle(50% at 50% 50%); }\n.trust-badge-tw--check .trust-badge-tw__icon::after { content: \"\"; position: absolute; left: 28%; top: 46%; width: 24%; height: 12%; border-left: 4px solid #FAF7F2; border-bottom: 4px solid #FAF7F2; transform: rotate(-45deg) translateY(-30%); }\n.trust-badge-tw--outlined .trust-badge-tw__icon { background: transparent !important; border: 3px solid var(--accent); }\n</style>",
+    "react": "export function TrustBadge({\n  label = \"{{label}}\",\n  icon = \"{{icon}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n  outlined = {{outlined}},\n}) {\n  const shapeStyle = {\n    shield: { clipPath: \"polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%)\" },\n    lock: { borderRadius: 6 },\n    check: { clipPath: \"circle(50% at 50% 50%)\" },\n  }[icon] ?? {};\n  return (\n    <figure style={{ display: \"inline-flex\", flexDirection: \"column\", alignItems: \"center\", gap: 8, margin: 0, fontFamily: \"system-ui, sans-serif\" }}>\n      <span aria-hidden=\"true\" style={{\n        display: \"block\", width: size, height: size,\n        background: outlined ? \"transparent\" : accent,\n        border: outlined ? `3px solid ${accent}` : \"none\",\n        ...shapeStyle,\n      }} />\n      <figcaption style={{ margin: 0, fontSize: 13, fontWeight: 600, color: \"#241430\" }}>{label}</figcaption>\n    </figure>\n  );\n}"
+  },
+  "slug": "trust-badge"
+}

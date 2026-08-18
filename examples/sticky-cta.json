@@ -1,0 +1,60 @@
+{
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Get 20% off today"
+    },
+    {
+      "id": "buttonLabel",
+      "type": "text",
+      "label": "Button label",
+      "default": "Claim offer"
+    },
+    {
+      "id": "placement",
+      "type": "select",
+      "label": "Placement",
+      "default": "bottom",
+      "options": [
+        "top",
+        "bottom"
+      ]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Button colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sticky-cta sticky-cta--{{placement}}\" style=\"background:{{bg}};\" role=\"region\" aria-label=\"Promotional offer\">\n  <p class=\"sticky-cta__message\">{{message}}</p>\n  <a class=\"sticky-cta__button\" href=\"#\" style=\"background:{{accent}};\">{{buttonLabel}}</a>\n</div>\n<style>\n.sticky-cta { position: sticky; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; font: 16px/1.4 system-ui, sans-serif; color: #FAF7F2; z-index: 10; }\n.sticky-cta--top { top: 0; border-bottom: 3px solid #FAF7F230; }\n.sticky-cta--bottom { bottom: 0; border-top: 3px solid #FAF7F230; }\n.sticky-cta__message { margin: 0; }\n.sticky-cta__button { color: #241430; padding: 8px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; }\n.sticky-cta__button:hover { opacity: .85; }\n.sticky-cta__button:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"sticky-cta-tw sticky-cta-tw--{{placement}} sticky flex items-center justify-between gap-4 px-5 py-3.5 font-sans text-[#FAF7F2]\" style=\"background:{{bg}}\" role=\"region\" aria-label=\"Promotional offer\">\n  <p class=\"m-0\">{{message}}</p>\n  <a href=\"#\" class=\"text-[#241430] px-4 py-2 rounded-lg font-semibold no-underline hover:opacity-85\" style=\"background:{{accent}}\">{{buttonLabel}}</a>\n</div>\n<style>\n.sticky-cta-tw--top { top: 0; border-bottom: 3px solid #FAF7F230; }\n.sticky-cta-tw--bottom { bottom: 0; border-top: 3px solid #FAF7F230; }\n.sticky-cta-tw a:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 2px; }\n</style>",
+    "react": "export function StickyCta({\n  message = \"{{message}}\",\n  buttonLabel = \"{{buttonLabel}}\",\n  placement = \"{{placement}}\",\n  bg = \"{{bg}}\",\n  accent = \"{{accent}}\",\n}) {\n  const edge = placement === \"top\"\n    ? { top: 0, borderBottom: \"3px solid #FAF7F230\" }\n    : { bottom: 0, borderTop: \"3px solid #FAF7F230\" };\n  return (\n    <div role=\"region\" aria-label=\"Promotional offer\" style={{ position: \"sticky\", display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 16, padding: \"14px 20px\", font: \"16px/1.4 system-ui, sans-serif\", color: \"#FAF7F2\", background: bg, zIndex: 10, ...edge }}>\n      <p style={{ margin: 0 }}>{message}</p>\n      <a href=\"#\" style={{ background: accent, color: \"#241430\", padding: \"8px 16px\", borderRadius: 8, fontWeight: 600, textDecoration: \"none\" }}>{buttonLabel}</a>\n    </div>\n  );\n}"
+  },
+  "slug": "sticky-cta"
+}

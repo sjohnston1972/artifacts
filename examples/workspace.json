@@ -1,0 +1,36 @@
+{
+  "slug": "workspace",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Workspace title",
+      "default": "Design File"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "inspector",
+      "type": "toggle",
+      "label": "Show inspector panel",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ws-demo ws-demo--{{density}}\">\n  <nav class=\"ws-demo__rail\">☰</nav>\n  <div class=\"ws-demo__body\">\n    <header class=\"ws-demo__topbar\" style=\"border-bottom-color:{{accent}};\">{{title}}</header>\n    <div class=\"ws-demo__work\">Persistent workspace</div>\n  </div>\n  {{#if inspector}}<aside class=\"ws-demo__inspector\" style=\"border-left-color:{{accent}};\">Properties</aside>{{/if}}\n</div>\n<style>\n.ws-demo { display: flex; height: 160px; font: 12px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.ws-demo__rail { flex: none; width: 40px; background: #241430; color: #FAF7F2; display: flex; align-items: flex-start; justify-content: center; padding-top: 12px; }\n.ws-demo__body { flex: 1; display: flex; flex-direction: column; min-width: 0; }\n.ws-demo__topbar { padding: 10px 14px; border-bottom: 3px solid; background: #FAF7F2; font-weight: 700; }\n.ws-demo--compact .ws-demo__topbar { padding: 5px 10px; font-size: 11px; }\n.ws-demo__work { flex: 1; background: #fff; display: flex; align-items: center; justify-content: center; color: #24143066; }\n.ws-demo__inspector { flex: none; width: 90px; background: #FAF7F2; border-left: 2px solid; display: flex; align-items: flex-start; justify-content: center; padding-top: 12px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"flex h-40 font-sans text-xs text-[#241430] border border-[#24143022] ws-tw ws-tw--{{density}}\">\n  <nav class=\"flex-none w-10 bg-[#241430] text-[#FAF7F2] flex items-start justify-center pt-3\">☰</nav>\n  <div class=\"flex-1 flex flex-col min-w-0\">\n    <header class=\"px-3.5 py-2.5 border-b-[3px] bg-[#FAF7F2] font-bold ws-tw__topbar\" style=\"border-bottom-color:{{accent}};\">{{title}}</header>\n    <div class=\"flex-1 bg-white flex items-center justify-center text-[#24143066]\">Persistent workspace</div>\n  </div>\n  {{#if inspector}}<aside class=\"flex-none w-[90px] bg-[#FAF7F2] border-l-2 flex items-start justify-center pt-3 text-[#24143099]\" style=\"border-left-color:{{accent}};\">Properties</aside>{{/if}}\n</div>\n<style>\n.ws-tw--compact .ws-tw__topbar { padding: 5px 10px !important; font-size: 11px; }\n</style>",
+    "react": "export function Workspace({\n  title = \"{{title}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  inspector = {{inspector}},\n}) {\n  const compact = density === \"compact\";\n  return (\n    <div style={{ display: \"flex\", height: 160, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <nav style={{ flex: \"none\", width: 40, background: \"#241430\", color: \"#FAF7F2\", display: \"flex\", alignItems: \"flex-start\", justifyContent: \"center\", paddingTop: 12 }}>☰</nav>\n      <div style={{ flex: 1, display: \"flex\", flexDirection: \"column\", minWidth: 0 }}>\n        <header style={{ padding: compact ? \"5px 10px\" : \"10px 14px\", fontSize: compact ? 11 : 12, borderBottom: `3px solid ${accent}`, background: \"#FAF7F2\", fontWeight: 700 }}>{title}</header>\n        <div style={{ flex: 1, background: \"#fff\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#24143066\" }}>Persistent workspace</div>\n      </div>\n      {inspector && <aside style={{ flex: \"none\", width: 90, background: \"#FAF7F2\", borderLeft: `2px solid ${accent}`, display: \"flex\", alignItems: \"flex-start\", justifyContent: \"center\", paddingTop: 12, color: \"#24143099\" }}>Properties</aside>}\n    </div>\n  );\n}"
+  }
+}

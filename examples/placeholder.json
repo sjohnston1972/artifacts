@@ -1,0 +1,51 @@
+{
+  "slug": "placeholder",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Search"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder text",
+      "default": "Search products..."
+    },
+    {
+      "id": "italic",
+      "type": "toggle",
+      "label": "Italic placeholder",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ph ph--{{#if italic}}italic{{/if}}{{#unless italic}}normal{{/unless}}\" for=\"ph-1\">\n  <span class=\"ph__label\">{{label}}</span>\n  <input class=\"ph__input\" id=\"ph-1\" type=\"text\" placeholder=\"{{placeholder}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n</label>\n<style>\n.ph { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.ph__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ph__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.ph__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ph--italic .ph__input::placeholder { font-style: italic; color: #24143080; }\n.ph--normal .ph__input::placeholder { font-style: normal; color: #24143080; }\n</style>",
+    "tailwind": "<label class=\"ph-tw ph-tw--{{#if italic}}italic{{/if}}{{#unless italic}}normal{{/unless}} block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"ph-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}</span>\n  <input id=\"ph-tw-1\" type=\"text\" placeholder=\"{{placeholder}}\" class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\" style=\"border-radius:{{radius}}px;border-color:{{accent}};\">\n</label>\n<style>\n.ph-tw--italic input::placeholder { font-style: italic; color: #24143080; }\n.ph-tw--normal input::placeholder { font-style: normal; color: #24143080; }\n</style>",
+    "react": "export function Placeholder({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  italic = {{italic}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</span>\n      <input type=\"text\" placeholder={placeholder} className={italic ? \"ph-react-italic\" : \"ph-react-normal\"} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: radius,\n      }} />\n      <style>{`\n        .ph-react-italic::placeholder { font-style: italic; color: #24143080; }\n        .ph-react-normal::placeholder { font-style: normal; color: #24143080; }\n      `}</style>\n    </label>\n  );\n}"
+  }
+}

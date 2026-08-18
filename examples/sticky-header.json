@@ -1,0 +1,36 @@
+{
+  "slug": "sticky-header",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Header title",
+      "default": "Chapter 2"
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Title align",
+      "default": "left",
+      "options": ["left", "center"]
+    },
+    {
+      "id": "shadow",
+      "type": "toggle",
+      "label": "Shadow while stuck",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sh-demo\">\n  <div class=\"sh-demo__header sh-demo__header--{{align}}{{#if shadow}} sh-demo__header--shadow{{/if}}\" style=\"background:{{bg}};\">{{title}}</div>\n  <p>Scroll down inside this box. The header above uses <code>position: sticky</code> with <code>top: 0</code>, so it stays pinned to the top of this scroll container instead of scrolling away with the text.</p>\n  <p>It only sticks within its own scrolling ancestor — once that ancestor ends, the header scrolls away too.</p>\n  <p>A third paragraph adds enough height to make scrolling necessary.</p>\n  <p>A fourth paragraph, for good measure.</p>\n  <p>And a fifth, so the sticky behaviour is unmistakable.</p>\n</div>\n<style>\n.sh-demo { height: 160px; overflow-y: auto; border: 1px solid #24143022; font: 13px/1.6 system-ui, sans-serif; color: #241430; }\n.sh-demo__header { position: sticky; top: 0; z-index: 2; padding: 10px 14px; font-weight: 700; }\n.sh-demo__header--center { text-align: center; }\n.sh-demo__header--shadow { box-shadow: 0 4px 10px rgba(36,20,48,.2); }\n.sh-demo p { margin: 0; padding: 10px 14px 0; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"h-40 overflow-y-auto border border-[#24143022] font-sans text-[13px] leading-relaxed text-[#241430]\">\n  <div class=\"sticky top-0 z-10 px-3.5 py-2.5 font-bold sh-tw__header sh-tw__header--{{align}}{{#if shadow}} sh-tw__header--shadow{{/if}}\" style=\"background:{{bg}};\">{{title}}</div>\n  <p class=\"m-0 px-3.5 pt-2.5 text-[#241430]/80\">Scroll down inside this box. The header above uses <code>position: sticky</code> with <code>top: 0</code>, so it stays pinned to the top of this scroll container instead of scrolling away with the text.</p>\n  <p class=\"m-0 px-3.5 pt-2.5 text-[#241430]/80\">It only sticks within its own scrolling ancestor — once that ancestor ends, the header scrolls away too.</p>\n  <p class=\"m-0 px-3.5 pt-2.5 text-[#241430]/80\">A third paragraph adds enough height to make scrolling necessary.</p>\n  <p class=\"m-0 px-3.5 pt-2.5 text-[#241430]/80\">A fourth paragraph, for good measure.</p>\n  <p class=\"m-0 px-3.5 pt-2.5 text-[#241430]/80\">And a fifth, so the sticky behaviour is unmistakable.</p>\n</div>\n<style>\n.sh-tw__header--center { text-align: center; }\n.sh-tw__header--shadow { box-shadow: 0 4px 10px rgba(36,20,48,.2); }\n</style>",
+    "react": "export function StickyHeader({\n  title = \"{{title}}\",\n  bg = \"{{bg}}\",\n  align = \"{{align}}\",\n  shadow = {{shadow}},\n}) {\n  const paragraphs = [\n    \"Scroll down inside this box. The header above uses position: sticky with top: 0, so it stays pinned to the top of this scroll container instead of scrolling away with the text.\",\n    \"It only sticks within its own scrolling ancestor — once that ancestor ends, the header scrolls away too.\",\n    \"A third paragraph adds enough height to make scrolling necessary.\",\n    \"A fourth paragraph, for good measure.\",\n    \"And a fifth, so the sticky behaviour is unmistakable.\",\n  ];\n  return (\n    <div style={{ height: 160, overflowY: \"auto\", border: \"1px solid #24143022\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, lineHeight: 1.6, color: \"#241430\" }}>\n      <div style={{ position: \"sticky\", top: 0, zIndex: 2, background: bg, padding: \"10px 14px\", fontWeight: 700, textAlign: align === \"center\" ? \"center\" : \"left\", boxShadow: shadow ? \"0 4px 10px rgba(36,20,48,.2)\" : \"none\" }}>{title}</div>\n      {paragraphs.map((p, i) => <p key={i} style={{ margin: 0, padding: \"10px 14px 0\", color: \"#241430cc\" }}>{p}</p>)}\n    </div>\n  );\n}"
+  }
+}

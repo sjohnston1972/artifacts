@@ -1,0 +1,51 @@
+{
+  "slug": "email-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Email address"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ei\" for=\"ei-1\">\n  <span class=\"ei__label\">{{label}}{{#if required}} <span class=\"ei__req\">*</span>{{/if}}</span>\n  <input class=\"ei__input\" id=\"ei-1\" type=\"email\" placeholder=\"{{placeholder}}\" autocomplete=\"email\" inputmode=\"email\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.ei { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.ei__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ei__req { color: #241430; }\n.ei__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.ei__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-xs font-sans text-sm text-[#241430]\" for=\"ei-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"ei-tw-1\" type=\"email\" placeholder=\"{{placeholder}}\" autocomplete=\"email\" inputmode=\"email\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\"\n    style=\"border-radius:{{radius}}px;border-color:{{accent}};\">\n</label>",
+    "react": "export function EmailInput({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"email\" placeholder={placeholder} autoComplete=\"email\" inputMode=\"email\" required={required} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: radius,\n      }} />\n    </label>\n  );\n}"
+  }
+}

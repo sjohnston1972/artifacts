@@ -1,0 +1,48 @@
+{
+  "slug": "date-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Start date"
+    },
+    {
+      "id": "min",
+      "type": "text",
+      "label": "Minimum date",
+      "default": "2026-01-01"
+    },
+    {
+      "id": "max",
+      "type": "text",
+      "label": "Maximum date",
+      "default": "2026-12-31"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"di\" for=\"di-1\">\n  <span class=\"di__label\">{{label}}{{#if required}} <span class=\"di__req\">*</span>{{/if}}</span>\n  <input class=\"di__input\" id=\"di-1\" type=\"date\" min=\"{{min}}\" max=\"{{max}}\" style=\"--accent:{{accent}};\" autocomplete=\"off\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.di { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 220px; }\n.di__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.di__req { color: #241430; }\n.di__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.di__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[220px] font-sans text-sm text-[#241430]\" for=\"di-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"di-tw-1\" type=\"date\" min=\"{{min}}\" max=\"{{max}}\" autocomplete=\"off\"{{#if required}} required{{/if}}\n    class=\"di-tw w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\"\n    style=\"border-color:{{accent}};\">\n</label>\n<style>\n.di-tw:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, #24143040 35%, transparent); }\n</style>",
+    "react": "export function DateInput({\n  label = \"{{label}}\",\n  min = \"{{min}}\",\n  max = \"{{max}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 220, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"date\" min={min} max={max} required={required} autoComplete=\"off\" style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

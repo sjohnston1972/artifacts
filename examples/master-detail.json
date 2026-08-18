@@ -1,0 +1,39 @@
+{
+  "slug": "master-detail",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Detail title",
+      "default": "Invoice #1042"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "side-by-side",
+      "options": ["side-by-side", "stacked"]
+    },
+    {
+      "id": "masterWidth",
+      "type": "number",
+      "label": "Master column width",
+      "default": 140,
+      "min": 100,
+      "max": 220,
+      "step": 10
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Selection colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"md-demo md-demo--{{layout}}\">\n  <ul class=\"md-demo__list\" style=\"width:{{masterWidth}}px;\">\n    <li class=\"is-selected\" style=\"background:{{accent}};\">Invoice #1042</li>\n    <li>Invoice #1041</li>\n    <li>Invoice #1040</li>\n    <li>Invoice #1039</li>\n  </ul>\n  <div class=\"md-demo__detail\">\n    <h4 class=\"md-demo__title\">{{title}}</h4>\n    <p>Billed to Acme Ltd, due in 14 days.</p>\n  </div>\n</div>\n<style>\n.md-demo { display: flex; height: 160px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.md-demo--stacked { flex-direction: column; height: auto; }\n.md-demo__list { flex: none; box-sizing: border-box; margin: 0; padding: 0; list-style: none; border-right: 1px solid #24143018; overflow-y: auto; background: #FAF7F2; }\n.md-demo--stacked .md-demo__list { width: 100% !important; border-right: none; border-bottom: 1px solid #24143018; display: flex; overflow-x: auto; }\n.md-demo__list li { padding: 10px 12px; border-bottom: 1px solid #24143012; white-space: nowrap; }\n.md-demo__list li.is-selected { font-weight: 700; }\n.md-demo__detail { flex: 1; padding: 14px; background: #fff; }\n.md-demo__title { margin: 0 0 8px; }\n.md-demo__detail p { margin: 0; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"flex h-40 font-sans text-[13px] text-[#241430] border border-[#24143022] md-tw md-tw--{{layout}}\">\n  <ul class=\"flex-none box-border m-0 p-0 list-none border-r border-[#24143018] overflow-y-auto bg-[#FAF7F2] md-tw__list\" style=\"width:{{masterWidth}}px;\">\n    <li class=\"px-3 py-2.5 border-b border-[#24143012] font-bold whitespace-nowrap\" style=\"background:{{accent}};\">Invoice #1042</li>\n    <li class=\"px-3 py-2.5 border-b border-[#24143012] whitespace-nowrap\">Invoice #1041</li>\n    <li class=\"px-3 py-2.5 border-b border-[#24143012] whitespace-nowrap\">Invoice #1040</li>\n    <li class=\"px-3 py-2.5 whitespace-nowrap\">Invoice #1039</li>\n  </ul>\n  <div class=\"flex-1 p-3.5 bg-white\">\n    <h4 class=\"m-0 mb-2\">{{title}}</h4>\n    <p class=\"m-0 text-[#241430]/80\">Billed to Acme Ltd, due in 14 days.</p>\n  </div>\n</div>\n<style>\n.md-tw--stacked { flex-direction: column; height: auto; }\n.md-tw--stacked .md-tw__list { width: 100% !important; border-right: none; border-bottom: 1px solid #24143018; display: flex; overflow-x: auto; }\n</style>",
+    "react": "export function MasterDetail({\n  title = \"{{title}}\",\n  layout = \"{{layout}}\",\n  masterWidth = {{masterWidth}},\n  accent = \"{{accent}}\",\n}) {\n  const stacked = layout === \"stacked\";\n  const items = [\"Invoice #1042\", \"Invoice #1041\", \"Invoice #1040\", \"Invoice #1039\"];\n  return (\n    <div style={{ display: \"flex\", flexDirection: stacked ? \"column\" : \"row\", height: stacked ? \"auto\" : 160, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <ul style={{\n        flex: \"none\", boxSizing: \"border-box\", margin: 0, padding: 0, listStyle: \"none\", background: \"#FAF7F2\",\n        width: stacked ? \"100%\" : masterWidth, display: stacked ? \"flex\" : \"block\",\n        overflowX: stacked ? \"auto\" : \"visible\", overflowY: stacked ? \"visible\" : \"auto\",\n        borderRight: stacked ? \"none\" : \"1px solid #24143018\", borderBottom: stacked ? \"1px solid #24143018\" : \"none\",\n      }}>\n        {items.map((label, i) => (\n          <li key={label} style={{ padding: \"10px 12px\", borderBottom: \"1px solid #24143012\", whiteSpace: \"nowrap\", background: i === 0 ? accent : \"transparent\", fontWeight: i === 0 ? 700 : 400 }}>{label}</li>\n        ))}\n      </ul>\n      <div style={{ flex: 1, padding: 14, background: \"#fff\" }}>\n        <h4 style={{ margin: \"0 0 8px\" }}>{title}</h4>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>Billed to Acme Ltd, due in 14 days.</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

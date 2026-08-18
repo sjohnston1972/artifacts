@@ -1,0 +1,39 @@
+{
+  "slug": "inspector",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Selected object",
+      "default": "Rectangle 3"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Panel side",
+      "default": "right",
+      "options": ["right", "left"]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Panel width",
+      "default": 180,
+      "min": 140,
+      "max": 240,
+      "step": 10
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"insp-demo insp-demo--{{position}}\">\n  <div class=\"insp-demo__canvas\">Canvas</div>\n  <aside class=\"insp-demo__panel\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <h4 class=\"insp-demo__title\" style=\"color:{{accent}};\">{{title}}</h4>\n    <div class=\"insp-demo__row\"><span>X</span><span>128</span></div>\n    <div class=\"insp-demo__row\"><span>Y</span><span>64</span></div>\n    <div class=\"insp-demo__row\"><span>Width</span><span>240</span></div>\n    <div class=\"insp-demo__row\"><span>Height</span><span>96</span></div>\n  </aside>\n</div>\n<style>\n.insp-demo { display: flex; height: 160px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.insp-demo--left { flex-direction: row-reverse; }\n.insp-demo__canvas { flex: 1; background: repeating-linear-gradient(45deg, #24143008 0 8px, transparent 8px 16px); display: flex; align-items: center; justify-content: center; color: #24143066; }\n.insp-demo__panel { flex: none; box-sizing: border-box; background: #FAF7F2; border-left: 1px solid; padding: 12px; overflow-y: auto; }\n.insp-demo--left .insp-demo__panel { border-left: none; border-right: 1px solid; }\n.insp-demo__title { margin: 0 0 10px; font-size: 13px; }\n.insp-demo__row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #24143014; }\n.insp-demo__row span:first-child { color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"flex h-40 font-sans text-[13px] text-[#241430] border border-[#24143022] insp-tw insp-tw--{{position}}\">\n  <div class=\"flex-1 flex items-center justify-center text-[#24143066]\" style=\"background-image:repeating-linear-gradient(45deg, #24143008 0 8px, transparent 8px 16px);\">Canvas</div>\n  <aside class=\"flex-none box-border bg-[#FAF7F2] border-l p-3 overflow-y-auto\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <h4 class=\"m-0 mb-2.5 text-[13px]\" style=\"color:{{accent}};\">{{title}}</h4>\n    <div class=\"flex justify-between py-1.5 border-b border-[#24143014]\"><span class=\"text-[#24143099]\">X</span><span>128</span></div>\n    <div class=\"flex justify-between py-1.5 border-b border-[#24143014]\"><span class=\"text-[#24143099]\">Y</span><span>64</span></div>\n    <div class=\"flex justify-between py-1.5 border-b border-[#24143014]\"><span class=\"text-[#24143099]\">Width</span><span>240</span></div>\n    <div class=\"flex justify-between py-1.5\"><span class=\"text-[#24143099]\">Height</span><span>96</span></div>\n  </aside>\n</div>\n<style>\n.insp-tw--left { flex-direction: row-reverse; }\n.insp-tw--left aside { border-left: none; border-right: 1px solid; }\n</style>",
+    "react": "export function Inspector({\n  title = \"{{title}}\",\n  position = \"{{position}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n}) {\n  const isLeft = position === \"left\";\n  const rows = [[\"X\", \"128\"], [\"Y\", \"64\"], [\"Width\", \"240\"], [\"Height\", \"96\"]];\n  return (\n    <div style={{ display: \"flex\", flexDirection: isLeft ? \"row-reverse\" : \"row\", height: 160, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <div style={{ flex: 1, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#24143066\", backgroundImage: \"repeating-linear-gradient(45deg, #24143008 0 8px, transparent 8px 16px)\" }}>Canvas</div>\n      <aside style={{ flex: \"none\", boxSizing: \"border-box\", width, background: \"#FAF7F2\", padding: 12, overflowY: \"auto\", borderLeft: isLeft ? \"none\" : `1px solid ${accent}`, borderRight: isLeft ? `1px solid ${accent}` : \"none\" }}>\n        <h4 style={{ margin: \"0 0 10px\", fontSize: 13, color: accent }}>{title}</h4>\n        {rows.map(([k, v]) => (\n          <div key={k} style={{ display: \"flex\", justifyContent: \"space-between\", padding: \"5px 0\", borderBottom: \"1px solid #24143014\" }}>\n            <span style={{ color: \"#24143099\" }}>{k}</span><span>{v}</span>\n          </div>\n        ))}\n      </aside>\n    </div>\n  );\n}"
+  }
+}

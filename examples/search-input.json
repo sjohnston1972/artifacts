@@ -1,0 +1,51 @@
+{
+  "slug": "search-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Search"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Search the site"
+    },
+    {
+      "id": "showClear",
+      "type": "toggle",
+      "label": "Show clear button",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 999,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"sr\" for=\"sr-1\">\n  <span class=\"sr__label\">{{label}}</span>\n  <span class=\"sr__row\">\n    <span class=\"sr__icon\" aria-hidden=\"true\">&#128269;</span>\n    <input class=\"sr__input\" id=\"sr-1\" type=\"search\" placeholder=\"{{placeholder}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n    {{#if showClear}}<span class=\"sr__clear\" role=\"button\" tabindex=\"0\" aria-label=\"Clear search\">&#10005;</span>{{/if}}\n  </span>\n</label>\n<style>\n.sr { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.sr__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.sr__row { position: relative; display: block; }\n.sr__icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; }\n.sr__input { width: 100%; box-sizing: border-box; padding: 10px 34px 10px 34px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.sr__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.sr__clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #24143080; }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"sr-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}</span>\n  <span class=\"relative block\">\n    <span aria-hidden=\"true\" class=\"absolute left-3 top-1/2 -translate-y-1/2 text-[13px]\">&#128269;</span>\n    <input id=\"sr-tw-1\" type=\"search\" placeholder=\"{{placeholder}}\" class=\"w-full box-border pl-[34px] pr-[34px] py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\" style=\"border-radius:{{radius}}px;border-color:{{accent}};\">\n    {{#if showClear}}<span role=\"button\" tabindex=\"0\" aria-label=\"Clear search\" class=\"absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[#24143080]\">&#10005;</span>{{/if}}\n  </span>\n</label>",
+    "react": "export function SearchInput({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  showClear = {{showClear}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</span>\n      <span style={{ position: \"relative\", display: \"block\" }}>\n        <span aria-hidden=\"true\" style={{ position: \"absolute\", left: 12, top: \"50%\", transform: \"translateY(-50%)\", fontSize: 13 }}>🔍</span>\n        <input type=\"search\" placeholder={placeholder} style={{\n          width: \"100%\", boxSizing: \"border-box\", padding: \"10px 34px\", font: \"inherit\", color: \"#241430\",\n          background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: radius,\n        }} />\n        {showClear && (\n          <span role=\"button\" tabIndex={0} aria-label=\"Clear search\" style={{ position: \"absolute\", right: 12, top: \"50%\", transform: \"translateY(-50%)\", cursor: \"pointer\", color: \"#24143080\" }}>\n            ✕\n          </span>\n        )}\n      </span>\n    </label>\n  );\n}"
+  }
+}

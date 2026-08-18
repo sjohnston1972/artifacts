@@ -1,0 +1,62 @@
+{
+  "slug": "textarea",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Message"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Tell us what you think..."
+    },
+    {
+      "id": "rows",
+      "type": "number",
+      "label": "Rows",
+      "default": 4,
+      "min": 2,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "resize",
+      "type": "select",
+      "label": "Resize",
+      "default": "vertical",
+      "options": [
+        "none",
+        "vertical",
+        "both"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ta\" for=\"ta-1\">\n  <span class=\"ta__label\">{{label}}{{#if required}} <span class=\"ta__req\">*</span>{{/if}}</span>\n  <textarea class=\"ta__input\" id=\"ta-1\" placeholder=\"{{placeholder}}\" rows=\"{{rows}}\" style=\"--accent:{{accent}};resize:{{resize}};\"{{#if required}} required{{/if}}></textarea>\n</label>\n<style>\n.ta { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; }\n.ta__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ta__req { color: #241430; }\n.ta__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ta__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[300px] font-sans text-sm text-[#241430]\" for=\"ta-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <textarea id=\"ta-tw-1\" placeholder=\"{{placeholder}}\" rows=\"{{rows}}\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"resize:{{resize}};border-color:{{accent}};\"></textarea>\n</label>",
+    "react": "export function Textarea({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  rows = {{rows}},\n  resize = \"{{resize}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <textarea placeholder={placeholder} rows={rows} required={required} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8, resize,\n      }} />\n    </label>\n  );\n}"
+  }
+}

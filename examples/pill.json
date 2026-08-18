@@ -1,0 +1,39 @@
+{
+  "slug": "pill",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "12 online"
+    },
+    {
+      "id": "tone",
+      "type": "select",
+      "label": "Tone",
+      "default": "solid",
+      "options": ["solid", "soft", "outline"]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#BFD9F2", "#F5C2E0", "#E8A020", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Font size",
+      "default": 13,
+      "min": 10,
+      "max": 18,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"pill pill--{{tone}}\" style=\"--c:{{color}};font-size:{{size}}px;\">{{label}}</span>\n<style>\n.pill { display: inline-block; font: 600 1em system-ui, sans-serif; padding: .4em 1em; border-radius: 999px;\n  border: 1.5px solid var(--c); box-sizing: border-box; line-height: 1; }\n.pill--solid { background: var(--c); color: #241430; }\n.pill--soft { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); color: #241430; border-color: transparent; }\n.pill--outline { background: transparent; color: var(--c); }\n</style>",
+    "tailwind": "<span class=\"pill-tw pill-tw--{{tone}} inline-block font-semibold leading-none px-4 py-1.5 rounded-full border-[1.5px] box-border\" style=\"--c:{{color}};font-size:{{size}}px;\">{{label}}</span>\n<style>\n.pill-tw { border-color: var(--c); }\n.pill-tw--solid { background: var(--c); color: #241430; }\n.pill-tw--soft { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); color: #241430; border-color: transparent; }\n.pill-tw--outline { background: transparent; color: var(--c); }\n</style>",
+    "react": "export function Pill({\n  label = \"{{label}}\",\n  tone = \"{{tone}}\",\n  color = \"{{color}}\",\n  size = {{size}},\n}) {\n  const palette = {\n    solid: { background: color, color: \"#241430\", borderColor: color },\n    soft: { background: `color-mix(in srgb, ${color} 25%, #FAF7F2)`, color: \"#241430\", borderColor: \"transparent\" },\n    outline: { background: \"transparent\", color, borderColor: color },\n  }[tone] ?? {};\n  return (\n    <span style={{ display: \"inline-block\", fontWeight: 600, fontSize: size, lineHeight: 1, padding: \"0.4em 1em\",\n      borderRadius: 999, border: \"1.5px solid\", boxSizing: \"border-box\", ...palette }}>{label}</span>\n  );\n}"
+  }
+}

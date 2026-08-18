@@ -1,0 +1,39 @@
+{
+  "slug": "stack",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Item label prefix",
+      "default": "Item"
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "vertical",
+      "options": ["vertical", "horizontal"]
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 8,
+      "min": 2,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"stack-demo stack-demo--{{direction}}\" style=\"gap:{{gap}}px;\">\n  <div class=\"stack-demo__item\" style=\"border-color:{{accent}};\">{{label}} 1</div>\n  <div class=\"stack-demo__item\" style=\"border-color:{{accent}};\">{{label}} 2</div>\n  <div class=\"stack-demo__item\" style=\"border-color:{{accent}};\">{{label}} 3</div>\n</div>\n<style>\n.stack-demo { display: flex; font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.stack-demo--vertical { flex-direction: column; }\n.stack-demo--horizontal { flex-direction: row; }\n.stack-demo__item { box-sizing: border-box; padding: 8px 12px; background: #fff; border: 1.5px solid; border-radius: 6px; flex: 1; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"flex font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-4 stack-tw stack-tw--{{direction}}\" style=\"gap:{{gap}}px;\">\n  <div class=\"box-border px-3 py-2 bg-white border-[1.5px] rounded-md flex-1 text-center\" style=\"border-color:{{accent}};\">{{label}} 1</div>\n  <div class=\"box-border px-3 py-2 bg-white border-[1.5px] rounded-md flex-1 text-center\" style=\"border-color:{{accent}};\">{{label}} 2</div>\n  <div class=\"box-border px-3 py-2 bg-white border-[1.5px] rounded-md flex-1 text-center\" style=\"border-color:{{accent}};\">{{label}} 3</div>\n</div>\n<style>\n.stack-tw--vertical { flex-direction: column; }\n.stack-tw--horizontal { flex-direction: row; }\n</style>",
+    "react": "export function Stack({\n  label = \"{{label}}\",\n  direction = \"{{direction}}\",\n  gap = {{gap}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ display: \"flex\", flexDirection: direction === \"horizontal\" ? \"row\" : \"column\", gap, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      {[1, 2, 3].map((n) => (\n        <div key={n} style={{ boxSizing: \"border-box\", padding: \"8px 12px\", background: \"#fff\", border: `1.5px solid ${accent}`, borderRadius: 6, flex: 1, textAlign: \"center\" }}>{label} {n}</div>\n      ))}\n    </div>\n  );\n}"
+  }
+}

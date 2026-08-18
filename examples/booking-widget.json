@@ -1,0 +1,42 @@
+{
+  "slug": "booking-widget",
+  "controls_schema": [
+    {
+      "id": "serviceName",
+      "type": "text",
+      "label": "Service name",
+      "default": "60-minute consultation"
+    },
+    {
+      "id": "selectedDate",
+      "type": "text",
+      "label": "Selected date",
+      "default": "Tue, 20 Aug"
+    },
+    {
+      "id": "period",
+      "type": "select",
+      "label": "Time-slot period",
+      "default": "Morning",
+      "options": ["Morning", "Afternoon", "Evening"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showPrice",
+      "type": "toggle",
+      "label": "Show price",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"booking\">\n  <div class=\"booking__head\">\n    <h3 class=\"booking__service\">{{serviceName}}</h3>\n    <span class=\"booking__date\">{{selectedDate}}</span>\n  </div>\n  <span class=\"booking__period-label\">{{period}}</span>\n  <div class=\"booking__slots booking__slots--{{period}}\">\n    <button type=\"button\" class=\"booking__slot\" style=\"--accent:{{accent}};\">9:00</button>\n    <button type=\"button\" class=\"booking__slot booking__slot--active\" style=\"--accent:{{accent}};\">10:30</button>\n    <button type=\"button\" class=\"booking__slot\" style=\"--accent:{{accent}};\">12:00</button>\n  </div>\n  {{#if showPrice}}<p class=\"booking__price\">From <strong>$45</strong> per session</p>{{/if}}\n</div>\n<style>\n.booking { font: 16px system-ui, sans-serif; color: #241430; max-width: 300px; border: 1px solid #24143022; border-radius: 14px; padding: 18px; background: #FAF7F2; }\n.booking__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }\n.booking__service { margin: 0; font-size: 17px; font-weight: 700; }\n.booking__date { font-size: 13px; color: #241430aa; }\n.booking__period-label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #24143088; margin-bottom: 8px; }\n.booking__slots { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }\n.booking__slots--Evening { opacity: .92; }\n.booking__slot { border: 1.5px solid var(--accent); background: transparent; color: var(--accent); padding: 6px 12px; border-radius: 8px; font: 600 13px system-ui, sans-serif; cursor: pointer; }\n.booking__slot:hover, .booking__slot:focus-visible { background: var(--accent); color: #FAF7F2; }\n.booking__slot--active { background: var(--accent); color: #FAF7F2; }\n.booking__price { margin: 0; font-size: 13px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] max-w-[300px] border border-[#24143022] rounded-2xl p-4.5 bg-[#FAF7F2]\">\n  <div class=\"flex justify-between items-baseline mb-3\">\n    <h3 class=\"m-0 text-[17px] font-bold\">{{serviceName}}</h3>\n    <span class=\"text-[13px] text-[#241430]/65\">{{selectedDate}}</span>\n  </div>\n  <span class=\"block text-[11px] font-bold uppercase tracking-wide text-[#241430]/55 mb-2\">{{period}}</span>\n  <div class=\"booking-tw__slots booking-tw__slots--{{period}} flex gap-2 flex-wrap mb-3\">\n    <button type=\"button\" class=\"border-[1.5px] bg-transparent px-3 py-1.5 rounded-lg text-[13px] font-semibold hover:text-[#FAF7F2]\" style=\"border-color:{{accent}};color:{{accent}};\">9:00</button>\n    <button type=\"button\" class=\"border-[1.5px] px-3 py-1.5 rounded-lg text-[13px] font-semibold text-[#FAF7F2]\" style=\"border-color:{{accent}};background:{{accent}};\">10:30</button>\n    <button type=\"button\" class=\"border-[1.5px] bg-transparent px-3 py-1.5 rounded-lg text-[13px] font-semibold hover:text-[#FAF7F2]\" style=\"border-color:{{accent}};color:{{accent}};\">12:00</button>\n  </div>\n  {{#if showPrice}}<p class=\"m-0 text-[13px] text-[#241430]/80\">From <strong>$45</strong> per session</p>{{/if}}\n</div>\n<style>\n.booking-tw__slots--Evening { opacity: .92; }\n.booking-tw__slots button:hover { background: currentColor; }\n</style>",
+    "react": "export function BookingWidget({\n  serviceName = \"{{serviceName}}\",\n  selectedDate = \"{{selectedDate}}\",\n  period = \"{{period}}\",\n  accent = \"{{accent}}\",\n  showPrice = {{showPrice}},\n}) {\n  const slots = [\"9:00\", \"10:30\", \"12:00\"];\n  return (\n    <div style={{ font: \"16px system-ui, sans-serif\", color: \"#241430\", maxWidth: 300, border: \"1px solid #24143022\",\n      borderRadius: 14, padding: 18, background: \"#FAF7F2\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"baseline\", marginBottom: 12 }}>\n        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>{serviceName}</h3>\n        <span style={{ fontSize: 13, color: \"#241430aa\" }}>{selectedDate}</span>\n      </div>\n      <span style={{ display: \"block\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\",\n        letterSpacing: \"0.05em\", color: \"#24143088\", marginBottom: 8 }}>{period}</span>\n      <div style={{ display: \"flex\", gap: 8, flexWrap: \"wrap\", marginBottom: 12, opacity: period === \"Evening\" ? 0.92 : 1 }}>\n        {slots.map((slot, i) => (\n          <button key={slot} type=\"button\" style={{ border: `1.5px solid ${accent}`,\n            background: i === 1 ? accent : \"transparent\", color: i === 1 ? \"#FAF7F2\" : accent,\n            padding: \"6px 12px\", borderRadius: 8, font: \"600 13px system-ui, sans-serif\", cursor: \"pointer\" }}>\n            {slot}\n          </button>\n        ))}\n      </div>\n      {showPrice && <p style={{ margin: 0, fontSize: 13, color: \"#241430cc\" }}>From <strong>$45</strong> per session</p>}\n    </div>\n  );\n}"
+  }
+}

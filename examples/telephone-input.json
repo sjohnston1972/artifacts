@@ -1,0 +1,48 @@
+{
+  "slug": "telephone-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Phone number"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "+44 20 7946 0958"
+    },
+    {
+      "id": "pattern",
+      "type": "text",
+      "label": "Pattern hint",
+      "default": "+[country] [number]"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ti\" for=\"ti-1\">\n  <span class=\"ti__label\">{{label}}{{#if required}} <span class=\"ti__req\">*</span>{{/if}}</span>\n  <input class=\"ti__input\" id=\"ti-1\" type=\"tel\" placeholder=\"{{placeholder}}\" autocomplete=\"tel\" inputmode=\"tel\" style=\"--accent:{{accent}};\" aria-describedby=\"ti-hint-1\"{{#if required}} required{{/if}}>\n  <span class=\"ti__hint\" id=\"ti-hint-1\">Format: {{pattern}}</span>\n</label>\n<style>\n.ti { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.ti__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ti__req { color: #241430; }\n.ti__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ti__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ti__hint { display: block; margin-top: 6px; font-size: 11px; color: #24143080; }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"ti-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"ti-tw-1\" type=\"tel\" placeholder=\"{{placeholder}}\" autocomplete=\"tel\" inputmode=\"tel\" aria-describedby=\"ti-tw-hint-1\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  <span id=\"ti-tw-hint-1\" class=\"block mt-1.5 text-[11px] text-[#24143080]\">Format: {{pattern}}</span>\n</label>",
+    "react": "export function TelephoneInput({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  pattern = \"{{pattern}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"tel\" placeholder={placeholder} autoComplete=\"tel\" inputMode=\"tel\" required={required} aria-describedby=\"ti-react-hint-1\" style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n      <span id=\"ti-react-hint-1\" style={{ display: \"block\", marginTop: 6, fontSize: 11, color: \"#24143080\" }}>Format: {pattern}</span>\n    </label>\n  );\n}"
+  }
+}

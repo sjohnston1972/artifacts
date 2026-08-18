@@ -1,0 +1,42 @@
+{
+  "slug": "related-posts",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Related posts"
+    },
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "3",
+      "options": ["2", "3"]
+    },
+    {
+      "id": "showImage",
+      "type": "toggle",
+      "label": "Show thumbnail",
+      "default": true
+    },
+    {
+      "id": "showExcerpt",
+      "type": "toggle",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"related-posts\" aria-labelledby=\"related-posts-heading\" style=\"--accent:{{accent}};\">\n  <h2 id=\"related-posts-heading\" class=\"related-posts__heading\">{{heading}}</h2>\n  <div class=\"related-posts__grid\" style=\"grid-template-columns:repeat({{columns}},1fr);\">\n    <article class=\"related-posts__card\">\n      {{#if showImage}}<img class=\"related-posts__image\" src=\"https://picsum.photos/seed/growth/320/180\" alt=\"Illustration for Designing for scale\">{{/if}}\n      <h3 class=\"related-posts__title\"><a href=\"#\">Designing for scale</a></h3>\n      {{#if showExcerpt}}<p class=\"related-posts__excerpt\">How we rebuilt our component library without breaking a single page.</p>{{/if}}\n    </article>\n    <article class=\"related-posts__card\">\n      {{#if showImage}}<img class=\"related-posts__image\" src=\"https://picsum.photos/seed/onboard/320/180\" alt=\"Illustration for Onboarding that sticks\">{{/if}}\n      <h3 class=\"related-posts__title\"><a href=\"#\">Onboarding that sticks</a></h3>\n      {{#if showExcerpt}}<p class=\"related-posts__excerpt\">Three changes that cut our time-to-first-value in half.</p>{{/if}}\n    </article>\n    <article class=\"related-posts__card\">\n      {{#if showImage}}<img class=\"related-posts__image\" src=\"https://picsum.photos/seed/perf/320/180\" alt=\"Illustration for A year of performance work\">{{/if}}\n      <h3 class=\"related-posts__title\"><a href=\"#\">A year of performance work</a></h3>\n      {{#if showExcerpt}}<p class=\"related-posts__excerpt\">What moved the needle, and what turned out to be a waste of time.</p>{{/if}}\n    </article>\n  </div>\n</section>\n<style>\n.related-posts { font: 16px/1.5 system-ui, sans-serif; color: #241430; }\n.related-posts__heading { margin: 0 0 16px; font-size: 20px; font-weight: 700; }\n.related-posts__grid { display: grid; gap: 20px; }\n.related-posts__card { display: flex; flex-direction: column; gap: 8px; }\n.related-posts__image { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; }\n.related-posts__title { margin: 0; font-size: 16px; font-weight: 600; }\n.related-posts__title a { color: #241430; text-decoration: none; }\n.related-posts__title a:hover, .related-posts__title a:focus-visible { color: var(--accent); text-decoration: underline; outline: none; }\n.related-posts__excerpt { margin: 0; font-size: 14px; color: #241430cc; }\n</style>",
+    "tailwind": "<section class=\"related-posts-tw font-sans text-[#241430]\" aria-labelledby=\"related-posts-tw-heading\" style=\"--accent:{{accent}}\">\n  <h2 id=\"related-posts-tw-heading\" class=\"m-0 mb-4 text-xl font-bold\">{{heading}}</h2>\n  <div class=\"related-posts-tw__grid grid gap-5\" style=\"grid-template-columns:repeat({{columns}},1fr)\">\n    <article class=\"flex flex-col gap-2\">\n      {{#if showImage}}<img class=\"w-full h-[140px] object-cover rounded-[10px]\" src=\"https://picsum.photos/seed/growth/320/180\" alt=\"Illustration for Designing for scale\">{{/if}}\n      <h3 class=\"related-posts-tw__title m-0 text-base font-semibold\"><a href=\"#\" class=\"no-underline\">Designing for scale</a></h3>\n      {{#if showExcerpt}}<p class=\"m-0 text-sm text-[#241430]/80\">How we rebuilt our component library without breaking a single page.</p>{{/if}}\n    </article>\n    <article class=\"flex flex-col gap-2\">\n      {{#if showImage}}<img class=\"w-full h-[140px] object-cover rounded-[10px]\" src=\"https://picsum.photos/seed/onboard/320/180\" alt=\"Illustration for Onboarding that sticks\">{{/if}}\n      <h3 class=\"related-posts-tw__title m-0 text-base font-semibold\"><a href=\"#\" class=\"no-underline\">Onboarding that sticks</a></h3>\n      {{#if showExcerpt}}<p class=\"m-0 text-sm text-[#241430]/80\">Three changes that cut our time-to-first-value in half.</p>{{/if}}\n    </article>\n    <article class=\"flex flex-col gap-2\">\n      {{#if showImage}}<img class=\"w-full h-[140px] object-cover rounded-[10px]\" src=\"https://picsum.photos/seed/perf/320/180\" alt=\"Illustration for A year of performance work\">{{/if}}\n      <h3 class=\"related-posts-tw__title m-0 text-base font-semibold\"><a href=\"#\" class=\"no-underline\">A year of performance work</a></h3>\n      {{#if showExcerpt}}<p class=\"m-0 text-sm text-[#241430]/80\">What moved the needle, and what turned out to be a waste of time.</p>{{/if}}\n    </article>\n  </div>\n</section>\n<style>\n.related-posts-tw__title a { color: inherit; }\n.related-posts-tw__title a:hover, .related-posts-tw__title a:focus-visible { color: {{accent}}; text-decoration: underline; outline: none; }\n</style>",
+    "react": "export function RelatedPosts({\n  heading = \"{{heading}}\",\n  columns = \"{{columns}}\",\n  showImage = {{showImage}},\n  showExcerpt = {{showExcerpt}},\n  accent = \"{{accent}}\",\n}) {\n  const posts = [\n    { key: \"growth\", title: \"Designing for scale\", excerpt: \"How we rebuilt our component library without breaking a single page.\", seed: \"growth\" },\n    { key: \"onboard\", title: \"Onboarding that sticks\", excerpt: \"Three changes that cut our time-to-first-value in half.\", seed: \"onboard\" },\n    { key: \"perf\", title: \"A year of performance work\", excerpt: \"What moved the needle, and what turned out to be a waste of time.\", seed: \"perf\" },\n  ];\n  return (\n    <section aria-labelledby=\"related-posts-r-heading\" style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }}>\n      <h2 id=\"related-posts-r-heading\" style={{ margin: \"0 0 16px\", fontSize: 20, fontWeight: 700 }}>{heading}</h2>\n      <div style={{ display: \"grid\", gap: 20, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {posts.map((post) => (\n          <article key={post.key} style={{ display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n            {showImage && (\n              <img style={{ width: \"100%\", height: 140, objectFit: \"cover\", borderRadius: 10 }}\n                src={`https://picsum.photos/seed/${post.seed}/320/180`} alt={`Illustration for ${post.title}`} />\n            )}\n            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>\n              <a href=\"#\" style={{ color: accent, textDecoration: \"none\" }}>{post.title}</a>\n            </h3>\n            {showExcerpt && <p style={{ margin: 0, fontSize: 14, color: \"#241430cc\" }}>{post.excerpt}</p>}\n          </article>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  }
+}

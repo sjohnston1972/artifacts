@@ -1,0 +1,47 @@
+{
+  "slug": "wrapper",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Content label",
+      "default": "Wrapped content"
+    },
+    {
+      "id": "padding",
+      "type": "number",
+      "label": "Padding",
+      "default": 20,
+      "min": 0,
+      "max": 40,
+      "step": 4
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "border",
+      "type": "toggle",
+      "label": "Show border",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wrap-demo{{#if border}} wrap-demo--border{{/if}}\" style=\"padding:{{padding}}px;border-radius:{{radius}}px;background:{{bg}};\">\n  <div class=\"wrap-demo__inner\">{{label}}</div>\n</div>\n<style>\n.wrap-demo { box-sizing: border-box; font: 13px system-ui, sans-serif; color: #241430; }\n.wrap-demo--border { border: 1.5px solid #24143033; }\n.wrap-demo__inner { border: 1px dashed #24143055; padding: 10px; text-align: center; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"box-border font-sans text-[13px] text-[#241430] wrap-tw{{#if border}} wrap-tw--border{{/if}}\" style=\"padding:{{padding}}px;border-radius:{{radius}}px;background:{{bg}};\">\n  <div class=\"border border-dashed border-[#24143055] p-2.5 text-center text-[#24143099]\">{{label}}</div>\n</div>\n<style>\n.wrap-tw--border { border: 1.5px solid #24143033; }\n</style>",
+    "react": "export function Wrapper({\n  label = \"{{label}}\",\n  padding = {{padding}},\n  radius = {{radius}},\n  bg = \"{{bg}}\",\n  border = {{border}},\n}) {\n  return (\n    <div style={{ boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", padding, borderRadius: radius, background: bg, border: border ? \"1.5px solid #24143033\" : \"none\" }}>\n      <div style={{ border: \"1px dashed #24143055\", padding: 10, textAlign: \"center\", color: \"#24143099\" }}>{label}</div>\n    </div>\n  );\n}"
+  }
+}

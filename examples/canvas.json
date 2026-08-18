@@ -1,0 +1,45 @@
+{
+  "slug": "canvas",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Board label",
+      "default": "Moodboard"
+    },
+    {
+      "id": "spacing",
+      "type": "number",
+      "label": "Dot grid spacing",
+      "default": 24,
+      "min": 12,
+      "max": 40,
+      "step": 4
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Node colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showGrid",
+      "type": "toggle",
+      "label": "Show dot grid",
+      "default": true
+    },
+    {
+      "id": "zoom",
+      "type": "select",
+      "label": "Zoom",
+      "default": "100",
+      "options": ["75", "100", "125"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"canvas-demo\">\n  <span class=\"canvas-demo__badge\">{{label}}</span>\n  <div class=\"canvas-demo__surface canvas-demo__surface--zoom-{{zoom}}{{#unless showGrid}} canvas-demo__surface--nogrid{{/unless}}\" style=\"background-size:{{spacing}}px {{spacing}}px;\">\n    <div class=\"canvas-demo__node\" style=\"left:20px; top:18px; background:{{accent}};\">A</div>\n    <div class=\"canvas-demo__node\" style=\"left:120px; top:70px; background:{{accent}};\">B</div>\n    <div class=\"canvas-demo__node\" style=\"left:60px; top:130px; background:{{accent}};\">C</div>\n  </div>\n</div>\n<style>\n.canvas-demo { position: relative; font: 13px system-ui, sans-serif; color: #241430; }\n.canvas-demo__badge { position: absolute; top: 8px; left: 8px; z-index: 2; background: #241430; color: #FAF7F2; padding: 3px 10px; border-radius: 999px; font-weight: 600; font-size: 12px; }\n.canvas-demo__surface { position: relative; height: 200px; overflow: hidden; background-color: #FAF7F2; background-image: radial-gradient(#24143033 1px, transparent 1px); border: 1px solid #24143022; transform-origin: top left; }\n.canvas-demo__surface--nogrid { background-image: none; }\n.canvas-demo__surface--zoom-75 { transform: scale(.75); width: 133.3%; height: 266px; }\n.canvas-demo__surface--zoom-125 { transform: scale(1.25); width: 80%; height: 160px; }\n.canvas-demo__node { position: absolute; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #241430; box-shadow: 0 6px 14px rgba(36,20,48,.2); }\n</style>",
+    "tailwind": "<div class=\"relative font-sans text-[13px] text-[#241430] canvas-tw\">\n  <span class=\"absolute top-2 left-2 z-10 bg-[#241430] text-[#FAF7F2] px-2.5 py-1 rounded-full font-semibold text-xs\">{{label}}</span>\n  <div class=\"relative h-[200px] overflow-hidden bg-[#FAF7F2] border border-[#24143022] origin-top-left canvas-tw__surface canvas-tw__surface--zoom-{{zoom}}{{#unless showGrid}} canvas-tw__surface--nogrid{{/unless}}\" style=\"background-image:radial-gradient(#24143033 1px, transparent 1px); background-size:{{spacing}}px {{spacing}}px;\">\n    <div class=\"absolute w-11 h-11 rounded-[10px] flex items-center justify-center font-bold shadow-lg\" style=\"left:20px;top:18px;background:{{accent}};\">A</div>\n    <div class=\"absolute w-11 h-11 rounded-[10px] flex items-center justify-center font-bold shadow-lg\" style=\"left:120px;top:70px;background:{{accent}};\">B</div>\n    <div class=\"absolute w-11 h-11 rounded-[10px] flex items-center justify-center font-bold shadow-lg\" style=\"left:60px;top:130px;background:{{accent}};\">C</div>\n  </div>\n</div>\n<style>\n.canvas-tw__surface--nogrid { background-image: none !important; }\n.canvas-tw__surface--zoom-75 { transform: scale(.75); width: 133.3%; height: 266px; }\n.canvas-tw__surface--zoom-125 { transform: scale(1.25); width: 80%; height: 160px; }\n</style>",
+    "react": "export function Canvas({\n  label = \"{{label}}\",\n  spacing = {{spacing}},\n  accent = \"{{accent}}\",\n  showGrid = {{showGrid}},\n  zoom = \"{{zoom}}\",\n}) {\n  const scale = Number(zoom) / 100;\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ position: \"absolute\", top: 8, left: 8, zIndex: 2, background: \"#241430\", color: \"#FAF7F2\", padding: \"3px 10px\", borderRadius: 999, fontWeight: 600, fontSize: 12 }}>{label}</span>\n      <div style={{\n        position: \"relative\", height: 200, overflow: \"hidden\", background: \"#FAF7F2\",\n        backgroundImage: showGrid ? \"radial-gradient(#24143033 1px, transparent 1px)\" : \"none\",\n        backgroundSize: `${spacing}px ${spacing}px`, border: \"1px solid #24143022\",\n        transform: `scale(${scale})`, transformOrigin: \"top left\", width: `${100 / scale}%`,\n      }}>\n        {[{ id: \"A\", x: 20, y: 18 }, { id: \"B\", x: 120, y: 70 }, { id: \"C\", x: 60, y: 130 }].map((n) => (\n          <div key={n.id} style={{ position: \"absolute\", left: n.x, top: n.y, width: 44, height: 44, borderRadius: 10, background: accent, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontWeight: 700, boxShadow: \"0 6px 14px rgba(36,20,48,.2)\" }}>{n.id}</div>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

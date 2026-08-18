@@ -1,0 +1,45 @@
+{
+  "slug": "row",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Actions"
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 10,
+      "min": 2,
+      "max": 28,
+      "step": 2
+    },
+    {
+      "id": "justify",
+      "type": "select",
+      "label": "Justify",
+      "default": "start",
+      "options": ["start", "center", "space-between"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "wrap",
+      "type": "toggle",
+      "label": "Allow wrap",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"row-demo\">\n  <h4 class=\"row-demo__heading\">{{heading}}</h4>\n  <div class=\"row-demo__row row-demo__row--{{justify}}{{#if wrap}} row-demo__row--wrap{{/if}}\" style=\"gap:{{gap}}px;\">\n    <span class=\"row-demo__chip\" style=\"border-color:{{accent}};\">Approve</span>\n    <span class=\"row-demo__chip\" style=\"border-color:{{accent}};\">Reject</span>\n    <span class=\"row-demo__chip\" style=\"border-color:{{accent}};\">Delegate</span>\n  </div>\n</div>\n<style>\n.row-demo { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.row-demo__heading { margin: 0 0 10px; font-size: 15px; }\n.row-demo__row { display: flex; flex-wrap: nowrap; max-width: 100%; overflow: hidden; }\n.row-demo__row--wrap { flex-wrap: wrap; overflow: visible; }\n.row-demo__row--center { justify-content: center; }\n.row-demo__row--space-between { justify-content: space-between; }\n.row-demo__chip { box-sizing: border-box; padding: 7px 14px; background: #fff; border: 1.5px solid; border-radius: 999px; white-space: nowrap; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4\">\n  <h4 class=\"m-0 mb-2.5 text-[15px]\">{{heading}}</h4>\n  <div class=\"flex flex-nowrap max-w-full overflow-hidden row-tw row-tw--{{justify}}{{#if wrap}} row-tw--wrap{{/if}}\" style=\"gap:{{gap}}px;\">\n    <span class=\"box-border px-3.5 py-[7px] bg-white border-[1.5px] rounded-full whitespace-nowrap\" style=\"border-color:{{accent}};\">Approve</span>\n    <span class=\"box-border px-3.5 py-[7px] bg-white border-[1.5px] rounded-full whitespace-nowrap\" style=\"border-color:{{accent}};\">Reject</span>\n    <span class=\"box-border px-3.5 py-[7px] bg-white border-[1.5px] rounded-full whitespace-nowrap\" style=\"border-color:{{accent}};\">Delegate</span>\n  </div>\n</div>\n<style>\n.row-tw--wrap { flex-wrap: wrap; overflow: visible; }\n.row-tw--center { justify-content: center; }\n.row-tw--space-between { justify-content: space-between; }\n</style>",
+    "react": "export function Row({\n  heading = \"{{heading}}\",\n  gap = {{gap}},\n  justify = \"{{justify}}\",\n  accent = \"{{accent}}\",\n  wrap = {{wrap}},\n}) {\n  const justifyContent = { start: \"flex-start\", center: \"center\", \"space-between\": \"space-between\" }[justify];\n  const chips = [\"Approve\", \"Reject\", \"Delegate\"];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <h4 style={{ margin: \"0 0 10px\", fontSize: 15 }}>{heading}</h4>\n      <div style={{ display: \"flex\", flexWrap: wrap ? \"wrap\" : \"nowrap\", justifyContent, gap, maxWidth: \"100%\", overflow: wrap ? \"visible\" : \"hidden\" }}>\n        {chips.map((c) => (\n          <span key={c} style={{ boxSizing: \"border-box\", padding: \"7px 14px\", background: \"#fff\", border: `1.5px solid ${accent}`, borderRadius: 999, whiteSpace: \"nowrap\" }}>{c}</span>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

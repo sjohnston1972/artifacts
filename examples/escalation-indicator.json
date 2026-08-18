@@ -1,0 +1,38 @@
+{
+  "slug": "escalation-indicator",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Escalated to on-call"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Level",
+      "default": "high",
+      "options": ["low", "medium", "high", "critical"]
+    },
+    {
+      "id": "pulsing",
+      "type": "toggle",
+      "label": "Pulsing",
+      "default": true
+    },
+    {
+      "id": "minutesOpen",
+      "type": "number",
+      "label": "Minutes open",
+      "default": 12,
+      "min": 0,
+      "max": 240,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"escalation escalation--{{level}}{{#if pulsing}} escalation--pulsing{{/if}}\" role=\"status\">\n  <span class=\"escalation__dot\" aria-hidden=\"true\"></span>\n  <span class=\"escalation__label\">{{label}}</span>\n  <span class=\"escalation__meta\">{{minutesOpen}}m open</span>\n</div>\n<style>\n.escalation { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px;\n  font: 600 12.5px system-ui, sans-serif; box-sizing: border-box; border: 1.5px solid; }\n.escalation__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }\n.escalation--pulsing .escalation__dot { animation: escalation-pulse 1.4s ease-in-out infinite; }\n@keyframes escalation-pulse { 0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; } 50% { box-shadow: 0 0 0 4px transparent; opacity: .55; } }\n.escalation--low { color: #2F6FA8; background: color-mix(in srgb, #2F6FA8 12%, #FAF7F2); border-color: #2F6FA8; }\n.escalation--medium { color: #8A5A08; background: color-mix(in srgb, #8A5A08 12%, #FAF7F2); border-color: #8A5A08; }\n.escalation--high { color: #B3541E; background: color-mix(in srgb, #B3541E 14%, #FAF7F2); border-color: #B3541E; }\n.escalation--critical { color: #FAF7F2; background: #8C1F17; border-color: #8C1F17; }\n.escalation__meta { opacity: .75; font-weight: 500; }\n</style>",
+    "tailwind": "<div role=\"status\" class=\"escalation-tw escalation-tw--{{level}}{{#if pulsing}} escalation-tw--pulsing{{/if}} inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-semibold text-[12.5px] box-border border-[1.5px]\">\n  <span aria-hidden=\"true\" class=\"escalation-tw__dot w-2 h-2 rounded-full flex-shrink-0\" style=\"background:currentColor\"></span>\n  <span>{{label}}</span>\n  <span class=\"opacity-75 font-medium\">{{minutesOpen}}m open</span>\n</div>\n<style>\n.escalation-tw--pulsing .escalation-tw__dot { animation: escalation-tw-pulse 1.4s ease-in-out infinite; }\n@keyframes escalation-tw-pulse { 0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; } 50% { box-shadow: 0 0 0 4px transparent; opacity: .55; } }\n.escalation-tw--low { color: #2F6FA8; background: color-mix(in srgb, #2F6FA8 12%, #FAF7F2); border-color: #2F6FA8; }\n.escalation-tw--medium { color: #8A5A08; background: color-mix(in srgb, #8A5A08 12%, #FAF7F2); border-color: #8A5A08; }\n.escalation-tw--high { color: #B3541E; background: color-mix(in srgb, #B3541E 14%, #FAF7F2); border-color: #B3541E; }\n.escalation-tw--critical { color: #FAF7F2; background: #8C1F17; border-color: #8C1F17; }\n</style>",
+    "react": "export function EscalationIndicator({\n  label = \"{{label}}\",\n  level = \"{{level}}\",\n  pulsing = {{pulsing}},\n  minutesOpen = {{minutesOpen}},\n}) {\n  const palette = {\n    low: { color: \"#2F6FA8\", background: \"color-mix(in srgb, #2F6FA8 12%, #FAF7F2)\" },\n    medium: { color: \"#8A5A08\", background: \"color-mix(in srgb, #8A5A08 12%, #FAF7F2)\" },\n    high: { color: \"#B3541E\", background: \"color-mix(in srgb, #B3541E 14%, #FAF7F2)\" },\n    critical: { color: \"#FAF7F2\", background: \"#8C1F17\" },\n  }[level] ?? { color: \"#2F6FA8\", background: \"#FAF7F2\" };\n  return (\n    <div role=\"status\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, padding: \"6px 12px\",\n      borderRadius: 999, fontWeight: 600, fontSize: 12.5, boxSizing: \"border-box\", border: `1.5px solid ${palette.color}`,\n      color: palette.color, background: palette.background }}>\n      <span aria-hidden=\"true\" style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"currentColor\", flexShrink: 0,\n        animation: pulsing ? \"escalation-react-pulse 1.4s ease-in-out infinite\" : \"none\" }} />\n      <span>{label}</span>\n      <span style={{ opacity: 0.75, fontWeight: 500 }}>{minutesOpen}m open</span>\n      <style>{`@keyframes escalation-react-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }`}</style>\n    </div>\n  );\n}"
+  }
+}

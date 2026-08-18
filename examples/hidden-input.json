@@ -1,0 +1,53 @@
+{
+  "slug": "hidden-input",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Field name",
+      "default": "csrf_token"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Field value",
+      "default": "a1b2c3d4e5"
+    },
+    {
+      "id": "purpose",
+      "type": "select",
+      "label": "Purpose",
+      "default": "Security token",
+      "options": [
+        "Security token",
+        "Session ID",
+        "Redirect URL"
+      ]
+    },
+    {
+      "id": "reveal",
+      "type": "toggle",
+      "label": "Reveal for demo",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Outline colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"hi\">\n  <p class=\"hi__note\">{{purpose}} carried invisibly with the form:</p>\n  {{#if reveal}}<div class=\"hi__demo\" style=\"--accent:{{accent}};\"><code>&lt;input type=\"hidden\" name=\"{{name}}\" value=\"{{value}}\"&gt;</code></div>{{/if}}\n  <input type=\"hidden\" name=\"{{name}}\" value=\"{{value}}\">\n  <button class=\"hi__submit\" type=\"submit\">Submit form</button>\n</form>\n<style>\n.hi { font: 14px system-ui, sans-serif; color: #241430; max-width: 320px; }\n.hi__note { margin: 0 0 8px; font-size: 13px; color: #24143099; }\n.hi__demo { margin-bottom: 10px; padding: 8px 10px; border: 1.5px dashed var(--accent); border-radius: 8px; background: #FAF7F2; overflow-x: auto; }\n.hi__demo code { font-size: 12px; font-family: ui-monospace, monospace; white-space: pre; }\n.hi__submit { padding: 9px 16px; border: none; border-radius: 8px; background: #241430; color: #FAF7F2; font: inherit; font-weight: 600; cursor: pointer; }\n.hi__submit:hover { filter: brightness(1.15); }\n</style>",
+    "tailwind": "<form class=\"font-sans text-sm text-[#241430] max-w-[320px]\">\n  <p class=\"m-0 mb-2 text-[13px] text-[#24143099]\">{{purpose}} carried invisibly with the form:</p>\n  {{#if reveal}}<div class=\"mb-2.5 px-2.5 py-2 border-[1.5px] border-dashed rounded-lg bg-[#FAF7F2] overflow-x-auto\" style=\"border-color:{{accent}};\"><code class=\"text-xs font-mono whitespace-pre\">&lt;input type=\"hidden\" name=\"{{name}}\" value=\"{{value}}\"&gt;</code></div>{{/if}}\n  <input type=\"hidden\" name=\"{{name}}\" value=\"{{value}}\">\n  <button type=\"submit\" class=\"px-4 py-2.5 border-0 rounded-lg bg-[#241430] text-[#FAF7F2] font-semibold cursor-pointer hover:brightness-110\">Submit form</button>\n</form>",
+    "react": "export function HiddenInput({\n  name = \"{{name}}\",\n  value = \"{{value}}\",\n  purpose = \"{{purpose}}\",\n  reveal = {{reveal}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <form style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 320 }}>\n      <p style={{ margin: \"0 0 8px\", fontSize: 13, color: \"#24143099\" }}>{purpose} carried invisibly with the form:</p>\n      {reveal && (\n        <div style={{ marginBottom: 10, padding: \"8px 10px\", border: `1.5px dashed ${accent}`, borderRadius: 8, background: \"#FAF7F2\", overflowX: \"auto\" }}>\n          <code style={{ fontSize: 12, fontFamily: \"ui-monospace, monospace\", whiteSpace: \"pre\" }}>\n            {`<input type=\"hidden\" name=\"${name}\" value=\"${value}\">`}\n          </code>\n        </div>\n      )}\n      <input type=\"hidden\" name={name} value={value} />\n      <button type=\"submit\" style={{ padding: \"9px 16px\", border: \"none\", borderRadius: 8, background: \"#241430\", color: \"#FAF7F2\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\" }}>\n        Submit form\n      </button>\n    </form>\n  );\n}"
+  }
+}

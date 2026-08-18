@@ -1,0 +1,45 @@
+{
+  "slug": "tile",
+  "controls_schema": [
+    {
+      "id": "icon",
+      "type": "text",
+      "label": "Icon",
+      "default": "★"
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Favourites"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "solid",
+      "options": ["solid", "outline"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Tile size",
+      "default": 96,
+      "min": 64,
+      "max": 140,
+      "step": 8
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tile-demo\">\n  <button class=\"tile-demo__tile tile-demo__tile--{{variant}}\" style=\"width:{{size}}px;height:{{size}}px;--accent:{{accent}};\" type=\"button\">\n    <span class=\"tile-demo__icon\">{{icon}}</span>\n    <span class=\"tile-demo__label\">{{label}}</span>\n  </button>\n</div>\n<style>\n.tile-demo { font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.tile-demo__tile { box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border-radius: 14px; cursor: pointer; font: inherit; }\n.tile-demo__tile--solid { background: var(--accent); border: none; color: #241430; }\n.tile-demo__tile--outline { background: #fff; border: 2px solid var(--accent); color: #241430; }\n.tile-demo__tile:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(36,20,48,.18); }\n.tile-demo__tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.tile-demo__icon { font-size: 22px; }\n.tile-demo__label { font-weight: 600; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-4\">\n  <button type=\"button\" class=\"box-border flex flex-col items-center justify-center gap-1.5 rounded-2xl cursor-pointer font-inherit hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 tile-tw tile-tw--{{variant}}\" style=\"width:{{size}}px;height:{{size}}px;--accent:{{accent}};\">\n    <span class=\"text-[22px]\">{{icon}}</span>\n    <span class=\"font-semibold text-center\">{{label}}</span>\n  </button>\n</div>\n<style>\n.tile-tw--solid { background: var(--accent); border: none; }\n.tile-tw--outline { background: #fff; border: 2px solid var(--accent); }\n</style>",
+    "react": "export function Tile({\n  icon = \"{{icon}}\",\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n}) {\n  const solid = variant === \"solid\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <button type=\"button\" style={{\n        boxSizing: \"border-box\", width: size, height: size, display: \"flex\", flexDirection: \"column\",\n        alignItems: \"center\", justifyContent: \"center\", gap: 6, borderRadius: 14, cursor: \"pointer\", font: \"inherit\",\n        background: solid ? accent : \"#fff\", border: solid ? \"none\" : `2px solid ${accent}`, color: \"#241430\",\n      }}>\n        <span style={{ fontSize: 22 }}>{icon}</span>\n        <span style={{ fontWeight: 600, textAlign: \"center\" }}>{label}</span>\n      </button>\n    </div>\n  );\n}"
+  }
+}

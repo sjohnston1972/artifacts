@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "quote",
+      "type": "text",
+      "label": "Quote",
+      "default": "Their support team feels like an extension of ours."
+    },
+    {
+      "id": "authorName",
+      "type": "text",
+      "label": "Author name",
+      "default": "Sam Okafor"
+    },
+    {
+      "id": "activeSlide",
+      "type": "select",
+      "label": "Active slide",
+      "default": "1",
+      "options": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "autoAdvance",
+      "type": "toggle",
+      "label": "Auto-advance",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"testimonial-carousel{{#if autoAdvance}} testimonial-carousel--auto{{/if}}\" data-active=\"{{activeSlide}}\" style=\"--accent:{{accent}};\" role=\"region\" aria-roledescription=\"carousel\" aria-label=\"Customer testimonials\">\n  <blockquote class=\"testimonial-carousel__quote\">\n    <p>“{{quote}}”</p>\n    <cite class=\"testimonial-carousel__author\">{{authorName}}</cite>\n  </blockquote>\n  <div class=\"testimonial-carousel__dots\" role=\"tablist\" aria-label=\"Choose testimonial\">\n    <button type=\"button\" class=\"testimonial-carousel__dot\" data-slide=\"1\" role=\"tab\" aria-label=\"Testimonial 1\"></button>\n    <button type=\"button\" class=\"testimonial-carousel__dot\" data-slide=\"2\" role=\"tab\" aria-label=\"Testimonial 2\"></button>\n    <button type=\"button\" class=\"testimonial-carousel__dot\" data-slide=\"3\" role=\"tab\" aria-label=\"Testimonial 3\"></button>\n  </div>\n</div>\n<style>\n.testimonial-carousel { font-family: system-ui, sans-serif; color: #241430; max-width: 420px; padding: 24px; background: #FAF7F2; border-radius: 12px; box-shadow: 0 8px 24px rgba(36,20,48,.14); text-align: center; }\n.testimonial-carousel__quote { margin: 0 0 16px; font-size: 17px; line-height: 1.5; font-style: italic; }\n.testimonial-carousel__quote p { margin: 0; }\n.testimonial-carousel__author { display: block; margin-top: 8px; font-style: normal; font-weight: 600; font-size: 14px; }\n.testimonial-carousel__dots { display: flex; justify-content: center; gap: 8px; }\n.testimonial-carousel__dot { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: none; background: #24143030; cursor: pointer; }\n.testimonial-carousel__dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.testimonial-carousel--auto .testimonial-carousel__dot { transition: background .3s, width .3s; }\n.testimonial-carousel[data-active=\"1\"] .testimonial-carousel__dot[data-slide=\"1\"],\n.testimonial-carousel[data-active=\"2\"] .testimonial-carousel__dot[data-slide=\"2\"],\n.testimonial-carousel[data-active=\"3\"] .testimonial-carousel__dot[data-slide=\"3\"] { background: var(--accent); width: 20px; border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"testimonial-carousel-tw{{#if autoAdvance}} testimonial-carousel-tw--auto{{/if}} font-sans text-[#241430] max-w-[420px] p-6 bg-[#FAF7F2] rounded-xl shadow-lg text-center\" data-active=\"{{activeSlide}}\" style=\"--accent:{{accent}}\" role=\"region\" aria-roledescription=\"carousel\" aria-label=\"Customer testimonials\">\n  <blockquote class=\"m-0 mb-4 text-[17px] leading-relaxed italic\">\n    <p class=\"m-0\">“{{quote}}”</p>\n    <cite class=\"block mt-2 not-italic font-semibold text-sm\">{{authorName}}</cite>\n  </blockquote>\n  <div class=\"flex justify-center gap-2\" role=\"tablist\" aria-label=\"Choose testimonial\">\n    <button type=\"button\" class=\"testimonial-carousel-tw__dot w-2 h-2 p-0 rounded-full border-none bg-[#24143030] cursor-pointer\" data-slide=\"1\" role=\"tab\" aria-label=\"Testimonial 1\"></button>\n    <button type=\"button\" class=\"testimonial-carousel-tw__dot w-2 h-2 p-0 rounded-full border-none bg-[#24143030] cursor-pointer\" data-slide=\"2\" role=\"tab\" aria-label=\"Testimonial 2\"></button>\n    <button type=\"button\" class=\"testimonial-carousel-tw__dot w-2 h-2 p-0 rounded-full border-none bg-[#24143030] cursor-pointer\" data-slide=\"3\" role=\"tab\" aria-label=\"Testimonial 3\"></button>\n  </div>\n</div>\n<style>\n.testimonial-carousel-tw__dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.testimonial-carousel-tw--auto .testimonial-carousel-tw__dot { transition: background .3s, width .3s; }\n.testimonial-carousel-tw[data-active=\"1\"] .testimonial-carousel-tw__dot[data-slide=\"1\"],\n.testimonial-carousel-tw[data-active=\"2\"] .testimonial-carousel-tw__dot[data-slide=\"2\"],\n.testimonial-carousel-tw[data-active=\"3\"] .testimonial-carousel-tw__dot[data-slide=\"3\"] { background: var(--accent); width: 20px; border-radius: 4px; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function TestimonialCarousel({\n  quote = \"{{quote}}\",\n  authorName = \"{{authorName}}\",\n  activeSlide = \"{{activeSlide}}\",\n  accent = \"{{accent}}\",\n  autoAdvance = {{autoAdvance}},\n}) {\n  const [active, setActive] = useState(activeSlide);\n  return (\n    <div role=\"region\" aria-roledescription=\"carousel\" aria-label=\"Customer testimonials\"\n      style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 420, padding: 24,\n        background: \"#FAF7F2\", borderRadius: 12, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", textAlign: \"center\" }}>\n      <blockquote style={{ margin: \"0 0 16px\", fontSize: 17, lineHeight: 1.5, fontStyle: \"italic\" }}>\n        <p style={{ margin: 0 }}>“{quote}”</p>\n        <cite style={{ display: \"block\", marginTop: 8, fontStyle: \"normal\", fontWeight: 600, fontSize: 14 }}>{authorName}</cite>\n      </blockquote>\n      <div role=\"tablist\" aria-label=\"Choose testimonial\" style={{ display: \"flex\", justifyContent: \"center\", gap: 8 }}>\n        {[\"1\", \"2\", \"3\"].map((slide) => (\n          <button key={slide} type=\"button\" role=\"tab\" aria-label={`Testimonial ${slide}`}\n            onClick={() => setActive(slide)}\n            style={{\n              width: active === slide ? 20 : 8, height: 8, padding: 0,\n              borderRadius: active === slide ? 4 : 999, border: \"none\", cursor: \"pointer\",\n              background: active === slide ? accent : \"#24143030\",\n              transition: autoAdvance ? \"background .3s, width .3s\" : \"none\",\n            }} />\n        ))}\n      </div>\n    </div>\n  );\n}"
+  },
+  "slug": "testimonial-carousel"
+}

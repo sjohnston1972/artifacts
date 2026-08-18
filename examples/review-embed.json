@@ -1,0 +1,48 @@
+{
+  "slug": "review-embed",
+  "controls_schema": [
+    {
+      "id": "sourceName",
+      "type": "text",
+      "label": "Source name",
+      "default": "Verified Reviews"
+    },
+    {
+      "id": "rating",
+      "type": "number",
+      "label": "Average rating",
+      "default": 4.8,
+      "min": 0,
+      "max": 5,
+      "step": 0.1
+    },
+    {
+      "id": "reviewCount",
+      "type": "number",
+      "label": "Review count",
+      "default": 1240,
+      "min": 0,
+      "max": 999999,
+      "step": 1
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "compact",
+      "options": ["compact", "expanded"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"review-embed review-embed--{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"review-embed__header\">\n    <span class=\"review-embed__source\">{{sourceName}}</span>\n    <span class=\"review-embed__stars\" style=\"--fill:calc({{rating}} / 5 * 100%);\" role=\"img\" aria-label=\"Rated {{rating}} out of 5 stars\">\n      <span class=\"review-embed__stars-track\" aria-hidden=\"true\">★★★★★</span>\n      <span class=\"review-embed__stars-fill\" aria-hidden=\"true\">★★★★★</span>\n    </span>\n    <span class=\"review-embed__rating\">{{rating}} / 5</span>\n  </div>\n  <p class=\"review-embed__count\">Based on {{reviewCount}} reviews</p>\n  <blockquote class=\"review-embed__quote\">\n    “Support answered within the hour and actually fixed the problem. Would recommend without hesitation.”\n    <cite>— Priya N.</cite>\n  </blockquote>\n</div>\n<style>\n.review-embed { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143026; border-radius: 12px; padding: 18px 20px; max-width: 320px; }\n.review-embed__header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }\n.review-embed__source { font-weight: 700; font-size: 14px; }\n.review-embed__stars { position: relative; display: inline-block; font-size: 16px; line-height: 1; letter-spacing: 2px; }\n.review-embed__stars-track { color: #24143026; }\n.review-embed__stars-fill { position: absolute; inset: 0; width: var(--fill); overflow: hidden; white-space: nowrap; color: var(--accent); }\n.review-embed__rating { font-size: 13px; color: #241430aa; }\n.review-embed__count { margin: 6px 0 0; font-size: 13px; color: #241430aa; }\n.review-embed__quote { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid #24143020; font-size: 14px; font-style: italic; display: none; }\n.review-embed__quote cite { display: block; margin-top: 6px; font-size: 12px; font-style: normal; color: #241430aa; }\n.review-embed--expanded .review-embed__quote { display: block; }\n</style>",
+    "tailwind": "<div class=\"review-embed-tw review-embed-tw--{{layout}} max-w-xs p-5 rounded-xl border-[1.5px] border-[#24143026] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\">\n  <div class=\"flex items-center gap-2.5 flex-wrap\">\n    <span class=\"font-bold text-sm\">{{sourceName}}</span>\n    <span class=\"relative inline-block text-base leading-none tracking-[2px]\" style=\"--fill:calc({{rating}} / 5 * 100%)\" role=\"img\" aria-label=\"Rated {{rating}} out of 5 stars\">\n      <span class=\"text-[#24143026]\" aria-hidden=\"true\">★★★★★</span>\n      <span class=\"absolute inset-0 overflow-hidden whitespace-nowrap\" style=\"width:var(--fill);color:{{accent}}\" aria-hidden=\"true\">★★★★★</span>\n    </span>\n    <span class=\"text-[13px] text-[#241430]/70\">{{rating}} / 5</span>\n  </div>\n  <p class=\"mt-1.5 mb-0 text-[13px] text-[#241430]/70\">Based on {{reviewCount}} reviews</p>\n  <blockquote class=\"review-embed-tw__quote mt-3.5 pt-3 border-t border-[#24143020] text-sm italic hidden\">\n    “Support answered within the hour and actually fixed the problem. Would recommend without hesitation.”\n    <cite class=\"block mt-1.5 text-xs not-italic text-[#241430]/70\">— Priya N.</cite>\n  </blockquote>\n</div>\n<style>\n.review-embed-tw--expanded .review-embed-tw__quote { display: block; }\n</style>",
+    "react": "export function ReviewEmbed({\n  sourceName = \"{{sourceName}}\",\n  rating = {{rating}},\n  reviewCount = {{reviewCount}},\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n}) {\n  const expanded = layout === \"expanded\";\n  return (\n    <div style={{ maxWidth: 320, padding: \"18px 20px\", borderRadius: 12, border: \"1.5px solid #24143026\",\n      background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, flexWrap: \"wrap\" }}>\n        <span style={{ fontWeight: 700, fontSize: 14 }}>{sourceName}</span>\n        <span style={{ position: \"relative\", display: \"inline-block\", fontSize: 16, lineHeight: 1, letterSpacing: 2 }}\n          role=\"img\" aria-label={`Rated ${rating} out of 5 stars`}>\n          <span style={{ color: \"#24143026\" }} aria-hidden=\"true\">★★★★★</span>\n          <span style={{ position: \"absolute\", inset: 0, width: `calc(${rating} / 5 * 100%)`, overflow: \"hidden\",\n            whiteSpace: \"nowrap\", color: accent }} aria-hidden=\"true\">★★★★★</span>\n        </span>\n        <span style={{ fontSize: 13, color: \"#241430aa\" }}>{rating} / 5</span>\n      </div>\n      <p style={{ margin: \"6px 0 0\", fontSize: 13, color: \"#241430aa\" }}>Based on {reviewCount} reviews</p>\n      {expanded && (\n        <blockquote style={{ margin: \"14px 0 0\", paddingTop: 12, borderTop: \"1px solid #24143020\", fontSize: 14, fontStyle: \"italic\" }}>\n          “Support answered within the hour and actually fixed the problem. Would recommend without hesitation.”\n          <cite style={{ display: \"block\", marginTop: 6, fontSize: 12, fontStyle: \"normal\", color: \"#241430aa\" }}>— Priya N.</cite>\n        </blockquote>\n      )}\n    </div>\n  );\n}"
+  }
+}

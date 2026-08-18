@@ -1,0 +1,48 @@
+{
+  "slug": "grid",
+  "controls_schema": [
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Columns",
+      "default": 3,
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "count",
+      "type": "select",
+      "label": "Tile count",
+      "default": "6",
+      "options": ["6", "9"]
+    },
+    {
+      "id": "numbers",
+      "type": "toggle",
+      "label": "Show numbers",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"grid-demo grid-demo--count-{{count}}\" style=\"grid-template-columns:repeat({{columns}}, 1fr);gap:{{gap}}px;\">\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}1{{/if}}</div>\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}2{{/if}}</div>\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}3{{/if}}</div>\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}4{{/if}}</div>\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}5{{/if}}</div>\n  <div class=\"grid-demo__cell\" style=\"background:{{accent}};\">{{#if numbers}}6{{/if}}</div>\n  <div class=\"grid-demo__cell grid-demo__cell--extra\" style=\"background:{{accent}};\">{{#if numbers}}7{{/if}}</div>\n  <div class=\"grid-demo__cell grid-demo__cell--extra\" style=\"background:{{accent}};\">{{#if numbers}}8{{/if}}</div>\n  <div class=\"grid-demo__cell grid-demo__cell--extra\" style=\"background:{{accent}};\">{{#if numbers}}9{{/if}}</div>\n</div>\n<style>\n.grid-demo { display: grid; font: 600 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.grid-demo__cell { aspect-ratio: 1.4; border-radius: 6px; display: flex; align-items: center; justify-content: center; }\n.grid-demo__cell--extra { display: none; }\n.grid-demo--count-9 .grid-demo__cell--extra { display: flex; }\n</style>",
+    "tailwind": "<div class=\"grid font-sans font-semibold text-sm text-[#241430] bg-[#FAF7F2] p-4 grid-tw grid-tw--count-{{count}}\" style=\"grid-template-columns:repeat({{columns}}, 1fr);gap:{{gap}}px;\">\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}1{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}2{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}3{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}4{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}5{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md flex items-center justify-center\" style=\"background:{{accent}};\">{{#if numbers}}6{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md items-center justify-center grid-tw__extra\" style=\"background:{{accent}};\">{{#if numbers}}7{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md items-center justify-center grid-tw__extra\" style=\"background:{{accent}};\">{{#if numbers}}8{{/if}}</div>\n  <div class=\"aspect-[1.4] rounded-md items-center justify-center grid-tw__extra\" style=\"background:{{accent}};\">{{#if numbers}}9{{/if}}</div>\n</div>\n<style>\n.grid-tw__extra { display: none; }\n.grid-tw--count-9 .grid-tw__extra { display: flex; }\n</style>",
+    "react": "export function Grid({\n  columns = {{columns}},\n  gap = {{gap}},\n  accent = \"{{accent}}\",\n  count = \"{{count}}\",\n  numbers = {{numbers}},\n}) {\n  const total = Number(count);\n  return (\n    <div style={{ display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap, fontFamily: \"system-ui, sans-serif\", fontWeight: 600, fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      {Array.from({ length: total }, (_, i) => (\n        <div key={i} style={{ background: accent, aspectRatio: 1.4, borderRadius: 6, display: \"flex\", alignItems: \"center\", justifyContent: \"center\" }}>\n          {numbers ? i + 1 : \"\"}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  }
+}

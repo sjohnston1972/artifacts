@@ -1,0 +1,42 @@
+{
+  "slug": "blog-card",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Rebuilding our design system from the ground up"
+    },
+    {
+      "id": "excerpt",
+      "type": "text",
+      "label": "Excerpt",
+      "default": "What we kept, what we threw away, and why the second one felt harder."
+    },
+    {
+      "id": "category",
+      "type": "select",
+      "label": "Category",
+      "default": "Guide",
+      "options": ["Guide", "News", "Opinion"]
+    },
+    {
+      "id": "readTime",
+      "type": "text",
+      "label": "Read time",
+      "default": "6 min read"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Thumbnail colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"blogcard\">\n  <div class=\"blogcard__thumb\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\" role=\"img\" aria-label=\"Article thumbnail\"></div>\n  <div class=\"blogcard__body\">\n    <span class=\"blogcard__badge blogcard__badge--{{category}}\">{{category}}</span>\n    <h3 class=\"blogcard__title\">{{title}}</h3>\n    <p class=\"blogcard__excerpt\">{{excerpt}}</p>\n    <span class=\"blogcard__meta\">{{readTime}}</span>\n  </div>\n</article>\n<style>\n.blogcard { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 320px; background: #FAF7F2; border-radius: 14px; overflow: hidden; border: 1px solid #24143018; }\n.blogcard__thumb { height: 140px; }\n.blogcard__body { padding: 16px; }\n.blogcard__badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 3px 8px; border-radius: 999px; margin-bottom: 10px; }\n.blogcard__badge--Guide { background: #A8E6C133; color: #1b5c38; }\n.blogcard__badge--News { background: #BFD9F233; color: #1b3f5c; }\n.blogcard__badge--Opinion { background: #F5C2E033; color: #7a1b52; }\n.blogcard__title { margin: 0 0 8px; font-size: 18px; font-weight: 700; }\n.blogcard__excerpt { margin: 0 0 12px; font-size: 14px; color: #241430cc; }\n.blogcard__meta { font-size: 12px; color: #24143088; }\n</style>",
+    "tailwind": "<article class=\"max-w-[320px] font-sans text-[#241430] bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#24143018]\">\n  <div class=\"h-[140px]\" style=\"background:linear-gradient(135deg, {{accent}}, #FAF7F2);\" role=\"img\" aria-label=\"Article thumbnail\"></div>\n  <div class=\"p-4\">\n    <span class=\"blogcard-tw__badge blogcard-tw__badge--{{category}} inline-block text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full mb-2.5\">{{category}}</span>\n    <h3 class=\"m-0 mb-2 text-lg font-bold\">{{title}}</h3>\n    <p class=\"m-0 mb-3 text-sm text-[#241430]/80\">{{excerpt}}</p>\n    <span class=\"text-xs text-[#241430]/55\">{{readTime}}</span>\n  </div>\n</article>\n<style>\n.blogcard-tw__badge--Guide { background: #A8E6C133; color: #1b5c38; }\n.blogcard-tw__badge--News { background: #BFD9F233; color: #1b3f5c; }\n.blogcard-tw__badge--Opinion { background: #F5C2E033; color: #7a1b52; }\n</style>",
+    "react": "export function BlogCard({\n  title = \"{{title}}\",\n  excerpt = \"{{excerpt}}\",\n  category = \"{{category}}\",\n  readTime = \"{{readTime}}\",\n  accent = \"{{accent}}\",\n}) {\n  const badge = {\n    Guide: { background: \"#A8E6C133\", color: \"#1b5c38\" },\n    News: { background: \"#BFD9F233\", color: \"#1b3f5c\" },\n    Opinion: { background: \"#F5C2E033\", color: \"#7a1b52\" },\n  }[category] ?? {};\n  return (\n    <article style={{ maxWidth: 320, font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\",\n      borderRadius: 14, overflow: \"hidden\", border: \"1px solid #24143018\" }}>\n      <div role=\"img\" aria-label=\"Article thumbnail\" style={{ height: 140, background: `linear-gradient(135deg, ${accent}, #FAF7F2)` }} />\n      <div style={{ padding: 16 }}>\n        <span style={{ display: \"inline-block\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\",\n          letterSpacing: \"0.04em\", padding: \"3px 8px\", borderRadius: 999, marginBottom: 10, ...badge }}>{category}</span>\n        <h3 style={{ margin: \"0 0 8px\", fontSize: 18, fontWeight: 700 }}>{title}</h3>\n        <p style={{ margin: \"0 0 12px\", fontSize: 14, color: \"#241430cc\" }}>{excerpt}</p>\n        <span style={{ fontSize: 12, color: \"#24143088\" }}>{readTime}</span>\n      </div>\n    </article>\n  );\n}"
+  }
+}

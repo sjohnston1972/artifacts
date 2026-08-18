@@ -1,0 +1,36 @@
+{
+  "slug": "header",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Clydeford"
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Layout",
+      "default": "split",
+      "options": ["split", "center"]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0"]
+    },
+    {
+      "id": "nav",
+      "type": "toggle",
+      "label": "Show navigation",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<header class=\"head-demo head-demo--{{align}}\" style=\"background:{{bg}};\">\n  <span class=\"head-demo__logo\">{{title}}</span>\n  {{#if nav}}<nav class=\"head-demo__nav\"><a href=\"#\">Product</a><a href=\"#\">Pricing</a><a href=\"#\">Docs</a></nav>{{/if}}\n</header>\n<style>\n.head-demo { display: flex; align-items: center; font: 14px system-ui, sans-serif; color: #241430; padding: 12px 16px; border-bottom: 1px solid #24143018; box-sizing: border-box; }\n.head-demo--split { justify-content: space-between; }\n.head-demo--center { justify-content: center; flex-direction: column; gap: 8px; text-align: center; }\n.head-demo__logo { font-weight: 700; font-size: 16px; }\n.head-demo__nav { display: flex; gap: 18px; }\n.head-demo__nav a { color: #241430; text-decoration: none; opacity: .75; }\n.head-demo__nav a:hover { opacity: 1; }\n</style>",
+    "tailwind": "<header class=\"flex items-center font-sans text-sm text-[#241430] px-4 py-3 border-b border-[#24143018] box-border head-tw head-tw--{{align}}\" style=\"background:{{bg}};\">\n  <span class=\"font-bold text-base\">{{title}}</span>\n  {{#if nav}}<nav class=\"flex gap-[18px]\"><a href=\"#\" class=\"text-[#241430] no-underline opacity-75 hover:opacity-100\">Product</a><a href=\"#\" class=\"text-[#241430] no-underline opacity-75 hover:opacity-100\">Pricing</a><a href=\"#\" class=\"text-[#241430] no-underline opacity-75 hover:opacity-100\">Docs</a></nav>{{/if}}\n</header>\n<style>\n.head-tw--split { justify-content: space-between; }\n.head-tw--center { justify-content: center; flex-direction: column; gap: 8px; text-align: center; }\n</style>",
+    "react": "export function Header({\n  title = \"{{title}}\",\n  align = \"{{align}}\",\n  bg = \"{{bg}}\",\n  nav = {{nav}},\n}) {\n  const centered = align === \"center\";\n  return (\n    <header style={{\n      display: \"flex\", alignItems: \"center\", justifyContent: centered ? \"center\" : \"space-between\",\n      flexDirection: centered ? \"column\" : \"row\", gap: centered ? 8 : 0, textAlign: centered ? \"center\" : \"left\",\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: bg, padding: \"12px 16px\",\n      borderBottom: \"1px solid #24143018\", boxSizing: \"border-box\",\n    }}>\n      <span style={{ fontWeight: 700, fontSize: 16 }}>{title}</span>\n      {nav && (\n        <nav style={{ display: \"flex\", gap: 18 }}>\n          <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", opacity: .75 }}>Product</a>\n          <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", opacity: .75 }}>Pricing</a>\n          <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", opacity: .75 }}>Docs</a>\n        </nav>\n      )}\n    </header>\n  );\n}"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "slug": "form",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Contact us"
+    },
+    {
+      "id": "submitLabel",
+      "type": "text",
+      "label": "Submit button text",
+      "default": "Send message"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "stacked",
+      "options": [
+        "stacked",
+        "inline"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"frm frm--{{layout}}\" novalidate>\n  <h2 class=\"frm__title\">{{title}}</h2>\n  <label class=\"frm__field\">\n    <span class=\"frm__label\">Name</span>\n    <input class=\"frm__input\" type=\"text\" name=\"name\" autocomplete=\"name\" style=\"border-radius:{{radius}}px;\" required>\n  </label>\n  <label class=\"frm__field\">\n    <span class=\"frm__label\">Email</span>\n    <input class=\"frm__input\" type=\"email\" name=\"email\" autocomplete=\"email\" style=\"border-radius:{{radius}}px;\" required>\n  </label>\n  <button class=\"frm__submit\" type=\"submit\" style=\"background:{{accent}};border-radius:{{radius}}px;\">{{submitLabel}}</button>\n</form>\n<style>\n.frm { font: 14px system-ui, sans-serif; color: #241430; max-width: 320px; display: flex; flex-direction: column; gap: 12px; }\n.frm--inline { flex-direction: row; flex-wrap: wrap; align-items: flex-end; max-width: 480px; }\n.frm__title { grid-column: 1 / -1; margin: 0 0 4px; font-size: 16px; }\n.frm--inline .frm__title { width: 100%; }\n.frm__field { display: block; flex: 1; min-width: 140px; }\n.frm__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.frm__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.frm__input:focus-visible { outline: none; border-color: #241430; }\n.frm__submit { padding: 10px 18px; border: none; color: #FAF7F2; font: inherit; font-weight: 600; cursor: pointer; }\n.frm__submit:hover { filter: brightness(1.15); }\n</style>",
+    "tailwind": "<form novalidate class=\"frm-tw font-sans text-sm text-[#241430] max-w-sm flex flex-col gap-3 {{layout}}-layout\">\n  <h2 class=\"text-base font-semibold m-0\">{{title}}</h2>\n  <label class=\"block flex-1 min-w-[140px]\">\n    <span class=\"block mb-1.5 font-medium\">Name</span>\n    <input type=\"text\" name=\"name\" autocomplete=\"name\" required class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none focus-visible:border-[#241430]\" style=\"border-radius:{{radius}}px;\">\n  </label>\n  <label class=\"block flex-1 min-w-[140px]\">\n    <span class=\"block mb-1.5 font-medium\">Email</span>\n    <input type=\"email\" name=\"email\" autocomplete=\"email\" required class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none focus-visible:border-[#241430]\" style=\"border-radius:{{radius}}px;\">\n  </label>\n  <button type=\"submit\" class=\"px-[18px] py-2.5 border-0 text-[#FAF7F2] font-semibold cursor-pointer hover:brightness-110\" style=\"background:{{accent}};border-radius:{{radius}}px;\">{{submitLabel}}</button>\n</form>\n<style>\n.frm-tw.inline-layout { flex-direction: row; flex-wrap: wrap; align-items: flex-end; max-width: 480px; }\n</style>",
+    "react": "export function Form({\n  title = \"{{title}}\",\n  submitLabel = \"{{submitLabel}}\",\n  accent = \"{{accent}}\",\n  layout = \"{{layout}}\",\n  radius = {{radius}},\n}) {\n  const inputStyle = {\n    width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n    background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: radius,\n  };\n  return (\n    <form noValidate style={{\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: layout === \"inline\" ? 480 : 320,\n      display: \"flex\", flexDirection: layout === \"inline\" ? \"row\" : \"column\", flexWrap: \"wrap\", alignItems: layout === \"inline\" ? \"flex-end\" : \"stretch\", gap: 12,\n    }}>\n      <h2 style={{ margin: \"0 0 4px\", fontSize: 16, width: layout === \"inline\" ? \"100%\" : \"auto\" }}>{title}</h2>\n      <label style={{ display: \"block\", flex: 1, minWidth: 140 }}>\n        <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>Name</span>\n        <input type=\"text\" name=\"name\" autoComplete=\"name\" required style={inputStyle} />\n      </label>\n      <label style={{ display: \"block\", flex: 1, minWidth: 140 }}>\n        <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>Email</span>\n        <input type=\"email\" name=\"email\" autoComplete=\"email\" required style={inputStyle} />\n      </label>\n      <button type=\"submit\" style={{ padding: \"10px 18px\", border: \"none\", background: accent, color: \"#FAF7F2\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\", borderRadius: radius }}>\n        {submitLabel}\n      </button>\n    </form>\n  );\n}"
+  }
+}

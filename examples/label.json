@@ -1,0 +1,46 @@
+{
+  "slug": "label",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Label text",
+      "default": "Shipping address"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "top",
+      "options": [
+        "top",
+        "left"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lbl lbl--{{position}}\">\n  <label class=\"lbl__text\" for=\"lbl-1\" style=\"--accent:{{accent}};\">{{text}}{{#if required}} <span class=\"lbl__req\">*</span>{{/if}}</label>\n  <input class=\"lbl__input\" id=\"lbl-1\" type=\"text\"{{#if required}} required{{/if}}>\n</div>\n<style>\n.lbl { font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; display: flex; gap: 8px; }\n.lbl--top { flex-direction: column; }\n.lbl--left { flex-direction: row; align-items: center; }\n.lbl__text { font-weight: 500; }\n.lbl--left .lbl__text { flex: 0 0 120px; }\n.lbl__req { color: var(--accent); }\n.lbl__input { flex: 1; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.lbl__input:focus-visible { outline: none; border-color: #241430; }\n</style>",
+    "tailwind": "<div class=\"lbl-tw lbl-tw--{{position}} font-sans text-sm text-[#241430] max-w-[300px] flex gap-2\">\n  <label class=\"font-medium\" for=\"lbl-tw-1\" style=\"color:{{accent}};\">{{text}}{{#if required}} <span>*</span>{{/if}}</label>\n  <input id=\"lbl-tw-1\" type=\"text\"{{#if required}} required{{/if}} class=\"flex-1 box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none focus-visible:border-[#241430]\">\n</div>\n<style>\n.lbl-tw--top { flex-direction: column; }\n.lbl-tw--left { flex-direction: row; align-items: center; }\n.lbl-tw--left .lbl__text { flex: 0 0 120px; }\n</style>",
+    "react": "export function Label({\n  text = \"{{text}}\",\n  position = \"{{position}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <div style={{\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 300, display: \"flex\",\n      flexDirection: position === \"left\" ? \"row\" : \"column\", alignItems: position === \"left\" ? \"center\" : \"stretch\", gap: 8,\n    }}>\n      <label htmlFor=\"lbl-react-1\" style={{ fontWeight: 500, flex: position === \"left\" ? \"0 0 120px\" : undefined }}>\n        {text}{required && <span style={{ color: accent }}> *</span>}\n      </label>\n      <input id=\"lbl-react-1\" type=\"text\" required={required} style={{\n        flex: 1, boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: 8,\n      }} />\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "hero-image",
+  "controls_schema": [
+    {
+      "id": "altText",
+      "type": "text",
+      "label": "Alt text",
+      "default": "Product dashboard showing a live activity feed"
+    },
+    {
+      "id": "aspect",
+      "type": "select",
+      "label": "Aspect ratio",
+      "default": "wide",
+      "options": ["square", "wide", "tall"]
+    },
+    {
+      "id": "framing",
+      "type": "select",
+      "label": "Framing",
+      "default": "rounded",
+      "options": ["rounded", "full-bleed"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showBadge",
+      "type": "toggle",
+      "label": "Show floating badge",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"hero-img hero-img--{{aspect}} hero-img--{{framing}}\">\n  <div class=\"hero-img__visual\" style=\"background: linear-gradient(160deg, {{accent}}, #FAF7F2 70%);\" role=\"img\" aria-label=\"{{altText}}\"></div>\n  {{#if showBadge}}<figcaption class=\"hero-img__badge\">Live in 12 countries</figcaption>{{/if}}\n</figure>\n<style>\n.hero-img { position: relative; margin: 0; max-width: 420px; overflow: hidden; }\n.hero-img--rounded { border-radius: 20px; }\n.hero-img--full-bleed { border-radius: 0; }\n.hero-img__visual { width: 100%; }\n.hero-img--square .hero-img__visual { aspect-ratio: 1 / 1; }\n.hero-img--wide .hero-img__visual { aspect-ratio: 16 / 10; }\n.hero-img--tall .hero-img__visual { aspect-ratio: 3 / 4; }\n.hero-img__badge { position: absolute; left: 16px; bottom: 16px; background: #FAF7F2; color: #241430; font: 600 13px system-ui, sans-serif; padding: 8px 14px; border-radius: 999px; box-shadow: 0 8px 20px rgba(36,20,48,.18); margin: 0; }\n</style>",
+    "tailwind": "<figure class=\"hero-img-tw hero-img-tw--{{aspect}} hero-img-tw--{{framing}} relative m-0 max-w-[420px] overflow-hidden\">\n  <div class=\"hero-img-tw__visual w-full\" style=\"background: linear-gradient(160deg, {{accent}}, #FAF7F2 70%);\" role=\"img\" aria-label=\"{{altText}}\"></div>\n  {{#if showBadge}}<figcaption class=\"absolute left-4 bottom-4 bg-[#FAF7F2] text-[#241430] font-semibold text-[13px] px-3.5 py-2 rounded-full shadow-lg m-0\">Live in 12 countries</figcaption>{{/if}}\n</figure>\n<style>\n.hero-img-tw--rounded { border-radius: 20px; }\n.hero-img-tw--full-bleed { border-radius: 0; }\n.hero-img-tw--square .hero-img-tw__visual { aspect-ratio: 1 / 1; }\n.hero-img-tw--wide .hero-img-tw__visual { aspect-ratio: 16 / 10; }\n.hero-img-tw--tall .hero-img-tw__visual { aspect-ratio: 3 / 4; }\n</style>",
+    "react": "export function HeroImage({\n  altText = \"{{altText}}\",\n  aspect = \"{{aspect}}\",\n  framing = \"{{framing}}\",\n  accent = \"{{accent}}\",\n  showBadge = {{showBadge}},\n}) {\n  const ratio = { square: \"1 / 1\", wide: \"16 / 10\", tall: \"3 / 4\" }[aspect] ?? \"16 / 10\";\n  return (\n    <figure style={{ position: \"relative\", margin: 0, maxWidth: 420, overflow: \"hidden\",\n      borderRadius: framing === \"rounded\" ? 20 : 0 }}>\n      <div role=\"img\" aria-label={altText} style={{ width: \"100%\", aspectRatio: ratio,\n        background: `linear-gradient(160deg, ${accent}, #FAF7F2 70%)` }} />\n      {showBadge && (\n        <figcaption style={{ position: \"absolute\", left: 16, bottom: 16, background: \"#FAF7F2\", color: \"#241430\",\n          font: \"600 13px system-ui, sans-serif\", padding: \"8px 14px\", borderRadius: 999, boxShadow: \"0 8px 20px rgba(36,20,48,.18)\", margin: 0 }}>\n          Live in 12 countries\n        </figcaption>\n      )}\n    </figure>\n  );\n}"
+  }
+}

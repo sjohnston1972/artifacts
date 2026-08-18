@@ -1,0 +1,42 @@
+{
+  "slug": "announcement-bar",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Free shipping on orders over $50 this week."
+    },
+    {
+      "id": "ctaText",
+      "type": "text",
+      "label": "CTA text",
+      "default": "Shop now"
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "center",
+      "options": ["center", "left"]
+    },
+    {
+      "id": "dismissible",
+      "type": "toggle",
+      "label": "Show dismiss button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"abar abar--{{align}}\" style=\"background:{{bg}};\">\n  <p class=\"abar__msg\">{{message}} <a href=\"#\" class=\"abar__cta\">{{ctaText}}</a></p>\n  {{#if dismissible}}<button type=\"button\" class=\"abar__close\" aria-label=\"Dismiss announcement\">&times;</button>{{/if}}\n</div>\n<style>\n.abar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px; font: 14px/1.4 system-ui, sans-serif; color: #FAF7F2; }\n.abar--center { justify-content: center; text-align: center; }\n.abar--left { justify-content: flex-start; text-align: left; }\n.abar__msg { margin: 0; }\n.abar__cta { color: inherit; text-decoration: underline; font-weight: 600; margin-left: 6px; }\n.abar__close { background: none; border: none; color: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 4px; }\n.abar__close:hover, .abar__close:focus-visible { opacity: .7; outline: 2px solid #FAF7F2; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"abar-tw abar-tw--{{align}} flex items-center gap-3 px-4.5 py-2.5 font-sans text-sm text-[#FAF7F2]\" style=\"background:{{bg}};\">\n  <p class=\"m-0\">{{message}} <a href=\"#\" class=\"text-inherit underline font-semibold ml-1.5\">{{ctaText}}</a></p>\n  {{#if dismissible}}<button type=\"button\" class=\"bg-transparent border-0 text-inherit text-lg leading-none cursor-pointer px-1 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#FAF7F2]\" aria-label=\"Dismiss announcement\">&times;</button>{{/if}}\n</div>\n<style>\n.abar-tw--center { justify-content: center; text-align: center; }\n.abar-tw--left { justify-content: flex-start; text-align: left; }\n</style>",
+    "react": "export function AnnouncementBar({\n  message = \"{{message}}\",\n  ctaText = \"{{ctaText}}\",\n  bg = \"{{bg}}\",\n  align = \"{{align}}\",\n  dismissible = {{dismissible}},\n}) {\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: align === \"center\" ? \"center\" : \"flex-start\",\n      textAlign: align, gap: 12, padding: \"10px 18px\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#FAF7F2\", background: bg }}>\n      <p style={{ margin: 0 }}>{message} <a href=\"#\" style={{ color: \"inherit\", textDecoration: \"underline\", fontWeight: 600, marginLeft: 6 }}>{ctaText}</a></p>\n      {dismissible && (\n        <button type=\"button\" aria-label=\"Dismiss announcement\" style={{ background: \"none\", border: \"none\",\n          color: \"inherit\", fontSize: 18, lineHeight: 1, cursor: \"pointer\", padding: \"0 4px\" }}>\n          &times;\n        </button>\n      )}\n    </div>\n  );\n}"
+  }
+}

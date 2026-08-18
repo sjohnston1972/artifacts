@@ -1,0 +1,53 @@
+{
+  "slug": "colour-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Accent colour"
+    },
+    {
+      "id": "value",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showValue",
+      "type": "toggle",
+      "label": "Show hex value",
+      "default": true
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Swatch size",
+      "default": "medium",
+      "options": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cp\">\n  <label class=\"cp__label\" for=\"cp-1\">{{label}}{{#if required}} <span class=\"cp__req\">*</span>{{/if}}</label>\n  <div class=\"cp__row\">\n    <input class=\"cp__swatch cp__swatch--{{size}}\" id=\"cp-1\" type=\"color\" value=\"{{value}}\"{{#if required}} required{{/if}}>\n    {{#if showValue}}<span class=\"cp__hex\">{{value}}</span>{{/if}}\n  </div>\n</div>\n<style>\n.cp { font: 14px system-ui, sans-serif; color: #241430; max-width: 240px; }\n.cp__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.cp__req { color: #241430; }\n.cp__row { display: flex; align-items: center; gap: 10px; }\n.cp__swatch { padding: 0; border: 1.5px solid #24143040; border-radius: 8px; background: none; cursor: pointer; }\n.cp__swatch--small { width: 28px; height: 28px; }\n.cp__swatch--medium { width: 40px; height: 40px; }\n.cp__swatch--large { width: 56px; height: 56px; }\n.cp__swatch:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.cp__hex { font-variant-numeric: tabular-nums; text-transform: uppercase; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[240px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"cp-tw-1\">{{label}}{{#if required}} <span>*</span>{{/if}}</label>\n  <div class=\"flex items-center gap-2.5\">\n    <input id=\"cp-tw-1\" type=\"color\" value=\"{{value}}\"{{#if required}} required{{/if}} class=\"cp-tw cp-tw--{{size}} p-0 border-[1.5px] border-[#24143040] rounded-lg bg-transparent cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430] focus-visible:outline-offset-2\">\n    {{#if showValue}}<span class=\"tabular-nums uppercase\">{{value}}</span>{{/if}}\n  </div>\n</div>\n<style>\n.cp-tw--small { width: 28px; height: 28px; }\n.cp-tw--medium { width: 40px; height: 40px; }\n.cp-tw--large { width: 56px; height: 56px; }\n</style>",
+    "react": "export function ColourPicker({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  showValue = {{showValue}},\n  size = \"{{size}}\",\n  required = {{required}},\n}) {\n  const dims = { small: 28, medium: 40, large: 56 }[size] ?? 40;\n  return (\n    <div style={{ font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 240 }}>\n      <label htmlFor=\"cp-react-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>\n        {label}{required && \" *\"}\n      </label>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <input id=\"cp-react-1\" type=\"color\" defaultValue={value} required={required} style={{\n          width: dims, height: dims, padding: 0, border: \"1.5px solid #24143040\", borderRadius: 8,\n          background: \"none\", cursor: \"pointer\",\n        }} />\n        {showValue && <span style={{ fontVariantNumeric: \"tabular-nums\", textTransform: \"uppercase\" }}>{value}</span>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

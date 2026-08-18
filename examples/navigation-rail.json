@@ -1,0 +1,39 @@
+{
+  "slug": "navigation-rail",
+  "controls_schema": [
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Side",
+      "default": "left",
+      "options": ["left", "right"]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Rail width",
+      "default": 64,
+      "min": 48,
+      "max": 96,
+      "step": 8
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Active colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "labels",
+      "type": "toggle",
+      "label": "Show labels",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rail-demo rail-demo--{{position}}\">\n  <nav class=\"rail-demo__rail\" style=\"width:{{width}}px;\">\n    <div class=\"rail-demo__item is-active\" style=\"color:{{accent}};\"><span class=\"rail-demo__dot\" style=\"background:{{accent}};\"></span>{{#if labels}}<small>Home</small>{{/if}}</div>\n    <div class=\"rail-demo__item\"><span class=\"rail-demo__dot\"></span>{{#if labels}}<small>Search</small>{{/if}}</div>\n    <div class=\"rail-demo__item\"><span class=\"rail-demo__dot\"></span>{{#if labels}}<small>Settings</small>{{/if}}</div>\n  </nav>\n  <div class=\"rail-demo__content\">Content</div>\n</div>\n<style>\n.rail-demo { display: flex; height: 150px; font: 11px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.rail-demo--right { flex-direction: row-reverse; }\n.rail-demo__rail { flex: none; box-sizing: border-box; background: #241430; display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 16px; }\n.rail-demo__item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #FAF7F2aa; }\n.rail-demo__item.is-active { color: inherit; }\n.rail-demo__dot { width: 20px; height: 20px; border-radius: 6px; background: #FAF7F244; }\n.rail-demo__content { flex: 1; display: flex; align-items: center; justify-content: center; background: #FAF7F2; color: #24143066; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"flex h-[150px] font-sans text-[11px] text-[#241430] border border-[#24143022] rail-tw rail-tw--{{position}}\">\n  <nav class=\"flex-none box-border bg-[#241430] flex flex-col items-center gap-4 pt-4\" style=\"width:{{width}}px;\">\n    <div class=\"flex flex-col items-center gap-1\" style=\"color:{{accent}};\"><span class=\"w-5 h-5 rounded-md\" style=\"background:{{accent}};\"></span>{{#if labels}}<small>Home</small>{{/if}}</div>\n    <div class=\"flex flex-col items-center gap-1 text-[#FAF7F2]/70\"><span class=\"w-5 h-5 rounded-md bg-[#FAF7F2]/25\"></span>{{#if labels}}<small>Search</small>{{/if}}</div>\n    <div class=\"flex flex-col items-center gap-1 text-[#FAF7F2]/70\"><span class=\"w-5 h-5 rounded-md bg-[#FAF7F2]/25\"></span>{{#if labels}}<small>Settings</small>{{/if}}</div>\n  </nav>\n  <div class=\"flex-1 flex items-center justify-center bg-[#FAF7F2] text-[#24143066] text-[13px]\">Content</div>\n</div>\n<style>\n.rail-tw--right { flex-direction: row-reverse; }\n</style>",
+    "react": "export function NavigationRail({\n  position = \"{{position}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n  labels = {{labels}},\n}) {\n  const items = [\"Home\", \"Search\", \"Settings\"];\n  return (\n    <div style={{ display: \"flex\", flexDirection: position === \"right\" ? \"row-reverse\" : \"row\", height: 150, fontFamily: \"system-ui, sans-serif\", fontSize: 11, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <nav style={{ flex: \"none\", boxSizing: \"border-box\", width, background: \"#241430\", display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 16, paddingTop: 16 }}>\n        {items.map((label, i) => (\n          <div key={label} style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 4, color: i === 0 ? accent : \"#FAF7F2aa\" }}>\n            <span style={{ width: 20, height: 20, borderRadius: 6, background: i === 0 ? accent : \"#FAF7F244\" }} />\n            {labels && <small>{label}</small>}\n          </div>\n        ))}\n      </nav>\n      <div style={{ flex: 1, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#FAF7F2\", color: \"#24143066\", fontSize: 13 }}>Content</div>\n    </div>\n  );\n}"
+  }
+}

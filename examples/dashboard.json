@@ -1,0 +1,47 @@
+{
+  "slug": "dashboard",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Dashboard title",
+      "default": "Traffic"
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Widget columns",
+      "default": 3,
+      "min": 2,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 10,
+      "min": 4,
+      "max": 20,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "trend",
+      "type": "toggle",
+      "label": "Show trend line",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"dash-demo\">\n  <h3 class=\"dash-demo__title\">{{title}}</h3>\n  <div class=\"dash-demo__grid\" style=\"grid-template-columns:repeat({{columns}}, 1fr);gap:{{gap}}px;\">\n    <div class=\"dash-demo__widget\"><span class=\"dash-demo__label\">Visitors</span><strong>12.4k</strong>{{#if trend}}<span class=\"dash-demo__trend\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"dash-demo__widget\"><span class=\"dash-demo__label\">Signups</span><strong>842</strong>{{#if trend}}<span class=\"dash-demo__trend\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"dash-demo__widget\"><span class=\"dash-demo__label\">Revenue</span><strong>$9.1k</strong>{{#if trend}}<span class=\"dash-demo__trend\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"dash-demo__widget\"><span class=\"dash-demo__label\">Bounce</span><strong>31%</strong>{{#if trend}}<span class=\"dash-demo__trend\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n  </div>\n</section>\n<style>\n.dash-demo { font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.dash-demo__title { margin: 0 0 10px; font-size: 15px; }\n.dash-demo__grid { display: grid; }\n.dash-demo__widget { position: relative; overflow: hidden; background: #fff; border: 1px solid #24143018; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }\n.dash-demo__label { font-size: 11px; text-transform: uppercase; color: #24143099; letter-spacing: .03em; }\n.dash-demo__widget strong { font-size: 18px; }\n.dash-demo__trend { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-4\">\n  <h3 class=\"m-0 mb-2.5 text-[15px]\">{{title}}</h3>\n  <div class=\"grid\" style=\"grid-template-columns:repeat({{columns}}, 1fr);gap:{{gap}}px;\">\n    <div class=\"relative overflow-hidden bg-white border border-[#24143018] rounded-lg px-3 py-2.5 flex flex-col gap-1\"><span class=\"text-[11px] uppercase text-[#24143099] tracking-wide\">Visitors</span><strong class=\"text-lg\">12.4k</strong>{{#if trend}}<span class=\"absolute left-0 right-0 bottom-0 h-[3px]\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"relative overflow-hidden bg-white border border-[#24143018] rounded-lg px-3 py-2.5 flex flex-col gap-1\"><span class=\"text-[11px] uppercase text-[#24143099] tracking-wide\">Signups</span><strong class=\"text-lg\">842</strong>{{#if trend}}<span class=\"absolute left-0 right-0 bottom-0 h-[3px]\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"relative overflow-hidden bg-white border border-[#24143018] rounded-lg px-3 py-2.5 flex flex-col gap-1\"><span class=\"text-[11px] uppercase text-[#24143099] tracking-wide\">Revenue</span><strong class=\"text-lg\">$9.1k</strong>{{#if trend}}<span class=\"absolute left-0 right-0 bottom-0 h-[3px]\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n    <div class=\"relative overflow-hidden bg-white border border-[#24143018] rounded-lg px-3 py-2.5 flex flex-col gap-1\"><span class=\"text-[11px] uppercase text-[#24143099] tracking-wide\">Bounce</span><strong class=\"text-lg\">31%</strong>{{#if trend}}<span class=\"absolute left-0 right-0 bottom-0 h-[3px]\" style=\"background:{{accent}};\"></span>{{/if}}</div>\n  </div>\n</section>",
+    "react": "export function Dashboard({\n  title = \"{{title}}\",\n  columns = {{columns}},\n  gap = {{gap}},\n  accent = \"{{accent}}\",\n  trend = {{trend}},\n}) {\n  const widgets = [\n    { label: \"Visitors\", value: \"12.4k\" },\n    { label: \"Signups\", value: \"842\" },\n    { label: \"Revenue\", value: \"$9.1k\" },\n    { label: \"Bounce\", value: \"31%\" },\n  ];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15 }}>{title}</h3>\n      <div style={{ display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap }}>\n        {widgets.map((w) => (\n          <div key={w.label} style={{ position: \"relative\", overflow: \"hidden\", background: \"#fff\", border: \"1px solid #24143018\", borderRadius: 8, padding: \"10px 12px\", display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n            <span style={{ fontSize: 11, textTransform: \"uppercase\", color: \"#24143099\", letterSpacing: \".03em\" }}>{w.label}</span>\n            <strong style={{ fontSize: 18 }}>{w.value}</strong>\n            {trend && <span style={{ position: \"absolute\", left: 0, right: 0, bottom: 0, height: 3, background: accent }} />}\n          </div>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  }
+}

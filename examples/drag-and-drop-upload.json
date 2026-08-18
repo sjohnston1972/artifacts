@@ -1,0 +1,48 @@
+{
+  "slug": "drag-and-drop-upload",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Upload artwork"
+    },
+    {
+      "id": "hint",
+      "type": "text",
+      "label": "Hint text",
+      "default": "Drag files here or click to browse"
+    },
+    {
+      "id": "accept",
+      "type": "text",
+      "label": "Accepted types",
+      "default": ".png,.jpg,.svg"
+    },
+    {
+      "id": "multiple",
+      "type": "toggle",
+      "label": "Allow multiple files",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dz\">\n  <span class=\"dz__label\" id=\"dz-label-1\">{{label}}</span>\n  <label class=\"dz__zone\" style=\"--accent:{{accent}};\" for=\"dz-1\">\n    <input class=\"dz__input\" id=\"dz-1\" type=\"file\" accept=\"{{accept}}\" aria-describedby=\"dz-hint-1\"{{#if multiple}} multiple{{/if}}>\n    <span class=\"dz__icon\" aria-hidden=\"true\">&#8593;</span>\n    <span class=\"dz__hint\" id=\"dz-hint-1\">{{hint}}</span>\n    <span class=\"dz__types\">{{accept}}</span>\n  </label>\n</div>\n<style>\n.dz { font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.dz__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.dz__zone { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: 22px 14px; border: 1.5px dashed #24143050; border-radius: 10px; background: #FAF7F2; cursor: pointer; }\n.dz__zone:hover, .dz__zone:focus-within { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, #FAF7F2); }\n.dz__input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }\n.dz__icon { font-size: 18px; color: var(--accent); }\n.dz__hint { font-size: 13px; }\n.dz__types { font-size: 11px; color: #24143080; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[280px]\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}</span>\n  <label class=\"dz-tw flex flex-col items-center gap-1 text-center px-3.5 py-5 border-[1.5px] border-dashed border-[#24143050] rounded-[10px] bg-[#FAF7F2] cursor-pointer hover:bg-[#24143010]\" style=\"border-color:{{accent}};\">\n    <input type=\"file\" accept=\"{{accept}}\"{{#if multiple}} multiple{{/if}} class=\"sr-only\">\n    <span aria-hidden=\"true\" style=\"color:{{accent}};\">&#8593;</span>\n    <span class=\"text-[13px]\">{{hint}}</span>\n    <span class=\"text-[11px] text-[#24143080]\">{{accept}}</span>\n  </label>\n</div>",
+    "react": "export function DragAndDropUpload({\n  label = \"{{label}}\",\n  hint = \"{{hint}}\",\n  accept = \"{{accept}}\",\n  multiple = {{multiple}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</span>\n      <label style={{\n        display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 4, textAlign: \"center\",\n        padding: \"22px 14px\", border: \"1.5px dashed #24143050\", borderRadius: 10, background: \"#FAF7F2\", cursor: \"pointer\",\n      }}>\n        <input type=\"file\" accept={accept} multiple={multiple} style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", opacity: 0 }} />\n        <span aria-hidden=\"true\" style={{ fontSize: 18, color: accent }}>&#8593;</span>\n        <span style={{ fontSize: 13 }}>{hint}</span>\n        <span style={{ fontSize: 11, color: \"#24143080\" }}>{accept}</span>\n      </label>\n    </div>\n  );\n}"
+  }
+}

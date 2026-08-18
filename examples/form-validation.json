@@ -1,0 +1,47 @@
+{
+  "slug": "form-validation",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Summary title",
+      "default": "Please fix 2 errors"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Detail message",
+      "default": "Email and password are required."
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "error",
+      "options": [
+        "error",
+        "success",
+        "warning"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Field focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fv fv--{{status}}\" role=\"alert\">\n  <p class=\"fv__title\">{{title}}</p>\n  <p class=\"fv__message\">{{message}}</p>\n  <label class=\"fv__field\">\n    <span class=\"fv__label\">Email</span>\n    <input class=\"fv__input\" type=\"email\" style=\"--accent:{{accent}};\" aria-invalid=\"true\">\n  </label>\n</div>\n<style>\n.fv { font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid; }\n.fv--error { background: #E8A02015; border-color: #E8A020; }\n.fv--success { background: #A8E6C120; border-color: #A8E6C1; }\n.fv--warning { background: #F5C2E020; border-color: #F5C2E0; }\n.fv__title { margin: 0 0 4px; font-weight: 600; }\n.fv__message { margin: 0 0 10px; font-size: 13px; }\n.fv__field { display: block; }\n.fv__label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 500; }\n.fv__input { width: 100%; box-sizing: border-box; padding: 8px 10px; font: inherit; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 6px; }\n.fv__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<div role=\"alert\" class=\"fv-tw fv-tw--{{status}} font-sans text-sm text-[#241430] max-w-[300px] px-3.5 py-3 rounded-[10px] border-[1.5px]\">\n  <p class=\"m-0 mb-1 font-semibold\">{{title}}</p>\n  <p class=\"m-0 mb-2.5 text-[13px]\">{{message}}</p>\n  <label class=\"block\">\n    <span class=\"block mb-1 text-xs font-medium\">Email</span>\n    <input type=\"email\" aria-invalid=\"true\" class=\"w-full box-border px-2.5 py-2 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-md focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  </label>\n</div>\n<style>\n.fv-tw--error { background: #E8A02015; border-color: #E8A020; }\n.fv-tw--success { background: #A8E6C120; border-color: #A8E6C1; }\n.fv-tw--warning { background: #F5C2E020; border-color: #F5C2E0; }\n</style>",
+    "react": "export function FormValidation({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const palette = { error: \"#E8A020\", success: \"#A8E6C1\", warning: \"#F5C2E0\" };\n  const c = palette[status] ?? palette.error;\n  return (\n    <div role=\"alert\" style={{\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 300,\n      padding: \"12px 14px\", borderRadius: 10, border: `1.5px solid ${c}`, background: `${c}20`,\n    }}>\n      <p style={{ margin: \"0 0 4px\", fontWeight: 600 }}>{title}</p>\n      <p style={{ margin: \"0 0 10px\", fontSize: 13 }}>{message}</p>\n      <label style={{ display: \"block\" }}>\n        <span style={{ display: \"block\", marginBottom: 4, fontSize: 12, fontWeight: 500 }}>Email</span>\n        <input type=\"email\" aria-invalid=\"true\" style={{\n          width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", font: \"inherit\",\n          background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 6,\n        }} />\n      </label>\n    </div>\n  );\n}"
+  }
+}

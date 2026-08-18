@@ -1,0 +1,41 @@
+{
+  "slug": "empty-state",
+  "controls_schema": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "No projects yet"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Create your first project to see it listed here."
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "folder",
+      "options": ["folder", "search", "inbox"]
+    },
+    {
+      "id": "hasAction",
+      "type": "toggle",
+      "label": "Show action",
+      "default": true
+    },
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Action label",
+      "default": "Create project"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"empty\" role=\"region\" aria-label=\"{{headline}}\">\n  <span class=\"empty__icon empty__icon--{{icon}}\" aria-hidden=\"true\"></span>\n  <p class=\"empty__headline\">{{headline}}</p>\n  <p class=\"empty__body\">{{body}}</p>\n  {{#if hasAction}}<button type=\"button\" class=\"empty__action\">{{actionLabel}}</button>{{/if}}\n</div>\n<style>\n.empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; max-width: 280px;\n  padding: 32px 20px; border-radius: 12px; border: 1.5px dashed #24143033; font: 14px/1.45 system-ui, sans-serif; color: #241430; }\n.empty__icon { width: 44px; height: 44px; border-radius: 12px; background: #D9C8F0; display: grid; place-items: center; margin-bottom: 8px; position: relative; }\n.empty__icon::before { font-size: 20px; }\n.empty__icon--folder::before { content: \"🗀\"; }\n.empty__icon--search::before { content: \"🔍\"; }\n.empty__icon--inbox::before { content: \"📥\"; }\n.empty__headline { margin: 0; font-weight: 700; font-size: 15px; }\n.empty__body { margin: 0; color: #24143099; }\n.empty__action { margin-top: 10px; border: none; border-radius: 8px; background: #241430; color: #FAF7F2;\n  font: 600 13px system-ui, sans-serif; padding: 8px 16px; cursor: pointer; }\n.empty__action:hover { background: #3a2350; }\n.empty__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"region\" aria-label=\"{{headline}}\" class=\"empty-tw empty-tw--{{icon}} flex flex-col items-center text-center gap-1.5 max-w-xs px-5 py-8 rounded-xl border-[1.5px] border-dashed border-[#24143033] font-sans text-sm text-[#241430]\">\n  <span aria-hidden=\"true\" class=\"empty-tw__icon w-11 h-11 rounded-xl bg-[#D9C8F0] grid place-items-center mb-2\"></span>\n  <p class=\"m-0 font-bold text-[15px]\">{{headline}}</p>\n  <p class=\"m-0 text-[#241430]/60\">{{body}}</p>\n  {{#if hasAction}}<button type=\"button\" class=\"mt-2.5 border-0 rounded-lg bg-[#241430] text-[#FAF7F2] font-semibold text-[13px] px-4 py-2 cursor-pointer hover:bg-[#3a2350]\">{{actionLabel}}</button>{{/if}}\n</div>\n<style>\n.empty-tw__icon::before { font-size: 20px; }\n.empty-tw--folder .empty-tw__icon::before { content: \"🗀\"; }\n.empty-tw--search .empty-tw__icon::before { content: \"🔍\"; }\n.empty-tw--inbox .empty-tw__icon::before { content: \"📥\"; }\n</style>",
+    "react": "export function EmptyState({\n  headline = \"{{headline}}\",\n  body = \"{{body}}\",\n  icon = \"{{icon}}\",\n  hasAction = {{hasAction}},\n  actionLabel = \"{{actionLabel}}\",\n}) {\n  const glyph = { folder: \"🗀\", search: \"🔍\", inbox: \"📥\" }[icon] ?? \"🗀\";\n  return (\n    <div role=\"region\" aria-label={headline} style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\",\n      textAlign: \"center\", gap: 6, maxWidth: 280, padding: \"32px 20px\", borderRadius: 12, border: \"1.5px dashed #24143033\",\n      font: \"14px/1.45 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ width: 44, height: 44, borderRadius: 12, background: \"#D9C8F0\",\n        display: \"grid\", placeItems: \"center\", marginBottom: 8, fontSize: 20 }}>{glyph}</span>\n      <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{headline}</p>\n      <p style={{ margin: 0, color: \"#24143099\" }}>{body}</p>\n      {hasAction && (\n        <button type=\"button\" style={{ marginTop: 10, border: \"none\", borderRadius: 8, background: \"#241430\",\n          color: \"#FAF7F2\", fontWeight: 600, fontSize: 13, padding: \"8px 16px\", cursor: \"pointer\" }}>{actionLabel}</button>\n      )}\n    </div>\n  );\n}"
+  }
+}

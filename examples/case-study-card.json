@@ -1,0 +1,41 @@
+{
+  "slug": "case-study-card",
+  "controls_schema": [
+    {
+      "id": "company",
+      "type": "text",
+      "label": "Company",
+      "default": "Northwind Logistics"
+    },
+    {
+      "id": "result",
+      "type": "text",
+      "label": "Headline result",
+      "default": "40% faster onboarding"
+    },
+    {
+      "id": "summary",
+      "type": "text",
+      "label": "Summary",
+      "default": "How a 200-person ops team replaced six spreadsheets with one workflow."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "showLink",
+      "type": "toggle",
+      "label": "Show read link",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"case\">\n  <p class=\"case__company\">{{company}}</p>\n  <p class=\"case__result\" style=\"color:{{accent}};\">{{result}}</p>\n  <p class=\"case__summary\">{{summary}}</p>\n  {{#if showLink}}<a href=\"#\" class=\"case__link\" style=\"color:{{accent}};\">Read case study &rarr;</a>{{/if}}\n</article>\n<style>\n.case { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 300px; padding: 20px; border: 1px solid #24143022; border-radius: 14px; background: #FAF7F2; }\n.case__company { margin: 0 0 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #24143088; }\n.case__result { margin: 0 0 10px; font-size: 26px; font-weight: 800; }\n.case__summary { margin: 0 0 14px; font-size: 14px; color: #241430cc; }\n.case__link { text-decoration: none; font-weight: 600; font-size: 14px; }\n.case__link:hover, .case__link:focus-visible { text-decoration: underline; }\n</style>",
+    "tailwind": "<article class=\"font-sans text-[#241430] max-w-[300px] p-5 border border-[#24143022] rounded-2xl bg-[#FAF7F2]\">\n  <p class=\"m-0 mb-2 text-xs font-bold uppercase tracking-wide text-[#241430]/55\">{{company}}</p>\n  <p class=\"m-0 mb-2.5 text-[26px] font-extrabold\" style=\"color:{{accent}};\">{{result}}</p>\n  <p class=\"m-0 mb-3.5 text-sm text-[#241430]/80\">{{summary}}</p>\n  {{#if showLink}}<a href=\"#\" class=\"no-underline font-semibold text-sm hover:underline focus-visible:underline\" style=\"color:{{accent}};\">Read case study &rarr;</a>{{/if}}\n</article>",
+    "react": "export function CaseStudyCard({\n  company = \"{{company}}\",\n  result = \"{{result}}\",\n  summary = \"{{summary}}\",\n  accent = \"{{accent}}\",\n  showLink = {{showLink}},\n}) {\n  return (\n    <article style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300, padding: 20,\n      border: \"1px solid #24143022\", borderRadius: 14, background: \"#FAF7F2\" }}>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.05em\", color: \"#24143088\" }}>{company}</p>\n      <p style={{ margin: \"0 0 10px\", fontSize: 26, fontWeight: 800, color: accent }}>{result}</p>\n      <p style={{ margin: \"0 0 14px\", fontSize: 14, color: \"#241430cc\" }}>{summary}</p>\n      {showLink && <a href=\"#\" style={{ color: accent, textDecoration: \"none\", fontWeight: 600, fontSize: 14 }}>Read case study &rarr;</a>}\n    </article>\n  );\n}"
+  }
+}

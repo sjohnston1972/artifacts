@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Selected work"
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Grid columns",
+      "default": 3,
+      "min": 2,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Thumbnail accent",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "hoverReveal",
+      "type": "toggle",
+      "label": "Reveal title on hover",
+      "default": true
+    },
+    {
+      "id": "aspect",
+      "type": "select",
+      "label": "Thumbnail aspect",
+      "default": "square",
+      "options": [
+        "square",
+        "landscape",
+        "portrait"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"portfolio\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <h3 class=\"portfolio__heading\">{{heading}}</h3>\n  <ul class=\"portfolio__grid portfolio__grid--{{aspect}}\" role=\"list\">\n    <li class=\"portfolio__item{{#if hoverReveal}} portfolio__item--hover{{/if}}\">\n      <a class=\"portfolio__link\" href=\"#\">\n        <span class=\"portfolio__thumb\" role=\"img\" aria-label=\"Preview of Riverside Rebrand project\"></span>\n        <span class=\"portfolio__label\">Riverside Rebrand</span>\n      </a>\n    </li>\n    <li class=\"portfolio__item{{#if hoverReveal}} portfolio__item--hover{{/if}}\">\n      <a class=\"portfolio__link\" href=\"#\">\n        <span class=\"portfolio__thumb\" role=\"img\" aria-label=\"Preview of Northlight App project\"></span>\n        <span class=\"portfolio__label\">Northlight App</span>\n      </a>\n    </li>\n    <li class=\"portfolio__item{{#if hoverReveal}} portfolio__item--hover{{/if}}\">\n      <a class=\"portfolio__link\" href=\"#\">\n        <span class=\"portfolio__thumb\" role=\"img\" aria-label=\"Preview of Ferry Market Signage project\"></span>\n        <span class=\"portfolio__label\">Ferry Market Signage</span>\n      </a>\n    </li>\n  </ul>\n</div>\n<style>\n.portfolio { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 480px; }\n.portfolio__heading { margin: 0 0 14px; font-size: 18px; font-weight: 700; }\n.portfolio__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 14px; }\n.portfolio__item { position: relative; overflow: hidden; border-radius: 10px; }\n.portfolio__link { display: flex; flex-direction: column; color: inherit; text-decoration: none; }\n.portfolio__thumb { display: block; width: 100%; background: linear-gradient(135deg, var(--accent), #241430); }\n.portfolio__grid--square .portfolio__thumb { aspect-ratio: 1 / 1; }\n.portfolio__grid--landscape .portfolio__thumb { aspect-ratio: 4 / 3; }\n.portfolio__grid--portrait .portfolio__thumb { aspect-ratio: 3 / 4; }\n.portfolio__label { font-size: 13px; font-weight: 600; padding: 8px 2px; }\n.portfolio__item--hover .portfolio__label { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 10px; background: #241430cc; color: #FAF7F2; opacity: 0; transform: translateY(6px); transition: opacity .15s, transform .15s; }\n.portfolio__item--hover .portfolio__link:hover .portfolio__label,\n.portfolio__item--hover .portfolio__link:focus-visible .portfolio__label { opacity: 1; transform: translateY(0); }\n</style>",
+    "tailwind": "<div class=\"portfolio-tw font-sans text-[#241430] max-w-md\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <h3 class=\"m-0 mb-3.5 text-lg font-bold\">{{heading}}</h3>\n  <ul role=\"list\" class=\"portfolio-tw__grid portfolio-tw__grid--{{aspect}} list-none m-0 p-0 grid gap-[14px]\" style=\"grid-template-columns:repeat({{columns}},1fr);\">\n    <li class=\"portfolio-tw__item{{#if hoverReveal}} portfolio-tw__item--hover{{/if}} relative rounded-[10px] overflow-hidden\">\n      <a href=\"#\" class=\"portfolio-tw__link flex flex-col text-inherit no-underline\">\n        <span role=\"img\" aria-label=\"Preview of Riverside Rebrand project\" class=\"portfolio-tw__thumb block w-full\" style=\"background:linear-gradient(135deg,{{accent}},#241430);\"></span>\n        <span class=\"portfolio-tw__label text-[13px] font-semibold\">Riverside Rebrand</span>\n      </a>\n    </li>\n    <li class=\"portfolio-tw__item{{#if hoverReveal}} portfolio-tw__item--hover{{/if}} relative rounded-[10px] overflow-hidden\">\n      <a href=\"#\" class=\"portfolio-tw__link flex flex-col text-inherit no-underline\">\n        <span role=\"img\" aria-label=\"Preview of Northlight App project\" class=\"portfolio-tw__thumb block w-full\" style=\"background:linear-gradient(135deg,{{accent}},#241430);\"></span>\n        <span class=\"portfolio-tw__label text-[13px] font-semibold\">Northlight App</span>\n      </a>\n    </li>\n    <li class=\"portfolio-tw__item{{#if hoverReveal}} portfolio-tw__item--hover{{/if}} relative rounded-[10px] overflow-hidden\">\n      <a href=\"#\" class=\"portfolio-tw__link flex flex-col text-inherit no-underline\">\n        <span role=\"img\" aria-label=\"Preview of Ferry Market Signage project\" class=\"portfolio-tw__thumb block w-full\" style=\"background:linear-gradient(135deg,{{accent}},#241430);\"></span>\n        <span class=\"portfolio-tw__label text-[13px] font-semibold\">Ferry Market Signage</span>\n      </a>\n    </li>\n  </ul>\n</div>\n<style>\n.portfolio-tw__grid--square .portfolio-tw__thumb { aspect-ratio: 1 / 1; }\n.portfolio-tw__grid--landscape .portfolio-tw__thumb { aspect-ratio: 4 / 3; }\n.portfolio-tw__grid--portrait .portfolio-tw__thumb { aspect-ratio: 3 / 4; }\n.portfolio-tw__label { padding: 8px 2px; }\n.portfolio-tw__item--hover .portfolio-tw__label { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 10px; background: #241430cc; color: #FAF7F2; opacity: 0; transform: translateY(6px); transition: opacity .15s, transform .15s; }\n.portfolio-tw__item--hover .portfolio-tw__link:hover .portfolio-tw__label,\n.portfolio-tw__item--hover .portfolio-tw__link:focus-visible .portfolio-tw__label { opacity: 1; transform: translateY(0); }\n</style>",
+    "react": "export function PortfolioGrid({\n  heading = \"{{heading}}\",\n  columns = {{columns}},\n  accent = \"{{accent}}\",\n  hoverReveal = {{hoverReveal}},\n  aspect = \"{{aspect}}\",\n}) {\n  const projects = [\"Riverside Rebrand\", \"Northlight App\", \"Ferry Market Signage\"];\n  const aspectRatio = { square: \"1 / 1\", landscape: \"4 / 3\", portrait: \"3 / 4\" }[aspect] ?? \"1 / 1\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 480 }}>\n      <h3 style={{ margin: \"0 0 14px\", fontSize: 18, fontWeight: 700 }}>{heading}</h3>\n      <ul role=\"list\" style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: 14 }}>\n        {projects.map((title) => (\n          <li key={title} style={{ position: \"relative\", borderRadius: 10, overflow: \"hidden\" }}>\n            <a href=\"#\" style={{ display: \"flex\", flexDirection: \"column\", color: \"inherit\", textDecoration: \"none\" }}>\n              <span role=\"img\" aria-label={`Preview of ${title} project`} style={{ display: \"block\", width: \"100%\", aspectRatio, background: `linear-gradient(135deg, ${accent}, #241430)` }} />\n              <span style={{\n                fontSize: 13, fontWeight: 600,\n                padding: hoverReveal ? 10 : \"8px 2px\",\n                position: hoverReveal ? \"absolute\" : \"static\",\n                left: hoverReveal ? 0 : undefined,\n                right: hoverReveal ? 0 : undefined,\n                bottom: hoverReveal ? 0 : undefined,\n                background: hoverReveal ? \"#241430cc\" : \"transparent\",\n                color: hoverReveal ? \"#FAF7F2\" : \"#241430\",\n              }}>{title}</span>\n            </a>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  },
+  "slug": "portfolio-grid"
+}

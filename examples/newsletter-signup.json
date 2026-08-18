@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Get the newsletter"
+    },
+    {
+      "id": "buttonLabel",
+      "type": "text",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "inline",
+      "options": [
+        "inline",
+        "stacked"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "privacy",
+      "type": "toggle",
+      "label": "Show privacy note",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"newsletter newsletter--{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"newsletter__copy\">\n    <h3 class=\"newsletter__heading\">{{heading}}</h3>\n    {{#if privacy}}\n    <p class=\"newsletter__privacy\">No spam. Unsubscribe anytime.</p>\n    {{/if}}\n  </div>\n  <div class=\"newsletter__field\">\n    <label class=\"newsletter__label\" for=\"newsletter-email\">Email address</label>\n    <input id=\"newsletter-email\" class=\"newsletter__input\" type=\"email\" required placeholder=\"you@example.com\" />\n    <button class=\"newsletter__submit\" type=\"submit\">{{buttonLabel}}</button>\n  </div>\n</form>\n<style>\n.newsletter { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 420px; }\n.newsletter--stacked { display: flex; flex-direction: column; gap: 14px; }\n.newsletter--inline { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }\n.newsletter__heading { margin: 0 0 4px; font-size: 17px; font-weight: 700; }\n.newsletter__privacy { margin: 0; font-size: 12px; color: #241430aa; }\n.newsletter__field { display: flex; gap: 8px; }\n.newsletter--stacked .newsletter__field { flex-direction: column; }\n.newsletter__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n.newsletter__input { font: 14px system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143033; min-width: 200px; }\n.newsletter__input:focus-visible { outline: 2px solid var(--accent); border-color: var(--accent); }\n.newsletter__submit { border: none; background: var(--accent); color: #FAF7F2; font: 600 14px system-ui, sans-serif; padding: 10px 16px; border-radius: 8px; cursor: pointer; white-space: nowrap; }\n.newsletter__submit:hover { filter: brightness(.94); }\n</style>",
+    "tailwind": "<form class=\"newsletter-tw newsletter-tw--{{layout}} max-w-md font-sans text-[#241430]\" style=\"--accent:{{accent}};\">\n  <div class=\"newsletter-tw__copy\">\n    <h3 class=\"m-0 mb-1 text-[17px] font-bold\">{{heading}}</h3>\n    {{#if privacy}}\n    <p class=\"m-0 text-xs text-[#241430]/70\">No spam. Unsubscribe anytime.</p>\n    {{/if}}\n  </div>\n  <div class=\"newsletter-tw__field flex gap-2 mt-3\">\n    <label for=\"newsletter-tw-email\" class=\"sr-only\">Email address</label>\n    <input id=\"newsletter-tw-email\" type=\"email\" required placeholder=\"you@example.com\" class=\"text-sm px-3 py-2.5 rounded-lg border-[1.5px] border-[#24143033] min-w-[200px]\" />\n    <button type=\"submit\" class=\"border-none text-[#FAF7F2] text-sm font-semibold px-4 py-2.5 rounded-lg cursor-pointer whitespace-nowrap hover:brightness-95\" style=\"background:{{accent}};\">{{buttonLabel}}</button>\n  </div>\n</form>\n<style>\n.newsletter-tw--inline { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }\n.newsletter-tw--inline .newsletter-tw__field { margin-top: 0; }\n.newsletter-tw--stacked .newsletter-tw__field { flex-direction: column; }\n</style>",
+    "react": "export function NewsletterSignup({\n  heading = \"{{heading}}\",\n  buttonLabel = \"{{buttonLabel}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  privacy = {{privacy}},\n}) {\n  const wrapStyle = layout === \"inline\"\n    ? { display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 20, flexWrap: \"wrap\" }\n    : { display: \"flex\", flexDirection: \"column\", gap: 14 };\n  return (\n    <form style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 420, ...wrapStyle }}>\n      <div>\n        <h3 style={{ margin: \"0 0 4px\", fontSize: 17, fontWeight: 700 }}>{heading}</h3>\n        {privacy && <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>No spam. Unsubscribe anytime.</p>}\n      </div>\n      <div style={{ display: \"flex\", flexDirection: layout === \"stacked\" ? \"column\" : \"row\", gap: 8 }}>\n        <label htmlFor=\"newsletter-email\" style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\", whiteSpace: \"nowrap\" }}>Email address</label>\n        <input id=\"newsletter-email\" type=\"email\" required placeholder=\"you@example.com\" style={{ font: \"14px system-ui, sans-serif\", padding: \"10px 12px\", borderRadius: 8, border: \"1.5px solid #24143033\", minWidth: 200 }} />\n        <button type=\"submit\" style={{ border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 600, fontSize: 14, padding: \"10px 16px\", borderRadius: 8, cursor: \"pointer\", whiteSpace: \"nowrap\" }}>{buttonLabel}</button>\n      </div>\n    </form>\n  );\n}"
+  },
+  "slug": "newsletter-signup"
+}

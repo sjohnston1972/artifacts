@@ -1,0 +1,42 @@
+{
+  "slug": "faq-accordion",
+  "controls_schema": [
+    {
+      "id": "question",
+      "type": "text",
+      "label": "First question",
+      "default": "Can I cancel at any time?"
+    },
+    {
+      "id": "answer",
+      "type": "text",
+      "label": "First answer",
+      "default": "Yes, cancel from your account settings and you'll keep access until the period ends."
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["compact", "comfortable"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "firstOpen",
+      "type": "toggle",
+      "label": "First item open",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"faq faq--{{density}}\">\n  <details class=\"faq__item\"{{#if firstOpen}} open{{/if}}>\n    <summary class=\"faq__q\" style=\"--accent:{{accent}};\">{{question}}</summary>\n    <p class=\"faq__a\">{{answer}}</p>\n  </details>\n  <details class=\"faq__item\">\n    <summary class=\"faq__q\" style=\"--accent:{{accent}};\">Do you offer refunds?</summary>\n    <p class=\"faq__a\">Yes, within 30 days of purchase, no questions asked.</p>\n  </details>\n  <details class=\"faq__item\">\n    <summary class=\"faq__q\" style=\"--accent:{{accent}};\">Is there a free trial?</summary>\n    <p class=\"faq__a\">Every plan includes a 14-day trial, no card required.</p>\n  </details>\n</div>\n<style>\n.faq { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 480px; border-top: 1px solid #24143018; }\n.faq__item { border-bottom: 1px solid #24143018; }\n.faq__q { list-style: none; cursor: pointer; padding: 16px 4px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; }\n.faq--compact .faq__q { padding: 10px 4px; font-size: 14px; }\n.faq__q::-webkit-details-marker { display: none; }\n.faq__q::after { content: \"+\"; color: var(--accent); font-size: 18px; }\n.faq__item[open] .faq__q::after { content: \"\\2212\"; }\n.faq__q:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }\n.faq__a { margin: 0 0 16px; font-size: 14px; color: #241430cc; }\n.faq--compact .faq__a { margin-bottom: 10px; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"faq-tw faq-tw--{{density}} font-sans text-[#241430] max-w-[480px] border-t border-[#24143018]\">\n  <details class=\"faq-tw__item border-b border-[#24143018]\"{{#if firstOpen}} open{{/if}}>\n    <summary class=\"faq-tw__q list-none cursor-pointer py-4 px-1 font-semibold flex items-center justify-between marker:hidden\" style=\"--accent:{{accent}};\">\n      {{question}}<span aria-hidden=\"true\" style=\"color:{{accent}};\">+</span>\n    </summary>\n    <p class=\"faq-tw__a m-0 mb-4 text-sm text-[#241430]/80\">{{answer}}</p>\n  </details>\n  <details class=\"faq-tw__item border-b border-[#24143018]\">\n    <summary class=\"faq-tw__q list-none cursor-pointer py-4 px-1 font-semibold flex items-center justify-between marker:hidden\">\n      Do you offer refunds?<span aria-hidden=\"true\" style=\"color:{{accent}};\">+</span>\n    </summary>\n    <p class=\"faq-tw__a m-0 mb-4 text-sm text-[#241430]/80\">Yes, within 30 days of purchase, no questions asked.</p>\n  </details>\n  <details class=\"faq-tw__item border-b border-[#24143018]\">\n    <summary class=\"faq-tw__q list-none cursor-pointer py-4 px-1 font-semibold flex items-center justify-between marker:hidden\">\n      Is there a free trial?<span aria-hidden=\"true\" style=\"color:{{accent}};\">+</span>\n    </summary>\n    <p class=\"faq-tw__a m-0 mb-4 text-sm text-[#241430]/80\">Every plan includes a 14-day trial, no card required.</p>\n  </details>\n</div>\n<style>\n.faq-tw--compact .faq-tw__q { padding: 10px 4px; font-size: 14px; }\n.faq-tw--compact .faq-tw__a { margin-bottom: 10px; font-size: 13px; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function FaqAccordion({\n  question = \"{{question}}\",\n  answer = \"{{answer}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  firstOpen = {{firstOpen}},\n}) {\n  const items = [\n    { q: question, a: answer, open: firstOpen },\n    { q: \"Do you offer refunds?\", a: \"Yes, within 30 days of purchase, no questions asked.\", open: false },\n    { q: \"Is there a free trial?\", a: \"Every plan includes a 14-day trial, no card required.\", open: false },\n  ];\n  const [openIndex, setOpenIndex] = useState(items.findIndex((i) => i.open));\n  const pad = density === \"compact\" ? \"10px 4px\" : \"16px 4px\";\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 480, borderTop: \"1px solid #24143018\" }}>\n      {items.map((item, i) => (\n        <div key={item.q} style={{ borderBottom: \"1px solid #24143018\" }}>\n          <button type=\"button\" onClick={() => setOpenIndex(openIndex === i ? -1 : i)} style={{\n            width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", cursor: \"pointer\", padding: pad,\n            fontWeight: 600, display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", color: \"inherit\", font: \"inherit\" }}>\n            {item.q}\n            <span aria-hidden=\"true\" style={{ color: accent }}>{openIndex === i ? \"\\u2212\" : \"+\"}</span>\n          </button>\n          {openIndex === i && (\n            <p style={{ margin: density === \"compact\" ? \"0 0 10px\" : \"0 0 16px\", fontSize: density === \"compact\" ? 13 : 14, color: \"#241430cc\" }}>{item.a}</p>\n          )}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  }
+}

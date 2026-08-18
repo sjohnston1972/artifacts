@@ -1,0 +1,45 @@
+{
+  "slug": "column",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Checklist"
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 10,
+      "min": 2,
+      "max": 28,
+      "step": 2
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Alignment",
+      "default": "stretch",
+      "options": ["stretch", "start", "center"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "divider",
+      "type": "toggle",
+      "label": "Show dividers",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"col-demo\">\n  <h4 class=\"col-demo__heading\">{{heading}}</h4>\n  <div class=\"col-demo__col col-demo__col--{{align}}{{#if divider}} col-demo__col--divided{{/if}}\" style=\"gap:{{gap}}px;\">\n    <div class=\"col-demo__item\" style=\"border-color:{{accent}};\">First item</div>\n    <div class=\"col-demo__item\" style=\"border-color:{{accent}};\">Second item</div>\n    <div class=\"col-demo__item\" style=\"border-color:{{accent}};\">Third item, a touch longer</div>\n  </div>\n</div>\n<style>\n.col-demo { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; }\n.col-demo__heading { margin: 0 0 10px; font-size: 15px; }\n.col-demo__col { display: flex; flex-direction: column; }\n.col-demo__col--start { align-items: flex-start; }\n.col-demo__col--center { align-items: center; }\n.col-demo__item { box-sizing: border-box; padding: 8px 12px; background: #fff; border: 1px solid; border-radius: 6px; }\n.col-demo__col--start .col-demo__item, .col-demo__col--center .col-demo__item { width: auto; }\n.col-demo__col--divided .col-demo__item { border-radius: 0; border: none; border-bottom: 1px solid; padding: 8px 4px; }\n.col-demo__col--divided .col-demo__item:last-child { border-bottom: none; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4\">\n  <h4 class=\"m-0 mb-2.5 text-[15px]\">{{heading}}</h4>\n  <div class=\"flex flex-col col-tw col-tw--{{align}}{{#if divider}} col-tw--divided{{/if}}\" style=\"gap:{{gap}}px;\">\n    <div class=\"box-border px-3 py-2 bg-white border rounded-md\" style=\"border-color:{{accent}};\">First item</div>\n    <div class=\"box-border px-3 py-2 bg-white border rounded-md\" style=\"border-color:{{accent}};\">Second item</div>\n    <div class=\"box-border px-3 py-2 bg-white border rounded-md\" style=\"border-color:{{accent}};\">Third item, a touch longer</div>\n  </div>\n</div>\n<style>\n.col-tw--start { align-items: flex-start; }\n.col-tw--center { align-items: center; }\n.col-tw--divided > div { border-radius: 0 !important; border: none !important; border-bottom: 1px solid !important; padding: 8px 4px !important; }\n.col-tw--divided > div:last-child { border-bottom: none !important; }\n</style>",
+    "react": "export function Column({\n  heading = \"{{heading}}\",\n  gap = {{gap}},\n  align = \"{{align}}\",\n  accent = \"{{accent}}\",\n  divider = {{divider}},\n}) {\n  const items = [\"First item\", \"Second item\", \"Third item, a touch longer\"];\n  const alignItems = { stretch: \"stretch\", start: \"flex-start\", center: \"center\" }[align];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", padding: 16 }}>\n      <h4 style={{ margin: \"0 0 10px\", fontSize: 15 }}>{heading}</h4>\n      <div style={{ display: \"flex\", flexDirection: \"column\", alignItems, gap }}>\n        {items.map((label, i) => (\n          <div key={i} style={divider\n            ? { borderBottom: i < items.length - 1 ? `1px solid ${accent}` : \"none\", padding: \"8px 4px\" }\n            : { boxSizing: \"border-box\", padding: \"8px 12px\", background: \"#fff\", border: `1px solid ${accent}`, borderRadius: 6 }}>\n            {label}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

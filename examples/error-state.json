@@ -1,0 +1,48 @@
+{
+  "slug": "error-state",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Email address"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "steven@"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Error message",
+      "default": "Enter a complete email address."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Error colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showError",
+      "type": "toggle",
+      "label": "Show error",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"es\">\n  <label class=\"es__label\" for=\"es-1\">{{label}}</label>\n  <input class=\"es__input\" id=\"es-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\"\n    aria-invalid=\"{{showError}}\"{{#if showError}} aria-describedby=\"es-msg-1\"{{/if}}>\n  {{#if showError}}<p class=\"es__msg\" id=\"es-msg-1\" role=\"alert\">{{message}}</p>{{/if}}\n</div>\n<style>\n.es { font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.es__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.es__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.es__input[aria-invalid=\"true\"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, #FAF7F2); }\n.es__input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.es__msg { margin: 6px 0 0; font-size: 12px; color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[280px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"es-tw-1\">{{label}}</label>\n  <input id=\"es-tw-1\" type=\"text\" value=\"{{value}}\" aria-invalid=\"{{showError}}\"{{#if showError}} aria-describedby=\"es-tw-msg-1\"{{/if}}\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  {{#if showError}}<p id=\"es-tw-msg-1\" role=\"alert\" class=\"mt-1.5 text-xs\" style=\"color:{{accent}};\">{{message}}</p>{{/if}}\n</div>",
+    "react": "export function ErrorState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  message = \"{{message}}\",\n  accent = \"{{accent}}\",\n  showError = {{showError}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <label htmlFor=\"es-react-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <input id=\"es-react-1\" type=\"text\" defaultValue={value} aria-invalid={showError} aria-describedby={showError ? \"es-react-msg-1\" : undefined} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: showError ? `color-mix(in srgb, ${accent} 8%, #FAF7F2)` : \"#FAF7F2\",\n        border: `1.5px solid ${showError ? accent : \"#24143040\"}`, borderRadius: 8,\n      }} />\n      {showError && <p id=\"es-react-msg-1\" role=\"alert\" style={{ margin: \"6px 0 0\", fontSize: 12, color: accent }}>{message}</p>}\n    </div>\n  );\n}"
+  }
+}

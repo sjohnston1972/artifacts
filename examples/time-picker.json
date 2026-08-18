@@ -1,0 +1,52 @@
+{
+  "slug": "time-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Appointment time"
+    },
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Format",
+      "default": "12h",
+      "options": [
+        "12h",
+        "24h"
+      ]
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Selected time",
+      "default": "2:30 PM"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tp\">\n  <label class=\"tp__label\" for=\"tp-1\">{{label}}{{#if required}} <span class=\"tp__req\">*</span>{{/if}}</label>\n  <details class=\"tp__details\">\n    <summary class=\"tp__summary\" id=\"tp-1\" style=\"--accent:{{accent}};\">\n      <span>{{value}}</span>\n      <span class=\"tp__format\">{{format}}</span>\n    </summary>\n    <ul class=\"tp__list\" style=\"--accent:{{accent}};\">\n      <li class=\"tp__item\">1:00 PM</li>\n      <li class=\"tp__item\">1:30 PM</li>\n      <li class=\"tp__item tp__item--sel\">2:30 PM</li>\n      <li class=\"tp__item\">3:00 PM</li>\n      <li class=\"tp__item\">3:30 PM</li>\n    </ul>\n  </details>\n</div>\n<style>\n.tp { font: 14px system-ui, sans-serif; color: #241430; max-width: 220px; }\n.tp__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.tp__req { color: #241430; }\n.tp__summary { display: flex; justify-content: space-between; gap: 8px; align-items: center; list-style: none; cursor: pointer; padding: 10px 12px; border: 1.5px solid #24143040; border-radius: 8px; background: #FAF7F2; }\n.tp__summary::-webkit-details-marker { display: none; }\n.tp__format { font-size: 11px; color: #24143080; text-transform: uppercase; }\n.tp__details[open] .tp__summary { border-color: var(--accent); }\n.tp__list { list-style: none; margin: 8px 0 0; padding: 4px; border: 1.5px solid #24143020; border-radius: 8px; max-height: 140px; overflow-y: auto; }\n.tp__item { padding: 6px 8px; border-radius: 6px; font-size: 13px; }\n.tp__item:hover { background: #24143010; }\n.tp__item--sel { background: var(--accent); font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[220px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"tp-tw-1\">{{label}}{{#if required}} <span>*</span>{{/if}}</label>\n  <details>\n    <summary id=\"tp-tw-1\" class=\"tp-tw-summary flex justify-between items-center gap-2 list-none cursor-pointer px-3 py-2.5 border-[1.5px] border-[#24143040] rounded-lg bg-[#FAF7F2]\" style=\"border-color:{{accent}};\">\n      <span>{{value}}</span>\n      <span class=\"text-[11px] text-[#24143080] uppercase\">{{format}}</span>\n    </summary>\n    <ul class=\"list-none mt-2 p-1 border-[1.5px] border-[#24143020] rounded-lg max-h-[140px] overflow-y-auto\">\n      <li class=\"px-2 py-1.5 rounded text-[13px] hover:bg-[#24143010]\">1:00 PM</li>\n      <li class=\"px-2 py-1.5 rounded text-[13px] hover:bg-[#24143010]\">1:30 PM</li>\n      <li class=\"px-2 py-1.5 rounded text-[13px] font-semibold\" style=\"background:{{accent}};\">2:30 PM</li>\n      <li class=\"px-2 py-1.5 rounded text-[13px] hover:bg-[#24143010]\">3:00 PM</li>\n      <li class=\"px-2 py-1.5 rounded text-[13px] hover:bg-[#24143010]\">3:30 PM</li>\n    </ul>\n  </details>\n</div>\n<style>\n.tp-tw-summary::-webkit-details-marker { display: none; }\n</style>",
+    "react": "export function TimePicker({\n  label = \"{{label}}\",\n  format = \"{{format}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 220 }}>\n      <label style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</label>\n      <details>\n        <summary style={{\n          display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", gap: 8, listStyle: \"none\",\n          cursor: \"pointer\", padding: \"10px 12px\", border: `1.5px solid ${accent}`, borderRadius: 8, background: \"#FAF7F2\",\n        }}>\n          <span>{value}</span>\n          <span style={{ fontSize: 11, color: \"#24143080\", textTransform: \"uppercase\" }}>{format}</span>\n        </summary>\n        <ul style={{ listStyle: \"none\", margin: \"8px 0 0\", padding: 4, border: \"1.5px solid #24143020\", borderRadius: 8, maxHeight: 140, overflowY: \"auto\" }}>\n          {[\"1:00 PM\", \"1:30 PM\", \"2:30 PM\", \"3:00 PM\", \"3:30 PM\"].map((t) => (\n            <li key={t} style={{\n              padding: \"6px 8px\", borderRadius: 6, fontSize: 13,\n              background: t === \"2:30 PM\" ? accent : undefined,\n              fontWeight: t === \"2:30 PM\" ? 600 : undefined,\n            }}>{t}</li>\n          ))}\n        </ul>\n      </details>\n    </div>\n  );\n}"
+  }
+}

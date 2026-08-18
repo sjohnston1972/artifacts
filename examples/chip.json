@@ -1,0 +1,42 @@
+{
+  "slug": "chip",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "React"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "tonal",
+      "options": ["filled", "outline", "tonal"]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "selected",
+      "type": "toggle",
+      "label": "Selected",
+      "default": false
+    },
+    {
+      "id": "removable",
+      "type": "toggle",
+      "label": "Removable",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"chip chip--{{variant}}{{#if selected}} chip--selected{{/if}}\" style=\"--c:{{color}};\">\n  {{label}}\n  {{#if removable}}<button type=\"button\" class=\"chip__remove\" aria-label=\"Remove {{label}}\">×</button>{{/if}}\n</span>\n<style>\n.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 system-ui, sans-serif;\n  padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--c); box-sizing: border-box; color: #241430; }\n.chip--filled { background: var(--c); }\n.chip--outline { background: transparent; }\n.chip--tonal { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); border-color: transparent; }\n.chip--selected { box-shadow: 0 0 0 2px #241430; }\n.chip__remove { border: none; background: transparent; color: inherit; font-size: 13px; line-height: 1; cursor: pointer; padding: 0; opacity: .7; }\n.chip__remove:hover { opacity: 1; }\n.chip__remove:focus-visible { outline: 2px solid #241430; outline-offset: 2px; opacity: 1; }\n</style>",
+    "tailwind": "<span class=\"chip-tw chip-tw--{{variant}}{{#if selected}} chip-tw--selected{{/if}} inline-flex items-center gap-1.5 font-medium text-[13px] leading-none px-2.5 py-1.5 rounded-full border-[1.5px] box-border text-[#241430]\" style=\"--c:{{color}};\">\n  {{label}}\n  {{#if removable}}<button type=\"button\" aria-label=\"Remove {{label}}\" class=\"border-0 bg-transparent text-[13px] leading-none cursor-pointer p-0 opacity-70 hover:opacity-100\">×</button>{{/if}}\n</span>\n<style>\n.chip-tw { border-color: var(--c); }\n.chip-tw--filled { background: var(--c); }\n.chip-tw--outline { background: transparent; }\n.chip-tw--tonal { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); border-color: transparent; }\n.chip-tw--selected { box-shadow: 0 0 0 2px #241430; }\n</style>",
+    "react": "export function Chip({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  color = \"{{color}}\",\n  selected = {{selected}},\n  removable = {{removable}},\n}) {\n  const palette = {\n    filled: { background: color, borderColor: color },\n    outline: { background: \"transparent\", borderColor: color },\n    tonal: { background: `color-mix(in srgb, ${color} 30%, #FAF7F2)`, borderColor: \"transparent\" },\n  }[variant] ?? {};\n  return (\n    <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, fontWeight: 500, fontSize: 13,\n      lineHeight: 1, padding: \"6px 10px\", borderRadius: 999, border: \"1.5px solid\", boxSizing: \"border-box\",\n      color: \"#241430\", boxShadow: selected ? \"0 0 0 2px #241430\" : \"none\", ...palette }}>\n      {label}\n      {removable && (\n        <button type=\"button\" aria-label={`Remove ${label}`} style={{ border: \"none\", background: \"transparent\",\n          color: \"inherit\", fontSize: 13, lineHeight: 1, cursor: \"pointer\", padding: 0, opacity: 0.7 }}>×</button>\n      )}\n    </span>\n  );\n}"
+  }
+}

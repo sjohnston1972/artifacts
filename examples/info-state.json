@@ -1,0 +1,35 @@
+{
+  "slug": "info-state",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Beta feature"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "This dashboard is in beta and may change without notice."
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "info",
+      "options": ["info", "tip", "note"]
+    },
+    {
+      "id": "dismissible",
+      "type": "toggle",
+      "label": "Dismissible",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"info-state\" role=\"status\" aria-live=\"polite\">\n  <span class=\"info-state__icon info-state__icon--{{icon}}\" aria-hidden=\"true\"></span>\n  <div class=\"info-state__body\">\n    <p class=\"info-state__title\">{{title}}</p>\n    <p class=\"info-state__message\">{{message}}</p>\n  </div>\n  {{#if dismissible}}<button type=\"button\" class=\"info-state__close\" aria-label=\"Dismiss {{title}}\">×</button>{{/if}}\n</div>\n<style>\n.info-state { display: flex; align-items: flex-start; gap: 10px; max-width: 380px; padding: 12px 14px;\n  border-radius: 10px; background: color-mix(in srgb, #BFD9F2 35%, #FAF7F2); box-sizing: border-box; font: 13.5px/1.45 system-ui, sans-serif; color: #241430; }\n.info-state__icon { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; background: #2F6FA8; color: #FAF7F2;\n  display: grid; place-items: center; font: 700 11px/1 system-ui, sans-serif; }\n.info-state__icon--info::before { content: \"i\"; }\n.info-state__icon--tip::before { content: \"★\"; }\n.info-state__icon--note::before { content: \"✎\"; }\n.info-state__body { flex: 1; }\n.info-state__title { margin: 0 0 2px; font-weight: 700; }\n.info-state__message { margin: 0; color: #241430b3; }\n.info-state__close { border: none; background: transparent; font-size: 15px; line-height: 1; cursor: pointer; color: #241430; padding: 2px; }\n.info-state__close:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"status\" aria-live=\"polite\" class=\"info-tw info-tw--{{icon}} flex items-start gap-2.5 max-w-sm px-3.5 py-3 rounded-lg box-border font-sans text-[13.5px] text-[#241430]\" style=\"background:color-mix(in srgb, #BFD9F2 35%, #FAF7F2)\">\n  <span class=\"info-tw__icon w-5 h-5 rounded-full flex-shrink-0 bg-[#2F6FA8] text-[#FAF7F2] grid place-items-center text-[11px] font-bold\" aria-hidden=\"true\"></span>\n  <div class=\"flex-1\">\n    <p class=\"m-0 mb-0.5 font-bold\">{{title}}</p>\n    <p class=\"m-0 text-[#241430]/70\">{{message}}</p>\n  </div>\n  {{#if dismissible}}<button type=\"button\" aria-label=\"Dismiss {{title}}\" class=\"border-0 bg-transparent text-[15px] leading-none cursor-pointer p-0.5 text-[#241430]\">×</button>{{/if}}\n</div>\n<style>\n.info-tw--info .info-tw__icon::before { content: \"i\"; }\n.info-tw--tip .info-tw__icon::before { content: \"★\"; }\n.info-tw--note .info-tw__icon::before { content: \"✎\"; }\n</style>",
+    "react": "export function InfoState({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  icon = \"{{icon}}\",\n  dismissible = {{dismissible}},\n}) {\n  const glyph = { info: \"i\", tip: \"★\", note: \"✎\" }[icon] ?? \"i\";\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 10, maxWidth: 380,\n      padding: \"12px 14px\", borderRadius: 10, background: \"color-mix(in srgb, #BFD9F2 35%, #FAF7F2)\",\n      boxSizing: \"border-box\", font: \"13.5px/1.45 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ width: 20, height: 20, borderRadius: \"50%\", flexShrink: 0, background: \"#2F6FA8\",\n        color: \"#FAF7F2\", display: \"grid\", placeItems: \"center\", fontSize: 11, fontWeight: 700 }}>{glyph}</span>\n      <div style={{ flex: 1 }}>\n        <p style={{ margin: \"0 0 2px\", fontWeight: 700 }}>{title}</p>\n        <p style={{ margin: 0, color: \"#241430b3\" }}>{message}</p>\n      </div>\n      {dismissible && (\n        <button type=\"button\" aria-label={`Dismiss ${title}`} style={{ border: \"none\", background: \"transparent\",\n          fontSize: 15, cursor: \"pointer\", color: \"#241430\", padding: 2 }}>×</button>\n      )}\n    </div>\n  );\n}"
+  }
+}

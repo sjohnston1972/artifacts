@@ -1,0 +1,47 @@
+{
+  "slug": "required-indicator",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Postcode"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "asterisk",
+      "options": [
+        "asterisk",
+        "text",
+        "dot"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Field is required",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Indicator colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ri\" for=\"ri-1\">\n  <span class=\"ri__label\">\n    {{label}}\n    {{#if required}}<span class=\"ri__mark ri__mark--{{style}}\" style=\"--accent:{{accent}};\" aria-hidden=\"true\"></span><span class=\"ri__sr\">, required</span>{{/if}}\n  </span>\n  <input class=\"ri__input\" id=\"ri-1\" type=\"text\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.ri { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 220px; }\n.ri__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ri__mark { color: var(--accent); font-weight: 700; }\n.ri__mark--asterisk::before { content: \" *\"; }\n.ri__mark--text::before { content: \" (required)\"; font-size: 11px; font-weight: 600; }\n.ri__mark--dot::before { content: \"\"; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: 6px; }\n.ri__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }\n.ri__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ri__input:focus-visible { outline: none; border-color: #241430; }\n</style>",
+    "tailwind": "<label class=\"block max-w-[220px] font-sans text-sm text-[#241430]\" for=\"ri-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">\n    {{label}}\n    {{#if required}}<span class=\"ri-tw-mark ri-tw-mark--{{style}}\" style=\"color:{{accent}};\" aria-hidden=\"true\"></span><span class=\"sr-only\">, required</span>{{/if}}\n  </span>\n  <input id=\"ri-tw-1\" type=\"text\"{{#if required}} required{{/if}} class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none focus-visible:border-[#241430]\">\n</label>\n<style>\n.ri-tw-mark--asterisk::before { content: \" *\"; font-weight: 700; }\n.ri-tw-mark--text::before { content: \" (required)\"; font-size: 11px; font-weight: 600; }\n.ri-tw-mark--dot::before { content: \"\"; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-left: 6px; }\n</style>",
+    "react": "export function RequiredIndicator({\n  label = \"{{label}}\",\n  style = \"{{style}}\",\n  required = {{required}},\n  accent = \"{{accent}}\",\n}) {\n  const marks = { asterisk: \" *\", text: \" (required)\", dot: \"\" };\n  return (\n    <label style={{ display: \"block\", maxWidth: 220, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>\n        {label}\n        {required && (\n          <span style={{ color: accent, fontWeight: 700, fontSize: style === \"text\" ? 11 : undefined }}>\n            {style === \"dot\"\n              ? <span style={{ display: \"inline-block\", width: 6, height: 6, borderRadius: \"50%\", background: accent, marginLeft: 6 }} />\n              : marks[style]}\n          </span>\n        )}\n      </span>\n      <input type=\"text\" required={required} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

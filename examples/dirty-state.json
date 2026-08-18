@@ -1,0 +1,52 @@
+{
+  "slug": "dirty-state",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Display name"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Steven J."
+    },
+    {
+      "id": "dirty",
+      "type": "toggle",
+      "label": "Changed since save",
+      "default": true
+    },
+    {
+      "id": "indicator",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "dot",
+      "options": [
+        "dot",
+        "badge"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ds\" for=\"ds-1\">\n  <span class=\"ds__label\">\n    {{label}}\n    {{#if dirty}}<span class=\"ds__flag ds__flag--{{indicator}}\" style=\"--accent:{{accent}};\">Edited</span>{{/if}}\n  </span>\n  <input class=\"ds__input\" id=\"ds-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\">\n</label>\n<style>\n.ds { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.ds__label { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-weight: 500; }\n.ds__flag { font-size: 11px; font-weight: 600; color: var(--accent); }\n.ds__flag--dot::before { content: \"\"; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 4px; }\n.ds__flag--badge { padding: 2px 6px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 25%, transparent); }\n.ds__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid var(--accent); border-radius: 8px; }\n.ds__input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"ds-tw-1\">\n  <span class=\"flex items-center gap-1.5 mb-1.5 font-medium\">\n    {{label}}\n    {{#if dirty}}<span class=\"ds-tw-flag ds-tw-flag--{{indicator}} text-[11px] font-semibold\" style=\"color:{{accent}};\">Edited</span>{{/if}}\n  </span>\n  <input id=\"ds-tw-1\" type=\"text\" value=\"{{value}}\" class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n</label>\n<style>\n.ds-tw-flag--dot::before { content: \"\"; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 4px; }\n.ds-tw-flag--badge { padding: 2px 6px; border-radius: 999px; background: color-mix(in srgb, currentColor 25%, transparent); }\n</style>",
+    "react": "export function DirtyState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  dirty = {{dirty}},\n  indicator = \"{{indicator}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, marginBottom: 6, fontWeight: 500 }}>\n        {label}\n        {dirty && (\n          <span style={{\n            fontSize: 11, fontWeight: 600, color: accent,\n            padding: indicator === \"badge\" ? \"2px 6px\" : 0,\n            borderRadius: indicator === \"badge\" ? 999 : 0,\n            background: indicator === \"badge\" ? `color-mix(in srgb, ${accent} 25%, transparent)` : \"none\",\n          }}>\n            {indicator === \"dot\" && <span style={{ display: \"inline-block\", width: 6, height: 6, borderRadius: \"50%\", background: accent, marginRight: 4 }} />}\n            Edited\n          </span>\n        )}\n      </span>\n      <input type=\"text\" defaultValue={value} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "masked-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Card number"
+    },
+    {
+      "id": "pattern",
+      "type": "text",
+      "label": "Mask pattern",
+      "default": "9999 9999 9999 9999"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "0000 0000 0000 0000"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"mi\" for=\"mi-1\">\n  <span class=\"mi__label\">{{label}}{{#if required}} <span class=\"mi__req\">*</span>{{/if}}</span>\n  <input class=\"mi__input\" id=\"mi-1\" type=\"text\" placeholder=\"{{placeholder}}\" inputmode=\"numeric\" style=\"--accent:{{accent}};\" aria-describedby=\"mi-hint-1\"{{#if required}} required{{/if}}>\n  <span class=\"mi__hint\" id=\"mi-hint-1\">Format: {{pattern}}</span>\n</label>\n<style>\n.mi { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.mi__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.mi__req { color: #241430; }\n.mi__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; font-variant-numeric: tabular-nums; letter-spacing: 0.05em; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.mi__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.mi__hint { display: block; margin-top: 6px; font-size: 11px; color: #24143080; }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"mi-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}{{#if required}} <span>*</span>{{/if}}</span>\n  <input id=\"mi-tw-1\" type=\"text\" placeholder=\"{{placeholder}}\" inputmode=\"numeric\" aria-describedby=\"mi-tw-hint-1\"{{#if required}} required{{/if}}\n    class=\"w-full box-border px-3 py-2.5 tabular-nums tracking-wider bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n  <span id=\"mi-tw-hint-1\" class=\"block mt-1.5 text-[11px] text-[#24143080]\">Format: {{pattern}}</span>\n</label>",
+    "react": "export function MaskedInput({\n  label = \"{{label}}\",\n  pattern = \"{{pattern}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}{required && \" *\"}</span>\n      <input type=\"text\" placeholder={placeholder} inputMode=\"numeric\" required={required} aria-describedby=\"mi-react-hint-1\" style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", fontVariantNumeric: \"tabular-nums\",\n        letterSpacing: \"0.05em\", color: \"#241430\", background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n      <span id=\"mi-react-hint-1\" style={{ display: \"block\", marginTop: 6, fontSize: 11, color: \"#24143080\" }}>Format: {pattern}</span>\n    </label>\n  );\n}"
+  }
+}

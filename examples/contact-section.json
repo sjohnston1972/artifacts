@@ -1,0 +1,41 @@
+{
+  "slug": "contact-section",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Get in touch"
+    },
+    {
+      "id": "phone",
+      "type": "text",
+      "label": "Phone",
+      "default": "+1 (555) 010-2200"
+    },
+    {
+      "id": "email",
+      "type": "text",
+      "label": "Email",
+      "default": "hello@studio.example"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "side-by-side",
+      "options": ["side-by-side", "stacked"]
+    },
+    {
+      "id": "showMap",
+      "type": "toggle",
+      "label": "Show map",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"contact contact--{{layout}}\">\n  <div class=\"contact__details\">\n    <h2 class=\"contact__heading\">{{heading}}</h2>\n    <p><a href=\"tel:{{phone}}\" class=\"contact__link\">{{phone}}</a></p>\n    <p><a href=\"mailto:{{email}}\" class=\"contact__link\">{{email}}</a></p>\n    <form class=\"contact__form\">\n      <label for=\"contact-name\">Name</label>\n      <input id=\"contact-name\" type=\"text\" name=\"name\" />\n      <label for=\"contact-message\">Message</label>\n      <textarea id=\"contact-message\" name=\"message\" rows=\"3\"></textarea>\n      <button type=\"submit\">Send message</button>\n    </form>\n  </div>\n  {{#if showMap}}<div class=\"contact__map\" role=\"img\" aria-label=\"Map showing business location\"></div>{{/if}}\n</section>\n<style>\n.contact { display: flex; gap: 28px; font: 16px/1.5 system-ui, sans-serif; color: #241430; padding: 24px; background: #FAF7F2; }\n.contact--side-by-side { flex-direction: row; }\n.contact--stacked { flex-direction: column; }\n.contact__details { flex: 1 1 260px; }\n.contact__map { flex: 1 1 260px; min-height: 200px; border-radius: 12px; background: repeating-linear-gradient(45deg, #24143012, #24143012 10px, #24143008 10px, #24143008 20px); }\n.contact__heading { margin: 0 0 12px; font-size: 24px; font-weight: 700; }\n.contact__link { color: #241430; }\n.contact__form { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; max-width: 320px; }\n.contact__form label { font-size: 13px; font-weight: 600; }\n.contact__form input, .contact__form textarea { font: inherit; padding: 8px 10px; border: 1px solid #24143033; border-radius: 8px; }\n.contact__form button { align-self: flex-start; margin-top: 6px; background: #241430; color: #FAF7F2; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }\n.contact__form button:hover, .contact__form button:focus-visible { opacity: .9; }\n</style>",
+    "tailwind": "<section class=\"contact-tw contact-tw--{{layout}} flex gap-7 font-sans text-[#241430] p-6 bg-[#FAF7F2]\">\n  <div class=\"flex-1 min-w-[260px]\">\n    <h2 class=\"m-0 mb-3 text-2xl font-bold\">{{heading}}</h2>\n    <p><a href=\"tel:{{phone}}\" class=\"text-[#241430]\">{{phone}}</a></p>\n    <p><a href=\"mailto:{{email}}\" class=\"text-[#241430]\">{{email}}</a></p>\n    <form class=\"flex flex-col gap-1.5 mt-4 max-w-[320px]\">\n      <label for=\"contact-tw-name\" class=\"text-[13px] font-semibold\">Name</label>\n      <input id=\"contact-tw-name\" type=\"text\" name=\"name\" class=\"font-sans px-2.5 py-2 border border-[#24143033] rounded-lg\" />\n      <label for=\"contact-tw-message\" class=\"text-[13px] font-semibold\">Message</label>\n      <textarea id=\"contact-tw-message\" name=\"message\" rows=\"3\" class=\"font-sans px-2.5 py-2 border border-[#24143033] rounded-lg\"></textarea>\n      <button type=\"submit\" class=\"self-start mt-1.5 bg-[#241430] text-[#FAF7F2] border-0 px-4.5 py-2.5 rounded-lg font-semibold cursor-pointer hover:opacity-90\">Send message</button>\n    </form>\n  </div>\n  {{#if showMap}}<div class=\"flex-1 min-w-[260px] min-h-[200px] rounded-xl\" style=\"background: repeating-linear-gradient(45deg, #24143012, #24143012 10px, #24143008 10px, #24143008 20px);\" role=\"img\" aria-label=\"Map showing business location\"></div>{{/if}}\n</section>\n<style>\n.contact-tw--side-by-side { flex-direction: row; }\n.contact-tw--stacked { flex-direction: column; }\n</style>",
+    "react": "export function ContactSection({\n  heading = \"{{heading}}\",\n  phone = \"{{phone}}\",\n  email = \"{{email}}\",\n  layout = \"{{layout}}\",\n  showMap = {{showMap}},\n}) {\n  return (\n    <section style={{ display: \"flex\", gap: 28, flexDirection: layout === \"stacked\" ? \"column\" : \"row\",\n      font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", padding: 24, background: \"#FAF7F2\" }}>\n      <div style={{ flex: \"1 1 260px\" }}>\n        <h2 style={{ margin: \"0 0 12px\", fontSize: 24, fontWeight: 700 }}>{heading}</h2>\n        <p><a href={`tel:${phone}`} style={{ color: \"#241430\" }}>{phone}</a></p>\n        <p><a href={`mailto:${email}`} style={{ color: \"#241430\" }}>{email}</a></p>\n        <form style={{ display: \"flex\", flexDirection: \"column\", gap: 6, marginTop: 16, maxWidth: 320 }}>\n          <label htmlFor=\"contact-name\" style={{ fontSize: 13, fontWeight: 600 }}>Name</label>\n          <input id=\"contact-name\" type=\"text\" name=\"name\" style={{ font: \"inherit\", padding: \"8px 10px\", border: \"1px solid #24143033\", borderRadius: 8 }} />\n          <label htmlFor=\"contact-message\" style={{ fontSize: 13, fontWeight: 600 }}>Message</label>\n          <textarea id=\"contact-message\" name=\"message\" rows={3} style={{ font: \"inherit\", padding: \"8px 10px\", border: \"1px solid #24143033\", borderRadius: 8 }} />\n          <button type=\"submit\" style={{ alignSelf: \"flex-start\", marginTop: 6, background: \"#241430\", color: \"#FAF7F2\",\n            border: \"none\", padding: \"10px 18px\", borderRadius: 8, fontWeight: 600, cursor: \"pointer\" }}>Send message</button>\n        </form>\n      </div>\n      {showMap && (\n        <div role=\"img\" aria-label=\"Map showing business location\" style={{ flex: \"1 1 260px\", minHeight: 200,\n          borderRadius: 12, background: \"repeating-linear-gradient(45deg, #24143012, #24143012 10px, #24143008 10px, #24143008 20px)\" }} />\n      )}\n    </section>\n  );\n}"
+  }
+}

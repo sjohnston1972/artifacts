@@ -1,0 +1,52 @@
+{
+  "slug": "touched-state",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Email address"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "steven@"
+    },
+    {
+      "id": "touched",
+      "type": "toggle",
+      "label": "Touched (blurred)",
+      "default": true
+    },
+    {
+      "id": "indicator",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "outline",
+      "options": [
+        "outline",
+        "text"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"tch\" for=\"tch-1\">\n  <span class=\"tch__label\">\n    {{label}}\n    {{#if touched}}<span class=\"tch__flag tch__flag--{{indicator}}\" style=\"--accent:{{accent}};\">touched</span>{{/if}}\n  </span>\n  <input class=\"tch__input tch__input--{{#if touched}}touched{{/if}}{{#unless touched}}fresh{{/unless}}\" id=\"tch-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\">\n</label>\n<style>\n.tch { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.tch__label { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-weight: 500; }\n.tch__flag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent); font-weight: 700; }\n.tch__flag--text::after { content: \"\"; }\n.tch__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.tch__input--touched { border-color: var(--accent); }\n.tch__input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"tch-tw-1\">\n  <span class=\"flex items-center gap-1.5 mb-1.5 font-medium\">\n    {{label}}\n    {{#if touched}}<span class=\"tch-tw-flag--{{indicator}} text-[10px] uppercase tracking-wide font-bold\" style=\"color:{{accent}};\">touched</span>{{/if}}\n  </span>\n  <input id=\"tch-tw-1\" type=\"text\" value=\"{{value}}\" class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] rounded-lg focus-visible:outline-none\" style=\"border-color:{{#if touched}}{{accent}}{{/if}}{{#unless touched}}#24143040{{/unless}};\">\n</label>",
+    "react": "export function TouchedState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  touched = {{touched}},\n  indicator = \"{{indicator}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, marginBottom: 6, fontWeight: 500 }}>\n        {label}\n        {touched && (\n          <span style={{\n            fontSize: 10, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: accent, fontWeight: 700,\n            textDecoration: indicator === \"text\" ? \"underline\" : \"none\",\n          }}>touched</span>\n        )}\n      </span>\n      <input type=\"text\" defaultValue={value} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${touched ? accent : \"#24143040\"}`, borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

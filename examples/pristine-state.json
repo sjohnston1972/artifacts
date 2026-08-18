@@ -1,0 +1,52 @@
+{
+  "slug": "pristine-state",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Display name"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Steven J."
+    },
+    {
+      "id": "pristine",
+      "type": "toggle",
+      "label": "Unchanged since load",
+      "default": true
+    },
+    {
+      "id": "indicator",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "text",
+      "options": [
+        "text",
+        "badge"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ps\" for=\"ps-1\">\n  <span class=\"ps__label\">\n    {{label}}\n    {{#if pristine}}<span class=\"ps__flag ps__flag--{{indicator}}\" style=\"--accent:{{accent}};\">Unchanged</span>{{/if}}\n  </span>\n  <input class=\"ps__input\" id=\"ps-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\">\n</label>\n<style>\n.ps { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.ps__label { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-weight: 500; }\n.ps__flag { font-size: 11px; font-weight: 600; color: #24143080; }\n.ps__flag--badge { padding: 2px 6px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 30%, transparent); color: #241430; }\n.ps__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.ps__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[260px] font-sans text-sm text-[#241430]\" for=\"ps-tw-1\">\n  <span class=\"flex items-center gap-1.5 mb-1.5 font-medium\">\n    {{label}}\n    {{#if pristine}}<span class=\"ps-tw-flag ps-tw-flag--{{indicator}} text-[11px] font-semibold text-[#24143080]\" style=\"--accent:{{accent}};\">Unchanged</span>{{/if}}\n  </span>\n  <input id=\"ps-tw-1\" type=\"text\" value=\"{{value}}\" class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n</label>\n<style>\n.ps-tw-flag--badge { padding: 2px 6px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 30%, transparent); color: #241430; }\n</style>",
+    "react": "export function PristineState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  pristine = {{pristine}},\n  indicator = \"{{indicator}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, marginBottom: 6, fontWeight: 500 }}>\n        {label}\n        {pristine && (\n          <span style={{\n            fontSize: 11, fontWeight: 600, color: indicator === \"badge\" ? \"#241430\" : \"#24143080\",\n            padding: indicator === \"badge\" ? \"2px 6px\" : 0,\n            borderRadius: indicator === \"badge\" ? 999 : 0,\n            background: indicator === \"badge\" ? `color-mix(in srgb, ${accent} 30%, transparent)` : \"none\",\n          }}>\n            Unchanged\n          </span>\n        )}\n      </span>\n      <input type=\"text\" defaultValue={value} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n      }} />\n    </label>\n  );\n}"
+  }
+}

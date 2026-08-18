@@ -1,0 +1,48 @@
+{
+  "slug": "inline-validation",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Username"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "clyde_ford"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Username is available."
+    },
+    {
+      "id": "valid",
+      "type": "toggle",
+      "label": "Valid",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#E8A020",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"iv\">\n  <label class=\"iv__label\" for=\"iv-1\">{{label}}</label>\n  <div class=\"iv__row\">\n    <input class=\"iv__input\" id=\"iv-1\" type=\"text\" value=\"{{value}}\" style=\"--accent:{{accent}};\" aria-invalid=\"{{#unless valid}}true{{/unless}}{{#if valid}}false{{/if}}\" aria-describedby=\"iv-msg-1\">\n    <span class=\"iv__icon\" style=\"--accent:{{accent}};\" aria-hidden=\"true\">{{#if valid}}&#10003;{{/if}}{{#unless valid}}&#10007;{{/unless}}</span>\n  </div>\n  <p class=\"iv__msg\" id=\"iv-msg-1\" style=\"--accent:{{accent}};\">{{message}}</p>\n</div>\n<style>\n.iv { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.iv__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.iv__row { position: relative; }\n.iv__input { width: 100%; box-sizing: border-box; padding: 10px 34px 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid var(--accent); border-radius: 8px; }\n.iv__input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.iv__icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--accent); font-weight: 700; }\n.iv__msg { margin: 6px 0 0; font-size: 12px; color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[260px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"iv-tw-1\">{{label}}</label>\n  <div class=\"relative\">\n    <input id=\"iv-tw-1\" type=\"text\" value=\"{{value}}\" aria-invalid=\"{{#unless valid}}true{{/unless}}{{#if valid}}false{{/if}}\" aria-describedby=\"iv-tw-msg-1\"\n      class=\"w-full box-border pl-3 pr-9 py-2.5 bg-[#FAF7F2] border-[1.5px] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n    <span aria-hidden=\"true\" class=\"absolute right-2.5 top-1/2 -translate-y-1/2 font-bold\" style=\"color:{{accent}};\">{{#if valid}}&#10003;{{/if}}{{#unless valid}}&#10007;{{/unless}}</span>\n  </div>\n  <p id=\"iv-tw-msg-1\" class=\"mt-1.5 text-xs\" style=\"color:{{accent}};\">{{message}}</p>\n</div>",
+    "react": "export function InlineValidation({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  message = \"{{message}}\",\n  valid = {{valid}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label htmlFor=\"iv-react-1\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <div style={{ position: \"relative\" }}>\n        <input id=\"iv-react-1\" type=\"text\" defaultValue={value} aria-invalid={!valid} aria-describedby=\"iv-react-msg-1\" style={{\n          width: \"100%\", boxSizing: \"border-box\", padding: \"10px 34px 10px 12px\", font: \"inherit\", color: \"#241430\",\n          background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: 8,\n        }} />\n        <span aria-hidden=\"true\" style={{ position: \"absolute\", right: 10, top: \"50%\", transform: \"translateY(-50%)\", color: accent, fontWeight: 700 }}>\n          {valid ? \"✓\" : \"✗\"}\n        </span>\n      </div>\n      <p id=\"iv-react-msg-1\" style={{ margin: \"6px 0 0\", fontSize: 12, color: accent }}>{message}</p>\n    </div>\n  );\n}"
+  }
+}

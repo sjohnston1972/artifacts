@@ -1,0 +1,35 @@
+{
+  "slug": "warning-state",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "This action cannot be undone"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Deleting this workspace removes all projects, files and members permanently."
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "caution",
+      "options": ["caution", "danger"]
+    },
+    {
+      "id": "acknowledged",
+      "type": "toggle",
+      "label": "Acknowledged",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"warning warning--{{severity}}\" role=\"alert\">\n  <span class=\"warning__icon\" aria-hidden=\"true\">▲</span>\n  <div class=\"warning__body\">\n    <p class=\"warning__title\">{{title}}</p>\n    <p class=\"warning__message\">{{message}}</p>\n    <label class=\"warning__ack\">\n      <input type=\"checkbox\" {{#if acknowledged}}checked{{/if}} />\n      I understand the consequences\n    </label>\n  </div>\n</div>\n<style>\n.warning { display: flex; align-items: flex-start; gap: 12px; max-width: 400px; padding: 14px 16px; box-sizing: border-box;\n  border-radius: 10px; border: 1.5px solid; font: 13.5px/1.45 system-ui, sans-serif; color: #241430; }\n.warning--caution { background: color-mix(in srgb, #E8A020 14%, #FAF7F2); border-color: #B4790A; }\n.warning--caution .warning__icon { color: #B4790A; }\n.warning--danger { background: color-mix(in srgb, #B3261E 10%, #FAF7F2); border-color: #B3261E; }\n.warning--danger .warning__icon { color: #B3261E; }\n.warning__icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }\n.warning__title { margin: 0 0 2px; font-weight: 700; }\n.warning__message { margin: 0 0 8px; color: #241430b3; }\n.warning__ack { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; }\n.warning__ack input:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"alert\" class=\"warning-tw warning-tw--{{severity}} flex items-start gap-3 max-w-md px-4 py-3.5 box-border rounded-lg border-[1.5px] font-sans text-[13.5px] text-[#241430]\">\n  <span aria-hidden=\"true\" class=\"warning-tw__icon text-lg flex-shrink-0 mt-px\">▲</span>\n  <div>\n    <p class=\"m-0 mb-0.5 font-bold\">{{title}}</p>\n    <p class=\"m-0 mb-2 text-[#241430]/70\">{{message}}</p>\n    <label class=\"flex items-center gap-1.5 text-xs cursor-pointer\">\n      <input type=\"checkbox\" {{#if acknowledged}}checked{{/if}} />\n      I understand the consequences\n    </label>\n  </div>\n</div>\n<style>\n.warning-tw--caution { background: color-mix(in srgb, #E8A020 14%, #FAF7F2); border-color: #B4790A; }\n.warning-tw--caution .warning-tw__icon { color: #B4790A; }\n.warning-tw--danger { background: color-mix(in srgb, #B3261E 10%, #FAF7F2); border-color: #B3261E; }\n.warning-tw--danger .warning-tw__icon { color: #B3261E; }\n</style>",
+    "react": "export function WarningState({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  severity = \"{{severity}}\",\n  acknowledged = {{acknowledged}},\n}) {\n  const palette = severity === \"danger\"\n    ? { bg: \"color-mix(in srgb, #B3261E 10%, #FAF7F2)\", border: \"#B3261E\", icon: \"#B3261E\" }\n    : { bg: \"color-mix(in srgb, #E8A020 14%, #FAF7F2)\", border: \"#B4790A\", icon: \"#B4790A\" };\n  return (\n    <div role=\"alert\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 12, maxWidth: 400, padding: \"14px 16px\",\n      boxSizing: \"border-box\", borderRadius: 10, border: `1.5px solid ${palette.border}`, background: palette.bg,\n      font: \"13.5px/1.45 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ fontSize: 18, flexShrink: 0, marginTop: 1, color: palette.icon }}>▲</span>\n      <div>\n        <p style={{ margin: \"0 0 2px\", fontWeight: 700 }}>{title}</p>\n        <p style={{ margin: \"0 0 8px\", color: \"#241430b3\" }}>{message}</p>\n        <label style={{ display: \"flex\", alignItems: \"center\", gap: 6, fontSize: 12, cursor: \"pointer\" }}>\n          <input type=\"checkbox\" checked={acknowledged} readOnly />\n          I understand the consequences\n        </label>\n      </div>\n    </div>\n  );\n}"
+  }
+}

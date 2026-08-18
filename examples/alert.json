@@ -1,0 +1,35 @@
+{
+  "slug": "alert",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Update required"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Your session expires in 5 minutes. Save your work to avoid losing changes."
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "warning",
+      "options": ["info", "success", "warning", "error"]
+    },
+    {
+      "id": "dismissible",
+      "type": "toggle",
+      "label": "Dismissible",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"alert alert--{{severity}}\" role=\"alert\" aria-live=\"assertive\">\n  <span class=\"alert__icon\" aria-hidden=\"true\"></span>\n  <div class=\"alert__body\">\n    <p class=\"alert__title\">{{title}}</p>\n    <p class=\"alert__message\">{{message}}</p>\n  </div>\n  {{#if dismissible}}<button type=\"button\" class=\"alert__close\" aria-label=\"Dismiss {{title}}\">×</button>{{/if}}\n</div>\n<style>\n.alert { display: flex; align-items: flex-start; gap: 12px; max-width: 420px; padding: 14px 16px;\n  border-radius: 10px; border: 1px solid; box-sizing: border-box; font: 14px/1.45 system-ui, sans-serif; background: #FAF7F2; }\n.alert__icon { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; position: relative; }\n.alert__icon::before { position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px/1 system-ui, sans-serif; color: #FAF7F2; }\n.alert--info { border-color: #2F6FA8; background: color-mix(in srgb, #2F6FA8 8%, #FAF7F2); }\n.alert--info .alert__icon { background: #2F6FA8; }\n.alert--info .alert__icon::before { content: \"i\"; }\n.alert--success { border-color: #2F8F5B; background: color-mix(in srgb, #2F8F5B 8%, #FAF7F2); }\n.alert--success .alert__icon { background: #2F8F5B; }\n.alert--success .alert__icon::before { content: \"✓\"; }\n.alert--warning { border-color: #B4790A; background: color-mix(in srgb, #B4790A 8%, #FAF7F2); }\n.alert--warning .alert__icon { background: #B4790A; }\n.alert--warning .alert__icon::before { content: \"!\"; }\n.alert--error { border-color: #B3261E; background: color-mix(in srgb, #B3261E 8%, #FAF7F2); }\n.alert--error .alert__icon { background: #B3261E; }\n.alert--error .alert__icon::before { content: \"×\"; }\n.alert__body { flex: 1; }\n.alert__title { margin: 0 0 2px; font-weight: 700; color: #241430; }\n.alert__message { margin: 0; color: #241430cc; }\n.alert__close { border: none; background: transparent; font-size: 16px; line-height: 1; cursor: pointer; color: #241430; padding: 2px; border-radius: 4px; }\n.alert__close:hover { background: #24143014; }\n.alert__close:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"alert\" aria-live=\"assertive\" class=\"alert-tw alert-tw--{{severity}} flex items-start gap-3 max-w-md p-3.5 rounded-lg border box-border bg-[#FAF7F2] font-sans text-sm\">\n  <span class=\"alert-tw__icon w-[22px] h-[22px] rounded-full flex-shrink-0 mt-px\" aria-hidden=\"true\"></span>\n  <div class=\"flex-1\">\n    <p class=\"m-0 mb-0.5 font-bold text-[#241430]\">{{title}}</p>\n    <p class=\"m-0 text-[#241430]/80\">{{message}}</p>\n  </div>\n  {{#if dismissible}}<button type=\"button\" aria-label=\"Dismiss {{title}}\" class=\"border-0 bg-transparent text-base leading-none cursor-pointer p-0.5 rounded text-[#241430] hover:bg-black/5\">×</button>{{/if}}\n</div>\n<style>\n.alert-tw__icon { position: relative; }\n.alert-tw__icon::before { position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px/1 system-ui, sans-serif; color: #FAF7F2; }\n.alert-tw--info { border-color: #2F6FA8; background: color-mix(in srgb, #2F6FA8 8%, #FAF7F2); }\n.alert-tw--info .alert-tw__icon { background: #2F6FA8; }\n.alert-tw--info .alert-tw__icon::before { content: \"i\"; }\n.alert-tw--success { border-color: #2F8F5B; background: color-mix(in srgb, #2F8F5B 8%, #FAF7F2); }\n.alert-tw--success .alert-tw__icon { background: #2F8F5B; }\n.alert-tw--success .alert-tw__icon::before { content: \"✓\"; }\n.alert-tw--warning { border-color: #B4790A; background: color-mix(in srgb, #B4790A 8%, #FAF7F2); }\n.alert-tw--warning .alert-tw__icon { background: #B4790A; }\n.alert-tw--warning .alert-tw__icon::before { content: \"!\"; }\n.alert-tw--error { border-color: #B3261E; background: color-mix(in srgb, #B3261E 8%, #FAF7F2); }\n.alert-tw--error .alert-tw__icon { background: #B3261E; }\n.alert-tw--error .alert-tw__icon::before { content: \"×\"; }\n</style>",
+    "react": "export function Alert({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  severity = \"{{severity}}\",\n  dismissible = {{dismissible}},\n}) {\n  const palette = {\n    info: { c: \"#2F6FA8\", icon: \"i\" },\n    success: { c: \"#2F8F5B\", icon: \"✓\" },\n    warning: { c: \"#B4790A\", icon: \"!\" },\n    error: { c: \"#B3261E\", icon: \"×\" },\n  }[severity] ?? { c: \"#2F6FA8\", icon: \"i\" };\n  return (\n    <div role=\"alert\" aria-live=\"assertive\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 12, maxWidth: 420,\n      padding: \"14px 16px\", borderRadius: 10, border: `1px solid ${palette.c}`, boxSizing: \"border-box\",\n      font: \"14px/1.45 system-ui, sans-serif\", background: `color-mix(in srgb, ${palette.c} 8%, #FAF7F2)` }}>\n      <span aria-hidden=\"true\" style={{ width: 22, height: 22, borderRadius: \"50%\", flexShrink: 0, marginTop: 1,\n        background: palette.c, display: \"grid\", placeItems: \"center\", color: \"#FAF7F2\", fontSize: 12, fontWeight: 700 }}>{palette.icon}</span>\n      <div style={{ flex: 1 }}>\n        <p style={{ margin: \"0 0 2px\", fontWeight: 700, color: \"#241430\" }}>{title}</p>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>{message}</p>\n      </div>\n      {dismissible && (\n        <button type=\"button\" aria-label={`Dismiss ${title}`} style={{ border: \"none\", background: \"transparent\",\n          fontSize: 16, cursor: \"pointer\", color: \"#241430\", padding: 2, borderRadius: 4 }}>×</button>\n      )}\n    </div>\n  );\n}"
+  }
+}

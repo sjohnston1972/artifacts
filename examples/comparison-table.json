@@ -1,0 +1,42 @@
+{
+  "slug": "comparison-table",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Compare plans"
+    },
+    {
+      "id": "highlightedPlan",
+      "type": "select",
+      "label": "Highlighted plan",
+      "default": "Pro",
+      "options": ["Starter", "Pro", "Team"]
+    },
+    {
+      "id": "highlightLabel",
+      "type": "text",
+      "label": "Highlight badge text",
+      "default": "Most popular"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showAnnualNote",
+      "type": "toggle",
+      "label": "Show annual billing note",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<table class=\"comp\" data-highlight=\"{{highlightedPlan}}\" style=\"--accent:{{accent}};\">\n  <caption class=\"comp__caption\">{{heading}}</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Feature</th>\n      <th scope=\"col\" class=\"comp__col comp__col--Starter\">Starter</th>\n      <th scope=\"col\" class=\"comp__col comp__col--Pro\">Pro</th>\n      <th scope=\"col\" class=\"comp__col comp__col--Team\">Team</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\">Projects</th><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>\n    <tr><th scope=\"row\">Seats</th><td>1</td><td>5</td><td>Unlimited</td></tr>\n    <tr><th scope=\"row\">Support</th><td>Email</td><td>Priority</td><td>Dedicated</td></tr>\n  </tbody>\n</table>\n{{#if showAnnualNote}}<p class=\"comp__note\">{{highlightLabel}} &middot; billed annually</p>{{/if}}\n<style>\n.comp { border-collapse: collapse; width: 100%; max-width: 480px; font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; }\n.comp caption { text-align: left; font-size: 18px; font-weight: 700; margin-bottom: 12px; }\n.comp th, .comp td { padding: 10px 14px; border-bottom: 1px solid #24143018; text-align: center; }\n.comp th[scope=\"row\"] { text-align: left; font-weight: 600; }\n.comp th[scope=\"col\"] { font-weight: 700; }\n.comp[data-highlight=\"Starter\"] th.comp__col--Starter { background: var(--accent); color: #FAF7F2; }\n.comp[data-highlight=\"Starter\"] td:nth-child(2) { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); font-weight: 700; }\n.comp[data-highlight=\"Pro\"] th.comp__col--Pro { background: var(--accent); color: #FAF7F2; }\n.comp[data-highlight=\"Pro\"] td:nth-child(3) { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); font-weight: 700; }\n.comp[data-highlight=\"Team\"] th.comp__col--Team { background: var(--accent); color: #FAF7F2; }\n.comp[data-highlight=\"Team\"] td:nth-child(4) { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); font-weight: 700; }\n.comp__note { margin: 10px 0 0; font-size: 13px; color: #241430aa; }\n</style>",
+    "tailwind": "<table class=\"comp-tw w-full max-w-[480px] border-collapse font-sans text-sm text-[#241430] bg-[#FAF7F2]\" data-highlight=\"{{highlightedPlan}}\" style=\"--accent:{{accent}};\">\n  <caption class=\"text-left text-lg font-bold mb-3\">{{heading}}</caption>\n  <thead>\n    <tr>\n      <th scope=\"col\" class=\"px-3.5 py-2.5 border-b border-[#24143018]\">Feature</th>\n      <th scope=\"col\" class=\"comp-tw__col comp-tw__col--Starter px-3.5 py-2.5 border-b border-[#24143018] text-center font-bold\">Starter</th>\n      <th scope=\"col\" class=\"comp-tw__col comp-tw__col--Pro px-3.5 py-2.5 border-b border-[#24143018] text-center font-bold\">Pro</th>\n      <th scope=\"col\" class=\"comp-tw__col comp-tw__col--Team px-3.5 py-2.5 border-b border-[#24143018] text-center font-bold\">Team</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\" class=\"px-3.5 py-2.5 border-b border-[#24143018] text-left font-semibold\">Projects</th><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">3</td><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">Unlimited</td><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">Unlimited</td></tr>\n    <tr><th scope=\"row\" class=\"px-3.5 py-2.5 border-b border-[#24143018] text-left font-semibold\">Seats</th><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">1</td><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">5</td><td class=\"px-3.5 py-2.5 border-b border-[#24143018] text-center\">Unlimited</td></tr>\n    <tr><th scope=\"row\" class=\"px-3.5 py-2.5 text-left font-semibold\">Support</th><td class=\"px-3.5 py-2.5 text-center\">Email</td><td class=\"px-3.5 py-2.5 text-center\">Priority</td><td class=\"px-3.5 py-2.5 text-center\">Dedicated</td></tr>\n  </tbody>\n</table>\n{{#if showAnnualNote}}<p class=\"mt-2.5 text-[13px] text-[#241430]/65\">{{highlightLabel}} &middot; billed annually</p>{{/if}}\n<style>\n.comp-tw[data-highlight=\"Starter\"] .comp-tw__col--Starter, .comp-tw[data-highlight=\"Pro\"] .comp-tw__col--Pro, .comp-tw[data-highlight=\"Team\"] .comp-tw__col--Team { background: var(--accent); color: #FAF7F2; }\n</style>",
+    "react": "export function ComparisonTable({\n  heading = \"{{heading}}\",\n  highlightedPlan = \"{{highlightedPlan}}\",\n  highlightLabel = \"{{highlightLabel}}\",\n  accent = \"{{accent}}\",\n  showAnnualNote = {{showAnnualNote}},\n}) {\n  const plans = [\"Starter\", \"Pro\", \"Team\"];\n  const rows = [\n    [\"Projects\", \"3\", \"Unlimited\", \"Unlimited\"],\n    [\"Seats\", \"1\", \"5\", \"Unlimited\"],\n    [\"Support\", \"Email\", \"Priority\", \"Dedicated\"],\n  ];\n  const headStyle = (plan) => plan === highlightedPlan ? { background: accent, color: \"#FAF7F2\" } : {};\n  return (\n    <>\n      <table style={{ borderCollapse: \"collapse\", width: \"100%\", maxWidth: 480, font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n        <caption style={{ textAlign: \"left\", fontSize: 18, fontWeight: 700, marginBottom: 12 }}>{heading}</caption>\n        <thead>\n          <tr>\n            <th scope=\"col\" style={{ padding: \"10px 14px\", borderBottom: \"1px solid #24143018\" }}>Feature</th>\n            {plans.map((plan) => (\n              <th key={plan} scope=\"col\" style={{ padding: \"10px 14px\", borderBottom: \"1px solid #24143018\", textAlign: \"center\", fontWeight: 700, ...headStyle(plan) }}>{plan}</th>\n            ))}\n          </tr>\n        </thead>\n        <tbody>\n          {rows.map(([label, ...cells]) => (\n            <tr key={label}>\n              <th scope=\"row\" style={{ padding: \"10px 14px\", borderBottom: \"1px solid #24143018\", textAlign: \"left\", fontWeight: 600 }}>{label}</th>\n              {cells.map((cell, i) => (\n                <td key={i} style={{ padding: \"10px 14px\", borderBottom: \"1px solid #24143018\", textAlign: \"center\",\n                  fontWeight: plans[i] === highlightedPlan ? 700 : 400 }}>{cell}</td>\n              ))}\n            </tr>\n          ))}\n        </tbody>\n      </table>\n      {showAnnualNote && <p style={{ margin: \"10px 0 0\", fontSize: 13, color: \"#241430aa\" }}>{highlightLabel} &middot; billed annually</p>}\n    </>\n  );\n}"
+  }
+}

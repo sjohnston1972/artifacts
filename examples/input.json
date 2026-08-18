@@ -1,0 +1,56 @@
+{
+  "slug": "input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Quantity"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "0"
+    },
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Input type",
+      "default": "text",
+      "options": [
+        "text",
+        "number",
+        "email"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"inp\" for=\"inp-1\">\n  <span class=\"inp__label\">{{label}}</span>\n  <input class=\"inp__input\" id=\"inp-1\" type=\"{{type}}\" placeholder=\"{{placeholder}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n</label>\n<style>\n.inp { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 240px; }\n.inp__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.inp__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.inp__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<label class=\"block max-w-[240px] font-sans text-sm text-[#241430]\" for=\"inp-tw-1\">\n  <span class=\"block mb-1.5 font-medium\">{{label}}</span>\n  <input id=\"inp-tw-1\" type=\"{{type}}\" placeholder=\"{{placeholder}}\"\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\"\n    style=\"border-radius:{{radius}}px;border-color:{{accent}};\">\n</label>",
+    "react": "export function Input({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  type = \"{{type}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <label style={{ display: \"block\", maxWidth: 240, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</span>\n      <input type={type} placeholder={placeholder} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: `1.5px solid ${accent}`, borderRadius: radius,\n      }} />\n    </label>\n  );\n}"
+  }
+}

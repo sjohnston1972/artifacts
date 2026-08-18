@@ -1,0 +1,36 @@
+{
+  "slug": "property-panel",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Panel title",
+      "default": "Settings"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "collapsible",
+      "type": "toggle",
+      "label": "Collapsible section",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pp-demo pp-demo--{{density}}\">\n  {{#if collapsible}}<details class=\"pp-demo__group\" open><summary style=\"color:{{accent}};\">{{title}}</summary>{{/if}}\n  {{#unless collapsible}}<h4 class=\"pp-demo__title\" style=\"color:{{accent}};\">{{title}}</h4>{{/unless}}\n  <label class=\"pp-demo__row\"><span>Opacity</span><input type=\"text\" value=\"100%\" readonly /></label>\n  <label class=\"pp-demo__row\"><span>Blend mode</span><input type=\"text\" value=\"Normal\" readonly /></label>\n  <label class=\"pp-demo__row\"><span>Corner radius</span><input type=\"text\" value=\"8\" readonly /></label>\n  {{#if collapsible}}</details>{{/if}}\n</div>\n<style>\n.pp-demo { font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 12px; max-width: 260px; box-sizing: border-box; border: 1px solid #24143018; border-radius: 8px; }\n.pp-demo__title, .pp-demo summary { margin: 0 0 8px; font-weight: 700; cursor: default; }\n.pp-demo summary { cursor: pointer; }\n.pp-demo__row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; gap: 8px; }\n.pp-demo--compact .pp-demo__row { padding: 3px 0; font-size: 12px; }\n.pp-demo__row span { color: #24143099; }\n.pp-demo__row input { width: 80px; box-sizing: border-box; border: 1px solid #24143022; border-radius: 5px; padding: 3px 6px; font: inherit; text-align: right; background: #fff; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-3 max-w-[260px] box-border border border-[#24143018] rounded-lg pp-tw pp-tw--{{density}}\">\n  {{#if collapsible}}<details open><summary class=\"mb-2 font-bold cursor-pointer\" style=\"color:{{accent}};\">{{title}}</summary>{{/if}}\n  {{#unless collapsible}}<h4 class=\"m-0 mb-2 font-bold\" style=\"color:{{accent}};\">{{title}}</h4>{{/unless}}\n  <label class=\"flex justify-between items-center py-1.5 gap-2 pp-tw__row\"><span class=\"text-[#24143099]\">Opacity</span><input type=\"text\" value=\"100%\" readonly class=\"w-20 box-border border border-[#24143022] rounded text-right px-1.5 py-0.5 bg-white text-[#241430]\" /></label>\n  <label class=\"flex justify-between items-center py-1.5 gap-2 pp-tw__row\"><span class=\"text-[#24143099]\">Blend mode</span><input type=\"text\" value=\"Normal\" readonly class=\"w-20 box-border border border-[#24143022] rounded text-right px-1.5 py-0.5 bg-white text-[#241430]\" /></label>\n  <label class=\"flex justify-between items-center py-1.5 gap-2 pp-tw__row\"><span class=\"text-[#24143099]\">Corner radius</span><input type=\"text\" value=\"8\" readonly class=\"w-20 box-border border border-[#24143022] rounded text-right px-1.5 py-0.5 bg-white text-[#241430]\" /></label>\n  {{#if collapsible}}</details>{{/if}}\n</div>\n<style>\n.pp-tw--compact .pp-tw__row { padding: 3px 0 !important; font-size: 12px; }\n</style>",
+    "react": "export function PropertyPanel({\n  title = \"{{title}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  collapsible = {{collapsible}},\n}) {\n  const compact = density === \"compact\";\n  const rows = [[\"Opacity\", \"100%\"], [\"Blend mode\", \"Normal\"], [\"Corner radius\", \"8\"]];\n  const body = rows.map(([k, v]) => (\n    <label key={k} style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", padding: compact ? \"3px 0\" : \"6px 0\", gap: 8, fontSize: compact ? 12 : 13 }}>\n      <span style={{ color: \"#24143099\" }}>{k}</span>\n      <input type=\"text\" value={v} readOnly style={{ width: 80, boxSizing: \"border-box\", border: \"1px solid #24143022\", borderRadius: 5, padding: \"3px 6px\", textAlign: \"right\", background: \"#fff\", color: \"#241430\" }} />\n    </label>\n  ));\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\", padding: 12, maxWidth: 260, boxSizing: \"border-box\", border: \"1px solid #24143018\", borderRadius: 8 }}>\n      {collapsible ? (\n        <details open>\n          <summary style={{ marginBottom: 8, fontWeight: 700, cursor: \"pointer\", color: accent }}>{title}</summary>\n          {body}\n        </details>\n      ) : (\n        <>\n          <h4 style={{ margin: \"0 0 8px\", fontWeight: 700, color: accent }}>{title}</h4>\n          {body}\n        </>\n      )}\n    </div>\n  );\n}"
+  }
+}

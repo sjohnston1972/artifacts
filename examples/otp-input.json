@@ -1,0 +1,55 @@
+{
+  "slug": "otp-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Enter the 6-digit code"
+    },
+    {
+      "id": "boxSize",
+      "type": "number",
+      "label": "Box size (px)",
+      "default": 44,
+      "min": 32,
+      "max": 64,
+      "step": 2
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Style",
+      "default": "boxes",
+      "options": [
+        "boxes",
+        "underline"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"otp\">\n  <legend class=\"otp__legend\">{{label}}{{#if required}} <span class=\"otp__req\">*</span>{{/if}}</legend>\n  <div class=\"otp__row\" style=\"--accent:{{accent}};--size:{{boxSize}}px;\">\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 1\"{{#if required}} required{{/if}}>\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 2\"{{#if required}} required{{/if}}>\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 3\"{{#if required}} required{{/if}}>\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 4\"{{#if required}} required{{/if}}>\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 5\"{{#if required}} required{{/if}}>\n    <input class=\"otp__box otp__box--{{variant}}\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 6\"{{#if required}} required{{/if}}>\n  </div>\n</fieldset>\n<style>\n.otp { font: 14px system-ui, sans-serif; color: #241430; border: none; padding: 0; margin: 0; max-width: 320px; }\n.otp__legend { font-weight: 500; margin-bottom: 8px; padding: 0; }\n.otp__req { color: #241430; }\n.otp__row { display: flex; gap: 8px; }\n.otp__box { width: var(--size); height: var(--size); box-sizing: border-box; text-align: center; font: inherit; font-size: 18px; color: #241430; background: #FAF7F2; }\n.otp__box--boxes { border: 1.5px solid #24143040; border-radius: 8px; }\n.otp__box--underline { border: none; border-bottom: 2px solid #24143040; border-radius: 0; }\n.otp__box:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.otp__box--underline:focus-visible { box-shadow: none; border-color: var(--accent); }\n</style>",
+    "tailwind": "<fieldset class=\"font-sans text-sm text-[#241430] border-0 p-0 m-0 max-w-[320px]\">\n  <legend class=\"font-medium mb-2 p-0\">{{label}}{{#if required}} <span>*</span>{{/if}}</legend>\n  <div class=\"flex gap-2\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 1\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 2\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 3\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 4\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 5\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n    <input type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 6\"{{#if required}} required{{/if}} class=\"otp-tw otp-tw--{{variant}} box-border text-center text-lg bg-[#FAF7F2] focus-visible:outline-none\" style=\"width:{{boxSize}}px;height:{{boxSize}}px;border-color:{{accent}};\">\n  </div>\n</fieldset>\n<style>\n.otp-tw--boxes { border: 1.5px solid #24143040; border-radius: 8px; }\n.otp-tw--underline { border: none; border-bottom: 2px solid #24143040; border-radius: 0; }\n</style>",
+    "react": "export function OtpInput({\n  label = \"{{label}}\",\n  boxSize = {{boxSize}},\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  const boxStyle = {\n    width: boxSize, height: boxSize, boxSizing: \"border-box\", textAlign: \"center\", font: \"inherit\", fontSize: 18,\n    color: \"#241430\", background: \"#FAF7F2\",\n    border: variant === \"underline\" ? \"none\" : `1.5px solid ${accent}`,\n    borderBottom: variant === \"underline\" ? `2px solid ${accent}` : undefined,\n    borderRadius: variant === \"underline\" ? 0 : 8,\n  };\n  return (\n    <fieldset style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", border: \"none\", padding: 0, margin: 0, maxWidth: 320 }}>\n      <legend style={{ fontWeight: 500, marginBottom: 8, padding: 0 }}>{label}{required && \" *\"}</legend>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        {[1, 2, 3, 4, 5, 6].map((n) => (\n          <input key={n} type=\"text\" inputMode=\"numeric\" maxLength={1} aria-label={`Digit ${n}`} required={required} style={boxStyle} />\n        ))}\n      </div>\n    </fieldset>\n  );\n}"
+  }
+}

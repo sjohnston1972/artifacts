@@ -1,0 +1,48 @@
+{
+  "slug": "date-range-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Trip dates"
+    },
+    {
+      "id": "start",
+      "type": "text",
+      "label": "Start date",
+      "default": "2026-09-01"
+    },
+    {
+      "id": "end",
+      "type": "text",
+      "label": "End date",
+      "default": "2026-09-08"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"drp\">\n  <legend class=\"drp__legend\">{{label}}{{#if required}} <span class=\"drp__req\">*</span>{{/if}}</legend>\n  <div class=\"drp__row\">\n    <label class=\"drp__field\">\n      <span class=\"drp__sub\">Start</span>\n      <input class=\"drp__input\" type=\"date\" value=\"{{start}}\" style=\"--accent:{{accent}};\" autocomplete=\"off\"{{#if required}} required{{/if}}>\n    </label>\n    <span class=\"drp__sep\" aria-hidden=\"true\">&#8594;</span>\n    <label class=\"drp__field\">\n      <span class=\"drp__sub\">End</span>\n      <input class=\"drp__input\" type=\"date\" value=\"{{end}}\" style=\"--accent:{{accent}};\" autocomplete=\"off\"{{#if required}} required{{/if}}>\n    </label>\n  </div>\n</fieldset>\n<style>\n.drp { font: 14px system-ui, sans-serif; color: #241430; max-width: 340px; border: none; padding: 0; margin: 0; }\n.drp__legend { font-weight: 500; margin-bottom: 6px; padding: 0; }\n.drp__req { color: #241430; }\n.drp__row { display: flex; align-items: flex-end; gap: 8px; }\n.drp__field { display: block; flex: 1; }\n.drp__sub { display: block; margin-bottom: 4px; font-size: 12px; color: #24143099; }\n.drp__input { width: 100%; box-sizing: border-box; padding: 9px 10px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.drp__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.drp__sep { padding-bottom: 10px; color: #24143080; }\n</style>",
+    "tailwind": "<fieldset class=\"max-w-[340px] font-sans text-sm text-[#241430] border-0 p-0 m-0\">\n  <legend class=\"font-medium mb-1.5 p-0\">{{label}}{{#if required}} <span>*</span>{{/if}}</legend>\n  <div class=\"flex items-end gap-2\">\n    <label class=\"block flex-1\">\n      <span class=\"block mb-1 text-xs text-[#24143099]\">Start</span>\n      <input type=\"date\" value=\"{{start}}\" autocomplete=\"off\"{{#if required}} required{{/if}} class=\"drp-tw w-full box-border px-2.5 py-2 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n    </label>\n    <span class=\"pb-2.5 text-[#24143080]\" aria-hidden=\"true\">&#8594;</span>\n    <label class=\"block flex-1\">\n      <span class=\"block mb-1 text-xs text-[#24143099]\">End</span>\n      <input type=\"date\" value=\"{{end}}\" autocomplete=\"off\"{{#if required}} required{{/if}} class=\"drp-tw w-full box-border px-2.5 py-2 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none\" style=\"border-color:{{accent}};\">\n    </label>\n  </div>\n</fieldset>",
+    "react": "export function DateRangePicker({\n  label = \"{{label}}\",\n  start = \"{{start}}\",\n  end = \"{{end}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  const inputStyle = {\n    width: \"100%\", boxSizing: \"border-box\", padding: \"9px 10px\", font: \"inherit\", color: \"#241430\",\n    background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: 8,\n  };\n  return (\n    <fieldset style={{ maxWidth: 340, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", border: \"none\", padding: 0, margin: 0 }}>\n      <legend style={{ fontWeight: 500, marginBottom: 6, padding: 0 }}>{label}{required && \" *\"}</legend>\n      <div style={{ display: \"flex\", alignItems: \"flex-end\", gap: 8 }}>\n        <label style={{ display: \"block\", flex: 1 }}>\n          <span style={{ display: \"block\", marginBottom: 4, fontSize: 12, color: \"#24143099\" }}>Start</span>\n          <input type=\"date\" defaultValue={start} required={required} autoComplete=\"off\" style={inputStyle} />\n        </label>\n        <span aria-hidden=\"true\" style={{ paddingBottom: 10, color: \"#24143080\" }}>&#8594;</span>\n        <label style={{ display: \"block\", flex: 1 }}>\n          <span style={{ display: \"block\", marginBottom: 4, fontSize: 12, color: \"#24143099\" }}>End</span>\n          <input type=\"date\" defaultValue={end} required={required} autoComplete=\"off\" style={{ ...inputStyle, borderColor: accent }} />\n        </label>\n      </div>\n    </fieldset>\n  );\n}"
+  }
+}

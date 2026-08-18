@@ -1,0 +1,55 @@
+{
+  "controls_schema": [
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "label": "Eyebrow text",
+      "default": "Trusted by teams at"
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Grid columns",
+      "default": 5,
+      "min": 3,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "grayscale",
+      "type": "toggle",
+      "label": "Grayscale until hover",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Mark colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "row",
+      "options": [
+        "row",
+        "grid"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"logos logos--{{layout}}{{#if grayscale}} logos--grayscale{{/if}}\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <p class=\"logos__eyebrow\">{{eyebrow}}</p>\n  <ul class=\"logos__list\" role=\"list\">\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Aperture Co. logo\">A</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Bramble logo\">B</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Cobalt logo\">C</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Driftwood logo\">D</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Ember logo\">E</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Foundry logo\">F</span></li>\n  </ul>\n</div>\n<style>\n.logos { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 480px; }\n.logos__eyebrow { margin: 0 0 16px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #241430aa; }\n.logos__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 18px; }\n.logos--grid .logos__list { display: grid; grid-template-columns: repeat(var(--cols), 1fr); align-items: center; }\n.logos__mark { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #241430; font-weight: 700; font-size: 15px; }\n.logos--grayscale .logos__mark { filter: grayscale(1); opacity: .6; transition: filter .15s, opacity .15s; }\n.logos--grayscale .logos__mark:hover,\n.logos--grayscale .logos__mark:focus-visible { filter: none; opacity: 1; }\n</style>",
+    "tailwind": "<div class=\"logos-tw logos-tw--{{layout}}{{#if grayscale}} logos-tw--grayscale{{/if}} max-w-md font-sans text-[#241430]\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <p class=\"m-0 mb-4 text-xs font-bold tracking-wide uppercase text-[#241430]/70\">{{eyebrow}}</p>\n  <ul role=\"list\" class=\"logos-tw__list list-none m-0 p-0 flex flex-wrap gap-[18px]\">\n    <li><span role=\"img\" aria-label=\"Aperture Co. logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">A</span></li>\n    <li><span role=\"img\" aria-label=\"Bramble logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">B</span></li>\n    <li><span role=\"img\" aria-label=\"Cobalt logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">C</span></li>\n    <li><span role=\"img\" aria-label=\"Driftwood logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">D</span></li>\n    <li><span role=\"img\" aria-label=\"Ember logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">E</span></li>\n  </ul>\n</div>\n<style>\n.logos-tw--grid .logos-tw__list { display: grid; grid-template-columns: repeat(var(--cols), 1fr); }\n.logos-tw--grayscale .logos-tw__mark { filter: grayscale(1); opacity: .6; transition: filter .15s, opacity .15s; }\n.logos-tw--grayscale .logos-tw__mark:hover,\n.logos-tw--grayscale .logos-tw__mark:focus-visible { filter: none; opacity: 1; }\n</style>",
+    "react": "export function LogoCloud({\n  eyebrow = \"{{eyebrow}}\",\n  columns = {{columns}},\n  grayscale = {{grayscale}},\n  accent = \"{{accent}}\",\n  layout = \"{{layout}}\",\n}) {\n  const marks = [\"A\", \"B\", \"C\", \"D\", \"E\", \"F\"];\n  const names = [\"Aperture Co.\", \"Bramble\", \"Cobalt\", \"Driftwood\", \"Ember\", \"Foundry\"];\n  const listStyle = layout === \"grid\"\n    ? { display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, alignItems: \"center\", gap: 18 }\n    : { display: \"flex\", flexWrap: \"wrap\", gap: 18 };\n  const markStyle = {\n    display: \"flex\", alignItems: \"center\", justifyContent: \"center\", width: 44, height: 44,\n    borderRadius: \"50%\", background: accent, color: \"#241430\", fontWeight: 700, fontSize: 15,\n    filter: grayscale ? \"grayscale(1)\" : \"none\", opacity: grayscale ? 0.6 : 1, transition: \"filter .15s, opacity .15s\",\n  };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 480 }}>\n      <p style={{ margin: \"0 0 16px\", fontSize: 12, fontWeight: 700, letterSpacing: \".06em\", textTransform: \"uppercase\", color: \"#241430aa\" }}>{eyebrow}</p>\n      <ul role=\"list\" style={{ listStyle: \"none\", margin: 0, padding: 0, ...listStyle }}>\n        {marks.map((letter, i) => (\n          <li key={letter}>\n            <span role=\"img\" aria-label={`${names[i]} logo`} style={markStyle}>{letter}</span>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  },
+  "slug": "logo-cloud"
+}

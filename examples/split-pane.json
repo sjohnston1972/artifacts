@@ -1,0 +1,45 @@
+{
+  "slug": "split-pane",
+  "controls_schema": [
+    {
+      "id": "leftLabel",
+      "type": "text",
+      "label": "Left pane label",
+      "default": "Editor"
+    },
+    {
+      "id": "rightLabel",
+      "type": "text",
+      "label": "Right pane label",
+      "default": "Preview"
+    },
+    {
+      "id": "split",
+      "type": "number",
+      "label": "Split (% left)",
+      "default": 50,
+      "min": 20,
+      "max": 80,
+      "step": 5
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "vertical",
+      "options": ["vertical", "horizontal"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Handle colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"split-demo split-demo--{{orientation}}\">\n  <div class=\"split-demo__pane\" style=\"flex-basis:{{split}}%;\">{{leftLabel}}</div>\n  <div class=\"split-demo__handle\" style=\"background:{{accent}};\"></div>\n  <div class=\"split-demo__pane\" style=\"flex-basis:calc(100% - {{split}}%);\">{{rightLabel}}</div>\n</div>\n<style>\n.split-demo { display: flex; height: 140px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.split-demo--horizontal { flex-direction: column; }\n.split-demo__pane { box-sizing: border-box; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FAF7F2; }\n.split-demo__pane:first-child { background: #fff; }\n.split-demo__handle { flex: none; position: relative; }\n.split-demo--vertical .split-demo__handle { width: 4px; cursor: col-resize; }\n.split-demo--horizontal .split-demo__handle { height: 4px; cursor: row-resize; }\n.split-demo__handle:hover { opacity: .8; }\n</style>",
+    "tailwind": "<div class=\"flex h-[140px] font-sans text-[13px] text-[#241430] border border-[#24143022] split-tw split-tw--{{orientation}}\">\n  <div class=\"box-border flex-shrink-0 overflow-hidden flex items-center justify-center bg-white\" style=\"flex-basis:{{split}}%;\">{{leftLabel}}</div>\n  <div class=\"flex-none relative hover:opacity-80 split-tw__handle\" style=\"background:{{accent}};\"></div>\n  <div class=\"box-border flex-shrink-0 overflow-hidden flex items-center justify-center bg-[#FAF7F2]\" style=\"flex-basis:calc(100% - {{split}}%);\">{{rightLabel}}</div>\n</div>\n<style>\n.split-tw--horizontal { flex-direction: column; }\n.split-tw--vertical .split-tw__handle { width: 4px; cursor: col-resize; }\n.split-tw--horizontal .split-tw__handle { height: 4px; cursor: row-resize; }\n</style>",
+    "react": "export function SplitPane({\n  leftLabel = \"{{leftLabel}}\",\n  rightLabel = \"{{rightLabel}}\",\n  split = {{split}},\n  orientation = \"{{orientation}}\",\n  accent = \"{{accent}}\",\n}) {\n  const vertical = orientation === \"vertical\";\n  return (\n    <div style={{ display: \"flex\", flexDirection: vertical ? \"row\" : \"column\", height: 140, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <div style={{ boxSizing: \"border-box\", flexShrink: 0, flexBasis: `${split}%`, overflow: \"hidden\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#fff\" }}>{leftLabel}</div>\n      <div style={{ flex: \"none\", position: \"relative\", background: accent, width: vertical ? 4 : \"auto\", height: vertical ? \"auto\" : 4, cursor: vertical ? \"col-resize\" : \"row-resize\" }} />\n      <div style={{ boxSizing: \"border-box\", flexShrink: 0, flexBasis: `calc(100% - ${split}%)`, overflow: \"hidden\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#FAF7F2\" }}>{rightLabel}</div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "content-area",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Project overview"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "scroll",
+      "type": "toggle",
+      "label": "Constrain height (scrollable)",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"carea-demo\">\n  <div class=\"carea-demo__rail\">Nav</div>\n  <main class=\"carea-demo__main carea-demo__main--{{density}}{{#if scroll}} carea-demo__main--scroll{{/if}}\" style=\"--accent:{{accent}};\">\n    <h3 class=\"carea-demo__heading\">{{heading}}</h3>\n    <p>The main content region is the primary task area of the page, distinct from chrome like navigation.</p>\n    <p>It usually scrolls independently of surrounding fixed regions.</p>\n    <p>A third paragraph makes that scrolling behaviour visible when the height is constrained.</p>\n    <p>And a fourth, so there is genuinely more to scroll through.</p>\n  </main>\n</div>\n<style>\n.carea-demo { display: flex; font: 14px/1.5 system-ui, sans-serif; color: #241430; border: 1px solid #24143022; }\n.carea-demo__rail { flex: none; width: 56px; background: #241430; color: #FAF7F2cc; font-size: 12px; text-align: center; padding-top: 14px; }\n.carea-demo__main { flex: 1; min-width: 0; background: #FAF7F2; padding: 20px; border-top: 3px solid var(--accent); }\n.carea-demo__main--compact { padding: 10px 14px; font-size: 13px; }\n.carea-demo__main--scroll { height: 150px; overflow-y: auto; }\n.carea-demo__heading { margin: 0 0 10px; }\n.carea-demo__main p { margin: 0 0 8px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"flex font-sans text-sm text-[#241430] border border-[#24143022]\">\n  <div class=\"flex-none w-14 bg-[#241430] text-[#FAF7F2]/80 text-xs text-center pt-3.5\">Nav</div>\n  <main class=\"flex-1 min-w-0 bg-[#FAF7F2] p-5 border-t-[3px] carea-tw carea-tw--{{density}}{{#if scroll}} carea-tw--scroll{{/if}}\" style=\"border-top-color:{{accent}};\">\n    <h3 class=\"m-0 mb-2.5\">{{heading}}</h3>\n    <p class=\"m-0 mb-2 text-[#241430]/80\">The main content region is the primary task area of the page, distinct from chrome like navigation.</p>\n    <p class=\"m-0 mb-2 text-[#241430]/80\">It usually scrolls independently of surrounding fixed regions.</p>\n    <p class=\"m-0 mb-2 text-[#241430]/80\">A third paragraph makes that scrolling behaviour visible when the height is constrained.</p>\n    <p class=\"m-0 text-[#241430]/80\">And a fourth, so there is genuinely more to scroll through.</p>\n  </main>\n</div>\n<style>\n.carea-tw--compact { padding: 10px 14px !important; font-size: 13px; }\n.carea-tw--scroll { height: 150px; overflow-y: auto; }\n</style>",
+    "react": "export function ContentArea({\n  heading = \"{{heading}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  scroll = {{scroll}},\n}) {\n  const compact = density === \"compact\";\n  return (\n    <div style={{ display: \"flex\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\", border: \"1px solid #24143022\" }}>\n      <div style={{ flex: \"none\", width: 56, background: \"#241430\", color: \"#FAF7F2cc\", fontSize: 12, textAlign: \"center\", paddingTop: 14 }}>Nav</div>\n      <main style={{\n        flex: 1, minWidth: 0, background: \"#FAF7F2\", borderTop: `3px solid ${accent}`,\n        padding: compact ? \"10px 14px\" : 20, fontSize: compact ? 13 : 14,\n        height: scroll ? 150 : \"auto\", overflowY: scroll ? \"auto\" : \"visible\",\n      }}>\n        <h3 style={{ margin: \"0 0 10px\" }}>{heading}</h3>\n        <p style={{ margin: \"0 0 8px\", color: \"#241430cc\" }}>The main content region is the primary task area of the page, distinct from chrome like navigation.</p>\n        <p style={{ margin: \"0 0 8px\", color: \"#241430cc\" }}>It usually scrolls independently of surrounding fixed regions.</p>\n        <p style={{ margin: \"0 0 8px\", color: \"#241430cc\" }}>A third paragraph makes that scrolling behaviour visible when the height is constrained.</p>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>And a fourth, so there is genuinely more to scroll through.</p>\n      </main>\n    </div>\n  );\n}"
+  }
+}

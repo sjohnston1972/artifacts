@@ -1759,6 +1759,15 @@ describe("render", () => {
     expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
   });
 
+  it("still warns when an earlier attribute value contains a literal >", () => {
+    // A lastIndexOf(">") shortcut mistakes that > for the tag's close and
+    // silently drops both warnings — including the event-handler one.
+    expect(render('<div title="a > b" class={{x}}>', { x: "a" }).warnings)
+      .toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
+    expect(render("<button title='a > b' onclick=\"f({{x}})\">", { x: "a" }).warnings)
+      .not.toEqual([]);
+  });
+
   it("does not warn for a placeholder in JavaScript, only in markup", () => {
     // `disabled = {{disabled}}` in a React template is an assignment, not an
     // unquoted attribute. Warning here is noise, and pushes authors toward
@@ -1937,9 +1946,28 @@ function inUnquotedAttribute(source, offset) {
   return i >= 0 && source[i] === "=";
 }
 
+// Scans forward tracking quoted spans. A lastIndexOf(">") shortcut is wrong:
+// a literal `>` inside an earlier attribute value — `<div title="a > b"
+// class={{x}}>` — reads as the tag's close, so the placeholder looks like text
+// and BOTH warnings go silent. That false negative is worse than the noise the
+// guard was added to remove, because it hides the event-handler case.
 function insideTag(source, offset) {
-  const open = source.lastIndexOf("<", offset);
-  return open !== -1 && source.lastIndexOf(">", offset) < open;
+  let inTag = false;
+  let quote = null;
+  for (let i = 0; i < offset; i++) {
+    const ch = source[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (inTag && (ch === '"' || ch === "'")) {
+      quote = ch;
+      continue;
+    }
+    if (ch === "<") inTag = true;
+    else if (ch === ">") inTag = false;
+  }
+  return inTag;
 }
 
 // HTML decodes character references in attribute values BEFORE JavaScript
@@ -1981,7 +2009,7 @@ export function defaultsFor(schema) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/template.test.js`
-Expected: PASS, 22 tests.
+Expected: PASS, 23 tests.
 
 - [ ] **Step 5: Commit and push**
 

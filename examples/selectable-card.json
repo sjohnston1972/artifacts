@@ -1,0 +1,42 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Standard plan"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "For small teams getting started."
+    },
+    {
+      "id": "selected",
+      "type": "toggle",
+      "label": "Selected",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"selcard\" style=\"--c:{{color}};\">\n  <input type=\"checkbox\" class=\"selcard__input\" {{#if selected}}checked{{/if}}>\n  <span class=\"selcard__box\">\n    <span class=\"selcard__check\" aria-hidden=\"true\">✓</span>\n    <span class=\"selcard__text\">\n      <strong>{{title}}</strong>\n      <span class=\"selcard__body\">{{body}}</span>\n    </span>\n  </span>\n</label>\n<style>\n.selcard { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; cursor: pointer; }\n.selcard__input { position: absolute; opacity: 0; width: 1px; height: 1px; }\n.selcard__box { display: flex; gap: 10px; align-items: flex-start; border: 1.5px solid #24143022; border-radius: 10px; padding: 14px; }\n.selcard__check { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #24143033; flex: none; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; }\n.selcard__input:checked + .selcard__box { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, #FAF7F2); }\n.selcard__input:checked + .selcard__box .selcard__check { background: var(--c); border-color: var(--c); color: #241430; }\n.selcard__input:focus-visible + .selcard__box { outline: 2px solid var(--c); outline-offset: 2px; }\n.selcard__body { display: block; font-size: 12px; opacity: .75; }\n</style>",
+    "tailwind": "<label class=\"selcard-tw block font-sans text-[14px] text-[#241430] max-w-xs cursor-pointer\" style=\"--c:{{color}};\">\n  <input type=\"checkbox\" class=\"selcard-tw__input absolute opacity-0 w-px h-px\" {{#if selected}}checked{{/if}}>\n  <span class=\"selcard-tw__box flex gap-2.5 items-start border-[1.5px] border-[#24143022] rounded-[10px] p-3.5\">\n    <span class=\"selcard-tw__check w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#24143033] flex-none flex items-center justify-center text-xs text-transparent\">✓</span>\n    <span>\n      <strong class=\"block\">{{title}}</strong>\n      <span class=\"block text-xs opacity-75\">{{body}}</span>\n    </span>\n  </span>\n</label>\n<style>\n.selcard-tw__input:checked + .selcard-tw__box { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, #FAF7F2); }\n.selcard-tw__input:checked + .selcard-tw__box .selcard-tw__check { background: var(--c); border-color: var(--c); color: #241430; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function SelectableCard({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  selected: initialSelected = {{selected}},\n  color = \"{{color}}\",\n}) {\n  const [selected, setSelected] = useState(initialSelected);\n  return (\n    <label style={{ display: \"block\", font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 260, cursor: \"pointer\" }}>\n      <input type=\"checkbox\" checked={selected} onChange={() => setSelected((v) => !v)} style={{ position: \"absolute\", opacity: 0, width: 1, height: 1 }} />\n      <span style={{\n        display: \"flex\", gap: 10, alignItems: \"flex-start\", borderRadius: 10, padding: 14,\n        border: \"1.5px solid \" + (selected ? color : \"#24143022\"),\n        background: selected ? color + \"29\" : \"transparent\",\n      }}>\n        <span style={{\n          width: 18, height: 18, borderRadius: 5, flex: \"none\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 12,\n          border: \"1.5px solid \" + (selected ? color : \"#24143033\"),\n          background: selected ? color : \"transparent\", color: selected ? \"#241430\" : \"transparent\",\n        }}>✓</span>\n        <span>\n          <strong style={{ display: \"block\" }}>{title}</strong>\n          <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{body}</span>\n        </span>\n      </span>\n    </label>\n  );\n}"
+  },
+  "slug": "selectable-card"
+}

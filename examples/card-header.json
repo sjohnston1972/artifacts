@@ -1,0 +1,42 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Invoice #4021"
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle",
+      "default": "Due 2 September"
+    },
+    {
+      "id": "showAction",
+      "type": "toggle",
+      "label": "Show action slot",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<header class=\"cardhead\" style=\"--c:{{color}};\">\n  <div class=\"cardhead__text\">\n    <h3 class=\"cardhead__title\">{{title}}</h3>\n    <span class=\"cardhead__subtitle\">{{subtitle}}</span>\n  </div>\n  {{#if showAction}}<button type=\"button\" class=\"cardhead__action\" aria-label=\"More actions for {{title}}\">⋯</button>{{/if}}\n</header>\n<style>\n.cardhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; border-bottom: 2px solid var(--c); padding-bottom: 10px; max-width: 300px; }\n.cardhead__title { margin: 0; font-size: 15px; }\n.cardhead__subtitle { font-size: 12px; opacity: .65; }\n.cardhead__action { border: 1px solid #24143022; background: #FAF7F2; border-radius: 6px; width: 26px; height: 26px; cursor: pointer; flex: none; }\n.cardhead__action:hover, .cardhead__action:focus-visible { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); outline: none; }\n</style>",
+    "tailwind": "<header class=\"cardhead-tw flex justify-between items-start gap-2.5 font-sans text-[13px] text-[#241430] border-b-2 pb-2.5 max-w-xs\" style=\"border-color:{{color}};\">\n  <div>\n    <h3 class=\"m-0 text-[15px]\">{{title}}</h3>\n    <span class=\"text-xs opacity-65\">{{subtitle}}</span>\n  </div>\n  {{#if showAction}}<button type=\"button\" class=\"border border-[#24143022] bg-[#FAF7F2] rounded-md w-[26px] h-[26px] cursor-pointer flex-none\" aria-label=\"More actions for {{title}}\">⋯</button>{{/if}}\n</header>",
+    "react": "export function CardHeader({\n  title = \"{{title}}\",\n  subtitle = \"{{subtitle}}\",\n  showAction = {{showAction}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <header style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"flex-start\", gap: 10, font: \"13px system-ui, sans-serif\", color: \"#241430\", borderBottom: \"2px solid \" + color, paddingBottom: 10, maxWidth: 300 }}>\n      <div>\n        <h3 style={{ margin: 0, fontSize: 15 }}>{title}</h3>\n        <span style={{ fontSize: 12, opacity: 0.65 }}>{subtitle}</span>\n      </div>\n      {showAction && (\n        <button type=\"button\" aria-label={\"More actions for \" + title} style={{ border: \"1px solid #24143022\", background: \"#FAF7F2\", borderRadius: 6, width: 26, height: 26, cursor: \"pointer\", flex: \"none\" }}>\n          ⋯\n        </button>\n      )}\n    </header>\n  );\n}"
+  },
+  "slug": "card-header"
+}

@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "No invoices yet"
+    },
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Action label",
+      "default": "Create invoice"
+    },
+    {
+      "id": "showAction",
+      "type": "toggle",
+      "label": "Show action",
+      "default": true
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "inbox",
+      "options": [
+        "inbox",
+        "search",
+        "error"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"emptycard emptycard--{{icon}}\" style=\"--c:{{color}};\">\n  <svg class=\"emptycard__icon\" viewBox=\"0 0 40 40\" aria-hidden=\"true\">\n    <circle cx=\"20\" cy=\"20\" r=\"18\" fill=\"var(--c)\" opacity=\"0.5\"/>\n    <path class=\"emptycard__icon-inbox\" d=\"M10 20h6l2 4h4l2-4h6\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n    <circle class=\"emptycard__icon-search\" cx=\"18\" cy=\"18\" r=\"6\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n    <path class=\"emptycard__icon-search\" d=\"M23 23l6 6\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path class=\"emptycard__icon-error\" d=\"M20 12v10\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <circle class=\"emptycard__icon-error\" cx=\"20\" cy=\"27\" r=\"1.4\" fill=\"#241430\"/>\n  </svg>\n  <p class=\"emptycard__message\">{{message}}</p>\n  {{#if showAction}}<button type=\"button\" class=\"emptycard__action\">{{actionLabel}}</button>{{/if}}\n</div>\n<style>\n.emptycard { text-align: center; font: 14px system-ui, sans-serif; color: #241430; padding: 28px 20px; max-width: 260px; }\n.emptycard__icon { width: 48px; height: 48px; margin-bottom: 10px; }\n.emptycard__icon-inbox, .emptycard__icon-search, .emptycard__icon-error { display: none; }\n.emptycard--inbox .emptycard__icon-inbox { display: block; }\n.emptycard--search .emptycard__icon-search { display: block; }\n.emptycard--error .emptycard__icon-error { display: block; }\n.emptycard__message { margin: 0 0 12px; opacity: .75; }\n.emptycard__action { border: none; border-radius: 8px; padding: 8px 16px; font: 600 13px system-ui, sans-serif; cursor: pointer; background: var(--c); color: #241430; }\n.emptycard__action:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"emptycard-tw emptycard-tw--{{icon}} text-center font-sans text-[14px] text-[#241430] py-7 px-5 max-w-xs\" style=\"--c:{{color}};\">\n  <svg class=\"mx-auto mb-2.5 w-12 h-12\" viewBox=\"0 0 40 40\" aria-hidden=\"true\">\n    <circle cx=\"20\" cy=\"20\" r=\"18\" fill=\"var(--c)\" opacity=\"0.5\"/>\n    <path class=\"emptycard-tw__icon-inbox hidden\" d=\"M10 20h6l2 4h4l2-4h6\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n    <circle class=\"emptycard-tw__icon-search hidden\" cx=\"18\" cy=\"18\" r=\"6\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n    <path class=\"emptycard-tw__icon-search hidden\" d=\"M23 23l6 6\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <path class=\"emptycard-tw__icon-error hidden\" d=\"M20 12v10\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <circle class=\"emptycard-tw__icon-error hidden\" cx=\"20\" cy=\"27\" r=\"1.4\" fill=\"#241430\"/>\n  </svg>\n  <p class=\"m-0 mb-3 opacity-75\">{{message}}</p>\n  {{#if showAction}}<button type=\"button\" class=\"border-none rounded-lg px-4 py-2 font-semibold text-[13px] cursor-pointer text-[#241430]\" style=\"background:var(--c);\">{{actionLabel}}</button>{{/if}}\n</div>\n<style>\n.emptycard-tw--inbox .emptycard-tw__icon-inbox { display: block !important; }\n.emptycard-tw--search .emptycard-tw__icon-search { display: block !important; }\n.emptycard-tw--error .emptycard-tw__icon-error { display: block !important; }\n</style>",
+    "react": "export function EmptyCard({\n  message = \"{{message}}\",\n  actionLabel = \"{{actionLabel}}\",\n  showAction = {{showAction}},\n  icon = \"{{icon}}\",\n  color = \"{{color}}\",\n}) {\n  return (\n    <div style={{ textAlign: \"center\", font: \"14px system-ui, sans-serif\", color: \"#241430\", padding: \"28px 20px\", maxWidth: 260 }}>\n      <svg viewBox=\"0 0 40 40\" aria-hidden=\"true\" style={{ width: 48, height: 48, margin: \"0 auto 10px\" }}>\n        <circle cx=\"20\" cy=\"20\" r=\"18\" fill={color} opacity=\"0.5\" />\n        {icon === \"inbox\" && <path d=\"M10 20h6l2 4h4l2-4h6\" fill=\"none\" stroke=\"#241430\" strokeWidth=\"2\" />}\n        {icon === \"search\" && (\n          <>\n            <circle cx=\"18\" cy=\"18\" r=\"6\" fill=\"none\" stroke=\"#241430\" strokeWidth=\"2\" />\n            <path d=\"M23 23l6 6\" stroke=\"#241430\" strokeWidth=\"2\" strokeLinecap=\"round\" />\n          </>\n        )}\n        {icon === \"error\" && (\n          <>\n            <path d=\"M20 12v10\" stroke=\"#241430\" strokeWidth=\"2\" strokeLinecap=\"round\" />\n            <circle cx=\"20\" cy=\"27\" r=\"1.4\" fill=\"#241430\" />\n          </>\n        )}\n      </svg>\n      <p style={{ margin: \"0 0 12px\", opacity: 0.75 }}>{message}</p>\n      {showAction && (\n        <button type=\"button\" style={{ border: \"none\", borderRadius: 8, padding: \"8px 16px\", fontWeight: 600, fontSize: 13, cursor: \"pointer\", background: color, color: \"#241430\" }}>\n          {actionLabel}\n        </button>\n      )}\n    </div>\n  );\n}"
+  },
+  "slug": "empty-card"
+}

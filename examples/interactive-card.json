@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Autumn campaign brief"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Creative direction, timeline and budget for the Q4 launch."
+    },
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Inner action label",
+      "default": "Save"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "elevated",
+      "options": [
+        "elevated",
+        "outlined"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"intcard intcard--{{variant}}\" style=\"--c:{{color}};\">\n  <h3 class=\"intcard__title\"><a class=\"intcard__link\" href=\"#detail\">{{title}}</a></h3>\n  <p class=\"intcard__body\">{{body}}</p>\n  <button type=\"button\" class=\"intcard__action\">{{actionLabel}}</button>\n</article>\n<style>\n.intcard { position: relative; font: 14px/1.5 system-ui, sans-serif; color: #241430; border-radius: 12px; padding: 18px; max-width: 300px; background: #FAF7F2; }\n.intcard--elevated { box-shadow: 0 8px 20px rgba(36,20,48,.14); }\n.intcard--outlined { border: 1.5px solid var(--c); }\n.intcard__title { margin: 0 0 8px; font-size: 16px; }\n.intcard__link { color: inherit; text-decoration: none; }\n.intcard__link::after { content: \"\"; position: absolute; inset: 0; border-radius: inherit; }\n.intcard__link:hover, .intcard__link:focus-visible { text-decoration: underline; }\n.intcard__body { margin: 0 0 14px; font-size: 13px; opacity: .8; }\n.intcard__action { position: relative; z-index: 1; border: 1.5px solid var(--c); border-radius: 8px; padding: 7px 14px; font: 600 13px system-ui, sans-serif; cursor: pointer; background: transparent; color: #241430; }\n.intcard__action:hover, .intcard__action:focus-visible { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); outline: none; }\n</style>",
+    "tailwind": "<article class=\"intcard-tw intcard-tw--{{variant}} relative font-sans text-[14px] leading-relaxed text-[#241430] rounded-xl p-4.5 max-w-xs bg-[#FAF7F2]\" style=\"--c:{{color}};\">\n  <h3 class=\"m-0 mb-2 text-base\"><a class=\"intcard-tw__link text-inherit no-underline hover:underline focus-visible:underline\" href=\"#detail\">{{title}}</a></h3>\n  <p class=\"m-0 mb-3.5 text-[13px] opacity-80\">{{body}}</p>\n  <button type=\"button\" class=\"relative z-10 border-[1.5px] rounded-lg px-3.5 py-1.5 text-[13px] font-semibold cursor-pointer bg-transparent text-[#241430]\" style=\"border-color:var(--c);\">{{actionLabel}}</button>\n</article>\n<style>\n.intcard-tw--elevated { box-shadow: 0 8px 20px rgba(36,20,48,.14); }\n.intcard-tw--outlined { border: 1.5px solid var(--c); }\n.intcard-tw__link::after { content: \"\"; position: absolute; inset: 0; border-radius: inherit; }\n</style>",
+    "react": "export function InteractiveCard({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  actionLabel = \"{{actionLabel}}\",\n  variant = \"{{variant}}\",\n  color = \"{{color}}\",\n}) {\n  const wrap = variant === \"elevated\" ? { boxShadow: \"0 8px 20px rgba(36,20,48,.14)\" } : { border: \"1.5px solid \" + color };\n  return (\n    <article style={{ position: \"relative\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", borderRadius: 12, padding: 18, maxWidth: 300, background: \"#FAF7F2\", ...wrap }}>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 16 }}>\n        {/* Stretched-link pattern: this anchor's ::after covers the card so the\n            whole card is clickable, while the button below stays above it in\n            z-index and is never swallowed by the overlay. */}\n        <a href=\"#detail\" style={{ color: \"inherit\", textDecoration: \"none\", position: \"relative\" }}>\n          {title}\n          <span style={{ position: \"absolute\", inset: 0 }} />\n        </a>\n      </h3>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, opacity: 0.8 }}>{body}</p>\n      <button type=\"button\" style={{ position: \"relative\", zIndex: 1, border: \"1.5px solid \" + color, borderRadius: 8, padding: \"7px 14px\", fontWeight: 600, fontSize: 13, cursor: \"pointer\", background: \"transparent\", color: \"#241430\" }}>\n        {actionLabel}\n      </button>\n    </article>\n  );\n}"
+  },
+  "slug": "interactive-card"
+}

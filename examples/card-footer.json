@@ -1,0 +1,42 @@
+{
+  "controls_schema": [
+    {
+      "id": "primaryLabel",
+      "type": "text",
+      "label": "Primary action",
+      "default": "Approve"
+    },
+    {
+      "id": "secondaryLabel",
+      "type": "text",
+      "label": "Secondary action",
+      "default": "Decline"
+    },
+    {
+      "id": "showSecondary",
+      "type": "toggle",
+      "label": "Show secondary action",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<footer class=\"cardfooter\" style=\"--c:{{color}};\">\n  {{#if showSecondary}}<button type=\"button\" class=\"cardfooter__secondary\">{{secondaryLabel}}</button>{{/if}}\n  <button type=\"button\" class=\"cardfooter__primary\">{{primaryLabel}}</button>\n</footer>\n<style>\n.cardfooter { display: flex; justify-content: flex-end; gap: 8px; font: 13px system-ui, sans-serif; border-top: 1px solid #24143018; padding-top: 12px; }\n.cardfooter__primary { border: none; border-radius: 8px; padding: 8px 14px; font: 600 13px system-ui, sans-serif; cursor: pointer; background: var(--c); color: #241430; }\n.cardfooter__secondary { border: 1.5px solid #24143022; border-radius: 8px; padding: 8px 14px; font: 600 13px system-ui, sans-serif; cursor: pointer; background: transparent; color: #241430; }\n.cardfooter__primary:focus-visible, .cardfooter__secondary:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }\n</style>",
+    "tailwind": "<footer class=\"cardfooter-tw flex justify-end gap-2 font-sans text-[13px] border-t border-[#24143018] pt-3\" style=\"--c:{{color}};\">\n  {{#if showSecondary}}<button type=\"button\" class=\"border-[1.5px] border-[#24143022] rounded-lg px-3.5 py-2 font-semibold cursor-pointer bg-transparent text-[#241430]\">{{secondaryLabel}}</button>{{/if}}\n  <button type=\"button\" class=\"border-none rounded-lg px-3.5 py-2 font-semibold cursor-pointer text-[#241430]\" style=\"background:var(--c);\">{{primaryLabel}}</button>\n</footer>",
+    "react": "export function CardFooter({\n  primaryLabel = \"{{primaryLabel}}\",\n  secondaryLabel = \"{{secondaryLabel}}\",\n  showSecondary = {{showSecondary}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <footer style={{ display: \"flex\", justifyContent: \"flex-end\", gap: 8, font: \"13px system-ui, sans-serif\", borderTop: \"1px solid #24143018\", paddingTop: 12 }}>\n      {showSecondary && (\n        <button type=\"button\" style={{ border: \"1.5px solid #24143022\", borderRadius: 8, padding: \"8px 14px\", fontWeight: 600, fontSize: 13, cursor: \"pointer\", background: \"transparent\", color: \"#241430\" }}>\n          {secondaryLabel}\n        </button>\n      )}\n      <button type=\"button\" style={{ border: \"none\", borderRadius: 8, padding: \"8px 14px\", fontWeight: 600, fontSize: 13, cursor: \"pointer\", background: color, color: \"#241430\" }}>\n        {primaryLabel}\n      </button>\n    </footer>\n  );\n}"
+  },
+  "slug": "card-footer"
+}

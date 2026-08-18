@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Page load time"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "1.8"
+    },
+    {
+      "id": "unit",
+      "type": "text",
+      "label": "Unit",
+      "default": "seconds"
+    },
+    {
+      "id": "trend",
+      "type": "select",
+      "label": "Trend",
+      "default": "down",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"metriccard metriccard--{{trend}}\" style=\"--c:{{color}};\">\n  <span class=\"metriccard__label\">{{label}}</span>\n  <p class=\"metriccard__value\">{{value}} <span class=\"metriccard__unit\">{{unit}}</span></p>\n  <span class=\"metriccard__trend\">\n    <svg viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\"><path d=\"M5 1l4 4H1z\"/></svg>\n    <span class=\"metriccard__trend-word\"></span>\n  </span>\n</article>\n<style>\n.metriccard { font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-radius: 10px; padding: 14px; max-width: 220px; }\n.metriccard__label { display: block; font-size: 12px; opacity: .7; margin-bottom: 6px; }\n.metriccard__value { margin: 0 0 6px; font-size: 24px; font-weight: 700; }\n.metriccard__unit { font-size: 13px; font-weight: 400; opacity: .7; }\n.metriccard__trend { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; }\n.metriccard__trend svg { fill: currentColor; }\n.metriccard--up .metriccard__trend { color: #2f8f4e; }\n.metriccard--down .metriccard__trend { color: #b3261e; }\n.metriccard--flat .metriccard__trend { color: #24143099; }\n.metriccard--down svg { transform: rotate(180deg); }\n.metriccard--flat svg { transform: rotate(90deg); }\n.metriccard--up .metriccard__trend-word::before { content: \"trending up\"; }\n.metriccard--down .metriccard__trend-word::before { content: \"trending down\"; }\n.metriccard--flat .metriccard__trend-word::before { content: \"steady\"; }\n</style>",
+    "tailwind": "<article class=\"metriccard-tw metriccard-tw--{{trend}} font-sans text-[13px] text-[#241430] border border-[#24143018] rounded-[10px] p-3.5 max-w-[220px]\" style=\"--c:{{color}};\">\n  <span class=\"block text-xs opacity-70 mb-1.5\">{{label}}</span>\n  <p class=\"m-0 mb-1.5 text-2xl font-bold\">{{value}} <span class=\"text-[13px] font-normal opacity-70\">{{unit}}</span></p>\n  <span class=\"metriccard-tw__trend inline-flex items-center gap-1 text-[11px]\">\n    <svg viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\" fill=\"currentColor\"><path d=\"M5 1l4 4H1z\"/></svg>\n    <span class=\"metriccard-tw__trend-word\"></span>\n  </span>\n</article>\n<style>\n.metriccard-tw--up .metriccard-tw__trend { color: #2f8f4e; }\n.metriccard-tw--down .metriccard-tw__trend { color: #b3261e; }\n.metriccard-tw--flat .metriccard-tw__trend { color: #24143099; }\n.metriccard-tw--down .metriccard-tw__trend svg { transform: rotate(180deg); }\n.metriccard-tw--flat .metriccard-tw__trend svg { transform: rotate(90deg); }\n.metriccard-tw--up .metriccard-tw__trend-word::before { content: \"trending up\"; }\n.metriccard-tw--down .metriccard-tw__trend-word::before { content: \"trending down\"; }\n.metriccard-tw--flat .metriccard-tw__trend-word::before { content: \"steady\"; }\n</style>",
+    "react": "export function MetricCard({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  unit = \"{{unit}}\",\n  trend = \"{{trend}}\",\n  color = \"{{color}}\",\n}) {\n  const tone = { up: \"#2f8f4e\", down: \"#b3261e\", flat: \"#24143099\" }[trend] ?? \"#2f8f4e\";\n  const word = { up: \"trending up\", down: \"trending down\", flat: \"steady\" }[trend] ?? \"trending up\";\n  const rotate = { up: \"0deg\", down: \"180deg\", flat: \"90deg\" }[trend] ?? \"0deg\";\n  return (\n    <article style={{ font: \"13px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderRadius: 10, padding: 14, maxWidth: 220 }}>\n      <span style={{ display: \"block\", fontSize: 12, opacity: 0.7, marginBottom: 6 }}>{label}</span>\n      <p style={{ margin: \"0 0 6px\", fontSize: 24, fontWeight: 700 }}>{value} <span style={{ fontSize: 13, fontWeight: 400, opacity: 0.7 }}>{unit}</span></p>\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 4, fontSize: 11, color: tone }}>\n        <svg viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\" style={{ transform: \"rotate(\" + rotate + \")\" }}><path d=\"M5 1l4 4H1z\" fill=\"currentColor\" /></svg>\n        {word}\n      </span>\n    </article>\n  );\n}"
+  },
+  "slug": "metric-card"
+}

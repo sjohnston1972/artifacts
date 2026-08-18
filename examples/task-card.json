@@ -1,0 +1,60 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Task title",
+      "default": "Draft Q4 roadmap"
+    },
+    {
+      "id": "assignee",
+      "type": "text",
+      "label": "Assignee",
+      "default": "Jordan Lee"
+    },
+    {
+      "id": "due",
+      "type": "text",
+      "label": "Due date",
+      "default": "22 Aug"
+    },
+    {
+      "id": "priority",
+      "type": "select",
+      "label": "Priority",
+      "default": "high",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ]
+    },
+    {
+      "id": "done",
+      "type": "toggle",
+      "label": "Completed",
+      "default": false
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"taskcard taskcard--{{priority}} {{#if done}}taskcard--done{{/if}}\" style=\"--c:{{color}};\">\n  <label class=\"taskcard__check\">\n    <input type=\"checkbox\" {{#if done}}checked{{/if}}>\n    <span class=\"taskcard__box\" aria-hidden=\"true\">✓</span>\n  </label>\n  <div class=\"taskcard__text\">\n    <h3 class=\"taskcard__title\">{{title}}</h3>\n    <p class=\"taskcard__meta\">{{assignee}} · Due {{due}} · <span class=\"taskcard__priority\"></span></p>\n  </div>\n</article>\n<style>\n.taskcard { display: flex; gap: 10px; align-items: flex-start; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-radius: 10px; padding: 12px; max-width: 300px; }\n.taskcard__check { position: relative; cursor: pointer; flex: none; }\n.taskcard__check input { position: absolute; opacity: 0; width: 1px; height: 1px; }\n.taskcard__box { display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #24143033; color: transparent; font-size: 12px; }\n.taskcard__check input:checked + .taskcard__box { background: var(--c); border-color: var(--c); color: #241430; }\n.taskcard__check input:focus-visible + .taskcard__box { outline: 2px solid var(--c); outline-offset: 2px; }\n.taskcard__title { margin: 0; font-size: 14px; }\n.taskcard--done .taskcard__title { text-decoration: line-through; opacity: .55; }\n.taskcard__meta { margin: 4px 0 0; font-size: 12px; opacity: .7; }\n.taskcard__priority { font-weight: 700; }\n.taskcard--low .taskcard__priority::before { content: \"Low\"; }\n.taskcard--medium .taskcard__priority::before { content: \"Medium\"; }\n.taskcard--high .taskcard__priority::before { content: \"High\"; color: #E8A020; }\n.taskcard--urgent .taskcard__priority::before { content: \"Urgent\"; color: #b3261e; }\n</style>",
+    "tailwind": "<article class=\"taskcard-tw taskcard-tw--{{priority}} {{#if done}}taskcard-tw--done{{/if}} flex gap-2.5 items-start font-sans text-[13px] text-[#241430] border border-[#24143018] rounded-[10px] p-3 max-w-xs\" style=\"--c:{{color}};\">\n  <label class=\"relative cursor-pointer flex-none\">\n    <input type=\"checkbox\" class=\"absolute opacity-0 w-px h-px\" {{#if done}}checked{{/if}}>\n    <span class=\"taskcard-tw__box flex items-center justify-center w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#24143033] text-transparent text-xs\" aria-hidden=\"true\">✓</span>\n  </label>\n  <div>\n    <h3 class=\"taskcard-tw__title m-0 text-sm\">{{title}}</h3>\n    <p class=\"mt-1 mb-0 text-xs opacity-70\">{{assignee}} · Due {{due}} · <span class=\"taskcard-tw__priority font-bold\"></span></p>\n  </div>\n</article>\n<style>\n.taskcard-tw--done .taskcard-tw__title { text-decoration: line-through; opacity: .55; }\n.taskcard-tw--low .taskcard-tw__priority::before { content: \"Low\"; }\n.taskcard-tw--medium .taskcard-tw__priority::before { content: \"Medium\"; }\n.taskcard-tw--high .taskcard-tw__priority::before { content: \"High\"; color: #E8A020; }\n.taskcard-tw--urgent .taskcard-tw__priority::before { content: \"Urgent\"; color: #b3261e; }\n</style>",
+    "react": "export function TaskCard({\n  title = \"{{title}}\",\n  assignee = \"{{assignee}}\",\n  due = \"{{due}}\",\n  priority = \"{{priority}}\",\n  done = {{done}},\n  color = \"{{color}}\",\n}) {\n  const priorityText = { low: \"Low\", medium: \"Medium\", high: \"High\", urgent: \"Urgent\" }[priority] ?? \"Medium\";\n  const priorityColor = { low: \"#241430\", medium: \"#241430\", high: \"#E8A020\", urgent: \"#b3261e\" }[priority] ?? \"#241430\";\n  return (\n    <article style={{ display: \"flex\", gap: 10, alignItems: \"flex-start\", font: \"13px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderRadius: 10, padding: 12, maxWidth: 300 }}>\n      <label style={{ position: \"relative\", cursor: \"pointer\", flex: \"none\" }}>\n        <input type=\"checkbox\" defaultChecked={done} style={{ position: \"absolute\", opacity: 0, width: 1, height: 1 }} />\n        <span aria-hidden=\"true\" style={{\n          display: \"flex\", alignItems: \"center\", justifyContent: \"center\", width: 18, height: 18, borderRadius: 5, fontSize: 12,\n          border: \"1.5px solid \" + (done ? color : \"#24143033\"), background: done ? color : \"transparent\", color: done ? \"#241430\" : \"transparent\",\n        }}>✓</span>\n      </label>\n      <div>\n        <h3 style={{ margin: 0, fontSize: 14, textDecoration: done ? \"line-through\" : \"none\", opacity: done ? 0.55 : 1 }}>{title}</h3>\n        <p style={{ margin: \"4px 0 0\", fontSize: 12, opacity: 0.7 }}>{assignee} · Due {due} · <span style={{ fontWeight: 700, color: priorityColor }}>{priorityText}</span></p>\n      </div>\n    </article>\n  );\n}"
+  },
+  "slug": "task-card"
+}

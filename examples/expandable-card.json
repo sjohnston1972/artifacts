@@ -1,0 +1,48 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "What's included"
+    },
+    {
+      "id": "summary",
+      "type": "text",
+      "label": "Summary line",
+      "default": "3 items in this plan"
+    },
+    {
+      "id": "details",
+      "type": "text",
+      "label": "Expanded details",
+      "default": "Unlimited projects, priority support, and audit logs."
+    },
+    {
+      "id": "expanded",
+      "type": "toggle",
+      "label": "Expanded by default",
+      "default": false
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"expcard\" style=\"--c:{{color}};\" {{#if expanded}}open{{/if}}>\n  <summary class=\"expcard__summary\">\n    <span>\n      <strong class=\"expcard__title\">{{title}}</strong>\n      <span class=\"expcard__meta\">{{summary}}</span>\n    </span>\n    <svg class=\"expcard__chevron\" viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path d=\"M2 4l4 4 4-4\"/></svg>\n  </summary>\n  <p class=\"expcard__details\">{{details}}</p>\n</details>\n<style>\n.expcard { font: 14px system-ui, sans-serif; color: #241430; border: 1.5px solid var(--c); border-radius: 10px; padding: 12px 14px; max-width: 300px; }\n.expcard__summary { display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none; }\n.expcard__summary::-webkit-details-marker { display: none; }\n.expcard__summary:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }\n.expcard__title { display: block; }\n.expcard__meta { display: block; font-size: 12px; opacity: .65; }\n.expcard__chevron { fill: none; stroke: #241430; stroke-width: 1.6; transition: transform .15s; flex: none; }\n.expcard[open] .expcard__chevron { transform: rotate(180deg); }\n.expcard__details { margin: 10px 0 0; font-size: 13px; opacity: .85; }\n</style>",
+    "tailwind": "<details class=\"expcard-tw font-sans text-[14px] text-[#241430] border-[1.5px] rounded-[10px] px-3.5 py-3 max-w-xs\" style=\"border-color:{{color}};\" {{#if expanded}}open{{/if}}>\n  <summary class=\"expcard-tw__summary flex justify-between items-center cursor-pointer list-none\">\n    <span>\n      <strong class=\"block\">{{title}}</strong>\n      <span class=\"block text-xs opacity-65\">{{summary}}</span>\n    </span>\n    <svg class=\"expcard-tw__chevron flex-none transition-transform\" viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\" fill=\"none\" stroke=\"#241430\" stroke-width=\"1.6\"><path d=\"M2 4l4 4 4-4\"/></svg>\n  </summary>\n  <p class=\"mt-2.5 mb-0 text-[13px] opacity-85\">{{details}}</p>\n</details>\n<style>\n.expcard-tw[open] .expcard-tw__chevron { transform: rotate(180deg); }\n</style>",
+    "react": "export function ExpandableCard({\n  title = \"{{title}}\",\n  summary = \"{{summary}}\",\n  details = \"{{details}}\",\n  expanded = {{expanded}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <details open={expanded} style={{ font: \"14px system-ui, sans-serif\", color: \"#241430\", border: \"1.5px solid \" + color, borderRadius: 10, padding: \"12px 14px\", maxWidth: 300 }}>\n      <summary style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", cursor: \"pointer\", listStyle: \"none\" }}>\n        <span>\n          <strong style={{ display: \"block\" }}>{title}</strong>\n          <span style={{ display: \"block\", fontSize: 12, opacity: 0.65 }}>{summary}</span>\n        </span>\n        <svg viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\" style={{ flex: \"none\", transform: expanded ? \"rotate(180deg)\" : \"none\" }}>\n          <path d=\"M2 4l4 4 4-4\" fill=\"none\" stroke=\"#241430\" strokeWidth=\"1.6\" />\n        </svg>\n      </summary>\n      <p style={{ margin: \"10px 0 0\", fontSize: 13, opacity: 0.85 }}>{details}</p>\n    </details>\n  );\n}"
+  },
+  "slug": "expandable-card"
+}

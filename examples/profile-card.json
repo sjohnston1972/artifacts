@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name",
+      "default": "Alex Chen"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "VP Engineering"
+    },
+    {
+      "id": "org",
+      "type": "text",
+      "label": "Organisation",
+      "default": "Clydeford Ltd"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Presence",
+      "default": "online",
+      "options": [
+        "online",
+        "away",
+        "offline"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"profcard profcard--{{status}}\" style=\"--c:{{color}};\">\n  <span class=\"profcard__avatar\" role=\"img\" aria-label=\"{{name}}\">\n    AC\n    <svg class=\"profcard__presence\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><circle cx=\"5\" cy=\"5\" r=\"4.5\"/></svg>\n  </span>\n  <h3 class=\"profcard__name\">{{name}}</h3>\n  <p class=\"profcard__role\">{{role}}</p>\n  <p class=\"profcard__org\">{{org}}</p>\n</article>\n<style>\n.profcard { text-align: center; font: 14px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-radius: 12px; padding: 20px; max-width: 220px; }\n.profcard__avatar { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--c); font-weight: 700; margin-bottom: 10px; }\n.profcard__presence { position: absolute; bottom: 0; right: 0; border-radius: 50%; border: 2px solid #FAF7F2; }\n.profcard--online .profcard__presence circle { fill: #2f8f4e; }\n.profcard--away .profcard__presence circle { fill: #E8A020; }\n.profcard--offline .profcard__presence circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n.profcard__name { margin: 0 0 2px; font-size: 15px; }\n.profcard__role { margin: 0; font-size: 13px; opacity: .8; }\n.profcard__org { margin: 2px 0 0; font-size: 11px; opacity: .6; }\n</style>",
+    "tailwind": "<article class=\"profcard-tw profcard-tw--{{status}} text-center font-sans text-[14px] text-[#241430] border border-[#24143018] rounded-xl p-5 max-w-[220px]\" style=\"--c:{{color}};\">\n  <span class=\"profcard-tw__avatar relative inline-flex items-center justify-center w-14 h-14 rounded-full font-bold mb-2.5\" style=\"background:var(--c);\" role=\"img\" aria-label=\"{{name}}\">\n    AC\n    <svg class=\"profcard-tw__presence absolute bottom-0 right-0 rounded-full border-2 border-[#FAF7F2]\" width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><circle cx=\"5\" cy=\"5\" r=\"4.5\"/></svg>\n  </span>\n  <h3 class=\"m-0 text-[15px]\">{{name}}</h3>\n  <p class=\"m-0 text-[13px] opacity-80\">{{role}}</p>\n  <p class=\"mt-0.5 mb-0 text-[11px] opacity-60\">{{org}}</p>\n</article>\n<style>\n.profcard-tw--online .profcard-tw__presence circle { fill: #2f8f4e; }\n.profcard-tw--away .profcard-tw__presence circle { fill: #E8A020; }\n.profcard-tw--offline .profcard-tw__presence circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n</style>",
+    "react": "export function ProfileCard({\n  name = \"{{name}}\",\n  role = \"{{role}}\",\n  org = \"{{org}}\",\n  status = \"{{status}}\",\n  color = \"{{color}}\",\n}) {\n  const dot = { online: \"#2f8f4e\", away: \"#E8A020\", offline: \"none\" }[status] ?? \"#2f8f4e\";\n  return (\n    <article style={{ textAlign: \"center\", font: \"14px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderRadius: 12, padding: 20, maxWidth: 220 }}>\n      <span role=\"img\" aria-label={name} style={{ position: \"relative\", display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 56, height: 56, borderRadius: \"50%\", background: color, fontWeight: 700, marginBottom: 10 }}>\n        AC\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\" style={{ position: \"absolute\", bottom: 0, right: 0, borderRadius: \"50%\", border: \"2px solid #FAF7F2\" }}>\n          <circle cx=\"5\" cy=\"5\" r=\"4.5\" fill={dot} stroke={status === \"offline\" ? \"#24143055\" : \"none\"} strokeWidth={status === \"offline\" ? 1.2 : 0} />\n        </svg>\n      </span>\n      <h3 style={{ margin: \"0 0 2px\", fontSize: 15 }}>{name}</h3>\n      <p style={{ margin: 0, fontSize: 13, opacity: 0.8 }}>{role}</p>\n      <p style={{ margin: \"2px 0 0\", fontSize: 11, opacity: 0.6 }}>{org}</p>\n    </article>\n  );\n}"
+  },
+  "slug": "profile-card"
+}

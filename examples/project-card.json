@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Project name",
+      "default": "Atlas migration"
+    },
+    {
+      "id": "owner",
+      "type": "text",
+      "label": "Owner",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "on-track",
+      "options": [
+        "on-track",
+        "at-risk",
+        "delayed"
+      ]
+    },
+    {
+      "id": "progress",
+      "type": "number",
+      "label": "Progress (%)",
+      "default": 64,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"projcard projcard--{{status}}\" style=\"--c:{{color}};\">\n  <div class=\"projcard__head\">\n    <h3 class=\"projcard__name\">{{name}}</h3>\n    <span class=\"projcard__status\"></span>\n  </div>\n  <p class=\"projcard__owner\">Owner: {{owner}}</p>\n  <div class=\"projcard__track\" role=\"img\" aria-label=\"{{progress}} percent complete\">\n    <div class=\"projcard__fill\" style=\"width:{{progress}}%;\"></div>\n  </div>\n  <span class=\"projcard__pct\">{{progress}}%</span>\n</article>\n<style>\n.projcard { font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-left: 4px solid var(--c); border-radius: 10px; padding: 14px; max-width: 260px; }\n.projcard__head { display: flex; justify-content: space-between; align-items: center; }\n.projcard__name { margin: 0; font-size: 15px; }\n.projcard__status { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }\n.projcard--on-track .projcard__status { background: #2f8f4e33; color: #2f8f4e; }\n.projcard--on-track .projcard__status::before { content: \"On track\"; }\n.projcard--at-risk .projcard__status { background: #E8A02033; color: #8a5c0e; }\n.projcard--at-risk .projcard__status::before { content: \"At risk\"; }\n.projcard--delayed .projcard__status { background: #b3261e33; color: #b3261e; }\n.projcard--delayed .projcard__status::before { content: \"Delayed\"; }\n.projcard__owner { margin: 6px 0 10px; opacity: .7; font-size: 12px; }\n.projcard__track { height: 8px; border-radius: 999px; background: #24143014; overflow: hidden; }\n.projcard__fill { height: 100%; background: var(--c); border-radius: 999px; }\n.projcard__pct { display: block; margin-top: 4px; font-size: 11px; opacity: .7; }\n</style>",
+    "tailwind": "<article class=\"projcard-tw projcard-tw--{{status}} font-sans text-[13px] text-[#241430] border border-[#24143018] border-l-4 rounded-[10px] p-3.5 max-w-xs\" style=\"border-left-color:{{color}};\" >\n  <div class=\"flex justify-between items-center\">\n    <h3 class=\"m-0 text-[15px]\">{{name}}</h3>\n    <span class=\"projcard-tw__status text-[11px] font-bold px-2 py-0.5 rounded-full\"></span>\n  </div>\n  <p class=\"my-1.5 opacity-70 text-xs\">Owner: {{owner}}</p>\n  <div class=\"h-2 rounded-full bg-[#24143014] overflow-hidden\" role=\"img\" aria-label=\"{{progress}} percent complete\">\n    <div class=\"h-full rounded-full\" style=\"width:{{progress}}%;background:{{color}};\"></div>\n  </div>\n  <span class=\"block mt-1 text-[11px] opacity-70\">{{progress}}%</span>\n</article>\n<style>\n.projcard-tw--on-track .projcard-tw__status { background: #2f8f4e33; color: #2f8f4e; }\n.projcard-tw--on-track .projcard-tw__status::before { content: \"On track\"; }\n.projcard-tw--at-risk .projcard-tw__status { background: #E8A02033; color: #8a5c0e; }\n.projcard-tw--at-risk .projcard-tw__status::before { content: \"At risk\"; }\n.projcard-tw--delayed .projcard-tw__status { background: #b3261e33; color: #b3261e; }\n.projcard-tw--delayed .projcard-tw__status::before { content: \"Delayed\"; }\n</style>",
+    "react": "export function ProjectCard({\n  name = \"{{name}}\",\n  owner = \"{{owner}}\",\n  status = \"{{status}}\",\n  progress = {{progress}},\n  color = \"{{color}}\",\n}) {\n  const badge = {\n    \"on-track\": { background: \"#2f8f4e33\", color: \"#2f8f4e\", text: \"On track\" },\n    \"at-risk\": { background: \"#E8A02033\", color: \"#8a5c0e\", text: \"At risk\" },\n    delayed: { background: \"#b3261e33\", color: \"#b3261e\", text: \"Delayed\" },\n  }[status] ?? {};\n  return (\n    <article style={{ font: \"13px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderLeft: \"4px solid \" + color, borderRadius: 10, padding: 14, maxWidth: 260 }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\" }}>\n        <h3 style={{ margin: 0, fontSize: 15 }}>{name}</h3>\n        <span style={{ fontSize: 11, fontWeight: 700, padding: \"2px 8px\", borderRadius: 999, background: badge.background, color: badge.color }}>{badge.text}</span>\n      </div>\n      <p style={{ margin: \"6px 0 10px\", opacity: 0.7, fontSize: 12 }}>Owner: {owner}</p>\n      <div role=\"img\" aria-label={progress + \" percent complete\"} style={{ height: 8, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", width: progress + \"%\", background: color, borderRadius: 999 }} />\n      </div>\n      <span style={{ display: \"block\", marginTop: 4, fontSize: 11, opacity: 0.7 }}>{progress}%</span>\n    </article>\n  );\n}"
+  },
+  "slug": "project-card"
+}

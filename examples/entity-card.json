@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Northbank Studio"
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle",
+      "default": "Design agency"
+    },
+    {
+      "id": "meta",
+      "type": "text",
+      "label": "Meta line",
+      "default": "24 members · London"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "outlined",
+      "options": [
+        "outlined",
+        "filled"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"entitycard entitycard--{{variant}}\" style=\"--c:{{color}};\">\n  <span class=\"entitycard__mark\" aria-hidden=\"true\"></span>\n  <div class=\"entitycard__text\">\n    <h3 class=\"entitycard__title\">{{title}}</h3>\n    <span class=\"entitycard__subtitle\">{{subtitle}}</span>\n    <span class=\"entitycard__meta\">{{meta}}</span>\n  </div>\n</article>\n<style>\n.entitycard { display: flex; gap: 12px; align-items: flex-start; font: 14px system-ui, sans-serif; color: #241430; border-radius: 10px; padding: 14px; max-width: 300px; }\n.entitycard--outlined { border: 1.5px solid var(--c); background: #FAF7F2; }\n.entitycard--filled { background: var(--c); }\n.entitycard__mark { width: 34px; height: 34px; border-radius: 8px; background: var(--c); flex: none; }\n.entitycard--filled .entitycard__mark { background: #FAF7F2; }\n.entitycard__title { margin: 0; font-size: 15px; }\n.entitycard__subtitle { display: block; font-size: 12px; opacity: .75; }\n.entitycard__meta { display: block; font-size: 11px; opacity: .6; margin-top: 4px; }\n</style>",
+    "tailwind": "<article class=\"entitycard-tw entitycard-tw--{{variant}} flex gap-3 items-start font-sans text-[14px] text-[#241430] rounded-[10px] p-3.5 max-w-xs\" style=\"--c:{{color}};\">\n  <span class=\"entitycard-tw__mark w-[34px] h-[34px] rounded-lg flex-none\" style=\"background:var(--c);\" aria-hidden=\"true\"></span>\n  <div>\n    <h3 class=\"m-0 text-[15px]\">{{title}}</h3>\n    <span class=\"block text-xs opacity-75\">{{subtitle}}</span>\n    <span class=\"block text-[11px] opacity-60 mt-1\">{{meta}}</span>\n  </div>\n</article>\n<style>\n.entitycard-tw--outlined { border: 1.5px solid var(--c); background: #FAF7F2; }\n.entitycard-tw--filled { background: var(--c); }\n.entitycard-tw--filled .entitycard-tw__mark { background: #FAF7F2 !important; }\n</style>",
+    "react": "export function EntityCard({\n  title = \"{{title}}\",\n  subtitle = \"{{subtitle}}\",\n  meta = \"{{meta}}\",\n  variant = \"{{variant}}\",\n  color = \"{{color}}\",\n}) {\n  const wrap = variant === \"filled\" ? { background: color, border: \"none\" } : { border: \"1.5px solid \" + color, background: \"#FAF7F2\" };\n  const markBg = variant === \"filled\" ? \"#FAF7F2\" : color;\n  return (\n    <article style={{ display: \"flex\", gap: 12, alignItems: \"flex-start\", font: \"14px system-ui, sans-serif\", color: \"#241430\", borderRadius: 10, padding: 14, maxWidth: 300, ...wrap }}>\n      <span aria-hidden=\"true\" style={{ width: 34, height: 34, borderRadius: 8, background: markBg, flex: \"none\" }} />\n      <div>\n        <h3 style={{ margin: 0, fontSize: 15 }}>{title}</h3>\n        <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{subtitle}</span>\n        <span style={{ display: \"block\", fontSize: 11, opacity: 0.6, marginTop: 4 }}>{meta}</span>\n      </div>\n    </article>\n  );\n}"
+  },
+  "slug": "entity-card"
+}

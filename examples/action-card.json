@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Connect your calendar"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Sync meetings automatically so nothing gets double-booked."
+    },
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Action label",
+      "default": "Connect"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "primary",
+      "options": [
+        "primary",
+        "secondary",
+        "ghost"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"actioncard actioncard--{{variant}}\" style=\"--c:{{color}};\">\n  <h3 class=\"actioncard__title\">{{title}}</h3>\n  <p class=\"actioncard__body\">{{body}}</p>\n  <button type=\"button\" class=\"actioncard__action\">{{actionLabel}}</button>\n</article>\n<style>\n.actioncard { font: 14px/1.5 system-ui, sans-serif; color: #241430; max-width: 300px; border-radius: 12px; padding: 18px; }\n.actioncard--primary { background: var(--c); }\n.actioncard--secondary { background: #FAF7F2; border: 1.5px solid var(--c); }\n.actioncard--ghost { background: transparent; border: 1px dashed #24143033; }\n.actioncard__title { margin: 0 0 6px; font-size: 16px; }\n.actioncard__body { margin: 0 0 14px; font-size: 13px; opacity: .85; }\n.actioncard__action { border: none; border-radius: 8px; padding: 8px 16px; font: 600 13px system-ui, sans-serif; cursor: pointer; background: #241430; color: #FAF7F2; }\n.actioncard--secondary .actioncard__action, .actioncard--ghost .actioncard__action { background: var(--c); color: #241430; }\n.actioncard__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<article class=\"actioncard-tw actioncard-tw--{{variant}} font-sans text-[14px] leading-relaxed text-[#241430] max-w-xs rounded-xl p-4.5\" style=\"--c:{{color}};\">\n  <h3 class=\"m-0 mb-1.5 text-base\">{{title}}</h3>\n  <p class=\"m-0 mb-3.5 text-[13px] opacity-85\">{{body}}</p>\n  <button type=\"button\" class=\"actioncard-tw__action border-none rounded-lg px-4 py-2 text-[13px] font-semibold cursor-pointer bg-[#241430] text-[#FAF7F2]\">{{actionLabel}}</button>\n</article>\n<style>\n.actioncard-tw--primary { background: var(--c); }\n.actioncard-tw--secondary { background: #FAF7F2; border: 1.5px solid var(--c); }\n.actioncard-tw--ghost { background: transparent; border: 1px dashed #24143033; }\n.actioncard-tw--secondary .actioncard-tw__action, .actioncard-tw--ghost .actioncard-tw__action { background: var(--c) !important; color: #241430 !important; }\n</style>",
+    "react": "export function ActionCard({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  actionLabel = \"{{actionLabel}}\",\n  variant = \"{{variant}}\",\n  color = \"{{color}}\",\n}) {\n  const wrap = {\n    primary: { background: color, border: \"none\" },\n    secondary: { background: \"#FAF7F2\", border: \"1.5px solid \" + color },\n    ghost: { background: \"transparent\", border: \"1px dashed #24143033\" },\n  }[variant] ?? {};\n  const actionBg = variant === \"primary\" ? \"#241430\" : color;\n  const actionColor = variant === \"primary\" ? \"#FAF7F2\" : \"#241430\";\n  return (\n    <article style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300, borderRadius: 12, padding: 18, ...wrap }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 16 }}>{title}</h3>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, opacity: 0.85 }}>{body}</p>\n      <button type=\"button\" style={{ border: \"none\", borderRadius: 8, padding: \"8px 16px\", fontSize: 13, fontWeight: 600, cursor: \"pointer\", background: actionBg, color: actionColor }}>\n        {actionLabel}\n      </button>\n    </article>\n  );\n}"
+  },
+  "slug": "action-card"
+}

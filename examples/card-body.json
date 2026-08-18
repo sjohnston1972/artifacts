@@ -1,0 +1,46 @@
+{
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Release notes"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Version 4.2 improves cold-start latency by 30% and fixes several sync bugs."
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cardbody cardbody--{{density}}\" style=\"--c:{{color}};\">\n  <h3 class=\"cardbody__heading\">{{heading}}</h3>\n  <p class=\"cardbody__text\">{{body}}</p>\n</div>\n<style>\n.cardbody { font: 14px/1.55 system-ui, sans-serif; color: #241430; border-left: 3px solid var(--c); padding: 16px; max-width: 300px; background: #FAF7F2; }\n.cardbody--compact { padding: 10px; }\n.cardbody__heading { margin: 0 0 6px; font-size: 15px; }\n.cardbody__text { margin: 0; font-size: 13px; opacity: .85; }\n</style>",
+    "tailwind": "<div class=\"cardbody-tw cardbody-tw--{{density}} font-sans text-[14px] leading-relaxed text-[#241430] border-l-[3px] p-4 max-w-xs bg-[#FAF7F2]\" style=\"border-left-color:{{color}};\">\n  <h3 class=\"m-0 mb-1.5 text-[15px]\">{{heading}}</h3>\n  <p class=\"m-0 text-[13px] opacity-85\">{{body}}</p>\n</div>\n<style>\n.cardbody-tw--compact { padding: 10px; }\n</style>",
+    "react": "export function CardBody({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  density = \"{{density}}\",\n  color = \"{{color}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.55 system-ui, sans-serif\", color: \"#241430\", borderLeft: \"3px solid \" + color, padding: density === \"compact\" ? 10 : 16, maxWidth: 300, background: \"#FAF7F2\" }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 15 }}>{heading}</h3>\n      <p style={{ margin: 0, fontSize: 13, opacity: 0.85 }}>{body}</p>\n    </div>\n  );\n}"
+  },
+  "slug": "card-body"
+}

@@ -3052,7 +3052,13 @@ function init(root) {
 
   const values = { ...defaultsFor(schema), ...fromHash() };
 
+  // controlHtml() always emits the control's DEFAULT, so the inputs must be
+  // synced from `values` immediately after building the panel. Without this
+  // call the iframe and code tabs restore correctly from the URL fragment
+  // while every control still shows its default — the panel and the specimen
+  // silently disagree, which is the one thing this page must never do.
   panel.innerHTML = schema.map(controlHtml).join("");
+  syncInputs();
   panel.addEventListener("input", onChange);
   panel.addEventListener("change", onChange);
   root.querySelector(".tweaks__reset")?.addEventListener("click", () => {

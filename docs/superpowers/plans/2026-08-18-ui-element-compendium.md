@@ -327,7 +327,12 @@ DROP TABLE IF EXISTS revisions;
 DROP TABLE IF EXISTS entry_categories;
 DROP TABLE IF EXISTS entries;
 DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS meta;
 ```
+
+All five tables are dropped, `meta` included. Omitting it makes the second
+`npm run db:local` fail with `table meta already exists`, which defeats the
+point of the drops.
 
 Add at the end a one-row settings table used by Task 8 to invalidate the search index cache:
 
@@ -337,6 +342,18 @@ CREATE TABLE meta (
   value TEXT NOT NULL
 );
 INSERT INTO meta (key, value) VALUES ('index_version', '1');
+```
+
+Add a test that re-applying the schema is safe, since that is the property
+the drops exist to provide:
+
+```js
+  it("can be applied twice without error", async () => {
+    await applySchema(env.DB);
+    await applySchema(env.DB);
+    const row = await env.DB.prepare("SELECT value FROM meta WHERE key='index_version'").first();
+    expect(row.value).toBe("1");
+  });
 ```
 
 - [ ] **Step 3: Write the failing schema test**
@@ -413,7 +430,7 @@ Expected: FAIL — `schema.sql` missing or tables absent.
 - [ ] **Step 6: Apply the schema locally, re-run, and boot the Worker**
 
 Run: `npm run db:local && npx vitest run tests/schema.test.js`
-Expected: PASS, 4 tests.
+Expected: PASS, 5 tests.
 
 Now that `database_id` is populated, the dev server can start for the first time. Run `npx wrangler dev --port 8787` in one shell, then `curl -s http://127.0.0.1:8787/healthz`
 Expected: `ok`. Stop the dev server.

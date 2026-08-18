@@ -18,7 +18,7 @@ export async function searchIndex(request, env) {
   return new Response(body, {
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "public, max-age=60, must-revalidate",
+      "cache-control": "no-cache",
       etag,
     },
   });

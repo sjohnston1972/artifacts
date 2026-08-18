@@ -440,6 +440,115 @@ kbd {
   color: var(--fg-muted);
 }
 
+/* -------------------- edit form & history -------------------- */
+
+.edit-page, .history-page { max-width: 44rem; }
+
+.edit__error {
+  border: 1px solid var(--gold);
+  background: var(--bg-raised);
+  color: var(--fg);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.field label {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: var(--step--1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  color: var(--fg);
+}
+
+.field textarea {
+  font-family: var(--font-mono);
+  resize: vertical;
+}
+
+.field textarea:invalid {
+  border-color: var(--gold);
+}
+
+.edit__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.edit__actions button {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--fg);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.history-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  background: var(--bg-raised);
+}
+
+.history-list__meta time {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.history-list__summary { margin: 0; }
+
+.history-list__restore {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: var(--radius);
+  padding: var(--space-1) var(--space-3);
+  font: inherit;
+  font-size: var(--step--1);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.history-list__restore:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* -------------------- notes prose -------------------- */
 
 .prose p { margin: 0 0 var(--space-3); }
@@ -695,6 +804,7 @@ kbd {
   .chip { transition: border-color 160ms ease, background 160ms ease; }
   .code__tab { transition: color 160ms ease, border-color 160ms ease; }
   .copy, .tweaks__reset { transition: background 160ms ease, border-color 160ms ease; }
+  .edit__actions button, .history-list__restore { transition: background 160ms ease, border-color 160ms ease; }
   .plate__stage.is-fresh { animation: shimmer 220ms ease-out; }
   @keyframes shimmer {
     from { opacity: 0.55; }

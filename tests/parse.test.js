@@ -45,7 +45,7 @@ describe("parseGlossary", () => {
   });
 
   it("treats the row before the separator as a header, whatever it is called", () => {
-    // Section 30 is headed `| State | Definition |` and section 43 `| Pattern | Definition |`.
+    // Section 30 is headed `| State | Definition |` and section 38 `| Pattern | Definition |`.
     // Neither header may appear as a term, but both words ARE real terms elsewhere.
     const states = parsed.categories.find((c) => c.name === "Interaction States");
     expect(states.rows.find((r) => r.definition === "Definition")).toBeUndefined();
@@ -114,5 +114,22 @@ describe("mergeEntries", () => {
     expect(pattern.definition).toBe(
       "Reusable solution to a recurring interaction or layout problem."
     );
+  });
+
+  it("gives the UI components the clean slugs, not the HTML tags", () => {
+    // Source order alone would hand /e/button to the <button> tag from
+    // section 2 and bury the core-tier Button component at /e/button-2.
+    const bySlug = (s) => merged.entries.find((e) => e.slug === s);
+    expect(bySlug("button").name).toBe("Button");
+    expect(bySlug("select").name).toBe("Select");
+    expect(bySlug("textarea").name).toBe("Textarea");
+    expect(bySlug("dialog").name).toBe("Dialog");
+    expect(bySlug("button-element").name).toBe("button");
+    expect(bySlug("select-element").name).toBe("select");
+  });
+
+  it("needs no numeric suffix to make slugs unique", () => {
+    expect(merged.slugCollisions).toEqual([]);
+    expect(merged.entries.filter((e) => /-\d+$/.test(e.slug))).toEqual([]);
   });
 });

@@ -73,6 +73,18 @@ function cell(raw) {
   return raw.trim().replace(/`/g, "").replace(/\\\|/g, "|").trim();
 }
 
+const HTML_ELEMENT_CATEGORY = "Semantic HTML Elements";
+
+// Section 2 lists raw HTML tags whose names collide with the UI components
+// that are this catalogue's actual subjects: <button> vs Button, <select> vs
+// Select, <dialog> vs Dialog, <textarea> vs Textarea. Source order would hand
+// the clean slug to the tag, burying the core-tier component at /e/button-2.
+// The components win the clean slug; the tags are namespaced instead.
+function baseSlug(term, category) {
+  const base = slugify(term);
+  return category.name === HTML_ELEMENT_CATEGORY ? `${base}-element` : base;
+}
+
 // Merges rows sharing a name into one entry. The first occurrence in source
 // order wins the definition and the primary category; later ones append to
 // notes and add a secondary category.
@@ -93,7 +105,7 @@ export function mergeEntries(parsed) {
       }
       const entry = {
         name: row.term,
-        slug: slugify(row.term),
+        slug: baseSlug(row.term, category),
         definition: row.definition,
         notes: "",
         aliases: [],
@@ -107,11 +119,13 @@ export function mergeEntries(parsed) {
   }
 
   const entries = order;
-  assignSlugs(entries);
+  const slugCollisions = assignSlugs(entries);
   assignCatalogueNumbers(entries);
-  return { categories: parsed.categories, entries };
+  return { categories: parsed.categories, entries, slugCollisions };
 }
 
+// Returns the collisions rather than logging them: this module must stay
+// pure, and the seeder is the layer that decides what to do about them.
 function assignSlugs(entries) {
   const seen = new Map();
   const collisions = [];
@@ -126,9 +140,7 @@ function assignSlugs(entries) {
       e.slug = base;
     }
   }
-  if (collisions.length) {
-    console.warn(`slug collisions resolved: ${collisions.join(", ")}`);
-  }
+  return collisions;
 }
 
 function assignCatalogueNumbers(entries) {

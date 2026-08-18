@@ -1165,6 +1165,7 @@ git push
   - `getEntryBySlug(db, slug) → Entry | null`, where `Entry` has parsed `aliases`, `controls_schema`, `templates`, plus `categories: {id,name,slug,code,is_primary}[]`
   - `listEntries(db, {categorySlug, tiers, definitionOnly, q, limit, offset}) → Entry[]` (summary shape: id, name, slug, tier, has_example, definition, category)
   - `searchIndexRows(db) → array rows for the JSON index`
+  - `exportRows(db) → full entries with their categories, in two queries total`
   - `createEntry(db, {name, categoryId}) → Entry`
   - `saveEntry(db, slug, patch) → Entry` — snapshots first, always
   - `listRevisions(db, entryId) → {id, changed_at, summary}[]`
@@ -1444,6 +1445,34 @@ export async function searchIndexRows(db) {
      ORDER BY e.name`
   ).all();
   return results;
+}
+
+// Two queries for the whole corpus, assembled in JS. The obvious
+// implementation — listEntries then getEntryBySlug per row — issues 2 queries
+// PER ENTRY, which is 1,838 sequential D1 round trips for the current 918
+// entries, on every export and every nightly backup. That is the kind of thing
+// that works locally and times out in production.
+export async function exportRows(db) {
+  const { results: entries } = await db.prepare(
+    `SELECT ${ENTRY_COLUMNS} FROM entries WHERE tier <> 'deleted' ORDER BY id`
+  ).all();
+  const { results: memberships } = await db.prepare(
+    `SELECT ec.entry_id, c.id, c.name, c.slug, c.code, ec.is_primary
+     FROM entry_categories ec JOIN categories c ON c.id = ec.category_id
+     ORDER BY ec.entry_id, ec.is_primary DESC, c.sort_order`
+  ).all();
+
+  const byEntry = new Map();
+  for (const m of memberships) {
+    if (!byEntry.has(m.entry_id)) byEntry.set(m.entry_id, []);
+    byEntry.get(m.entry_id).push({
+      id: m.id, name: m.name, slug: m.slug, code: m.code, is_primary: m.is_primary,
+    });
+  }
+  return entries.map((row) => ({
+    ...hydrate(row),
+    categories: byEntry.get(row.id) ?? [],
+  }));
 }
 
 export async function getIndexVersion(db) {
@@ -3707,11 +3736,7 @@ import { render, defaultsFor } from "../../public/js/template.js";
 
 export async function exportJson(dbc) {
   const categories = await db.listCategories(dbc);
-  const summaries = await db.listEntries(dbc, { limit: 10000 });
-  const entries = [];
-  for (const s of summaries) {
-    entries.push(await db.getEntryBySlug(dbc, s.slug));
-  }
+  const entries = await db.exportRows(dbc);
   return { version: 1, exported_at: new Date().toISOString(), categories, entries };
 }
 

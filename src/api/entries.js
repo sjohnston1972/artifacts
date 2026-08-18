@@ -60,10 +60,16 @@ export async function createEntryRoute(request, env) {
   if (locked) return locked;
   let body;
   try { body = await request.json(); } catch { return bad("body must be JSON"); }
-  if (!String(body.name ?? "").trim()) return bad("name is required");
+  const name = String(body.name ?? "").trim();
+  if (!name) return bad("name is required");
+  // A name like "!!!" is non-blank but slugifies to "", which would produce an
+  // entry with an empty slug and therefore no reachable URL.
+  if (!/[a-z0-9]/i.test(name)) {
+    return bad("name must contain at least one letter or number");
+  }
   if (!Number.isInteger(body.categoryId)) return bad("categoryId is required");
   return Response.json(await db.createEntry(env.DB, {
-    name: String(body.name).trim(), categoryId: body.categoryId,
+    name, categoryId: body.categoryId,
   }));
 }
 

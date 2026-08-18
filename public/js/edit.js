@@ -57,6 +57,12 @@ function showError(form, message) {
   if (!box) return;
   box.textContent = message;
   box.hidden = false;
+  // The blur-time JSON check moves focus natively via reportValidity(); this
+  // path (client-side parse failure and server-side rejection alike) must
+  // do the same so keyboard and screen-reader users land on the message
+  // rather than a silently-updated box off the current focus.
+  box.tabIndex = -1;
+  box.focus();
 }
 
 // Pretty-print JSON textareas on blur and surface parse errors as native

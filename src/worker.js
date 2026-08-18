@@ -9,6 +9,7 @@ import { searchIndex } from "./api/index.js";
 import {
   createEntryRoute, saveEntryRoute, listRevisionsRoute, restoreRoute,
 } from "./api/entries.js";
+import { requireWrite } from "./auth.js";
 
 const TIERS = {
   default: ["core", "useful"],
@@ -40,12 +41,24 @@ async function healthz() {
 }
 
 async function seedRoute(request, env) {
+  // Seeding writes 918 rows, so it goes through the same seam as every other
+  // write. Without this, "implement requireWrite and nothing else changes"
+  // would be false for the route that writes the most.
+  const locked = requireWrite(request, env);
+  if (locked) return locked;
   const markdown = await request.text();
   if (!markdown.trim()) {
     return Response.json({ error: "POST the glossary markdown as the body" }, { status: 400 });
   }
-  const result = await seed(env.DB, markdown);
-  return Response.json(result);
+  try {
+    return Response.json(await seed(env.DB, markdown));
+  } catch (e) {
+    // The already-seeded guard is an expected outcome, not a crash.
+    if (/already seeded/i.test(e.message)) {
+      return Response.json({ error: "already seeded" }, { status: 409 });
+    }
+    throw e;
+  }
 }
 
 async function browse(request, env, ctx, params) {

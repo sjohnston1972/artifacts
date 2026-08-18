@@ -126,6 +126,37 @@ describe("POST /api/entries (new)", () => {
   it("rejects a missing categoryId", async () => {
     expect((await post("/api/entries", { name: "Orphan Widget" })).status).toBe(400);
   });
+
+  it("rejects a name with no letters or numbers (would slugify to empty)", async () => {
+    expect((await post("/api/entries", { name: "!!!", categoryId: 5 })).status).toBe(400);
+  });
+});
+
+describe("POST /api/seed", () => {
+  it("refuses to reseed an already-seeded database with 409, not a crash", async () => {
+    const res = await SELF.fetch("https://example.com/api/seed", {
+      method: "POST",
+      body: source,
+    });
+    expect(res.status).toBe(409);
+    expect((await res.json()).error).toMatch(/already seeded/i);
+  });
+
+  it("is refused when EDIT_KEY is set and no key is supplied", async () => {
+    // Seeding writes through the same requireWrite() seam as every other
+    // write route -- this exercises the key path for the one route that
+    // had never been checked against it.
+    env.EDIT_KEY = "topsecret-test-key";
+    try {
+      const res = await SELF.fetch("https://example.com/api/seed", {
+        method: "POST",
+        body: source,
+      });
+      expect(res.status).toBe(401);
+    } finally {
+      delete env.EDIT_KEY;
+    }
+  });
 });
 
 describe("XSS: edit form reflects untrusted content", () => {

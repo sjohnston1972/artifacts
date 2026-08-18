@@ -1503,6 +1503,81 @@ export async function exportRows(db) {
   }));
 }
 
+// Import is the RESTORE path for the nightly backup, so it must be able to
+// recreate rows that no longer exist. An UPDATE-only import silently reports
+// success while restoring nothing, which makes the backups decorative.
+// Categories and category membership are rebuilt too, so a full restore can
+// reconstitute an emptied database.
+export async function importEntries(db, { categories = [], entries = [] }) {
+  const now = new Date().toISOString();
+
+  if (categories.length) {
+    await db.batch(categories.map((c) =>
+      db.prepare(
+        "INSERT OR IGNORE INTO categories (id, name, slug, code, sort_order) VALUES (?,?,?,?,?)"
+      ).bind(c.id, c.name, c.slug, c.code, c.sort_order)));
+  }
+
+  const { results: before } = await db.prepare("SELECT id, slug FROM entries").all();
+  const existing = new Set(before.map((r) => r.slug));
+
+  // Snapshot everything about to be overwritten, so an import is as undoable
+  // as any other write.
+  if (before.length) {
+    await db.batch(before.map((r) =>
+      db.prepare(
+        `INSERT INTO revisions (entry_id, snapshot, changed_at)
+         SELECT id, json_object('slug', slug, 'name', name, 'definition', definition,
+           'notes', notes, 'aliases', aliases, 'templates', templates,
+           'controls_schema', controls_schema, 'tier', tier), ?
+         FROM entries WHERE id = ?`
+      ).bind(now, r.id)));
+  }
+
+  await db.batch(entries.map((e) => {
+    const hasExample = e.templates?.html?.trim() ? 1 : 0;
+    const common = [
+      e.name, JSON.stringify(e.aliases ?? []), e.definition, e.notes ?? null,
+      JSON.stringify(e.controls_schema ?? []), JSON.stringify(e.templates ?? {}),
+      e.tier ?? "reference", hasExample, now,
+    ];
+    return existing.has(e.slug)
+      ? db.prepare(
+          `UPDATE entries SET name=?, aliases=?, definition=?, notes=?,
+             controls_schema=?, templates=?, tier=?, has_example=?, updated_at=?
+           WHERE slug=?`
+        ).bind(...common, e.slug)
+      : db.prepare(
+          `INSERT INTO entries (name, aliases, definition, notes, controls_schema,
+             templates, tier, has_example, updated_at, slug, catalogue_no)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+        ).bind(...common, e.slug, e.catalogue_no ?? 0);
+  }));
+
+  // Rebuild membership only for entries whose payload carries it.
+  const { results: after } = await db.prepare("SELECT id, slug FROM entries").all();
+  const idBySlug = new Map(after.map((r) => [r.slug, r.id]));
+  const membership = [];
+  for (const e of entries) {
+    if (!Array.isArray(e.categories) || e.categories.length === 0) continue;
+    const id = idBySlug.get(e.slug);
+    if (!id) continue;
+    membership.push(db.prepare("DELETE FROM entry_categories WHERE entry_id = ?").bind(id));
+    for (const c of e.categories) {
+      membership.push(db.prepare(
+        "INSERT INTO entry_categories (entry_id, category_id, is_primary) VALUES (?,?,?)"
+      ).bind(id, c.id, c.is_primary ? 1 : 0));
+    }
+  }
+  if (membership.length) await db.batch(membership);
+
+  await bumpIndexVersion(db);
+  return {
+    imported: entries.length,
+    created: entries.filter((e) => !existing.has(e.slug)).length,
+  };
+}
+
 export async function getIndexVersion(db) {
   const row = await db.prepare("SELECT value FROM meta WHERE key='index_version'").first();
   return row?.value ?? "1";

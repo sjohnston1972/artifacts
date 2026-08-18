@@ -1,9 +1,20 @@
 import { route } from "./router.js";
 import { seed } from "./seed/run.js";
+import * as db from "./db.js";
+import { renderBrowse } from "./render/browse.js";
+
+const TIERS = {
+  default: ["core", "useful"],
+  core: ["core"],
+  reference: ["reference"],
+  all: ["core", "useful", "reference"],
+};
 
 const routes = [
   { method: "GET", pattern: "/healthz", handler: healthz },
   { method: "POST", pattern: "/api/seed", handler: seedRoute },
+  { method: "GET", pattern: "/", handler: browse },
+  { method: "GET", pattern: "/c/:slug", handler: browse },
 ];
 
 async function healthz() {
@@ -19,6 +30,37 @@ async function seedRoute(request, env) {
   }
   const result = await seed(env.DB, markdown);
   return Response.json(result);
+}
+
+async function browse(request, env, ctx, params) {
+  const url = new URL(request.url);
+  const filters = {
+    q: url.searchParams.get("q") || "",
+    tier: url.searchParams.get("tier") || "default",
+    examples: url.searchParams.get("examples") || "any",
+  };
+  const categories = await db.listCategories(env.DB);
+  if (params.slug && !categories.some((c) => c.slug === params.slug)) {
+    return new Response("Not found", { status: 404 });
+  }
+  const entries = await db.listEntries(env.DB, {
+    categorySlug: params.slug,
+    tiers: TIERS[filters.tier] ?? TIERS.default,
+    definitionOnly: filters.examples === "none",
+    q: filters.q || undefined,
+    limit: 500,
+  });
+  const filtered = filters.examples === "some" ? entries.filter((e) => e.has_example) : entries;
+  return htmlResponse(renderBrowse({
+    categories, entries: filtered, filters, activeCategory: params.slug,
+  }));
+}
+
+function htmlResponse(body, status = 200) {
+  return new Response(body, {
+    status,
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
 }
 
 export default {

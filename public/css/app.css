@@ -155,6 +155,157 @@ main {
   background: transparent;
 }
 
+/* -------------------- masthead -------------------- */
+
+.masthead {
+  position: relative;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead__title { margin-bottom: var(--space-1); }
+
+.masthead__sub {
+  margin: 0;
+  color: var(--fg-muted);
+  max-width: 40rem;
+}
+
+.masthead .theme-toggle {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-4);
+}
+
+kbd {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  background: var(--bg-raised);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------- browse layout -------------------- */
+
+.browse {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+@media (min-width: 60rem) {
+  .browse {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.browse__navtitle {
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+}
+
+.browse__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.browse__nav a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--fg-muted);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+}
+
+.browse__nav a[aria-current="page"] {
+  color: var(--fg);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+
+.cat__code {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.cat__name { flex: 1; }
+
+.cat__count {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+/* Overrides the generic `main` element rule (max-width/margin/padding),
+   which is meant for a top-level <main> but this one sits as a grid item
+   inside .browse alongside the category nav. */
+.browse__main {
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------- search bar -------------------- */
+
+.searchbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.searchbar input[type="search"] {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.searchbar input,
+.searchbar select,
+.searchbar button {
+  font: inherit;
+  font-size: var(--step--1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  color: var(--fg);
+}
+
+.searchbar button {
+  cursor: pointer;
+}
+
+.empty {
+  color: var(--fg-muted);
+  padding: var(--space-5) 0;
+}
+
 /* -------------------- browse grid & cards -------------------- */
 
 .browse-grid {

@@ -28,7 +28,7 @@ Browser
   v
 Worker (src/worker.js)
   |-- router.js     path matching, no dependencies
-  |-- db.js         every D1 query, one function per operation
+  |-- db.js         every request-path D1 query, one function per operation
   |-- render/       server-side HTML template functions
   |-- template.js   placeholder engine (SHARED with the client)
   |-- seed.js       one-off glossary import

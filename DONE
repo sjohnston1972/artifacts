@@ -1,0 +1,67 @@
+# DONE — UI Element Compendium, full build
+
+**Site is live: https://artifacts.clydeford.net**
+
+## What this run accomplished
+
+All 16 steps of PLAN.md, executed subagent-driven: a fresh implementer per
+task, a task review after each, fix rounds where needed, then a whole-branch
+review on the most capable model.
+
+- 918 entries across 45 categories, seeded from the glossary markdown
+- 10 authored examples (button, card, modal, toast, tab-bar, badge,
+  text-input, select, accordion, table) with live tweak panels and three
+  code formats that are guaranteed to agree — the example *is* the HTML tab,
+  rendered
+- Command palette (Cmd+K), category browse, tier and example filters
+- Open editing with revision history and restore, behind a single
+  `requireWrite()` seam
+- JSON / markdown / standalone-HTML export, JSON import that genuinely
+  restores, nightly R2 backup keeping 30 copies
+- 209 unit tests, 11 Playwright acceptance tests covering all eight checks in
+  section 12 of the source spec
+- Zero runtime dependencies; no build step
+
+## Left unfinished / needs attention
+
+1. **The first R2 backup object is unverified.** The cron `0 3 * * *` is
+   registered and was double-confirmed via the Cloudflare API, but it had not
+   fired when the run ended. **Check that `backups/2026-08-19.json` exists in
+   the `compendium-backups` bucket.** If it does not, the durability story is
+   incomplete and nothing else in the build will tell you.
+
+2. **908 of 918 entries are definition-only.** That is by design — the plan
+   authored 10 to prove the tweak system — but the site will look sparse until
+   more are written. The Edit view and the "definition only" filter exist for
+   exactly this.
+
+3. **Editing is open with no login, deliberately.** `EDIT_KEY` is unset, so
+   `requireWrite()` returns null and anyone can edit, import or re-seed. The
+   revision history and nightly backup are the mitigations. Setting `EDIT_KEY`
+   as a Worker secret locks every write route with no other code change —
+   that seam was tested.
+
+4. **Deferred, judged fine to leave** (detail in the ledger): `listRevisions`
+   has no pagination; the test helper splits SQL naively on `;`; markdown
+   export collapses newlines in a definition (JSON is the lossless format);
+   the plate's per-category lean uses a `data-lean` attribute rather than the
+   `--plate-lean` custom property the spec described.
+
+## Where the archive went
+
+`docs/runs/2026-08-18-ui-element-compendium/`
+- `PLAN.md`, `PROGRESS.md` — the run's plan and log
+- `decision-ledger.md` — **the valuable one.** All 61 controller rulings with
+  the reasoning, the evidence, and what each costs if wrong.
+
+## Recommended starting point for the next run
+
+**Verify the backup fired**, then author examples for the next tranche of
+core-tier entries. The tweak system is proven end to end, so authoring is now
+content work rather than engineering: each entry needs a `controls_schema` and
+three templates, and `tests/examples.test.js` mechanically enforces that every
+control is referenced by every format and that no template emits a warning.
+
+Before that, one decision worth taking deliberately: whether to set `EDIT_KEY`.
+The site is currently world-editable, which was your explicit choice, but it is
+worth re-confirming now that it is actually public rather than hypothetical.

@@ -2,6 +2,7 @@ import { route } from "./router.js";
 import { seed } from "./seed/run.js";
 import * as db from "./db.js";
 import { renderBrowse } from "./render/browse.js";
+import { searchIndex } from "./api/index.js";
 
 const TIERS = {
   default: ["core", "useful"],
@@ -13,6 +14,7 @@ const TIERS = {
 const routes = [
   { method: "GET", pattern: "/healthz", handler: healthz },
   { method: "POST", pattern: "/api/seed", handler: seedRoute },
+  { method: "GET", pattern: "/api/index.json", handler: searchIndex },
   { method: "GET", pattern: "/", handler: browse },
   { method: "GET", pattern: "/c/:slug", handler: browse },
 ];

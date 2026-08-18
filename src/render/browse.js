@@ -48,7 +48,7 @@ export function renderBrowse({ categories, entries, filters, activeCategory, tot
     title: activeCategory ? categories.find((c) => c.slug === activeCategory)?.name ?? "Browse" : "Browse",
     description: "A searchable catalogue of user interface elements.",
     body: raw(body),
-    scripts: ["/js/theme.js"],
+    scripts: ["/js/theme.js", "/js/palette.js"],
   });
 }
 

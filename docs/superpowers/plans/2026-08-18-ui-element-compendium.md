@@ -2159,7 +2159,7 @@ Write the real rules for `.skip-link`, `.card`, `.badge`, `.plate`, `.catalogue-
 - [ ] **Step 9: Run the test to verify it passes**
 
 Run: `npx vitest run tests/layout.test.js`
-Expected: PASS, 9 tests.
+Expected: PASS, 12 tests.
 
 - [ ] **Step 10: Commit and push**
 
@@ -2207,6 +2207,7 @@ describe("GET /", () => {
 
   it("lists all 45 categories", async () => {
     const body = await (await SELF.fetch("https://example.com/")).text();
+    expect((body.match(/class="cat__code"/g) ?? []).length).toBe(45);
     expect(body).toContain("UI Fundamentals");
     expect(body).toContain("Internationalisation &amp; Localisation");
   });
@@ -2231,6 +2232,25 @@ describe("GET /", () => {
   it("searches without JavaScript across every tier", async () => {
     const body = await (await SELF.fetch("https://example.com/?q=affordance")).text();
     expect(body).toContain(">Affordance<");
+  });
+
+  it("keeps the category scope when the no-JS form is submitted", async () => {
+    // The form's action, not a typed URL: submitting a search from a category
+    // page must stay in that category rather than silently going site-wide.
+    const body = await (await SELF.fetch("https://example.com/c/navigation")).text();
+    expect(body).toContain('action="/c/navigation"');
+    const home = await (await SELF.fetch("https://example.com/")).text();
+    expect(home).toContain('action="/"');
+  });
+
+  it("shows every entry at tier=all rather than silently truncating", async () => {
+    const body = await (await SELF.fetch("https://example.com/?tier=all")).text();
+    expect((body.match(/class="card"/g) ?? []).length).toBe(918);
+  });
+
+  it("filters to entries that have an example", async () => {
+    const body = await (await SELF.fetch("https://example.com/?tier=all&examples=some")).text();
+    expect(body).not.toContain("Definition only");
   });
 
   it("shows a charming empty state when nothing matches", async () => {
@@ -2266,7 +2286,7 @@ Expected: FAIL — routes not registered, 404s.
 import { html, raw, layout } from "./layout.js";
 import { entryCard } from "./components.js";
 
-export function renderBrowse({ categories, entries, filters, activeCategory }) {
+export function renderBrowse({ categories, entries, filters, activeCategory, total }) {
   const body = html`
     <header class="masthead">
       <h1 class="masthead__title">UI Element Compendium</h1>
@@ -2287,10 +2307,10 @@ export function renderBrowse({ categories, entries, filters, activeCategory }) {
         </ul>
       </nav>
       <main id="main" class="browse__main">
-        <form class="searchbar" action="/" method="get" role="search">
+        <form class="searchbar" action="${activeCategory ? `/c/${activeCategory}` : "/"}" method="get" role="search">
           <label for="q" class="visually-hidden">Search the compendium</label>
           <input id="q" name="q" type="search" value="${filters.q ?? ""}"
-                 placeholder="Search 918 elements…" autocomplete="off">
+                 placeholder="Search ${total} elements…" autocomplete="off">
           <select name="tier" aria-label="Tier">
             <option value="default"${sel(filters.tier, "default")}>Core &amp; useful</option>
             <option value="core"${sel(filters.tier, "core")}>Core only</option>
@@ -2359,11 +2379,15 @@ async function browse(request, env, ctx, params) {
     tiers: TIERS[filters.tier] ?? TIERS.default,
     definitionOnly: filters.examples === "none",
     q: filters.q || undefined,
-    limit: 500,
+    // Above the corpus size on purpose. A bare cap silently hid 418 of 918
+    // specimens at tier=all, and `examples=some` filters in JS AFTER the
+    // query, so a cap would under-report entries-with-examples too.
+    limit: 2000,
   });
   const filtered = filters.examples === "some" ? entries.filter((e) => e.has_example) : entries;
   return htmlResponse(renderBrowse({
     categories, entries: filtered, filters, activeCategory: params.slug,
+    total: categories.reduce((n, c) => n + c.entry_count, 0),
   }));
 }
 
@@ -2380,7 +2404,7 @@ Register `{ method: "GET", pattern: "/", handler: browse }` and `{ method: "GET"
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/browse.test.js`
-Expected: PASS, 9 tests.
+Expected: PASS, 12 tests.
 
 - [ ] **Step 6: Commit and push**
 
@@ -3482,7 +3506,7 @@ for (const field of document.querySelectorAll("textarea[data-json]")) {
 - [ ] **Step 6: Run to verify the tests pass**
 
 Run: `npx vitest run tests/edit.test.js`
-Expected: PASS, 9 tests.
+Expected: PASS, 12 tests.
 
 - [ ] **Step 7: Commit and push**
 

@@ -1645,9 +1645,14 @@ git push
   - `raw(s)` — marks a string as pre-escaped
   - `tierBadge(tier)`, `catalogueRef(code, no)`, `entryCard(entry)`, `specimenPlate({entry, children})` from `components.js`
 
-- [ ] **Step 1: Self-host the fonts**
+- [ ] **Step 1: Verify the self-hosted fonts**
 
-Download the woff2 files for Bricolage Grotesque (variable), Instrument Sans (variable) and JetBrains Mono (400, 600) into `public/fonts/`. Never reference a font CDN — the spec forbids third-party requests.
+The fonts were downloaded in the planning session and are already committed, along with `public/css/fonts.css` holding their `@font-face` rules. All three are variable fonts, so one file covers every weight.
+
+Run: `ls -l public/fonts/*.woff2 && head -c4 public/fonts/bricolage-grotesque-var.woff2`
+Expected: three files — `bricolage-grotesque-var.woff2` (~131KB), `instrument-sans-var.woff2` (~57KB), `jetbrains-mono-var.woff2` (~31KB) — and the magic bytes `wOF2`.
+
+Do not re-download them, and never reference a font CDN: the spec forbids third-party requests.
 
 - [ ] **Step 2: Write `public/css/tokens.css`**
 
@@ -1769,6 +1774,7 @@ describe("layout", () => {
     expect(script).toBeLessThan(headEnd);
   });
   it("links the stylesheets and no third-party origins", () => {
+    expect(doc).toContain('href="/css/fonts.css"');
     expect(doc).toContain('href="/css/tokens.css"');
     expect(doc).toContain('href="/css/app.css"');
     expect(doc).not.toMatch(/https?:\/\/(?!artifacts\.clydeford\.net)/);
@@ -1826,6 +1832,8 @@ export function layout({ title, description = "", body, scripts = [], activeNav 
     if (t) document.documentElement.dataset.theme = t;
   } catch (e) {}
 </script>
+<link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/tokens.css">
 <link rel="stylesheet" href="/css/app.css">
 </head>

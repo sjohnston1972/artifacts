@@ -1945,10 +1945,18 @@ Create `tests/layout.test.js`:
 ```js
 import { describe, it, expect } from "vitest";
 import { layout, html, raw } from "../src/render/layout.js";
+import { catalogueRef } from "../src/render/components.js";
 
 describe("html tagged template", () => {
   it("escapes interpolated values", () => {
     expect(html`<p>${"<script>"}</p>`).toBe("<p>&lt;script&gt;</p>");
+  });
+  it("escapes the apostrophe, so a single-quoted attribute is safe", () => {
+    expect(html`<a t='${"x' onerror='alert(1)"}'>`)
+      .toBe("<a t='x&#39; onerror=&#39;alert(1)'>");
+  });
+  it("renders a catalogue reference without a number as 000", () => {
+    expect(catalogueRef("NAV", undefined)).toContain("NAV-000");
   });
   it("passes raw() values through", () => {
     expect(html`<p>${raw("<b>x</b>")}</p>`).toBe("<p><b>x</b></p>");
@@ -2002,9 +2010,14 @@ function stringify(v) {
   if (v == null || v === false) return "";
   if (Array.isArray(v)) return v.map(stringify).join("");
   if (typeof v === "object" && RAW in v) return v[RAW];
+  // Escapes the apostrophe too. No attribute in this codebase is
+  // single-quoted today, but this is the sole escaping boundary for every
+  // renderer in Tasks 8-14, and the entry example engine already lost two
+  // rounds to exactly this gap. Closing it costs one replace.
   return String(v)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 // Every renderer builds markup with this, so escaping is the default and
@@ -2051,7 +2064,9 @@ ${scriptTags}
 import { html, raw } from "./layout.js";
 
 export function catalogueRef(code, no) {
-  return html`<span class="catalogue-ref">${code}-${String(no).padStart(3, "0")}</span>`;
+  // A missing number would otherwise render "NAV-undefined" on the plate.
+  const digits = Number.isFinite(Number(no)) ? String(no).padStart(3, "0") : "000";
+  return html`<span class="catalogue-ref">${code ?? "UIF"}-${digits}</span>`;
 }
 
 export function tierBadge(tier) {
@@ -2144,7 +2159,7 @@ Write the real rules for `.skip-link`, `.card`, `.badge`, `.plate`, `.catalogue-
 - [ ] **Step 9: Run the test to verify it passes**
 
 Run: `npx vitest run tests/layout.test.js`
-Expected: PASS, 7 tests.
+Expected: PASS, 9 tests.
 
 - [ ] **Step 10: Commit and push**
 

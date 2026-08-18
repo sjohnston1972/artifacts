@@ -387,7 +387,12 @@ lavender. Each category leans toward one of the four via a hue assigned by
 top-left in mono, the category stamp top-right. In dark mode the mesh drops
 to about 30% opacity over `ink-raised`, so it reads as a lit surface rather
 than a glowing one. Gold appears only on the active nav state, the copy
-confirmation, and the core-tier marker.
+confirmation, the core-tier marker, and the focus ring. The focus ring was
+added to this list during implementation: the spec also requires visible focus
+states and WCAG AA, and gold is the only accent with enough contrast against
+both grounds to serve as one. Four sanctioned uses, all of them "you are
+here" signals — if that dilutes the colour too far, the focus ring is the one
+to change, not the others.
 
 **Motion.** Every transition is under 250ms, and all of it sits inside
 `@media (prefers-reduced-motion: no-preference)`. Reduced motion is then the

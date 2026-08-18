@@ -11,9 +11,36 @@ describe("render", () => {
       .toBe("<b>&lt;script&gt;x&lt;/script&gt;</b>");
   });
 
-  it("escapes attribute context differently from text", () => {
+  it("escapes the same value identically wherever it appears", () => {
     const out = render('<a title="{{t}}">{{t}}</a>', { t: 'a"b' }).output;
-    expect(out).toBe('<a title="a&quot;b">a"b</a>');
+    expect(out).toBe('<a title="a&quot;b">a&quot;b</a>');
+  });
+
+  it("contains a value inside a single-quoted attribute", () => {
+    const out = render("<img alt='{{x}}'>", { x: "' onerror='alert(1)" }).output;
+    expect(out).toBe("<img alt='&#39; onerror=&#39;alert(1)'>");
+  });
+
+  it("is not fooled by a > inside an earlier attribute value", () => {
+    const out = render('<a title="a>b {{t}}">x</a>', { t: 'x" onmouseover="alert(1)' }).output;
+    expect(out).not.toContain('onmouseover="alert(1)"');
+  });
+
+  it("contains a value inside a script block", () => {
+    const out = render('<script>var x = "{{x}}";</script>', { x: '";alert(1);var y="' }).output;
+    expect(out).not.toContain('";alert(1);');
+  });
+
+  it("warns when a placeholder sits in an unquoted attribute", () => {
+    const r = render("<div class={{x}}>", { x: "a b" });
+    expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
+  });
+
+  it("never re-scans substituted content for placeholders", () => {
+    // A raw value shaped like {{secret}} must stay literal, or a template
+    // could pull in a key it never named.
+    const r = render("{{{m}}}", { m: "{{secret}}", secret: "LEAKED" });
+    expect(r.output).toBe("{{secret}}");
   });
 
   it("passes triple-brace values through raw", () => {
@@ -63,6 +90,11 @@ describe("defaultsFor", () => {
       { id: "disabled", type: "toggle", default: false },
     ];
     expect(defaultsFor(schema)).toEqual({ label: "Click me", radius: 8, disabled: false });
+  });
+
+  it("ignores malformed schema entries instead of throwing", () => {
+    expect(defaultsFor([null, { type: "text" }, { id: "ok", type: "text" }]))
+      .toEqual({ ok: "" });
   });
 
   it("falls back sensibly when a default is missing", () => {

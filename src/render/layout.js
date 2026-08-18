@@ -4,6 +4,13 @@ export function raw(s) {
   return { [RAW]: String(s) };
 }
 
+// Deliberately NOT public/js/template.js's shared escapeHtml, and not
+// merged with it: this is a different contract. `html` escapes by default
+// inside a tagged template, with raw() as the one explicit opt-out, so the
+// escaping rule lives on the tag function itself rather than being called
+// out at each interpolation site. Sharing an implementation would blur that
+// the two are answering different questions ("is this markup trusted?" vs
+// "escape this specific string").
 function stringify(v) {
   if (v == null || v === false) return "";
   if (Array.isArray(v)) return v.map(stringify).join("");

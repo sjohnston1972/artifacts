@@ -1,10 +1,9 @@
 import * as db from "../db.js";
 import { requireWrite } from "../auth.js";
+import { validateControlsSchema } from "./controlSchema.js";
 
-const CONTROL_TYPES = new Set(["text", "select", "color", "number", "toggle"]);
 const TIERS = new Set(["core", "useful", "reference", "deleted"]);
 const FORMATS = new Set(["html", "tailwind", "react"]);
-const ID_RE = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
 
 function bad(message) {
   return Response.json({ error: message }, { status: 400 });
@@ -24,18 +23,8 @@ function validate(patch) {
     }
   }
   if ("controls_schema" in patch) {
-    if (!Array.isArray(patch.controls_schema)) return "controls_schema must be an array";
-    const seen = new Set();
-    for (const c of patch.controls_schema) {
-      if (!c || typeof c !== "object") return "each control must be an object";
-      if (!ID_RE.test(c.id ?? "")) return `control id "${c.id}" must be a plain identifier`;
-      if (seen.has(c.id)) return `duplicate control id "${c.id}"`;
-      seen.add(c.id);
-      if (!CONTROL_TYPES.has(c.type)) return `unknown control type "${c.type}"`;
-      if (c.type === "select" && !(Array.isArray(c.options) && c.options.length)) {
-        return `select control "${c.id}" needs an options array`;
-      }
-    }
+    const error = validateControlsSchema(patch.controls_schema);
+    if (error) return error;
   }
   if ("aliases" in patch && !Array.isArray(patch.aliases)) return "aliases must be an array";
   return null;

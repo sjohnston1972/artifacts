@@ -1,10 +1,9 @@
 const KEY = "compendium-theme";
 
-export function applyStoredTheme() {
-  const stored = localStorage.getItem(KEY);
-  if (stored) document.documentElement.dataset.theme = stored;
-}
-
+// Applying a stored theme on load is done by layout.js's inline head
+// script, synchronously, before first paint — a second, later application
+// here would flash. That's why there is no applyStoredTheme() export in
+// this module.
 export function toggleTheme() {
   const root = document.documentElement;
   const current = root.dataset.theme

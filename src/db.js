@@ -1,3 +1,5 @@
+import { slugify } from "./seed/parse.js";
+
 const ENTRY_COLUMNS = `id, name, slug, aliases, definition, notes,
   controls_schema, templates, tier, has_example, catalogue_no, updated_at`;
 
@@ -140,6 +142,15 @@ export async function searchIndexRows(db) {
 // reconstitute an emptied database.
 export async function importEntries(db, { categories = [], entries = [] }) {
   const now = new Date().toISOString();
+
+  // import is the only write path that does not already go through
+  // slugify() (createEntry derives its own slug; saveEntry never lets slug
+  // change). Binding e.slug verbatim let it reach worker.js's
+  // `content-disposition: attachment; filename="${entry.slug}.html"`
+  // unsanitised — a slug containing a quote is filename spoofing. Running
+  // every imported slug through the same slugify() the seeder uses closes
+  // that gap without adding a second notion of "a valid slug".
+  entries = entries.map((e) => ({ ...e, slug: slugify(e.slug) }));
 
   if (categories.length) {
     await db.batch(categories.map((c) =>

@@ -102,6 +102,83 @@ describe("POST /api/entries/:slug", () => {
     expect(res.status).toBe(400);
     expect((await res.json()).error).toMatch(/aliases/i);
   });
+
+  // Regression coverage for the stored-XSS fix: validate() used to check
+  // only c.id and c.type, so a hostile label/options/presets/default could
+  // reach controlHtml()'s innerHTML unescaped. These assert the write path
+  // now rejects the wrong shapes outright, not just that rendering escapes
+  // them.
+  describe("controls_schema field validation", () => {
+    it("rejects a non-string label", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "text", label: { evil: true } }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/label/i);
+    });
+
+    it("rejects an oversized label", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "text", label: "a".repeat(201) }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/label/i);
+    });
+
+    it("rejects a select whose options are not all strings", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "select", options: ["ok", { evil: true }] }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/options/i);
+    });
+
+    it("rejects a color control whose presets are not all strings", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "color", presets: [["nested", "array"]] }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/presets/i);
+    });
+
+    it("rejects a default that is neither a string nor a number", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "text", default: { evil: true } }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/default/i);
+    });
+
+    it("rejects min/max/step that are neither a string nor a number", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "x", type: "number", min: [1], max: 10, step: 1 }],
+      });
+      expect(res.status).toBe(400);
+      expect((await res.json()).error).toMatch(/min/i);
+    });
+
+    it("accepts a toggle control's boolean default", async () => {
+      // Every authored example's toggle control (accordion, badge, button,
+      // card, modal, select, tab-bar, table, text-input, toast) has a
+      // boolean default — controlHtml() only ever uses it as
+      // `c.default ? "checked" : ""`, never as interpolated text, so it is
+      // not part of the string-or-number rule the other control types need.
+      const res = await post("/api/entries/toast", {
+        controls_schema: [{ id: "on", type: "toggle", label: "On", default: true }],
+      });
+      expect(res.status).toBe(200);
+    });
+
+    it("accepts a well-formed control with label, options and presets", async () => {
+      const res = await post("/api/entries/toast", {
+        controls_schema: [
+          { id: "variant", type: "select", label: "Variant", options: ["a", "b"] },
+          { id: "bg", type: "color", label: "Background", default: "#241430", presets: ["#241430", "#A8E6C1"] },
+        ],
+      });
+      expect(res.status).toBe(200);
+    });
+  });
 });
 
 describe("POST /api/entries (new)", () => {

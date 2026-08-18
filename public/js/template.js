@@ -2,7 +2,7 @@
 // not a general templating language: {{id}}, {{{id}}}, and if/unless blocks
 // are the whole surface.
 
-const BLOCK_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g;
+const BLOCK_TOKEN_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}|\{\{\/(?:if|unless)\}\}/g;
 
 // ONE regex matching both raw and escaped placeholders, so substitution is a
 // single pass. Two sequential passes would let a raw value shaped like
@@ -21,14 +21,15 @@ export function render(template, values) {
   let out = String(template);
 
   // Blocks first, so placeholders inside a removed block never resolve.
-  let previous;
-  do {
-    previous = out;
-    out = out.replace(BLOCK_RE, (_, kind, id, body) => {
-      const truthy = Boolean(values[id]);
-      return (kind === "if" ? truthy : !truthy) ? body : "";
-    });
-  } while (out !== previous);
+  // Parsed with a recursive-descent walk rather than a non-greedy regex
+  // loop: a non-greedy body (`[\s\S]*?`) closes an outer block on the
+  // FIRST `{{/if}}` it meets, which is the INNER block's close when blocks
+  // nest — leaking the outer's tail text (and a stray `{{/if}}`) even when
+  // the outer condition is false. Recursion sidesteps the problem instead
+  // of patching it: whichever block was opened most recently is exactly
+  // the one the next close tag belongs to, so a plain recursive call
+  // resolves nesting correctly without matching open/close kinds by hand.
+  out = renderBlockNodes(parseBlocks(out), values);
 
   // String.replace never re-examines text it inserted, so this single pass is
   // what makes injection-through-data impossible.
@@ -46,10 +47,60 @@ export function render(template, values) {
     if (inEventHandler(whole, offset)) {
       warn(`placeholder "${id}" sits in an event-handler attribute, where HTML escaping cannot make it safe`);
     }
-    return escape(value);
+    return escapeHtml(value);
   });
 
   return { output: out, warnings };
+}
+
+// Splits a template into a tree of plain-text strings and block nodes
+// ({kind, id, body}), recursively, using the position of the NEXT close tag
+// (of either kind) to end whichever block is currently open. That is sound
+// because authored templates nest properly (LIFO): the next close tag met
+// while reading a block's body can only belong to that block — any close
+// belonging to a block nested inside it was already consumed by the
+// recursive call that parsed that inner block.
+function parseBlocks(template) {
+  BLOCK_TOKEN_RE.lastIndex = 0;
+  let pos = 0;
+
+  function parse() {
+    const nodes = [];
+    for (;;) {
+      BLOCK_TOKEN_RE.lastIndex = pos;
+      const m = BLOCK_TOKEN_RE.exec(template);
+      if (!m) {
+        if (pos < template.length) nodes.push(template.slice(pos));
+        pos = template.length;
+        return nodes;
+      }
+      if (m.index > pos) nodes.push(template.slice(pos, m.index));
+      pos = m.index + m[0].length;
+      if (m[1]) {
+        // Open tag: m[1] is "if"/"unless", m[2] is the condition id.
+        nodes.push({ kind: m[1], id: m[2], body: parse() });
+      } else {
+        // Close tag: ends whichever block this recursive call is reading.
+        return nodes;
+      }
+    }
+  }
+
+  return parse();
+}
+
+function renderBlockNodes(nodes, values) {
+  let out = "";
+  for (const node of nodes) {
+    if (typeof node === "string") {
+      out += node;
+      continue;
+    }
+    const truthy = Boolean(values[node.id]);
+    const show = node.kind === "if" ? truthy : !truthy;
+    if (show) out += renderBlockNodes(node.body, values);
+  }
+  return out;
 }
 
 // One escaping rule for every context. Context-aware escaping was tried and
@@ -59,8 +110,15 @@ export function render(template, values) {
 // version that is correct without parsing the surrounding markup. The cost is
 // that a quote in visible text copies as &quot; — valid, renders identically,
 // and worth it.
-function escape(s) {
-  return s
+//
+// This module has no imports and is already shared by the Worker, the
+// browser and the tests, so it is the single home for HTML escaping in this
+// codebase — every other renderer imports this instead of keeping its own
+// copy. (The one deliberate exception is src/render/layout.js's `stringify`,
+// which is a different contract — escape-by-default inside a tagged
+// template with `raw()` as the opt-out — see the comment there.)
+export function escapeHtml(s) {
+  return String(s ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

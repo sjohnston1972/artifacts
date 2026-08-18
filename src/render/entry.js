@@ -1,18 +1,21 @@
 import { html, raw, layout } from "./layout.js";
 import { specimenPlate, tierBadge, definitionOnlyBadge, firstLine } from "./components.js";
-import { defaultsFor } from "../../public/js/template.js";
+import { defaultsFor, escapeHtml } from "../../public/js/template.js";
 
 const FORMAT_LABELS = { html: "HTML + CSS", tailwind: "Tailwind CSS", react: "React" };
 
 export function renderEntry({ entry }) {
   const formats = Object.keys(FORMAT_LABELS).filter((k) => entry.templates[k]?.trim());
   const values = defaultsFor(entry.controls_schema);
-  const primary = entry.categories[0];
+  // A category-less imported entry (import.js does not require categories)
+  // must not 500 its own page — fall back to no backlink rather than
+  // throwing on entry.categories[0].slug.
+  const primary = entry.categories?.[0] ?? null;
 
   const body = html`
     <main id="main" class="entry">
       <header class="entry__header entry__prose">
-        <a class="backlink" href="/c/${primary.slug}">← ${primary.name}</a>
+        ${primary ? raw(html`<a class="backlink" href="/c/${primary.slug}">← ${primary.name}</a>`) : ""}
         <div class="entry__title">
           <h1>${entry.name}</h1>
           ${raw(tierBadge(entry.tier))}${raw(definitionOnlyBadge(entry.has_example))}
@@ -109,11 +112,4 @@ function notesToHtml(notes) {
     .split(/\n\n+/)
     .map((p) => `<p>${escapeHtml(p).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`)
     .join("");
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }

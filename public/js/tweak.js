@@ -1,5 +1,6 @@
 import { defaultsFor } from "./template.js";
 import { generateAll, buildDocument } from "./generate.js";
+import { controlHtml } from "./controls.js";
 
 const root = document.querySelector(".specimen");
 if (root) init(root);
@@ -146,35 +147,6 @@ function readValue(control, el) {
   if (control.type === "toggle") return el.checked;
   if (control.type === "number") return Number(el.value);
   return el.value;
-}
-
-function controlHtml(c) {
-  const id = `ctl-${c.id}`;
-  const label = `<label class="ctl__label" for="${id}">${c.label ?? c.id}</label>`;
-  switch (c.type) {
-    case "select":
-      return `<div class="ctl">${label}<select id="${id}" name="${c.id}">${
-        (c.options || []).map((o) => `<option value="${o}">${o}</option>`).join("")
-      }</select></div>`;
-    case "color":
-      return `<div class="ctl">${label}
-        <span class="ctl__colour">
-          <input id="${id}" name="${c.id}" type="color" value="${c.default ?? "#000000"}">
-          ${(c.presets || []).map((p) =>
-            `<button type="button" class="swatch" data-for="${c.id}" data-value="${p}"
-                     style="background:${p}" aria-label="Use ${p}"></button>`).join("")}
-        </span></div>`;
-    case "number":
-      return `<div class="ctl">${label}<input id="${id}" name="${c.id}" type="range"
-        min="${c.min ?? 0}" max="${c.max ?? 100}" step="${c.step ?? 1}"
-        value="${c.default ?? 0}"><output>${c.default ?? 0}</output></div>`;
-    case "toggle":
-      return `<div class="ctl ctl--toggle"><input id="${id}" name="${c.id}" type="checkbox"
-        ${c.default ? "checked" : ""}>${label}</div>`;
-    default:
-      return `<div class="ctl">${label}<input id="${id}" name="${c.id}" type="text"
-        value="${c.default ?? ""}"></div>`;
-  }
 }
 
 function selectTab(root, format) {

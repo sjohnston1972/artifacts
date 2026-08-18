@@ -1,5 +1,5 @@
 import * as db from "../db.js";
-import { render, defaultsFor } from "../../public/js/template.js";
+import { render, defaultsFor, escapeHtml } from "../../public/js/template.js";
 
 // One query for entries, one for category memberships (exportRows in
 // db.js), assembled in JS. A per-entry getEntryBySlug loop would issue 2
@@ -22,8 +22,12 @@ export async function exportMarkdown(dbc) {
   const { categories, entries } = await exportJson(dbc);
   const byCategory = new Map(categories.map((c) => [c.id, []]));
   for (const e of entries) {
+    // A category-less imported entry has no primary — skip it rather than
+    // throwing on primary.id, which used to 500 this route (and therefore
+    // /api/export.md for the whole corpus) permanently until that one row
+    // was fixed by hand.
     const primary = e.categories.find((c) => c.is_primary);
-    byCategory.get(primary.id)?.push(e);
+    if (primary) byCategory.get(primary.id)?.push(e);
   }
   const parts = ["# UI Element Compendium", ""];
   categories.forEach((c, i) => {
@@ -48,6 +52,7 @@ export function exportEntryHtml(entry) {
       render(tpl, values).output)}</code></pre>`).join("");
   return `<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="script-src 'none'">
 <title>${escapeHtml(entry.name)} — UI Element Compendium</title>
 <style>
   body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 3rem auto; padding: 0 1rem; }
@@ -61,8 +66,4 @@ export function exportEntryHtml(entry) {
 <div class="stage">${example}</div>
 ${code}
 </body></html>`;
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

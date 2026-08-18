@@ -1,3 +1,5 @@
+import { escapeHtml } from "./template.js";
+
 let index = null;
 let dialog = null;
 let input = null;
@@ -78,13 +80,6 @@ function paint() {
       <span class="palette__def">${escapeHtml(e[4])}</span>
     </li>`).join("");
   input.setAttribute("aria-activedescendant", results.length ? `palette-opt-${active}` : "");
-}
-
-function escapeHtml(s) {
-  return String(s ?? "")
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }
 
 let lastFocused = null;

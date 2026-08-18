@@ -98,6 +98,20 @@ describe("render", () => {
       .toBe("<b>Hi</b>");
   });
 
+  it("hides the outer block and its tail when nested and the outer condition is false", () => {
+    // A non-greedy body regex closes the outer block on the INNER {{/if}},
+    // leaking "TAIL{{/if}}" even though the outer condition is false.
+    const out = render("{{#if a}}OUT{{#if b}}IN{{/if}}TAIL{{/if}}", { a: false }).output;
+    expect(out).toBe("");
+  });
+
+  it("renders only the true branches of nested blocks", () => {
+    const tpl = "{{#if a}}A-OPEN{{#unless b}}B-HIDDEN{{/unless}}{{#if c}}C-SHOWN{{/if}}A-CLOSE{{/if}}";
+    expect(render(tpl, { a: true, b: true, c: true }).output).toBe("A-OPENC-SHOWNA-CLOSE");
+    expect(render(tpl, { a: true, b: false, c: false }).output).toBe("A-OPENB-HIDDENA-CLOSE");
+    expect(render(tpl, { a: false, b: false, c: true }).output).toBe("");
+  });
+
   it("renders an unknown id as empty and warns", () => {
     const r = render("<b>{{nope}}</b>", { label: "x" });
     expect(r.output).toBe("<b></b>");

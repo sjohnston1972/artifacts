@@ -95,6 +95,70 @@ describe("POST /api/import", () => {
     expect(restored.categories.map((c) => c.slug).sort())
       .toEqual(before.categories.map((c) => c.slug).sort());
   });
+
+  it("imports an entry with no categories without breaking its own page or /api/export.md", async () => {
+    // import.js never requires categories, and a category-less row used to
+    // throw in entry.js (entry.categories[0].slug) and in export.js
+    // (primary.id) — the latter 500ing /api/export.md for the WHOLE corpus,
+    // permanently, until that one row was fixed by hand. This proves both
+    // guards hold.
+    const res = await SELF.fetch("https://example.com/api/import", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        categories: [],
+        entries: [{
+          slug: "orphan-entry", name: "Orphan Entry", definition: "Has no category.",
+        }],
+      }),
+    });
+    expect(res.status).toBe(200);
+
+    const page = await SELF.fetch("https://example.com/e/orphan-entry");
+    expect(page.status).toBe(200);
+
+    const md = await SELF.fetch("https://example.com/api/export.md");
+    expect(md.status).toBe(200);
+  });
+
+  it("rejects an import entry whose categories is present but malformed", async () => {
+    const res = await SELF.fetch("https://example.com/api/import", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        categories: [],
+        entries: [{
+          slug: "bad-categories", name: "Bad Categories", definition: "x",
+          categories: [{ id: "not-a-number" }],
+        }],
+      }),
+    });
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(/categories/i);
+  });
+
+  it("normalises a hostile imported slug instead of writing it verbatim", async () => {
+    // db.js binds entry.slug verbatim on write, and worker.js interpolates
+    // it unescaped into a content-disposition filename — a quote in the
+    // slug is filename spoofing on the exported HTML download.
+    const res = await SELF.fetch("https://example.com/api/import", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        categories: [],
+        entries: [{
+          slug: 'evil".html"; x="', name: "Evil Slug", definition: "x",
+        }],
+      }),
+    });
+    expect(res.status).toBe(200);
+
+    const backup = await (await SELF.fetch("https://example.com/api/export.json")).json();
+    const written = backup.entries.find((e) => e.name === "Evil Slug");
+    expect(written).toBeDefined();
+    expect(written.slug).toMatch(/^[a-z0-9-]+$/);
+    expect(written.slug).not.toContain('"');
+  });
 });
 
 describe("scheduled backup", () => {

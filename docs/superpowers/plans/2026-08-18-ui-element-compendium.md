@@ -4421,6 +4421,12 @@ git push
 - Consumes: everything.
 - Produces: the live site.
 
+**Before starting:** the custom domain binding requires the `clydeford.net`
+zone to exist in this Cloudflare account. If it does not, `wrangler deploy`
+will fail on the route binding through no fault of the code — deploy without
+the `routes` block first, verify the site on its `*.workers.dev` URL, and
+report that the zone needs adding. Do not fake the domain.
+
 - [ ] **Step 1: Add the custom domain**
 
 ```toml
@@ -4430,6 +4436,20 @@ routes = [
 ```
 
 - [ ] **Step 2: Apply the schema to the remote database**
+
+> **DESTRUCTIVE.** `schema.sql` begins with `DROP TABLE IF EXISTS` for all five
+> tables, so `db:remote` **erases every entry, revision and edit** in
+> production. That is correct exactly once — on an empty database, on the first
+> deploy — and catastrophic every time after. Check before running it:
+
+```bash
+npx wrangler d1 execute compendium --remote   --command "SELECT COUNT(*) AS n FROM entries"
+```
+
+Proceed **only** if that errors with "no such table" (a fresh database) or
+returns `0`. If it returns anything else, STOP and report it — the remote
+database already holds data, and re-applying the schema would destroy it. The
+recovery path in that case is `GET /api/export.json` first, then decide.
 
 ```bash
 npm run db:remote
@@ -4446,7 +4466,8 @@ npx wrangler deploy
 - [ ] **Step 4: Seed production**
 
 ```bash
-curl -s -X POST --data-binary @web-development-ui-glossary-complete.md \n  https://artifacts.clydeford.net/api/seed
+curl -s -X POST --data-binary @web-development-ui-glossary-complete.md \
+  https://artifacts.clydeford.net/api/seed
 ```
 
 Expected: `{"categories":45,"entries":918,"core":61,"examples":10}`

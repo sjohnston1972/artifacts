@@ -35,9 +35,12 @@ function init(root) {
   });
 
   addEventListener("message", (e) => {
-    if (e.source === frame.contentWindow && e.data?.type === "height") {
-      frame.style.height = `${e.data.value}px`;
-    }
+    // Source check keeps other windows out; the clamp keeps our own frame
+    // from blowing out the page layout with an absurd height.
+    if (e.source !== frame.contentWindow || e.data?.type !== "height") return;
+    const h = Number(e.data.value);
+    if (!Number.isFinite(h)) return;
+    frame.style.height = `${Math.min(Math.max(h, 80), 2000)}px`;
   });
 
   let timer = null;
@@ -92,14 +95,29 @@ function init(root) {
     history.replaceState(null, "", `#${params}`);
   }
 
+  // The fragment is attacker-supplyable via a shared link, so every value is
+  // validated before it reaches render(). Numbers are the dangerous case:
+  // "NaN", "Infinity" and "1e999" would otherwise render literally as
+  // `border-radius:NaNpx` in the example and in all three code tabs, while
+  // the range input silently clamped itself to its default — the panel
+  // disagreeing with the specimen again.
   function fromHash() {
     const params = new URLSearchParams(location.hash.slice(1));
     const out = {};
     for (const c of schema) {
       if (!params.has(c.id)) continue;
-      const raw = params.get(c.id);
-      out[c.id] = c.type === "number" ? Number(raw)
-        : c.type === "toggle" ? raw === "true" : raw;
+      const raw = params.get(c.id).slice(0, 2000);
+      if (c.type === "number") {
+        const n = Number(raw);
+        if (!Number.isFinite(n)) continue;
+        const min = Number.isFinite(Number(c.min)) ? Number(c.min) : -Infinity;
+        const max = Number.isFinite(Number(c.max)) ? Number(c.max) : Infinity;
+        out[c.id] = Math.min(Math.max(n, min), max);
+      } else if (c.type === "toggle") {
+        out[c.id] = raw === "true";
+      } else {
+        out[c.id] = raw;
+      }
     }
     return out;
   }

@@ -14,8 +14,14 @@ import { importJson } from "./api/import.js";
 import { requireWrite } from "./auth.js";
 
 const TIERS = {
-  default: ["core", "useful"],
+  // `useful` is never assigned by any code path — the seeder produces only
+  // `core` and `reference` — so a core+useful default silently collapsed to
+  // core-only, hiding 857 of 918 entries and emptying 32 of 45 categories.
+  // The catalogue exists to be looked things up in; show it by default and
+  // let the filter narrow.
+  default: ["core", "useful", "reference"],
   core: ["core"],
+  useful: ["useful"],
   reference: ["reference"],
   all: ["core", "useful", "reference"],
 };

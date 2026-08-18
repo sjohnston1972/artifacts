@@ -24,11 +24,24 @@ describe("GET /", () => {
     expect((body.match(/class="cat__code"/g) ?? []).length).toBe(45);
   });
 
-  it("defaults to core and useful tiers only", async () => {
+  it("defaults to showing every tier, since `useful` is never assigned and the catalogue exists to be looked things up in", async () => {
+    // `useful` is never assigned by any code path (the seeder produces only
+    // core and reference), so a core+useful default silently collapsed to
+    // core-only — hiding 857 of 918 entries and leaving 32 of 45 categories
+    // completely empty. "Affordance" is reference tier and must now appear
+    // by default.
     const body = await (await SELF.fetch("https://example.com/")).text();
     expect(body).toContain(">Button<");
-    // "Affordance" is reference tier and must not appear by default
-    expect(body).not.toContain(">Affordance<");
+    expect(body).toContain(">Affordance<");
+  });
+
+  it("shows a non-empty default view for a category with no core entries", async () => {
+    // ENT/AIU/A11/... etc. — 32 of 45 categories had zero core-tier entries,
+    // so the old core+useful default rendered them completely empty.
+    // Accessibility (A11) is one of them.
+    const body = await (await SELF.fetch("https://example.com/c/accessibility")).text();
+    expect(body).toContain("A11-");
+    expect((body.match(/class="card"/g) ?? []).length).toBeGreaterThan(0);
   });
 
   it("shows every tier when asked", async () => {

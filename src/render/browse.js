@@ -27,10 +27,9 @@ export function renderBrowse({ categories, entries, filters, activeCategory, tot
           <input id="q" name="q" type="search" value="${filters.q ?? ""}"
                  placeholder="Search ${total} elements…" autocomplete="off">
           <select name="tier" aria-label="Tier">
-            <option value="default"${sel(filters.tier, "default")}>Core &amp; useful</option>
+            <option value="default"${sel(filters.tier, "default")}>All tiers</option>
             <option value="core"${sel(filters.tier, "core")}>Core only</option>
-            <option value="reference"${sel(filters.tier, "reference")}>Reference</option>
-            <option value="all"${sel(filters.tier, "all")}>All tiers</option>
+            <option value="reference"${sel(filters.tier, "reference")}>Reference only</option>
           </select>
           <select name="examples" aria-label="Examples">
             <option value="any"${sel(filters.examples, "any")}>Any</option>

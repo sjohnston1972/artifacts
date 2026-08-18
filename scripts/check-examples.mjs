@@ -22,13 +22,18 @@ import path from "node:path";
 const { render, defaultsFor } = await import("../public/js/template.js");
 
 // Boolean HTML attributes — presence alone makes them true.
+// The lookbehind excludes `aria-checked`, `aria-selected`, `aria-disabled`,
+// `aria-hidden` and friends: those take the STRINGS "true"/"false", so
+// interpolating them is correct, and a plain  would match inside them
+// because "-" is a non-word character. Flagging correct ARIA pushed one
+// author into renaming a control to dodge the checker.
 const BOOL_ATTRS = [
   "checked", "disabled", "selected", "required", "readonly", "open", "hidden",
   "multiple", "autofocus", "novalidate", "loop", "muted", "controls",
   "playsinline", "reversed", "ismap", "async", "defer",
 ];
 const BOOL_ATTR_RE = new RegExp(
-  String.raw`\b(${BOOL_ATTRS.join("|")})\s*=\s*["']\{\{`, "g"
+  String.raw`(?<![-\w])(${BOOL_ATTRS.join("|")})\s*=\s*["']\{\{`, "g"
 );
 
 // Optional slug arguments scope the run to just those files. Authors working

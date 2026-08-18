@@ -67,6 +67,27 @@ describe("parseGlossary", () => {
     expect(allTerms).not.toContain("Detail");
     expect(allTerms).not.toContain("Max Width");
   });
+
+  it("keeps a row whose definition contains an escaped pipe", () => {
+    // The markdown exporter escapes pipes inside cells. A greedy row regex
+    // mis-splits such a row, and drops it outright when the escaped pipe is
+    // the last character — silently losing an entry on re-import.
+    const bs = String.fromCharCode(92);
+    const md = [
+      "# 1. Demo", "", "| Term | Definition |", "|---|---|",
+      "| Pipe Table | Columns split by a " + bs + "| character. |",
+      "| Trailing | Ends with a pipe " + bs + "| |",
+      "",
+    ].join("\n");
+    const rows = parseGlossary(md).categories[0].rows;
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toEqual({
+      term: "Pipe Table",
+      definition: "Columns split by a | character.",
+    });
+    expect(rows[1].term).toBe("Trailing");
+    expect(rows[1].definition).toBe("Ends with a pipe |");
+  });
 });
 
 describe("mergeEntries", () => {

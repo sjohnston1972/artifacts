@@ -10,7 +10,12 @@ export function slugify(name) {
 
 const SECTION_RE = /^#\s+(\d+)\.\s+(.+?)\s*$/;
 const SEPARATOR_RE = /^\|\s*-{3,}\s*\|\s*-{3,}\s*\|\s*$/;
-const ROW_RE = /^\|(.+)\|(.+)\|\s*$/;
+// Rows are split on UNESCAPED pipes only. A greedy /^\|(.+)\|(.+)\|$/
+// mis-splits any row whose definition contains an escaped \| , and DROPS the
+// row entirely when that escaped pipe sits at the end. Editing is open and the
+// markdown exporter escapes pipes, so this is reachable, not theoretical — and
+// it would silently corrupt the export/re-import round trip.
+const UNESCAPED_PIPE = /(?<!\\)\|/;
 
 // A section becomes a category only if it contains a term table. The header
 // row is whatever line precedes the |---|---| separator — matching on header
@@ -51,10 +56,11 @@ export function parseGlossary(markdown) {
 
     if (!inTable) continue;
 
-    const row = ROW_RE.exec(line);
-    if (!row) continue;
-    const term = cell(row[1]);
-    const definition = cell(row[2]);
+    const cells = line.split(UNESCAPED_PIPE);
+    // A well-formed two-column row splits into: "", term, definition, "".
+    if (cells.length !== 4) continue;
+    const term = cell(cells[1]);
+    const definition = cell(cells[2]);
     if (!term || !definition) continue;
 
     if (current.rows.length === 0 && !categories.includes(current)) {

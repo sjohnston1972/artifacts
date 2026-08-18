@@ -531,6 +531,28 @@ describe("parseGlossary", () => {
     expect(semantic.rows.every((r) => !r.term.includes("`"))).toBe(true);
   });
 
+  it("keeps a row whose definition contains an escaped pipe", () => {
+    // The markdown exporter escapes pipes inside cells. A greedy row regex
+    // mis-splits such a row, and drops it outright when the escaped pipe is
+    // the last character — silently losing an entry on re-import.
+    const bs = String.fromCharCode(92);
+    const md = [
+      "# 1. Demo", "", "| Term | Definition |", "|---|---|",
+      "| Pipe Table | Columns split by a " + bs + "| character. |",
+      "| Trailing | Ends with a pipe " + bs + "| |",
+      "",
+    ].join("
+");
+    const rows = parseGlossary(md).categories[0].rows;
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toEqual({
+      term: "Pipe Table",
+      definition: "Columns split by a | character.",
+    });
+    expect(rows[1].term).toBe("Trailing");
+    expect(rows[1].definition).toBe("Ends with a pipe |");
+  });
+
   it("never splits a term on a slash", () => {
     const allTerms = parsed.categories.flatMap((c) => c.rows.map((r) => r.term));
     expect(allTerms).toContain("Master/Detail");
@@ -626,7 +648,12 @@ export function slugify(name) {
 
 const SECTION_RE = /^#\s+(\d+)\.\s+(.+?)\s*$/;
 const SEPARATOR_RE = /^\|\s*-{3,}\s*\|\s*-{3,}\s*\|\s*$/;
-const ROW_RE = /^\|(.+)\|(.+)\|\s*$/;
+// Rows are split on UNESCAPED pipes only. A greedy /^\|(.+)\|(.+)\|$/
+// mis-splits any row whose definition contains an escaped \\| , and DROPS the
+// row entirely when that escaped pipe sits at the end. Editing is open and the
+// markdown exporter escapes pipes, so this is reachable, not theoretical — and
+// it would silently corrupt the export/re-import round trip.
+const UNESCAPED_PIPE = /(?<!\\)\|/;
 
 // A section becomes a category only if it contains a term table. The header
 // row is whatever line precedes the |---|---| separator — matching on header
@@ -667,10 +694,11 @@ export function parseGlossary(markdown) {
 
     if (!inTable) continue;
 
-    const row = ROW_RE.exec(line);
-    if (!row) continue;
-    const term = cell(row[1]);
-    const definition = cell(row[2]);
+    const cells = line.split(UNESCAPED_PIPE);
+    // A well-formed two-column row splits into: "", term, definition, "".
+    if (cells.length !== 4) continue;
+    const term = cell(cells[1]);
+    const definition = cell(cells[2]);
     if (!term || !definition) continue;
 
     if (current.rows.length === 0 && !categories.includes(current)) {
@@ -772,7 +800,7 @@ function assignCatalogueNumbers(entries) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/parse.test.js`
-Expected: PASS, 19 tests. If the 1,001 or 918 counts are off, the parser is wrong — do not adjust the expected numbers, they were measured from the source.
+Expected: PASS, 20 tests. If the 1,001 or 918 counts are off, the parser is wrong — do not adjust the expected numbers, they were measured from the source.
 
 - [ ] **Step 5: Commit and push**
 

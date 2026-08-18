@@ -41,6 +41,10 @@ for (const file of files) {
   page.on("pageerror", onErr);
   page.on("console", onConsole);
 
+  // Fresh document each time: buildDocument's bootstrap declares a top-level
+  // const, and reusing one document makes the second load throw "already
+  // declared" — a harness artefact that would look like a specimen defect.
+  await page.goto("about:blank");
   await page.setContent(doc, { waitUntil: "load" });
   const m = await page.evaluate(() => {
     const b = document.body;

@@ -1,0 +1,68 @@
+{
+  "slug": "workflow-stage",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Stage name",
+      "default": "Fulfilment"
+    },
+    {
+      "id": "position",
+      "type": "number",
+      "label": "Stage position",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "total",
+      "type": "number",
+      "label": "Total stages",
+      "default": 4,
+      "min": 1,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "id": "stepsCount",
+      "type": "number",
+      "label": "Steps in stage",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "current",
+      "options": [
+        "completed",
+        "current",
+        "upcoming"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"workflow-stage\" data-status=\"{{status}}\" style=\"--accent:{{accent}};border-top:4px solid {{accent}};\">\n  <div class=\"workflow-stage__head\">\n    <span class=\"workflow-stage__position\">Stage {{position}} of {{total}}</span>\n    <span class=\"workflow-stage__badge\">\n      <svg class=\"workflow-stage__icon workflow-stage__icon--completed\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"workflow-stage__icon workflow-stage__icon--current\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"4\" fill=\"currentColor\"/><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg>\n      <svg class=\"workflow-stage__icon workflow-stage__icon--upcoming\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-dasharray=\"2.5 2.5\"/></svg>\n      {{status}}\n    </span>\n  </div>\n  <h3 class=\"workflow-stage__name\">{{name}}</h3>\n  <p class=\"workflow-stage__steps\">{{stepsCount}} steps in this stage</p>\n</div>\n<style>\n.workflow-stage { width: 280px; padding: 18px; background: #FAF7F2; color: #241430; font: 14px/1.4 system-ui, sans-serif; border-radius: 14px; box-shadow: 0 8px 24px rgba(36,20,48,.12); box-sizing: border-box; }\n.workflow-stage__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }\n.workflow-stage__position { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #241430b3; }\n.workflow-stage__badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; text-transform: capitalize; }\n.workflow-stage__icon { width: 12px; height: 12px; display: none; }\n.workflow-stage[data-status=\"completed\"] .workflow-stage__icon--completed { display: block; }\n.workflow-stage[data-status=\"current\"] .workflow-stage__icon--current { display: block; }\n.workflow-stage[data-status=\"upcoming\"] .workflow-stage__icon--upcoming { display: block; }\n.workflow-stage[data-status=\"completed\"] .workflow-stage__badge { background: #A8E6C1; color: #17532F; }\n.workflow-stage[data-status=\"current\"] .workflow-stage__badge { background: var(--accent); color: #12385E; }\n.workflow-stage[data-status=\"upcoming\"] .workflow-stage__badge { background: #24143014; color: #241430b3; }\n.workflow-stage__name { margin: 10px 0 4px; font-size: 18px; }\n.workflow-stage__steps { margin: 0; font-size: 12.5px; color: #241430b3; }\n</style>",
+    "tailwind": "<div class=\"workflow-stage-tw w-[280px] p-[18px] bg-[#FAF7F2] text-[#241430] font-sans text-sm rounded-2xl shadow-lg box-border\" data-status=\"{{status}}\" style=\"--accent:{{accent}};border-top:4px solid {{accent}};\">\n  <div class=\"flex items-center justify-between gap-2\">\n    <span class=\"text-[11px] font-bold uppercase tracking-wide text-[#241430]/70\">Stage {{position}} of {{total}}</span>\n    <span class=\"workflow-stage-tw__badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-[11px] capitalize\">\n      <svg class=\"workflow-stage-tw__icon workflow-stage-tw__icon--completed w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"workflow-stage-tw__icon workflow-stage-tw__icon--current w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"4\" fill=\"currentColor\"/><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg>\n      <svg class=\"workflow-stage-tw__icon workflow-stage-tw__icon--upcoming w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-dasharray=\"2.5 2.5\"/></svg>\n      {{status}}\n    </span>\n  </div>\n  <h3 class=\"mt-2.5 mb-1 text-lg\">{{name}}</h3>\n  <p class=\"m-0 text-[12.5px] text-[#241430]/70\">{{stepsCount}} steps in this stage</p>\n</div>\n<style>\n.workflow-stage-tw__icon { display: none; }\n.workflow-stage-tw[data-status=\"completed\"] .workflow-stage-tw__icon--completed { display: block; }\n.workflow-stage-tw[data-status=\"current\"] .workflow-stage-tw__icon--current { display: block; }\n.workflow-stage-tw[data-status=\"upcoming\"] .workflow-stage-tw__icon--upcoming { display: block; }\n.workflow-stage-tw[data-status=\"completed\"] .workflow-stage-tw__badge { background: #A8E6C1; color: #17532F; }\n.workflow-stage-tw[data-status=\"current\"] .workflow-stage-tw__badge { background: var(--accent); color: #12385E; }\n.workflow-stage-tw[data-status=\"upcoming\"] .workflow-stage-tw__badge { background: #24143014; color: #241430b3; }\n</style>",
+    "react": "export function WorkflowStage({\n  name = \"{{name}}\",\n  position = {{position}},\n  total = {{total}},\n  stepsCount = {{stepsCount}},\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const palette = {\n    completed: { background: \"#A8E6C1\", color: \"#17532F\" },\n    current: { background: accent, color: \"#12385E\" },\n    upcoming: { background: \"#24143014\", color: \"#241430b3\" },\n  }[status] ?? {};\n  return (\n    <div style={{ width: 280, padding: 18, background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\",\n      fontSize: 14, borderRadius: 14, boxShadow: \"0 8px 24px rgba(36,20,48,.12)\", boxSizing: \"border-box\",\n      borderTop: `4px solid ${accent}` }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8 }}>\n        <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: \"#241430b3\" }}>\n          Stage {position} of {total}\n        </span>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, padding: \"3px 10px\", borderRadius: 999,\n          fontWeight: 700, fontSize: 11, textTransform: \"capitalize\", ...palette }}>\n          {status === \"completed\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n          )}\n          {status === \"current\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"4\" fill=\"currentColor\" /><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" /></svg>\n          )}\n          {status === \"upcoming\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeDasharray=\"2.5 2.5\" /></svg>\n          )}\n          {status}\n        </span>\n      </div>\n      <h3 style={{ margin: \"10px 0 4px\", fontSize: 18 }}>{name}</h3>\n      <p style={{ margin: 0, fontSize: 12.5, color: \"#241430b3\" }}>{stepsCount} steps in this stage</p>\n    </div>\n  );\n}"
+  }
+}

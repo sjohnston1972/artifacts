@@ -64,6 +64,14 @@ describe("GET /", () => {
     expect(body).toMatch(/Nothing in the catalogue/i);
   });
 
+  it("ranks an exact match first in the rendered results, not just alphabetically", async () => {
+    // This is the visible search box, not the Cmd+K palette — the two paths
+    // used to disagree because only the palette scored relevance.
+    const body = await (await SELF.fetch("https://example.com/?q=toast")).text();
+    const firstName = body.match(/class="card__name">([^<]+)</)[1];
+    expect(firstName).toBe("Toast");
+  });
+
   it("shows every entry at tier=all rather than silently truncating", async () => {
     const body = await (await SELF.fetch("https://example.com/?tier=all")).text();
     expect((body.match(/class="card"/g) ?? []).length).toBe(918);

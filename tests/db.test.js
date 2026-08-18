@@ -73,6 +73,39 @@ describe("listEntries", () => {
     const rows = await db.listEntries(env.DB, { definitionOnly: true, limit: 5 });
     expect(rows.every((r) => r.has_example === 0)).toBe(true);
   });
+
+  describe("search ranks by relevance, not just alphabetically", () => {
+    // The visible search box's ORDER BY used to be pure e.name — so an
+    // exact match could rank behind entries that merely contain the query
+    // as a substring, or behind an entry whose DEFINITION happens to
+    // mention the term. This is what "search does not work" meant to a
+    // user: /?q=table surfaced "Combobox" before "Table".
+    it("ranks an exact name match first", async () => {
+      const rows = await db.listEntries(env.DB, { q: "toast", limit: 50 });
+      expect(rows[0].name).toBe("Toast");
+    });
+    it("ranks the exact 'Card' above longer names that merely contain it", async () => {
+      const rows = await db.listEntries(env.DB, { q: "card", limit: 50 });
+      expect(rows[0].name).toBe("Card");
+    });
+    it("ranks the exact 'Table' above 'Combobox', whose definition mentions tables", async () => {
+      const rows = await db.listEntries(env.DB, { q: "table", limit: 50 });
+      expect(rows[0].name).toBe("Table");
+    });
+    it("still returns an alias-only match", async () => {
+      const rows = await db.listEntries(env.DB, { q: "snackbar", limit: 50 });
+      expect(rows.some((r) => r.name === "Toast")).toBe(true);
+    });
+    it("stays alphabetical when there is no search term", async () => {
+      // SQLite's default ORDER BY collation is byte-order (BINARY), which
+      // localeCompare does not reliably reproduce, so sort with the plain
+      // relational operators to match e.name's actual ordering.
+      const rows = await db.listEntries(env.DB, { categorySlug: "navigation", limit: 500 });
+      const names = rows.map((r) => r.name);
+      const sorted = [...names].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+      expect(names).toEqual(sorted);
+    });
+  });
 });
 
 describe("listCategories excludes deleted", () => {

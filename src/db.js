@@ -78,6 +78,31 @@ export async function listEntries(db, opts = {}) {
   }
   if (definitionOnly) where.push("e.has_example = 0");
 
+  // With a search term, rank the same way the command palette scores
+  // matches (public/js/palette.js): exact name, then name-prefix, then
+  // name-substring, then alias, else definition-only — with length(e.name)
+  // as the tie-breaker so "Card" ranks above "Blog Card". Without a search
+  // term this stays pure alphabetical; a category listing should not be
+  // "ranked" against nothing.
+  //
+  // Four more plain positional `?` binds for `q`, pushed here in SQL text
+  // order — after the WHERE binds, before limit/offset. Do NOT use `?1`:
+  // this function already broke once (`?1` aliased onto a bare `?` from
+  // `c.slug = ?`, blowing up /c/:slug?q=... with a bind-count mismatch).
+  const orderBy = q
+    ? `ORDER BY
+        CASE
+          WHEN lower(e.name) = lower(?) THEN 0
+          WHEN lower(e.name) LIKE lower(?) || '%' THEN 1
+          WHEN lower(e.name) LIKE '%' || lower(?) || '%' THEN 2
+          WHEN lower(e.aliases) LIKE '%' || lower(?) || '%' THEN 3
+          ELSE 4
+        END,
+        length(e.name),
+        e.name`
+    : `ORDER BY e.name`;
+  if (q) binds.push(q, q, q, q);
+
   const sql = `
     SELECT ${ENTRY_COLUMNS.split(",").map((c) => "e." + c.trim()).join(", ")},
            c.name AS category_name, c.slug AS category_slug, c.code AS category_code
@@ -85,7 +110,7 @@ export async function listEntries(db, opts = {}) {
     JOIN entry_categories ec ON ec.entry_id = e.id AND ec.is_primary = 1
     JOIN categories c ON c.id = ec.category_id
     WHERE ${where.join(" AND ")}
-    ORDER BY e.name
+    ${orderBy}
     LIMIT ? OFFSET ?`;
   const { results } = await db.prepare(sql).bind(...binds, limit, offset).all();
   return results.map(hydrate);

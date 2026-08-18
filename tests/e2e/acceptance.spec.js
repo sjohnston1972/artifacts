@@ -16,6 +16,19 @@ test("searching toast finds it and the page has definition, example, tweaks and 
   await expect(page.getByRole("tab", { name: "HTML + CSS" })).toBeVisible();
 });
 
+test("the visible search box (not just Cmd+K) ranks an exact match first", async ({ page }) => {
+  // Task 15's original acceptance test only ever drove the command palette,
+  // which already scored relevance client-side. That let the server-side
+  // search behind the plain <input id="q"> ship with no ranking at all —
+  // ORDER BY e.name put "Notification Toast" ahead of the exact match
+  // "Toast". Drive the visible box here so this path is actually covered.
+  await page.goto("/");
+  await page.fill("#q", "toast");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\?q=toast/);
+  await expect(page.locator(".card__name").first()).toHaveText("Toast");
+});
+
 test("changing a colour updates the example and every code tab", async ({ page }) => {
   await page.goto("/e/button");
   await page.locator('.swatch[data-value="#E8A020"]').click();

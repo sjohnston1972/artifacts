@@ -461,7 +461,8 @@ This is the highest-risk task in the plan: everything downstream depends on the 
     `Category = { name: string, sortOrder: number, sectionNumber: number, rows: { term: string, definition: string }[] }`
   - `mergeEntries(parsed) → { categories: Category[], entries: Entry[] }` where
     `Entry = { name, slug, definition, notes, aliases: string[], primaryCategory: number, categories: number[], catalogueNo: number }`
-    and `primaryCategory` / `categories` hold `sortOrder` values.
+    and `primaryCategory` / `categories` hold `sortOrder` values. It also
+    returns `slugCollisions: string[]`, which must come back empty.
 
 - [ ] **Step 1: Write the failing parser tests**
 
@@ -515,7 +516,7 @@ describe("parseGlossary", () => {
   });
 
   it("treats the row before the separator as a header, whatever it is called", () => {
-    // Section 30 is headed `| State | Definition |` and section 43 `| Pattern | Definition |`.
+    // Section 30 is headed `| State | Definition |` and section 38 `| Pattern | Definition |`.
     // Neither header may appear as a term, but both words ARE real terms elsewhere.
     const states = parsed.categories.find((c) => c.name === "Interaction States");
     expect(states.rows.find((r) => r.definition === "Definition")).toBeUndefined();
@@ -577,6 +578,23 @@ describe("mergeEntries", () => {
     const numbers = nav.map((e) => e.catalogueNo).sort((a, b) => a - b);
     expect(numbers[0]).toBe(1);
     expect(numbers).toEqual(numbers.map((_, i) => i + 1));
+  });
+
+  it("gives the UI components the clean slugs, not the HTML tags", () => {
+    // Source order alone would hand /e/button to the <button> tag from
+    // section 2 and bury the core-tier Button component at /e/button-2.
+    const bySlug = (s) => merged.entries.find((e) => e.slug === s);
+    expect(bySlug("button").name).toBe("Button");
+    expect(bySlug("select").name).toBe("Select");
+    expect(bySlug("textarea").name).toBe("Textarea");
+    expect(bySlug("dialog").name).toBe("Dialog");
+    expect(bySlug("button-element").name).toBe("button");
+    expect(bySlug("select-element").name).toBe("select");
+  });
+
+  it("needs no numeric suffix to make slugs unique", () => {
+    expect(merged.slugCollisions).toEqual([]);
+    expect(merged.entries.filter((e) => /-\d+$/.test(e.slug))).toEqual([]);
   });
 
   it("preserves the definition of the first occurrence", () => {
@@ -691,7 +709,7 @@ export function mergeEntries(parsed) {
       }
       const entry = {
         name: row.term,
-        slug: slugify(row.term),
+        slug: baseSlug(row.term, category),
         definition: row.definition,
         notes: "",
         aliases: [],
@@ -705,11 +723,25 @@ export function mergeEntries(parsed) {
   }
 
   const entries = order;
-  assignSlugs(entries);
+  const slugCollisions = assignSlugs(entries);
   assignCatalogueNumbers(entries);
-  return { categories: parsed.categories, entries };
+  return { categories: parsed.categories, entries, slugCollisions };
 }
 
+const HTML_ELEMENT_CATEGORY = "Semantic HTML Elements";
+
+// Section 2 lists raw HTML tags whose names collide with the UI components
+// that are this catalogue's actual subjects: <button> vs Button, <select> vs
+// Select, <dialog> vs Dialog, <textarea> vs Textarea. Source order would hand
+// the clean slug to the tag, burying the core-tier component at /e/button-2.
+// The components win the clean slug; the tags are namespaced instead.
+function baseSlug(term, category) {
+  const base = slugify(term);
+  return category.name === HTML_ELEMENT_CATEGORY ? `${base}-element` : base;
+}
+
+// Returns the collisions rather than logging them: this module must stay
+// pure, and the seeder is the layer that decides what to do about them.
 function assignSlugs(entries) {
   const seen = new Map();
   const collisions = [];
@@ -724,9 +756,7 @@ function assignSlugs(entries) {
       e.slug = base;
     }
   }
-  if (collisions.length) {
-    console.warn(`slug collisions resolved: ${collisions.join(", ")}`);
-  }
+  return collisions;
 }
 
 function assignCatalogueNumbers(entries) {
@@ -742,7 +772,7 @@ function assignCatalogueNumbers(entries) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/parse.test.js`
-Expected: PASS, 17 tests. If the 1,001 or 918 counts are off, the parser is wrong — do not adjust the expected numbers, they were measured from the source.
+Expected: PASS, 19 tests. If the 1,001 or 918 counts are off, the parser is wrong — do not adjust the expected numbers, they were measured from the source.
 
 - [ ] **Step 5: Commit and push**
 
@@ -974,7 +1004,10 @@ export async function seed(db, markdown) {
   if (existing.n > 0) throw new Error("already seeded");
 
   const parsed = parseGlossary(markdown);
-  const { entries } = mergeEntries(parsed);
+  const { entries, slugCollisions } = mergeEntries(parsed);
+  if (slugCollisions.length) {
+    throw new Error(`unresolved slug collisions: ${slugCollisions.join(", ")}`);
+  }
 
   // Fail loudly rather than seeding a half-correct catalogue.
   const missingCodes = parsed.categories

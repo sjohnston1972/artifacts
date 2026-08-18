@@ -165,9 +165,14 @@ Source: `web-development-ui-glossary-complete.md`.
    "State" — from Workflow UI, Design System Terminology, Component
    Architecture and Application State Terminology — all survive on one page.
 4. **Slugs** are lowercased, non-alphanumerics collapsed to single hyphens,
-   then trimmed. Backticked terms from section 2 (`html`, `head`) keep the
-   bare word. Any collision after normalisation takes a `-2` suffix and is
-   reported by the seed script rather than resolved silently.
+   then trimmed. **Entries from section 2, Semantic HTML Elements, take an
+   `-element` suffix.** Twelve tag names collide with UI components that are
+   this catalogue's actual subjects, and source order would hand the clean
+   slug to the tag — burying four core-tier components, Button among them, at
+   `/e/button-2`. Namespacing the tags gives `/e/button` to the component and
+   `/e/button-element` to `<button>`, resolving all 918 slugs uniquely with no
+   numeric suffix anywhere. `mergeEntries` returns any residual collision in
+   `slugCollisions`, and the seeder refuses to run if that array is non-empty.
 5. **No slash-splitting.** *Departure from the source spec:* section 9 asked
    for "Switch / Toggle" style rows to be split into a name plus aliases. No
    such row exists in this source. The only eight rows containing a slash

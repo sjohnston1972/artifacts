@@ -1,20 +1,32 @@
 const ENTRY_COLUMNS = `id, name, slug, aliases, definition, notes,
   controls_schema, templates, tier, has_example, catalogue_no, updated_at`;
 
+function safeParse(value, fallback) {
+  if (value == null || value === "") return fallback;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
 function hydrate(row) {
   if (!row) return null;
   return {
     ...row,
-    aliases: JSON.parse(row.aliases || "[]"),
-    controls_schema: JSON.parse(row.controls_schema || "[]"),
-    templates: JSON.parse(row.templates || "{}"),
+    aliases: safeParse(row.aliases, []),
+    controls_schema: safeParse(row.controls_schema, []),
+    templates: safeParse(row.templates, {}),
   };
 }
 
 export async function listCategories(db) {
   const { results } = await db.prepare(
     `SELECT c.id, c.name, c.slug, c.code, c.sort_order,
-            COUNT(ec.entry_id) AS entry_count
+            -- COUNT(e.id), not COUNT(ec.entry_id): the tier filter lives on the
+            -- entries join, so counting join-table rows would still include
+            -- soft-deleted entries whose entries-row never matched.
+            COUNT(e.id) AS entry_count
      FROM categories c
      LEFT JOIN entry_categories ec ON ec.category_id = c.id AND ec.is_primary = 1
      LEFT JOIN entries e ON e.id = ec.entry_id AND e.tier <> 'deleted'
@@ -45,14 +57,19 @@ export async function listEntries(db, opts = {}) {
   const binds = [];
 
   if (categorySlug) {
-    where.push("c.slug = ? AND ec.is_primary = 1");
+    where.push("c.slug = ?");
     binds.push(categorySlug);
   }
   // A search spans every tier: the tier filter is a browsing aid, not a
   // search constraint (spec section 6).
   if (q) {
-    where.push("(e.name LIKE ?1 OR e.aliases LIKE ?1 OR e.definition LIKE ?1)");
-    binds.push(`%${q}%`);
+    // Three positional binds, NOT `?1` repeated. SQLite gives a bare `?` the
+    // next free index, so a leading `c.slug = ?` claims index 1 and `?1`
+    // silently aliases onto it — leaving 3 parameters for 4 bound values.
+    // That crashes the /c/:slug?q=... path specifically.
+    where.push("(e.name LIKE ? OR e.aliases LIKE ? OR e.definition LIKE ?)");
+    const like = `%${q}%`;
+    binds.push(like, like, like);
   } else if (tiers?.length) {
     where.push(`e.tier IN (${tiers.map(() => "?").join(",")})`);
     binds.push(...tiers);

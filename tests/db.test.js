@@ -61,9 +61,36 @@ describe("listEntries", () => {
     const byAlias = await db.listEntries(env.DB, { q: "snackbar", limit: 50 });
     expect(byAlias.some((r) => r.name === "Toast")).toBe(true);
   });
+  it("searches within a category without a bind-count crash", async () => {
+    // categorySlug + q together: SQLite numbering makes this the one
+    // combination that can throw, and it is exactly what /c/:slug?q=... does.
+    const rows = await db.listEntries(env.DB, {
+      categorySlug: "navigation", q: "menu", limit: 50,
+    });
+    expect(Array.isArray(rows)).toBe(true);
+  });
   it("filters to definition-only entries", async () => {
     const rows = await db.listEntries(env.DB, { definitionOnly: true, limit: 5 });
     expect(rows.every((r) => r.has_example === 0)).toBe(true);
+  });
+});
+
+describe("listCategories excludes deleted", () => {
+  it("does not count a soft-deleted entry toward its category", async () => {
+    const before = (await db.listCategories(env.DB)).find((c) => c.slug === "navigation");
+    const victim = (await db.listEntries(env.DB, { categorySlug: "navigation", limit: 1 }))[0];
+    await db.saveEntry(env.DB, victim.slug, { tier: "deleted" });
+    const after = (await db.listCategories(env.DB)).find((c) => c.slug === "navigation");
+    expect(after.entry_count).toBe(before.entry_count - 1);
+  });
+});
+
+describe("hydrate", () => {
+  it("degrades to defaults rather than throwing on malformed JSON", async () => {
+    await env.DB.prepare("UPDATE entries SET templates = ? WHERE slug = ?")
+      .bind("{not json", "badge").run();
+    const e = await db.getEntryBySlug(env.DB, "badge");
+    expect(e.templates).toEqual({});
   });
 });
 

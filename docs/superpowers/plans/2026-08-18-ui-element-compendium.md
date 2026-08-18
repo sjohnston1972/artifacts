@@ -1228,9 +1228,36 @@ describe("listEntries", () => {
     const byAlias = await db.listEntries(env.DB, { q: "snackbar", limit: 50 });
     expect(byAlias.some((r) => r.name === "Toast")).toBe(true);
   });
+  it("searches within a category without a bind-count crash", async () => {
+    // categorySlug + q together: SQLite numbering makes this the one
+    // combination that can throw, and it is exactly what /c/:slug?q=... does.
+    const rows = await db.listEntries(env.DB, {
+      categorySlug: "navigation", q: "menu", limit: 50,
+    });
+    expect(Array.isArray(rows)).toBe(true);
+  });
   it("filters to definition-only entries", async () => {
     const rows = await db.listEntries(env.DB, { definitionOnly: true, limit: 5 });
     expect(rows.every((r) => r.has_example === 0)).toBe(true);
+  });
+});
+
+describe("listCategories excludes deleted", () => {
+  it("does not count a soft-deleted entry toward its category", async () => {
+    const before = (await db.listCategories(env.DB)).find((c) => c.slug === "navigation");
+    const victim = (await db.listEntries(env.DB, { categorySlug: "navigation", limit: 1 }))[0];
+    await db.saveEntry(env.DB, victim.slug, { tier: "deleted" });
+    const after = (await db.listCategories(env.DB)).find((c) => c.slug === "navigation");
+    expect(after.entry_count).toBe(before.entry_count - 1);
+  });
+});
+
+describe("hydrate", () => {
+  it("degrades to defaults rather than throwing on malformed JSON", async () => {
+    await env.DB.prepare("UPDATE entries SET templates = ? WHERE slug = ?")
+      .bind("{not json", "badge").run();
+    const e = await db.getEntryBySlug(env.DB, "badge");
+    expect(e.templates).toEqual({});
   });
 });
 
@@ -1304,20 +1331,34 @@ The whole file is the only place SQL appears. Key points: `saveEntry` snapshots 
 const ENTRY_COLUMNS = `id, name, slug, aliases, definition, notes,
   controls_schema, templates, tier, has_example, catalogue_no, updated_at`;
 
+// Editing is open and the JSON columns are hand-edited, so a malformed value
+// is reachable. Degrade to the empty default rather than 500 the page.
+function safeParse(value, fallback) {
+  if (value == null || value === "") return fallback;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
 function hydrate(row) {
   if (!row) return null;
   return {
     ...row,
-    aliases: JSON.parse(row.aliases || "[]"),
-    controls_schema: JSON.parse(row.controls_schema || "[]"),
-    templates: JSON.parse(row.templates || "{}"),
+    aliases: safeParse(row.aliases, []),
+    controls_schema: safeParse(row.controls_schema, []),
+    templates: safeParse(row.templates, {}),
   };
 }
 
 export async function listCategories(db) {
   const { results } = await db.prepare(
+    // COUNT(e.id), not COUNT(ec.entry_id): the tier filter lives on the
+    // entries join, so counting join-table rows would still include
+    // soft-deleted entries whose entries-row never matched.
     `SELECT c.id, c.name, c.slug, c.code, c.sort_order,
-            COUNT(ec.entry_id) AS entry_count
+            COUNT(e.id) AS entry_count
      FROM categories c
      LEFT JOIN entry_categories ec ON ec.category_id = c.id AND ec.is_primary = 1
      LEFT JOIN entries e ON e.id = ec.entry_id AND e.tier <> 'deleted'
@@ -1348,14 +1389,19 @@ export async function listEntries(db, opts = {}) {
   const binds = [];
 
   if (categorySlug) {
-    where.push("c.slug = ? AND ec.is_primary = 1");
+    where.push("c.slug = ?");
     binds.push(categorySlug);
   }
   // A search spans every tier: the tier filter is a browsing aid, not a
   // search constraint (spec section 6).
   if (q) {
-    where.push("(e.name LIKE ?1 OR e.aliases LIKE ?1 OR e.definition LIKE ?1)");
-    binds.push(`%${q}%`);
+    // Three positional binds, NOT `?1` repeated. SQLite gives a bare `?` the
+    // next free index, so a leading `c.slug = ?` claims index 1 and `?1`
+    // silently aliases onto it — leaving 3 parameters for 4 bound values.
+    // That crashes the /c/:slug?q=... path specifically.
+    where.push("(e.name LIKE ? OR e.aliases LIKE ? OR e.definition LIKE ?)");
+    const like = `%${q}%`;
+    binds.push(like, like, like);
   } else if (tiers?.length) {
     where.push(`e.tier IN (${tiers.map(() => "?").join(",")})`);
     binds.push(...tiers);
@@ -1494,7 +1540,7 @@ export async function restoreRevision(db, revisionId) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/db.test.js`
-Expected: PASS, 15 tests.
+Expected: PASS, 18 tests.
 
 - [ ] **Step 5: Commit and push**
 

@@ -21,6 +21,16 @@ import path from "node:path";
 
 const { render, defaultsFor } = await import("../public/js/template.js");
 
+// Boolean HTML attributes — presence alone makes them true.
+const BOOL_ATTRS = [
+  "checked", "disabled", "selected", "required", "readonly", "open", "hidden",
+  "multiple", "autofocus", "novalidate", "loop", "muted", "controls",
+  "playsinline", "reversed", "ismap", "async", "defer",
+];
+const BOOL_ATTR_RE = new RegExp(
+  String.raw`\b(${BOOL_ATTRS.join("|")})\s*=\s*["']\{\{`, "g"
+);
+
 const dir = "examples";
 const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "PLAN.json");
 const problems = [];
@@ -66,6 +76,18 @@ for (const file of files) {
     );
     const missing = ids.filter((id) => !used.has(id));
     if (missing.length) problems.push([label, `${fmt}: never references ${missing.join(", ")}`]);
+  }
+
+  // HTML boolean attributes are PRESENCE-based: `checked="false"` is still
+  // checked. Interpolating a toggle straight into one therefore renders a
+  // specimen that contradicts its own control, and no other check here can
+  // see it — the template is well-formed, every control is referenced, and
+  // every option renders distinctly. Found by an author, not by a test.
+  for (const [fmt, tpl] of Object.entries(ex.templates)) {
+    const bad = [...String(tpl).matchAll(BOOL_ATTR_RE)].map((m) => m[1]);
+    if (bad.length) {
+      problems.push([label, `${fmt}: boolean attribute(s) interpolated instead of {{#if}}: ${[...new Set(bad)].join(", ")}`]);
+    }
   }
 
   for (const c of ex.controls_schema.filter((c) => c.type === "select")) {

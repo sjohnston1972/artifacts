@@ -1,0 +1,56 @@
+{
+  "slug": "button",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Save changes"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "primary",
+      "options": [
+        "primary",
+        "secondary",
+        "ghost"
+      ]
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<button class=\"btn btn--{{variant}}\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn {\n  font: 500 16px/1 system-ui, sans-serif;\n  padding: 12px 20px;\n  border-radius: {{radius}}px;\n  border: 2px solid {{bg}};\n  background: {{bg}};\n  color: #FAF7F2;\n  cursor: pointer;\n}\n.btn--secondary { background: transparent; color: {{bg}}; }\n.btn--ghost { background: transparent; border-color: transparent; color: {{bg}}; }\n.btn[disabled] { opacity: .45; cursor: not-allowed; }\n</style>",
+    "tailwind": "<button class=\"px-5 py-3 text-base font-medium text-[#FAF7F2] border-2 disabled:opacity-45 disabled:cursor-not-allowed\" style=\"border-radius:{{radius}}px;background:{{bg}};border-color:{{bg}}\"{{#if disabled}} disabled{{/if}}>{{label}}</button>",
+    "react": "export function Button({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  disabled = {{{disabled}}},\n}) {\n  const base = {\n    padding: \"12px 20px\",\n    borderRadius: {{radius}},\n    border: \"2px solid {{bg}}\",\n    background: variant === \"primary\" ? \"{{bg}}\" : \"transparent\",\n    color: variant === \"primary\" ? \"#FAF7F2\" : \"{{bg}}\",\n    cursor: disabled ? \"not-allowed\" : \"pointer\",\n    opacity: disabled ? 0.45 : 1,\n  };\n  return <button style={base} disabled={disabled}>{label}</button>;\n}"
+  }
+}

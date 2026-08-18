@@ -1,5 +1,5 @@
 import { route } from "./router.js";
-import { seed } from "./seed/run.js";
+import { seed, loadExamples } from "./seed/run.js";
 import * as db from "./db.js";
 import { renderBrowse } from "./render/browse.js";
 import { renderEntry } from "./render/entry.js";
@@ -57,7 +57,12 @@ async function seedRoute(request, env) {
     return Response.json({ error: "POST the glossary markdown as the body" }, { status: 400 });
   }
   try {
-    return Response.json(await seed(env.DB, markdown));
+    const result = await seed(env.DB, markdown);
+    // The ten authored examples (Task 14) only make sense once their entries
+    // exist, so this runs immediately after seed() as one atomic setup step
+    // rather than requiring a second manual call against the live site.
+    const examples = await loadExamples(env.DB);
+    return Response.json({ ...result, examples });
   } catch (e) {
     // The already-seeded guard is an expected outcome, not a crash.
     if (/already seeded/i.test(e.message)) {

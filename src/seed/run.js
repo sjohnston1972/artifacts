@@ -1,5 +1,35 @@
 import { parseGlossary, mergeEntries } from "./parse.js";
 import { CATEGORY_CODES, ALIASES, CORE_NAMES } from "./tables.js";
+import buttonExample from "../../examples/button.json";
+import cardExample from "../../examples/card.json";
+import modalExample from "../../examples/modal.json";
+import toastExample from "../../examples/toast.json";
+import tabBarExample from "../../examples/tab-bar.json";
+import badgeExample from "../../examples/badge.json";
+import textInputExample from "../../examples/text-input.json";
+import selectExample from "../../examples/select.json";
+import accordionExample from "../../examples/accordion.json";
+import tableExample from "../../examples/table.json";
+
+const EXAMPLES = [
+  buttonExample, cardExample, modalExample, toastExample, tabBarExample,
+  badgeExample, textInputExample, selectExample, accordionExample, tableExample,
+];
+
+// Ten authored examples proving the tweak system on real content (Task 14).
+// Runs after seed() so the entries it patches already exist.
+export async function loadExamples(db) {
+  const { saveEntry } = await import("../db.js");
+  let loaded = 0;
+  for (const ex of EXAMPLES) {
+    await saveEntry(db, ex.slug, {
+      controls_schema: ex.controls_schema,
+      templates: ex.templates,
+    });
+    loaded++;
+  }
+  return loaded;
+}
 
 export async function seed(db, markdown) {
   const existing = await db.prepare("SELECT COUNT(*) AS n FROM entries").first();

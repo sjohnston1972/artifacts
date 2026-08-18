@@ -1,0 +1,56 @@
+{
+  "slug": "tab-bar",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Active tab label",
+      "default": "Overview"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "underline",
+      "options": [
+        "underline",
+        "pill",
+        "boxed"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "thickness",
+      "type": "number",
+      "label": "Indicator thickness",
+      "default": 3,
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "badge",
+      "type": "toggle",
+      "label": "Show notification dot",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"tabbar tabbar--{{variant}}\" style=\"--accent:{{accent}};--thickness:{{thickness}}px;\">\n  <a class=\"tabbar__tab is-active\" href=\"#\">\n    {{label}}\n    {{#if badge}}<span class=\"tabbar__badge\"></span>{{/if}}\n  </a>\n  <a class=\"tabbar__tab\" href=\"#\">Activity</a>\n  <a class=\"tabbar__tab\" href=\"#\">Settings</a>\n</nav>\n<style>\n.tabbar { display: flex; gap: 4px; font: 500 14px system-ui, sans-serif; background: #FAF7F2; padding: 6px; border-radius: 10px; width: fit-content; }\n.tabbar__tab { position: relative; padding: 8px 16px; border-radius: 8px; color: #241430; text-decoration: none; opacity: .6; }\n.tabbar__tab.is-active { opacity: 1; }\n.tabbar__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.tabbar--underline .tabbar__tab.is-active { box-shadow: inset 0 calc(var(--thickness) * -1) 0 var(--accent); }\n.tabbar--pill .tabbar__tab.is-active { background: var(--accent); }\n.tabbar--boxed .tabbar__tab.is-active { box-shadow: inset 0 0 0 var(--thickness) var(--accent); }\n.tabbar__badge { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: 6px; vertical-align: middle; }\n</style>",
+    "tailwind": "<nav class=\"flex gap-1 bg-[#FAF7F2] p-1.5 rounded-xl font-medium text-sm w-fit\">\n  <a href=\"#\" class=\"relative px-4 py-2 rounded-lg text-[#241430]\" style=\"box-shadow:inset 0 calc({{thickness}}px * -1) 0 {{accent}}\">\n    {{label}}\n    {{#if badge}}<span class=\"inline-block w-1.5 h-1.5 rounded-full ml-1.5 align-middle\" style=\"background:{{accent}}\"></span>{{/if}}\n  </a>\n  <a href=\"#\" class=\"px-4 py-2 rounded-lg text-[#241430]/60\">Activity</a>\n  <a href=\"#\" class=\"px-4 py-2 rounded-lg text-[#241430]/60\">Settings</a>\n</nav>",
+    "react": "export function TabBar({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  thickness = {{{thickness}}},\n  badge = {{{badge}}},\n}) {\n  const activeStyle = {\n    underline: { boxShadow: `inset 0 ${-thickness}px 0 ${accent}` },\n    pill: { background: accent },\n    boxed: { boxShadow: `inset 0 0 0 ${thickness}px ${accent}` },\n  }[variant] ?? {};\n  return (\n    <nav style={{ display: \"flex\", gap: 4, background: \"#FAF7F2\", padding: 6, borderRadius: 10, width: \"fit-content\",\n      fontFamily: \"system-ui, sans-serif\", fontSize: 14, fontWeight: 500 }}>\n      <a href=\"#\" style={{ position: \"relative\", padding: \"8px 16px\", borderRadius: 8, color: \"#241430\", textDecoration: \"none\", ...activeStyle }}>\n        {label}\n        {badge && <span style={{ display: \"inline-block\", width: 6, height: 6, borderRadius: \"50%\", background: accent, marginLeft: 6 }} />}\n      </a>\n      <a href=\"#\" style={{ padding: \"8px 16px\", borderRadius: 8, color: \"#241430\", opacity: .6, textDecoration: \"none\" }}>Activity</a>\n      <a href=\"#\" style={{ padding: \"8px 16px\", borderRadius: 8, color: \"#241430\", opacity: .6, textDecoration: \"none\" }}>Settings</a>\n    </nav>\n  );\n}"
+  }
+}

@@ -1105,12 +1105,24 @@ The markdown arrives in the request body rather than being bundled into the Work
 import { seed } from "./seed/run.js";
 
 async function seedRoute(request, env) {
+  // Seeding writes 918 rows, so it goes through the same seam as every other
+  // write. Without this, "implement requireWrite and nothing else changes"
+  // would be false for the route that writes the most.
+  const locked = requireWrite(request, env);
+  if (locked) return locked;
   const markdown = await request.text();
   if (!markdown.trim()) {
     return Response.json({ error: "POST the glossary markdown as the body" }, { status: 400 });
   }
-  const result = await seed(env.DB, markdown);
-  return Response.json(result);
+  try {
+    return Response.json(await seed(env.DB, markdown));
+  } catch (e) {
+    // The already-seeded guard is an expected outcome, not a crash.
+    if (/already seeded/i.test(e.message)) {
+      return Response.json({ error: "already seeded" }, { status: 409 });
+    }
+    throw e;
+  }
 }
 ```
 
@@ -3470,10 +3482,16 @@ export async function createEntryRoute(request, env) {
   if (locked) return locked;
   let body;
   try { body = await request.json(); } catch { return bad("body must be JSON"); }
-  if (!String(body.name ?? "").trim()) return bad("name is required");
+  const name = String(body.name ?? "").trim();
+  if (!name) return bad("name is required");
+  // A name like "!!!" is non-blank but slugifies to "", which would produce an
+  // entry with an empty slug and therefore no reachable URL.
+  if (!/[a-z0-9]/i.test(name)) {
+    return bad("name must contain at least one letter or number");
+  }
   if (!Number.isInteger(body.categoryId)) return bad("categoryId is required");
   return Response.json(await db.createEntry(env.DB, {
-    name: String(body.name).trim(), categoryId: body.categoryId,
+    name, categoryId: body.categoryId,
   }));
 }
 
@@ -3539,6 +3557,11 @@ function showError(message) {
   const box = document.querySelector(".edit__error");
   box.textContent = message;
   box.hidden = false;
+  // The client-side path uses reportValidity(), which moves focus natively.
+  // Without this the two failure paths behave differently for keyboard and
+  // screen-reader users.
+  box.tabIndex = -1;
+  box.focus();
 }
 
 for (const field of document.querySelectorAll("textarea[data-json]")) {

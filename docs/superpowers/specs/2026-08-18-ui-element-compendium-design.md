@@ -157,12 +157,13 @@ Source: `web-development-ui-glossary-complete.md`.
    `Pattern` and `State` — and the last two are also legitimate term names
    elsewhere in the glossary, so text matching would either skip real
    entries or admit two header rows as terms.
-3. **Duplicate names merge.** 918 unique names remain after merging 85
-   repeats. The first occurrence in source order supplies `name`, `slug`,
+3. **Duplicate names merge.** 918 unique names remain: 74 names account for
+   1,001 rows by repeating, 83 rows beyond their first appearance. The first occurrence in source order supplies `name`, `slug`,
    `definition` and the primary category. Each later occurrence appends to
    `notes` as `**{Section name}:** {definition}` and adds a non-primary row
-   to `entry_categories`. Nothing is lost: the five distinct senses of
-   "State" all survive on one page.
+   to `entry_categories`. Nothing is lost: the four distinct senses of
+   "State" — from Workflow UI, Design System Terminology, Component
+   Architecture and Application State Terminology — all survive on one page.
 4. **Slugs** are lowercased, non-alphanumerics collapsed to single hyphens,
    then trimmed. Backticked terms from section 2 (`html`, `head`) keep the
    bare word. Any collision after normalisation takes a `-2` suffix and is

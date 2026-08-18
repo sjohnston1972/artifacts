@@ -37,7 +37,7 @@ Any task asserting these numbers can rely on them; they were measured, not estim
 | Sections with no table (skipped) | 9 (sections 39, 40, 41, 42, 44, 45, 46, 47, 48) |
 | Term rows across all tables | 1,001 |
 | Unique term names after merging | 918 |
-| Names appearing in more than one section | 85 |
+| Names appearing in more than one section | 74 (accounting for 83 extra rows) |
 | Table separator rows | 45, all exactly `\|---\|---\|` |
 | Distinct table header labels | 4: `Term` (42), `Element / Term`, `Pattern`, `State` |
 | Rows whose term is backticked | 32 (all in section 2) |
@@ -549,13 +549,21 @@ describe("mergeEntries", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("merges the five senses of State into one entry", () => {
+  it("merges the four senses of State into one entry", () => {
     const state = merged.entries.find((e) => e.name === "State");
-    expect(state.categories.length).toBe(5);
+    expect(state.categories).toHaveLength(4);
     expect(state.categories).toContain(state.primaryCategory);
-    // the first occurrence supplies the definition, the rest go to notes
-    expect(state.notes).toContain("**Interaction States:**");
-    expect(state.notes.match(/\*\*/g).length).toBeGreaterThanOrEqual(8);
+    // The first occurrence (Workflow UI) supplies the definition; the other
+    // three go to notes.
+    expect(state.definition).toBe("Current workflow condition.");
+    expect(state.notes).toContain("**Design System Terminology:**");
+    expect(state.notes).toContain("**Component Architecture:**");
+    expect(state.notes).toContain("**Application State Terminology:**");
+    expect(state.notes.match(/\*\*/g)).toHaveLength(6);
+    // The "State" row in the Interaction States table is that table's HEADER.
+    // If header detection regresses to matching on text, that row becomes a
+    // fifth category here — so this negative assertion is the real test.
+    expect(state.notes).not.toContain("**Interaction States:**");
   });
 
   it("marks exactly one primary category per entry", () => {

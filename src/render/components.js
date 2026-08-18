@@ -1,7 +1,9 @@
 import { html, raw } from "./layout.js";
 
 export function catalogueRef(code, no) {
-  return html`<span class="catalogue-ref">${code}-${String(no).padStart(3, "0")}</span>`;
+  // A missing number would otherwise render "NAV-undefined" on the plate.
+  const digits = Number.isFinite(Number(no)) ? String(no).padStart(3, "0") : "000";
+  return html`<span class="catalogue-ref">${code ?? "UIF"}-${digits}</span>`;
 }
 
 export function tierBadge(tier) {

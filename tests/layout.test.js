@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { layout, html, raw } from "../src/render/layout.js";
+import { catalogueRef } from "../src/render/components.js";
 
 describe("html tagged template", () => {
   it("escapes interpolated values", () => {
@@ -10,6 +11,16 @@ describe("html tagged template", () => {
   });
   it("joins arrays without commas", () => {
     expect(html`${[raw("<li>a</li>"), raw("<li>b</li>")]}`).toBe("<li>a</li><li>b</li>");
+  });
+  it("escapes the apostrophe, so a single-quoted attribute is safe", () => {
+    expect(html`<a t='${"x' onerror='alert(1)"}'>`)
+      .toBe("<a t='x&#39; onerror=&#39;alert(1)'>");
+  });
+});
+
+describe("catalogueRef", () => {
+  it("renders a catalogue reference without a number as 000", () => {
+    expect(catalogueRef("NAV", undefined)).toContain("NAV-000");
   });
 });
 

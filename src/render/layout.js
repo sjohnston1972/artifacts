@@ -8,9 +8,14 @@ function stringify(v) {
   if (v == null || v === false) return "";
   if (Array.isArray(v)) return v.map(stringify).join("");
   if (typeof v === "object" && RAW in v) return v[RAW];
+  // Escapes the apostrophe too. No attribute in this codebase is
+  // single-quoted today, but this is the sole escaping boundary for every
+  // renderer in Tasks 8-14, and the entry example engine already lost two
+  // rounds to exactly this gap. Closing it costs one replace.
   return String(v)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 // Every renderer builds markup with this, so escaping is the default and

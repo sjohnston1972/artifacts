@@ -10,5 +10,12 @@ binding = "DB"
 database_name = "compendium"
 database_id = "3a5852ac-789b-4f3e-8211-ce45f53734a8"
 
+[[r2_buckets]]
+binding = "BACKUPS"
+bucket_name = "compendium-backups"
+
+[triggers]
+crons = ["0 3 * * *"]
+
 [observability]
 enabled = true

@@ -9,6 +9,8 @@ import { searchIndex } from "./api/index.js";
 import {
   createEntryRoute, saveEntryRoute, listRevisionsRoute, restoreRoute,
 } from "./api/entries.js";
+import { exportJson, exportMarkdown, exportEntryHtml } from "./api/export.js";
+import { importJson } from "./api/import.js";
 import { requireWrite } from "./auth.js";
 
 const TIERS = {
@@ -32,6 +34,10 @@ const routes = [
   { method: "POST", pattern: "/api/entries/:slug", handler: saveEntryRoute },
   { method: "GET", pattern: "/api/revisions/:slug", handler: listRevisionsRoute },
   { method: "POST", pattern: "/api/revisions/:id/restore", handler: restoreRoute },
+  { method: "GET", pattern: "/api/export.json", handler: exportJsonRoute },
+  { method: "GET", pattern: "/api/export.md", handler: exportMarkdownRoute },
+  { method: "GET", pattern: "/e/:slug/export.html", handler: exportEntryHtmlRoute },
+  { method: "POST", pattern: "/api/import", handler: importRoute },
 ];
 
 async function healthz() {
@@ -113,6 +119,32 @@ async function newEntryPage(request, env) {
   return htmlResponse(renderNewEntryPage({ categories }));
 }
 
+async function exportJsonRoute(request, env) {
+  return Response.json(await exportJson(env.DB));
+}
+
+async function exportMarkdownRoute(request, env) {
+  const md = await exportMarkdown(env.DB);
+  return new Response(md, {
+    headers: { "content-type": "text/markdown; charset=utf-8" },
+  });
+}
+
+async function exportEntryHtmlRoute(request, env, ctx, params) {
+  const entry = await db.getEntryBySlug(env.DB, params.slug);
+  if (!entry) return new Response("Not found", { status: 404 });
+  return new Response(exportEntryHtml(entry), {
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      "content-disposition": `attachment; filename="${entry.slug}.html"`,
+    },
+  });
+}
+
+async function importRoute(request, env) {
+  return importJson(request, env);
+}
+
 function htmlResponse(body, status = 200) {
   return new Response(body, {
     status,
@@ -132,4 +164,20 @@ export default {
       return new Response("Internal error", { status: 500 });
     }
   },
+
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(backup(event, env));
+  },
 };
+
+async function backup(event, env) {
+  const data = await exportJson(env.DB);
+  const date = new Date(event.scheduledTime).toISOString().slice(0, 10);
+  await env.BACKUPS.put(`backups/${date}.json`, JSON.stringify(data));
+
+  // Keep the most recent 30. Keys are dated, so lexical order is chronological.
+  const listed = await env.BACKUPS.list({ prefix: "backups/" });
+  const keys = listed.objects.map((o) => o.key).sort();
+  const excess = keys.slice(0, Math.max(0, keys.length - 30));
+  for (const key of excess) await env.BACKUPS.delete(key);
+}

@@ -89,6 +89,37 @@ export async function listEntries(db, opts = {}) {
   return results.map(hydrate);
 }
 
+// Export needs every live entry with its full category list, in the same
+// shape getEntryBySlug returns (hydrated JSON columns plus a `categories`
+// array ordered is_primary DESC). Looping getEntryBySlug per entry would
+// issue 2 queries per row — 1,838 round trips for 918 entries, on every
+// export AND every nightly cron backup. This does it in exactly two queries
+// and assembles the join in JS instead.
+export async function exportRows(db) {
+  const { results: entryRows } = await db.prepare(
+    `SELECT ${ENTRY_COLUMNS} FROM entries WHERE tier <> 'deleted' ORDER BY name`
+  ).all();
+  const { results: catRows } = await db.prepare(
+    `SELECT ec.entry_id AS entry_id, c.id, c.name, c.slug, c.code, ec.is_primary
+     FROM entry_categories ec JOIN categories c ON c.id = ec.category_id
+     ORDER BY ec.is_primary DESC, c.sort_order`
+  ).all();
+
+  const byEntry = new Map();
+  for (const row of catRows) {
+    if (!byEntry.has(row.entry_id)) byEntry.set(row.entry_id, []);
+    byEntry.get(row.entry_id).push({
+      id: row.id, name: row.name, slug: row.slug, code: row.code, is_primary: row.is_primary,
+    });
+  }
+
+  return entryRows.map((row) => {
+    const entry = hydrate(row);
+    entry.categories = byEntry.get(entry.id) ?? [];
+    return entry;
+  });
+}
+
 export async function searchIndexRows(db) {
   const { results } = await db.prepare(
     `SELECT e.id, e.name, e.slug, e.aliases, e.definition, e.tier, e.has_example,

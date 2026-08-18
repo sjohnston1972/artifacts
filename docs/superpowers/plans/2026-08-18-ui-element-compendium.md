@@ -1759,6 +1759,15 @@ describe("render", () => {
     expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
   });
 
+  it("does not warn for a placeholder in JavaScript, only in markup", () => {
+    // `disabled = {{disabled}}` in a React template is an assignment, not an
+    // unquoted attribute. Warning here is noise, and pushes authors toward
+    // {{{raw}}} to silence it — trading escaping away for quiet.
+    expect(render("export function B({ disabled = {{d}} }) {}", { d: false }).warnings)
+      .toEqual([]);
+    expect(render("const r = {{radius}};", { radius: 8 }).warnings).toEqual([]);
+  });
+
   it("warns when a placeholder sits in an unquoted attribute", () => {
     const r = render("<div class={{x}}>", { x: "a b" });
     expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
@@ -1918,9 +1927,19 @@ function escape(s) {
 // attribute — so this is surfaced as an authoring warning in the Edit view
 // instead of being silently mis-escaped.
 function inUnquotedAttribute(source, offset) {
+  // Must actually be inside a tag. Without this guard the check fires on any
+  // JavaScript assignment — `disabled = {{disabled}}` in a React template —
+  // which is noise, and worse, pushes authors to silence a security warning
+  // by switching to {{{raw}}} and turning escaping off.
+  if (!insideTag(source, offset)) return false;
   let i = offset - 1;
   while (i >= 0 && source[i] === " ") i--;
   return i >= 0 && source[i] === "=";
+}
+
+function insideTag(source, offset) {
+  const open = source.lastIndexOf("<", offset);
+  return open !== -1 && source.lastIndexOf(">", offset) < open;
 }
 
 // HTML decodes character references in attribute values BEFORE JavaScript
@@ -1934,6 +1953,7 @@ function inUnquotedAttribute(source, offset) {
 const EVENT_ATTR_RE = /([A-Za-z_:][-\w:.]*)\s*=\s*(?:"[^"]*|'[^']*)$/;
 
 function inEventHandler(source, offset) {
+  if (!insideTag(source, offset)) return false;
   const match = EVENT_ATTR_RE.exec(source.slice(0, offset));
   return Boolean(match) && /^on[a-z]+$/i.test(match[1]);
 }
@@ -1961,7 +1981,7 @@ export function defaultsFor(schema) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/template.test.js`
-Expected: PASS, 21 tests.
+Expected: PASS, 22 tests.
 
 - [ ] **Step 5: Commit and push**
 
@@ -4188,6 +4208,18 @@ test("editing then restoring returns the original definition", async ({ page }) 
   await expect(page.locator(".entry__def")).toHaveText(original.trim());
 });
 
+test("the specimen plate gets the room the design brief asks for", async ({ page }) => {
+  // Regression guard: the entry grid once placed the specimen in a 355px
+  // sidebar next to 709px of prose, leaving the iframe 179px wide.
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/e/table");
+  const widths = await page.evaluate(() => ({
+    main: document.querySelector("main").getBoundingClientRect().width,
+    stage: document.querySelector("iframe.stage").getBoundingClientRect().width,
+  }));
+  expect(widths.stage).toBeGreaterThan(widths.main * 0.5);
+});
+
 test("the site is usable one-handed on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
@@ -4284,13 +4316,22 @@ test.describe("reduced motion", () => {
 - [ ] **Step 4: Run the acceptance suite and fix what fails**
 
 Run: `npx playwright test`
-Expected: 9 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
+Expected: 10 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
 
 - [ ] **Step 5: Add the responsive rules**
 
 ```css
 .browse { display: grid; grid-template-columns: minmax(0, 16rem) minmax(0, 1fr); gap: var(--space-5); }
+
+/* The specimen plate is the design's one expressive moment and the spec asks
+   for the element to be "centred and given generous room". Measured at 1280px
+   before this pass, the entry grid was 709px of prose beside a 355px specimen
+   column, leaving the iframe 179px — the signature element in the sidebar and
+   the body text in the spotlight. The plate leads; the tweak panel sits
+   beside it; the prose reads at a comfortable measure below. */
+.entry { display: grid; grid-template-columns: minmax(0, 1fr); }
 .specimen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 20rem); gap: var(--space-4); }
+.entry__prose { max-width: 42rem; }
 .code__panel pre, .grid { overflow-x: auto; }
 
 @media (max-width: 768px) {

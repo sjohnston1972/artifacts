@@ -1,0 +1,314 @@
+/* ---------------------------------------------------------------------
+   UI Element Compendium — application chrome.
+   Specimen-catalogue aesthetic: quiet page furniture, one expressive
+   element (the specimen plate). Tokens live in tokens.css; this file is
+   rules only. All CSS transitions/animations live inside the
+   prefers-reduced-motion: no-preference block near the bottom — never
+   write a bare transition/animation outside it.
+   --------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: light dark; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 var(--space-2);
+  color: var(--fg);
+}
+
+h1 { font-size: var(--step-4); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-2); }
+
+p { margin: 0 0 var(--space-3); }
+
+a { color: inherit; }
+
+code, pre, .mono { font-family: var(--font-mono); }
+
+/* -------------------- layout shell -------------------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header__brand {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--step--1);
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: var(--fg-muted);
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--fg);
+  border-bottom-color: var(--gold);
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--fg);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  font: inherit;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: var(--space-4);
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+  text-align: center;
+}
+
+/* -------------------- skip link -------------------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-raised);
+  color: var(--fg);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.skip-link:focus {
+  left: var(--space-3);
+  top: var(--space-3);
+}
+
+/* -------------------- catalogue ref -------------------- */
+
+.catalogue-ref {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+}
+
+/* -------------------- badges -------------------- */
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  background: var(--bg-raised);
+}
+
+.badge--core {
+  color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.badge--quiet {
+  color: var(--fg-muted);
+  background: transparent;
+}
+
+/* -------------------- browse grid & cards -------------------- */
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.card__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.card__cat {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.card__name {
+  margin: 0;
+  font-size: var(--step-1);
+}
+
+.card__def {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+  flex: 1;
+}
+
+.card__badges {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* -------------------- entry layout -------------------- */
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+.entry__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.entry__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.entry__aliases {
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+}
+
+.entry__section {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+}
+
+@media (min-width: 60rem) {
+  .entry {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .entry__stage-col { grid-row: 1 / span 3; grid-column: 2; }
+}
+
+/* -------------------- specimen plate -------------------- */
+
+/* The plate's aurora mesh. Four radial gradients, leaning per category. */
+.plate {
+  position: relative;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+.plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: var(--plate-opacity);
+  background:
+    radial-gradient(60% 70% at 15% 20%, var(--mint) 0%, transparent 60%),
+    radial-gradient(55% 65% at 85% 15%, var(--blush) 0%, transparent 60%),
+    radial-gradient(65% 60% at 80% 85%, var(--sky) 0%, transparent 60%),
+    radial-gradient(60% 70% at 20% 85%, var(--lavender) 0%, transparent 60%);
+}
+.plate[data-lean="mint"]::before   { background-position: -10% -10%; }
+.plate[data-lean="blush"]::before  { background-position: 110% -10%; }
+.plate[data-lean="sky"]::before    { background-position: 110% 110%; }
+.plate[data-lean="lavender"]::before { background-position: -10% 110%; }
+.plate__head, .plate__stage { position: relative; }
+
+.plate__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.plate__stamp {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15em 0.7em;
+  background: var(--bg-raised);
+}
+
+.plate__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  border-radius: calc(var(--radius) - 6px);
+  background: var(--bg-raised);
+  padding: var(--space-4);
+}
+
+/* ALL motion lives in here. Never write a bare transition elsewhere. */
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: transform 160ms ease, box-shadow 160ms ease; }
+  .card:hover { transform: translateY(-2px); }
+  .plate__stage { transition: opacity 120ms ease; }
+  .theme-toggle { transition: background 160ms ease, border-color 160ms ease; }
+  .site-nav a { transition: color 160ms ease, border-color 160ms ease; }
+}
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }

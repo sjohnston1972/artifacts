@@ -52,7 +52,6 @@ Any task asserting these numbers can rely on them; they were measured, not estim
 - `worker.js` — `fetch` and `scheduled` handlers; wires router to handlers. Nothing else.
 - `router.js` — path pattern matching. No knowledge of the domain.
 - `db.js` — every D1 query. One exported function per operation. The only file containing SQL.
-- `template.js` — the placeholder engine. Imported by both the Worker and the browser, so it must be dependency-free and side-effect-free.
 - `auth.js` — `requireWrite()`, the single seam for a future edit key.
 - `seed/parse.js` — pure markdown → structured data. No D1, no I/O, so it is trivially testable.
 - `seed/tables.js` — the hand-maintained data: 45 category codes, the alias map, the core-tier name list.
@@ -67,6 +66,8 @@ Any task asserting these numbers can rely on them; they were measured, not estim
 **Client (`public/`)**
 - `css/tokens.css` — palette, type scale, spacing, light/dark. Custom properties only, no rules.
 - `css/app.css` — every actual rule.
+- `js/template.js` — the placeholder engine. **Lives here, not in `src/`**: the browser fetches it as a static asset and the Worker imports the very same file, so there is exactly one copy and no build step or raw-import trick is needed.
+- `js/generate.js` — turns templates plus values into the iframe document and the code tabs.
 - `js/theme.js`, `js/palette.js`, `js/copy.js`, `js/tweak.js`, `js/edit.js` — the five islands.
 - `fonts/` — self-hosted woff2 subsets.
 
@@ -139,15 +140,6 @@ enabled = true
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 
 export default defineWorkersConfig({
-  resolve: {
-    alias: {
-      // The browser modules in public/js import the shared engine by its
-      // served URL. Node cannot resolve a root-absolute path, so map it back
-      // to the one real file. Without this, tests/tweak.test.js cannot load.
-      "/js/template.js": new URL("./src/template.js", import.meta.url).pathname,
-      "/js/generate.js": new URL("./public/js/generate.js", import.meta.url).pathname,
-    },
-  },
   test: {
     poolOptions: {
       workers: {
@@ -643,7 +635,9 @@ export function parseGlossary(markdown) {
 }
 
 function cell(raw) {
-  return raw.trim().replace(/`/g, "").trim();
+  // A backslash-escaped pipe is how the markdown export protects a pipe
+  // inside a cell; unescaping here is what keeps that round trip lossless.
+  return raw.trim().replace(/`/g, "").replace(/\\\|/g, "|").trim();
 }
 
 // Merges rows sharing a name into one entry. The first occurrence in source
@@ -1026,12 +1020,17 @@ Add to `src/worker.js` a guarded route (it throws if already seeded, so it is sa
 { method: "POST", pattern: "/api/seed", handler: seedRoute },
 ```
 
+The markdown arrives in the request body rather than being bundled into the Worker. That keeps a 66KB file out of the deployed bundle and avoids needing a wrangler `Text` rule — which would also have to work under vitest, where the Worker is loaded through vite.
+
 ```js
 import { seed } from "./seed/run.js";
-import glossary from "../web-development-ui-glossary-complete.md";
 
 async function seedRoute(request, env) {
-  const result = await seed(env.DB, glossary);
+  const markdown = await request.text();
+  if (!markdown.trim()) {
+    return Response.json({ error: "POST the glossary markdown as the body" }, { status: 400 });
+  }
+  const result = await seed(env.DB, markdown);
   return Response.json(result);
 }
 ```
@@ -1041,21 +1040,15 @@ response shape is `{categories, entries, core, examples}`:
 
 ```js
 async function seedRoute(request, env) {
-  const result = await seed(env.DB, glossary);
+  const markdown = await request.text();
+  const result = await seed(env.DB, markdown);
   result.examples = await loadExamples(env.DB);
   return Response.json(result);
 }
 ```
 
-Add to `wrangler.toml` so the markdown is importable as a string:
-
-```toml
-rules = [
-  { type = "Text", globs = ["**/*.md"], fallthrough = true }
-]
-```
-
-Run: `npx wrangler dev` then `curl -s -X POST http://127.0.0.1:8787/api/seed`
+Run: `npx wrangler dev` then
+`curl -s -X POST --data-binary @web-development-ui-glossary-complete.md http://127.0.0.1:8787/api/seed`
 Expected: `{"categories":45,"entries":918,"core":61}`
 
 - [ ] **Step 7: Commit and push**
@@ -1428,7 +1421,7 @@ git push
 ## Task 6: Template engine
 
 **Files:**
-- Create: `src/template.js`
+- Create: `public/js/template.js`
 - Test: `tests/template.test.js`
 
 **Interfaces:**
@@ -1443,7 +1436,7 @@ Create `tests/template.test.js`:
 
 ```js
 import { describe, it, expect } from "vitest";
-import { render, defaultsFor } from "../src/template.js";
+import { render, defaultsFor } from "../public/js/template.js";
 
 describe("render", () => {
   it("substitutes a simple placeholder", () => {
@@ -1524,9 +1517,9 @@ describe("defaultsFor", () => {
 - [ ] **Step 2: Run the tests to verify they fail**
 
 Run: `npx vitest run tests/template.test.js`
-Expected: FAIL — cannot resolve `../src/template.js`.
+Expected: FAIL — cannot resolve `../public/js/template.js`.
 
-- [ ] **Step 3: Implement `src/template.js`**
+- [ ] **Step 3: Implement `public/js/template.js`**
 
 ```js
 // Tiny placeholder engine shared by the Worker and the browser. Deliberately
@@ -1623,7 +1616,7 @@ Expected: PASS, 13 tests.
 - [ ] **Step 5: Commit and push**
 
 ```bash
-git add src/template.js tests/template.test.js
+git add public/js/template.js tests/template.test.js
 git commit -m "feat: shared placeholder engine with context-aware escaping"
 git push
 ```
@@ -2523,7 +2516,7 @@ Expected: FAIL — 404 on `/e/affordance`.
 ```js
 import { html, raw, layout } from "./layout.js";
 import { specimenPlate, tierBadge, definitionOnlyBadge } from "./components.js";
-import { defaultsFor } from "../template.js";
+import { defaultsFor } from "../../public/js/template.js";
 
 const FORMAT_LABELS = { html: "HTML + CSS", tailwind: "Tailwind CSS", react: "React" };
 
@@ -2654,24 +2647,18 @@ This is the feature the whole site exists for. The panel, the iframe and the cod
 - Test: `tests/tweak.test.js` (logic), plus manual verification
 
 **Interfaces:**
-- Consumes: `render`, `defaultsFor` from `src/template.js` (Task 6) — imported directly by the browser at `/js/template.js`.
+- Consumes: `render`, `defaultsFor` from `public/js/template.js` (Task 6). The browser loads that file directly as a static asset; nothing needs serving through a route.
 - Produces: `buildDocument(htmlTemplate, values) → string` (the iframe srcdoc) and `generateAll(templates, values) → {format: code}`.
 
 - [ ] **Step 1: Make the template engine reachable from the browser**
 
-The same file must serve both. Add a route that serves `src/template.js` at `/js/template.js`:
+Nothing to do — Task 6 already put it at `public/js/template.js`, which the assets binding serves at `/js/template.js`. The browser modules beside it import it as `./template.js`, which resolves both in the browser and in Node, so the tests need no aliasing.
 
-```js
-import templateSource from "./template.js?raw";
+Confirm it is reachable:
 
-{ method: "GET", pattern: "/js/template.js", handler: async () =>
-    new Response(templateSource, {
-      headers: {
-        "content-type": "text/javascript; charset=utf-8",
-        "cache-control": "public, max-age=3600",
-      },
-    }) },
-```
+Run: `npx wrangler dev` then `curl -s -o /dev/null -w "%{http_code}
+" http://127.0.0.1:8787/js/template.js`
+Expected: `200`.
 
 - [ ] **Step 2: Write the failing generation tests**
 
@@ -2733,7 +2720,7 @@ Expected: FAIL — cannot resolve `../public/js/generate.js`.
 - [ ] **Step 4: Implement `public/js/generate.js`**
 
 ```js
-import { render } from "/js/template.js";
+import { render } from "./template.js";
 
 export function generateAll(templates, values) {
   const out = {};
@@ -2780,8 +2767,8 @@ Expected: PASS, 6 tests.
 - [ ] **Step 6: Implement `public/js/tweak.js`**
 
 ```js
-import { defaultsFor } from "/js/template.js";
-import { generateAll, buildDocument } from "/js/generate.js";
+import { defaultsFor } from "./template.js";
+import { generateAll, buildDocument } from "./generate.js";
 
 const root = document.querySelector(".specimen");
 if (root) init(root);
@@ -3395,7 +3382,7 @@ Expected: FAIL — routes and `scheduled` handler missing.
 
 ```js
 import * as db from "../db.js";
-import { render, defaultsFor } from "../template.js";
+import { render, defaultsFor } from "../../public/js/template.js";
 
 export async function exportJson(dbc) {
   const categories = await db.listCategories(dbc);
@@ -3613,7 +3600,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { applySchema } from "./helpers/db.js";
 import { seed, loadExamples } from "../src/seed/run.js";
 import * as db from "../src/db.js";
-import { render, defaultsFor } from "../src/template.js";
+import { render, defaultsFor } from "../public/js/template.js";
 import source from "../web-development-ui-glossary-complete.md?raw";
 
 const SLUGS = ["button", "card", "modal", "toast", "tab-bar", "badge",
@@ -3889,7 +3876,7 @@ npx wrangler deploy
 - [ ] **Step 4: Seed production**
 
 ```bash
-curl -s -X POST https://artifacts.clydeford.net/api/seed
+curl -s -X POST --data-binary @web-development-ui-glossary-complete.md \n  https://artifacts.clydeford.net/api/seed
 ```
 
 Expected: `{"categories":45,"entries":918,"core":61,"examples":10}`

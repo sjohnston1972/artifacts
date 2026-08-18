@@ -1605,7 +1605,7 @@ describe("render", () => {
   it("warns when a placeholder sits in an event-handler attribute", () => {
     // HTML decodes entities in attribute values before JS parses them, so
     // escaping cannot make this safe — the author must be told.
-    const r = render('<button onclick="f('{{x}}')">c</button>', { x: "a" });
+    const r = render('<button onclick="f(\'{{x}}\')">c</button>', { x: "a" });
     expect(r.warnings).toContain(
       'placeholder "x" sits in an event-handler attribute, where HTML escaping cannot make it safe'
     );

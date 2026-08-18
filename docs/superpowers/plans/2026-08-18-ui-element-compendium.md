@@ -2730,7 +2730,11 @@ describe("GET /e/:slug", () => {
 
   it("shows every category a merged entry belongs to", async () => {
     const body = await (await get("/e/state")).text();
-    expect(body).toContain("Interaction States");
+    // State's four categories are Workflow UI (primary), Design System
+    // Terminology, Component Architecture and Application State Terminology.
+    // NOT "Interaction States" — section 30's table has no row named State,
+    // only a "State | Definition" HEADER, which the parser correctly excludes.
+    expect(body).toContain("Workflow UI");
     expect(body).toContain("Application State Terminology");
   });
 
@@ -2859,11 +2863,21 @@ function noExample(entry) {
     }))}`;
 }
 
+// notes is user-editable and editing is open, so it must be escaped BEFORE
+// any tags are inserted. Bolding first and escaping after would re-create the
+// stored-XSS the command palette had.
 function notesToHtml(notes) {
   return String(notes)
     .split(/\n\n+/)
-    .map((p) => `<p>${p.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`)
+    .map((p) => `<p>${escapeHtml(p).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}</p>`)
     .join("");
+}
+
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 ```
 

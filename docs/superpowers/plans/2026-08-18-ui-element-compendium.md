@@ -1691,7 +1691,7 @@ Expected: FAIL — cannot resolve `../public/js/template.js`.
 // not a general templating language: {{id}}, {{{id}}}, and if/unless blocks
 // are the whole surface.
 
-const BLOCK_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}([\s\S]*?)\{\{\/\}\}/g;
+const BLOCK_RE = /\{\{#(if|unless)\s+([\w.-]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g;
 
 // ONE regex matching both raw and escaped placeholders, so substitution is a
 // single pass. Two sequential passes would let a raw value shaped like

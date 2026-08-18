@@ -969,10 +969,25 @@ describe("seed", () => {
   });
 
   it("records secondary categories for merged terms", async () => {
+    // State is defined in four sections: Workflow UI (primary), Design System
+    // Terminology, Component Architecture, Application State Terminology. The
+    // "State" row in the Interaction States table is that table's HEADER and
+    // must not produce a fifth row here.
     const row = await env.DB.prepare(
       "SELECT COUNT(*) AS n FROM entry_categories ec JOIN entries e ON e.id = ec.entry_id WHERE e.name = 'State'"
     ).first();
-    expect(row.n).toBe(5);
+    expect(row.n).toBe(4);
+  });
+
+  it("gives core components the clean slug, not the HTML tag", async () => {
+    const button = await env.DB.prepare(
+      "SELECT name, tier FROM entries WHERE slug = 'button'"
+    ).first();
+    expect(button).toEqual({ name: "Button", tier: "core" });
+    const tag = await env.DB.prepare(
+      "SELECT name FROM entries WHERE slug = 'button-element'"
+    ).first();
+    expect(tag.name).toBe("button");
   });
 
   it("applies curated aliases", async () => {
@@ -1074,7 +1089,7 @@ function slugForCategory(name) {
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/seed.test.js`
-Expected: PASS, 10 tests.
+Expected: PASS, 11 tests.
 
 - [ ] **Step 6: Seed the local database**
 

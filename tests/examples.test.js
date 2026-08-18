@@ -39,6 +39,19 @@ describe.each(SLUGS)("example: %s", (slug) => {
       for (const id of used) expect(ids).toContain(id);
     }
   });
+
+  it("references every control in every format", async () => {
+    const entry = await db.getEntryBySlug(env.DB, slug);
+    const ids = entry.controls_schema.map((c) => c.id);
+    for (const [format, tpl] of Object.entries(entry.templates)) {
+      const used = new Set(
+        [...tpl.matchAll(/\{\{[#/]?(?:if |unless )?\s*([\w-]+)\s*\}?\}\}/g)]
+          .map((m) => m[1]).filter((id) => !["if", "unless"].includes(id))
+      );
+      const missing = ids.filter((id) => !used.has(id));
+      expect({ slug, format, missing }).toEqual({ slug, format, missing: [] });
+    }
+  });
 });
 
 describe("colour changes reach every format", () => {

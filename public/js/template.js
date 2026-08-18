@@ -82,9 +82,28 @@ function inUnquotedAttribute(source, offset) {
   return i >= 0 && source[i] === "=";
 }
 
+// Scans forward tracking quoted spans. A lastIndexOf(">") shortcut is wrong:
+// a literal `>` inside an earlier attribute value — `<div title="a > b"
+// class={{x}}>` — reads as the tag's close, so the placeholder looks like text
+// and BOTH warnings go silent. That false negative is worse than the noise the
+// guard was added to remove, because it hides the event-handler case.
 function insideTag(source, offset) {
-  const open = source.lastIndexOf("<", offset);
-  return open !== -1 && source.lastIndexOf(">", offset) < open;
+  let inTag = false;
+  let quote = null;
+  for (let i = 0; i < offset; i++) {
+    const ch = source[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (inTag && (ch === '"' || ch === "'")) {
+      quote = ch;
+      continue;
+    }
+    if (ch === "<") inTag = true;
+    else if (ch === ">") inTag = false;
+  }
+  return inTag;
 }
 
 // HTML decodes character references in attribute values BEFORE JavaScript

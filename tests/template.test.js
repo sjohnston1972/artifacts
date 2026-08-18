@@ -44,6 +44,15 @@ describe("render", () => {
     expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
   });
 
+  it("still warns when an earlier attribute value contains a literal >", () => {
+    // A lastIndexOf(">") shortcut mistakes that > for the tag's close and
+    // silently drops both warnings — including the event-handler one.
+    expect(render('<div title="a > b" class={{x}}>', { x: "a" }).warnings)
+      .toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
+    expect(render("<button title='a > b' onclick=\"f({{x}})\">", { x: "a" }).warnings)
+      .not.toEqual([]);
+  });
+
   it("does not warn for a placeholder in JavaScript, only in markup", () => {
     // `disabled = {{disabled}}` in a React template is an assignment, not an
     // unquoted attribute. Warning here is noise, and pushes authors toward

@@ -1,0 +1,55 @@
+{
+  "slug": "timeline",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Release timeline"
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "vertical",
+      "options": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showDetail",
+      "type": "toggle",
+      "label": "Show detail text",
+      "default": true
+    },
+    {
+      "id": "spacing",
+      "type": "number",
+      "label": "Spacing",
+      "default": 28,
+      "min": 12,
+      "max": 48,
+      "step": 4
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"timeline timeline--{{orientation}}\" style=\"--accent:{{accent}};--gap:{{spacing}}px;\">\n  <h3 class=\"timeline__heading\">{{heading}}</h3>\n  <ol class=\"timeline__list\">\n    <li class=\"timeline__item\">\n      <time class=\"timeline__time\" datetime=\"2024-01-15\">15 Jan 2024</time>\n      <p class=\"timeline__event\">Design spec finalised</p>\n      {{#if showDetail}}<p class=\"timeline__detail\">Layout, tokens and component states signed off by the team.</p>{{/if}}\n    </li>\n    <li class=\"timeline__item\">\n      <time class=\"timeline__time\" datetime=\"2024-02-03\">3 Feb 2024</time>\n      <p class=\"timeline__event\">Beta released to testers</p>\n      {{#if showDetail}}<p class=\"timeline__detail\">Rolled out to 40 opt-in accounts for early feedback.</p>{{/if}}\n    </li>\n    <li class=\"timeline__item\">\n      <time class=\"timeline__time\" datetime=\"2024-03-01\">1 Mar 2024</time>\n      <p class=\"timeline__event\">General availability</p>\n      {{#if showDetail}}<p class=\"timeline__detail\">Launched to all customers with a migration guide.</p>{{/if}}\n    </li>\n  </ol>\n</div>\n<style>\n.timeline { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; box-sizing: border-box; }\n.timeline__heading { margin: 0 0 16px; font-size: 16px; font-weight: 700; }\n.timeline__list { list-style: none; margin: 0; padding: 0; display: flex; }\n.timeline--vertical .timeline__list { flex-direction: column; gap: var(--gap); }\n.timeline--horizontal .timeline__list { flex-direction: row; gap: var(--gap); overflow-x: auto; }\n.timeline__item { position: relative; padding-left: 22px; }\n.timeline--horizontal .timeline__item { padding-left: 0; padding-top: 22px; min-width: 160px; }\n.timeline__item::before { content: \"\"; position: absolute; left: 4px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }\n.timeline--horizontal .timeline__item::before { left: 0; top: 4px; }\n.timeline__item::after { content: \"\"; position: absolute; left: 8px; top: 14px; width: 1.5px; height: calc(100% + var(--gap) - 14px); background: #24143022; }\n.timeline--horizontal .timeline__item::after { left: 14px; top: 8px; width: calc(100% + var(--gap)); height: 1.5px; }\n.timeline__item:last-child::after { display: none; }\n.timeline__time { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: #24143099; }\n.timeline__event { margin: 2px 0 0; font-size: 14px; font-weight: 600; }\n.timeline__detail { margin: 4px 0 0; font-size: 13px; color: #241430b3; }\n</style>",
+    "tailwind": "<div class=\"timeline-tw timeline-tw--{{orientation}} font-sans text-[#241430] bg-[#FAF7F2] p-5 box-border\" style=\"--accent:{{accent}};--gap:{{spacing}}px;\">\n  <h3 class=\"m-0 mb-4 text-base font-bold\">{{heading}}</h3>\n  <ol class=\"timeline-tw__list list-none m-0 p-0 flex\">\n    <li class=\"timeline-tw__item relative pl-[22px]\">\n      <time class=\"block text-[11px] font-semibold uppercase tracking-wide text-[#24143099]\" datetime=\"2024-01-15\">15 Jan 2024</time>\n      <p class=\"mt-0.5 mb-0 text-sm font-semibold\">Design spec finalised</p>\n      {{#if showDetail}}<p class=\"mt-1 mb-0 text-[13px] text-[#241430]/70\">Layout, tokens and component states signed off by the team.</p>{{/if}}\n    </li>\n    <li class=\"timeline-tw__item relative pl-[22px]\">\n      <time class=\"block text-[11px] font-semibold uppercase tracking-wide text-[#24143099]\" datetime=\"2024-02-03\">3 Feb 2024</time>\n      <p class=\"mt-0.5 mb-0 text-sm font-semibold\">Beta released to testers</p>\n      {{#if showDetail}}<p class=\"mt-1 mb-0 text-[13px] text-[#241430]/70\">Rolled out to 40 opt-in accounts for early feedback.</p>{{/if}}\n    </li>\n    <li class=\"timeline-tw__item relative pl-[22px]\">\n      <time class=\"block text-[11px] font-semibold uppercase tracking-wide text-[#24143099]\" datetime=\"2024-03-01\">1 Mar 2024</time>\n      <p class=\"mt-0.5 mb-0 text-sm font-semibold\">General availability</p>\n      {{#if showDetail}}<p class=\"mt-1 mb-0 text-[13px] text-[#241430]/70\">Launched to all customers with a migration guide.</p>{{/if}}\n    </li>\n  </ol>\n</div>\n<style>\n.timeline-tw--vertical .timeline-tw__list { flex-direction: column; gap: var(--gap); }\n.timeline-tw--horizontal .timeline-tw__list { flex-direction: row; gap: var(--gap); overflow-x: auto; }\n.timeline-tw--horizontal .timeline-tw__item { padding-left: 0; padding-top: 22px; min-width: 160px; }\n.timeline-tw__item::before { content: \"\"; position: absolute; left: 4px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }\n.timeline-tw--horizontal .timeline-tw__item::before { left: 0; top: 4px; }\n.timeline-tw__item::after { content: \"\"; position: absolute; left: 8px; top: 14px; width: 1.5px; height: calc(100% + var(--gap) - 14px); background: #24143022; }\n.timeline-tw--horizontal .timeline-tw__item::after { left: 14px; top: 8px; height: 1.5px; width: calc(100% + var(--gap)); }\n.timeline-tw__item:last-child::after { display: none; }\n</style>",
+    "react": "export function Timeline({\n  heading = \"{{heading}}\",\n  orientation = \"{{orientation}}\",\n  accent = \"{{accent}}\",\n  showDetail = {{showDetail}},\n  spacing = {{spacing}},\n}) {\n  const horizontal = orientation === \"horizontal\";\n  const events = [\n    { date: \"2024-01-15\", label: \"15 Jan 2024\", title: \"Design spec finalised\", detail: \"Layout, tokens and component states signed off by the team.\" },\n    { date: \"2024-02-03\", label: \"3 Feb 2024\", title: \"Beta released to testers\", detail: \"Rolled out to 40 opt-in accounts for early feedback.\" },\n    { date: \"2024-03-01\", label: \"1 Mar 2024\", title: \"General availability\", detail: \"Launched to all customers with a migration guide.\" },\n  ];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", padding: 20, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 16px\", fontSize: 16, fontWeight: 700 }}>{heading}</h3>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: horizontal ? \"row\" : \"column\", gap: spacing, overflowX: horizontal ? \"auto\" : \"visible\" }}>\n        {events.map((e) => (\n          <li key={e.date} style={{ position: \"relative\", paddingLeft: horizontal ? 0 : 22, paddingTop: horizontal ? 22 : 0, minWidth: horizontal ? 160 : \"auto\" }}>\n            <span aria-hidden=\"true\" style={{ position: \"absolute\", left: horizontal ? 0 : 4, top: 4, width: 9, height: 9, borderRadius: \"50%\", background: accent }} />\n            <time dateTime={e.date} style={{ display: \"block\", fontSize: 11, fontWeight: 600, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#24143099\" }}>{e.label}</time>\n            <p style={{ margin: \"2px 0 0\", fontSize: 14, fontWeight: 600 }}>{e.title}</p>\n            {showDetail && <p style={{ margin: \"4px 0 0\", fontSize: 13, color: \"#241430b3\" }}>{e.detail}</p>}\n          </li>\n        ))}\n      </ol>\n    </div>\n  );\n}"
+  }
+}

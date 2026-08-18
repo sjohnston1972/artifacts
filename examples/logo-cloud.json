@@ -1,55 +1,36 @@
 {
+  "slug": "logo-cloud",
   "controls_schema": [
     {
-      "id": "eyebrow",
+      "id": "heading",
       "type": "text",
-      "label": "Eyebrow text",
+      "label": "Heading",
       "default": "Trusted by teams at"
     },
     {
       "id": "columns",
-      "type": "number",
-      "label": "Grid columns",
-      "default": 5,
-      "min": 3,
-      "max": 6,
-      "step": 1
+      "type": "select",
+      "label": "Columns",
+      "default": "4",
+      "options": ["3", "4", "5"]
     },
     {
       "id": "grayscale",
       "type": "toggle",
-      "label": "Grayscale until hover",
+      "label": "Grayscale logos",
       "default": true
     },
     {
       "id": "accent",
       "type": "color",
-      "label": "Mark colour",
-      "default": "#D9C8F0",
-      "presets": [
-        "#D9C8F0",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#E8A020",
-        "#241430"
-      ]
-    },
-    {
-      "id": "layout",
-      "type": "select",
-      "label": "Layout",
-      "default": "row",
-      "options": [
-        "row",
-        "grid"
-      ]
+      "label": "Logo block colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
     }
   ],
   "templates": {
-    "html": "<div class=\"logos logos--{{layout}}{{#if grayscale}} logos--grayscale{{/if}}\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <p class=\"logos__eyebrow\">{{eyebrow}}</p>\n  <ul class=\"logos__list\" role=\"list\">\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Aperture Co. logo\">A</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Bramble logo\">B</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Cobalt logo\">C</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Driftwood logo\">D</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Ember logo\">E</span></li>\n    <li class=\"logos__item\"><span class=\"logos__mark\" role=\"img\" aria-label=\"Foundry logo\">F</span></li>\n  </ul>\n</div>\n<style>\n.logos { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 480px; }\n.logos__eyebrow { margin: 0 0 16px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #241430aa; }\n.logos__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 18px; }\n.logos--grid .logos__list { display: grid; grid-template-columns: repeat(var(--cols), 1fr); align-items: center; }\n.logos__mark { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #241430; font-weight: 700; font-size: 15px; }\n.logos--grayscale .logos__mark { filter: grayscale(1); opacity: .6; transition: filter .15s, opacity .15s; }\n.logos--grayscale .logos__mark:hover,\n.logos--grayscale .logos__mark:focus-visible { filter: none; opacity: 1; }\n</style>",
-    "tailwind": "<div class=\"logos-tw logos-tw--{{layout}}{{#if grayscale}} logos-tw--grayscale{{/if}} max-w-md font-sans text-[#241430]\" style=\"--cols:{{columns}};--accent:{{accent}};\">\n  <p class=\"m-0 mb-4 text-xs font-bold tracking-wide uppercase text-[#241430]/70\">{{eyebrow}}</p>\n  <ul role=\"list\" class=\"logos-tw__list list-none m-0 p-0 flex flex-wrap gap-[18px]\">\n    <li><span role=\"img\" aria-label=\"Aperture Co. logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">A</span></li>\n    <li><span role=\"img\" aria-label=\"Bramble logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">B</span></li>\n    <li><span role=\"img\" aria-label=\"Cobalt logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">C</span></li>\n    <li><span role=\"img\" aria-label=\"Driftwood logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">D</span></li>\n    <li><span role=\"img\" aria-label=\"Ember logo\" class=\"logos-tw__mark flex items-center justify-center w-11 h-11 rounded-full font-bold text-[15px]\" style=\"background:var(--accent);\">E</span></li>\n  </ul>\n</div>\n<style>\n.logos-tw--grid .logos-tw__list { display: grid; grid-template-columns: repeat(var(--cols), 1fr); }\n.logos-tw--grayscale .logos-tw__mark { filter: grayscale(1); opacity: .6; transition: filter .15s, opacity .15s; }\n.logos-tw--grayscale .logos-tw__mark:hover,\n.logos-tw--grayscale .logos-tw__mark:focus-visible { filter: none; opacity: 1; }\n</style>",
-    "react": "export function LogoCloud({\n  eyebrow = \"{{eyebrow}}\",\n  columns = {{columns}},\n  grayscale = {{grayscale}},\n  accent = \"{{accent}}\",\n  layout = \"{{layout}}\",\n}) {\n  const marks = [\"A\", \"B\", \"C\", \"D\", \"E\", \"F\"];\n  const names = [\"Aperture Co.\", \"Bramble\", \"Cobalt\", \"Driftwood\", \"Ember\", \"Foundry\"];\n  const listStyle = layout === \"grid\"\n    ? { display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, alignItems: \"center\", gap: 18 }\n    : { display: \"flex\", flexWrap: \"wrap\", gap: 18 };\n  const markStyle = {\n    display: \"flex\", alignItems: \"center\", justifyContent: \"center\", width: 44, height: 44,\n    borderRadius: \"50%\", background: accent, color: \"#241430\", fontWeight: 700, fontSize: 15,\n    filter: grayscale ? \"grayscale(1)\" : \"none\", opacity: grayscale ? 0.6 : 1, transition: \"filter .15s, opacity .15s\",\n  };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 480 }}>\n      <p style={{ margin: \"0 0 16px\", fontSize: 12, fontWeight: 700, letterSpacing: \".06em\", textTransform: \"uppercase\", color: \"#241430aa\" }}>{eyebrow}</p>\n      <ul role=\"list\" style={{ listStyle: \"none\", margin: 0, padding: 0, ...listStyle }}>\n        {marks.map((letter, i) => (\n          <li key={letter}>\n            <span role=\"img\" aria-label={`${names[i]} logo`} style={markStyle}>{letter}</span>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
-  },
-  "slug": "logo-cloud"
+    "html": "<section class=\"lcloud\" data-grayscale=\"{{grayscale}}\">\n  <p class=\"lcloud__heading\">{{heading}}</p>\n  <div class=\"lcloud__grid lcloud__grid--{{columns}}\">\n    <span class=\"lcloud__logo\" style=\"border-color:{{accent}};color:{{accent}};\">Nimbus</span>\n    <span class=\"lcloud__logo\" style=\"border-color:{{accent}};color:{{accent}};\">Fenwick</span>\n    <span class=\"lcloud__logo\" style=\"border-color:{{accent}};color:{{accent}};\">Cobalt</span>\n    <span class=\"lcloud__logo\" style=\"border-color:{{accent}};color:{{accent}};\">Ridgeline</span>\n    <span class=\"lcloud__logo\" style=\"border-color:{{accent}};color:{{accent}};\">Halcyon</span>\n  </div>\n</section>\n<style>\n.lcloud { font: 15px system-ui, sans-serif; color: #241430; padding: 24px; text-align: center; }\n.lcloud__heading { margin: 0 0 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #24143088; }\n.lcloud__grid { display: grid; gap: 16px; align-items: center; }\n.lcloud__grid--3 { grid-template-columns: repeat(3, 1fr); }\n.lcloud__grid--4 { grid-template-columns: repeat(4, 1fr); }\n.lcloud__grid--5 { grid-template-columns: repeat(5, 1fr); }\n.lcloud__grid--3 span:nth-child(n+4) { display: none; }\n.lcloud__grid--4 span:nth-child(n+5) { display: none; }\n.lcloud__logo { display: block; border: 1.5px solid; border-radius: 8px; padding: 14px 8px; font-weight: 700; }\n.lcloud[data-grayscale=\"true\"] .lcloud__logo { filter: grayscale(1) opacity(.75); }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[#241430] p-6 text-center\">\n  <p class=\"m-0 mb-5 text-xs font-bold uppercase tracking-wide text-[#241430]/55\">{{heading}}</p>\n  <div class=\"lcloud-tw lcloud-tw--{{columns}} grid gap-4 items-center\" data-grayscale=\"{{grayscale}}\">\n    <span class=\"lcloud-tw__logo block border-[1.5px] rounded-lg px-2 py-3.5 font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">Nimbus</span>\n    <span class=\"lcloud-tw__logo block border-[1.5px] rounded-lg px-2 py-3.5 font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">Fenwick</span>\n    <span class=\"lcloud-tw__logo block border-[1.5px] rounded-lg px-2 py-3.5 font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">Cobalt</span>\n    <span class=\"lcloud-tw__logo block border-[1.5px] rounded-lg px-2 py-3.5 font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">Ridgeline</span>\n    <span class=\"lcloud-tw__logo block border-[1.5px] rounded-lg px-2 py-3.5 font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">Halcyon</span>\n  </div>\n</section>\n<style>\n.lcloud-tw--3 { grid-template-columns: repeat(3, 1fr); }\n.lcloud-tw--4 { grid-template-columns: repeat(4, 1fr); }\n.lcloud-tw--5 { grid-template-columns: repeat(5, 1fr); }\n.lcloud-tw--3 span:nth-child(n+4) { display: none; }\n.lcloud-tw--4 span:nth-child(n+5) { display: none; }\n.lcloud-tw[data-grayscale=\"true\"] .lcloud-tw__logo { filter: grayscale(1) opacity(.75); }\n</style>",
+    "react": "export function LogoCloud({\n  heading = \"{{heading}}\",\n  columns = \"{{columns}}\",\n  grayscale = {{grayscale}},\n  accent = \"{{accent}}\",\n}) {\n  const logos = [\"Nimbus\", \"Fenwick\", \"Cobalt\", \"Ridgeline\", \"Halcyon\"].slice(0, Number(columns));\n  return (\n    <section style={{ font: \"15px system-ui, sans-serif\", color: \"#241430\", padding: 24, textAlign: \"center\" }}>\n      <p style={{ margin: \"0 0 20px\", fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.06em\", color: \"#24143088\" }}>{heading}</p>\n      <div style={{ display: \"grid\", gap: 16, alignItems: \"center\", gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {logos.map((logo) => (\n          <span key={logo} style={{ display: \"block\", border: `1.5px solid ${accent}`, borderRadius: 8, padding: \"14px 8px\",\n            fontWeight: 700, color: accent, filter: grayscale ? \"grayscale(1) opacity(.75)\" : \"none\" }}>{logo}</span>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  }
 }

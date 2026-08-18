@@ -1,54 +1,36 @@
 {
+  "slug": "star-rating",
   "controls_schema": [
     {
-      "id": "ratingLabel",
+      "id": "label",
       "type": "text",
-      "label": "Rating label",
-      "default": "4.5 out of 5"
+      "label": "Label",
+      "default": "Editor's pick"
     },
     {
-      "id": "fillPercent",
-      "type": "number",
-      "label": "Fill percentage",
-      "default": 90,
-      "min": 0,
-      "max": 100,
-      "step": 5
+      "id": "rating",
+      "type": "select",
+      "label": "Rating",
+      "default": "4",
+      "options": ["3", "4", "5"]
     },
     {
-      "id": "color",
+      "id": "accent",
       "type": "color",
       "label": "Star colour",
       "default": "#E8A020",
-      "presets": [
-        "#E8A020",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#D9C8F0",
-        "#241430"
-      ]
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
     },
     {
-      "id": "size",
-      "type": "number",
-      "label": "Star size (px)",
-      "default": 24,
-      "min": 12,
-      "max": 48,
-      "step": 2
-    },
-    {
-      "id": "showValue",
+      "id": "showNumber",
       "type": "toggle",
-      "label": "Show label text",
+      "label": "Show numeric label",
       "default": true
     }
   ],
   "templates": {
-    "html": "<div class=\"star-rating\" role=\"img\" aria-label=\"{{ratingLabel}}\" style=\"font-size:{{size}}px;\">\n  <span class=\"star-rating__track\" aria-hidden=\"true\">\n    <span class=\"star-rating__stars star-rating__stars--empty\">★★★★★</span>\n    <span class=\"star-rating__stars star-rating__stars--filled\" style=\"width:{{fillPercent}}%;color:{{color}};\">★★★★★</span>\n  </span>\n  {{#if showValue}}<span class=\"star-rating__value\">{{ratingLabel}}</span>{{/if}}\n</div>\n<style>\n.star-rating { display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; }\n.star-rating__track { position: relative; display: inline-block; line-height: 1; }\n.star-rating__stars { display: block; white-space: nowrap; letter-spacing: 2px; }\n.star-rating__stars--empty { color: #24143033; }\n.star-rating__stars--filled { position: absolute; inset: 0; overflow: hidden; }\n.star-rating__value { font-size: 14px; color: #241430; }\n</style>",
-    "tailwind": "<div class=\"inline-flex items-center gap-2 font-sans\" role=\"img\" aria-label=\"{{ratingLabel}}\" style=\"font-size:{{size}}px\">\n  <span class=\"relative inline-block leading-none tracking-widest\" aria-hidden=\"true\">\n    <span class=\"block whitespace-nowrap text-[#24143033]\">★★★★★</span>\n    <span class=\"absolute inset-0 overflow-hidden\" style=\"width:{{fillPercent}}%;color:{{color}}\">★★★★★</span>\n  </span>\n  {{#if showValue}}<span class=\"text-sm text-[#241430]\">{{ratingLabel}}</span>{{/if}}\n</div>",
-    "react": "export function StarRating({\n  ratingLabel = \"{{ratingLabel}}\",\n  fillPercent = {{fillPercent}},\n  color = \"{{color}}\",\n  size = {{size}},\n  showValue = {{showValue}},\n}) {\n  return (\n    <div role=\"img\" aria-label={ratingLabel} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, fontFamily: \"system-ui, sans-serif\", fontSize: size }}>\n      <span aria-hidden=\"true\" style={{ position: \"relative\", display: \"inline-block\", lineHeight: 1, letterSpacing: 2 }}>\n        <span style={{ display: \"block\", whiteSpace: \"nowrap\", color: \"#24143033\" }}>★★★★★</span>\n        <span style={{ position: \"absolute\", inset: 0, overflow: \"hidden\", width: `${fillPercent}%`, color }}>★★★★★</span>\n      </span>\n      {showValue && <span style={{ fontSize: 14, color: \"#241430\" }}>{ratingLabel}</span>}\n    </div>\n  );\n}"
-  },
-  "slug": "star-rating"
+    "html": "<div class=\"rating\" data-rating=\"{{rating}}\" style=\"--accent:{{accent}};\">\n  <span class=\"rating__label\">{{label}}</span>\n  <span class=\"rating__stars\" aria-label=\"{{rating}} out of 5 stars\">\n    <span class=\"rating__fill\" aria-hidden=\"true\">&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n    <span class=\"rating__empty\" aria-hidden=\"true\">&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n  </span>\n  {{#if showNumber}}<span class=\"rating__number\">{{rating}}.0 out of 5</span>{{/if}}\n</div>\n<style>\n.rating { font: 15px system-ui, sans-serif; color: #241430; display: flex; align-items: center; gap: 10px; }\n.rating__label { font-weight: 600; }\n.rating__stars { position: relative; display: inline-block; font-size: 18px; letter-spacing: 2px; line-height: 1; }\n.rating__empty { color: #24143025; }\n.rating__fill { position: absolute; inset: 0; overflow: hidden; color: var(--accent); width: 0; }\n.rating[data-rating=\"3\"] .rating__fill { width: 60%; }\n.rating[data-rating=\"4\"] .rating__fill { width: 80%; }\n.rating[data-rating=\"5\"] .rating__fill { width: 100%; }\n.rating__number { font-size: 13px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"rating-tw rating-tw--{{rating}} flex items-center gap-2.5 font-sans text-[15px] text-[#241430]\">\n  <span class=\"font-semibold\">{{label}}</span>\n  <span class=\"relative inline-block text-lg tracking-widest leading-none\" aria-label=\"{{rating}} out of 5 stars\">\n    <span class=\"text-[#24143025]\" aria-hidden=\"true\">&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n    <span class=\"rating-tw__fill absolute inset-0 overflow-hidden\" style=\"color:{{accent}};\" aria-hidden=\"true\">&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n  </span>\n  {{#if showNumber}}<span class=\"text-[13px] text-[#241430]/65\">{{rating}}.0 out of 5</span>{{/if}}\n</div>\n<style>\n.rating-tw--3 .rating-tw__fill { width: 60%; }\n.rating-tw--4 .rating-tw__fill { width: 80%; }\n.rating-tw--5 .rating-tw__fill { width: 100%; }\n</style>",
+    "react": "export function StarRating({\n  label = \"{{label}}\",\n  rating = \"{{rating}}\",\n  accent = \"{{accent}}\",\n  showNumber = {{showNumber}},\n}) {\n  const pct = { \"3\": \"60%\", \"4\": \"80%\", \"5\": \"100%\" }[rating] ?? \"80%\";\n  return (\n    <div style={{ font: \"15px system-ui, sans-serif\", color: \"#241430\", display: \"flex\", alignItems: \"center\", gap: 10 }}>\n      <span style={{ fontWeight: 600 }}>{label}</span>\n      <span aria-label={`${rating} out of 5 stars`} style={{ position: \"relative\", display: \"inline-block\",\n        fontSize: 18, letterSpacing: 2, lineHeight: 1 }}>\n        <span aria-hidden=\"true\" style={{ color: \"#24143025\" }}>&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n        <span aria-hidden=\"true\" style={{ position: \"absolute\", inset: 0, overflow: \"hidden\", color: accent, width: pct }}>&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n      </span>\n      {showNumber && <span style={{ fontSize: 13, color: \"#241430aa\" }}>{rating}.0 out of 5</span>}\n    </div>\n  );\n}"
+  }
 }

@@ -1,0 +1,46 @@
+{
+  "slug": "mega-menu",
+  "controls_schema": [
+    {
+      "id": "trigger",
+      "type": "text",
+      "label": "Trigger label",
+      "default": "Products"
+    },
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "3",
+      "options": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"mega mega--cols-{{columns}}\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"mega__trigger\">{{trigger}} <span aria-hidden=\"true\">&#9662;</span></summary>\n  <nav class=\"mega__panel\" aria-label=\"{{trigger}}\">\n    <div class=\"mega__col\">\n      <h3 class=\"mega__heading\">Platform</h3>\n      <a class=\"mega__link\" href=\"#\">Analytics</a>\n      <a class=\"mega__link\" href=\"#\">Automation</a>\n      <a class=\"mega__link\" href=\"#\">Integrations</a>\n    </div>\n    <div class=\"mega__col\">\n      <h3 class=\"mega__heading\">Solutions</h3>\n      <a class=\"mega__link\" href=\"#\">For startups</a>\n      <a class=\"mega__link\" href=\"#\">For enterprise</a>\n      <a class=\"mega__link\" href=\"#\">For agencies</a>\n    </div>\n    <div class=\"mega__col mega__col--three\">\n      <h3 class=\"mega__heading\">Resources</h3>\n      <a class=\"mega__link\" href=\"#\">Documentation</a>\n      <a class=\"mega__link\" href=\"#\">Changelog</a>\n      <a class=\"mega__link\" href=\"#\">Community</a>\n    </div>\n  </nav>\n</details>\n<style>\n.mega { position: relative; width: fit-content; font: 14px system-ui, sans-serif; }\n.mega__trigger { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 8px; color: #241430; font-weight: 500; }\n.mega__trigger::-webkit-details-marker { display: none; }\n.mega__trigger:hover, .mega__trigger:focus-visible { background: #FAF7F2; outline: none; }\n.mega[open] .mega__trigger { color: var(--accent); }\n.mega__panel { position: absolute; top: calc(100% + 6px); left: 0; display: flex; gap: 28px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 12px; box-shadow: 0 12px 32px rgba(36,20,48,.16); padding: 20px; z-index: 10; }\n.mega__col { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }\n.mega--cols-2 .mega__col--three { display: none; }\n.mega__heading { margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; opacity: .5; color: #241430; }\n.mega__link { padding: 6px 8px; margin: 0 -8px; border-radius: 6px; text-decoration: none; color: #241430; }\n.mega__link:hover, .mega__link:focus-visible { background: #FAF7F2; outline: none; }\n</style>",
+    "tailwind": "<details class=\"mega-tw mega-tw--cols-{{columns}} relative w-fit font-sans text-sm\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"list-none cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg font-medium text-[#241430] hover:bg-[#FAF7F2]\">{{trigger}} <span aria-hidden=\"true\">&#9662;</span></summary>\n  <nav aria-label=\"{{trigger}}\" class=\"absolute top-1.5 left-0 flex gap-7 bg-white border border-[#241430]/10 rounded-xl shadow-xl p-5 z-10\">\n    <div class=\"flex flex-col gap-1 min-w-[140px]\">\n      <h3 class=\"m-0 mb-1.5 text-[11px] uppercase tracking-wide opacity-50 text-[#241430]\">Platform</h3>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Analytics</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Automation</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Integrations</a>\n    </div>\n    <div class=\"flex flex-col gap-1 min-w-[140px]\">\n      <h3 class=\"m-0 mb-1.5 text-[11px] uppercase tracking-wide opacity-50 text-[#241430]\">Solutions</h3>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">For startups</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">For enterprise</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">For agencies</a>\n    </div>\n    <div class=\"mega-tw__col--three flex flex-col gap-1 min-w-[140px]\">\n      <h3 class=\"m-0 mb-1.5 text-[11px] uppercase tracking-wide opacity-50 text-[#241430]\">Resources</h3>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Documentation</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Changelog</a>\n      <a class=\"-mx-2 px-2 py-1.5 rounded-md no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Community</a>\n    </div>\n  </nav>\n</details>\n<style>\n.mega-tw--cols-2 .mega-tw__col--three { display: none; }\n</style>",
+    "react": "export function MegaMenu({\n  trigger = \"{{trigger}}\",\n  columns = \"{{columns}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  const cols = [\n    { heading: \"Platform\", links: [\"Analytics\", \"Automation\", \"Integrations\"] },\n    { heading: \"Solutions\", links: [\"For startups\", \"For enterprise\", \"For agencies\"] },\n    { heading: \"Resources\", links: [\"Documentation\", \"Changelog\", \"Community\"] },\n  ].slice(0, Number(columns));\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14 }}>\n      <summary style={{ listStyle: \"none\", cursor: \"pointer\", display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"10px 14px\", borderRadius: 8, color: open ? accent : \"#241430\", fontWeight: 500 }}>\n        {trigger} <span aria-hidden=\"true\">&#9662;</span>\n      </summary>\n      <nav aria-label={trigger} style={{ position: \"absolute\", top: \"calc(100% + 6px)\", left: 0, display: \"flex\", gap: 28, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 12, boxShadow: \"0 12px 32px rgba(36,20,48,.16)\", padding: 20 }}>\n        {cols.map((col) => (\n          <div key={col.heading} style={{ display: \"flex\", flexDirection: \"column\", gap: 4, minWidth: 140 }}>\n            <h3 style={{ margin: \"0 0 6px\", fontSize: 11, textTransform: \"uppercase\", letterSpacing: \".04em\", opacity: .5, color: \"#241430\" }}>{col.heading}</h3>\n            {col.links.map((l) => (\n              <a key={l} href=\"#\" style={{ padding: \"6px 8px\", margin: \"0 -8px\", borderRadius: 6, textDecoration: \"none\", color: \"#241430\" }}>{l}</a>\n            ))}\n          </div>\n        ))}\n      </nav>\n    </details>\n  );\n}"
+  }
+}

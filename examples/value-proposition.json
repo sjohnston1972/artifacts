@@ -1,53 +1,42 @@
 {
+  "slug": "value-proposition",
   "controls_schema": [
     {
       "id": "headline",
       "type": "text",
-      "label": "Headline",
-      "default": "Ship polished UI ten times faster"
+      "label": "Benefit headline",
+      "default": "Close deals in days, not quarters"
     },
     {
-      "id": "supportingText",
+      "id": "explanation",
       "type": "text",
-      "label": "Supporting text",
-      "default": "Every element comes with production-ready code in three formats."
+      "label": "Explanation",
+      "default": "Automated follow-ups mean nothing falls through the cracks."
     },
     {
-      "id": "layout",
+      "id": "align",
       "type": "select",
-      "label": "Layout",
-      "default": "centered",
-      "options": [
-        "centered",
-        "left-aligned",
-        "split"
-      ]
+      "label": "Alignment",
+      "default": "left",
+      "options": ["left", "center"]
     },
     {
       "id": "accent",
       "type": "color",
       "label": "Accent colour",
-      "default": "#D9C8F0",
-      "presets": [
-        "#D9C8F0",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#E8A020",
-        "#241430"
-      ]
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
     },
     {
-      "id": "emphasise",
+      "id": "showIcon",
       "type": "toggle",
-      "label": "Emphasise headline",
+      "label": "Show checkmark icon",
       "default": true
     }
   ],
   "templates": {
-    "html": "<div class=\"value-prop value-prop--{{layout}}\" style=\"--accent:{{accent}};\">\n  <h2 class=\"value-prop__headline{{#if emphasise}} value-prop__headline--emphasis{{/if}}\">{{headline}}</h2>\n  <p class=\"value-prop__support\">{{supportingText}}</p>\n</div>\n<style>\n.value-prop { font-family: system-ui, sans-serif; color: #241430; max-width: 480px; }\n.value-prop--centered { text-align: center; margin-inline: auto; }\n.value-prop--left-aligned { text-align: left; }\n.value-prop--split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; text-align: left; max-width: 640px; }\n.value-prop__headline { margin: 0 0 12px; font-size: 28px; font-weight: 700; line-height: 1.2; }\n.value-prop__headline--emphasis { font-size: 32px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 4px; text-underline-offset: 6px; }\n.value-prop__support { margin: 0; font-size: 16px; line-height: 1.5; color: #241430; opacity: .8; }\n</style>",
-    "tailwind": "<div class=\"value-prop-tw value-prop-tw--{{layout}} font-sans text-[#241430] max-w-[480px]\" style=\"--accent:{{accent}}\">\n  <h2 class=\"value-prop-tw__headline m-0 mb-3 text-[28px] font-bold leading-tight{{#if emphasise}} value-prop-tw__headline--emphasis{{/if}}\">{{headline}}</h2>\n  <p class=\"m-0 text-base leading-relaxed text-[#241430]/80\">{{supportingText}}</p>\n</div>\n<style>\n.value-prop-tw--centered { text-align: center; margin-inline: auto; }\n.value-prop-tw--left-aligned { text-align: left; }\n.value-prop-tw--split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 24px; text-align: left; max-width: 640px; }\n.value-prop-tw__headline--emphasis { font-size: 32px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 4px; text-underline-offset: 6px; }\n</style>",
-    "react": "export function ValueProposition({\n  headline = \"{{headline}}\",\n  supportingText = \"{{supportingText}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  emphasise = {{emphasise}},\n}) {\n  const wrap = {\n    centered: { textAlign: \"center\", marginInline: \"auto\" },\n    \"left-aligned\": { textAlign: \"left\" },\n    split: { display: \"grid\", gridTemplateColumns: \"1fr 1fr\", alignItems: \"center\", gap: 24, textAlign: \"left\", maxWidth: 640 },\n  }[layout] ?? {};\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 480, ...wrap }}>\n      <h2 style={{\n        margin: \"0 0 12px\",\n        fontWeight: 700,\n        lineHeight: 1.2,\n        fontSize: emphasise ? 32 : 28,\n        textDecoration: emphasise ? \"underline\" : \"none\",\n        textDecorationColor: accent,\n        textDecorationThickness: emphasise ? \"4px\" : undefined,\n        textUnderlineOffset: emphasise ? \"6px\" : undefined,\n      }}>\n        {headline}\n      </h2>\n      <p style={{ margin: 0, fontSize: 16, lineHeight: 1.5, color: \"#241430\", opacity: 0.8 }}>{supportingText}</p>\n    </div>\n  );\n}"
-  },
-  "slug": "value-proposition"
+    "html": "<div class=\"vprop vprop--{{align}}\">\n  {{#if showIcon}}<span class=\"vprop__icon\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{/if}}\n  <h3 class=\"vprop__headline\">{{headline}}</h3>\n  <p class=\"vprop__explanation\">{{explanation}}</p>\n</div>\n<style>\n.vprop { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 340px; }\n.vprop--center { text-align: center; margin: 0 auto; }\n.vprop__icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #241430; font-weight: 700; margin-bottom: 12px; }\n.vprop__headline { margin: 0 0 8px; font-size: 20px; font-weight: 700; }\n.vprop__explanation { margin: 0; color: #241430cc; font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"vprop-tw vprop-tw--{{align}} font-sans text-[#241430] max-w-[340px]\">\n  {{#if showIcon}}<span class=\"inline-flex items-center justify-center w-8 h-8 rounded-full text-[#241430] font-bold mb-3\" style=\"background:{{accent}};\" aria-hidden=\"true\">&#10003;</span>{{/if}}\n  <h3 class=\"m-0 mb-2 text-xl font-bold\">{{headline}}</h3>\n  <p class=\"m-0 text-sm text-[#241430]/80\">{{explanation}}</p>\n</div>\n<style>\n.vprop-tw--center { text-align: center; margin: 0 auto; }\n</style>",
+    "react": "export function ValueProposition({\n  headline = \"{{headline}}\",\n  explanation = \"{{explanation}}\",\n  align = \"{{align}}\",\n  accent = \"{{accent}}\",\n  showIcon = {{showIcon}},\n}) {\n  const centered = align === \"center\";\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 340,\n      textAlign: align, margin: centered ? \"0 auto\" : 0 }}>\n      {showIcon && (\n        <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n          width: 32, height: 32, borderRadius: \"50%\", color: \"#241430\", fontWeight: 700, marginBottom: 12, background: accent }}>&#10003;</span>\n      )}\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 20, fontWeight: 700 }}>{headline}</h3>\n      <p style={{ margin: 0, color: \"#241430cc\", fontSize: 14 }}>{explanation}</p>\n    </div>\n  );\n}"
+  }
 }

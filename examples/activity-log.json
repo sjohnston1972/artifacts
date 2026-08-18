@@ -1,0 +1,57 @@
+{
+  "slug": "activity-log",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Activity log"
+    },
+    {
+      "id": "entries",
+      "type": "select",
+      "label": "Entries shown",
+      "default": "5",
+      "options": [
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showIcons",
+      "type": "toggle",
+      "label": "Show markers",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"log-demo\">\n  <h3 class=\"log-demo__heading\">{{heading}}</h3>\n  <ul class=\"log\" data-entries=\"{{entries}}\" data-density=\"{{density}}\">\n    <li class=\"log__item\">\n      {{#if showIcons}}<span class=\"log__marker\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"log__text\">You uploaded a file <span class=\"log__target\">\"roadmap.pdf\"</span></p>\n      <time class=\"log__time\" datetime=\"2026-08-18T07:15:00Z\">2 hours ago</time>\n    </li>\n    <li class=\"log__item\">\n      {{#if showIcons}}<span class=\"log__marker\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"log__text\">You updated the <span class=\"log__target\">\"Billing\"</span> settings</p>\n      <time class=\"log__time\" datetime=\"2026-08-18T04:20:00Z\">5 hours ago</time>\n    </li>\n    <li class=\"log__item\">\n      {{#if showIcons}}<span class=\"log__marker\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"log__text\">You invited <span class=\"log__target\">teammate@example.com</span></p>\n      <time class=\"log__time\" datetime=\"2026-08-17T09:10:00Z\">1 day ago</time>\n    </li>\n    <li class=\"log__item\">\n      {{#if showIcons}}<span class=\"log__marker\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"log__text\">You archived project <span class=\"log__target\">\"Legacy API\"</span></p>\n      <time class=\"log__time\" datetime=\"2026-08-16T09:10:00Z\">2 days ago</time>\n    </li>\n    <li class=\"log__item\">\n      {{#if showIcons}}<span class=\"log__marker\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"log__text\">You changed your password</p>\n      <time class=\"log__time\" datetime=\"2026-08-14T09:10:00Z\">4 days ago</time>\n    </li>\n  </ul>\n</section>\n<style>\n.log-demo { font: 13.5px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; max-width: 360px; box-sizing: border-box; }\n.log-demo__heading { margin: 0 0 10px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: #24143099; }\n.log { list-style: none; margin: 0; padding: 0; }\n.log__item { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid #24143014; }\n.log__item:last-child { border-bottom: none; }\n.log[data-density=\"compact\"] .log__item { padding: 4px 0; font-size: 12.5px; }\n.log__marker { flex: none; width: 7px; height: 7px; border-radius: 50%; }\n.log__text { margin: 0; flex: 1; }\n.log__target { font-weight: 600; }\n.log__time { flex: none; font-size: 12px; color: #24143099; white-space: nowrap; }\n.log[data-entries=\"3\"] .log__item:nth-child(n+4) { display: none; }\n.log[data-entries=\"4\"] .log__item:nth-child(n+5) { display: none; }\n.log[data-entries=\"5\"] .log__item:nth-child(n+6) { display: none; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[13.5px] leading-relaxed text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[360px] box-border\">\n  <h3 class=\"m-0 mb-2.5 text-[14px] font-semibold uppercase tracking-wide text-[#24143099]\">{{heading}}</h3>\n  <ul class=\"log-tw list-none m-0 p-0\" data-entries=\"{{entries}}\" data-density=\"{{density}}\">\n    <li class=\"flex items-baseline gap-2 py-2 border-b border-[#24143014]\">\n      {{#if showIcons}}<span class=\"flex-none w-[7px] h-[7px] rounded-full\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"m-0 flex-1\">You uploaded a file <span class=\"font-semibold\">\"roadmap.pdf\"</span></p>\n      <time class=\"flex-none text-[12px] text-[#24143099] whitespace-nowrap\" datetime=\"2026-08-18T07:15:00Z\">2 hours ago</time>\n    </li>\n    <li class=\"flex items-baseline gap-2 py-2 border-b border-[#24143014]\">\n      {{#if showIcons}}<span class=\"flex-none w-[7px] h-[7px] rounded-full\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"m-0 flex-1\">You updated the <span class=\"font-semibold\">\"Billing\"</span> settings</p>\n      <time class=\"flex-none text-[12px] text-[#24143099] whitespace-nowrap\" datetime=\"2026-08-18T04:20:00Z\">5 hours ago</time>\n    </li>\n    <li class=\"flex items-baseline gap-2 py-2 border-b border-[#24143014]\">\n      {{#if showIcons}}<span class=\"flex-none w-[7px] h-[7px] rounded-full\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"m-0 flex-1\">You invited <span class=\"font-semibold\">teammate@example.com</span></p>\n      <time class=\"flex-none text-[12px] text-[#24143099] whitespace-nowrap\" datetime=\"2026-08-17T09:10:00Z\">1 day ago</time>\n    </li>\n    <li class=\"flex items-baseline gap-2 py-2 border-b border-[#24143014]\">\n      {{#if showIcons}}<span class=\"flex-none w-[7px] h-[7px] rounded-full\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"m-0 flex-1\">You archived project <span class=\"font-semibold\">\"Legacy API\"</span></p>\n      <time class=\"flex-none text-[12px] text-[#24143099] whitespace-nowrap\" datetime=\"2026-08-16T09:10:00Z\">2 days ago</time>\n    </li>\n    <li class=\"flex items-baseline gap-2 py-2\">\n      {{#if showIcons}}<span class=\"flex-none w-[7px] h-[7px] rounded-full\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>{{/if}}\n      <p class=\"m-0 flex-1\">You changed your password</p>\n      <time class=\"flex-none text-[12px] text-[#24143099] whitespace-nowrap\" datetime=\"2026-08-14T09:10:00Z\">4 days ago</time>\n    </li>\n  </ul>\n</section>\n<style>\n.log-tw[data-density=\"compact\"] li { padding-top: 4px; padding-bottom: 4px; font-size: 12.5px; }\n.log-tw[data-entries=\"3\"] li:nth-child(n+4) { display: none; }\n.log-tw[data-entries=\"4\"] li:nth-child(n+5) { display: none; }\n.log-tw[data-entries=\"5\"] li:nth-child(n+6) { display: none; }\n</style>",
+    "react": "export function ActivityLog({\n  heading = \"{{heading}}\",\n  entries = \"{{entries}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  showIcons = {{showIcons}},\n}) {\n  const items = [\n    { text: \"You uploaded a file\", target: '\"roadmap.pdf\"', time: \"2026-08-18T07:15:00Z\", label: \"2 hours ago\" },\n    { text: \"You updated the\", target: '\"Billing\" settings', time: \"2026-08-18T04:20:00Z\", label: \"5 hours ago\" },\n    { text: \"You invited\", target: \"teammate@example.com\", time: \"2026-08-17T09:10:00Z\", label: \"1 day ago\" },\n    { text: \"You archived project\", target: '\"Legacy API\"', time: \"2026-08-16T09:10:00Z\", label: \"2 days ago\" },\n    { text: \"You changed your password\", target: null, time: \"2026-08-14T09:10:00Z\", label: \"4 days ago\" },\n  ].slice(0, Number(entries));\n  const pad = density === \"compact\" ? \"4px 0\" : \"8px 0\";\n  const fontSize = density === \"compact\" ? 12.5 : 13.5;\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12, maxWidth: 360, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 14, fontWeight: 600, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#24143099\" }}>{heading}</h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {items.map((item, i) => (\n          <li key={item.time} style={{ display: \"flex\", alignItems: \"baseline\", gap: 8, padding: pad, fontSize,\n            borderBottom: i < items.length - 1 ? \"1px solid #24143014\" : \"none\" }}>\n            {showIcons && <span aria-hidden=\"true\" style={{ flex: \"none\", width: 7, height: 7, borderRadius: \"50%\", background: accent }} />}\n            <p style={{ margin: 0, flex: 1 }}>{item.text}{item.target ? <> <strong style={{ fontWeight: 600 }}>{item.target}</strong></> : null}</p>\n            <time dateTime={item.time} style={{ flex: \"none\", fontSize: 12, color: \"#24143099\", whiteSpace: \"nowrap\" }}>{item.label}</time>\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  }
+}

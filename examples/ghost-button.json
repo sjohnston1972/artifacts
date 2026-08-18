@@ -1,0 +1,51 @@
+{
+ "slug": "ghost-button",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Learn more"
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "underline",
+   "type": "toggle",
+   "label": "Underline on hover",
+   "default": true
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-ghost{{#if underline}} btn-ghost--underline{{/if}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-ghost {\n  font: 600 15px/1 system-ui, sans-serif;\n  padding: 11px 18px;\n  border: none;\n  background: transparent;\n  color: var(--bg);\n  cursor: pointer;\n}\n.btn-ghost:hover:not(:disabled) { background: rgba(36,20,48,.06); }\n.btn-ghost--underline:hover:not(:disabled) { text-decoration: underline; text-underline-offset: 3px; }\n.btn-ghost:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-ghost:disabled { opacity: .4; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"px-4.5 py-2.75 text-sm font-semibold bg-transparent border-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:bg-black/[.06] btn-ghost-tw{{#if underline}} btn-ghost-tw--underline{{/if}}\" style=\"color:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-ghost-tw--underline:hover:not(:disabled) { text-decoration: underline; text-underline-offset: 3px; }\n.btn-ghost-tw:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function GhostButton({\n  label = \"{{label}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  underline = {{underline}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      className={underline ? \"ghost-underline\" : \"\"}\n      style={{\n        padding: \"11px 18px\",\n        borderRadius: radius,\n        border: \"none\",\n        background: \"transparent\",\n        color: bg,\n        font: \"600 15px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.4 : 1,\n      }}\n    >\n      {label}\n    </button>\n  );\n}"
+ }
+}

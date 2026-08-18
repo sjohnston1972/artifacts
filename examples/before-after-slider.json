@@ -1,0 +1,38 @@
+{
+  "slug": "before-after-slider",
+  "controls_schema": [
+    {
+      "id": "beforeLabel",
+      "type": "text",
+      "label": "Before label",
+      "default": "Before"
+    },
+    {
+      "id": "afterLabel",
+      "type": "text",
+      "label": "After label",
+      "default": "After"
+    },
+    {
+      "id": "position",
+      "type": "number",
+      "label": "Divider position",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Handle colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ba-slider\" style=\"--pos:{{position}}%;--accent:{{accent}};\">\n  <div class=\"ba-slider__frame\">\n    <div class=\"ba-slider__img ba-slider__img--after\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 400 240\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#A8E6C1\"/><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#FAF7F2\"/></svg>\n      <span class=\"ba-slider__tag\">{{afterLabel}}</span>\n    </div>\n    <div class=\"ba-slider__img ba-slider__img--before\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 400 240\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#241430\"/><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#D9C8F0\"/></svg>\n      <span class=\"ba-slider__tag\">{{beforeLabel}}</span>\n    </div>\n    <div class=\"ba-slider__handle\"></div>\n  </div>\n  <!-- In production, sync an input[type=range] with this element's --pos custom property on the \"input\" event to make the divider live-draggable. -->\n  <input class=\"ba-slider__range\" type=\"range\" min=\"0\" max=\"100\" value=\"{{position}}\" aria-label=\"Comparison position between {{beforeLabel}} and {{afterLabel}}\" />\n</div>\n<style>\n.ba-slider { max-width: 360px; font: 12px/1.4 system-ui, sans-serif; color: #241430; }\n.ba-slider__frame { position: relative; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; border: 1px solid #24143022; }\n.ba-slider__img { position: absolute; inset: 0; }\n.ba-slider__img svg { display: block; width: 100%; height: 100%; }\n.ba-slider__img--before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }\n.ba-slider__tag { position: absolute; top: 8px; left: 8px; padding: 2px 8px; border-radius: 6px; background: #241430cc; color: #FAF7F2; font-weight: 600; }\n.ba-slider__handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; background: var(--accent); transform: translateX(-50%); pointer-events: none; }\n.ba-slider__range { width: 100%; margin-top: 10px; accent-color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"ba-slider-tw max-w-[360px] font-sans text-xs text-[#241430]\" style=\"--pos:{{position}}%;--accent:{{accent}};\">\n  <div class=\"relative overflow-hidden rounded-xl border border-[#24143022]\" style=\"aspect-ratio:5/3;\">\n    <div class=\"absolute inset-0\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 400 240\" class=\"block w-full h-full\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#A8E6C1\"/><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#FAF7F2\"/></svg>\n      <span class=\"absolute top-2 left-2 px-2 py-0.5 rounded-md font-semibold text-[#FAF7F2]\" style=\"background:#241430cc;\">{{afterLabel}}</span>\n    </div>\n    <div class=\"absolute inset-0\" style=\"clip-path:inset(0 calc(100% - var(--pos)) 0 0);\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 400 240\" class=\"block w-full h-full\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#241430\"/><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#D9C8F0\"/></svg>\n      <span class=\"absolute top-2 left-2 px-2 py-0.5 rounded-md font-semibold text-[#FAF7F2]\" style=\"background:#241430cc;\">{{beforeLabel}}</span>\n    </div>\n    <div class=\"absolute top-0 bottom-0 w-[3px] pointer-events-none\" style=\"left:var(--pos);background:var(--accent);transform:translateX(-50%);\"></div>\n  </div>\n  <!-- In production, sync an input[type=range] with this element's --pos custom property on the \"input\" event to make the divider live-draggable. -->\n  <input class=\"w-full mt-2.5\" style=\"accent-color:var(--accent);\" type=\"range\" min=\"0\" max=\"100\" value=\"{{position}}\" aria-label=\"Comparison position between {{beforeLabel}} and {{afterLabel}}\" />\n</div>",
+    "react": "export function BeforeAfterSlider({\n  beforeLabel = \"{{beforeLabel}}\",\n  afterLabel = \"{{afterLabel}}\",\n  position = {{position}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ maxWidth: 360, font: \"12px/1.4 system-ui, sans-serif\", color: \"#241430\",\n      \"--pos\": `${position}%`, \"--accent\": accent }}>\n      <div style={{ position: \"relative\", overflow: \"hidden\", borderRadius: 12, border: \"1px solid #24143022\", aspectRatio: \"5 / 3\" }}>\n        <div style={{ position: \"absolute\", inset: 0 }} aria-hidden=\"true\">\n          <svg viewBox=\"0 0 400 240\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#A8E6C1\" /><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#FAF7F2\" /></svg>\n          <span style={{ position: \"absolute\", top: 8, left: 8, padding: \"2px 8px\", borderRadius: 6, background: \"#241430cc\", color: \"#FAF7F2\", fontWeight: 600 }}>{afterLabel}</span>\n        </div>\n        <div style={{ position: \"absolute\", inset: 0, clipPath: `inset(0 calc(100% - ${position}%) 0 0)` }} aria-hidden=\"true\">\n          <svg viewBox=\"0 0 400 240\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"240\" fill=\"#241430\" /><circle cx=\"300\" cy=\"80\" r=\"50\" fill=\"#D9C8F0\" /></svg>\n          <span style={{ position: \"absolute\", top: 8, left: 8, padding: \"2px 8px\", borderRadius: 6, background: \"#241430cc\", color: \"#FAF7F2\", fontWeight: 600 }}>{beforeLabel}</span>\n        </div>\n        <div style={{ position: \"absolute\", top: 0, bottom: 0, left: `${position}%`, width: 3, background: accent, transform: \"translateX(-50%)\", pointerEvents: \"none\" }} />\n      </div>\n      {/* In production, wire this range's onChange to update `position` state so the divider is live-draggable. */}\n      <input\n        type=\"range\"\n        min={0}\n        max={100}\n        defaultValue={position}\n        aria-label={`Comparison position between ${beforeLabel} and ${afterLabel}`}\n        style={{ width: \"100%\", marginTop: 10, accentColor: accent }}\n      />\n    </div>\n  );\n}"
+  }
+}

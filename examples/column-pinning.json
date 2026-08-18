@@ -1,0 +1,56 @@
+{
+  "slug": "column-pinning",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Wide order table"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "frozen",
+      "type": "select",
+      "label": "Frozen columns",
+      "default": "1",
+      "options": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "shadow",
+      "type": "toggle",
+      "label": "Divider shadow",
+      "default": true
+    },
+    {
+      "id": "tableWidth",
+      "type": "number",
+      "label": "Table width (px)",
+      "default": 720,
+      "min": 560,
+      "max": 900,
+      "step": 40
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cpin{{#if shadow}} cpin--shadow{{/if}}\" data-frozen=\"{{frozen}}\" style=\"--accent:{{accent}};\">\n  <div class=\"cpin__scroll\">\n    <table class=\"cpin__table\" style=\"min-width:{{tableWidth}}px;\">\n      <caption>{{caption}}</caption>\n      <thead><tr>\n        <th scope=\"col\" class=\"cpin__c1\">Order</th>\n        <th scope=\"col\" class=\"cpin__c2\">Customer</th>\n        <th scope=\"col\">Status</th>\n        <th scope=\"col\">Method</th>\n        <th scope=\"col\">Placed</th>\n        <th scope=\"col\">Notes</th>\n        <th scope=\"col\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td class=\"cpin__c1\">#1042</td><td class=\"cpin__c2\">A. Whitfield</td><td>Shipped</td><td>Courier</td><td>12 Aug</td><td>Leave with neighbour if out</td><td>£64.00</td></tr>\n        <tr><td class=\"cpin__c1\">#1041</td><td class=\"cpin__c2\">R. Okafor</td><td>Processing</td><td>Post</td><td>13 Aug</td><td>Gift wrap requested</td><td>£128.50</td></tr>\n        <tr><td class=\"cpin__c1\">#1040</td><td class=\"cpin__c2\">M. Iqbal</td><td>Shipped</td><td>Courier</td><td>13 Aug</td><td>Signature required</td><td>£22.00</td></tr>\n        <tr><td class=\"cpin__c1\">#1039</td><td class=\"cpin__c2\">S. Novak</td><td>Refunded</td><td>Post</td><td>14 Aug</td><td>Damaged in transit</td><td>£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.cpin { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; }\n.cpin__scroll { overflow-x: auto; }\n.cpin__table { border-collapse: collapse; width: 100%; }\n.cpin__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.cpin__table th, .cpin__table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; background: #FAF7F2; }\n.cpin__table th { background: var(--accent); color: #FAF7F2; }\n.cpin[data-frozen=\"1\"] .cpin__c1, .cpin[data-frozen=\"2\"] .cpin__c1 { position: sticky; left: 0; z-index: 2; }\n.cpin[data-frozen=\"2\"] .cpin__c2 { position: sticky; left: 90px; z-index: 2; }\n.cpin--shadow[data-frozen=\"1\"] .cpin__c1,\n.cpin--shadow[data-frozen=\"2\"] .cpin__c2 { box-shadow: 4px 0 6px -4px #24143066; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2]\" data-frozen=\"{{frozen}}\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\" style=\"min-width:{{tableWidth}}px;\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"cpin__c1 p-3.5 text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"cpin__c2 p-3.5 text-left whitespace-nowrap\">Customer</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Method</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Placed</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Notes</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td class=\"cpin__c1 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1042</td><td class=\"cpin__c2 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Courier</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">12 Aug</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Leave with neighbour if out</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr><td class=\"cpin__c1 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1041</td><td class=\"cpin__c2 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Post</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">13 Aug</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Gift wrap requested</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"cpin__c1 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1040</td><td class=\"cpin__c2 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Courier</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">13 Aug</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Signature required</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"cpin__c1 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1039</td><td class=\"cpin__c2 bg-[#FAF7F2] p-3.5 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Post</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">14 Aug</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Damaged in transit</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n[data-frozen=\"1\"] .cpin__c1, [data-frozen=\"2\"] .cpin__c1 { position: sticky; left: 0; z-index: 2; }\n[data-frozen=\"2\"] .cpin__c2 { position: sticky; left: 90px; z-index: 2; }\n{{#if shadow}}[data-frozen=\"1\"] .cpin__c1, [data-frozen=\"2\"] .cpin__c2 { box-shadow: 4px 0 6px -4px #24143066; }{{/if}}\n</style>",
+    "react": "function ColumnPinning({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  frozen = \"{{frozen}}\",\n  shadow = {{shadow}},\n  tableWidth = {{tableWidth}},\n}) {\n  const cols = [\"Order\", \"Customer\", \"Status\", \"Method\", \"Placed\", \"Notes\", \"Total\"];\n  const rows = [\n    [\"#1042\", \"A. Whitfield\", \"Shipped\", \"Courier\", \"12 Aug\", \"Leave with neighbour if out\", \"£64.00\"],\n    [\"#1041\", \"R. Okafor\", \"Processing\", \"Post\", \"13 Aug\", \"Gift wrap requested\", \"£128.50\"],\n    [\"#1040\", \"M. Iqbal\", \"Shipped\", \"Courier\", \"13 Aug\", \"Signature required\", \"£22.00\"],\n    [\"#1039\", \"S. Novak\", \"Refunded\", \"Post\", \"14 Aug\", \"Damaged in transit\", \"£40.00\"],\n  ];\n  const n = Number(frozen);\n  const left = [0, 90];\n  const cellStyle = (i, bg) => {\n    const pinned = i < n;\n    return {\n      padding: \"10px 14px\", whiteSpace: \"nowrap\", borderBottom: \"1px solid #24143020\", background: bg,\n      position: pinned ? \"sticky\" : \"static\", left: pinned ? left[i] : undefined, zIndex: pinned ? 2 : undefined,\n      boxShadow: pinned && shadow && i === n - 1 ? \"4px 0 6px -4px #24143066\" : undefined,\n    };\n  };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\", minWidth: tableWidth }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr>\n              {cols.map((c, i) => <th key={c} scope=\"col\" style={cellStyle(i, accent)}>{i < n ? c : c}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            {rows.map((row) => (\n              <tr key={row[0]}>{row.map((cell, i) => <td key={i} style={cellStyle(i, \"#FAF7F2\")}>{cell}</td>)}</tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

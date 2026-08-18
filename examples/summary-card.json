@@ -1,0 +1,61 @@
+{
+  "slug": "summary-card",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Q3 Product Launch"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Description",
+      "default": "Adoption trends across all regions during the third quarter."
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "detailed",
+      "options": [
+        "compact",
+        "detailed"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "bordered",
+      "type": "toggle",
+      "label": "Show border",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 14,
+      "min": 0,
+      "max": 28,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"summary-card summary-card--{{variant}}{{#if bordered}} summary-card--bordered{{/if}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"summary-card__header\">\n    <h3 class=\"summary-card__title\">{{title}}</h3>\n    <span class=\"summary-card__badge\">Live</span>\n  </div>\n  <p class=\"summary-card__description\">{{description}}</p>\n  <dl class=\"summary-card__stats\">\n    <div class=\"summary-card__stat\">\n      <dt>Users</dt>\n      <dd>12,480</dd>\n    </div>\n    <div class=\"summary-card__stat\">\n      <dt>Growth</dt>\n      <dd>+18%</dd>\n    </div>\n    <div class=\"summary-card__stat\">\n      <dt>Status</dt>\n      <dd>On track</dd>\n    </div>\n  </dl>\n</div>\n<style>\n.summary-card { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; box-sizing: border-box; padding: 20px; max-width: 340px; }\n.summary-card--bordered { border: 1.5px solid #24143025; }\n.summary-card--detailed { box-shadow: 0 10px 26px rgba(36,20,48,.10); }\n.summary-card__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }\n.summary-card__title { margin: 0; font-size: 17px; font-weight: 700; }\n.summary-card__badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 2px 8px; }\n.summary-card__description { margin: 0 0 16px; font-size: 13.5px; color: #241430b3; }\n.summary-card--compact .summary-card__description { display: none; }\n.summary-card__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0; }\n.summary-card--compact .summary-card__stats { gap: 8px; }\n.summary-card__stat dt { margin: 0 0 2px; font-size: 11px; color: #24143099; text-transform: uppercase; letter-spacing: .03em; }\n.summary-card__stat dd { margin: 0; font-size: 15px; font-weight: 700; }\n.summary-card--compact .summary-card__stat dd { font-size: 13px; }\n.summary-card--compact .summary-card__stat dt { font-size: 10px; }\n</style>",
+    "tailwind": "<div class=\"summary-card-tw summary-card-tw--{{variant}}{{#if bordered}} border border-[#24143025]{{/if}} font-sans text-[#241430] bg-[#FAF7F2] box-border p-5 max-w-[340px]\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"flex items-center justify-between gap-2.5 mb-2\">\n    <h3 class=\"m-0 text-[17px] font-bold\">{{title}}</h3>\n    <span class=\"text-[11px] font-semibold uppercase tracking-wide rounded-full px-2 py-0.5 border\" style=\"color:{{accent}};border-color:{{accent}}\">Live</span>\n  </div>\n  <p class=\"summary-card-tw__description m-0 mb-4 text-[13.5px] text-[#241430]/70\">{{description}}</p>\n  <dl class=\"summary-card-tw__stats grid grid-cols-3 gap-3 m-0\">\n    <div>\n      <dt class=\"m-0 mb-0.5 text-[11px] uppercase tracking-wide text-[#24143099]\">Users</dt>\n      <dd class=\"m-0 text-[15px] font-bold\">12,480</dd>\n    </div>\n    <div>\n      <dt class=\"m-0 mb-0.5 text-[11px] uppercase tracking-wide text-[#24143099]\">Growth</dt>\n      <dd class=\"m-0 text-[15px] font-bold\">+18%</dd>\n    </div>\n    <div>\n      <dt class=\"m-0 mb-0.5 text-[11px] uppercase tracking-wide text-[#24143099]\">Status</dt>\n      <dd class=\"m-0 text-[15px] font-bold\">On track</dd>\n    </div>\n  </dl>\n</div>\n<style>\n.summary-card-tw--detailed { box-shadow: 0 10px 26px rgba(36,20,48,.10); }\n.summary-card-tw--compact .summary-card-tw__description { display: none; }\n.summary-card-tw--compact .summary-card-tw__stats { gap: 8px; }\n</style>",
+    "react": "export function SummaryCard({\n  title = \"{{title}}\",\n  description = \"{{description}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  bordered = {{bordered}},\n  radius = {{radius}},\n}) {\n  const compact = variant === \"compact\";\n  const statStyle = { margin: 0, fontSize: compact ? 13 : 15, fontWeight: 700 };\n  const labelStyle = { margin: \"0 0 2px\", fontSize: compact ? 10 : 11, color: \"#24143099\", textTransform: \"uppercase\", letterSpacing: \".03em\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", boxSizing: \"border-box\", padding: 20, maxWidth: 340, borderRadius: radius,\n      border: bordered ? \"1.5px solid #24143025\" : \"none\",\n      boxShadow: !compact ? \"0 10px 26px rgba(36,20,48,.10)\" : \"none\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 10, marginBottom: 8 }}>\n        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>{title}</h3>\n        <span style={{ fontSize: 11, fontWeight: 600, textTransform: \"uppercase\", letterSpacing: \".04em\",\n          color: accent, border: `1px solid ${accent}`, borderRadius: 999, padding: \"2px 8px\" }}>Live</span>\n      </div>\n      {!compact && <p style={{ margin: \"0 0 16px\", fontSize: 13.5, color: \"#241430b3\" }}>{description}</p>}\n      <dl style={{ display: \"grid\", gridTemplateColumns: \"repeat(3, 1fr)\", gap: compact ? 8 : 12, margin: 0 }}>\n        <div>\n          <dt style={labelStyle}>Users</dt>\n          <dd style={statStyle}>12,480</dd>\n        </div>\n        <div>\n          <dt style={labelStyle}>Growth</dt>\n          <dd style={statStyle}>+18%</dd>\n        </div>\n        <div>\n          <dt style={labelStyle}>Status</dt>\n          <dd style={statStyle}>On track</dd>\n        </div>\n      </dl>\n    </div>\n  );\n}"
+  }
+}

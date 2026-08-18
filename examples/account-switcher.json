@@ -1,0 +1,52 @@
+{
+  "slug": "account-switcher",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Account name",
+      "default": "Priya Anand"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "Workspace admin"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"acct acct--{{density}}\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"acct__trigger\" aria-label=\"Switch account\">\n    <span class=\"acct__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"acct__id\">\n      <span class=\"acct__name\">{{name}}</span>\n      <span class=\"acct__role\">{{role}}</span>\n    </span>\n    <svg class=\"acct__chevron\" width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" aria-hidden=\"true\"><path d=\"M1 1l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/></svg>\n  </summary>\n  <div class=\"acct__panel\" role=\"group\" aria-label=\"Accounts\">\n    <a class=\"acct__item is-current\" href=\"#\" aria-current=\"true\">{{name}}<span class=\"acct__tag\">Current</span></a>\n    <a class=\"acct__item\" href=\"#\">Morgan Blake</a>\n    <a class=\"acct__item\" href=\"#\">Sam Ochieng</a>\n    <button class=\"acct__add\" type=\"button\">+ Add account</button>\n  </div>\n</details>\n<style>\n.acct { position: relative; width: fit-content; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.acct__trigger { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #FAF7F2; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; cursor: pointer; list-style: none; }\n.acct__trigger::-webkit-details-marker { display: none; }\n.acct__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.acct__avatar { width: 28px; height: 28px; border-radius: 50%; flex: none; }\n.acct__id { display: flex; flex-direction: column; line-height: 1.25; }\n.acct__name { font-weight: 600; }\n.acct__role { font-size: 12px; opacity: .6; }\n.acct__chevron { margin-left: 4px; opacity: .5; }\n.acct--compact .acct__trigger { padding: 6px 10px; gap: 8px; }\n.acct--compact .acct__avatar { width: 22px; height: 22px; }\n.acct--compact .acct__role { display: none; }\n.acct__panel { position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.acct__item { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 8px; text-decoration: none; color: #241430; }\n.acct__item:hover, .acct__item:focus-visible { background: #FAF7F2; outline: none; }\n.acct__item.is-current { font-weight: 600; }\n.acct__tag { font-size: 11px; padding: 2px 6px; border-radius: 999px; background: var(--accent); }\n.acct__add { text-align: left; padding: 8px 10px; border-radius: 8px; border: none; background: none; font: inherit; color: #241430; opacity: .7; cursor: pointer; }\n.acct__add:hover, .acct__add:focus-visible { background: #FAF7F2; opacity: 1; outline: none; }\n</style>",
+    "tailwind": "<details class=\"acct-tw acct-tw--{{density}}\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"flex items-center gap-2.5 px-3 py-2 bg-[#FAF7F2] border border-[#241430]/10 rounded-xl cursor-pointer list-none font-sans text-sm text-[#241430]\" aria-label=\"Switch account\">\n    <span class=\"acct-tw__avatar w-7 h-7 rounded-full flex-none\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"flex flex-col leading-tight\">\n      <span class=\"acct-tw__name font-semibold\">{{name}}</span>\n      <span class=\"acct-tw__role text-xs opacity-60\">{{role}}</span>\n    </span>\n    <svg class=\"ml-1 opacity-50\" width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" aria-hidden=\"true\"><path d=\"M1 1l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\"/></svg>\n  </summary>\n  <div class=\"relative\">\n    <div class=\"absolute top-1.5 left-0 min-w-[220px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\" role=\"group\" aria-label=\"Accounts\">\n      <a class=\"flex items-center justify-between px-2.5 py-2 rounded-lg text-[#241430] font-semibold no-underline hover:bg-[#FAF7F2]\" href=\"#\" aria-current=\"true\">{{name}}<span class=\"text-[11px] px-1.5 py-0.5 rounded-full\" style=\"background:{{accent}};\">Current</span></a>\n      <a class=\"px-2.5 py-2 rounded-lg text-[#241430] no-underline hover:bg-[#FAF7F2]\" href=\"#\">Morgan Blake</a>\n      <a class=\"px-2.5 py-2 rounded-lg text-[#241430] no-underline hover:bg-[#FAF7F2]\" href=\"#\">Sam Ochieng</a>\n      <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430]/70 cursor-pointer hover:bg-[#FAF7F2] hover:text-[#241430]\" type=\"button\">+ Add account</button>\n    </div>\n  </div>\n</details>\n<style>\n.acct-tw summary::-webkit-details-marker { display: none; }\n.acct-tw summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.acct-tw--compact summary { padding-top: 6px; padding-bottom: 6px; }\n.acct-tw--compact .acct-tw__avatar { width: 22px; height: 22px; }\n.acct-tw--compact .acct-tw__role { display: none; }\n</style>",
+    "react": "export function AccountSwitcher({\n  name = \"{{name}}\",\n  role = \"{{role}}\",\n  accent = \"{{accent}}\",\n  density = \"{{density}}\",\n  open = {{open}},\n}) {\n  const compact = density === \"compact\";\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <summary aria-label=\"Switch account\" style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: compact ? \"6px 10px\" : \"8px 12px\", background: \"#FAF7F2\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, cursor: \"pointer\", listStyle: \"none\" }}>\n        <span aria-hidden=\"true\" style={{ width: compact ? 22 : 28, height: compact ? 22 : 28, borderRadius: \"50%\", background: accent, flex: \"none\" }} />\n        <span style={{ display: \"flex\", flexDirection: \"column\", lineHeight: 1.25 }}>\n          <span style={{ fontWeight: 600 }}>{name}</span>\n          {!compact && <span style={{ fontSize: 12, opacity: .6 }}>{role}</span>}\n        </span>\n      </summary>\n      <div role=\"group\" aria-label=\"Accounts\" style={{ position: \"absolute\", top: \"calc(100% + 6px)\", left: 0, minWidth: 220, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2, zIndex: 10 }}>\n        <a href=\"#\" aria-current=\"true\" style={{ display: \"flex\", justifyContent: \"space-between\", padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\", fontWeight: 600 }}>\n          {name}<span style={{ fontSize: 11, padding: \"2px 6px\", borderRadius: 999, background: accent }}>Current</span>\n        </a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Morgan Blake</a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Sam Ochieng</a>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", opacity: .7, cursor: \"pointer\" }}>+ Add account</button>\n      </div>\n    </details>\n  );\n}"
+  }
+}

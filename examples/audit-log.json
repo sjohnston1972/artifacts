@@ -1,0 +1,53 @@
+{
+  "slug": "audit-log",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Security audit trail"
+    },
+    {
+      "id": "rows",
+      "type": "select",
+      "label": "Rows shown",
+      "default": "4",
+      "options": [
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Header colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "monospaceIds",
+      "type": "toggle",
+      "label": "Monospace IDs",
+      "default": true
+    },
+    {
+      "id": "striped",
+      "type": "toggle",
+      "label": "Zebra striping",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<table class=\"audit{{#if striped}} audit--striped{{/if}}\" style=\"--accent:{{accent}};\">\n  <caption class=\"audit__caption\">{{caption}}</caption>\n  <thead>\n    <tr><th scope=\"col\">Actor</th><th scope=\"col\">Action</th><th scope=\"col\">Target</th><th scope=\"col\">Timestamp</th></tr>\n  </thead>\n  <tbody data-rows=\"{{rows}}\">\n    <tr>\n      <th scope=\"row\">A. Whitfield<span class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_8841</span></th>\n      <td>role.updated</td>\n      <td class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">acct_2210</td>\n      <td><time datetime=\"2026-08-18T08:12:00Z\">18 Aug, 08:12</time></td>\n    </tr>\n    <tr>\n      <th scope=\"row\">M. Duarte<span class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_1190</span></th>\n      <td>login.failed</td>\n      <td class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_1190</td>\n      <td><time datetime=\"2026-08-18T07:58:00Z\">18 Aug, 07:58</time></td>\n    </tr>\n    <tr>\n      <th scope=\"row\">S. Novak<span class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_4402</span></th>\n      <td>record.deleted</td>\n      <td class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">rec_7734</td>\n      <td><time datetime=\"2026-08-17T22:41:00Z\">17 Aug, 22:41</time></td>\n    </tr>\n    <tr>\n      <th scope=\"row\">A. Whitfield<span class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_8841</span></th>\n      <td>permission.granted</td>\n      <td class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">team_09</td>\n      <td><time datetime=\"2026-08-17T19:05:00Z\">17 Aug, 19:05</time></td>\n    </tr>\n    <tr>\n      <th scope=\"row\">J. Kocher<span class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">usr_2255</span></th>\n      <td>export.completed</td>\n      <td class=\"audit__id{{#if monospaceIds}} audit__id--mono{{/if}}\">rpt_5561</td>\n      <td><time datetime=\"2026-08-17T14:30:00Z\">17 Aug, 14:30</time></td>\n    </tr>\n  </tbody>\n</table>\n<style>\n.audit { border-collapse: collapse; width: 100%; max-width: 520px; font: 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; }\n.audit__caption { text-align: left; font-weight: 600; padding-bottom: 8px; }\n.audit th, .audit td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #24143020; }\n.audit thead th { background: var(--accent); color: #FAF7F2; font-weight: 600; }\n.audit tbody th[scope=\"row\"] { font-weight: 600; display: flex; flex-direction: column; gap: 2px; }\n.audit--striped tbody tr:nth-child(even) { background: #24143010; }\n.audit__id { font-size: 11px; color: #24143099; }\n.audit__id--mono { font-family: \"SFMono-Regular\", Consolas, monospace; }\ntd.audit__id--mono { font-family: \"SFMono-Regular\", Consolas, monospace; color: #241430; font-size: 12.5px; }\n.audit tbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\n.audit tbody[data-rows=\"4\"] tr:nth-child(n+5) { display: none; }\n.audit tbody[data-rows=\"5\"] tr:nth-child(n+6) { display: none; }\n</style>",
+    "tailwind": "<table class=\"border-collapse w-full max-w-[520px] font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\">\n  <caption class=\"text-left font-semibold pb-2\">{{caption}}</caption>\n  <thead>\n    <tr style=\"background:{{accent}}\" class=\"text-[#FAF7F2]\">\n      <th scope=\"col\" class=\"text-left font-semibold p-2.5 px-3\">Actor</th>\n      <th scope=\"col\" class=\"text-left font-semibold p-2.5 px-3\">Action</th>\n      <th scope=\"col\" class=\"text-left font-semibold p-2.5 px-3\">Target</th>\n      <th scope=\"col\" class=\"text-left font-semibold p-2.5 px-3\">Timestamp</th>\n    </tr>\n  </thead>\n  <tbody data-rows=\"{{rows}}\" class=\"audit-tw{{#if striped}} audit-tw--striped{{/if}}\">\n    <tr class=\"border-b border-[#24143020]\">\n      <th scope=\"row\" class=\"text-left font-semibold p-2.5 px-3\">A. Whitfield<span class=\"block text-[11px] font-normal text-[#24143099]{{#if monospaceIds}} font-mono{{/if}}\">usr_8841</span></th>\n      <td class=\"p-2.5 px-3\">role.updated</td>\n      <td class=\"p-2.5 px-3{{#if monospaceIds}} font-mono text-[12.5px]{{/if}}\">acct_2210</td>\n      <td class=\"p-2.5 px-3\"><time datetime=\"2026-08-18T08:12:00Z\">18 Aug, 08:12</time></td>\n    </tr>\n    <tr class=\"border-b border-[#24143020]\">\n      <th scope=\"row\" class=\"text-left font-semibold p-2.5 px-3\">M. Duarte<span class=\"block text-[11px] font-normal text-[#24143099]{{#if monospaceIds}} font-mono{{/if}}\">usr_1190</span></th>\n      <td class=\"p-2.5 px-3\">login.failed</td>\n      <td class=\"p-2.5 px-3{{#if monospaceIds}} font-mono text-[12.5px]{{/if}}\">usr_1190</td>\n      <td class=\"p-2.5 px-3\"><time datetime=\"2026-08-18T07:58:00Z\">18 Aug, 07:58</time></td>\n    </tr>\n    <tr class=\"border-b border-[#24143020]\">\n      <th scope=\"row\" class=\"text-left font-semibold p-2.5 px-3\">S. Novak<span class=\"block text-[11px] font-normal text-[#24143099]{{#if monospaceIds}} font-mono{{/if}}\">usr_4402</span></th>\n      <td class=\"p-2.5 px-3\">record.deleted</td>\n      <td class=\"p-2.5 px-3{{#if monospaceIds}} font-mono text-[12.5px]{{/if}}\">rec_7734</td>\n      <td class=\"p-2.5 px-3\"><time datetime=\"2026-08-17T22:41:00Z\">17 Aug, 22:41</time></td>\n    </tr>\n    <tr class=\"border-b border-[#24143020]\">\n      <th scope=\"row\" class=\"text-left font-semibold p-2.5 px-3\">A. Whitfield<span class=\"block text-[11px] font-normal text-[#24143099]{{#if monospaceIds}} font-mono{{/if}}\">usr_8841</span></th>\n      <td class=\"p-2.5 px-3\">permission.granted</td>\n      <td class=\"p-2.5 px-3{{#if monospaceIds}} font-mono text-[12.5px]{{/if}}\">team_09</td>\n      <td class=\"p-2.5 px-3\"><time datetime=\"2026-08-17T19:05:00Z\">17 Aug, 19:05</time></td>\n    </tr>\n    <tr class=\"border-b border-[#24143020]\">\n      <th scope=\"row\" class=\"text-left font-semibold p-2.5 px-3\">J. Kocher<span class=\"block text-[11px] font-normal text-[#24143099]{{#if monospaceIds}} font-mono{{/if}}\">usr_2255</span></th>\n      <td class=\"p-2.5 px-3\">export.completed</td>\n      <td class=\"p-2.5 px-3{{#if monospaceIds}} font-mono text-[12.5px]{{/if}}\">rpt_5561</td>\n      <td class=\"p-2.5 px-3\"><time datetime=\"2026-08-17T14:30:00Z\">17 Aug, 14:30</time></td>\n    </tr>\n  </tbody>\n</table>\n<style>\n.audit-tw--striped tr:nth-child(even) { background: #24143010; }\ntbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\ntbody[data-rows=\"4\"] tr:nth-child(n+5) { display: none; }\ntbody[data-rows=\"5\"] tr:nth-child(n+6) { display: none; }\n</style>",
+    "react": "export function AuditLog({\n  caption = \"{{caption}}\",\n  rows = \"{{rows}}\",\n  accent = \"{{accent}}\",\n  monospaceIds = {{monospaceIds}},\n  striped = {{striped}},\n}) {\n  const data = [\n    { actor: \"A. Whitfield\", actorId: \"usr_8841\", action: \"role.updated\", target: \"acct_2210\", time: \"2026-08-18T08:12:00Z\", label: \"18 Aug, 08:12\" },\n    { actor: \"M. Duarte\", actorId: \"usr_1190\", action: \"login.failed\", target: \"usr_1190\", time: \"2026-08-18T07:58:00Z\", label: \"18 Aug, 07:58\" },\n    { actor: \"S. Novak\", actorId: \"usr_4402\", action: \"record.deleted\", target: \"rec_7734\", time: \"2026-08-17T22:41:00Z\", label: \"17 Aug, 22:41\" },\n    { actor: \"A. Whitfield\", actorId: \"usr_8841\", action: \"permission.granted\", target: \"team_09\", time: \"2026-08-17T19:05:00Z\", label: \"17 Aug, 19:05\" },\n    { actor: \"J. Kocher\", actorId: \"usr_2255\", action: \"export.completed\", target: \"rpt_5561\", time: \"2026-08-17T14:30:00Z\", label: \"17 Aug, 14:30\" },\n  ].slice(0, Number(rows));\n  const mono = monospaceIds ? { fontFamily: \"SFMono-Regular, Consolas, monospace\" } : {};\n  return (\n    <table style={{ borderCollapse: \"collapse\", width: \"100%\", maxWidth: 520, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#FAF7F2\" }}>\n      <caption style={{ textAlign: \"left\", fontWeight: 600, paddingBottom: 8 }}>{caption}</caption>\n      <thead>\n        <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n          {[\"Actor\", \"Action\", \"Target\", \"Timestamp\"].map((h) => (\n            <th key={h} scope=\"col\" style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 12px\" }}>{h}</th>\n          ))}\n        </tr>\n      </thead>\n      <tbody>\n        {data.map((row, i) => (\n          <tr key={row.time} style={{ background: striped && i % 2 === 1 ? \"#24143010\" : \"transparent\", borderBottom: \"1px solid #24143020\" }}>\n            <th scope=\"row\" style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 12px\" }}>\n              {row.actor}\n              <span style={{ display: \"block\", fontSize: 11, fontWeight: 400, color: \"#24143099\", ...mono }}>{row.actorId}</span>\n            </th>\n            <td style={{ padding: \"10px 12px\" }}>{row.action}</td>\n            <td style={{ padding: \"10px 12px\", fontSize: monospaceIds ? 12.5 : 13, ...mono }}>{row.target}</td>\n            <td style={{ padding: \"10px 12px\" }}><time dateTime={row.time}>{row.label}</time></td>\n          </tr>\n        ))}\n      </tbody>\n    </table>\n  );\n}"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "slug": "tree-node",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "src/"
+    },
+    {
+      "id": "childLabel",
+      "type": "text",
+      "label": "Child label",
+      "default": "index.js"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Expanded",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "kind",
+      "type": "select",
+      "label": "Kind",
+      "default": "folder",
+      "options": [
+        "folder",
+        "file"
+      ]
+    },
+    {
+      "id": "indent",
+      "type": "number",
+      "label": "Child indent",
+      "default": 20,
+      "min": 8,
+      "max": 40,
+      "step": 4
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"tree-node tree-node--{{kind}}\" style=\"--accent:{{accent}};\"{{#if open}} open{{/if}}>\n  <summary class=\"tree-node__summary\">{{label}}</summary>\n  <div class=\"tree-node__children\" style=\"padding-left:{{indent}}px;\">\n    <div class=\"tree-node__leaf\">\n      <span class=\"tree-node__leaf-icon\" aria-hidden=\"true\"></span>\n      <span class=\"tree-node__leaf-label\">{{childLabel}}</span>\n    </div>\n  </div>\n</details>\n<style>\n.tree-node { font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 8px; padding: 4px 8px; }\n.tree-node__summary { list-style: none; cursor: pointer; padding: 6px 4px; border-radius: 6px; font-weight: 600; display: flex; align-items: center; gap: 6px; }\n.tree-node__summary::-webkit-details-marker { display: none; }\n.tree-node__summary::before { content: \"📁\"; font-size: 13px; }\n.tree-node--file .tree-node__summary::before { content: \"📄\"; }\n.tree-node__summary::after { content: \"▸\"; margin-left: auto; color: var(--accent); }\n.tree-node[open] > .tree-node__summary::after { transform: rotate(90deg); display: inline-block; }\n.tree-node__summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }\n.tree-node__children { border-left: 1.5px solid #24143022; margin-left: 10px; }\n.tree-node__leaf { display: flex; align-items: center; gap: 6px; padding: 5px 4px; font-size: 14px; }\n.tree-node__leaf-icon::before { content: \"📄\"; font-size: 12px; }\n</style>",
+    "tailwind": "<details{{#if open}} open{{/if}} class=\"tree-node-tw tree-node-tw--{{kind}} font-sans text-[15px] text-[#241430] bg-[#FAF7F2] rounded-lg px-2 py-1\" style=\"--accent:{{accent}};\">\n  <summary class=\"tree-node-tw__summary list-none cursor-pointer rounded-md px-1 py-1.5 font-semibold flex items-center gap-1.5 marker:hidden\">\n    <span aria-hidden=\"true\" class=\"tree-node-tw__icon\"></span>\n    {{label}}\n    <span aria-hidden=\"true\" class=\"ml-auto\" style=\"color:{{accent}}\">▸</span>\n  </summary>\n  <div class=\"border-l-[1.5px] border-[#24143022] ml-2.5\" style=\"padding-left:{{indent}}px;\">\n    <div class=\"flex items-center gap-1.5 py-1 px-1 text-sm\">\n      <span aria-hidden=\"true\" class=\"tree-node-tw__leaf-icon\"></span>\n      <span>{{childLabel}}</span>\n    </div>\n  </div>\n</details>\n<style>\n.tree-node-tw__icon::before { content: \"📁\"; font-size: 13px; }\n.tree-node-tw--file .tree-node-tw__icon::before { content: \"📄\"; }\n.tree-node-tw__leaf-icon::before { content: \"📄\"; font-size: 12px; }\n</style>",
+    "react": "export function TreeNode({\n  label = \"{{label}}\",\n  childLabel = \"{{childLabel}}\",\n  open = {{open}},\n  accent = \"{{accent}}\",\n  kind = \"{{kind}}\",\n  indent = {{indent}},\n}) {\n  const isFolder = kind === \"folder\";\n  return (\n    <details open={open} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", borderRadius: 8, padding: \"4px 8px\" }}>\n      <summary style={{ listStyle: \"none\", cursor: \"pointer\", padding: \"6px 4px\", borderRadius: 6, fontWeight: 600,\n        display: \"flex\", alignItems: \"center\", gap: 6 }}>\n        <span aria-hidden=\"true\" style={{ fontSize: 13 }}>{isFolder ? \"📁\" : \"📄\"}</span>\n        {label}\n        <span aria-hidden=\"true\" style={{ marginLeft: \"auto\", color: accent }}>▸</span>\n      </summary>\n      <div style={{ borderLeft: \"1.5px solid #24143022\", marginLeft: 10, paddingLeft: indent }}>\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, padding: \"5px 4px\", fontSize: 14 }}>\n          <span aria-hidden=\"true\" style={{ fontSize: 12 }}>📄</span>\n          <span>{childLabel}</span>\n        </div>\n      </div>\n    </details>\n  );\n}"
+  }
+}

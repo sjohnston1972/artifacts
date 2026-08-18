@@ -1,0 +1,46 @@
+{
+  "slug": "overflow-menu",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Accessible label",
+      "default": "More actions"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Panel alignment",
+      "default": "right",
+      "options": [
+        "left",
+        "right"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"overflow overflow--{{align}}\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"overflow__trigger\" aria-label=\"{{label}}\">&#8942;</summary>\n  <div class=\"overflow__panel\" role=\"group\" aria-label=\"{{label}}\">\n    <button class=\"overflow__item\" type=\"button\">Share</button>\n    <button class=\"overflow__item\" type=\"button\">Print</button>\n    <button class=\"overflow__item\" type=\"button\">Archive</button>\n  </div>\n</details>\n<style>\n.overflow { position: relative; width: fit-content; font: 14px system-ui, sans-serif; }\n.overflow__trigger { list-style: none; cursor: pointer; padding: 6px 10px; border-radius: 8px; font-size: 18px; line-height: 1; color: #241430; }\n.overflow__trigger::-webkit-details-marker { display: none; }\n.overflow__trigger:hover, .overflow__trigger:focus-visible { background: #FAF7F2; outline: 2px solid var(--accent); outline-offset: 1px; }\n.overflow__panel { position: absolute; top: calc(100% + 4px); min-width: 150px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.overflow--left .overflow__panel { left: 0; }\n.overflow--right .overflow__panel { right: 0; }\n.overflow__item { text-align: left; padding: 8px 10px; border-radius: 8px; border: none; background: none; font: inherit; color: #241430; cursor: pointer; }\n.overflow__item:hover, .overflow__item:focus-visible { background: #FAF7F2; outline: none; }\n</style>",
+    "tailwind": "<details class=\"overflow-tw overflow-tw--{{align}} relative w-fit font-sans text-sm\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"list-none cursor-pointer px-2.5 py-1.5 rounded-lg text-lg leading-none text-[#241430] hover:bg-[#FAF7F2]\" aria-label=\"{{label}}\">&#8942;</summary>\n  <div class=\"absolute top-1 min-w-[150px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\" role=\"group\" aria-label=\"{{label}}\">\n    <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">Share</button>\n    <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">Print</button>\n    <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">Archive</button>\n  </div>\n</details>\n<style>\n.overflow-tw summary::-webkit-details-marker { display: none; }\n.overflow-tw summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.overflow-tw--left > div { left: 0; }\n.overflow-tw--right > div { right: 0; }\n</style>",
+    "react": "export function OverflowMenu({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n  align = \"{{align}}\",\n}) {\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14 }}>\n      <summary aria-label={label} style={{ listStyle: \"none\", cursor: \"pointer\", padding: \"6px 10px\", borderRadius: 8, fontSize: 18, lineHeight: 1, color: \"#241430\" }}>&#8942;</summary>\n      <div role=\"group\" aria-label={label} style={{ position: \"absolute\", top: \"calc(100% + 4px)\", [align]: 0, minWidth: 150, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Share</button>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Print</button>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Archive</button>\n      </div>\n    </details>\n  );\n}"
+  }
+}

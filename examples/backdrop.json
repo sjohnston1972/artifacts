@@ -1,0 +1,59 @@
+{
+  "slug": "backdrop",
+  "controls_schema": [
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "opacity",
+      "type": "number",
+      "label": "Opacity",
+      "default": 45,
+      "min": 0,
+      "max": 90,
+      "step": 5
+    },
+    {
+      "id": "blur",
+      "type": "number",
+      "label": "Blur",
+      "default": 4,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "blurred",
+      "options": [
+        "solid",
+        "blurred",
+        "gradient"
+      ]
+    },
+    {
+      "id": "visible",
+      "type": "toggle",
+      "label": "Visible",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"bd-demo\">\n  <div class=\"bd-scenery\" aria-hidden=\"true\">\n    <div class=\"bd-scenery__card\">Photo</div>\n    <div class=\"bd-scenery__card\">Photo</div>\n    <div class=\"bd-scenery__card\">Photo</div>\n  </div>\n  {{#if visible}}<div class=\"bd-layer bd-layer--{{style}}\" style=\"--bd-color:{{color}};--bd-blur:{{blur}}px;opacity:{{opacity}}%;\"></div>{{/if}}\n  <div class=\"bd-panel\">\n    <h3 class=\"bd-panel__title\">Preview panel</h3>\n    <p class=\"bd-panel__text\">This card sits above the backdrop layer, which dims — and can blur — the content behind it.</p>\n  </div>\n</div>\n<style>\n.bd-demo { position: relative; min-height: 380px; border-radius: 12px; overflow: hidden; background: #FAF7F2; display: grid; place-items: center; }\n.bd-scenery { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; box-sizing: border-box; }\n.bd-scenery__card { background: linear-gradient(135deg, #BFD9F2, #D9C8F0); border-radius: 10px; display: grid; place-items: center; font: 600 13px system-ui, sans-serif; color: #241430; }\n.bd-layer { position: absolute; inset: 0; }\n.bd-layer--solid { background: var(--bd-color); }\n.bd-layer--blurred { background: var(--bd-color); backdrop-filter: blur(var(--bd-blur)); -webkit-backdrop-filter: blur(var(--bd-blur)); }\n.bd-layer--gradient { background: linear-gradient(to top, var(--bd-color), transparent); }\n.bd-panel { position: relative; z-index: 1; background: #FAF7F2; color: #241430; border-radius: 14px; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 22px; max-width: 280px; text-align: center; font: 16px/1.5 system-ui, sans-serif; }\n.bd-panel__title { margin: 0 0 8px; font-size: 16px; font-weight: 600; }\n.bd-panel__text { margin: 0; font-size: 13px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[380px] rounded-xl overflow-hidden bg-[#FAF7F2] grid place-items-center\">\n  <div aria-hidden=\"true\" class=\"absolute inset-0 grid grid-cols-3 gap-2.5 p-5 box-border\">\n    <div class=\"rounded-[10px] grid place-items-center text-[13px] font-semibold text-[#241430]\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\">Photo</div>\n    <div class=\"rounded-[10px] grid place-items-center text-[13px] font-semibold text-[#241430]\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\">Photo</div>\n    <div class=\"rounded-[10px] grid place-items-center text-[13px] font-semibold text-[#241430]\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\">Photo</div>\n  </div>\n  {{#if visible}}<div class=\"bd-tw-layer bd-tw-layer--{{style}} absolute inset-0\" style=\"--bd-color:{{color}};--bd-blur:{{blur}}px;opacity:{{opacity}}%;\"></div>{{/if}}\n  <div class=\"relative z-10 bg-[#FAF7F2] text-[#241430] rounded-2xl shadow-2xl p-6 max-w-[280px] text-center font-sans\">\n    <h3 class=\"mb-2 text-base font-semibold\">Preview panel</h3>\n    <p class=\"text-[13px] text-[#241430]/80\">This card sits above the backdrop layer, which dims — and can blur — the content behind it.</p>\n  </div>\n</div>\n<style>\n.bd-tw-layer--solid { background: var(--bd-color); }\n.bd-tw-layer--blurred { background: var(--bd-color); backdrop-filter: blur(var(--bd-blur)); -webkit-backdrop-filter: blur(var(--bd-blur)); }\n.bd-tw-layer--gradient { background: linear-gradient(to top, var(--bd-color), transparent); }\n</style>",
+    "react": "export function Backdrop({\n  color = \"{{color}}\",\n  opacity = {{opacity}},\n  blur = {{blur}},\n  style = \"{{style}}\",\n  visible = {{visible}},\n}) {\n  const layerBackground = {\n    solid: color,\n    blurred: color,\n    gradient: \"linear-gradient(to top, \" + color + \", transparent)\",\n  }[style] ?? color;\n  return (\n    <div style={{ position: \"relative\", minHeight: 380, borderRadius: 12, overflow: \"hidden\",\n      background: \"#FAF7F2\", display: \"grid\", placeItems: \"center\" }}>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", inset: 0, display: \"grid\",\n        gridTemplateColumns: \"repeat(3, 1fr)\", gap: 10, padding: 20, boxSizing: \"border-box\" }}>\n        <div style={{ background: \"linear-gradient(135deg, #BFD9F2, #D9C8F0)\", borderRadius: 10 }} />\n        <div style={{ background: \"linear-gradient(135deg, #BFD9F2, #D9C8F0)\", borderRadius: 10 }} />\n        <div style={{ background: \"linear-gradient(135deg, #BFD9F2, #D9C8F0)\", borderRadius: 10 }} />\n      </div>\n      {visible && (\n        <div style={{ position: \"absolute\", inset: 0, background: layerBackground, opacity: opacity / 100,\n          backdropFilter: style === \"blurred\" ? \"blur(\" + blur + \"px)\" : \"none\",\n          WebkitBackdropFilter: style === \"blurred\" ? \"blur(\" + blur + \"px)\" : \"none\" }} />\n      )}\n      <div style={{ position: \"relative\", zIndex: 1, background: \"#FAF7F2\", color: \"#241430\", borderRadius: 14,\n        boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: 22, maxWidth: 280, textAlign: \"center\",\n        fontFamily: \"system-ui, sans-serif\" }}>\n        <h3 style={{ margin: \"0 0 8px\", fontSize: 16, fontWeight: 600 }}>Preview panel</h3>\n        <p style={{ margin: 0, fontSize: 13, color: \"#241430cc\" }}>This card sits above the backdrop layer, which dims — and can blur — the content behind it.</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

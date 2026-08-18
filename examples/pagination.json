@@ -1,0 +1,58 @@
+{
+  "slug": "pagination",
+  "controls_schema": [
+    {
+      "id": "current",
+      "type": "number",
+      "label": "Current page",
+      "default": 3,
+      "min": 1,
+      "max": 99,
+      "step": 1
+    },
+    {
+      "id": "total",
+      "type": "number",
+      "label": "Total pages",
+      "default": 12,
+      "min": 1,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showEllipsis",
+      "type": "toggle",
+      "label": "Show ellipses",
+      "default": true
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"pager pager--{{size}}\" style=\"--accent:{{accent}};\" aria-label=\"Pagination\">\n  <a class=\"pager__nav\" href=\"#\" aria-label=\"Previous page\">&#8249;</a>\n  <a class=\"pager__num\" href=\"#\">1</a>\n  {{#if showEllipsis}}<span class=\"pager__ellipsis\" aria-hidden=\"true\">&hellip;</span>{{/if}}\n  <span class=\"pager__num pager__num--current\" aria-current=\"page\">{{current}}</span>\n  {{#if showEllipsis}}<span class=\"pager__ellipsis\" aria-hidden=\"true\">&hellip;</span>{{/if}}\n  <a class=\"pager__num\" href=\"#\">{{total}}</a>\n  <a class=\"pager__nav\" href=\"#\" aria-label=\"Next page\">&#8250;</a>\n</nav>\n<style>\n.pager { display: flex; align-items: center; gap: 4px; font: 500 14px system-ui, sans-serif; color: #241430; }\n.pager__nav, .pager__num { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 6px; border-radius: 8px; text-decoration: none; color: #241430; }\n.pager__nav:hover, .pager__num:hover, .pager__nav:focus-visible, .pager__num:focus-visible { background: #FAF7F2; outline: none; }\n.pager__num--current { background: var(--accent); font-weight: 700; }\n.pager__ellipsis { padding: 0 2px; opacity: .5; }\n.pager--compact .pager__nav, .pager--compact .pager__num { min-width: 26px; height: 26px; font-size: 13px; }\n</style>",
+    "tailwind": "<nav aria-label=\"Pagination\" class=\"pager-tw pager-tw--{{size}} flex items-center gap-1 font-medium text-sm text-[#241430]\" style=\"--accent:{{accent}};\">\n  <a class=\"inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\" aria-label=\"Previous page\">&#8249;</a>\n  <a class=\"inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">1</a>\n  {{#if showEllipsis}}<span class=\"px-0.5 opacity-50\" aria-hidden=\"true\">&hellip;</span>{{/if}}\n  <span class=\"inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg font-bold\" aria-current=\"page\" style=\"background:{{accent}};\">{{current}}</span>\n  {{#if showEllipsis}}<span class=\"px-0.5 opacity-50\" aria-hidden=\"true\">&hellip;</span>{{/if}}\n  <a class=\"inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">{{total}}</a>\n  <a class=\"inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\" aria-label=\"Next page\">&#8250;</a>\n</nav>\n<style>\n.pager-tw a:focus-visible, .pager-tw span[aria-current]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.pager-tw--compact a, .pager-tw--compact span { min-width: 26px; height: 26px; font-size: 13px; }\n</style>",
+    "react": "export function Pagination({\n  current = {{current}},\n  total = {{total}},\n  accent = \"{{accent}}\",\n  showEllipsis = {{showEllipsis}},\n  size = \"{{size}}\",\n}) {\n  const compact = size === \"compact\";\n  const cellStyle = { display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", minWidth: compact ? 26 : 32, height: compact ? 26 : 32, borderRadius: 8, textDecoration: \"none\", color: \"#241430\", fontSize: compact ? 13 : 14 };\n  return (\n    <nav aria-label=\"Pagination\" style={{ display: \"flex\", alignItems: \"center\", gap: 4, fontFamily: \"system-ui, sans-serif\", fontSize: 14, fontWeight: 500, color: \"#241430\" }}>\n      <a href=\"#\" aria-label=\"Previous page\" style={cellStyle}>&#8249;</a>\n      <a href=\"#\" style={cellStyle}>1</a>\n      {showEllipsis && <span aria-hidden=\"true\" style={{ padding: \"0 2px\", opacity: .5 }}>&hellip;</span>}\n      <span aria-current=\"page\" style={{ ...cellStyle, background: accent, fontWeight: 700 }}>{current}</span>\n      {showEllipsis && <span aria-hidden=\"true\" style={{ padding: \"0 2px\", opacity: .5 }}>&hellip;</span>}\n      <a href=\"#\" style={cellStyle}>{total}</a>\n      <a href=\"#\" aria-label=\"Next page\" style={cellStyle}>&#8250;</a>\n    </nav>\n  );\n}"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "overlay",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Panel text",
+      "default": "New comments have been added to this document."
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Panel colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#FAF7F2"
+      ]
+    },
+    {
+      "id": "opacity",
+      "type": "number",
+      "label": "Backdrop opacity",
+      "default": 0.55,
+      "min": 0,
+      "max": 0.9,
+      "step": 0.05
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "center",
+      "options": [
+        "top",
+        "center",
+        "bottom"
+      ]
+    },
+    {
+      "id": "dimmed",
+      "type": "toggle",
+      "label": "Dim background",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"overlay-demo\">\n  <div class=\"overlay-demo__bg\">\n    <div class=\"overlay-demo__row\"></div>\n    <div class=\"overlay-demo__row\"></div>\n    <div class=\"overlay-demo__row\"></div>\n  </div>\n  {{#if dimmed}}<div class=\"overlay-demo__scrim\" style=\"opacity:{{opacity}};\"></div>{{/if}}\n  <div class=\"overlay-panel overlay-panel--{{position}}\" style=\"background:{{color}};\">\n    <p class=\"overlay-panel__text\">{{text}}</p>\n  </div>\n</div>\n<style>\n.overlay-demo { position: relative; min-height: 260px; overflow: hidden; border-radius: 12px; background: #FAF7F2; border: 1.5px solid #24143020; box-sizing: border-box; }\n.overlay-demo__bg { position: absolute; inset: 0; padding: 22px; display: flex; flex-direction: column; gap: 10px; }\n.overlay-demo__row { height: 14px; border-radius: 6px; background: #24143014; }\n.overlay-demo__row:nth-child(2) { width: 80%; }\n.overlay-demo__row:nth-child(3) { width: 58%; }\n.overlay-demo__scrim { position: absolute; inset: 0; background: #241430; }\n.overlay-panel { position: absolute; left: 22px; right: 22px; border-radius: 10px; padding: 16px 18px; box-shadow: 0 12px 28px rgba(36,20,48,.22); box-sizing: border-box; }\n.overlay-panel--top { top: 22px; }\n.overlay-panel--center { top: 50%; transform: translateY(-50%); }\n.overlay-panel--bottom { bottom: 22px; }\n.overlay-panel__text { margin: 0; font: 500 15px/1.5 system-ui, sans-serif; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"overlay-tw relative min-h-[260px] overflow-hidden rounded-xl bg-[#FAF7F2] border-[1.5px] border-[#24143020] box-border\">\n  <div class=\"absolute inset-0 p-[22px] flex flex-col gap-2.5\">\n    <div class=\"h-3.5 rounded-md bg-[#24143014]\"></div>\n    <div class=\"h-3.5 w-4/5 rounded-md bg-[#24143014]\"></div>\n    <div class=\"h-3.5 w-[58%] rounded-md bg-[#24143014]\"></div>\n  </div>\n  {{#if dimmed}}<div class=\"absolute inset-0 bg-[#241430]\" style=\"opacity:{{opacity}};\"></div>{{/if}}\n  <div class=\"overlay-tw-panel overlay-tw-panel--{{position}} absolute left-[22px] right-[22px] rounded-[10px] p-4 shadow-2xl box-border\" style=\"background:{{color}};\">\n    <p class=\"m-0 text-[15px] font-medium text-[#241430]\">{{text}}</p>\n  </div>\n</div>\n<style>\n.overlay-tw-panel--top { top: 22px; }\n.overlay-tw-panel--center { top: 50%; transform: translateY(-50%); }\n.overlay-tw-panel--bottom { bottom: 22px; }\n</style>",
+    "react": "export function Overlay({\n  text = \"{{text}}\",\n  color = \"{{color}}\",\n  opacity = {{opacity}},\n  position = \"{{position}}\",\n  dimmed = {{dimmed}},\n}) {\n  const posStyle = {\n    top: { top: 22 },\n    center: { top: \"50%\", transform: \"translateY(-50%)\" },\n    bottom: { bottom: 22 },\n  }[position] ?? {};\n  return (\n    <div style={{ position: \"relative\", minHeight: 260, overflow: \"hidden\", borderRadius: 12,\n      background: \"#FAF7F2\", border: \"1.5px solid #24143020\", boxSizing: \"border-box\" }}>\n      <div style={{ position: \"absolute\", inset: 0, padding: 22, display: \"flex\", flexDirection: \"column\", gap: 10 }}>\n        <div style={{ height: 14, borderRadius: 6, background: \"#24143014\" }} />\n        <div style={{ height: 14, width: \"80%\", borderRadius: 6, background: \"#24143014\" }} />\n        <div style={{ height: 14, width: \"58%\", borderRadius: 6, background: \"#24143014\" }} />\n      </div>\n      {dimmed && <div style={{ position: \"absolute\", inset: 0, background: \"#241430\", opacity }} />}\n      <div style={{ position: \"absolute\", left: 22, right: 22, borderRadius: 10, padding: \"16px 18px\",\n        boxShadow: \"0 12px 28px rgba(36,20,48,.22)\", boxSizing: \"border-box\", background: color, ...posStyle }}>\n        <p style={{ margin: 0, fontSize: 15, fontWeight: 500, color: \"#241430\" }}>{text}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

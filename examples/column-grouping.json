@@ -1,0 +1,48 @@
+{
+  "slug": "column-grouping",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Order summary"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Group colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "groupLabel",
+      "type": "text",
+      "label": "Group label",
+      "default": "Shipping"
+    },
+    {
+      "id": "showSubheaders",
+      "type": "toggle",
+      "label": "Show subheaders",
+      "default": true
+    },
+    {
+      "id": "collapsedGroup",
+      "type": "toggle",
+      "label": "Collapse group",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cgrp{{#if collapsedGroup}} cgrp--collapsed{{/if}}\" style=\"--accent:{{accent}};\">\n  <div class=\"cgrp__scroll\">\n    <table class=\"cgrp__table\">\n      <caption>{{caption}}</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\" rowspan=\"2\">Customer</th>\n          <th scope=\"colgroup\" colspan=\"2\" class=\"cgrp__group\">{{groupLabel}}</th>\n          <th scope=\"col\" rowspan=\"2\">Method</th>\n          <th scope=\"col\" rowspan=\"2\">Total</th>\n        </tr>\n        <tr class=\"cgrp__sub{{#unless showSubheaders}} cgrp__sub--hidden{{/unless}}\">\n          <th scope=\"col\" class=\"cgrp__subcell\">Address</th>\n          <th scope=\"col\" class=\"cgrp__subcell\">City</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>A. Whitfield</td><td class=\"cgrp__subcell\">14 Elm Rd</td><td class=\"cgrp__subcell\">Leeds</td><td>Courier</td><td>£64.00</td></tr>\n        <tr><td>R. Okafor</td><td class=\"cgrp__subcell\">9 Quay St</td><td class=\"cgrp__subcell\">Bristol</td><td>Post</td><td>£128.50</td></tr>\n        <tr><td>M. Iqbal</td><td class=\"cgrp__subcell\">2 Mill Ln</td><td class=\"cgrp__subcell\">Leicester</td><td>Courier</td><td>£22.00</td></tr>\n        <tr><td>S. Novak</td><td class=\"cgrp__subcell\">51 Bank St</td><td class=\"cgrp__subcell\">York</td><td>Post</td><td>£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.cgrp { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.cgrp__scroll { overflow-x: auto; }\n.cgrp__table { border-collapse: collapse; width: 100%; }\n.cgrp__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.cgrp__table th, .cgrp__table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.cgrp__group { background: var(--accent); color: #FAF7F2; text-align: center; }\n.cgrp__sub th { background: #24143012; font-size: 12px; }\n.cgrp__sub--hidden { display: none; }\n.cgrp--collapsed .cgrp__subcell { max-width: 44px; overflow: hidden; text-overflow: ellipsis; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden{{#if collapsedGroup}} [&_.cgrp__subcell]:max-w-[44px] [&_.cgrp__subcell]:overflow-hidden [&_.cgrp__subcell]:text-ellipsis{{/if}}\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\" rowspan=\"2\" class=\"p-2 text-left border-b border-[#24143020] whitespace-nowrap\">Customer</th>\n          <th scope=\"colgroup\" colspan=\"2\" class=\"p-2 text-center text-[#FAF7F2]\" style=\"background:{{accent}}\">{{groupLabel}}</th>\n          <th scope=\"col\" rowspan=\"2\" class=\"p-2 text-left border-b border-[#24143020] whitespace-nowrap\">Method</th>\n          <th scope=\"col\" rowspan=\"2\" class=\"p-2 text-left border-b border-[#24143020] whitespace-nowrap\">Total</th>\n        </tr>\n        <tr class=\"{{#unless showSubheaders}}hidden{{/unless}}\">\n          <th scope=\"col\" class=\"cgrp__subcell p-2 text-left bg-[#24143012] text-xs border-b border-[#24143020]\">Address</th>\n          <th scope=\"col\" class=\"cgrp__subcell p-2 text-left bg-[#24143012] text-xs border-b border-[#24143020]\">City</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">14 Elm Rd</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">Leeds</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">Courier</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">9 Quay St</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">Bristol</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">Post</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">2 Mill Ln</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">Leicester</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">Courier</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">51 Bank St</td><td class=\"cgrp__subcell p-2 border-b border-[#24143020] whitespace-nowrap\">York</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">Post</td><td class=\"p-2 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+    "react": "function ColumnGrouping({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  groupLabel = \"{{groupLabel}}\",\n  showSubheaders = {{showSubheaders}},\n  collapsedGroup = {{collapsedGroup}},\n}) {\n  const rows = [\n    [\"A. Whitfield\", \"14 Elm Rd\", \"Leeds\", \"Courier\", \"£64.00\"],\n    [\"R. Okafor\", \"9 Quay St\", \"Bristol\", \"Post\", \"£128.50\"],\n    [\"M. Iqbal\", \"2 Mill Ln\", \"Leicester\", \"Courier\", \"£22.00\"],\n    [\"S. Novak\", \"51 Bank St\", \"York\", \"Post\", \"£40.00\"],\n  ];\n  const cell = { padding: \"8px 12px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  const subCell = collapsedGroup ? { ...cell, maxWidth: 44, overflow: \"hidden\", textOverflow: \"ellipsis\" } : cell;\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr>\n              <th scope=\"col\" rowSpan={2} style={cell}>Customer</th>\n              <th scope=\"colgroup\" colSpan={2} style={{ ...cell, background: accent, color: \"#FAF7F2\", textAlign: \"center\" }}>{groupLabel}</th>\n              <th scope=\"col\" rowSpan={2} style={cell}>Method</th>\n              <th scope=\"col\" rowSpan={2} style={cell}>Total</th>\n            </tr>\n            {showSubheaders && (\n              <tr>\n                <th scope=\"col\" style={{ ...cell, background: \"#24143012\", fontSize: 12 }}>Address</th>\n                <th scope=\"col\" style={{ ...cell, background: \"#24143012\", fontSize: 12 }}>City</th>\n              </tr>\n            )}\n          </thead>\n          <tbody>\n            {rows.map((r) => (\n              <tr key={r[0]}>\n                <td style={cell}>{r[0]}</td>\n                <td style={subCell}>{r[1]}</td>\n                <td style={subCell}>{r[2]}</td>\n                <td style={cell}>{r[3]}</td>\n                <td style={cell}>{r[4]}</td>\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

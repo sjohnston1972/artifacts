@@ -1,0 +1,54 @@
+{
+  "slug": "kanban-board",
+  "controls_schema": [
+    {
+      "id": "title1",
+      "type": "text",
+      "label": "Column 1 title",
+      "default": "To do"
+    },
+    {
+      "id": "title2",
+      "type": "text",
+      "label": "Column 2 title",
+      "default": "In progress"
+    },
+    {
+      "id": "title3",
+      "type": "text",
+      "label": "Column 3 title",
+      "default": "Done"
+    },
+    {
+      "id": "thirdColumn",
+      "type": "toggle",
+      "label": "Show third column",
+      "default": true
+    },
+    {
+      "id": "emptyMiddle",
+      "type": "toggle",
+      "label": "Middle column empty",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kanban\" style=\"--accent:{{accent}};\">\n  <div class=\"kanban__col\">\n    <h3 class=\"kanban__heading\">{{title1}}</h3>\n    <ul class=\"kanban__list\">\n      <li class=\"kanban__card\">Design onboarding flow<span class=\"kanban__tag\">UX</span></li>\n      <li class=\"kanban__card\">Write Q3 report<span class=\"kanban__tag\">Docs</span></li>\n    </ul>\n  </div>\n  <div class=\"kanban__col\">\n    <h3 class=\"kanban__heading\">{{title2}}</h3>\n    {{#if emptyMiddle}}\n    <p class=\"kanban__empty\">No cards yet</p>\n    {{/if}}\n    {{#unless emptyMiddle}}\n    <ul class=\"kanban__list\">\n      <li class=\"kanban__card\">Refactor auth module<span class=\"kanban__tag\">Eng</span></li>\n      <li class=\"kanban__card\">Update pricing copy<span class=\"kanban__tag\">Marketing</span></li>\n    </ul>\n    {{/unless}}\n  </div>\n  {{#if thirdColumn}}\n  <div class=\"kanban__col\">\n    <h3 class=\"kanban__heading\">{{title3}}</h3>\n    <ul class=\"kanban__list\">\n      <li class=\"kanban__card\">Ship landing page<span class=\"kanban__tag\">Eng</span></li>\n      <li class=\"kanban__card\">Customer interview notes<span class=\"kanban__tag\">Research</span></li>\n    </ul>\n  </div>\n  {{/if}}\n</div>\n<style>\n.kanban { display: flex; gap: 16px; font: 16px/1.5 system-ui, sans-serif; color: #241430; align-items: flex-start; }\n.kanban__col { background: #FAF7F2; border-radius: 12px; padding: 14px; width: 200px; box-sizing: border-box; box-shadow: 0 4px 14px rgba(36,20,48,.1); }\n.kanban__heading { margin: 0 0 10px; font-size: 14px; font-weight: 700; border-bottom: 3px solid var(--accent); padding-bottom: 8px; }\n.kanban__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }\n.kanban__card { background: #fff; border: 1px solid #24143020; border-radius: 8px; padding: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 6px; }\n.kanban__tag { align-self: flex-start; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: #241430; }\n.kanban__empty { margin: 0; padding: 20px 8px; text-align: center; font-size: 12.5px; color: #241430aa; border: 1.5px dashed #24143033; border-radius: 8px; }\n</style>",
+    "tailwind": "<div class=\"flex gap-4 font-sans text-[#241430] items-start\" style=\"--accent:{{accent}}\">\n  <div class=\"kanban-tw__col bg-[#FAF7F2] rounded-xl p-3.5 w-[200px] box-border shadow-[0_4px_14px_rgba(36,20,48,.1)]\">\n    <h3 class=\"m-0 mb-2.5 text-sm font-bold pb-2 border-b-[3px]\" style=\"border-color:{{accent}}\">{{title1}}</h3>\n    <ul class=\"list-none m-0 p-0 flex flex-col gap-2.5\">\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Design onboarding flow<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">UX</span></li>\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Write Q3 report<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Docs</span></li>\n    </ul>\n  </div>\n  <div class=\"kanban-tw__col bg-[#FAF7F2] rounded-xl p-3.5 w-[200px] box-border shadow-[0_4px_14px_rgba(36,20,48,.1)]\">\n    <h3 class=\"m-0 mb-2.5 text-sm font-bold pb-2 border-b-[3px]\" style=\"border-color:{{accent}}\">{{title2}}</h3>\n    {{#if emptyMiddle}}\n    <p class=\"m-0 py-5 px-2 text-center text-[12.5px] text-[#241430]/70 border-[1.5px] border-dashed border-[#24143033] rounded-lg\">No cards yet</p>\n    {{/if}}\n    {{#unless emptyMiddle}}\n    <ul class=\"list-none m-0 p-0 flex flex-col gap-2.5\">\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Refactor auth module<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Eng</span></li>\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Update pricing copy<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Marketing</span></li>\n    </ul>\n    {{/unless}}\n  </div>\n  {{#if thirdColumn}}\n  <div class=\"kanban-tw__col bg-[#FAF7F2] rounded-xl p-3.5 w-[200px] box-border shadow-[0_4px_14px_rgba(36,20,48,.1)]\">\n    <h3 class=\"m-0 mb-2.5 text-sm font-bold pb-2 border-b-[3px]\" style=\"border-color:{{accent}}\">{{title3}}</h3>\n    <ul class=\"list-none m-0 p-0 flex flex-col gap-2.5\">\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Ship landing page<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Eng</span></li>\n      <li class=\"bg-white border border-[#24143020] rounded-lg p-3 text-[13px] flex flex-col gap-1.5\">Customer interview notes<span class=\"self-start text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Research</span></li>\n    </ul>\n  </div>\n  {{/if}}\n</div>",
+    "react": "export function KanbanBoard({\n  title1 = \"{{title1}}\",\n  title2 = \"{{title2}}\",\n  title3 = \"{{title3}}\",\n  thirdColumn = {{thirdColumn}},\n  emptyMiddle = {{emptyMiddle}},\n  accent = \"{{accent}}\",\n}) {\n  const colStyle = { background: \"#FAF7F2\", borderRadius: 12, padding: 14, width: 200, boxSizing: \"border-box\", boxShadow: \"0 4px 14px rgba(36,20,48,.1)\" };\n  const headingStyle = { margin: \"0 0 10px\", fontSize: 14, fontWeight: 700, borderBottom: `3px solid ${accent}`, paddingBottom: 8 };\n  const listStyle = { listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 10 };\n  const cardStyle = { background: \"#fff\", border: \"1px solid #24143020\", borderRadius: 8, padding: 12, fontSize: 13, display: \"flex\", flexDirection: \"column\", gap: 6 };\n  const tagStyle = { alignSelf: \"flex-start\", fontSize: 11, fontWeight: 600, padding: \"2px 8px\", borderRadius: 999, background: accent, color: \"#241430\" };\n  return (\n    <div style={{ display: \"flex\", gap: 16, fontFamily: \"system-ui, sans-serif\", color: \"#241430\", alignItems: \"flex-start\" }}>\n      <div style={colStyle}>\n        <h3 style={headingStyle}>{title1}</h3>\n        <ul style={listStyle}>\n          <li style={cardStyle}>Design onboarding flow<span style={tagStyle}>UX</span></li>\n          <li style={cardStyle}>Write Q3 report<span style={tagStyle}>Docs</span></li>\n        </ul>\n      </div>\n      <div style={colStyle}>\n        <h3 style={headingStyle}>{title2}</h3>\n        {emptyMiddle ? (\n          <p style={{ margin: 0, padding: \"20px 8px\", textAlign: \"center\", fontSize: 12.5, color: \"#241430aa\", border: \"1.5px dashed #24143033\", borderRadius: 8 }}>No cards yet</p>\n        ) : (\n          <ul style={listStyle}>\n            <li style={cardStyle}>Refactor auth module<span style={tagStyle}>Eng</span></li>\n            <li style={cardStyle}>Update pricing copy<span style={tagStyle}>Marketing</span></li>\n          </ul>\n        )}\n      </div>\n      {thirdColumn && (\n        <div style={colStyle}>\n          <h3 style={headingStyle}>{title3}</h3>\n          <ul style={listStyle}>\n            <li style={cardStyle}>Ship landing page<span style={tagStyle}>Eng</span></li>\n            <li style={cardStyle}>Customer interview notes<span style={tagStyle}>Research</span></li>\n          </ul>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

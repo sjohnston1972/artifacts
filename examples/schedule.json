@@ -1,0 +1,55 @@
+{
+  "slug": "schedule",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Today's schedule"
+    },
+    {
+      "id": "view",
+      "type": "select",
+      "label": "View",
+      "default": "day",
+      "options": [
+        "day",
+        "week"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showLocation",
+      "type": "toggle",
+      "label": "Show location",
+      "default": true
+    },
+    {
+      "id": "density",
+      "type": "number",
+      "label": "Row spacing",
+      "default": 14,
+      "min": 8,
+      "max": 28,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"schedule schedule--{{view}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"schedule__title\">{{title}}</h3>\n  <ol class=\"schedule__list\">\n    <li class=\"schedule__item\" style=\"padding-block:{{density}}px;\">\n      <time class=\"schedule__time\" datetime=\"2026-08-18T09:00\">09:00</time>\n      <div class=\"schedule__body\">\n        <p class=\"schedule__event\">Team standup</p>\n        {{#if showLocation}}<p class=\"schedule__location\">Studio A</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule__item\" style=\"padding-block:{{density}}px;\">\n      <time class=\"schedule__time\" datetime=\"2026-08-18T11:30\">11:30</time>\n      <div class=\"schedule__body\">\n        <p class=\"schedule__event\">Design review</p>\n        {{#if showLocation}}<p class=\"schedule__location\">Meeting Room 2</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule__item\" style=\"padding-block:{{density}}px;\">\n      <time class=\"schedule__time\" datetime=\"2026-08-18T13:00\">13:00</time>\n      <div class=\"schedule__body\">\n        <p class=\"schedule__event\">Lunch break</p>\n        {{#if showLocation}}<p class=\"schedule__location\">Break room</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule__item\" style=\"padding-block:{{density}}px;\">\n      <time class=\"schedule__time\" datetime=\"2026-08-18T15:30\">15:30</time>\n      <div class=\"schedule__body\">\n        <p class=\"schedule__event\">Client call</p>\n        {{#if showLocation}}<p class=\"schedule__location\">Video call</p>{{/if}}\n      </div>\n    </li>\n  </ol>\n</div>\n<style>\n.schedule { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 12px; padding: 18px 20px; box-sizing: border-box; width: 320px; }\n.schedule__title { margin: 0 0 12px; font-size: 15px; font-weight: 700; }\n.schedule__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }\n.schedule__item { display: flex; gap: 12px; border-left: 3px solid var(--accent); padding-left: 12px; }\n.schedule__item + .schedule__item { border-top: 1px solid #24143014; }\n.schedule__time { font-weight: 700; font-variant-numeric: tabular-nums; width: 52px; flex-shrink: 0; color: var(--accent); }\n.schedule__event { margin: 0; font-weight: 600; font-size: 14px; }\n.schedule__location { margin: 2px 0 0; font-size: 12px; color: #241430aa; }\n.schedule--week .schedule__list { flex-direction: row; flex-wrap: wrap; gap: 10px; }\n.schedule--week .schedule__item { flex-direction: column; gap: 4px; border-left: none; border-top: 3px solid var(--accent); padding: 8px 10px 0; flex: 1 1 130px; }\n.schedule--week .schedule__item + .schedule__item { border-top: 3px solid var(--accent); }\n</style>",
+    "tailwind": "<div class=\"schedule-tw schedule-tw--{{view}} bg-[#FAF7F2] text-[#241430] font-sans rounded-xl px-5 py-[18px] box-border w-[320px]\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-3 text-[15px] font-bold\">{{title}}</h3>\n  <ol class=\"schedule-tw__list list-none m-0 p-0 flex flex-col\">\n    <li class=\"schedule-tw__item flex gap-3 border-l-[3px] pl-3\" style=\"padding-block:{{density}}px;border-color:{{accent}}\">\n      <time class=\"font-bold tabular-nums w-[52px] shrink-0\" style=\"color:{{accent}}\" datetime=\"2026-08-18T09:00\">09:00</time>\n      <div>\n        <p class=\"m-0 font-semibold text-sm\">Team standup</p>\n        {{#if showLocation}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430aa]\">Studio A</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule-tw__item flex gap-3 border-l-[3px] pl-3\" style=\"padding-block:{{density}}px;border-color:{{accent}}\">\n      <time class=\"font-bold tabular-nums w-[52px] shrink-0\" style=\"color:{{accent}}\" datetime=\"2026-08-18T11:30\">11:30</time>\n      <div>\n        <p class=\"m-0 font-semibold text-sm\">Design review</p>\n        {{#if showLocation}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430aa]\">Meeting Room 2</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule-tw__item flex gap-3 border-l-[3px] pl-3\" style=\"padding-block:{{density}}px;border-color:{{accent}}\">\n      <time class=\"font-bold tabular-nums w-[52px] shrink-0\" style=\"color:{{accent}}\" datetime=\"2026-08-18T13:00\">13:00</time>\n      <div>\n        <p class=\"m-0 font-semibold text-sm\">Lunch break</p>\n        {{#if showLocation}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430aa]\">Break room</p>{{/if}}\n      </div>\n    </li>\n    <li class=\"schedule-tw__item flex gap-3 border-l-[3px] pl-3\" style=\"padding-block:{{density}}px;border-color:{{accent}}\">\n      <time class=\"font-bold tabular-nums w-[52px] shrink-0\" style=\"color:{{accent}}\" datetime=\"2026-08-18T15:30\">15:30</time>\n      <div>\n        <p class=\"m-0 font-semibold text-sm\">Client call</p>\n        {{#if showLocation}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430aa]\">Video call</p>{{/if}}\n      </div>\n    </li>\n  </ol>\n</div>\n<style>\n.schedule-tw--week .schedule-tw__list { flex-direction: row; flex-wrap: wrap; gap: 10px; }\n.schedule-tw--week .schedule-tw__item { flex-direction: column; gap: 4px; border-left: none; border-top-width: 3px; border-top-style: solid; padding: 8px 10px 0; flex: 1 1 130px; }\n</style>",
+    "react": "export function Schedule({\n  title = \"{{title}}\",\n  view = \"{{view}}\",\n  accent = \"{{accent}}\",\n  showLocation = {{showLocation}},\n  density = {{density}},\n}) {\n  const items = [\n    { time: \"09:00\", iso: \"2026-08-18T09:00\", event: \"Team standup\", location: \"Studio A\" },\n    { time: \"11:30\", iso: \"2026-08-18T11:30\", event: \"Design review\", location: \"Meeting Room 2\" },\n    { time: \"13:00\", iso: \"2026-08-18T13:00\", event: \"Lunch break\", location: \"Break room\" },\n    { time: \"15:30\", iso: \"2026-08-18T15:30\", event: \"Client call\", location: \"Video call\" },\n  ];\n  const week = view === \"week\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", borderRadius: 12, padding: \"18px 20px\", boxSizing: \"border-box\", width: 320 }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 15, fontWeight: 700 }}>{title}</h3>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\",\n        flexDirection: week ? \"row\" : \"column\", flexWrap: week ? \"wrap\" : \"nowrap\", gap: week ? 10 : 0 }}>\n        {items.map((item) => (\n          <li key={item.time} style={{ display: \"flex\", flexDirection: week ? \"column\" : \"row\",\n            gap: week ? 4 : 12, borderLeft: week ? \"none\" : `3px solid ${accent}`,\n            borderTop: week ? `3px solid ${accent}` : \"none\",\n            padding: week ? \"8px 10px 0\" : `${density}px 0 ${density}px 12px`,\n            flex: week ? \"1 1 130px\" : \"initial\" }}>\n            <time dateTime={item.iso} style={{ fontWeight: 700, fontVariantNumeric: \"tabular-nums\",\n              width: week ? \"auto\" : 52, flexShrink: 0, color: accent }}>{item.time}</time>\n            <div>\n              <p style={{ margin: 0, fontWeight: 600, fontSize: 14 }}>{item.event}</p>\n              {showLocation && <p style={{ margin: \"2px 0 0\", fontSize: 12, color: \"#241430aa\" }}>{item.location}</p>}\n            </div>\n          </li>\n        ))}\n      </ol>\n    </div>\n  );\n}"
+  }
+}

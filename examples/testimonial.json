@@ -1,53 +1,35 @@
 {
+  "slug": "testimonial",
   "controls_schema": [
     {
       "id": "quote",
       "type": "text",
       "label": "Quote",
-      "default": "This cut our design handoff time in half."
+      "default": "The onboarding flow alone saved our support team ten hours a week."
     },
     {
-      "id": "authorName",
+      "id": "name",
       "type": "text",
-      "label": "Author name",
-      "default": "Jordan Blake"
+      "label": "Name",
+      "default": "Sam Whitfield"
     },
     {
-      "id": "authorRole",
+      "id": "role",
       "type": "text",
-      "label": "Author role",
-      "default": "VP Engineering, Nimbus"
-    },
-    {
-      "id": "variant",
-      "type": "select",
-      "label": "Style",
-      "default": "card",
-      "options": [
-        "card",
-        "bordered",
-        "minimal"
-      ]
+      "label": "Role / company",
+      "default": "COO, Ridgeline"
     },
     {
       "id": "accent",
       "type": "color",
       "label": "Accent colour",
-      "default": "#BFD9F2",
-      "presets": [
-        "#BFD9F2",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#D9C8F0",
-        "#E8A020",
-        "#241430"
-      ]
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
     }
   ],
   "templates": {
-    "html": "<figure class=\"testimonial testimonial--{{variant}}\" style=\"--accent:{{accent}};\">\n  <blockquote class=\"testimonial__quote\">\n    <p>“{{quote}}”</p>\n  </blockquote>\n  <figcaption class=\"testimonial__author\">\n    <span class=\"testimonial__name\">{{authorName}}</span>\n    <span class=\"testimonial__role\">{{authorRole}}</span>\n  </figcaption>\n</figure>\n<style>\n.testimonial { font-family: system-ui, sans-serif; color: #241430; max-width: 420px; padding: 24px; margin: 0; }\n.testimonial--card { background: #FAF7F2; box-shadow: 0 8px 24px rgba(36,20,48,.14); border-radius: 12px; }\n.testimonial--bordered { border: 1.5px solid var(--accent); border-radius: 12px; }\n.testimonial--minimal { padding-left: 20px; border-left: 3px solid var(--accent); }\n.testimonial__quote { margin: 0 0 16px; font-size: 17px; line-height: 1.5; font-style: italic; }\n.testimonial__quote p { margin: 0; }\n.testimonial__author { display: flex; flex-direction: column; font-style: normal; }\n.testimonial__name { font-weight: 600; }\n.testimonial__role { font-size: 13px; color: #241430; opacity: .65; }\n</style>",
-    "tailwind": "<figure class=\"testimonial-tw testimonial-tw--{{variant}} font-sans text-[#241430] max-w-[420px] p-6 m-0\" style=\"--accent:{{accent}}\">\n  <blockquote class=\"m-0 mb-4 text-[17px] leading-relaxed italic\">\n    <p class=\"m-0\">“{{quote}}”</p>\n  </blockquote>\n  <figcaption class=\"flex flex-col not-italic\">\n    <span class=\"font-semibold\">{{authorName}}</span>\n    <span class=\"text-[13px] text-[#241430]/65\">{{authorRole}}</span>\n  </figcaption>\n</figure>\n<style>\n.testimonial-tw--card { background: #FAF7F2; box-shadow: 0 8px 24px rgba(36,20,48,.14); border-radius: 12px; }\n.testimonial-tw--bordered { border: 1.5px solid var(--accent); border-radius: 12px; }\n.testimonial-tw--minimal { padding-left: 20px; border-left: 3px solid var(--accent); }\n</style>",
-    "react": "export function Testimonial({\n  quote = \"{{quote}}\",\n  authorName = \"{{authorName}}\",\n  authorRole = \"{{authorRole}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  const wrap = {\n    card: { background: \"#FAF7F2\", boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", borderRadius: 12 },\n    bordered: { border: `1.5px solid ${accent}`, borderRadius: 12 },\n    minimal: { paddingLeft: 20, borderLeft: `3px solid ${accent}` },\n  }[variant] ?? {};\n  return (\n    <figure style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 420, padding: 24, margin: 0, ...wrap }}>\n      <blockquote style={{ margin: \"0 0 16px\", fontSize: 17, lineHeight: 1.5, fontStyle: \"italic\" }}>\n        <p style={{ margin: 0 }}>“{quote}”</p>\n      </blockquote>\n      <figcaption style={{ display: \"flex\", flexDirection: \"column\", fontStyle: \"normal\" }}>\n        <span style={{ fontWeight: 600 }}>{authorName}</span>\n        <span style={{ fontSize: 13, color: \"#241430\", opacity: 0.65 }}>{authorRole}</span>\n      </figcaption>\n    </figure>\n  );\n}"
-  },
-  "slug": "testimonial"
+    "html": "<figure class=\"testi\">\n  <blockquote class=\"testi__quote\">&ldquo;{{quote}}&rdquo;</blockquote>\n  <figcaption class=\"testi__meta\">\n    <span class=\"testi__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\">SW</span>\n    <span><strong class=\"testi__name\">{{name}}</strong><br /><span class=\"testi__role\">{{role}}</span></span>\n  </figcaption>\n</figure>\n<style>\n.testi { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 340px; margin: 0; padding: 22px; border-radius: 14px; background: #FAF7F2; border: 1px solid #24143022; }\n.testi__quote { margin: 0 0 16px; font-size: 17px; font-weight: 500; }\n.testi__meta { display: flex; align-items: center; gap: 10px; }\n.testi__avatar { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; font-size: 12px; font-weight: 700; flex-shrink: 0; }\n.testi__name { font-size: 14px; }\n.testi__role { font-size: 13px; color: #241430aa; }\n</style>",
+    "tailwind": "<figure class=\"m-0 font-sans text-[#241430] max-w-[340px] p-5.5 rounded-2xl bg-[#FAF7F2] border border-[#24143022]\">\n  <blockquote class=\"m-0 mb-4 text-[17px] font-medium\">&ldquo;{{quote}}&rdquo;</blockquote>\n  <figcaption class=\"flex items-center gap-2.5\">\n    <span class=\"inline-flex items-center justify-center w-[38px] h-[38px] rounded-full text-xs font-bold flex-shrink-0\" style=\"background:{{accent}};\" aria-hidden=\"true\">SW</span>\n    <span><strong class=\"text-sm\">{{name}}</strong><br /><span class=\"text-[13px] text-[#241430]/65\">{{role}}</span></span>\n  </figcaption>\n</figure>",
+    "react": "export function Testimonial({\n  quote = \"{{quote}}\",\n  name = \"{{name}}\",\n  role = \"{{role}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <figure style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", maxWidth: 340, margin: 0, padding: 22,\n      borderRadius: 14, background: \"#FAF7F2\", border: \"1px solid #24143022\" }}>\n      <blockquote style={{ margin: \"0 0 16px\", fontSize: 17, fontWeight: 500 }}>&ldquo;{quote}&rdquo;</blockquote>\n      <figcaption style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n          width: 38, height: 38, borderRadius: \"50%\", fontSize: 12, fontWeight: 700, flexShrink: 0, background: accent }}>SW</span>\n        <span><strong style={{ fontSize: 14 }}>{name}</strong><br /><span style={{ fontSize: 13, color: \"#241430aa\" }}>{role}</span></span>\n      </figcaption>\n    </figure>\n  );\n}"
+  }
 }

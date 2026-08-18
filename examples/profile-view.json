@@ -1,0 +1,50 @@
+{
+  "slug": "profile-view",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name",
+      "default": "Priya Shah"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "Senior Product Designer"
+    },
+    {
+      "id": "email",
+      "type": "text",
+      "label": "Email",
+      "default": "priya@example.com"
+    },
+    {
+      "id": "location",
+      "type": "text",
+      "label": "Location",
+      "default": "Bristol, UK"
+    },
+    {
+      "id": "joined",
+      "type": "text",
+      "label": "Joined",
+      "default": "12 March 2022"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "full",
+      "options": [
+        "full",
+        "compact"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"profile profile--{{layout}}\">\n  <div class=\"profile__identity\">\n    <svg class=\"profile__avatar\" viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" aria-hidden=\"true\">\n      <circle cx=\"32\" cy=\"32\" r=\"32\" fill=\"#D9C8F0\" />\n      <text x=\"32\" y=\"39\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"700\" fill=\"#241430\">PS</text>\n    </svg>\n    <div>\n      <h3 class=\"profile__name\">{{name}}</h3>\n      <p class=\"profile__role\">{{role}}</p>\n    </div>\n  </div>\n  <dl class=\"profile__fields\">\n    <div class=\"profile__field\">\n      <dt>Email</dt>\n      <dd>{{email}}</dd>\n    </div>\n    <div class=\"profile__field\">\n      <dt>Location</dt>\n      <dd>{{location}}</dd>\n    </div>\n    <div class=\"profile__field profile__field--joined\">\n      <dt>Joined</dt>\n      <dd><time datetime=\"2022-03-12\">{{joined}}</time></dd>\n    </div>\n  </dl>\n</div>\n<style>\n.profile { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 14px; padding: 22px; box-sizing: border-box; width: 340px; }\n.profile__identity { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }\n.profile__name { margin: 0; font-size: 17px; font-weight: 700; }\n.profile__role { margin: 2px 0 0; font-size: 13px; color: #241430aa; }\n.profile__fields { display: grid; gap: 10px; margin: 0; }\n.profile__field { display: grid; grid-template-columns: 90px 1fr; gap: 8px; font-size: 13px; }\n.profile__field dt { margin: 0; font-weight: 600; color: #241430aa; }\n.profile__field dd { margin: 0; }\n.profile--compact { width: 260px; padding: 16px; }\n.profile--compact .profile__identity { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 12px; }\n.profile--compact .profile__fields { gap: 6px; }\n.profile--compact .profile__field { grid-template-columns: 1fr; gap: 0; }\n.profile--compact .profile__field--joined { display: none; }\n</style>",
+    "tailwind": "<div class=\"profile-tw profile-tw--{{layout}} bg-[#FAF7F2] text-[#241430] font-sans rounded-2xl p-[22px] box-border w-[340px]\">\n  <div class=\"profile-tw__identity flex items-center gap-3.5 mb-4\">\n    <svg viewBox=\"0 0 64 64\" width=\"64\" height=\"64\" aria-hidden=\"true\" class=\"shrink-0\">\n      <circle cx=\"32\" cy=\"32\" r=\"32\" fill=\"#D9C8F0\" />\n      <text x=\"32\" y=\"39\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"22\" font-weight=\"700\" fill=\"#241430\">PS</text>\n    </svg>\n    <div>\n      <h3 class=\"m-0 text-[17px] font-bold\">{{name}}</h3>\n      <p class=\"mt-0.5 mb-0 text-sm text-[#241430aa]\">{{role}}</p>\n    </div>\n  </div>\n  <dl class=\"profile-tw__fields grid gap-2.5 m-0\">\n    <div class=\"grid grid-cols-[90px_1fr] gap-2 text-sm\">\n      <dt class=\"m-0 font-semibold text-[#241430aa]\">Email</dt>\n      <dd class=\"m-0\">{{email}}</dd>\n    </div>\n    <div class=\"grid grid-cols-[90px_1fr] gap-2 text-sm\">\n      <dt class=\"m-0 font-semibold text-[#241430aa]\">Location</dt>\n      <dd class=\"m-0\">{{location}}</dd>\n    </div>\n    <div class=\"profile-tw__joined grid grid-cols-[90px_1fr] gap-2 text-sm\">\n      <dt class=\"m-0 font-semibold text-[#241430aa]\">Joined</dt>\n      <dd class=\"m-0\"><time datetime=\"2022-03-12\">{{joined}}</time></dd>\n    </div>\n  </dl>\n</div>\n<style>\n.profile-tw--compact { width: 260px; padding: 16px; }\n.profile-tw--compact .profile-tw__identity { flex-direction: column; align-items: flex-start; gap: 8px; }\n.profile-tw--compact .profile-tw__fields > div { grid-template-columns: 1fr; gap: 0; }\n.profile-tw--compact .profile-tw__joined { display: none; }\n</style>",
+    "react": "export function ProfileView({\n  name = \"{{name}}\",\n  role = \"{{role}}\",\n  email = \"{{email}}\",\n  location = \"{{location}}\",\n  joined = \"{{joined}}\",\n  layout = \"{{layout}}\",\n}) {\n  const compact = layout === \"compact\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", borderRadius: compact ? 12 : 14, padding: compact ? 16 : 22,\n      boxSizing: \"border-box\", width: compact ? 260 : 340 }}>\n      <div style={{ display: \"flex\", flexDirection: compact ? \"column\" : \"row\",\n        alignItems: compact ? \"flex-start\" : \"center\", gap: compact ? 8 : 14,\n        marginBottom: compact ? 12 : 16 }}>\n        <svg viewBox=\"0 0 64 64\" width={64} height={64} aria-hidden=\"true\">\n          <circle cx=\"32\" cy=\"32\" r=\"32\" fill=\"#D9C8F0\" />\n          <text x=\"32\" y=\"39\" textAnchor=\"middle\" fontFamily=\"system-ui, sans-serif\" fontSize=\"22\" fontWeight=\"700\" fill=\"#241430\">PS</text>\n        </svg>\n        <div>\n          <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>{name}</h3>\n          <p style={{ margin: \"2px 0 0\", fontSize: 13, color: \"#241430aa\" }}>{role}</p>\n        </div>\n      </div>\n      <dl style={{ display: \"grid\", gap: compact ? 6 : 10, margin: 0 }}>\n        <div style={{ display: \"grid\", gridTemplateColumns: compact ? \"1fr\" : \"90px 1fr\", gap: compact ? 0 : 8, fontSize: 13 }}>\n          <dt style={{ margin: 0, fontWeight: 600, color: \"#241430aa\" }}>Email</dt>\n          <dd style={{ margin: 0 }}>{email}</dd>\n        </div>\n        <div style={{ display: \"grid\", gridTemplateColumns: compact ? \"1fr\" : \"90px 1fr\", gap: compact ? 0 : 8, fontSize: 13 }}>\n          <dt style={{ margin: 0, fontWeight: 600, color: \"#241430aa\" }}>Location</dt>\n          <dd style={{ margin: 0 }}>{location}</dd>\n        </div>\n        {!compact && (\n          <div style={{ display: \"grid\", gridTemplateColumns: \"90px 1fr\", gap: 8, fontSize: 13 }}>\n            <dt style={{ margin: 0, fontWeight: 600, color: \"#241430aa\" }}>Joined</dt>\n            <dd style={{ margin: 0 }}><time dateTime=\"2022-03-12\">{joined}</time></dd>\n          </div>\n        )}\n      </dl>\n    </div>\n  );\n}"
+  }
+}

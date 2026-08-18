@@ -1,56 +1,36 @@
 {
+  "slug": "tagline",
   "controls_schema": [
     {
       "id": "text",
       "type": "text",
-      "label": "Text",
-      "default": "Design that ships itself."
+      "label": "Tagline text",
+      "default": "Software that gets out of your way"
     },
     {
       "id": "align",
       "type": "select",
       "label": "Alignment",
-      "default": "center",
-      "options": [
-        "left",
-        "center",
-        "right"
-      ]
-    },
-    {
-      "id": "size",
-      "type": "number",
-      "label": "Font size (px)",
-      "default": 36,
-      "min": 18,
-      "max": 72,
-      "step": 2
+      "default": "left",
+      "options": ["left", "center"]
     },
     {
       "id": "color",
       "type": "color",
       "label": "Colour",
       "default": "#241430",
-      "presets": [
-        "#241430",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#D9C8F0",
-        "#E8A020"
-      ]
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
     },
     {
-      "id": "uppercase",
+      "id": "showRule",
       "type": "toggle",
-      "label": "Uppercase",
-      "default": false
+      "label": "Show accent underline",
+      "default": true
     }
   ],
   "templates": {
-    "html": "<p class=\"tagline{{#if uppercase}} tagline--upper{{/if}}\" style=\"text-align:{{align}};font-size:{{size}}px;color:{{color}};\">{{text}}</p>\n<style>\n.tagline { margin: 0; font: 600 1em/1.3 system-ui, sans-serif; }\n.tagline--upper { text-transform: uppercase; letter-spacing: .04em; }\n</style>",
-    "tailwind": "<p class=\"tagline-tw font-sans font-semibold leading-tight{{#if uppercase}} uppercase tracking-wide{{/if}}\" style=\"text-align:{{align}};font-size:{{size}}px;color:{{color}}\">{{text}}</p>",
-    "react": "export function Tagline({\n  text = \"{{text}}\",\n  align = \"{{align}}\",\n  size = {{size}},\n  color = \"{{color}}\",\n  uppercase = {{uppercase}},\n}) {\n  return (\n    <p style={{\n      margin: 0,\n      fontFamily: \"system-ui, sans-serif\",\n      fontWeight: 600,\n      lineHeight: 1.3,\n      textAlign: align,\n      fontSize: size,\n      color,\n      textTransform: uppercase ? \"uppercase\" : \"none\",\n      letterSpacing: uppercase ? \"0.04em\" : \"normal\",\n    }}>\n      {text}\n    </p>\n  );\n}"
-  },
-  "slug": "tagline"
+    "html": "<p class=\"tagline tagline--{{align}}\" style=\"color:{{color}};\">\n  {{text}}\n  {{#if showRule}}<span class=\"tagline__rule\" style=\"background:{{color}};\"></span>{{/if}}\n</p>\n<style>\n.tagline { font: 700 24px/1.4 system-ui, sans-serif; margin: 0; padding: 8px 0; }\n.tagline--left { text-align: left; }\n.tagline--center { text-align: center; }\n.tagline__rule { display: block; width: 56px; height: 4px; border-radius: 2px; margin-top: 10px; }\n.tagline--center .tagline__rule { margin-left: auto; margin-right: auto; }\n</style>",
+    "tailwind": "<p class=\"tagline-tw tagline-tw--{{align}} font-sans font-bold text-2xl leading-snug m-0 py-2\" style=\"color:{{color}};\">\n  {{text}}\n  {{#if showRule}}<span class=\"block w-14 h-1 rounded-full mt-2.5\" style=\"background:{{color}};\"></span>{{/if}}\n</p>\n<style>\n.tagline-tw--center { text-align: center; }\n.tagline-tw--center span { margin-left: auto; margin-right: auto; }\n</style>",
+    "react": "export function Tagline({\n  text = \"{{text}}\",\n  align = \"{{align}}\",\n  color = \"{{color}}\",\n  showRule = {{showRule}},\n}) {\n  const centered = align === \"center\";\n  return (\n    <p style={{ font: \"700 24px/1.4 system-ui, sans-serif\", margin: 0, padding: \"8px 0\", textAlign: align, color }}>\n      {text}\n      {showRule && (\n        <span style={{ display: \"block\", width: 56, height: 4, borderRadius: 2, marginTop: 10, background: color,\n          marginLeft: centered ? \"auto\" : 0, marginRight: centered ? \"auto\" : 0 }} />\n      )}\n    </p>\n  );\n}"
+  }
 }

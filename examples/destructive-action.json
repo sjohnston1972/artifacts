@@ -1,0 +1,52 @@
+{
+ "slug": "destructive-action",
+ "controls_schema": [
+  {
+   "id": "itemLabel",
+   "type": "text",
+   "label": "What it destroys",
+   "default": "3 files"
+  },
+  {
+   "id": "style",
+   "type": "select",
+   "label": "Style",
+   "default": "solid",
+   "options": [
+    "solid",
+    "outline"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Danger colour",
+   "default": "#C23B3B",
+   "presets": [
+    "#C23B3B",
+    "#241430",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-danger btn-danger--{{style}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13\"/></svg> Delete {{itemLabel}}\n</button>\n<style>\n.btn-danger {\n  display: inline-flex; align-items: center; gap: 8px;\n  font: 700 15px/1 system-ui, sans-serif;\n  padding: 11px 20px;\n  border: 2px solid var(--bg);\n  background: var(--bg);\n  color: #FAF7F2;\n  cursor: pointer;\n}\n.btn-danger--outline { background: transparent; color: var(--bg); }\n.btn-danger:hover:not(:disabled) { filter: brightness(1.08); }\n.btn-danger:active:not(:disabled) { filter: brightness(0.92); }\n.btn-danger:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-danger:disabled { opacity: .4; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"inline-flex items-center gap-2 px-5 py-3 text-sm font-bold border-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110 active:brightness-90 btn-danger-tw btn-danger-tw--{{style}}\" style=\"border-color:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13\"/></svg> Delete {{itemLabel}}\n</button>\n<style>\n.btn-danger-tw--solid { background: {{bg}}; color: #FAF7F2; }\n.btn-danger-tw--outline { background: transparent; color: {{bg}}; }\n.btn-danger-tw--{{style}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function DestructiveActionButton({\n  itemLabel = \"{{itemLabel}}\",\n  style = \"{{style}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const solid = style === \"solid\";\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      style={{\n        display: \"inline-flex\",\n        alignItems: \"center\",\n        gap: 8,\n        padding: \"11px 20px\",\n        borderRadius: radius,\n        border: `2px solid ${bg}`,\n        background: solid ? bg : \"transparent\",\n        color: solid ? \"#FAF7F2\" : bg,\n        font: \"700 15px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.4 : 1,\n      }}\n    >\n      <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden=\"true\">\n        <path d=\"M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13\" />\n      </svg>\n      Delete {itemLabel}\n    </button>\n  );\n}"
+ }
+}

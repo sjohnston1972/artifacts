@@ -1,0 +1,46 @@
+{
+  "slug": "deep-link",
+  "controls_schema": [
+    {
+      "id": "path",
+      "type": "text",
+      "label": "Path",
+      "default": "/orders/48291"
+    },
+    {
+      "id": "scheme",
+      "type": "select",
+      "label": "Scheme",
+      "default": "https",
+      "options": [
+        "https",
+        "app"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showQuery",
+      "type": "toggle",
+      "label": "Show tracking query",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<a class=\"deeplink\" href=\"#\" style=\"--accent:{{accent}};\">\n  <span class=\"deeplink__scheme\">{{scheme}}://</span><span class=\"deeplink__path\">yourapp.com{{path}}{{#if showQuery}}?ref=share{{/if}}</span>\n  <span class=\"deeplink__go\" aria-hidden=\"true\">&#8594;</span>\n</a>\n<style>\n.deeplink { display: inline-flex; align-items: center; gap: 8px; font: 13px/1.4 \"SFMono-Regular\", Consolas, monospace; color: #241430; text-decoration: none; padding: 10px 14px; background: #FAF7F2; border-radius: 999px; border: 1px solid rgba(36,20,48,.12); }\n.deeplink:hover { border-color: var(--accent); }\n.deeplink:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.deeplink__scheme { opacity: .5; }\n.deeplink__go { color: var(--accent); font-family: system-ui, sans-serif; }\n</style>",
+    "tailwind": "<a href=\"#\" class=\"inline-flex items-center gap-2 font-mono text-[13px] text-[#241430] no-underline px-3.5 py-2.5 bg-[#FAF7F2] rounded-full border border-[#241430]/10 hover:border-[color:var(--accent)]\" style=\"--accent:{{accent}};\">\n  <span class=\"opacity-50\">{{scheme}}://</span><span>yourapp.com{{path}}{{#if showQuery}}?ref=share{{/if}}</span>\n  <span class=\"font-sans\" aria-hidden=\"true\" style=\"color:{{accent}};\">&#8594;</span>\n</a>\n<style>\na:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function DeepLink({\n  path = \"{{path}}\",\n  scheme = \"{{scheme}}\",\n  accent = \"{{accent}}\",\n  showQuery = {{showQuery}},\n}) {\n  return (\n    <a href=\"#\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, fontFamily: \"SFMono-Regular, Consolas, monospace\", fontSize: 13, color: \"#241430\", textDecoration: \"none\", padding: \"10px 14px\", background: \"#FAF7F2\", borderRadius: 999, border: \"1px solid rgba(36,20,48,.12)\" }}>\n      <span style={{ opacity: .5 }}>{scheme}://</span>\n      <span>{\"yourapp.com\" + path + (showQuery ? \"?ref=share\" : \"\")}</span>\n      <span aria-hidden=\"true\" style={{ color: accent, fontFamily: \"system-ui, sans-serif\" }}>&#8594;</span>\n    </a>\n  );\n}"
+  }
+}

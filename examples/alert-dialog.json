@@ -1,0 +1,62 @@
+{
+  "slug": "alert-dialog",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Connection lost"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "We couldn't reach the server. Check your connection and try again."
+    },
+    {
+      "id": "tone",
+      "type": "select",
+      "label": "Tone",
+      "default": "warning",
+      "options": [
+        "info",
+        "warning",
+        "danger"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Button colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 340,
+      "min": 280,
+      "max": 480,
+      "step": 20
+    },
+    {
+      "id": "backdrop",
+      "type": "toggle",
+      "label": "Show backdrop",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ad-demo\">\n  {{#if backdrop}}<div class=\"ad-backdrop\"></div>{{/if}}\n  <div class=\"ad-dialog ad-dialog--{{tone}}\" style=\"width:{{width}}px;\" role=\"alertdialog\" aria-modal=\"true\" aria-labelledby=\"ad-title\">\n    <div class=\"ad-icon\" aria-hidden=\"true\">!</div>\n    <h3 id=\"ad-title\" class=\"ad-title\">{{title}}</h3>\n    <p class=\"ad-message\">{{message}}</p>\n    <div class=\"ad-actions\">\n      <button type=\"button\" class=\"ad-ok\" style=\"background:{{accent}};border-color:{{accent}};\">OK</button>\n    </div>\n  </div>\n</div>\n<style>\n.ad-demo { position: relative; min-height: 420px; display: grid; place-items: center; border-radius: 12px; background: linear-gradient(135deg, #BFD9F2, #D9C8F0); }\n.ad-backdrop { position: absolute; inset: 0; background: rgba(36,20,48,.45); }\n.ad-dialog { position: relative; z-index: 1; font: 16px/1.5 system-ui, sans-serif; background: #FAF7F2; color: #241430; border-radius: 14px; border-top: 6px solid; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 24px; box-sizing: border-box; text-align: center; }\n.ad-dialog--info { border-top-color: #BFD9F2; }\n.ad-dialog--warning { border-top-color: #E8A020; }\n.ad-dialog--danger { border-top-color: #F5C2E0; }\n.ad-icon { width: 40px; height: 40px; margin: 0 auto 12px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 18px; background: #24143012; }\n.ad-title { margin: 0 0 8px; font-size: 18px; font-weight: 600; }\n.ad-message { margin: 0 0 20px; font-size: 14px; color: #241430cc; }\n.ad-actions { display: flex; justify-content: center; }\n.ad-ok { font: 600 14px system-ui, sans-serif; padding: 9px 28px; border-radius: 8px; border: 1.5px solid transparent; color: #FAF7F2; cursor: pointer; }\n.ad-ok:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[420px] grid place-items-center rounded-xl\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\">\n  {{#if backdrop}}<div class=\"absolute inset-0 bg-[#241430]/45\"></div>{{/if}}\n  <div role=\"alertdialog\" aria-modal=\"true\" aria-labelledby=\"ad-tw-title\" class=\"ad-tw ad-tw--{{tone}} relative z-10 font-sans bg-[#FAF7F2] text-[#241430] rounded-2xl border-t-[6px] shadow-2xl p-6 box-border text-center\" style=\"width:{{width}}px;\">\n    <div aria-hidden=\"true\" class=\"w-10 h-10 mx-auto mb-3 rounded-full grid place-items-center font-bold text-lg bg-[#24143012]\">!</div>\n    <h3 id=\"ad-tw-title\" class=\"mb-2 text-lg font-semibold\">{{title}}</h3>\n    <p class=\"mb-5 text-sm text-[#241430]/80\">{{message}}</p>\n    <div class=\"flex justify-center\">\n      <button type=\"button\" class=\"px-7 py-2 rounded-lg text-sm font-semibold text-[#FAF7F2]\" style=\"background:{{accent}};border-color:{{accent}}\">OK</button>\n    </div>\n  </div>\n</div>\n<style>\n.ad-tw--info { border-top-color: #BFD9F2; }\n.ad-tw--warning { border-top-color: #E8A020; }\n.ad-tw--danger { border-top-color: #F5C2E0; }\n</style>",
+    "react": "export function AlertDialog({\n  title = \"{{title}}\",\n  message = \"{{message}}\",\n  tone = \"{{tone}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n  backdrop = {{backdrop}},\n}) {\n  const stripe = { info: \"#BFD9F2\", warning: \"#E8A020\", danger: \"#F5C2E0\" }[tone] ?? accent;\n  return (\n    <div style={{ position: \"relative\", minHeight: 420, display: \"grid\", placeItems: \"center\",\n      borderRadius: 12, background: \"linear-gradient(135deg, #BFD9F2, #D9C8F0)\" }}>\n      {backdrop && <div style={{ position: \"absolute\", inset: 0, background: \"rgba(36,20,48,.45)\" }} />}\n      <div role=\"alertdialog\" aria-modal=\"true\" aria-labelledby=\"ad-title\" style={{ position: \"relative\",\n        zIndex: 1, width, boxSizing: \"border-box\", background: \"#FAF7F2\", color: \"#241430\", borderRadius: 14,\n        borderTop: \"6px solid \" + stripe, boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: 24, textAlign: \"center\" }}>\n        <div aria-hidden=\"true\" style={{ width: 40, height: 40, margin: \"0 auto 12px\", borderRadius: \"50%\",\n          display: \"grid\", placeItems: \"center\", fontWeight: 700, fontSize: 18, background: \"#24143012\" }}>!</div>\n        <h3 id=\"ad-title\" style={{ margin: \"0 0 8px\", fontSize: 18, fontWeight: 600 }}>{title}</h3>\n        <p style={{ margin: \"0 0 20px\", fontSize: 14, color: \"#241430cc\" }}>{message}</p>\n        <div style={{ display: \"flex\", justifyContent: \"center\" }}>\n          <button type=\"button\" style={{ background: accent, borderColor: accent, color: \"#FAF7F2\" }}>OK</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

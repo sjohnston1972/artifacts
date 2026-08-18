@@ -1,0 +1,63 @@
+{
+  "slug": "list-item",
+  "controls_schema": [
+    {
+      "id": "primary",
+      "type": "text",
+      "label": "Primary text",
+      "default": "Ava Martinez"
+    },
+    {
+      "id": "secondary",
+      "type": "text",
+      "label": "Secondary text",
+      "default": "Product designer · online now"
+    },
+    {
+      "id": "meta",
+      "type": "text",
+      "label": "Trailing meta",
+      "default": "2m ago"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "flat",
+      "options": [
+        "flat",
+        "bordered",
+        "card"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<ul class=\"li-demo-wrap\">\n  <li class=\"li li--{{variant}} li--{{density}}\" style=\"--accent:{{accent}};\">\n    <span class=\"li__avatar\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#241430\" stroke-width=\"1.6\"><circle cx=\"12\" cy=\"8\" r=\"3.4\"/><path d=\"M4.5 19.5c1.6-3.6 4.6-5.4 7.5-5.4s5.9 1.8 7.5 5.4\"/></svg>\n    </span>\n    <span class=\"li__body\">\n      <span class=\"li__primary\">{{primary}}</span>\n      <span class=\"li__secondary\">{{secondary}}</span>\n    </span>\n    <span class=\"li__trailing\">\n      <span class=\"li__meta\">{{meta}}</span>\n      <button class=\"li__action\" type=\"button\">View</button>\n    </span>\n  </li>\n</ul>\n<style>\n.li-demo-wrap { list-style: none; margin: 0; padding: 0; font: 16px/1.5 system-ui, sans-serif; max-width: 380px; }\n.li { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #FAF7F2; color: #241430; box-sizing: border-box; }\n.li--bordered { border: 1.5px solid #24143025; border-radius: 10px; }\n.li--card { border-radius: 12px; box-shadow: 0 6px 18px rgba(36,20,48,.12); }\n.li--compact { padding: 8px 12px; gap: 9px; }\n.li__avatar { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }\n.li--compact .li__avatar { width: 30px; height: 30px; }\n.li__body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }\n.li__primary { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.li__secondary { font-size: 12.5px; color: #24143099; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.li--compact .li__primary { font-size: 13px; }\n.li--compact .li__secondary { font-size: 11.5px; }\n.li__trailing { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }\n.li__meta { font-size: 11.5px; color: #24143080; }\n.li__action { font: 600 12px system-ui, sans-serif; padding: 4px 10px; border-radius: 6px; border: 1.5px solid var(--accent); background: transparent; color: #241430; cursor: pointer; }\n.li__action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<ul class=\"list-none m-0 p-0 font-sans max-w-[380px]\">\n  <li class=\"lit lit--{{variant}} lit--{{density}} flex items-center gap-3 py-3.5 px-4 bg-[#FAF7F2] text-[#241430] box-border\" style=\"--accent:{{accent}}\">\n    <span class=\"lit__avatar w-[38px] h-[38px] rounded-full grid place-items-center flex-shrink-0\" style=\"background:{{accent}}\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#241430\" stroke-width=\"1.6\"><circle cx=\"12\" cy=\"8\" r=\"3.4\"/><path d=\"M4.5 19.5c1.6-3.6 4.6-5.4 7.5-5.4s5.9 1.8 7.5 5.4\"/></svg>\n    </span>\n    <span class=\"flex-1 min-w-0 flex flex-col gap-0.5\">\n      <span class=\"lit__primary block text-sm font-semibold whitespace-nowrap overflow-hidden text-ellipsis\">{{primary}}</span>\n      <span class=\"lit__secondary block text-[12.5px] text-[#241430]/60 whitespace-nowrap overflow-hidden text-ellipsis\">{{secondary}}</span>\n    </span>\n    <span class=\"flex-shrink-0 flex flex-col items-end gap-1\">\n      <span class=\"text-[11.5px] text-[#241430]/50\">{{meta}}</span>\n      <button type=\"button\" class=\"text-xs font-semibold px-2.5 py-1 rounded-md border-[1.5px] bg-transparent text-[#241430]\" style=\"border-color:{{accent}}\">View</button>\n    </span>\n  </li>\n</ul>\n<style>\n.lit--bordered { border: 1.5px solid #24143025 !important; border-radius: 10px !important; }\n.lit--card { border-radius: 12px !important; box-shadow: 0 6px 18px rgba(36,20,48,.12) !important; }\n.lit--compact { padding-top: 8px !important; padding-bottom: 8px !important; padding-left: 12px !important; padding-right: 12px !important; gap: 9px !important; }\n.lit--compact .lit__avatar { width: 30px !important; height: 30px !important; }\n.lit--compact .lit__primary { font-size: 13px !important; }\n.lit--compact .lit__secondary { font-size: 11.5px !important; }\n</style>",
+    "react": "export function ListItem({\n  primary = \"{{primary}}\",\n  secondary = \"{{secondary}}\",\n  meta = \"{{meta}}\",\n  variant = \"{{variant}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const compact = density === \"compact\";\n  const wrap = {\n    bordered: { border: \"1.5px solid #24143025\", borderRadius: 10 },\n    card: { borderRadius: 12, boxShadow: \"0 6px 18px rgba(36,20,48,.12)\" },\n    flat: {},\n  }[variant] ?? {};\n  return (\n    <ul style={{ listStyle: \"none\", margin: 0, padding: 0, fontFamily: \"system-ui, sans-serif\", maxWidth: 380 }}>\n      <li style={{ display: \"flex\", alignItems: \"center\", gap: compact ? 9 : 12,\n        padding: compact ? \"8px 12px\" : \"14px 16px\", background: \"#FAF7F2\", color: \"#241430\",\n        boxSizing: \"border-box\", ...wrap }}>\n        <span aria-hidden=\"true\" style={{ flexShrink: 0, width: compact ? 30 : 38, height: compact ? 30 : 38,\n          borderRadius: \"50%\", background: accent, display: \"grid\", placeItems: \"center\" }}>\n          <svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#241430\" strokeWidth=\"1.6\">\n            <circle cx=\"12\" cy=\"8\" r=\"3.4\" />\n            <path d=\"M4.5 19.5c1.6-3.6 4.6-5.4 7.5-5.4s5.9 1.8 7.5 5.4\" />\n          </svg>\n        </span>\n        <span style={{ flex: \"1 1 auto\", minWidth: 0, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n          <span style={{ fontSize: compact ? 13 : 14, fontWeight: 600, whiteSpace: \"nowrap\", overflow: \"hidden\", textOverflow: \"ellipsis\" }}>{primary}</span>\n          <span style={{ fontSize: compact ? 11.5 : 12.5, color: \"#24143099\", whiteSpace: \"nowrap\", overflow: \"hidden\", textOverflow: \"ellipsis\" }}>{secondary}</span>\n        </span>\n        <span style={{ flexShrink: 0, display: \"flex\", flexDirection: \"column\", alignItems: \"flex-end\", gap: 4 }}>\n          <span style={{ fontSize: 11.5, color: \"#24143080\" }}>{meta}</span>\n          <button type=\"button\" style={{ font: \"600 12px system-ui, sans-serif\", padding: \"4px 10px\", borderRadius: 6, border: `1.5px solid ${accent}`, background: \"transparent\", color: \"#241430\", cursor: \"pointer\" }}>View</button>\n        </span>\n      </li>\n    </ul>\n  );\n}"
+  }
+}

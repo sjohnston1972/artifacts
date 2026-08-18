@@ -1,0 +1,48 @@
+{
+  "slug": "cell-editing",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Line items"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "editValue",
+      "type": "text",
+      "label": "Edited value",
+      "default": "128.50"
+    },
+    {
+      "id": "editing",
+      "type": "toggle",
+      "label": "Cell in edit mode",
+      "default": true
+    },
+    {
+      "id": "invalid",
+      "type": "toggle",
+      "label": "Show validation error",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cedt\" style=\"--accent:{{accent}};\">\n  <div class=\"cedt__scroll\">\n    <table class=\"cedt__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr><th scope=\"col\">Order</th><th scope=\"col\">Customer</th><th scope=\"col\">Status</th><th scope=\"col\">Total</th></tr></thead>\n      <tbody>\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr class=\"cedt__row--active\">\n          <td>#1041</td><td>R. Okafor</td><td>Processing</td>\n          <td class=\"cedt__cell{{#if invalid}} cedt__cell--invalid{{/if}}\">\n            {{#if editing}}\n            <label class=\"cedt__field\">\n              <span class=\"sr-only\">Total for order #1041</span>\n              <input type=\"text\" class=\"cedt__input\" value=\"{{editValue}}\" aria-invalid=\"{{invalid}}\">\n            </label>\n            {{#if invalid}}<span class=\"cedt__error\" role=\"alert\">Enter a valid amount</span>{{/if}}\n            {{/if}}\n            {{#unless editing}}£{{editValue}}{{/unless}}\n          </td>\n        </tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}\n.cedt { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.cedt__scroll { overflow-x: auto; }\n.cedt__table { border-collapse: collapse; width: 100%; }\n.cedt__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.cedt__table th, .cedt__table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.cedt__table th { background: var(--accent); color: #FAF7F2; }\n.cedt__row--active td:first-child { border-left: 3px solid var(--accent); }\n.cedt__cell { position: relative; }\n.cedt__input { font: inherit; padding: 4px 6px; border: 1px solid #24143060; border-radius: 4px; width: 84px; }\n.cedt__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.cedt__cell--invalid .cedt__input { border-color: #c0392b; outline-color: #c0392b; }\n.cedt__error { display: block; color: #c0392b; font-size: 12px; margin-top: 4px; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Customer</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1042</td><td class=\"p-3.5 border-b border-[#24143020]\">A. Whitfield</td><td class=\"p-3.5 border-b border-[#24143020]\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020]\">£64.00</td></tr>\n        <tr>\n          <td class=\"p-3.5 border-b border-[#24143020]\" style=\"border-left:3px solid {{accent}}\">#1041</td>\n          <td class=\"p-3.5 border-b border-[#24143020]\">R. Okafor</td><td class=\"p-3.5 border-b border-[#24143020]\">Processing</td>\n          <td class=\"p-3.5 border-b border-[#24143020] relative{{#if invalid}} [&_input]:border-[#c0392b]{{/if}}\">\n            {{#if editing}}\n            <label class=\"inline-flex flex-col\">\n              <span class=\"sr-only\">Total for order #1041</span>\n              <input type=\"text\" class=\"font-inherit px-1.5 py-1 border border-[#24143060] rounded w-[84px] focus-visible:outline focus-visible:outline-2\" value=\"{{editValue}}\" aria-invalid=\"{{invalid}}\">\n            </label>\n            {{#if invalid}}<span class=\"block text-[#c0392b] text-xs mt-1\" role=\"alert\">Enter a valid amount</span>{{/if}}\n            {{/if}}\n            {{#unless editing}}£{{editValue}}{{/unless}}\n          </td>\n        </tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1040</td><td class=\"p-3.5 border-b border-[#24143020]\">M. Iqbal</td><td class=\"p-3.5 border-b border-[#24143020]\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020]\">£22.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1039</td><td class=\"p-3.5 border-b border-[#24143020]\">S. Novak</td><td class=\"p-3.5 border-b border-[#24143020]\">Refunded</td><td class=\"p-3.5 border-b border-[#24143020]\">£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+    "react": "function CellEditing({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  editValue = \"{{editValue}}\",\n  editing = {{editing}},\n  invalid = {{invalid}},\n}) {\n  const rows = [\n    [\"#1042\", \"A. Whitfield\", \"Shipped\", \"£64.00\"],\n    [\"#1040\", \"M. Iqbal\", \"Shipped\", \"£22.00\"],\n    [\"#1039\", \"S. Novak\", \"Refunded\", \"£40.00\"],\n  ];\n  const cellStyle = { padding: \"10px 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              {[\"Order\", \"Customer\", \"Status\", \"Total\"].map((h) => <th key={h} scope=\"col\" style={{ ...cellStyle, borderBottom: \"none\" }}>{h}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td style={{ ...cellStyle, borderLeft: `3px solid ${accent}` }}>#1041</td>\n              <td style={cellStyle}>R. Okafor</td>\n              <td style={cellStyle}>Processing</td>\n              <td style={cellStyle}>\n                {editing ? (\n                  <label style={{ display: \"inline-flex\", flexDirection: \"column\" }}>\n                    <span className=\"sr-only\">Total for order #1041</span>\n                    <input type=\"text\" defaultValue={editValue} aria-invalid={invalid} style={{ font: \"inherit\", padding: \"4px 6px\", borderRadius: 4, width: 84, border: `1px solid ${invalid ? \"#c0392b\" : \"#24143060\"}` }} />\n                    {invalid && <span role=\"alert\" style={{ display: \"block\", color: \"#c0392b\", fontSize: 12, marginTop: 4 }}>Enter a valid amount</span>}\n                  </label>\n                ) : (\n                  <>£{editValue}</>\n                )}\n              </td>\n            </tr>\n            {rows.map((row) => (\n              <tr key={row[0]}>{row.map((cell, j) => <td key={j} style={cellStyle}>{cell}</td>)}</tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

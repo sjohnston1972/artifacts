@@ -1,0 +1,51 @@
+{
+ "slug": "more-actions",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Accessible name",
+   "default": "More actions"
+  },
+  {
+   "id": "expanded",
+   "type": "toggle",
+   "label": "Menu open",
+   "default": false
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 8,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-more\" style=\"--bg:{{bg}};border-radius:{{radius}}px\" aria-label=\"{{label}}\" aria-haspopup=\"menu\" aria-expanded=\"{{expanded}}\"{{#if disabled}} disabled{{/if}}>\n  <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"5\" cy=\"12\" r=\"1.6\"/><circle cx=\"12\" cy=\"12\" r=\"1.6\"/><circle cx=\"19\" cy=\"12\" r=\"1.6\"/></svg>\n</button>\n<style>\n.btn-more {\n  display: inline-flex; align-items: center; justify-content: center;\n  width: 36px; height: 36px;\n  border: 1px solid rgba(36,20,48,.2);\n  background: transparent;\n  color: #241430;\n  cursor: pointer;\n}\n.btn-more[aria-expanded=\"true\"] { background: var(--bg); color: #FAF7F2; border-color: var(--bg); }\n.btn-more:hover:not(:disabled):not([aria-expanded=\"true\"]) { background: rgba(36,20,48,.08); }\n.btn-more:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-more:disabled { opacity: .4; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"inline-flex items-center justify-center w-9 h-9 bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:bg-black/5 btn-more-tw\" style=\"border:1px solid rgba(36,20,48,.2);border-radius:{{radius}}px\" aria-label=\"{{label}}\" aria-haspopup=\"menu\" aria-expanded=\"{{expanded}}\"{{#if disabled}} disabled{{/if}}>\n  <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"5\" cy=\"12\" r=\"1.6\"/><circle cx=\"12\" cy=\"12\" r=\"1.6\"/><circle cx=\"19\" cy=\"12\" r=\"1.6\"/></svg>\n</button>\n<style>\n.btn-more-tw[aria-expanded=\"true\"] { background: {{bg}}; color: #FAF7F2; border-color: {{bg}}; }\n.btn-more-tw:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function MoreActionsButton({\n  label = \"{{label}}\",\n  expanded = {{expanded}},\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button\n      type=\"button\"\n      aria-label={label}\n      aria-haspopup=\"menu\"\n      aria-expanded={expanded}\n      disabled={disabled}\n      style={{\n        display: \"inline-flex\",\n        alignItems: \"center\",\n        justifyContent: \"center\",\n        width: 36,\n        height: 36,\n        borderRadius: radius,\n        border: `1px solid ${expanded ? bg : \"rgba(36,20,48,.2)\"}`,\n        background: expanded ? bg : \"transparent\",\n        color: expanded ? \"#FAF7F2\" : \"#241430\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.4 : 1,\n      }}\n    >\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden=\"true\">\n        <circle cx=\"5\" cy=\"12\" r=\"1.6\" /><circle cx=\"12\" cy=\"12\" r=\"1.6\" /><circle cx=\"19\" cy=\"12\" r=\"1.6\" />\n      </svg>\n    </button>\n  );\n}"
+ }
+}

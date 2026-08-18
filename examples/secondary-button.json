@@ -1,0 +1,55 @@
+{
+ "slug": "secondary-button",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Learn more"
+  },
+  {
+   "id": "size",
+   "type": "select",
+   "label": "Size",
+   "default": "md",
+   "options": [
+    "md",
+    "lg"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-secondary btn-secondary--{{size}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-secondary {\n  font: 600 15px/1 system-ui, sans-serif;\n  padding: 11px 20px;\n  border: 2px solid var(--bg);\n  background: transparent;\n  color: var(--bg);\n  cursor: pointer;\n}\n.btn-secondary--lg { padding: 14px 26px; font-size: 16px; }\n.btn-secondary:hover:not(:disabled) { background: rgba(36,20,48,.08); }\n.btn-secondary:active:not(:disabled) { background: rgba(36,20,48,.14); }\n.btn-secondary:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-secondary:disabled { opacity: .45; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"bg-transparent cursor-pointer font-semibold disabled:opacity-45 disabled:cursor-not-allowed hover:bg-black/5 active:bg-black/10 btn-secondary-tw btn-secondary-tw--{{size}}\" style=\"border:2px solid {{bg}};color:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-secondary-tw--md { padding: 11px 20px; font-size: 15px; }\n.btn-secondary-tw--lg { padding: 14px 26px; font-size: 16px; }\n.btn-secondary-tw--{{size}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function SecondaryButton({\n  label = \"{{label}}\",\n  size = \"{{size}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const lg = size === \"lg\";\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      style={{\n        padding: lg ? \"14px 26px\" : \"11px 20px\",\n        fontSize: lg ? 16 : 15,\n        borderRadius: radius,\n        border: `2px solid ${bg}`,\n        background: \"transparent\",\n        color: bg,\n        fontWeight: 600,\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.45 : 1,\n      }}\n    >\n      {label}\n    </button>\n  );\n}"
+ }
+}

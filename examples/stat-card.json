@@ -1,0 +1,62 @@
+{
+  "slug": "stat-card",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Active subscribers"
+    },
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Value",
+      "default": 1284,
+      "min": 0,
+      "max": 999999,
+      "step": 1
+    },
+    {
+      "id": "change",
+      "type": "text",
+      "label": "Change label",
+      "default": "+4.2% vs last week"
+    },
+    {
+      "id": "trend",
+      "type": "select",
+      "label": "Trend",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "bordered",
+      "type": "toggle",
+      "label": "Show border",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"stat-card stat-card--{{trend}}{{#if bordered}} stat-card--bordered{{/if}}\" style=\"--accent:{{accent}};\">\n  <span class=\"stat-card__bar\" aria-hidden=\"true\"></span>\n  <h3 class=\"stat-card__title\">{{title}}</h3>\n  <p class=\"stat-card__value\">{{value}}</p>\n  <p class=\"stat-card__change\">\n    <span class=\"stat-card__arrow\" aria-hidden=\"true\"></span>\n    {{change}}\n  </p>\n</article>\n<style>\n.stat-card { font: 16px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 12px; padding: 18px 20px; width: 220px; box-sizing: border-box; box-shadow: 0 6px 18px rgba(36,20,48,.10); position: relative; }\n.stat-card--bordered { border: 1.5px solid #24143026; box-shadow: none; }\n.stat-card__bar { display: block; height: 4px; border-radius: 4px 4px 0 0; background: var(--accent); margin: -18px -20px 14px; }\n.stat-card__title { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: #241430aa; text-transform: uppercase; letter-spacing: .02em; }\n.stat-card__value { margin: 0 0 4px; font-size: 30px; font-weight: 700; line-height: 1; }\n.stat-card__change { margin: 0; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 4px; }\n.stat-card__arrow::before { content: \"\\25B2\"; }\n.stat-card--up .stat-card__change { color: #A8E6C1; }\n.stat-card--down .stat-card__arrow::before { content: \"\\25BC\"; }\n.stat-card--down .stat-card__change { color: #F5C2E0; }\n.stat-card--flat .stat-card__arrow::before { content: \"\\25AC\"; }\n.stat-card--flat .stat-card__change { color: #D9C8F0; }\n</style>",
+    "tailwind": "<article class=\"stat-card-tw stat-card-tw--{{trend}}{{#if bordered}} border border-[#24143026]{{/if}} relative bg-[#FAF7F2] text-[#241430] rounded-xl px-5 py-[18px] w-[220px] box-border shadow-[0_6px_18px_rgba(36,20,48,0.10)]\" style=\"--accent:{{accent}}\">\n  <span aria-hidden=\"true\" class=\"block h-1 rounded-t-xl -mx-5 -mt-[18px] mb-3.5\" style=\"background:{{accent}}\"></span>\n  <h3 class=\"m-0 mb-1.5 text-xs font-semibold uppercase tracking-wide text-[#241430aa]\">{{title}}</h3>\n  <p class=\"m-0 mb-1 text-3xl font-bold leading-none\">{{value}}</p>\n  <p class=\"stat-card-tw__change m-0 text-sm font-semibold flex items-center gap-1\">\n    <span class=\"stat-card-tw__arrow\" aria-hidden=\"true\"></span>\n    {{change}}\n  </p>\n</article>\n<style>\n.stat-card-tw--bordered { box-shadow: none; }\n.stat-card-tw__arrow::before { content: \"\\25B2\"; }\n.stat-card-tw--up .stat-card-tw__change { color: #A8E6C1; }\n.stat-card-tw--down .stat-card-tw__arrow::before { content: \"\\25BC\"; }\n.stat-card-tw--down .stat-card-tw__change { color: #F5C2E0; }\n.stat-card-tw--flat .stat-card-tw__arrow::before { content: \"\\25AC\"; }\n.stat-card-tw--flat .stat-card-tw__change { color: #D9C8F0; }\n</style>",
+    "react": "export function StatCard({\n  title = \"{{title}}\",\n  value = {{value}},\n  change = \"{{change}}\",\n  trend = \"{{trend}}\",\n  accent = \"{{accent}}\",\n  bordered = {{bordered}},\n}) {\n  const trendMeta = {\n    up: { arrow: \"▲\", color: \"#A8E6C1\" },\n    down: { arrow: \"▼\", color: \"#F5C2E0\" },\n    flat: { arrow: \"▬\", color: \"#D9C8F0\" },\n  }[trend] ?? { arrow: \"▲\", color: accent };\n  return (\n    <article style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.4, color: \"#241430\",\n      background: \"#FAF7F2\", borderRadius: 12, padding: \"18px 20px\", width: 220, boxSizing: \"border-box\",\n      boxShadow: bordered ? \"none\" : \"0 6px 18px rgba(36,20,48,.10)\",\n      border: bordered ? \"1.5px solid #24143026\" : \"none\", position: \"relative\" }}>\n      <span aria-hidden=\"true\" style={{ display: \"block\", height: 4, borderRadius: \"4px 4px 0 0\",\n        background: accent, margin: \"-18px -20px 14px\" }} />\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 13, fontWeight: 600, color: \"#241430aa\",\n        textTransform: \"uppercase\", letterSpacing: \".02em\" }}>{title}</h3>\n      <p style={{ margin: \"0 0 4px\", fontSize: 30, fontWeight: 700, lineHeight: 1 }}>{value}</p>\n      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, display: \"flex\", alignItems: \"center\", gap: 4,\n        color: trendMeta.color }}>\n        <span aria-hidden=\"true\">{trendMeta.arrow}</span>\n        {change}\n      </p>\n    </article>\n  );\n}"
+  }
+}

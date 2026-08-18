@@ -1,0 +1,61 @@
+{
+  "slug": "widget",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Server status"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body text",
+      "default": "All systems operational. Last checked 2 minutes ago."
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "elevated",
+      "options": [
+        "minimal",
+        "elevated"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showAction",
+      "type": "toggle",
+      "label": "Show action button",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"widget widget--{{variant}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"widget__header\">\n    <h4 class=\"widget__title\">{{title}}</h4>\n    {{#if showAction}}<button class=\"widget__action\" type=\"button\" aria-label=\"Refresh\">⟳</button>{{/if}}\n  </div>\n  <div class=\"widget__body\">\n    <p>{{body}}</p>\n  </div>\n</div>\n<style>\n.widget { font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; box-sizing: border-box; max-width: 300px; overflow: hidden; }\n.widget--minimal { border: 1.5px solid #24143025; }\n.widget--elevated { box-shadow: 0 12px 28px rgba(36,20,48,.14); }\n.widget__header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 16px; border-bottom: 1px solid #24143015; }\n.widget--minimal .widget__header { border-bottom: none; }\n.widget__title { margin: 0; font-size: 14px; font-weight: 700; }\n.widget__action { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; font-size: 14px; line-height: 1; }\n.widget__action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.widget__body { padding: 14px 16px; }\n.widget__body p { margin: 0; font-size: 13.5px; color: #241430b3; }\n</style>",
+    "tailwind": "<div class=\"widget-tw widget-tw--{{variant}} font-sans text-[#241430] bg-[#FAF7F2] box-border max-w-[300px] overflow-hidden\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"widget-tw__header flex items-center justify-between gap-2 px-4 py-3.5 border-b border-[#24143015]\">\n    <h4 class=\"m-0 text-sm font-bold\">{{title}}</h4>\n    {{#if showAction}}<button type=\"button\" aria-label=\"Refresh\" class=\"w-[26px] h-[26px] rounded-full border-[1.5px] bg-transparent text-sm leading-none\" style=\"border-color:{{accent}};color:{{accent}}\">⟳</button>{{/if}}\n  </div>\n  <div class=\"px-4 py-3.5\">\n    <p class=\"m-0 text-[13.5px] text-[#241430]/70\">{{body}}</p>\n  </div>\n</div>\n<style>\n.widget-tw--minimal { border: 1.5px solid #24143025; }\n.widget-tw--minimal .widget-tw__header { border-bottom: none; }\n.widget-tw--elevated { box-shadow: 0 12px 28px rgba(36,20,48,.14); }\n</style>",
+    "react": "export function Widget({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  showAction = {{showAction}},\n  radius = {{radius}},\n}) {\n  const minimal = variant === \"minimal\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", boxSizing: \"border-box\", maxWidth: 300, overflow: \"hidden\", borderRadius: radius,\n      border: minimal ? \"1.5px solid #24143025\" : \"none\",\n      boxShadow: minimal ? \"none\" : \"0 12px 28px rgba(36,20,48,.14)\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8,\n        padding: \"14px 16px\", borderBottom: minimal ? \"none\" : \"1px solid #24143015\" }}>\n        <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>{title}</h4>\n        {showAction && (\n          <button type=\"button\" aria-label=\"Refresh\" style={{ width: 26, height: 26, borderRadius: \"50%\",\n            border: `1.5px solid ${accent}`, background: \"transparent\", color: accent, cursor: \"pointer\",\n            fontSize: 14, lineHeight: 1 }}>⟳</button>\n        )}\n      </div>\n      <div style={{ padding: \"14px 16px\" }}>\n        <p style={{ margin: 0, fontSize: 13.5, color: \"#241430b3\" }}>{body}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

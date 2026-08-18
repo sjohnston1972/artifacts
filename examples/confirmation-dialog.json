@@ -1,0 +1,62 @@
+{
+  "slug": "confirmation-dialog",
+  "controls_schema": [
+    {
+      "id": "question",
+      "type": "text",
+      "label": "Question",
+      "default": "Discard unsaved changes?"
+    },
+    {
+      "id": "detail",
+      "type": "text",
+      "label": "Detail",
+      "default": "Your edits will be lost if you leave this page."
+    },
+    {
+      "id": "tone",
+      "type": "select",
+      "label": "Tone",
+      "default": "warning",
+      "options": [
+        "question",
+        "warning",
+        "info"
+      ]
+    },
+    {
+      "id": "confirmText",
+      "type": "text",
+      "label": "Confirm label",
+      "default": "Yes, discard"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Confirm colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 360,
+      "min": 280,
+      "max": 520,
+      "step": 20
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cfd-demo\">\n  <div class=\"cfd cfd--{{tone}}\" style=\"width:{{width}}px;\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cfd-question\">\n    <div class=\"cfd__icon\" aria-hidden=\"true\"></div>\n    <h3 class=\"cfd__question\" id=\"cfd-question\">{{question}}</h3>\n    <p class=\"cfd__detail\">{{detail}}</p>\n    <div class=\"cfd__actions\">\n      <button type=\"button\" class=\"cfd__btn cfd__btn--cancel\">Cancel</button>\n      <button type=\"button\" class=\"cfd__btn cfd__btn--confirm\" style=\"background:{{accent}};border-color:{{accent}};\">{{confirmText}}</button>\n    </div>\n    <button type=\"button\" class=\"cfd__close\" aria-label=\"Close dialog\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.cfd-demo { display: grid; place-items: center; min-height: 260px; background: rgba(36,20,48,.45); border-radius: 12px; padding: 24px; box-sizing: border-box; }\n.cfd { position: relative; font: 15px/1.5 system-ui, sans-serif; background: #FAF7F2; color: #241430; border-radius: 14px; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 26px 24px 22px; box-sizing: border-box; text-align: center; }\n.cfd__icon { width: 42px; height: 42px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font: 700 20px system-ui, sans-serif; }\n.cfd--question .cfd__icon { background: #BFD9F255; }\n.cfd--question .cfd__icon::before { content: \"?\"; }\n.cfd--warning .cfd__icon { background: #E8A02033; }\n.cfd--warning .cfd__icon::before { content: \"!\"; }\n.cfd--info .cfd__icon { background: #A8E6C155; }\n.cfd--info .cfd__icon::before { content: \"i\"; }\n.cfd__question { margin: 0 0 6px; font-size: 17px; font-weight: 600; }\n.cfd__detail { margin: 0 0 20px; font-size: 13.5px; color: #241430cc; }\n.cfd__actions { display: flex; justify-content: center; gap: 10px; }\n.cfd__btn { font: 500 14px system-ui, sans-serif; padding: 9px 18px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; }\n.cfd__btn--cancel { background: transparent; border-color: #24143033; color: #241430; }\n.cfd__btn--confirm { color: #FAF7F2; }\n.cfd__btn:focus-visible, .cfd__close:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.cfd__close { position: absolute; top: 12px; right: 12px; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"grid place-items-center min-h-[260px] bg-[#241430]/45 rounded-xl p-6 box-border\">\n  <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cfd-tw-question\" class=\"cfd-tw cfd-tw--{{tone}} relative font-sans text-[15px] leading-relaxed text-center bg-[#FAF7F2] text-[#241430] rounded-2xl shadow-2xl box-border\" style=\"width:{{width}}px;padding:26px 24px 22px;\">\n    <div class=\"cfd-tw__icon w-[42px] h-[42px] mx-auto mb-3.5 rounded-full grid place-items-center font-bold text-lg\" aria-hidden=\"true\"></div>\n    <h3 id=\"cfd-tw-question\" class=\"mb-1.5 text-[17px] font-semibold\">{{question}}</h3>\n    <p class=\"mb-5 text-[13.5px] text-[#241430]/80\">{{detail}}</p>\n    <div class=\"flex justify-center gap-2.5\">\n      <button type=\"button\" class=\"px-[18px] py-2.5 rounded-lg text-sm font-medium border border-[#24143033]\">Cancel</button>\n      <button type=\"button\" class=\"px-[18px] py-2.5 rounded-lg text-sm font-medium text-[#FAF7F2]\" style=\"background:{{accent}};border-color:{{accent}}\">{{confirmText}}</button>\n    </div>\n    <button type=\"button\" class=\"absolute top-3 right-3 bg-transparent border-none cursor-pointer p-1 rounded-md text-[#24143099]\" aria-label=\"Close dialog\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.cfd-tw--question .cfd-tw__icon { background: #BFD9F255; }\n.cfd-tw--question .cfd-tw__icon::before { content: \"?\"; }\n.cfd-tw--warning .cfd-tw__icon { background: #E8A02033; }\n.cfd-tw--warning .cfd-tw__icon::before { content: \"!\"; }\n.cfd-tw--info .cfd-tw__icon { background: #A8E6C155; }\n.cfd-tw--info .cfd-tw__icon::before { content: \"i\"; }\n</style>",
+    "react": "export function ConfirmationDialog({\n  question = \"{{question}}\",\n  detail = \"{{detail}}\",\n  tone = \"{{tone}}\",\n  confirmText = \"{{confirmText}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n}) {\n  const icon = { question: { bg: \"#BFD9F255\", mark: \"?\" }, warning: { bg: \"#E8A02033\", mark: \"!\" }, info: { bg: \"#A8E6C155\", mark: \"i\" } }[tone] ?? { bg: \"#BFD9F255\", mark: \"?\" };\n  return (\n    <div style={{ display: \"grid\", placeItems: \"center\", minHeight: 260, background: \"rgba(36,20,48,.45)\", borderRadius: 12, padding: 24, boxSizing: \"border-box\" }}>\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cfd-question\" style={{ position: \"relative\", width, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\",\n        textAlign: \"center\", background: \"#FAF7F2\", color: \"#241430\", borderRadius: 14, boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: \"26px 24px 22px\" }}>\n        <div aria-hidden=\"true\" style={{ width: 42, height: 42, margin: \"0 auto 14px\", borderRadius: \"50%\", display: \"grid\", placeItems: \"center\",\n          font: \"700 20px system-ui, sans-serif\", background: icon.bg }}>{icon.mark}</div>\n        <h3 id=\"cfd-question\" style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 600 }}>{question}</h3>\n        <p style={{ margin: \"0 0 20px\", fontSize: 13.5, color: \"#241430cc\" }}>{detail}</p>\n        <div style={{ display: \"flex\", justifyContent: \"center\", gap: 10 }}>\n          <button type=\"button\">Cancel</button>\n          <button type=\"button\" style={{ background: accent, borderColor: accent, color: \"#FAF7F2\" }}>{confirmText}</button>\n        </div>\n        <button type=\"button\" aria-label=\"Close dialog\" style={{ position: \"absolute\", top: 12, right: 12, background: \"none\", border: \"none\", cursor: \"pointer\", padding: 4, borderRadius: 6, color: \"#24143099\" }}>\n          <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\">\n            <line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n            <line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n          </svg>\n        </button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

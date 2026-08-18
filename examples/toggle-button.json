@@ -1,0 +1,51 @@
+{
+ "slug": "toggle-button",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Bold"
+  },
+  {
+   "id": "pressed",
+   "type": "toggle",
+   "label": "Pressed",
+   "default": false
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 8,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-toggle\" style=\"--bg:{{bg}};border-radius:{{radius}}px\" aria-pressed=\"{{pressed}}\"{{#if disabled}} disabled{{/if}}><strong>{{label}}</strong></button>\n<style>\n.btn-toggle {\n  font: 600 14px/1 system-ui, sans-serif;\n  padding: 9px 16px;\n  border: 1.5px solid rgba(36,20,48,.25);\n  background: #FAF7F2;\n  color: #241430;\n  cursor: pointer;\n}\n.btn-toggle[aria-pressed=\"true\"] { background: var(--bg); border-color: var(--bg); color: #FAF7F2; }\n.btn-toggle:hover:not(:disabled):not([aria-pressed=\"true\"]) { background: rgba(36,20,48,.06); }\n.btn-toggle:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-toggle:disabled { opacity: .4; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"text-sm font-semibold bg-[#FAF7F2] text-[#241430] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:bg-black/5 btn-toggle-tw\" style=\"border:1.5px solid rgba(36,20,48,.25);border-radius:{{radius}}px;padding:9px 16px\" aria-pressed=\"{{pressed}}\"{{#if disabled}} disabled{{/if}}><strong>{{label}}</strong></button>\n<style>\n.btn-toggle-tw[aria-pressed=\"true\"] { background: {{bg}}; border-color: {{bg}}; color: #FAF7F2; }\n.btn-toggle-tw:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function ToggleButton({\n  label = \"{{label}}\",\n  pressed = {{pressed}},\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button\n      type=\"button\"\n      aria-pressed={pressed}\n      disabled={disabled}\n      style={{\n        padding: \"9px 16px\",\n        borderRadius: radius,\n        border: `1.5px solid ${pressed ? bg : \"rgba(36,20,48,.25)\"}`,\n        background: pressed ? bg : \"#FAF7F2\",\n        color: pressed ? \"#FAF7F2\" : \"#241430\",\n        font: \"600 14px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.4 : 1,\n      }}\n    >\n      <strong>{label}</strong>\n    </button>\n  );\n}"
+ }
+}

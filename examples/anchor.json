@@ -1,0 +1,46 @@
+{
+  "slug": "anchor",
+  "controls_schema": [
+    {
+      "id": "skipLabel",
+      "type": "text",
+      "label": "Skip-link label",
+      "default": "Skip to main content"
+    },
+    {
+      "id": "sectionLabel",
+      "type": "text",
+      "label": "In-page link label",
+      "default": "Jump to pricing"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "In-page link style",
+      "default": "underline",
+      "options": [
+        "underline",
+        "pill"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"anchor-demo\">\n  <a class=\"anchor-skip\" href=\"#anchor-demo-target\" style=\"--accent:{{accent}};\">{{skipLabel}}</a>\n  <p class=\"anchor-demo__body\">Read the overview, then <a class=\"anchor-link anchor-link--{{style}}\" href=\"#pricing\" style=\"--accent:{{accent}};\">{{sectionLabel}}</a> further down the page.</p>\n  <div id=\"anchor-demo-target\" class=\"anchor-demo__target\" tabindex=\"-1\">Main content landmark</div>\n</div>\n<style>\n.anchor-demo { position: relative; padding-top: 4px; font: 14px system-ui, sans-serif; color: #241430; }\n.anchor-skip { position: absolute; left: -9999px; top: 0; background: #241430; color: #FAF7F2; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; z-index: 10; }\n.anchor-skip:focus { left: 0; outline: 2px solid var(--accent); outline-offset: 2px; }\n.anchor-demo__body { margin: 0 0 10px; line-height: 1.6; }\n.anchor-link { color: #241430; }\n.anchor-link--underline { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }\n.anchor-link--pill { text-decoration: none; background: var(--accent); padding: 2px 8px; border-radius: 999px; }\n.anchor-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.anchor-demo__target { padding: 10px; border: 1px dashed rgba(36,20,48,.3); border-radius: 8px; font-size: 12px; opacity: .6; }\n</style>",
+    "tailwind": "<div class=\"relative pt-1 font-sans text-sm text-[#241430]\">\n  <a class=\"anchor-tw-skip absolute -left-[9999px] top-0 bg-[#241430] text-[#FAF7F2] px-3.5 py-2 rounded-lg no-underline font-semibold z-10\" href=\"#anchor-tw-target\" style=\"--accent:{{accent}};\">{{skipLabel}}</a>\n  <p class=\"m-0 mb-2.5 leading-relaxed\">Read the overview, then <a class=\"anchor-tw-link anchor-tw-link--{{style}} text-[#241430]\" href=\"#pricing\" style=\"--accent:{{accent}};\">{{sectionLabel}}</a> further down the page.</p>\n  <div id=\"anchor-tw-target\" class=\"p-2.5 border border-dashed border-[#241430]/30 rounded-lg text-xs opacity-60\" tabindex=\"-1\">Main content landmark</div>\n</div>\n<style>\n.anchor-tw-skip:focus { left: 0; outline: 2px solid var(--accent); outline-offset: 2px; }\n.anchor-tw-link--underline { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }\n.anchor-tw-link--pill { text-decoration: none; background: var(--accent); padding: 2px 8px; border-radius: 999px; }\n.anchor-tw-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function Anchor({\n  skipLabel = \"{{skipLabel}}\",\n  sectionLabel = \"{{sectionLabel}}\",\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n}) {\n  const linkStyle = style === \"pill\"\n    ? { textDecoration: \"none\", background: accent, padding: \"2px 8px\", borderRadius: 999 }\n    : { textDecoration: \"underline\", textDecorationColor: accent, textDecorationThickness: 2 };\n  return (\n    <div style={{ position: \"relative\", paddingTop: 4, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <a href=\"#anchor-target\" style={{ position: \"absolute\", left: -9999, top: 0, background: \"#241430\", color: \"#FAF7F2\", padding: \"8px 14px\", borderRadius: 8, textDecoration: \"none\", fontWeight: 600 }}>{skipLabel}</a>\n      <p style={{ margin: \"0 0 10px\", lineHeight: 1.6 }}>Read the overview, then <a href=\"#pricing\" style={{ color: \"#241430\", ...linkStyle }}>{sectionLabel}</a> further down the page.</p>\n      <div id=\"anchor-target\" tabIndex={-1} style={{ padding: 10, border: \"1px dashed rgba(36,20,48,.3)\", borderRadius: 8, fontSize: 12, opacity: .6 }}>Main content landmark</div>\n    </div>\n  );\n}"
+  }
+}

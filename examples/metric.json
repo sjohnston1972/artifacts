@@ -1,0 +1,59 @@
+{
+  "slug": "metric",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Monthly active users"
+    },
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Value",
+      "default": 48200,
+      "min": 0,
+      "max": 999999,
+      "step": 100
+    },
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Format",
+      "default": "plain",
+      "options": [
+        "plain",
+        "currency",
+        "percent"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Number size",
+      "default": 40,
+      "min": 24,
+      "max": 72,
+      "step": 4
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<dl class=\"metric metric--{{format}}\" style=\"--accent:{{accent}};\">\n  <dt class=\"metric__label\">{{label}}</dt>\n  <dd class=\"metric__value\" style=\"font-size:{{size}}px;\">{{value}}</dd>\n</dl>\n<style>\n.metric { font: 16px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; display: inline-grid; gap: 4px; padding: 20px 24px; border-radius: 10px; margin: 0; }\n.metric dt, .metric dd { margin: 0; }\n.metric__label { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--accent); text-transform: uppercase; }\n.metric__value { font-weight: 700; line-height: 1; }\n.metric--currency .metric__value::before { content: \"$\"; }\n.metric--percent .metric__value::after { content: \"%\"; }\n</style>",
+    "tailwind": "<dl class=\"metric-tw metric-tw--{{format}} inline-grid gap-1 bg-[#FAF7F2] text-[#241430] font-sans px-6 py-5 rounded-[10px] m-0\" style=\"--accent:{{accent}}\">\n  <dt class=\"m-0 text-xs font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">{{label}}</dt>\n  <dd class=\"m-0 font-bold leading-none\" style=\"font-size:{{size}}px\">{{value}}</dd>\n</dl>\n<style>\n.metric-tw--currency dd::before { content: \"$\"; }\n.metric-tw--percent dd::after { content: \"%\"; }\n</style>",
+    "react": "export function Metric({\n  label = \"{{label}}\",\n  value = {{value}},\n  format = \"{{format}}\",\n  size = {{size}},\n  accent = \"{{accent}}\",\n}) {\n  const formatted = {\n    plain: value.toLocaleString(),\n    currency: `$${value.toLocaleString()}`,\n    percent: `${value}%`,\n  }[format] ?? value;\n  return (\n    <dl style={{ font: \"16px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\",\n      display: \"inline-grid\", gap: 4, padding: \"20px 24px\", borderRadius: 10, margin: 0 }}>\n      <dt style={{ margin: 0, fontSize: 13, fontWeight: 600, letterSpacing: \".02em\", color: accent, textTransform: \"uppercase\" }}>{label}</dt>\n      <dd style={{ margin: 0, fontWeight: 700, lineHeight: 1, fontSize: size }}>{formatted}</dd>\n    </dl>\n  );\n}"
+  }
+}

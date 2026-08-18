@@ -1,0 +1,52 @@
+{
+  "slug": "navbar",
+  "controls_schema": [
+    {
+      "id": "brand",
+      "type": "text",
+      "label": "Brand name",
+      "default": "Acme"
+    },
+    {
+      "id": "activeLabel",
+      "type": "text",
+      "label": "Active link label",
+      "default": "Dashboard"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "light",
+      "options": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "sticky",
+      "type": "toggle",
+      "label": "Elevated shadow",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"navbar navbar--{{variant}} {{#if sticky}}navbar--elevated{{/if}}\" style=\"--accent:{{accent}};\" aria-label=\"Primary\">\n  <span class=\"navbar__brand\">{{brand}}</span>\n  <div class=\"navbar__links\">\n    <a class=\"navbar__link is-active\" href=\"#\" aria-current=\"page\">{{activeLabel}}</a>\n    <a class=\"navbar__link\" href=\"#\">Projects</a>\n    <a class=\"navbar__link\" href=\"#\">Team</a>\n  </div>\n</nav>\n<style>\n.navbar { display: flex; align-items: center; gap: 32px; padding: 14px 20px; border-radius: 12px; font: 14px system-ui, sans-serif; }\n.navbar--light { background: #FAF7F2; color: #241430; }\n.navbar--dark { background: #241430; color: #FAF7F2; }\n.navbar--elevated { box-shadow: 0 6px 20px rgba(36,20,48,.16); }\n.navbar__brand { font-weight: 700; font-size: 16px; }\n.navbar__links { display: flex; gap: 20px; }\n.navbar__link { text-decoration: none; color: inherit; opacity: .65; padding: 4px 2px; border-bottom: 2px solid transparent; }\n.navbar__link.is-active { opacity: 1; border-bottom-color: var(--accent); font-weight: 600; }\n.navbar__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; opacity: 1; }\n</style>",
+    "tailwind": "<nav aria-label=\"Primary\" class=\"navbar-tw navbar-tw--{{variant}} {{#if sticky}}shadow-lg{{/if}} flex items-center gap-8 px-5 py-3.5 rounded-xl font-sans text-sm\" style=\"--accent:{{accent}};\">\n  <span class=\"font-bold text-base\">{{brand}}</span>\n  <div class=\"flex gap-5\">\n    <a class=\"pb-1 border-b-2 font-semibold no-underline\" href=\"#\" aria-current=\"page\" style=\"border-color:{{accent}};color:inherit;\">{{activeLabel}}</a>\n    <a class=\"pb-1 border-b-2 border-transparent opacity-65 no-underline\" href=\"#\" style=\"color:inherit;\">Projects</a>\n    <a class=\"pb-1 border-b-2 border-transparent opacity-65 no-underline\" href=\"#\" style=\"color:inherit;\">Team</a>\n  </div>\n</nav>\n<style>\n.navbar-tw--light { background: #FAF7F2; color: #241430; }\n.navbar-tw--dark { background: #241430; color: #FAF7F2; }\n.navbar-tw a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function Navbar({\n  brand = \"{{brand}}\",\n  activeLabel = \"{{activeLabel}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  sticky = {{sticky}},\n}) {\n  const dark = variant === \"dark\";\n  return (\n    <nav aria-label=\"Primary\" style={{ display: \"flex\", alignItems: \"center\", gap: 32, padding: \"14px 20px\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 14, background: dark ? \"#241430\" : \"#FAF7F2\", color: dark ? \"#FAF7F2\" : \"#241430\", boxShadow: sticky ? \"0 6px 20px rgba(36,20,48,.16)\" : \"none\" }}>\n      <span style={{ fontWeight: 700, fontSize: 16 }}>{brand}</span>\n      <div style={{ display: \"flex\", gap: 20 }}>\n        <a href=\"#\" aria-current=\"page\" style={{ textDecoration: \"none\", color: \"inherit\", opacity: 1, paddingBottom: 4, borderBottom: \"2px solid \" + accent, fontWeight: 600 }}>{activeLabel}</a>\n        <a href=\"#\" style={{ textDecoration: \"none\", color: \"inherit\", opacity: .65, paddingBottom: 4, borderBottom: \"2px solid transparent\" }}>Projects</a>\n        <a href=\"#\" style={{ textDecoration: \"none\", color: \"inherit\", opacity: .65, paddingBottom: 4, borderBottom: \"2px solid transparent\" }}>Team</a>\n      </div>\n    </nav>\n  );\n}"
+  }
+}

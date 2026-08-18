@@ -1,0 +1,55 @@
+{
+ "slug": "primary-button",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Continue"
+  },
+  {
+   "id": "size",
+   "type": "select",
+   "label": "Size",
+   "default": "md",
+   "options": [
+    "md",
+    "lg"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-primary btn-primary--{{size}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-primary {\n  font: 700 15px/1 system-ui, sans-serif;\n  padding: 12px 22px;\n  border: none;\n  background: var(--bg);\n  color: #FAF7F2;\n  cursor: pointer;\n}\n.btn-primary--lg { padding: 15px 28px; font-size: 16px; }\n.btn-primary:hover:not(:disabled) { filter: brightness(1.12); }\n.btn-primary:active:not(:disabled) { filter: brightness(0.92); }\n.btn-primary:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-primary:disabled { opacity: .45; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"text-[#FAF7F2] border-none cursor-pointer font-bold disabled:opacity-45 disabled:cursor-not-allowed hover:brightness-110 active:brightness-90 btn-primary-tw btn-primary-tw--{{size}}\" style=\"background:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n<style>\n.btn-primary-tw--md { padding: 12px 22px; font-size: 15px; }\n.btn-primary-tw--lg { padding: 15px 28px; font-size: 16px; }\n.btn-primary-tw--{{size}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function PrimaryButton({\n  label = \"{{label}}\",\n  size = \"{{size}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const lg = size === \"lg\";\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      style={{\n        padding: lg ? \"15px 28px\" : \"12px 22px\",\n        fontSize: lg ? 16 : 15,\n        borderRadius: radius,\n        border: \"none\",\n        background: bg,\n        color: \"#FAF7F2\",\n        fontWeight: 700,\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.45 : 1,\n      }}\n    >\n      {label}\n    </button>\n  );\n}"
+ }
+}

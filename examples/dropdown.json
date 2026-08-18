@@ -1,0 +1,55 @@
+{
+  "slug": "dropdown",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Actions"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": true
+    },
+    {
+      "id": "placement",
+      "type": "select",
+      "label": "Placement",
+      "default": "below",
+      "options": [
+        "below",
+        "above"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Menu width",
+      "default": 200,
+      "min": 160,
+      "max": 320,
+      "step": 20
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dropdown-demo\">\n  <details{{#if open}} open{{/if}} class=\"dropdown dropdown--{{placement}}\" style=\"--accent:{{accent}};--menu-width:{{width}}px;\">\n    <summary class=\"dropdown__trigger\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"{{#if open}}true{{/if}}{{#unless open}}false{{/unless}}\">\n      {{label}}\n      <svg class=\"dropdown__chevron\" width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" aria-hidden=\"true\"><path d=\"M1 1l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </summary>\n    <ul class=\"dropdown__menu\" role=\"menu\">\n      <li role=\"menuitem\"><button type=\"button\" class=\"dropdown__item\">Duplicate</button></li>\n      <li role=\"menuitem\"><button type=\"button\" class=\"dropdown__item\">Rename</button></li>\n      <li role=\"menuitem\"><button type=\"button\" class=\"dropdown__item dropdown__item--danger\">Delete</button></li>\n    </ul>\n  </details>\n</div>\n<style>\n.dropdown-demo { position: relative; min-height: 220px; padding: 60px 24px; box-sizing: border-box; font: 16px/1.5 system-ui, sans-serif; }\n.dropdown { position: relative; display: inline-block; }\n.dropdown__trigger { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143033; border-radius: 8px; padding: 9px 14px; font-weight: 500; }\n.dropdown__trigger::-webkit-details-marker { display: none; }\n.dropdown__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.dropdown__menu { position: absolute; left: 0; width: var(--menu-width); margin: 0; padding: 6px; list-style: none; background: #FAF7F2; border-radius: 10px; box-shadow: 0 16px 32px rgba(36,20,48,.22); box-sizing: border-box; }\n.dropdown--below .dropdown__menu { top: calc(100% + 6px); }\n.dropdown--above .dropdown__menu { bottom: calc(100% + 6px); }\n.dropdown__item { width: 100%; text-align: left; background: none; border: none; border-radius: 6px; padding: 8px 10px; font: inherit; color: #241430; cursor: pointer; }\n.dropdown__item:hover, .dropdown__item:focus-visible { background: var(--accent); outline: none; }\n.dropdown__item--danger { color: #a6355c; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[220px] px-6 py-[60px] box-border font-sans\">\n  <details{{#if open}} open{{/if}} class=\"dropdown-tw dropdown-tw--{{placement}} relative inline-block\" style=\"--accent:{{accent}};--menu-width:{{width}}px;\">\n    <summary role=\"button\" aria-haspopup=\"true\" aria-expanded=\"{{#if open}}true{{/if}}{{#unless open}}false{{/unless}}\" class=\"list-none cursor-pointer inline-flex items-center gap-2 bg-[#FAF7F2] text-[#241430] border border-[#24143033] rounded-lg px-3.5 py-2.5 font-medium marker:hidden\">\n      {{label}}\n      <svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" aria-hidden=\"true\"><path d=\"M1 1l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </summary>\n    <ul role=\"menu\" class=\"dropdown-tw__menu absolute left-0 m-0 list-none rounded-[10px] bg-[#FAF7F2] shadow-2xl p-1.5 box-border\" style=\"width:{{width}}px;\">\n      <li role=\"menuitem\"><button type=\"button\" class=\"w-full text-left bg-transparent border-none rounded-md px-2.5 py-2 font-inherit text-[#241430] cursor-pointer hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] focus-visible:outline-none\">Duplicate</button></li>\n      <li role=\"menuitem\"><button type=\"button\" class=\"w-full text-left bg-transparent border-none rounded-md px-2.5 py-2 font-inherit text-[#241430] cursor-pointer hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] focus-visible:outline-none\">Rename</button></li>\n      <li role=\"menuitem\"><button type=\"button\" class=\"w-full text-left bg-transparent border-none rounded-md px-2.5 py-2 font-inherit text-[#a6355c] cursor-pointer hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] focus-visible:outline-none\">Delete</button></li>\n    </ul>\n  </details>\n</div>\n<style>\n.dropdown-tw--below .dropdown-tw__menu { top: calc(100% + 6px); }\n.dropdown-tw--above .dropdown-tw__menu { bottom: calc(100% + 6px); }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function Dropdown({\n  label = \"{{label}}\",\n  open: initialOpen = {{open}},\n  placement = \"{{placement}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const menuPos = placement === \"above\" ? { bottom: \"calc(100% + 6px)\" } : { top: \"calc(100% + 6px)\" };\n  return (\n    <div style={{ position: \"relative\", minHeight: 220, padding: \"60px 24px\", boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\" }}>\n      <style>{`.dropdown-react-item:hover, .dropdown-react-item:focus-visible { background: ${accent}; outline: none; }`}</style>\n      <div style={{ position: \"relative\", display: \"inline-block\" }}>\n        <button type=\"button\" aria-haspopup=\"true\" aria-expanded={open ? \"true\" : \"false\"} onClick={() => setOpen((o) => !o)}\n          style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, background: \"#FAF7F2\", color: \"#241430\",\n            border: \"1.5px solid #24143033\", borderRadius: 8, padding: \"9px 14px\", fontWeight: 500, cursor: \"pointer\" }}>\n          {label}\n          <svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" aria-hidden=\"true\"><path d=\"M1 1l4 4 4-4\" stroke=\"currentColor\" strokeWidth=\"1.6\" fill=\"none\" strokeLinecap=\"round\" strokeLinejoin=\"round\"/></svg>\n        </button>\n        {open && (\n          <ul role=\"menu\" style={{ position: \"absolute\", left: 0, width, margin: 0, padding: 6, listStyle: \"none\",\n            background: \"#FAF7F2\", borderRadius: 10, boxShadow: \"0 16px 32px rgba(36,20,48,.22)\", boxSizing: \"border-box\", ...menuPos }}>\n            <li role=\"menuitem\"><button type=\"button\" className=\"dropdown-react-item\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", borderRadius: 6, padding: \"8px 10px\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Duplicate</button></li>\n            <li role=\"menuitem\"><button type=\"button\" className=\"dropdown-react-item\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", borderRadius: 6, padding: \"8px 10px\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Rename</button></li>\n            <li role=\"menuitem\"><button type=\"button\" className=\"dropdown-react-item\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", borderRadius: 6, padding: \"8px 10px\", font: \"inherit\", color: \"#a6355c\", cursor: \"pointer\" }}>Delete</button></li>\n          </ul>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "audio-player",
+  "controls_schema": [
+    {
+      "id": "trackTitle",
+      "type": "text",
+      "label": "Track title",
+      "default": "Morning Static"
+    },
+    {
+      "id": "artist",
+      "type": "text",
+      "label": "Artist",
+      "default": "Field Notes"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop track",
+      "default": false
+    },
+    {
+      "id": "transcript",
+      "type": "toggle",
+      "label": "Show transcript link",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"audio-player\" style=\"--accent:{{accent}};\">\n  <div class=\"audio-player__art\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"{{accent}}\" stroke-width=\"1.6\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"2.4\" fill=\"{{accent}}\" stroke=\"none\"/></svg>\n  </div>\n  <div class=\"audio-player__meta\">\n    <p class=\"audio-player__title\">{{trackTitle}}</p>\n    <p class=\"audio-player__artist\">{{artist}}</p>\n  </div>\n  <audio class=\"audio-player__el\" controls {{#if loop}}loop{{/if}} src=\"data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=\">\n    Your browser does not support the audio element.\n  </audio>\n  {{#if transcript}}\n  <a class=\"audio-player__transcript\" href=\"#transcript\" style=\"color:{{accent}};\">View transcript</a>\n  {{/if}}\n</div>\n<style>\n.audio-player { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; max-width: 380px; padding: 16px; border-radius: 14px; background: #FAF7F2; border: 1px solid #24143022; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.audio-player__art { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #24143010; flex: none; }\n.audio-player__meta { flex: 1 1 140px; min-width: 0; }\n.audio-player__title { margin: 0; font-weight: 600; }\n.audio-player__artist { margin: 2px 0 0; color: #24143099; font-size: 12px; }\n.audio-player__el { width: 100%; }\n.audio-player__transcript { display: inline-block; width: 100%; font-size: 12px; font-weight: 600; text-decoration: underline; }\n</style>",
+    "tailwind": "<div class=\"audio-player-tw flex flex-wrap items-center gap-3 max-w-[380px] p-4 rounded-2xl bg-[#FAF7F2] border border-[#24143022] font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\">\n  <div class=\"w-11 h-11 rounded-full flex items-center justify-center bg-[#24143010] flex-none\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"{{accent}}\" stroke-width=\"1.6\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"2.4\" fill=\"{{accent}}\" stroke=\"none\"/></svg>\n  </div>\n  <div class=\"flex-1 min-w-[140px]\">\n    <p class=\"m-0 font-semibold\">{{trackTitle}}</p>\n    <p class=\"m-0 mt-0.5 text-xs text-[#241430]/60\">{{artist}}</p>\n  </div>\n  <audio class=\"w-full\" controls {{#if loop}}loop{{/if}} src=\"data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=\">\n    Your browser does not support the audio element.\n  </audio>\n  {{#if transcript}}\n  <a class=\"block w-full text-xs font-semibold underline\" href=\"#transcript\" style=\"color:{{accent}};\">View transcript</a>\n  {{/if}}\n</div>",
+    "react": "export function AudioPlayer({\n  trackTitle = \"{{trackTitle}}\",\n  artist = \"{{artist}}\",\n  accent = \"{{accent}}\",\n  loop = {{loop}},\n  transcript = {{transcript}},\n}) {\n  return (\n    <div style={{ display: \"flex\", flexWrap: \"wrap\", alignItems: \"center\", gap: 12, maxWidth: 380,\n      padding: 16, borderRadius: 14, background: \"#FAF7F2\", border: \"1px solid #24143022\",\n      font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div style={{ width: 44, height: 44, borderRadius: \"50%\", display: \"flex\", alignItems: \"center\",\n        justifyContent: \"center\", background: \"#24143010\", flex: \"none\" }} aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke={accent} strokeWidth=\"1.6\">\n          <circle cx=\"12\" cy=\"12\" r=\"9\" />\n          <circle cx=\"12\" cy=\"12\" r=\"2.4\" fill={accent} stroke=\"none\" />\n        </svg>\n      </div>\n      <div style={{ flex: \"1 1 140px\", minWidth: 0 }}>\n        <p style={{ margin: 0, fontWeight: 600 }}>{trackTitle}</p>\n        <p style={{ margin: \"2px 0 0\", color: \"#24143099\", fontSize: 12 }}>{artist}</p>\n      </div>\n      <audio\n        style={{ width: \"100%\" }}\n        controls\n        loop={loop}\n        src=\"data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=\"\n      >\n        Your browser does not support the audio element.\n      </audio>\n      {transcript && (\n        <a\n          href=\"#transcript\"\n          style={{ display: \"inline-block\", width: \"100%\", fontSize: 12, fontWeight: 600,\n            textDecoration: \"underline\", color: accent }}\n        >\n          View transcript\n        </a>\n      )}\n    </div>\n  );\n}"
+  }
+}

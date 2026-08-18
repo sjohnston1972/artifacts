@@ -1,0 +1,62 @@
+{
+  "slug": "popover",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Trigger label",
+      "default": "Filters"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Panel text",
+      "default": "Choose how results are sorted before exporting."
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "light",
+      "options": [
+        "light",
+        "dark",
+        "accent"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 240,
+      "min": 180,
+      "max": 360,
+      "step": 20
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Expanded",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"popover-demo\">\n  <button type=\"button\" class=\"popover-trigger\" aria-haspopup=\"dialog\" aria-controls=\"popover-panel\" aria-expanded=\"{{#if open}}true{{/if}}{{#unless open}}false{{/unless}}\">{{label}}</button>\n  {{#if open}}\n  <div class=\"popover-panel popover-panel--{{variant}}\" id=\"popover-panel\" role=\"dialog\" aria-labelledby=\"popover-panel-title\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <div class=\"popover-panel__head\">\n      <span class=\"popover-panel__title\" id=\"popover-panel-title\">{{label}}</span>\n      <button type=\"button\" class=\"popover-panel__close\" aria-label=\"Close\">\n        <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n    </div>\n    <p class=\"popover-panel__body\">{{body}}</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n.popover-demo { position: relative; min-height: 220px; padding: 22px; box-sizing: border-box; }\n.popover-trigger { font: 500 14px system-ui, sans-serif; padding: 9px 16px; border-radius: 8px; border: 1.5px solid #24143033; background: #FAF7F2; color: #241430; cursor: pointer; }\n.popover-trigger:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.popover-panel { position: absolute; top: 78px; left: 22px; border-radius: 12px; border: 1.5px solid; box-sizing: border-box; box-shadow: 0 16px 32px rgba(36,20,48,.22); padding: 14px 16px; }\n.popover-panel--light { background: #FAF7F2; color: #241430; }\n.popover-panel--dark { background: #241430; color: #FAF7F2; }\n.popover-panel--accent { background: #FAF7F2; color: #241430; border-width: 3px; }\n.popover-panel__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }\n.popover-panel__title { font-weight: 600; font-size: 14px; }\n.popover-panel__close { border: none; background: transparent; color: inherit; cursor: pointer; padding: 4px; border-radius: 6px; display: grid; place-items: center; }\n.popover-panel__close:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }\n.popover-panel__body { margin: 0; font-size: 13px; line-height: 1.5; opacity: .85; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[220px] p-[22px] box-border\">\n  <button type=\"button\" class=\"px-4 py-2.5 rounded-lg text-sm font-medium border-[1.5px] border-[#24143033] bg-[#FAF7F2] text-[#241430]\" aria-haspopup=\"dialog\" aria-controls=\"popover-tw-panel\" aria-expanded=\"{{#if open}}true{{/if}}{{#unless open}}false{{/unless}}\">{{label}}</button>\n  {{#if open}}\n  <div id=\"popover-tw-panel\" role=\"dialog\" aria-labelledby=\"popover-tw-title\" class=\"popover-tw-panel popover-tw-panel--{{variant}} absolute top-[78px] left-[22px] rounded-xl border-[1.5px] box-border shadow-2xl p-4\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <div class=\"flex items-center justify-between gap-3 mb-2\">\n      <span id=\"popover-tw-title\" class=\"font-semibold text-sm\">{{label}}</span>\n      <button type=\"button\" aria-label=\"Close\" class=\"border-0 bg-transparent cursor-pointer p-1 rounded-md grid place-items-center text-current\">\n        <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n    </div>\n    <p class=\"m-0 text-[13px] leading-relaxed opacity-85\">{{body}}</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n.popover-tw-panel--light { background: #FAF7F2; color: #241430; }\n.popover-tw-panel--dark { background: #241430; color: #FAF7F2; }\n.popover-tw-panel--accent { background: #FAF7F2; color: #241430; border-width: 3px; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function Popover({\n  label = \"{{label}}\",\n  body = \"{{body}}\",\n  variant = \"{{variant}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n  open: initialOpen = {{open}},\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const panelStyle = {\n    light: { background: \"#FAF7F2\", color: \"#241430\" },\n    dark: { background: \"#241430\", color: \"#FAF7F2\" },\n    accent: { background: \"#FAF7F2\", color: \"#241430\", borderWidth: 3 },\n  }[variant] ?? {};\n  return (\n    <div style={{ position: \"relative\", minHeight: 220, padding: 22, boxSizing: \"border-box\" }}>\n      <button type=\"button\" onClick={() => setOpen((o) => !o)} aria-haspopup=\"dialog\" aria-controls=\"popover-panel\"\n        aria-expanded={open ? \"true\" : \"false\"} style={{ font: \"500 14px system-ui, sans-serif\", padding: \"9px 16px\",\n        borderRadius: 8, border: \"1.5px solid #24143033\", background: \"#FAF7F2\", color: \"#241430\", cursor: \"pointer\" }}>\n        {label}\n      </button>\n      {open && (\n        <div id=\"popover-panel\" role=\"dialog\" aria-labelledby=\"popover-panel-title\" style={{ position: \"absolute\",\n          top: 78, left: 22, borderRadius: 12, border: \"1.5px solid\", borderColor: accent, boxSizing: \"border-box\",\n          boxShadow: \"0 16px 32px rgba(36,20,48,.22)\", padding: \"14px 16px\", width, ...panelStyle }}>\n          <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 12, marginBottom: 8 }}>\n            <span id=\"popover-panel-title\" style={{ fontWeight: 600, fontSize: 14 }}>{label}</span>\n            <button type=\"button\" aria-label=\"Close\" onClick={() => setOpen(false)} style={{ border: \"none\",\n              background: \"transparent\", color: \"inherit\", cursor: \"pointer\", padding: 4, borderRadius: 6 }}>\n              <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n            </button>\n          </div>\n          <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, opacity: .85 }}>{body}</p>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "navigation-menu",
+  "controls_schema": [
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "horizontal",
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "activeLabel",
+      "type": "text",
+      "label": "Active item label",
+      "default": "Overview"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "spacing",
+      "type": "number",
+      "label": "Item spacing (px)",
+      "default": 18,
+      "min": 8,
+      "max": 32,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"navmenu navmenu--{{orientation}}\" style=\"--accent:{{accent}}; --gap:{{spacing}}px;\" aria-label=\"Section\">\n  <a class=\"navmenu__item is-active\" href=\"#\" aria-current=\"page\">{{activeLabel}}</a>\n  <a class=\"navmenu__item\" href=\"#\">Guides</a>\n  <a class=\"navmenu__item\" href=\"#\">API reference</a>\n  <a class=\"navmenu__item\" href=\"#\">Changelog</a>\n</nav>\n<style>\n.navmenu { display: flex; gap: var(--gap); font: 500 14px system-ui, sans-serif; }\n.navmenu--vertical { flex-direction: column; align-items: flex-start; }\n.navmenu__item { text-decoration: none; color: #241430; opacity: .6; padding: 2px 0; }\n.navmenu__item.is-active { opacity: 1; color: var(--accent); }\n.navmenu__item:hover, .navmenu__item:focus-visible { opacity: 1; outline: none; text-decoration: underline; }\n</style>",
+    "tailwind": "<nav aria-label=\"Section\" class=\"navmenu-tw navmenu-tw--{{orientation}} flex font-medium text-sm\" style=\"--accent:{{accent}}; gap:{{spacing}}px;\">\n  <a class=\"no-underline font-semibold hover:underline\" href=\"#\" aria-current=\"page\" style=\"color:{{accent}};\">{{activeLabel}}</a>\n  <a class=\"no-underline text-[#241430]/60 hover:opacity-100 hover:underline\" href=\"#\">Guides</a>\n  <a class=\"no-underline text-[#241430]/60 hover:opacity-100 hover:underline\" href=\"#\">API reference</a>\n  <a class=\"no-underline text-[#241430]/60 hover:opacity-100 hover:underline\" href=\"#\">Changelog</a>\n</nav>\n<style>\n.navmenu-tw--vertical { flex-direction: column; align-items: flex-start; }\n.navmenu-tw a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function NavigationMenu({\n  orientation = \"{{orientation}}\",\n  activeLabel = \"{{activeLabel}}\",\n  accent = \"{{accent}}\",\n  spacing = {{spacing}},\n}) {\n  const items = [\"Guides\", \"API reference\", \"Changelog\"];\n  return (\n    <nav aria-label=\"Section\" style={{ display: \"flex\", flexDirection: orientation === \"vertical\" ? \"column\" : \"row\", alignItems: orientation === \"vertical\" ? \"flex-start\" : \"center\", gap: spacing, fontFamily: \"system-ui, sans-serif\", fontSize: 14, fontWeight: 500 }}>\n      <a href=\"#\" aria-current=\"page\" style={{ textDecoration: \"none\", color: accent, opacity: 1 }}>{activeLabel}</a>\n      {items.map((i) => (\n        <a key={i} href=\"#\" style={{ textDecoration: \"none\", color: \"#241430\", opacity: .6 }}>{i}</a>\n      ))}\n    </nav>\n  );\n}"
+  }
+}

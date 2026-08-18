@@ -1,0 +1,55 @@
+{
+ "slug": "contextual-action",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Rename"
+  },
+  {
+   "id": "visibility",
+   "type": "select",
+   "label": "Visibility",
+   "default": "onHover",
+   "options": [
+    "onHover",
+    "alwaysVisible"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 8,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<div class=\"ctx-row\">\n  <span class=\"ctx-row__name\">Q3-report.pdf</span>\n  <button type=\"button\" class=\"ctx-action ctx-action--{{visibility}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n    <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 20l1-4L15 6l3 3L8 19l-4 1z\"/><path d=\"M14 6l3 3\"/></svg> {{label}}\n  </button>\n</div>\n<style>\n.ctx-row {\n  display: flex; align-items: center; justify-content: space-between;\n  padding: 12px 14px; border: 1px solid rgba(36,20,48,.15);\n  font: 500 14px/1 system-ui, sans-serif; color: #241430;\n}\n.ctx-action {\n  display: inline-flex; align-items: center; gap: 6px;\n  font: 600 13px/1 system-ui, sans-serif;\n  padding: 7px 12px;\n  border: 1px solid var(--bg);\n  background: transparent;\n  color: var(--bg);\n  cursor: pointer;\n}\n.ctx-action--onHover { opacity: 0; transition: opacity .12s ease; }\n.ctx-row:hover .ctx-action--onHover,\n.ctx-action--onHover:focus-visible { opacity: 1; }\n.ctx-action:hover:not(:disabled) { background: rgba(36,20,48,.08); }\n.ctx-action:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.ctx-action:disabled { opacity: .35; cursor: not-allowed; }\n</style>",
+  "tailwind": "<div class=\"group flex items-center justify-between px-3.5 py-3 text-sm font-medium text-[#241430]\" style=\"border:1px solid rgba(36,20,48,.15)\">\n  <span>Q3-report.pdf</span>\n  <button type=\"button\" class=\"inline-flex items-center gap-1.5 px-3 py-1.75 text-xs font-semibold bg-transparent cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed group-hover:opacity-100 ctx-action-tw ctx-action-tw--{{visibility}}\" style=\"border:1px solid {{bg}};color:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n    <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 20l1-4L15 6l3 3L8 19l-4 1z\"/><path d=\"M14 6l3 3\"/></svg> {{label}}\n  </button>\n</div>\n<style>\n.ctx-action-tw--onHover { opacity: 0; transition: opacity .12s ease; }\n.group:hover .ctx-action-tw--onHover, .ctx-action-tw--onHover:focus-visible { opacity: 1; }\n.ctx-action-tw--{{visibility}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function ContextualActionButton({\n  label = \"{{label}}\",\n  visibility = \"{{visibility}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const alwaysVisible = visibility === \"alwaysVisible\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"12px 14px\", border: \"1px solid rgba(36,20,48,.15)\", font: \"500 14px/1 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span>Q3-report.pdf</span>\n      <button\n        type=\"button\"\n        disabled={disabled}\n        className={alwaysVisible ? \"\" : \"reveal-on-hover\"}\n        style={{\n          display: \"inline-flex\",\n          alignItems: \"center\",\n          gap: 6,\n          padding: \"7px 12px\",\n          borderRadius: radius,\n          border: `1px solid ${bg}`,\n          background: \"transparent\",\n          color: bg,\n          font: \"600 13px/1 system-ui, sans-serif\",\n          cursor: disabled ? \"not-allowed\" : \"pointer\",\n          opacity: alwaysVisible ? 1 : undefined,\n        }}\n      >\n        <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden=\"true\">\n          <path d=\"M4 20l1-4L15 6l3 3L8 19l-4 1z\" /><path d=\"M14 6l3 3\" />\n        </svg>\n        {label}\n      </button>\n    </div>\n  );\n}"
+ }
+}

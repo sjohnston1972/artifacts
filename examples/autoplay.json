@@ -1,0 +1,41 @@
+{
+  "slug": "autoplay",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Looping preview — muted by default so it can autoplay."
+    },
+    {
+      "id": "autoplay",
+      "type": "toggle",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "id": "muted",
+      "type": "toggle",
+      "label": "Muted",
+      "default": true
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"autoplay-demo\" style=\"border-color:{{accent}};\">\n  <video class=\"autoplay-demo__video\" {{#if autoplay}}autoplay{{/if}} {{#if muted}}muted{{/if}} {{#if loop}}loop{{/if}} playsinline poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='40' fill='%23E8A020'/%3E%3C/svg%3E\" aria-label=\"Autoplay video demo (no audio track)\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n  </video>\n  <figcaption class=\"autoplay-demo__caption\" style=\"color:{{accent}};\">{{caption}}</figcaption>\n</figure>\n<style>\n.autoplay-demo { margin: 0; max-width: 360px; padding: 4px; border: 2px solid; border-radius: 12px; background: #241430; }\n.autoplay-demo__video { display: block; width: 100%; border-radius: 8px; background: #241430; }\n.autoplay-demo__caption { margin: 8px 4px 2px; font: 500 12px/1.4 system-ui, sans-serif; }\n</style>",
+    "tailwind": "<figure class=\"autoplay-demo-tw m-0 max-w-[360px] p-1 border-2 rounded-xl bg-[#241430]\" style=\"border-color:{{accent}};\">\n  <video class=\"block w-full rounded-lg bg-[#241430]\" {{#if autoplay}}autoplay{{/if}} {{#if muted}}muted{{/if}} {{#if loop}}loop{{/if}} playsinline poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='40' fill='%23E8A020'/%3E%3C/svg%3E\" aria-label=\"Autoplay video demo (no audio track)\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n  </video>\n  <figcaption class=\"mt-2 mx-1 text-xs font-medium\" style=\"color:{{accent}};\">{{caption}}</figcaption>\n</figure>",
+    "react": "export function AutoplayDemo({\n  caption = \"{{caption}}\",\n  autoplay = {{autoplay}},\n  muted = {{muted}},\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <figure style={{ margin: 0, maxWidth: 360, padding: 4, border: \"2px solid\", borderColor: accent,\n      borderRadius: 12, background: \"#241430\" }}>\n      <video\n        style={{ display: \"block\", width: \"100%\", borderRadius: 8, background: \"#241430\" }}\n        autoPlay={autoplay}\n        muted={muted}\n        loop={loop}\n        playsInline\n        poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='40' fill='%23E8A020'/%3E%3C/svg%3E\"\n        aria-label=\"Autoplay video demo (no audio track)\"\n      >\n        {/* Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\" /> for playback */}\n      </video>\n      <figcaption style={{ margin: \"8px 4px 2px\", font: \"500 12px/1.4 system-ui, sans-serif\", color: accent }}>\n        {caption}\n      </figcaption>\n    </figure>\n  );\n}"
+  }
+}

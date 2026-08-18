@@ -1,0 +1,56 @@
+{
+  "slug": "action-sheet",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Share photo"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "grouped",
+      "options": [
+        "grouped",
+        "flat",
+        "cards"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Delete colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 360,
+      "min": 280,
+      "max": 480,
+      "step": 20
+    },
+    {
+      "id": "backdrop",
+      "type": "toggle",
+      "label": "Show backdrop",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"as-demo\">\n  {{#if backdrop}}<div class=\"as-backdrop\"></div>{{/if}}\n  <div class=\"as-sheet as-sheet--{{variant}}\" style=\"width:{{width}}px;\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"as-title\">\n    <div class=\"as-handle\" aria-hidden=\"true\"></div>\n    <h3 id=\"as-title\" class=\"as-title\">{{title}}</h3>\n    <div class=\"as-actions\">\n      <button type=\"button\" class=\"as-action\">Save image</button>\n      <button type=\"button\" class=\"as-action\">Copy link</button>\n      <button type=\"button\" class=\"as-action as-action--accent\" style=\"color:{{accent}};\">Delete</button>\n    </div>\n    <button type=\"button\" class=\"as-cancel\">Cancel</button>\n  </div>\n</div>\n<style>\n.as-demo { position: relative; min-height: 440px; display: flex; align-items: flex-end; justify-content: center; padding: 20px; box-sizing: border-box; border-radius: 12px; background: linear-gradient(135deg, #BFD9F2, #D9C8F0); }\n.as-backdrop { position: absolute; inset: 0; background: rgba(36,20,48,.45); }\n.as-sheet { position: relative; z-index: 1; margin: 0 auto; font: 16px/1.4 system-ui, sans-serif; color: #241430; box-sizing: border-box; }\n.as-handle { width: 36px; height: 4px; border-radius: 2px; background: #24143033; margin: 0 auto 10px; }\n.as-title { margin: 0 0 10px; text-align: center; font-size: 13px; font-weight: 600; color: #24143099; text-transform: uppercase; letter-spacing: .04em; }\n.as-actions { background: #FAF7F2; border-radius: 14px; overflow: hidden; box-shadow: 0 -8px 28px rgba(36,20,48,.18); }\n.as-action { display: block; width: 100%; padding: 14px; border: none; border-bottom: 1px solid #24143014; background: none; font: 500 16px system-ui, sans-serif; color: #241430; cursor: pointer; text-align: center; }\n.as-action:last-child { border-bottom: none; }\n.as-action:hover, .as-action:focus-visible { background: #24143008; outline: none; }\n.as-cancel { display: block; width: 100%; margin-top: 8px; padding: 14px; border: none; border-radius: 14px; background: #FAF7F2; font: 600 16px system-ui, sans-serif; color: #241430; cursor: pointer; box-shadow: 0 -4px 16px rgba(36,20,48,.12); }\n.as-cancel:hover, .as-cancel:focus-visible { background: #f0ece3; outline: none; }\n.as-sheet--flat .as-actions { box-shadow: none; border: 1px solid #24143020; }\n.as-sheet--flat .as-action { border-bottom-color: #24143020; }\n.as-sheet--cards .as-actions { background: none; box-shadow: none; display: flex; flex-direction: column; gap: 8px; }\n.as-sheet--cards .as-action { background: #FAF7F2; border-radius: 12px; border-bottom: none; box-shadow: 0 2px 8px rgba(36,20,48,.10); }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[440px] flex items-end justify-center p-5 box-border rounded-xl\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\">\n  {{#if backdrop}}<div class=\"absolute inset-0 bg-[#241430]/45\"></div>{{/if}}\n  <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"as-tw-title\" class=\"as-tw as-tw--{{variant}} relative z-10 mx-auto font-sans text-[#241430] box-border\" style=\"width:{{width}}px;\">\n    <div aria-hidden=\"true\" class=\"w-9 h-1 rounded-full bg-[#24143033] mx-auto mb-2.5\"></div>\n    <h3 id=\"as-tw-title\" class=\"mb-2.5 text-center text-[13px] font-semibold uppercase tracking-wide text-[#241430]/60\">{{title}}</h3>\n    <div class=\"as-tw-actions bg-[#FAF7F2] rounded-2xl overflow-hidden shadow-[0_-8px_28px_rgba(36,20,48,.18)]\">\n      <button type=\"button\" class=\"as-tw-action block w-full text-center px-3.5 py-3.5 border-0 border-b border-[#24143014] bg-transparent font-medium text-base hover:bg-[#24143008] focus-visible:outline-none\">Save image</button>\n      <button type=\"button\" class=\"as-tw-action block w-full text-center px-3.5 py-3.5 border-0 border-b border-[#24143014] bg-transparent font-medium text-base hover:bg-[#24143008] focus-visible:outline-none\">Copy link</button>\n      <button type=\"button\" class=\"as-tw-action block w-full text-center px-3.5 py-3.5 border-0 bg-transparent font-medium text-base hover:bg-[#24143008] focus-visible:outline-none\" style=\"color:{{accent}}\">Delete</button>\n    </div>\n    <button type=\"button\" class=\"block w-full mt-2 px-3.5 py-3.5 border-0 rounded-2xl bg-[#FAF7F2] font-semibold text-base shadow-[0_-4px_16px_rgba(36,20,48,.12)] hover:bg-[#f0ece3] focus-visible:outline-none\">Cancel</button>\n  </div>\n</div>\n<style>\n.as-tw--flat .as-tw-actions { box-shadow: none; border: 1px solid #24143020; }\n.as-tw--flat .as-tw-action { border-bottom-color: #24143020; }\n.as-tw--cards .as-tw-actions { background: none; box-shadow: none; display: flex; flex-direction: column; gap: 8px; }\n.as-tw--cards .as-tw-action { background: #FAF7F2; border-radius: 12px; border-bottom: none; box-shadow: 0 2px 8px rgba(36,20,48,.10); }\n</style>",
+    "react": "export function ActionSheet({\n  title = \"{{title}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n  backdrop = {{backdrop}},\n}) {\n  const wrap = {\n    grouped: { boxShadow: \"0 -8px 28px rgba(36,20,48,.18)\" },\n    flat: { boxShadow: \"none\", border: \"1px solid #24143020\" },\n    cards: { background: \"none\", boxShadow: \"none\", display: \"flex\", flexDirection: \"column\", gap: 8 },\n  }[variant] ?? {};\n  const rowBorder = variant === \"cards\" ? \"none\" : (variant === \"flat\" ? \"1px solid #24143020\" : \"1px solid #24143014\");\n  const rowStyle = {\n    display: \"block\", width: \"100%\", padding: 14, border: \"none\",\n    borderBottom: rowBorder, background: variant === \"cards\" ? \"#FAF7F2\" : \"none\",\n    borderRadius: variant === \"cards\" ? 12 : 0,\n    boxShadow: variant === \"cards\" ? \"0 2px 8px rgba(36,20,48,.10)\" : \"none\",\n    font: \"500 16px system-ui, sans-serif\", color: \"#241430\", cursor: \"pointer\", textAlign: \"center\",\n  };\n  return (\n    <div style={{ position: \"relative\", minHeight: 440, display: \"flex\", alignItems: \"flex-end\",\n      justifyContent: \"center\", padding: 20, boxSizing: \"border-box\", borderRadius: 12,\n      background: \"linear-gradient(135deg, #BFD9F2, #D9C8F0)\" }}>\n      {backdrop && <div style={{ position: \"absolute\", inset: 0, background: \"rgba(36,20,48,.45)\" }} />}\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"as-title\" style={{ position: \"relative\",\n        zIndex: 1, width, margin: \"0 auto\", boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }}>\n        <div aria-hidden=\"true\" style={{ width: 36, height: 4, borderRadius: 2, background: \"#24143033\", margin: \"0 auto 10px\" }} />\n        <h3 id=\"as-title\" style={{ margin: \"0 0 10px\", textAlign: \"center\", fontSize: 13, fontWeight: 600,\n          color: \"#24143099\", textTransform: \"uppercase\", letterSpacing: \".04em\" }}>{title}</h3>\n        <div style={{ borderRadius: 14, overflow: \"hidden\", ...wrap }}>\n          <button type=\"button\" style={rowStyle}>Save image</button>\n          <button type=\"button\" style={rowStyle}>Copy link</button>\n          <button type=\"button\" style={{ ...rowStyle, color: accent }}>Delete</button>\n        </div>\n        <button type=\"button\" style={{ display: \"block\", width: \"100%\", marginTop: 8, padding: 14,\n          border: \"none\", borderRadius: 14, background: \"#FAF7F2\", fontWeight: 600, fontSize: 16,\n          cursor: \"pointer\", boxShadow: \"0 -4px 16px rgba(36,20,48,.12)\" }}>Cancel</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,55 @@
+{
+ "slug": "reset",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Reset"
+  },
+  {
+   "id": "variant",
+   "type": "select",
+   "label": "Variant",
+   "default": "bordered",
+   "options": [
+    "bordered",
+    "ghost"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<form class=\"reset-demo\">\n  <button type=\"reset\" class=\"btn-reset btn-reset--{{variant}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n</form>\n<style>\n.reset-demo { display: inline-block; }\n.btn-reset {\n  font: 600 15px/1 system-ui, sans-serif;\n  padding: 11px 20px;\n  border: 2px solid var(--bg);\n  background: transparent;\n  color: var(--bg);\n  cursor: pointer;\n}\n.btn-reset--ghost { border-color: transparent; }\n.btn-reset:hover:not(:disabled) { background: rgba(36,20,48,.08); }\n.btn-reset:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-reset:disabled { opacity: .45; cursor: not-allowed; }\n</style>",
+  "tailwind": "<form class=\"inline-block\">\n  <button type=\"reset\" class=\"px-5 py-2.75 text-sm font-semibold bg-transparent cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed hover:bg-black/5 btn-reset-tw btn-reset-tw--{{variant}}\" style=\"border:2px solid {{bg}};color:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n</form>\n<style>\n.btn-reset-tw--ghost { border-color: transparent !important; }\n.btn-reset-tw--{{variant}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function ResetButton({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const ghost = variant === \"ghost\";\n  return (\n    <form style={{ display: \"inline-block\" }}>\n      <button\n        type=\"reset\"\n        disabled={disabled}\n        style={{\n          padding: \"11px 20px\",\n          borderRadius: radius,\n          border: `2px solid ${ghost ? \"transparent\" : bg}`,\n          background: \"transparent\",\n          color: bg,\n          font: \"600 15px/1 system-ui, sans-serif\",\n          cursor: disabled ? \"not-allowed\" : \"pointer\",\n          opacity: disabled ? 0.45 : 1,\n        }}\n      >\n        {label}\n      </button>\n    </form>\n  );\n}"
+ }
+}

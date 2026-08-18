@@ -1,0 +1,62 @@
+{
+  "slug": "command-palette",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Quick actions"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Search text",
+      "default": "new"
+    },
+    {
+      "id": "activeRow",
+      "type": "select",
+      "label": "Selected row",
+      "default": "new-file",
+      "options": [
+        "new-file",
+        "share",
+        "settings"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 420,
+      "min": 320,
+      "max": 640,
+      "step": 20
+    },
+    {
+      "id": "backdrop",
+      "type": "toggle",
+      "label": "Show backdrop",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cmdk-demo{{#if backdrop}} cmdk-demo--backdrop{{/if}}\">\n  <div class=\"cmdk\" style=\"width:{{width}}px;\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cmdk-title\">\n    <div class=\"cmdk__header\" id=\"cmdk-title\">{{label}}</div>\n    <div class=\"cmdk__search\">\n      <svg class=\"cmdk__search-icon\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" width=\"16\" height=\"16\"><circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"></circle><line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"></line></svg>\n      <input class=\"cmdk__input\" type=\"text\" value=\"{{query}}\" aria-label=\"{{label}}\" readonly />\n    </div>\n    <ul class=\"cmdk__list cmdk__list--{{activeRow}}\" role=\"listbox\" aria-label=\"Matching commands\">\n      <li class=\"cmdk__row\" data-cmd=\"new-file\" role=\"option\" aria-selected=\"true\">\n        <span class=\"cmdk__row-icon\" aria-hidden=\"true\">＋</span>\n        <span class=\"cmdk__row-label\">New file</span>\n        <span class=\"cmdk__row-kbd\">⌘N</span>\n      </li>\n      <li class=\"cmdk__row\" data-cmd=\"share\" role=\"option\" aria-selected=\"false\">\n        <span class=\"cmdk__row-icon\" aria-hidden=\"true\">↗</span>\n        <span class=\"cmdk__row-label\">Share document</span>\n        <span class=\"cmdk__row-kbd\">⌘S</span>\n      </li>\n      <li class=\"cmdk__row\" data-cmd=\"settings\" role=\"option\" aria-selected=\"false\">\n        <span class=\"cmdk__row-icon\" aria-hidden=\"true\">⚙</span>\n        <span class=\"cmdk__row-label\">Settings</span>\n        <span class=\"cmdk__row-kbd\">⌘,</span>\n      </li>\n    </ul>\n    <button type=\"button\" class=\"cmdk__close\" style=\"color:{{accent}};\" aria-label=\"Close command palette\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.cmdk-demo { display: grid; place-items: center; min-height: 320px; border-radius: 12px; padding: 24px; box-sizing: border-box; }\n.cmdk-demo--backdrop { background: rgba(36,20,48,.45); }\n.cmdk { position: relative; font: 15px/1.5 system-ui, sans-serif; background: #FAF7F2; color: #241430; border-radius: 14px; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 18px; box-sizing: border-box; }\n.cmdk__header { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #241430aa; margin-bottom: 10px; }\n.cmdk__search { display: flex; align-items: center; gap: 8px; border: 1.5px solid #24143025; border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; }\n.cmdk__search-icon { color: #24143080; flex-shrink: 0; }\n.cmdk__input { border: none; outline: none; background: none; font: inherit; color: inherit; width: 100%; }\n.cmdk__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }\n.cmdk__row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; }\n.cmdk__row-icon { width: 18px; text-align: center; }\n.cmdk__row-label { flex: 1; }\n.cmdk__row-kbd { font-size: 11px; color: #24143099; border: 1px solid #24143025; border-radius: 4px; padding: 1px 5px; }\n.cmdk__list--new-file .cmdk__row[data-cmd=\"new-file\"],\n.cmdk__list--share .cmdk__row[data-cmd=\"share\"],\n.cmdk__list--settings .cmdk__row[data-cmd=\"settings\"] { background: #BFD9F233; }\n.cmdk__close { position: absolute; top: 14px; right: 14px; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; }\n.cmdk__close:focus-visible, .cmdk__row:focus-within { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"grid place-items-center min-h-[320px] rounded-xl p-6 box-border{{#if backdrop}} bg-[#241430]/45{{/if}}\">\n  <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cmdk-tw-title\" class=\"cmdk-tw relative font-sans text-[15px] leading-relaxed bg-[#FAF7F2] text-[#241430] rounded-2xl shadow-2xl p-[18px] box-border\" style=\"width:{{width}}px;\">\n    <div id=\"cmdk-tw-title\" class=\"text-xs font-bold tracking-wide uppercase text-[#241430]/70 mb-2.5\">{{label}}</div>\n    <div class=\"flex items-center gap-2 border-[1.5px] border-[#24143025] rounded-lg px-3 py-2.5 mb-2.5\">\n      <svg class=\"text-[#241430]/50 shrink-0\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" width=\"16\" height=\"16\"><circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"></circle><line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"></line></svg>\n      <input class=\"border-none outline-none bg-transparent w-full\" type=\"text\" value=\"{{query}}\" aria-label=\"{{label}}\" readonly />\n    </div>\n    <ul class=\"cmdk-tw-list cmdk-tw-list--{{activeRow}} list-none m-0 p-0 flex flex-col gap-0.5\" role=\"listbox\" aria-label=\"Matching commands\">\n      <li class=\"flex items-center gap-2.5 px-2.5 py-2.5 rounded-lg\" data-cmd=\"new-file\" role=\"option\" aria-selected=\"true\">\n        <span class=\"w-[18px] text-center\" aria-hidden=\"true\">＋</span>\n        <span class=\"flex-1\">New file</span>\n        <span class=\"text-[11px] text-[#241430]/60 border border-[#24143025] rounded px-1.5 py-0.5\">⌘N</span>\n      </li>\n      <li class=\"flex items-center gap-2.5 px-2.5 py-2.5 rounded-lg\" data-cmd=\"share\" role=\"option\" aria-selected=\"false\">\n        <span class=\"w-[18px] text-center\" aria-hidden=\"true\">↗</span>\n        <span class=\"flex-1\">Share document</span>\n        <span class=\"text-[11px] text-[#241430]/60 border border-[#24143025] rounded px-1.5 py-0.5\">⌘S</span>\n      </li>\n      <li class=\"flex items-center gap-2.5 px-2.5 py-2.5 rounded-lg\" data-cmd=\"settings\" role=\"option\" aria-selected=\"false\">\n        <span class=\"w-[18px] text-center\" aria-hidden=\"true\">⚙</span>\n        <span class=\"flex-1\">Settings</span>\n        <span class=\"text-[11px] text-[#241430]/60 border border-[#24143025] rounded px-1.5 py-0.5\">⌘,</span>\n      </li>\n    </ul>\n    <button type=\"button\" class=\"absolute top-3.5 right-3.5 bg-transparent border-none cursor-pointer p-1 rounded-md\" style=\"color:{{accent}};\" aria-label=\"Close command palette\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.cmdk-tw-list--new-file li[data-cmd=\"new-file\"],\n.cmdk-tw-list--share li[data-cmd=\"share\"],\n.cmdk-tw-list--settings li[data-cmd=\"settings\"] { background: #BFD9F233; }\n</style>",
+    "react": "export function CommandPalette({\n  label = \"{{label}}\",\n  query = \"{{query}}\",\n  activeRow = \"{{activeRow}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n  backdrop = {{backdrop}},\n}) {\n  const rows = [\n    { id: \"new-file\", icon: \"＋\", text: \"New file\", kbd: \"⌘N\" },\n    { id: \"share\", icon: \"↗\", text: \"Share document\", kbd: \"⌘S\" },\n    { id: \"settings\", icon: \"⚙\", text: \"Settings\", kbd: \"⌘,\" },\n  ];\n  return (\n    <div style={{ display: \"grid\", placeItems: \"center\", minHeight: 320, borderRadius: 12, padding: 24, boxSizing: \"border-box\",\n      background: backdrop ? \"rgba(36,20,48,.45)\" : \"transparent\" }}>\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"cmdk-title\" style={{ position: \"relative\", width, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\",\n        background: \"#FAF7F2\", color: \"#241430\", borderRadius: 14, boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: 18 }}>\n        <div id=\"cmdk-title\" style={{ fontSize: 12, fontWeight: 700, letterSpacing: \".04em\", textTransform: \"uppercase\", color: \"#241430aa\", marginBottom: 10 }}>{label}</div>\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, border: \"1.5px solid #24143025\", borderRadius: 8, padding: \"9px 12px\", marginBottom: 10 }}>\n          <svg aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" style={{ color: \"#24143080\", flexShrink: 0 }}>\n            <circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" />\n            <line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" />\n          </svg>\n          <input type=\"text\" value={query} aria-label={label} readOnly style={{ border: \"none\", outline: \"none\", background: \"none\", font: \"inherit\", color: \"inherit\", width: \"100%\" }} />\n        </div>\n        <ul role=\"listbox\" aria-label=\"Matching commands\" style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n          {rows.map((row) => (\n            <li key={row.id} role=\"option\" aria-selected={row.id === activeRow} style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"9px 10px\", borderRadius: 8,\n              background: row.id === activeRow ? \"#BFD9F233\" : \"transparent\" }}>\n              <span aria-hidden=\"true\" style={{ width: 18, textAlign: \"center\" }}>{row.icon}</span>\n              <span style={{ flex: 1 }}>{row.text}</span>\n              <span style={{ fontSize: 11, color: \"#24143099\", border: \"1px solid #24143025\", borderRadius: 4, padding: \"1px 5px\" }}>{row.kbd}</span>\n            </li>\n          ))}\n        </ul>\n        <button type=\"button\" aria-label=\"Close command palette\" style={{ position: \"absolute\", top: 14, right: 14, background: \"none\", border: \"none\", cursor: \"pointer\", padding: 4, borderRadius: 6, color: accent }}>\n          <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\">\n            <line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n            <line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n          </svg>\n        </button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

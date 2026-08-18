@@ -1,0 +1,50 @@
+{
+ "slug": "bulk-action",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Delete"
+  },
+  {
+   "id": "count",
+   "type": "number",
+   "label": "Selected rows",
+   "default": 4,
+   "min": 0,
+   "max": 500,
+   "step": 1
+  },
+  {
+   "id": "tone",
+   "type": "select",
+   "label": "Tone",
+   "default": "neutral",
+   "options": [
+    "neutral",
+    "destructive"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 8,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-bulk btn-bulk--{{tone}}\" style=\"border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  {{label}} <span class=\"btn-bulk__count\">{{count}} selected</span>\n</button>\n<style>\n.btn-bulk {\n  font: 600 14px/1 system-ui, sans-serif;\n  padding: 10px 16px;\n  border: 2px solid #241430;\n  background: transparent;\n  color: #241430;\n  cursor: pointer;\n  display: inline-flex; align-items: center; gap: 8px;\n}\n.btn-bulk--destructive { border-color: #C23B3B; color: #C23B3B; }\n.btn-bulk:hover:not(:disabled) { background: rgba(36,20,48,.08); }\n.btn-bulk--destructive:hover:not(:disabled) { background: rgba(194,59,59,.08); }\n.btn-bulk:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-bulk:disabled { opacity: .4; cursor: not-allowed; }\n.btn-bulk__count {\n  font-weight: 500; opacity: .7; font-size: 12px;\n  padding: 2px 7px; border-radius: 999px; background: rgba(36,20,48,.08);\n}\n.btn-bulk--destructive .btn-bulk__count { background: rgba(194,59,59,.1); }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-2 bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed btn-bulk-tw btn-bulk-tw--{{tone}}\" style=\"border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  {{label}} <span class=\"text-xs font-medium opacity-70 px-1.5 py-0.5 rounded-full btn-bulk-tw__count\">{{count}} selected</span>\n</button>\n<style>\n.btn-bulk-tw--neutral { border-color: #241430; color: #241430; }\n.btn-bulk-tw--neutral:hover:not(:disabled) { background: rgba(36,20,48,.08); }\n.btn-bulk-tw--neutral .btn-bulk-tw__count { background: rgba(36,20,48,.08); }\n.btn-bulk-tw--destructive { border-color: #C23B3B; color: #C23B3B; }\n.btn-bulk-tw--destructive:hover:not(:disabled) { background: rgba(194,59,59,.08); }\n.btn-bulk-tw--destructive .btn-bulk-tw__count { background: rgba(194,59,59,.1); }\n.btn-bulk-tw--{{tone}}:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function BulkActionButton({\n  label = \"{{label}}\",\n  count = {{count}},\n  tone = \"{{tone}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const destructive = tone === \"destructive\";\n  const accent = destructive ? \"#C23B3B\" : \"#241430\";\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      style={{\n        display: \"inline-flex\",\n        alignItems: \"center\",\n        gap: 8,\n        padding: \"10px 16px\",\n        borderRadius: radius,\n        border: `2px solid ${accent}`,\n        background: \"transparent\",\n        color: accent,\n        font: \"600 14px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.4 : 1,\n      }}\n    >\n      {label}\n      <span\n        style={{\n          fontSize: 12,\n          fontWeight: 500,\n          opacity: 0.8,\n          padding: \"2px 7px\",\n          borderRadius: 999,\n          background: destructive ? \"rgba(194,59,59,.1)\" : \"rgba(36,20,48,.08)\",\n        }}\n      >\n        {count} selected\n      </span>\n    </button>\n  );\n}"
+ }
+}

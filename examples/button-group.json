@@ -1,0 +1,55 @@
+{
+ "slug": "button-group",
+ "controls_schema": [
+  {
+   "id": "groupLabel",
+   "type": "text",
+   "label": "Group label",
+   "default": "View"
+  },
+  {
+   "id": "active",
+   "type": "toggle",
+   "label": "Grid view active",
+   "default": false
+  },
+  {
+   "id": "orientation",
+   "type": "select",
+   "label": "Orientation",
+   "default": "horizontal",
+   "options": [
+    "horizontal",
+    "vertical"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  }
+ ],
+ "templates": {
+  "html": "<div class=\"btn-grp btn-grp--{{orientation}}\" role=\"group\" aria-label=\"{{groupLabel}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\">\n  <button type=\"button\" class=\"btn-grp__item\" aria-pressed=\"{{#if active}}false{{/if}}{{#unless active}}true{{/unless}}\">List</button>\n  <button type=\"button\" class=\"btn-grp__item\" aria-pressed=\"{{active}}\">Grid</button>\n</div>\n<style>\n.btn-grp { display: inline-flex; border: 2px solid var(--bg); overflow: hidden; }\n.btn-grp--vertical { flex-direction: column; }\n.btn-grp__item {\n  font: 600 14px/1 system-ui, sans-serif;\n  padding: 10px 18px;\n  border: none;\n  background: transparent;\n  color: var(--bg);\n  cursor: pointer;\n}\n.btn-grp--horizontal .btn-grp__item + .btn-grp__item { border-left: 2px solid var(--bg); }\n.btn-grp--vertical .btn-grp__item + .btn-grp__item { border-top: 2px solid var(--bg); }\n.btn-grp__item[aria-pressed=\"true\"] { background: var(--bg); color: #FAF7F2; }\n.btn-grp__item:hover:not([aria-pressed=\"true\"]) { background: rgba(36,20,48,.08); }\n.btn-grp__item:focus-visible { outline:2px solid #241430;outline-offset:2px; position: relative; z-index: 1; }\n</style>",
+  "tailwind": "<div class=\"inline-flex overflow-hidden btn-grp-tw btn-grp-tw--{{orientation}}\" role=\"group\" aria-label=\"{{groupLabel}}\" style=\"border:2px solid {{bg}};border-radius:{{radius}}px\">\n  <button type=\"button\" class=\"px-4.5 py-2.5 text-sm font-semibold bg-transparent cursor-pointer btn-grp-tw__item\" style=\"color:{{bg}}\" aria-pressed=\"{{#if active}}false{{/if}}{{#unless active}}true{{/unless}}\">List</button>\n  <button type=\"button\" class=\"px-4.5 py-2.5 text-sm font-semibold bg-transparent cursor-pointer btn-grp-tw__item\" style=\"color:{{bg}}\" aria-pressed=\"{{active}}\">Grid</button>\n</div>\n<style>\n.btn-grp-tw--vertical { flex-direction: column; }\n.btn-grp-tw--horizontal .btn-grp-tw__item + .btn-grp-tw__item { border-left: 2px solid {{bg}}; }\n.btn-grp-tw--vertical .btn-grp-tw__item + .btn-grp-tw__item { border-top: 2px solid {{bg}}; }\n.btn-grp-tw__item[aria-pressed=\"true\"] { background: {{bg}}; color: #FAF7F2; }\n.btn-grp-tw__item:hover:not([aria-pressed=\"true\"]) { background: rgba(36,20,48,.08); }\n.btn-grp-tw__item:focus-visible { outline:2px solid #241430;outline-offset:2px; position: relative; z-index: 1; }\n</style>",
+  "react": "export function ButtonGroup({\n  groupLabel = \"{{groupLabel}}\",\n  active = {{active}},\n  orientation = \"{{orientation}}\",\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n}) {\n  const itemStyle = (pressed) => ({\n    padding: \"10px 18px\",\n    border: \"none\",\n    background: pressed ? bg : \"transparent\",\n    color: pressed ? \"#FAF7F2\" : bg,\n    font: \"600 14px/1 system-ui, sans-serif\",\n    cursor: \"pointer\",\n  });\n  return (\n    <div\n      role=\"group\"\n      aria-label={groupLabel}\n      style={{\n        display: \"inline-flex\",\n        flexDirection: orientation === \"vertical\" ? \"column\" : \"row\",\n        border: `2px solid ${bg}`,\n        borderRadius: radius,\n        overflow: \"hidden\",\n      }}\n    >\n      <button type=\"button\" aria-pressed={!active} style={itemStyle(!active)}>List</button>\n      <button type=\"button\" aria-pressed={active} style={itemStyle(active)}>Grid</button>\n    </div>\n  );\n}"
+ }
+}

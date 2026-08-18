@@ -1,0 +1,62 @@
+{
+  "slug": "dialog",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Rename project"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Description",
+      "default": "Choose a new name that teammates will recognise."
+    },
+    {
+      "id": "fieldValue",
+      "type": "text",
+      "label": "Field value",
+      "default": "Untitled project"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "form",
+      "options": [
+        "form",
+        "info",
+        "success"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 400,
+      "min": 300,
+      "max": 560,
+      "step": 20
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dlg-demo\">\n  <div class=\"dlg dlg--{{variant}}\" style=\"width:{{width}}px;\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"dlg-title\">\n    <h3 class=\"dlg__title\" id=\"dlg-title\">{{title}}</h3>\n    <p class=\"dlg__desc\">{{description}}</p>\n    <label class=\"dlg__label\" for=\"dlg-field\">Name</label>\n    <input class=\"dlg__field\" id=\"dlg-field\" type=\"text\" value=\"{{fieldValue}}\" />\n    <div class=\"dlg__actions\">\n      <button type=\"button\" class=\"dlg__btn dlg__btn--ghost\">Cancel</button>\n      <button type=\"button\" class=\"dlg__btn dlg__btn--solid\" style=\"background:{{accent}};border-color:{{accent}};\">Save changes</button>\n    </div>\n    <button type=\"button\" class=\"dlg__close\" aria-label=\"Close\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.dlg-demo { display: grid; place-items: center; min-height: 280px; border-radius: 12px; padding: 24px; box-sizing: border-box; background: rgba(36,20,48,.3); }\n.dlg { position: relative; font: 15px/1.5 system-ui, sans-serif; background: #FAF7F2; color: #241430; border-radius: 14px; border-left: 6px solid; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 24px; box-sizing: border-box; }\n.dlg--form { border-left-color: #D9C8F0; }\n.dlg--info { border-left-color: #BFD9F2; }\n.dlg--success { border-left-color: #A8E6C1; }\n.dlg__title { margin: 0 0 8px; font-size: 18px; font-weight: 600; }\n.dlg__desc { margin: 0 0 16px; font-size: 13.5px; color: #241430cc; }\n.dlg__label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; }\n.dlg__field { width: 100%; box-sizing: border-box; font: inherit; padding: 9px 11px; border-radius: 8px; border: 1.5px solid #24143030; margin-bottom: 20px; background: #FAF7F2; color: #241430; }\n.dlg__field:focus-visible { outline: 2px solid #241430; outline-offset: 1px; }\n.dlg__actions { display: flex; justify-content: flex-end; gap: 10px; }\n.dlg__btn { font: 500 14px system-ui, sans-serif; padding: 9px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; }\n.dlg__btn--ghost { background: transparent; border-color: #24143033; color: #241430; }\n.dlg__btn--solid { color: #FAF7F2; }\n.dlg__btn:focus-visible, .dlg__close:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.dlg__close { position: absolute; top: 14px; right: 14px; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"grid place-items-center min-h-[280px] rounded-xl p-6 box-border bg-[#241430]/30\">\n  <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"dlg-tw-title\" class=\"dlg-tw dlg-tw--{{variant}} relative font-sans text-[15px] leading-relaxed bg-[#FAF7F2] text-[#241430] rounded-2xl border-l-[6px] shadow-2xl p-6 box-border\" style=\"width:{{width}}px;\">\n    <h3 id=\"dlg-tw-title\" class=\"mb-2 text-lg font-semibold\">{{title}}</h3>\n    <p class=\"mb-4 text-[13.5px] text-[#241430]/80\">{{description}}</p>\n    <label for=\"dlg-tw-field\" class=\"block text-xs font-semibold mb-1.5\">Name</label>\n    <input id=\"dlg-tw-field\" type=\"text\" value=\"{{fieldValue}}\" class=\"w-full box-border px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] mb-5 bg-[#FAF7F2] text-[#241430]\" />\n    <div class=\"flex justify-end gap-2.5\">\n      <button type=\"button\" class=\"px-4 py-2 rounded-lg text-sm font-medium border border-[#24143033]\">Cancel</button>\n      <button type=\"button\" class=\"px-4 py-2 rounded-lg text-sm font-medium text-[#FAF7F2]\" style=\"background:{{accent}};border-color:{{accent}}\">Save changes</button>\n    </div>\n    <button type=\"button\" class=\"absolute top-3.5 right-3.5 bg-transparent border-none cursor-pointer p-1 rounded-md text-[#24143099]\" aria-label=\"Close\">\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line><line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"></line></svg>\n    </button>\n  </div>\n</div>\n<style>\n.dlg-tw--form { border-left-color: #D9C8F0; }\n.dlg-tw--info { border-left-color: #BFD9F2; }\n.dlg-tw--success { border-left-color: #A8E6C1; }\n</style>",
+    "react": "export function Dialog({\n  title = \"{{title}}\",\n  description = \"{{description}}\",\n  fieldValue = \"{{fieldValue}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  width = {{width}},\n}) {\n  const stripe = { form: \"#D9C8F0\", info: \"#BFD9F2\", success: \"#A8E6C1\" }[variant] ?? accent;\n  return (\n    <div style={{ display: \"grid\", placeItems: \"center\", minHeight: 280, borderRadius: 12, padding: 24, boxSizing: \"border-box\", background: \"rgba(36,20,48,.3)\" }}>\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"dlg-title\" style={{ position: \"relative\", width, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\",\n        background: \"#FAF7F2\", color: \"#241430\", borderRadius: 14, borderLeft: `6px solid ${stripe}`, boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: 24 }}>\n        <h3 id=\"dlg-title\" style={{ margin: \"0 0 8px\", fontSize: 18, fontWeight: 600 }}>{title}</h3>\n        <p style={{ margin: \"0 0 16px\", fontSize: 13.5, color: \"#241430cc\" }}>{description}</p>\n        <label htmlFor=\"dlg-field\" style={{ display: \"block\", fontSize: 12, fontWeight: 600, marginBottom: 6 }}>Name</label>\n        <input id=\"dlg-field\" type=\"text\" defaultValue={fieldValue} style={{ width: \"100%\", boxSizing: \"border-box\", font: \"inherit\", padding: \"9px 11px\", borderRadius: 8, border: \"1.5px solid #24143030\", marginBottom: 20, background: \"#FAF7F2\", color: \"#241430\" }} />\n        <div style={{ display: \"flex\", justifyContent: \"flex-end\", gap: 10 }}>\n          <button type=\"button\">Cancel</button>\n          <button type=\"button\" style={{ background: accent, borderColor: accent, color: \"#FAF7F2\" }}>Save changes</button>\n        </div>\n        <button type=\"button\" aria-label=\"Close\" style={{ position: \"absolute\", top: 14, right: 14, background: \"none\", border: \"none\", cursor: \"pointer\", padding: 4, borderRadius: 6, color: \"#24143099\" }}>\n          <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\">\n            <line x1=\"4\" y1=\"4\" x2=\"16\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n            <line x1=\"16\" y1=\"4\" x2=\"4\" y2=\"16\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />\n          </svg>\n        </button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

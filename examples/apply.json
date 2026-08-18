@@ -1,0 +1,54 @@
+{
+ "slug": "apply",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Label",
+   "default": "Apply"
+  },
+  {
+   "id": "count",
+   "type": "number",
+   "label": "Pending changes",
+   "default": 3,
+   "min": 0,
+   "max": 9,
+   "step": 1
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 10,
+   "min": 0,
+   "max": 24,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-apply\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  {{label}}\n  {{#if count}}<span class=\"btn-apply__badge\">{{count}}</span>{{/if}}\n</button>\n<style>\n.btn-apply {\n  position: relative;\n  font: 600 15px/1 system-ui, sans-serif;\n  padding: 11px 20px;\n  border: none;\n  background: var(--bg);\n  color: #FAF7F2;\n  cursor: pointer;\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n}\n.btn-apply:hover:not(:disabled) { filter: brightness(1.1); }\n.btn-apply:active:not(:disabled) { filter: brightness(0.92); }\n.btn-apply:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-apply:disabled { opacity: .45; cursor: not-allowed; }\n.btn-apply__badge {\n  display: inline-flex; align-items: center; justify-content: center;\n  min-width: 18px; height: 18px; padding: 0 5px;\n  border-radius: 999px;\n  background: #FAF7F2; color: var(--bg);\n  font: 700 11px/1 system-ui, sans-serif;\n}\n</style>",
+  "tailwind": "<button type=\"button\" class=\"inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-[#FAF7F2] border-none cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed hover:brightness-110 active:brightness-90 btn-apply-tw\" style=\"background:{{bg}};border-radius:{{radius}}px\"{{#if disabled}} disabled{{/if}}>\n  {{label}}\n  {{#if count}}<span class=\"inline-flex items-center justify-center min-w-[18px] h-[18px] px-1.5 rounded-full text-[11px] font-bold\" style=\"background:#FAF7F2;color:{{bg}}\">{{count}}</span>{{/if}}\n</button>\n<style>\n.btn-apply-tw:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function ApplyButton({\n  label = \"{{label}}\",\n  count = {{count}},\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button\n      type=\"button\"\n      disabled={disabled}\n      style={{\n        display: \"inline-flex\",\n        alignItems: \"center\",\n        gap: 8,\n        padding: \"11px 20px\",\n        border: \"none\",\n        borderRadius: radius,\n        background: bg,\n        color: \"#FAF7F2\",\n        font: \"600 15px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.45 : 1,\n      }}\n    >\n      {label}\n      {count > 0 && (\n        <span\n          style={{\n            display: \"inline-flex\",\n            alignItems: \"center\",\n            justifyContent: \"center\",\n            minWidth: 18,\n            height: 18,\n            padding: \"0 5px\",\n            borderRadius: 999,\n            background: \"#FAF7F2\",\n            color: bg,\n            font: \"700 11px/1 system-ui, sans-serif\",\n          }}\n        >\n          {count}\n        </span>\n      )}\n    </button>\n  );\n}"
+ }
+}

@@ -1,0 +1,61 @@
+{
+  "slug": "side-sheet",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Delivery details"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Detail text",
+      "default": "Orders ship within two working days from our Bristol warehouse."
+    },
+    {
+      "id": "side",
+      "type": "select",
+      "label": "Side",
+      "default": "right",
+      "options": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 300,
+      "min": 240,
+      "max": 420,
+      "step": 20
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "backdrop",
+      "type": "toggle",
+      "label": "Show backdrop",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sheet-demo\">\n  {{#if backdrop}}<div class=\"sheet-demo__scrim\"></div>{{/if}}\n  <div class=\"sheet-panel sheet-panel--{{side}}\" style=\"width:{{width}}px;border-color:{{accent}};\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"sheet-title\">\n    <div class=\"sheet-panel__head\">\n      <h3 class=\"sheet-panel__title\" id=\"sheet-title\">{{title}}</h3>\n      <button type=\"button\" class=\"sheet-panel__close\" aria-label=\"Close\">\n        <svg width=\"13\" height=\"13\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n    </div>\n    <section class=\"sheet-panel__section\">\n      <h4>Details</h4>\n      <p>{{body}}</p>\n    </section>\n    <section class=\"sheet-panel__section\">\n      <h4>Preferences</h4>\n      <p>Email updates, SMS reminders and calendar invites for this order.</p>\n    </section>\n    <div class=\"sheet-panel__actions\">\n      <button type=\"button\" class=\"sheet-panel__btn sheet-panel__btn--ghost\">Cancel</button>\n      <button type=\"button\" class=\"sheet-panel__btn sheet-panel__btn--solid\" style=\"background:{{accent}};border-color:{{accent}};\">Save</button>\n    </div>\n  </div>\n</div>\n<style>\n.sheet-demo { position: relative; min-height: 340px; overflow: hidden; border-radius: 12px; background: #FAF7F2; box-sizing: border-box; }\n.sheet-demo__scrim { position: absolute; inset: 0; background: rgba(36,20,48,.45); }\n.sheet-panel { position: absolute; top: 0; bottom: 0; background: #FAF7F2; color: #241430; box-shadow: 0 20px 44px rgba(36,20,48,.28); padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; font: 16px/1.5 system-ui, sans-serif; }\n.sheet-panel--right { right: 0; border-left: 5px solid; }\n.sheet-panel--left { left: 0; border-right: 5px solid; }\n.sheet-panel__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }\n.sheet-panel__title { margin: 0; font-size: 17px; font-weight: 600; }\n.sheet-panel__close { border: none; background: transparent; cursor: pointer; color: #241430; padding: 4px; border-radius: 6px; }\n.sheet-panel__close:focus-visible { outline: 2px solid #241430; outline-offset: 1px; }\n.sheet-panel__section { margin-bottom: 16px; }\n.sheet-panel__section h4 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #24143099; }\n.sheet-panel__section p { margin: 0; font-size: 14px; color: #241430cc; }\n.sheet-panel__actions { margin-top: auto; display: flex; justify-content: flex-end; gap: 10px; }\n.sheet-panel__btn { font: 500 14px system-ui, sans-serif; padding: 9px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; }\n.sheet-panel__btn--ghost { background: transparent; border-color: #24143033; color: #241430; }\n.sheet-panel__btn--solid { color: #241430; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[340px] overflow-hidden rounded-xl bg-[#FAF7F2] box-border\">\n  {{#if backdrop}}<div class=\"absolute inset-0 bg-[#241430]/45\"></div>{{/if}}\n  <div class=\"sheet-tw-panel sheet-tw-panel--{{side}} absolute top-0 bottom-0 bg-[#FAF7F2] text-[#241430] shadow-2xl p-5 box-border flex flex-col font-sans\" style=\"width:{{width}}px;border-color:{{accent}};\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"sheet-tw-title\">\n    <div class=\"flex items-start justify-between gap-3 mb-3.5\">\n      <h3 id=\"sheet-tw-title\" class=\"m-0 text-[17px] font-semibold\">{{title}}</h3>\n      <button type=\"button\" aria-label=\"Close\" class=\"border-0 bg-transparent cursor-pointer p-1 rounded-md text-[#241430]\">\n        <svg width=\"13\" height=\"13\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n    </div>\n    <section class=\"mb-4\">\n      <h4 class=\"m-0 mb-1 text-xs uppercase tracking-wide text-[#24143099]\">Details</h4>\n      <p class=\"m-0 text-sm text-[#241430]/80\">{{body}}</p>\n    </section>\n    <section class=\"mb-4\">\n      <h4 class=\"m-0 mb-1 text-xs uppercase tracking-wide text-[#24143099]\">Preferences</h4>\n      <p class=\"m-0 text-sm text-[#241430]/80\">Email updates, SMS reminders and calendar invites for this order.</p>\n    </section>\n    <div class=\"mt-auto flex justify-end gap-2.5\">\n      <button type=\"button\" class=\"px-4 py-2 rounded-lg text-sm font-medium border border-[#24143033]\">Cancel</button>\n      <button type=\"button\" class=\"px-4 py-2 rounded-lg text-sm font-medium\" style=\"background:{{accent}};border-color:{{accent}};\">Save</button>\n    </div>\n  </div>\n</div>\n<style>\n.sheet-tw-panel--right { right: 0; border-left: 5px solid; }\n.sheet-tw-panel--left { left: 0; border-right: 5px solid; }\n</style>",
+    "react": "export function SideSheet({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  side = \"{{side}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n  backdrop = {{backdrop}},\n}) {\n  const sideStyle = side === \"left\"\n    ? { left: 0, borderRight: `5px solid ${accent}` }\n    : { right: 0, borderLeft: `5px solid ${accent}` };\n  return (\n    <div style={{ position: \"relative\", minHeight: 340, overflow: \"hidden\", borderRadius: 12, background: \"#FAF7F2\", boxSizing: \"border-box\" }}>\n      {backdrop && <div style={{ position: \"absolute\", inset: 0, background: \"rgba(36,20,48,.45)\" }} />}\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"sheet-title\" style={{ position: \"absolute\", top: 0, bottom: 0,\n        width, background: \"#FAF7F2\", color: \"#241430\", boxShadow: \"0 20px 44px rgba(36,20,48,.28)\", padding: 20,\n        boxSizing: \"border-box\", display: \"flex\", flexDirection: \"column\", fontFamily: \"system-ui, sans-serif\", ...sideStyle }}>\n        <div style={{ display: \"flex\", alignItems: \"flex-start\", justifyContent: \"space-between\", gap: 12, marginBottom: 14 }}>\n          <h3 id=\"sheet-title\" style={{ margin: 0, fontSize: 17, fontWeight: 600 }}>{title}</h3>\n          <button type=\"button\" aria-label=\"Close\" style={{ border: \"none\", background: \"transparent\", cursor: \"pointer\",\n            color: \"#241430\", padding: 4, borderRadius: 6 }}>\n            <svg width=\"13\" height=\"13\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1 1l10 10M11 1L1 11\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n          </button>\n        </div>\n        <section style={{ marginBottom: 16 }}>\n          <h4 style={{ margin: \"0 0 4px\", fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#24143099\" }}>Details</h4>\n          <p style={{ margin: 0, fontSize: 14, color: \"#241430cc\" }}>{body}</p>\n        </section>\n        <section style={{ marginBottom: 16 }}>\n          <h4 style={{ margin: \"0 0 4px\", fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#24143099\" }}>Preferences</h4>\n          <p style={{ margin: 0, fontSize: 14, color: \"#241430cc\" }}>Email updates, SMS reminders and calendar invites for this order.</p>\n        </section>\n        <div style={{ marginTop: \"auto\", display: \"flex\", justifyContent: \"flex-end\", gap: 10 }}>\n          <button type=\"button\">Cancel</button>\n          <button type=\"button\" style={{ background: accent, borderColor: accent, color: \"#241430\" }}>Save</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

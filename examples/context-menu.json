@@ -1,0 +1,42 @@
+{
+  "slug": "context-menu",
+  "controls_schema": [
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item name",
+      "default": "project-notes.txt"
+    },
+    {
+      "id": "destructiveLabel",
+      "type": "text",
+      "label": "Destructive action label",
+      "default": "Delete"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ctxrow\" style=\"--accent:{{accent}};\">\n  <span class=\"ctxrow__name\">{{itemLabel}}</span>\n  <details class=\"ctxmenu\" {{#if open}}open{{/if}}>\n    <summary class=\"ctxmenu__trigger\" aria-label=\"More actions for {{itemLabel}}\">&#8942;</summary>\n    <div class=\"ctxmenu__panel\" role=\"group\" aria-label=\"Actions for {{itemLabel}}\">\n      <button class=\"ctxmenu__item\" type=\"button\">Rename</button>\n      <button class=\"ctxmenu__item\" type=\"button\">Duplicate</button>\n      <button class=\"ctxmenu__item ctxmenu__item--danger\" type=\"button\">{{destructiveLabel}}</button>\n    </div>\n  </details>\n</div>\n<style>\n.ctxrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 280px; padding: 10px 12px; background: #FAF7F2; border-radius: 10px; font: 14px system-ui, sans-serif; color: #241430; }\n.ctxmenu { position: relative; }\n.ctxmenu__trigger { list-style: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 18px; line-height: 1; }\n.ctxmenu__trigger::-webkit-details-marker { display: none; }\n.ctxmenu__trigger:hover, .ctxmenu__trigger:focus-visible { background: #fff; outline: 2px solid var(--accent); outline-offset: 1px; }\n.ctxmenu__panel { position: absolute; right: 0; top: calc(100% + 4px); min-width: 150px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.ctxmenu__item { text-align: left; padding: 8px 10px; border-radius: 8px; border: none; background: none; font: inherit; color: #241430; cursor: pointer; }\n.ctxmenu__item:hover, .ctxmenu__item:focus-visible { background: #FAF7F2; outline: none; }\n.ctxmenu__item--danger { color: #b3312c; }\n</style>",
+    "tailwind": "<div class=\"flex items-center justify-between gap-4 w-72 px-3 py-2.5 bg-[#FAF7F2] rounded-xl font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\">\n  <span>{{itemLabel}}</span>\n  <details class=\"relative\" {{#if open}}open{{/if}}>\n    <summary class=\"ctxmenu-tw__trigger list-none cursor-pointer px-2 py-1 rounded-md text-lg leading-none hover:bg-white\" aria-label=\"More actions for {{itemLabel}}\">&#8942;</summary>\n    <div class=\"absolute right-0 top-1.5 min-w-[150px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\" role=\"group\" aria-label=\"Actions for {{itemLabel}}\">\n      <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">Rename</button>\n      <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">Duplicate</button>\n      <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#b3312c] cursor-pointer hover:bg-[#FAF7F2]\" type=\"button\">{{destructiveLabel}}</button>\n    </div>\n  </details>\n</div>\n<style>\n.ctxmenu-tw__trigger::-webkit-details-marker { display: none; }\n.ctxmenu-tw__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n</style>",
+    "react": "export function ContextMenu({\n  itemLabel = \"{{itemLabel}}\",\n  destructiveLabel = \"{{destructiveLabel}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 16, width: 280, padding: \"10px 12px\", background: \"#FAF7F2\", borderRadius: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span>{itemLabel}</span>\n      <details open={open} style={{ position: \"relative\" }}>\n        <summary aria-label={\"More actions for \" + itemLabel} style={{ listStyle: \"none\", cursor: \"pointer\", padding: \"4px 8px\", borderRadius: 6, fontSize: 18, lineHeight: 1 }}>&#8942;</summary>\n        <div role=\"group\" aria-label={\"Actions for \" + itemLabel} style={{ position: \"absolute\", right: 0, top: \"calc(100% + 4px)\", minWidth: 150, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n          <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Rename</button>\n          <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}>Duplicate</button>\n          <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#b3312c\", cursor: \"pointer\" }}>{destructiveLabel}</button>\n        </div>\n      </details>\n    </div>\n  );\n}"
+  }
+}

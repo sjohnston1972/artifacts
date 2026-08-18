@@ -1,0 +1,38 @@
+{
+  "slug": "lightbox-gallery",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Meadow study, no. 3"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Thumbnail radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "dimmed",
+      "type": "toggle",
+      "label": "Dim backdrop",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lb-gallery\">\n  <a class=\"lb-gallery__thumb\" href=\"#lb-photo\" style=\"border-radius:{{radius}}px;\" aria-label=\"Open enlarged image: {{caption}}\">\n    <svg viewBox=\"0 0 120 90\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\"><rect width=\"120\" height=\"90\" fill=\"#BFD9F2\"/><circle cx=\"60\" cy=\"45\" r=\"22\" fill=\"#A8E6C1\"/></svg>\n  </a>\n  <div class=\"lb-gallery__overlay {{#if dimmed}}lb-gallery__overlay--dim{{/if}}\" id=\"lb-photo\" role=\"dialog\" aria-modal=\"true\" aria-label=\"{{caption}}\">\n    <a class=\"lb-gallery__close\" href=\"#\" aria-label=\"Close enlarged image\" style=\"background:{{accent}};\">&times;</a>\n    <figure class=\"lb-gallery__figure\">\n      <svg viewBox=\"0 0 400 260\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\"><rect width=\"400\" height=\"260\" fill=\"#241430\"/><circle cx=\"200\" cy=\"130\" r=\"70\" fill=\"{{accent}}\"/></svg>\n      <figcaption class=\"lb-gallery__caption\">{{caption}}</figcaption>\n    </figure>\n  </div>\n</div>\n<style>\n.lb-gallery { max-width: 200px; font: 13px/1.4 system-ui, sans-serif; color: #241430; }\n.lb-gallery__thumb { display: block; overflow: hidden; border: 1px solid #24143022; }\n.lb-gallery__overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: #24143099; z-index: 50; }\n.lb-gallery__overlay--dim { background: #241430e6; }\n.lb-gallery__overlay:target { display: flex; }\n.lb-gallery__close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #241430; text-decoration: none; font-size: 20px; line-height: 1; }\n.lb-gallery__close:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 2px; }\n.lb-gallery__figure { margin: 0; max-width: 360px; width: 90%; }\n.lb-gallery__figure svg { display: block; border-radius: 8px; }\n.lb-gallery__caption { margin-top: 8px; color: #FAF7F2; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"lb-gallery-tw max-w-[200px] font-sans text-[13px] text-[#241430]\">\n  <a class=\"block overflow-hidden border border-[#24143022]\" href=\"#lb-photo-tw\" style=\"border-radius:{{radius}}px;\" aria-label=\"Open enlarged image: {{caption}}\">\n    <svg viewBox=\"0 0 120 90\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\"><rect width=\"120\" height=\"90\" fill=\"#BFD9F2\"/><circle cx=\"60\" cy=\"45\" r=\"22\" fill=\"#A8E6C1\"/></svg>\n  </a>\n  <div class=\"lb-gallery-tw__overlay {{#if dimmed}}lb-gallery-tw__overlay--dim{{/if}} fixed inset-0 hidden items-center justify-center z-50\" id=\"lb-photo-tw\" role=\"dialog\" aria-modal=\"true\" aria-label=\"{{caption}}\">\n    <a class=\"absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-[#241430] no-underline text-xl leading-none\" href=\"#\" aria-label=\"Close enlarged image\" style=\"background:{{accent}};\">&times;</a>\n    <figure class=\"m-0 max-w-[360px] w-[90%]\">\n      <svg viewBox=\"0 0 400 260\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\" class=\"block rounded-lg\"><rect width=\"400\" height=\"260\" fill=\"#241430\"/><circle cx=\"200\" cy=\"130\" r=\"70\" fill=\"{{accent}}\"/></svg>\n      <figcaption class=\"mt-2 text-center text-[#FAF7F2]\">{{caption}}</figcaption>\n    </figure>\n  </div>\n</div>\n<style>\n.lb-gallery-tw__overlay { background: #24143099; }\n.lb-gallery-tw__overlay--dim { background: #241430e6; }\n.lb-gallery-tw__overlay:target { display: flex !important; }\n</style>",
+    "react": "export function LightboxGallery({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  dimmed = {{dimmed}},\n}) {\n  return (\n    <div style={{ maxWidth: 200, font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <a href=\"#lb-photo-react\" aria-label={`Open enlarged image: ${caption}`}\n        style={{ display: \"block\", overflow: \"hidden\", border: \"1px solid #24143022\", borderRadius: radius }}>\n        <svg viewBox=\"0 0 120 90\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\"><rect width=\"120\" height=\"90\" fill=\"#BFD9F2\" /><circle cx=\"60\" cy=\"45\" r=\"22\" fill=\"#A8E6C1\" /></svg>\n      </a>\n      <div id=\"lb-photo-react\" role=\"dialog\" aria-modal=\"true\" aria-label={caption}\n        style={{ position: \"fixed\", inset: 0, display: \"none\", alignItems: \"center\", justifyContent: \"center\",\n          background: dimmed ? \"#241430e6\" : \"#24143099\", zIndex: 50 }}>\n        <a href=\"#\" aria-label=\"Close enlarged image\"\n          style={{ position: \"absolute\", top: 16, right: 16, width: 32, height: 32, borderRadius: \"50%\",\n            display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#241430\",\n            textDecoration: \"none\", fontSize: 20, lineHeight: 1, background: accent }}>\n          &times;\n        </a>\n        <figure style={{ margin: 0, maxWidth: 360, width: \"90%\" }}>\n          <svg viewBox=\"0 0 400 260\" width=\"100%\" height=\"100%\" role=\"img\" aria-hidden=\"true\" style={{ display: \"block\", borderRadius: 8 }}><rect width=\"400\" height=\"260\" fill=\"#241430\" /><circle cx=\"200\" cy=\"130\" r=\"70\" fill={accent} /></svg>\n          <figcaption style={{ marginTop: 8, color: \"#FAF7F2\", textAlign: \"center\" }}>{caption}</figcaption>\n        </figure>\n      </div>\n      {/* :target only works with static anchors; in React, drive the dialog's open state from props/state instead. */}\n    </div>\n  );\n}"
+  }
+}

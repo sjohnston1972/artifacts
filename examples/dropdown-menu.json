@@ -1,0 +1,46 @@
+{
+  "slug": "dropdown-menu",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Trigger label",
+      "default": "Options"
+    },
+    {
+      "id": "align",
+      "type": "select",
+      "label": "Panel alignment",
+      "default": "left",
+      "options": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"ddmenu ddmenu--{{align}}\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"ddmenu__trigger\">{{label}} <span class=\"ddmenu__caret\" aria-hidden=\"true\">&#9662;</span></summary>\n  <nav class=\"ddmenu__panel\" aria-label=\"{{label}}\">\n    <a class=\"ddmenu__item\" href=\"#\">Overview</a>\n    <a class=\"ddmenu__item\" href=\"#\">Reports</a>\n    <a class=\"ddmenu__item\" href=\"#\">Exports</a>\n  </nav>\n</details>\n<style>\n.ddmenu { position: relative; width: fit-content; font: 500 14px system-ui, sans-serif; }\n.ddmenu__trigger { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; background: #FAF7F2; color: #241430; }\n.ddmenu__trigger::-webkit-details-marker { display: none; }\n.ddmenu__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.ddmenu__caret { color: var(--accent); }\n.ddmenu__panel { position: absolute; top: calc(100% + 6px); min-width: 160px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.ddmenu--left .ddmenu__panel { left: 0; }\n.ddmenu--right .ddmenu__panel { right: 0; }\n.ddmenu__item { padding: 8px 10px; border-radius: 8px; text-decoration: none; color: #241430; }\n.ddmenu__item:hover, .ddmenu__item:focus-visible { background: #FAF7F2; outline: none; }\n</style>",
+    "tailwind": "<details class=\"ddmenu-tw ddmenu-tw--{{align}} relative w-fit font-medium text-sm\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"list-none cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#FAF7F2] text-[#241430]\">{{label}} <span aria-hidden=\"true\" style=\"color:{{accent}};\">&#9662;</span></summary>\n  <nav aria-label=\"{{label}}\" class=\"absolute top-1.5 min-w-[160px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\">\n    <a class=\"px-2.5 py-2 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Overview</a>\n    <a class=\"px-2.5 py-2 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Reports</a>\n    <a class=\"px-2.5 py-2 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Exports</a>\n  </nav>\n</details>\n<style>\n.ddmenu-tw summary::-webkit-details-marker { display: none; }\n.ddmenu-tw summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.ddmenu-tw--left nav { left: 0; }\n.ddmenu-tw--right nav { right: 0; }\n</style>",
+    "react": "export function DropdownMenu({\n  label = \"{{label}}\",\n  align = \"{{align}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, fontWeight: 500 }}>\n      <summary style={{ listStyle: \"none\", cursor: \"pointer\", display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"8px 14px\", borderRadius: 8, background: \"#FAF7F2\", color: \"#241430\" }}>\n        {label} <span aria-hidden=\"true\" style={{ color: accent }}>&#9662;</span>\n      </summary>\n      <nav aria-label={label} style={{ position: \"absolute\", top: \"calc(100% + 6px)\", [align]: 0, minWidth: 160, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Overview</a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Reports</a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Exports</a>\n      </nav>\n    </details>\n  );\n}"
+  }
+}

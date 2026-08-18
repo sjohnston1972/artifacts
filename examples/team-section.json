@@ -1,4 +1,5 @@
 {
+  "slug": "team-section",
   "controls_schema": [
     {
       "id": "heading",
@@ -7,56 +8,29 @@
       "default": "Meet the team"
     },
     {
-      "id": "memberName",
-      "type": "text",
-      "label": "First member name",
-      "default": "Priya Shah"
-    },
-    {
-      "id": "memberRole",
-      "type": "text",
-      "label": "First member role",
-      "default": "Head of Product"
-    },
-    {
       "id": "columns",
-      "type": "number",
-      "label": "Columns",
-      "default": 3,
-      "min": 2,
-      "max": 4,
-      "step": 1
-    },
-    {
-      "id": "photoShape",
       "type": "select",
-      "label": "Photo shape",
-      "default": "circle",
-      "options": [
-        "circle",
-        "rounded",
-        "square"
-      ]
+      "label": "Columns",
+      "default": "3",
+      "options": ["2", "3", "4"]
     },
     {
       "id": "accent",
       "type": "color",
-      "label": "First photo colour",
-      "default": "#A8E6C1",
-      "presets": [
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#D9C8F0",
-        "#E8A020",
-        "#241430"
-      ]
+      "label": "Avatar colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showRole",
+      "type": "toggle",
+      "label": "Show role",
+      "default": true
     }
   ],
   "templates": {
-    "html": "<section class=\"team-section\" aria-labelledby=\"team-section-heading\">\n  <h2 id=\"team-section-heading\" class=\"team-section__heading\">{{heading}}</h2>\n  <div class=\"team-section__grid\" style=\"grid-template-columns:repeat({{columns}},1fr);\">\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">{{memberName}}</h3>\n      <p class=\"team-card__role\">{{memberRole}}</p>\n    </article>\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:#BFD9F2;\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">Marcus James</h3>\n      <p class=\"team-card__role\">Engineering Lead</p>\n    </article>\n    <article class=\"team-card\">\n      <div class=\"team-card__photo team-card__photo--{{photoShape}}\" style=\"background:#F5C2E0;\" aria-hidden=\"true\"></div>\n      <h3 class=\"team-card__name\">Lena Torres</h3>\n      <p class=\"team-card__role\">Design Director</p>\n    </article>\n  </div>\n</section>\n<style>\n.team-section { font-family: system-ui, sans-serif; color: #241430; }\n.team-section__heading { margin: 0 0 20px; font-size: 24px; font-weight: 700; }\n.team-section__grid { display: grid; gap: 24px; }\n.team-card { text-align: center; }\n.team-card__photo { width: 80px; height: 80px; margin: 0 auto 12px; }\n.team-card__photo--circle { border-radius: 50%; }\n.team-card__photo--rounded { border-radius: 16px; }\n.team-card__photo--square { border-radius: 0; }\n.team-card__name { margin: 0 0 4px; font-size: 16px; font-weight: 600; }\n.team-card__role { margin: 0; font-size: 13px; color: #241430; opacity: .6; }\n</style>",
-    "tailwind": "<section class=\"font-sans text-[#241430]\" aria-labelledby=\"team-section-tw-heading\">\n  <h2 id=\"team-section-tw-heading\" class=\"m-0 mb-5 text-2xl font-bold\">{{heading}}</h2>\n  <div class=\"grid gap-6\" style=\"grid-template-columns:repeat({{columns}},1fr)\">\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:{{accent}}\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">{{memberName}}</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">{{memberRole}}</p>\n    </article>\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:#BFD9F2\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">Marcus James</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">Engineering Lead</p>\n    </article>\n    <article class=\"text-center\">\n      <div class=\"team-photo-tw team-photo-tw--{{photoShape}} w-20 h-20 mx-auto mb-3\" style=\"background:#F5C2E0\" aria-hidden=\"true\"></div>\n      <h3 class=\"m-0 mb-1 text-base font-semibold\">Lena Torres</h3>\n      <p class=\"m-0 text-[13px] text-[#241430]/60\">Design Director</p>\n    </article>\n  </div>\n</section>\n<style>\n.team-photo-tw--circle { border-radius: 9999px; }\n.team-photo-tw--rounded { border-radius: 16px; }\n.team-photo-tw--square { border-radius: 0; }\n</style>",
-    "react": "export function TeamSection({\n  heading = \"{{heading}}\",\n  memberName = \"{{memberName}}\",\n  memberRole = \"{{memberRole}}\",\n  columns = {{columns}},\n  photoShape = \"{{photoShape}}\",\n  accent = \"{{accent}}\",\n}) {\n  const radius = { circle: \"9999px\", rounded: \"16px\", square: \"0\" }[photoShape] ?? \"9999px\";\n  const members = [\n    { name: memberName, role: memberRole, color: accent },\n    { name: \"Marcus James\", role: \"Engineering Lead\", color: \"#BFD9F2\" },\n    { name: \"Lena Torres\", role: \"Design Director\", color: \"#F5C2E0\" },\n  ];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }} aria-labelledby=\"team-section-react-heading\">\n      <h2 id=\"team-section-react-heading\" style={{ margin: \"0 0 20px\", fontSize: 24, fontWeight: 700 }}>{heading}</h2>\n      <div style={{ display: \"grid\", gap: 24, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {members.map((m) => (\n          <article key={m.name} style={{ textAlign: \"center\" }}>\n            <div aria-hidden=\"true\" style={{ width: 80, height: 80, margin: \"0 auto 12px\", borderRadius: radius, background: m.color }} />\n            <h3 style={{ margin: \"0 0 4px\", fontSize: 16, fontWeight: 600 }}>{m.name}</h3>\n            <p style={{ margin: 0, fontSize: 13, color: \"#241430\", opacity: 0.6 }}>{m.role}</p>\n          </article>\n        ))}\n      </div>\n    </section>\n  );\n}"
-  },
-  "slug": "team-section"
+    "html": "<section class=\"team\">\n  <h2 class=\"team__heading\">{{heading}}</h2>\n  <div class=\"team__grid team__grid--{{columns}}\">\n    <div class=\"team__card\"><span class=\"team__avatar\" style=\"background:{{accent}};\">MK</span><p class=\"team__name\">Maya Kessler</p>{{#if showRole}}<p class=\"team__role\">Co-founder</p>{{/if}}</div>\n    <div class=\"team__card\"><span class=\"team__avatar\" style=\"background:{{accent}};\">DP</span><p class=\"team__name\">Diego Pardo</p>{{#if showRole}}<p class=\"team__role\">Head of Design</p>{{/if}}</div>\n    <div class=\"team__card\"><span class=\"team__avatar\" style=\"background:{{accent}};\">RJ</span><p class=\"team__name\">Rhea Joshi</p>{{#if showRole}}<p class=\"team__role\">Engineering</p>{{/if}}</div>\n    <div class=\"team__card\"><span class=\"team__avatar\" style=\"background:{{accent}};\">TL</span><p class=\"team__name\">Theo Lang</p>{{#if showRole}}<p class=\"team__role\">Customer Success</p>{{/if}}</div>\n  </div>\n</section>\n<style>\n.team { font: 15px system-ui, sans-serif; color: #241430; padding: 24px; }\n.team__heading { margin: 0 0 18px; font-size: 22px; font-weight: 700; }\n.team__grid { display: grid; gap: 20px; }\n.team__grid--2 { grid-template-columns: repeat(2, 1fr); }\n.team__grid--3 { grid-template-columns: repeat(3, 1fr); }\n.team__grid--4 { grid-template-columns: repeat(4, 1fr); }\n.team__grid--2 .team__card:nth-child(n+3), .team__grid--3 .team__card:nth-child(n+4) { display: none; }\n.team__card { text-align: center; }\n.team__avatar { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; font-weight: 700; margin-bottom: 10px; color: #241430; }\n.team__name { margin: 0; font-weight: 700; font-size: 14px; }\n.team__role { margin: 2px 0 0; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[#241430] p-6\">\n  <h2 class=\"m-0 mb-4.5 text-2xl font-bold\">{{heading}}</h2>\n  <div class=\"team-tw team-tw--{{columns}} grid gap-5\">\n    <div class=\"team-tw__card text-center\"><span class=\"inline-flex items-center justify-center w-16 h-16 rounded-full font-bold mb-2.5 text-[#241430]\" style=\"background:{{accent}};\">MK</span><p class=\"m-0 font-bold text-sm\">Maya Kessler</p>{{#if showRole}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430]/65\">Co-founder</p>{{/if}}</div>\n    <div class=\"team-tw__card text-center\"><span class=\"inline-flex items-center justify-center w-16 h-16 rounded-full font-bold mb-2.5 text-[#241430]\" style=\"background:{{accent}};\">DP</span><p class=\"m-0 font-bold text-sm\">Diego Pardo</p>{{#if showRole}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430]/65\">Head of Design</p>{{/if}}</div>\n    <div class=\"team-tw__card text-center\"><span class=\"inline-flex items-center justify-center w-16 h-16 rounded-full font-bold mb-2.5 text-[#241430]\" style=\"background:{{accent}};\">RJ</span><p class=\"m-0 font-bold text-sm\">Rhea Joshi</p>{{#if showRole}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430]/65\">Engineering</p>{{/if}}</div>\n    <div class=\"team-tw__card text-center\"><span class=\"inline-flex items-center justify-center w-16 h-16 rounded-full font-bold mb-2.5 text-[#241430]\" style=\"background:{{accent}};\">TL</span><p class=\"m-0 font-bold text-sm\">Theo Lang</p>{{#if showRole}}<p class=\"mt-0.5 mb-0 text-xs text-[#241430]/65\">Customer Success</p>{{/if}}</div>\n  </div>\n</section>\n<style>\n.team-tw--2 { grid-template-columns: repeat(2, 1fr); }\n.team-tw--3 { grid-template-columns: repeat(3, 1fr); }\n.team-tw--4 { grid-template-columns: repeat(4, 1fr); }\n.team-tw--2 .team-tw__card:nth-child(n+3), .team-tw--3 .team-tw__card:nth-child(n+4) { display: none; }\n</style>",
+    "react": "export function TeamSection({\n  heading = \"{{heading}}\",\n  columns = \"{{columns}}\",\n  accent = \"{{accent}}\",\n  showRole = {{showRole}},\n}) {\n  const members = [\n    { initials: \"MK\", name: \"Maya Kessler\", role: \"Co-founder\" },\n    { initials: \"DP\", name: \"Diego Pardo\", role: \"Head of Design\" },\n    { initials: \"RJ\", name: \"Rhea Joshi\", role: \"Engineering\" },\n    { initials: \"TL\", name: \"Theo Lang\", role: \"Customer Success\" },\n  ].slice(0, Number(columns));\n  return (\n    <section style={{ font: \"15px system-ui, sans-serif\", color: \"#241430\", padding: 24 }}>\n      <h2 style={{ margin: \"0 0 18px\", fontSize: 22, fontWeight: 700 }}>{heading}</h2>\n      <div style={{ display: \"grid\", gap: 20, gridTemplateColumns: `repeat(${columns}, 1fr)` }}>\n        {members.map((m) => (\n          <div key={m.initials} style={{ textAlign: \"center\" }}>\n            <span style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 64, height: 64,\n              borderRadius: \"50%\", fontWeight: 700, marginBottom: 10, color: \"#241430\", background: accent }}>{m.initials}</span>\n            <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>{m.name}</p>\n            {showRole && <p style={{ margin: \"2px 0 0\", fontSize: 12, color: \"#241430aa\" }}>{m.role}</p>}\n          </div>\n        ))}\n      </div>\n    </section>\n  );\n}"
+  }
 }

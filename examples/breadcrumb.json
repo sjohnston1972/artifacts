@@ -1,0 +1,52 @@
+{
+  "slug": "breadcrumb",
+  "controls_schema": [
+    {
+      "id": "depth",
+      "type": "select",
+      "label": "Depth",
+      "default": "3",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "separator",
+      "type": "select",
+      "label": "Separator",
+      "default": "/",
+      "options": [
+        "/",
+        ">",
+        "•"
+      ]
+    },
+    {
+      "id": "page",
+      "type": "text",
+      "label": "Current page",
+      "default": "Settings"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"crumb crumb--depth-{{depth}}\" style=\"--accent:{{accent}}; --sep:'{{separator}}';\" aria-label=\"Breadcrumb\">\n  <ol class=\"crumb__list\">\n    <li class=\"crumb__item crumb__item--l1\"><a class=\"crumb__link\" href=\"#\">Home</a></li>\n    <li class=\"crumb__item crumb__item--l2\"><a class=\"crumb__link\" href=\"#\">Category</a></li>\n    <li class=\"crumb__item crumb__item--l3\"><a class=\"crumb__link\" href=\"#\">Subcategory</a></li>\n    <li class=\"crumb__item crumb__item--l4\"><span aria-current=\"page\">{{page}}</span></li>\n  </ol>\n</nav>\n<style>\n.crumb { font: 14px system-ui, sans-serif; }\n.crumb__list { display: flex; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; }\n.crumb__item { display: flex; align-items: center; color: #241430; }\n.crumb__item:not(:first-child)::before { content: var(--sep); margin: 0 8px; opacity: .5; }\n.crumb__link { color: #241430; text-decoration: none; opacity: .65; }\n.crumb__link:hover, .crumb__link:focus-visible { opacity: 1; text-decoration: underline; outline: none; }\n.crumb__item [aria-current=\"page\"] { font-weight: 600; color: var(--accent); }\n.crumb--depth-2 .crumb__item--l2, .crumb--depth-2 .crumb__item--l3 { display: none; }\n.crumb--depth-3 .crumb__item--l3 { display: none; }\n</style>",
+    "tailwind": "<nav aria-label=\"Breadcrumb\" class=\"crumb-tw crumb-tw--depth-{{depth}} font-sans text-sm\" style=\"--accent:{{accent}}; --sep:'{{separator}}';\">\n  <ol class=\"flex flex-wrap list-none p-0 m-0\">\n    <li class=\"crumb-tw__item crumb-tw__item--l1 flex items-center text-[#241430]\"><a class=\"no-underline text-[#241430]/65 hover:opacity-100 hover:underline\" href=\"#\">Home</a></li>\n    <li class=\"crumb-tw__item crumb-tw__item--l2 flex items-center text-[#241430]\"><a class=\"no-underline text-[#241430]/65 hover:opacity-100 hover:underline\" href=\"#\">Category</a></li>\n    <li class=\"crumb-tw__item crumb-tw__item--l3 flex items-center text-[#241430]\"><a class=\"no-underline text-[#241430]/65 hover:opacity-100 hover:underline\" href=\"#\">Subcategory</a></li>\n    <li class=\"crumb-tw__item flex items-center\"><span class=\"font-semibold\" style=\"color:{{accent}};\" aria-current=\"page\">{{page}}</span></li>\n  </ol>\n</nav>\n<style>\n.crumb-tw__item:not(:first-child)::before { content: var(--sep); margin: 0 8px; opacity: .5; }\n.crumb-tw--depth-2 .crumb-tw__item--l2, .crumb-tw--depth-2 .crumb-tw__item--l3 { display: none; }\n.crumb-tw--depth-3 .crumb-tw__item--l3 { display: none; }\n</style>",
+    "react": "export function Breadcrumb({\n  depth = \"{{depth}}\",\n  separator = \"{{separator}}\",\n  page = \"{{page}}\",\n  accent = \"{{accent}}\",\n}) {\n  const n = Number(depth);\n  const items = [\n    { label: \"Home\", show: true },\n    { label: \"Category\", show: n >= 3 },\n    { label: \"Subcategory\", show: n >= 4 },\n  ].filter((i) => i.show);\n  return (\n    <nav aria-label=\"Breadcrumb\" style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14 }}>\n      <ol style={{ display: \"flex\", flexWrap: \"wrap\", listStyle: \"none\", padding: 0, margin: 0 }}>\n        {items.map((item, i) => (\n          <li key={item.label} style={{ display: \"flex\", alignItems: \"center\", color: \"#241430\" }}>\n            {i > 0 && <span style={{ margin: \"0 8px\", opacity: .5 }}>{separator}</span>}\n            <a href=\"#\" style={{ color: \"#241430\", opacity: .65, textDecoration: \"none\" }}>{item.label}</a>\n          </li>\n        ))}\n        <li style={{ display: \"flex\", alignItems: \"center\" }}>\n          <span style={{ margin: \"0 8px\", opacity: .5 }}>{separator}</span>\n          <span aria-current=\"page\" style={{ fontWeight: 600, color: accent }}>{page}</span>\n        </li>\n      </ol>\n    </nav>\n  );\n}"
+  }
+}

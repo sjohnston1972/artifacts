@@ -1,0 +1,55 @@
+{
+  "slug": "tree-view",
+  "controls_schema": [
+    {
+      "id": "rootLabel",
+      "type": "text",
+      "label": "Root label",
+      "default": "project/"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Connector style",
+      "default": "lines",
+      "options": [
+        "lines",
+        "plain"
+      ]
+    },
+    {
+      "id": "openAll",
+      "type": "toggle",
+      "label": "Folders expanded",
+      "default": true
+    },
+    {
+      "id": "indent",
+      "type": "number",
+      "label": "Indent",
+      "default": 18,
+      "min": 8,
+      "max": 32,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tree-view tree-view--{{variant}}\" style=\"--accent:{{accent}};--indent:{{indent}}px;\">\n  <p class=\"tree-view__root\">{{rootLabel}}</p>\n  <ul class=\"tree-view__list\" role=\"tree\">\n    <li class=\"tree-view__node\" role=\"treeitem\" aria-expanded=\"{{openAll}}\">\n      <details class=\"tree-view__folder\"{{#if openAll}} open{{/if}}>\n        <summary>src/</summary>\n        <ul class=\"tree-view__sublist\" role=\"group\">\n          <li role=\"treeitem\">index.js</li>\n          <li role=\"treeitem\">app.css</li>\n        </ul>\n      </details>\n    </li>\n    <li class=\"tree-view__node\" role=\"treeitem\" aria-expanded=\"{{openAll}}\">\n      <details class=\"tree-view__folder\"{{#if openAll}} open{{/if}}>\n        <summary>docs/</summary>\n        <ul class=\"tree-view__sublist\" role=\"group\">\n          <li role=\"treeitem\">README.md</li>\n        </ul>\n      </details>\n    </li>\n    <li class=\"tree-view__node tree-view__node--file\" role=\"treeitem\">package.json</li>\n  </ul>\n</div>\n<style>\n.tree-view { font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 10px; box-sizing: border-box; }\n.tree-view__root { margin: 0 0 8px; font-weight: 700; font-size: 14px; }\n.tree-view__list, .tree-view__sublist { list-style: none; margin: 0; padding: 0; }\n.tree-view__sublist { padding-left: var(--indent); }\n.tree-view__node { position: relative; padding: 3px 0; }\n.tree-view--lines .tree-view__sublist { border-left: 1.5px solid #24143022; margin-left: 6px; }\n.tree-view--lines .tree-view__sublist li { position: relative; padding-left: 14px; }\n.tree-view--lines .tree-view__sublist li::before { content: \"\"; position: absolute; left: 0; top: 10px; width: 10px; height: 1.5px; background: #24143022; }\n.tree-view__folder > summary { cursor: pointer; list-style: none; font-weight: 600; display: flex; align-items: center; gap: 6px; }\n.tree-view__folder > summary::-webkit-details-marker { display: none; }\n.tree-view__folder > summary::before { content: \"📁\"; font-size: 12px; }\n.tree-view__folder > summary::after { content: \"▸\"; margin-left: 4px; color: var(--accent); }\n.tree-view__folder[open] > summary::after { transform: rotate(90deg); display: inline-block; }\n.tree-view__node--file { padding-left: 20px; }\n.tree-view__node--file::before { content: \"📄\"; font-size: 12px; margin-right: 6px; }\n</style>",
+    "tailwind": "<div class=\"tree-view-tw tree-view-tw--{{variant}} font-sans text-[15px] text-[#241430] bg-[#FAF7F2] p-4 rounded-[10px] box-border\" style=\"--accent:{{accent}};--indent:{{indent}}px;\">\n  <p class=\"m-0 mb-2 font-bold text-sm\">{{rootLabel}}</p>\n  <ul class=\"tree-view-tw__list list-none m-0 p-0\" role=\"tree\">\n    <li class=\"py-0.5\" role=\"treeitem\" aria-expanded=\"{{openAll}}\">\n      <details class=\"tree-view-tw__folder\"{{#if openAll}} open{{/if}}>\n        <summary class=\"cursor-pointer list-none font-semibold flex items-center gap-1.5 marker:hidden\">\n          <span aria-hidden=\"true\">📁</span>\n          src/\n          <span aria-hidden=\"true\" class=\"ml-1\" style=\"color:{{accent}}\">▸</span>\n        </summary>\n        <ul class=\"tree-view-tw__sublist list-none m-0\" role=\"group\" style=\"padding-left:{{indent}}px;\">\n          <li role=\"treeitem\" class=\"py-0.5\">index.js</li>\n          <li role=\"treeitem\" class=\"py-0.5\">app.css</li>\n        </ul>\n      </details>\n    </li>\n    <li class=\"py-0.5\" role=\"treeitem\" aria-expanded=\"{{openAll}}\">\n      <details class=\"tree-view-tw__folder\"{{#if openAll}} open{{/if}}>\n        <summary class=\"cursor-pointer list-none font-semibold flex items-center gap-1.5 marker:hidden\">\n          <span aria-hidden=\"true\">📁</span>\n          docs/\n          <span aria-hidden=\"true\" class=\"ml-1\" style=\"color:{{accent}}\">▸</span>\n        </summary>\n        <ul class=\"tree-view-tw__sublist list-none m-0\" role=\"group\" style=\"padding-left:{{indent}}px;\">\n          <li role=\"treeitem\" class=\"py-0.5\">README.md</li>\n        </ul>\n      </details>\n    </li>\n    <li class=\"py-0.5 pl-5\" role=\"treeitem\">📄 package.json</li>\n  </ul>\n</div>\n<style>\n.tree-view-tw--lines .tree-view-tw__sublist { border-left: 1.5px solid #24143022; margin-left: 6px; }\n.tree-view-tw--lines .tree-view-tw__sublist li { position: relative; padding-left: 14px; }\n.tree-view-tw--lines .tree-view-tw__sublist li::before { content: \"\"; position: absolute; left: 0; top: 10px; width: 10px; height: 1.5px; background: #24143022; }\n.tree-view-tw__folder[open] > summary span:nth-child(3) { transform: rotate(90deg); display: inline-block; }\n</style>",
+    "react": "export function TreeView({\n  rootLabel = \"{{rootLabel}}\",\n  accent = \"{{accent}}\",\n  variant = \"{{variant}}\",\n  openAll = {{openAll}},\n  indent = {{indent}},\n}) {\n  const lines = variant === \"lines\";\n  const sublistStyle = { listStyle: \"none\", margin: 0, paddingLeft: indent,\n    borderLeft: lines ? \"1.5px solid #24143022\" : \"none\", marginLeft: lines ? 6 : 0 };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", padding: 16, borderRadius: 10, boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 700, fontSize: 14 }}>{rootLabel}</p>\n      <ul role=\"tree\" style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li role=\"treeitem\" aria-expanded={openAll} style={{ padding: \"3px 0\" }}>\n          <details open={openAll}>\n            <summary style={{ cursor: \"pointer\", listStyle: \"none\", fontWeight: 600, display: \"flex\", alignItems: \"center\", gap: 6 }}>\n              <span aria-hidden=\"true\">📁</span> src/\n              <span aria-hidden=\"true\" style={{ marginLeft: 4, color: accent }}>▸</span>\n            </summary>\n            <ul role=\"group\" style={sublistStyle}>\n              <li role=\"treeitem\" style={{ padding: \"3px 0 3px 14px\" }}>index.js</li>\n              <li role=\"treeitem\" style={{ padding: \"3px 0 3px 14px\" }}>app.css</li>\n            </ul>\n          </details>\n        </li>\n        <li role=\"treeitem\" aria-expanded={openAll} style={{ padding: \"3px 0\" }}>\n          <details open={openAll}>\n            <summary style={{ cursor: \"pointer\", listStyle: \"none\", fontWeight: 600, display: \"flex\", alignItems: \"center\", gap: 6 }}>\n              <span aria-hidden=\"true\">📁</span> docs/\n              <span aria-hidden=\"true\" style={{ marginLeft: 4, color: accent }}>▸</span>\n            </summary>\n            <ul role=\"group\" style={sublistStyle}>\n              <li role=\"treeitem\" style={{ padding: \"3px 0 3px 14px\" }}>README.md</li>\n            </ul>\n          </details>\n        </li>\n        <li role=\"treeitem\" style={{ padding: \"3px 0 3px 20px\" }}>📄 package.json</li>\n      </ul>\n    </div>\n  );\n}"
+  }
+}

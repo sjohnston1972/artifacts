@@ -1,0 +1,59 @@
+{
+  "slug": "kpi",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Monthly recurring revenue"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "$482,900"
+    },
+    {
+      "id": "change",
+      "type": "text",
+      "label": "Change",
+      "default": "+12.4%"
+    },
+    {
+      "id": "trend",
+      "type": "select",
+      "label": "Trend",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "target",
+      "type": "text",
+      "label": "Target",
+      "default": "$450,000"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kpi\" style=\"--accent:{{accent}};\">\n  <p class=\"kpi__label\">{{label}}</p>\n  <p class=\"kpi__value\">{{value}}</p>\n  <div class=\"kpi__trend kpi__trend--{{trend}}\">\n    <span class=\"kpi__trend-icon\" aria-hidden=\"true\"></span>\n    <span class=\"kpi__trend-change\">{{change}}</span>\n  </div>\n  <dl class=\"kpi__meta\">\n    <dt class=\"kpi__meta-dt\">Target</dt>\n    <dd class=\"kpi__meta-dd\">{{target}}</dd>\n  </dl>\n</div>\n<style>\n.kpi { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 14px; padding: 22px 24px; box-shadow: 0 8px 24px rgba(36,20,48,.12); max-width: 280px; box-sizing: border-box; border-top: 4px solid var(--accent); }\n.kpi__label { margin: 0 0 6px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: #24143099; }\n.kpi__value { margin: 0 0 10px; font-size: 34px; font-weight: 700; }\n.kpi__trend { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }\n.kpi__trend--up { background: #A8E6C133; color: #1c6b3f; }\n.kpi__trend--down { background: #F5C2E055; color: #8a1f56; }\n.kpi__trend--flat { background: #24143014; color: #241430; }\n.kpi__trend--up .kpi__trend-icon::before { content: \"▲\"; }\n.kpi__trend--down .kpi__trend-icon::before { content: \"▼\"; }\n.kpi__trend--flat .kpi__trend-icon::before { content: \"▬\"; }\n.kpi__meta { margin: 0; display: flex; gap: 6px; font-size: 13px; color: #241430aa; }\n.kpi__meta-dt { font-weight: 600; }\n.kpi__meta-dt::after { content: \":\"; }\n.kpi__meta-dd { margin: 0; }\n</style>",
+    "tailwind": "<div class=\"kpi-tw rounded-2xl bg-[#FAF7F2] text-[#241430] p-6 shadow-[0_8px_24px_rgba(36,20,48,.12)] max-w-[280px] box-border border-t-4\" style=\"border-color:{{accent}}\">\n  <p class=\"mb-1.5 text-[13px] font-semibold uppercase tracking-wide text-[#241430]/60\">{{label}}</p>\n  <p class=\"mb-2.5 text-[34px] font-bold\">{{value}}</p>\n  <div class=\"kpi-tw__trend kpi-tw__trend--{{trend}} inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] font-semibold mb-3.5\">\n    <span class=\"kpi-tw__icon\" aria-hidden=\"true\"></span>\n    <span>{{change}}</span>\n  </div>\n  <dl class=\"m-0 flex gap-1.5 text-[13px] text-[#241430]/70\">\n    <dt class=\"kpi-tw__dt font-semibold\">Target</dt>\n    <dd class=\"m-0\">{{target}}</dd>\n  </dl>\n</div>\n<style>\n.kpi-tw__trend--up { background: #A8E6C133; color: #1c6b3f; }\n.kpi-tw__trend--down { background: #F5C2E055; color: #8a1f56; }\n.kpi-tw__trend--flat { background: #24143014; color: #241430; }\n.kpi-tw__trend--up .kpi-tw__icon::before { content: \"▲\"; }\n.kpi-tw__trend--down .kpi-tw__icon::before { content: \"▼\"; }\n.kpi-tw__trend--flat .kpi-tw__icon::before { content: \"▬\"; }\n.kpi-tw__dt::after { content: \":\"; }\n</style>",
+    "react": "export function Kpi({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  change = \"{{change}}\",\n  trend = \"{{trend}}\",\n  target = \"{{target}}\",\n  accent = \"{{accent}}\",\n}) {\n  const trendStyle = {\n    up: { background: \"#A8E6C133\", color: \"#1c6b3f\", icon: \"▲\" },\n    down: { background: \"#F5C2E055\", color: \"#8a1f56\", icon: \"▼\" },\n    flat: { background: \"#24143014\", color: \"#241430\", icon: \"▬\" },\n  }[trend] ?? { background: \"#24143014\", color: \"#241430\", icon: \"▬\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", borderRadius: 14, padding: \"22px 24px\", boxShadow: \"0 8px 24px rgba(36,20,48,.12)\",\n      maxWidth: 280, boxSizing: \"border-box\", borderTop: `4px solid ${accent}` }}>\n      <p style={{ margin: \"0 0 6px\", fontSize: 13, fontWeight: 600, textTransform: \"uppercase\",\n        letterSpacing: \".04em\", color: \"#24143099\" }}>{label}</p>\n      <p style={{ margin: \"0 0 10px\", fontSize: 34, fontWeight: 700 }}>{value}</p>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 10px\",\n        borderRadius: 999, fontSize: 13, fontWeight: 600, marginBottom: 14,\n        background: trendStyle.background, color: trendStyle.color }}>\n        <span aria-hidden=\"true\">{trendStyle.icon}</span>\n        <span>{change}</span>\n      </div>\n      <dl style={{ margin: 0, display: \"flex\", gap: 6, fontSize: 13, color: \"#241430aa\" }}>\n        <dt style={{ fontWeight: 600 }}>Target:</dt>\n        <dd style={{ margin: 0 }}>{target}</dd>\n      </dl>\n    </div>\n  );\n}"
+  }
+}

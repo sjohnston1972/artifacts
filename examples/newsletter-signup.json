@@ -1,52 +1,36 @@
 {
+  "slug": "newsletter-signup",
   "controls_schema": [
     {
       "id": "heading",
       "type": "text",
       "label": "Heading",
-      "default": "Get the newsletter"
+      "default": "Get the digest"
     },
     {
-      "id": "buttonLabel",
+      "id": "microcopy",
       "type": "text",
-      "label": "Button label",
-      "default": "Subscribe"
+      "label": "Microcopy",
+      "default": "One email a week, unsubscribe any time."
     },
     {
       "id": "layout",
       "type": "select",
       "label": "Layout",
       "default": "inline",
-      "options": [
-        "inline",
-        "stacked"
-      ]
+      "options": ["inline", "stacked"]
     },
     {
       "id": "accent",
       "type": "color",
       "label": "Accent colour",
-      "default": "#BFD9F2",
-      "presets": [
-        "#BFD9F2",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#D9C8F0",
-        "#E8A020",
-        "#241430"
-      ]
-    },
-    {
-      "id": "privacy",
-      "type": "toggle",
-      "label": "Show privacy note",
-      "default": true
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
     }
   ],
   "templates": {
-    "html": "<form class=\"newsletter newsletter--{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"newsletter__copy\">\n    <h3 class=\"newsletter__heading\">{{heading}}</h3>\n    {{#if privacy}}\n    <p class=\"newsletter__privacy\">No spam. Unsubscribe anytime.</p>\n    {{/if}}\n  </div>\n  <div class=\"newsletter__field\">\n    <label class=\"newsletter__label\" for=\"newsletter-email\">Email address</label>\n    <input id=\"newsletter-email\" class=\"newsletter__input\" type=\"email\" required placeholder=\"you@example.com\" />\n    <button class=\"newsletter__submit\" type=\"submit\">{{buttonLabel}}</button>\n  </div>\n</form>\n<style>\n.newsletter { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 420px; }\n.newsletter--stacked { display: flex; flex-direction: column; gap: 14px; }\n.newsletter--inline { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }\n.newsletter__heading { margin: 0 0 4px; font-size: 17px; font-weight: 700; }\n.newsletter__privacy { margin: 0; font-size: 12px; color: #241430aa; }\n.newsletter__field { display: flex; gap: 8px; }\n.newsletter--stacked .newsletter__field { flex-direction: column; }\n.newsletter__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n.newsletter__input { font: 14px system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143033; min-width: 200px; }\n.newsletter__input:focus-visible { outline: 2px solid var(--accent); border-color: var(--accent); }\n.newsletter__submit { border: none; background: var(--accent); color: #FAF7F2; font: 600 14px system-ui, sans-serif; padding: 10px 16px; border-radius: 8px; cursor: pointer; white-space: nowrap; }\n.newsletter__submit:hover { filter: brightness(.94); }\n</style>",
-    "tailwind": "<form class=\"newsletter-tw newsletter-tw--{{layout}} max-w-md font-sans text-[#241430]\" style=\"--accent:{{accent}};\">\n  <div class=\"newsletter-tw__copy\">\n    <h3 class=\"m-0 mb-1 text-[17px] font-bold\">{{heading}}</h3>\n    {{#if privacy}}\n    <p class=\"m-0 text-xs text-[#241430]/70\">No spam. Unsubscribe anytime.</p>\n    {{/if}}\n  </div>\n  <div class=\"newsletter-tw__field flex gap-2 mt-3\">\n    <label for=\"newsletter-tw-email\" class=\"sr-only\">Email address</label>\n    <input id=\"newsletter-tw-email\" type=\"email\" required placeholder=\"you@example.com\" class=\"text-sm px-3 py-2.5 rounded-lg border-[1.5px] border-[#24143033] min-w-[200px]\" />\n    <button type=\"submit\" class=\"border-none text-[#FAF7F2] text-sm font-semibold px-4 py-2.5 rounded-lg cursor-pointer whitespace-nowrap hover:brightness-95\" style=\"background:{{accent}};\">{{buttonLabel}}</button>\n  </div>\n</form>\n<style>\n.newsletter-tw--inline { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }\n.newsletter-tw--inline .newsletter-tw__field { margin-top: 0; }\n.newsletter-tw--stacked .newsletter-tw__field { flex-direction: column; }\n</style>",
-    "react": "export function NewsletterSignup({\n  heading = \"{{heading}}\",\n  buttonLabel = \"{{buttonLabel}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  privacy = {{privacy}},\n}) {\n  const wrapStyle = layout === \"inline\"\n    ? { display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 20, flexWrap: \"wrap\" }\n    : { display: \"flex\", flexDirection: \"column\", gap: 14 };\n  return (\n    <form style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 420, ...wrapStyle }}>\n      <div>\n        <h3 style={{ margin: \"0 0 4px\", fontSize: 17, fontWeight: 700 }}>{heading}</h3>\n        {privacy && <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>No spam. Unsubscribe anytime.</p>}\n      </div>\n      <div style={{ display: \"flex\", flexDirection: layout === \"stacked\" ? \"column\" : \"row\", gap: 8 }}>\n        <label htmlFor=\"newsletter-email\" style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\", whiteSpace: \"nowrap\" }}>Email address</label>\n        <input id=\"newsletter-email\" type=\"email\" required placeholder=\"you@example.com\" style={{ font: \"14px system-ui, sans-serif\", padding: \"10px 12px\", borderRadius: 8, border: \"1.5px solid #24143033\", minWidth: 200 }} />\n        <button type=\"submit\" style={{ border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 600, fontSize: 14, padding: \"10px 16px\", borderRadius: 8, cursor: \"pointer\", whiteSpace: \"nowrap\" }}>{buttonLabel}</button>\n      </div>\n    </form>\n  );\n}"
-  },
-  "slug": "newsletter-signup"
+    "html": "<form class=\"news news--{{layout}}\">\n  <div class=\"news__copy\">\n    <p class=\"news__heading\">{{heading}}</p>\n    <p class=\"news__micro\">{{microcopy}}</p>\n  </div>\n  <div class=\"news__field\">\n    <label for=\"news-email\" class=\"news__label\">Email address</label>\n    <input id=\"news-email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required />\n    <button type=\"submit\" style=\"background:{{accent}};\">Subscribe</button>\n  </div>\n</form>\n<style>\n.news { font: 15px system-ui, sans-serif; color: #241430; display: flex; gap: 16px; padding: 20px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 14px; max-width: 460px; }\n.news--inline { flex-direction: row; align-items: center; }\n.news--stacked { flex-direction: column; align-items: stretch; }\n.news__heading { margin: 0 0 4px; font-weight: 700; font-size: 16px; }\n.news__micro { margin: 0; font-size: 13px; color: #241430aa; }\n.news__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }\n.news__field { display: flex; gap: 8px; }\n.news--stacked .news__field { flex-direction: column; }\n.news__field input { flex: 1; font: inherit; padding: 9px 12px; border: 1px solid #24143033; border-radius: 8px; min-width: 0; }\n.news__field button { border: none; color: #241430; padding: 9px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }\n.news__field button:hover, .news__field button:focus-visible { opacity: .85; }\n</style>",
+    "tailwind": "<form class=\"news-tw news-tw--{{layout}} font-sans text-[15px] text-[#241430] flex gap-4 p-5 bg-[#FAF7F2] border border-[#24143022] rounded-2xl max-w-[460px]\">\n  <div>\n    <p class=\"m-0 mb-1 font-bold text-base\">{{heading}}</p>\n    <p class=\"m-0 text-[13px] text-[#241430]/65\">{{microcopy}}</p>\n  </div>\n  <div class=\"news-tw__field flex gap-2\">\n    <label for=\"news-tw-email\" class=\"sr-only\">Email address</label>\n    <input id=\"news-tw-email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required class=\"flex-1 min-w-0 font-sans px-3 py-2 border border-[#24143033] rounded-lg\" />\n    <button type=\"submit\" class=\"border-0 text-[#241430] px-4.5 py-2 rounded-lg font-bold cursor-pointer whitespace-nowrap hover:opacity-85\" style=\"background:{{accent}};\">Subscribe</button>\n  </div>\n</form>\n<style>\n.news-tw--inline { flex-direction: row; align-items: center; }\n.news-tw--stacked { flex-direction: column; align-items: stretch; }\n.news-tw--stacked .news-tw__field { flex-direction: column; }\n</style>",
+    "react": "export function NewsletterSignup({\n  heading = \"{{heading}}\",\n  microcopy = \"{{microcopy}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n}) {\n  const stacked = layout === \"stacked\";\n  return (\n    <form style={{ font: \"15px system-ui, sans-serif\", color: \"#241430\", display: \"flex\", gap: 16, padding: 20,\n      background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 14, maxWidth: 460,\n      flexDirection: stacked ? \"column\" : \"row\", alignItems: stacked ? \"stretch\" : \"center\" }}>\n      <div>\n        <p style={{ margin: \"0 0 4px\", fontWeight: 700, fontSize: 16 }}>{heading}</p>\n        <p style={{ margin: 0, fontSize: 13, color: \"#241430aa\" }}>{microcopy}</p>\n      </div>\n      <div style={{ display: \"flex\", gap: 8, flexDirection: stacked ? \"column\" : \"row\" }}>\n        <label htmlFor=\"news-email\" style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\" }}>Email address</label>\n        <input id=\"news-email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" required\n          style={{ flex: 1, font: \"inherit\", padding: \"9px 12px\", border: \"1px solid #24143033\", borderRadius: 8, minWidth: 0 }} />\n        <button type=\"submit\" style={{ border: \"none\", color: \"#241430\", padding: \"9px 18px\", borderRadius: 8,\n          fontWeight: 700, cursor: \"pointer\", whiteSpace: \"nowrap\", background: accent }}>Subscribe</button>\n      </div>\n    </form>\n  );\n}"
+  }
 }

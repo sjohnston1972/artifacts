@@ -1,0 +1,63 @@
+{
+  "slug": "list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Setup checklist"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "divided",
+      "options": [
+        "plain",
+        "divided",
+        "card"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "empty",
+      "type": "toggle",
+      "label": "Empty state",
+      "default": false
+    },
+    {
+      "id": "showExtra",
+      "type": "toggle",
+      "label": "Show fourth item",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"list-demo\">\n  <h3 class=\"list-demo__heading\">{{heading}}</h3>\n  {{#if empty}}\n  <p class=\"list-demo__empty\">No items yet — check back soon.</p>\n  {{/if}}\n  {{#unless empty}}\n  <ol class=\"list list--{{variant}} list--{{density}}\" style=\"--accent:{{accent}};\">\n    <li class=\"list__item\"><span class=\"list__index\">1</span><span class=\"list__text\">Create your workspace</span></li>\n    <li class=\"list__item\"><span class=\"list__index\">2</span><span class=\"list__text\">Invite your team</span></li>\n    <li class=\"list__item\"><span class=\"list__index\">3</span><span class=\"list__text\">Connect a data source</span></li>\n    {{#if showExtra}}\n    <li class=\"list__item\"><span class=\"list__index\">4</span><span class=\"list__text\">Publish your first report</span></li>\n    {{/if}}\n  </ol>\n  {{/unless}}\n</div>\n<style>\n.list-demo { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 12px; padding: 20px; max-width: 340px; box-sizing: border-box; }\n.list-demo__heading { margin: 0 0 12px; font-size: 15px; font-weight: 700; }\n.list-demo__empty { margin: 0; padding: 24px 12px; text-align: center; font-size: 13px; color: #241430aa; border: 1.5px dashed #24143033; border-radius: 10px; }\n.list { list-style: none; margin: 0; padding: 0; }\n.list__item { display: flex; align-items: center; gap: 10px; padding: 12px 4px; }\n.list--compact .list__item { padding: 6px 4px; font-size: 13px; }\n.list--divided .list__item { border-bottom: 1px solid #24143020; }\n.list--divided .list__item:last-child { border-bottom: none; }\n.list--card .list__item { background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(36,20,48,.08); }\n.list--card.list--compact .list__item { padding: 8px 10px; margin-bottom: 6px; }\n.list--card .list__item:last-child { margin-bottom: 0; }\n.list__index { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #241430; font-size: 12px; font-weight: 700; flex-shrink: 0; }\n.list__text { font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"rounded-xl bg-[#FAF7F2] text-[#241430] p-5 max-w-[340px] box-border font-sans\">\n  <h3 class=\"m-0 mb-3 text-[15px] font-bold\">{{heading}}</h3>\n  {{#if empty}}\n  <p class=\"m-0 py-6 px-3 text-center text-[13px] text-[#241430]/70 border-[1.5px] border-dashed border-[#24143033] rounded-[10px]\">No items yet — check back soon.</p>\n  {{/if}}\n  {{#unless empty}}\n  <ol class=\"list-tw list-tw--{{variant}} list-tw--{{density}} list-none m-0 p-0\" style=\"--accent:{{accent}}\">\n    <li class=\"list-tw__item flex items-center gap-2.5 py-3 px-1\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[12px] font-bold flex-shrink-0 text-[#241430]\" style=\"background:{{accent}}\">1</span>\n      <span class=\"text-sm\">Create your workspace</span>\n    </li>\n    <li class=\"list-tw__item flex items-center gap-2.5 py-3 px-1\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[12px] font-bold flex-shrink-0 text-[#241430]\" style=\"background:{{accent}}\">2</span>\n      <span class=\"text-sm\">Invite your team</span>\n    </li>\n    <li class=\"list-tw__item flex items-center gap-2.5 py-3 px-1\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[12px] font-bold flex-shrink-0 text-[#241430]\" style=\"background:{{accent}}\">3</span>\n      <span class=\"text-sm\">Connect a data source</span>\n    </li>\n    {{#if showExtra}}\n    <li class=\"list-tw__item flex items-center gap-2.5 py-3 px-1\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[12px] font-bold flex-shrink-0 text-[#241430]\" style=\"background:{{accent}}\">4</span>\n      <span class=\"text-sm\">Publish your first report</span>\n    </li>\n    {{/if}}\n  </ol>\n  {{/unless}}\n</div>\n<style>\n.list-tw--compact .list-tw__item { padding-top: 6px; padding-bottom: 6px; font-size: 13px; }\n.list-tw--divided .list-tw__item { border-bottom: 1px solid #24143020; }\n.list-tw--divided .list-tw__item:last-child { border-bottom: none; }\n.list-tw--card .list-tw__item { background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(36,20,48,.08); }\n.list-tw--card.list-tw--compact .list-tw__item { padding: 8px 10px; margin-bottom: 6px; }\n.list-tw--card .list-tw__item:last-child { margin-bottom: 0; }\n</style>",
+    "react": "export function ListDemo({\n  heading = \"{{heading}}\",\n  variant = \"{{variant}}\",\n  density = \"{{density}}\",\n  empty = {{empty}},\n  showExtra = {{showExtra}},\n  accent = \"{{accent}}\",\n}) {\n  const compact = density === \"compact\";\n  const itemStyle = {\n    display: \"flex\", alignItems: \"center\", gap: 10,\n    padding: compact ? \"6px 4px\" : \"12px 4px\",\n    fontSize: compact ? 13 : 14,\n    borderBottom: variant === \"divided\" ? \"1px solid #24143020\" : \"none\",\n    background: variant === \"card\" ? \"#fff\" : \"transparent\",\n    borderRadius: variant === \"card\" ? 8 : 0,\n    marginBottom: variant === \"card\" ? (compact ? 6 : 8) : 0,\n    boxShadow: variant === \"card\" ? \"0 2px 8px rgba(36,20,48,.08)\" : \"none\",\n  };\n  const badge = { display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 22, height: 22, borderRadius: \"50%\", background: accent, color: \"#241430\", fontSize: 12, fontWeight: 700, flexShrink: 0 };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", borderRadius: 12, padding: 20, maxWidth: 340, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      {empty ? (\n        <p style={{ margin: 0, padding: \"24px 12px\", textAlign: \"center\", fontSize: 13, color: \"#241430aa\", border: \"1.5px dashed #24143033\", borderRadius: 10 }}>\n          No items yet — check back soon.\n        </p>\n      ) : (\n        <ol style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          <li style={itemStyle}><span style={badge}>1</span><span>Create your workspace</span></li>\n          <li style={itemStyle}><span style={badge}>2</span><span>Invite your team</span></li>\n          <li style={itemStyle}><span style={badge}>3</span><span>Connect a data source</span></li>\n          {showExtra && (\n            <li style={itemStyle}><span style={badge}>4</span><span>Publish your first report</span></li>\n          )}\n        </ol>\n      )}\n    </div>\n  );\n}"
+  }
+}

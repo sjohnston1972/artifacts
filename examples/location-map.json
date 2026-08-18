@@ -1,56 +1,36 @@
 {
+  "slug": "location-map",
   "controls_schema": [
     {
-      "id": "name",
+      "id": "address",
       "type": "text",
-      "label": "Business name",
-      "default": "Clyde & Ford Studio"
+      "label": "Address",
+      "default": "48 Rivermill Lane, Austin, TX"
     },
     {
-      "id": "pin",
+      "id": "theme",
+      "type": "select",
+      "label": "Map theme",
+      "default": "light",
+      "options": ["light", "dark"]
+    },
+    {
+      "id": "pinColor",
       "type": "color",
       "label": "Pin colour",
       "default": "#E8A020",
-      "presets": [
-        "#E8A020",
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#D9C8F0",
-        "#241430"
-      ]
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
     },
     {
-      "id": "tone",
-      "type": "select",
-      "label": "Map tone",
-      "default": "light",
-      "options": [
-        "light",
-        "dark",
-        "mono"
-      ]
-    },
-    {
-      "id": "height",
-      "type": "number",
-      "label": "Height (px)",
-      "default": 220,
-      "min": 140,
-      "max": 360,
-      "step": 10
-    },
-    {
-      "id": "address",
+      "id": "showDirections",
       "type": "toggle",
-      "label": "Show address caption",
+      "label": "Show directions button",
       "default": true
     }
   ],
   "templates": {
-    "html": "<figure class=\"map map--{{tone}}\" style=\"height:{{height}}px;\">\n  <div class=\"map__grid\" aria-hidden=\"true\"></div>\n  <div class=\"map__pin\" style=\"--pin:{{pin}};\">\n    <span class=\"map__pin-dot\" aria-hidden=\"true\"></span>\n    <span class=\"map__pin-label\">{{name}}</span>\n  </div>\n  {{#if address}}\n  <figcaption class=\"map__caption\">24 Bell Street, Manchester M1 4EE</figcaption>\n  {{/if}}\n</figure>\n<style>\n.map { position: relative; margin: 0; width: 100%; max-width: 360px; border-radius: 14px; overflow: hidden; font: 14px system-ui, sans-serif; border: 1.5px solid #24143022; }\n.map--light { background: linear-gradient(#F3EFE6, #EDE7D8); }\n.map--dark { background: linear-gradient(#241430, #31204a); }\n.map--mono { background: linear-gradient(#E7E7E7, #D6D6D6); }\n.map__grid { position: absolute; inset: 0; background-image: linear-gradient(#24143014 1px, transparent 1px), linear-gradient(90deg, #24143014 1px, transparent 1px); background-size: 32px 32px; }\n.map--dark .map__grid { background-image: linear-gradient(#FAF7F214 1px, transparent 1px), linear-gradient(90deg, #FAF7F214 1px, transparent 1px); }\n.map__pin { position: absolute; top: 42%; left: 48%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; }\n.map__pin-dot { width: 16px; height: 16px; border-radius: 50% 50% 50% 0; background: var(--pin); transform: rotate(-45deg); box-shadow: 0 2px 6px rgba(36,20,48,.35); }\n.map__pin-label { margin-top: 8px; padding: 4px 10px; border-radius: 6px; background: #FAF7F2; color: #241430; font-weight: 600; font-size: 12px; box-shadow: 0 2px 6px rgba(36,20,48,.2); white-space: nowrap; }\n.map--dark .map__pin-label { background: #241430; color: #FAF7F2; }\n.map__caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 12px; background: #FAF7F2e6; color: #241430; font-size: 12px; }\n.map--dark .map__caption { background: #241430e6; color: #FAF7F2; }\n</style>",
-    "tailwind": "<figure class=\"map-tw map-tw--{{tone}} relative m-0 w-full max-w-[360px] rounded-2xl overflow-hidden border-[1.5px] border-[#24143022] font-sans text-sm\" style=\"height:{{height}}px;\">\n  <div class=\"map-tw__grid absolute inset-0\" aria-hidden=\"true\"></div>\n  <div class=\"absolute flex flex-col items-center\" style=\"top:42%;left:48%;transform:translate(-50%,-100%);--pin:{{pin}};\">\n    <span class=\"map-tw__pin-dot w-4 h-4 shadow-md\" style=\"border-radius:50% 50% 50% 0;background:var(--pin);transform:rotate(-45deg);\" aria-hidden=\"true\"></span>\n    <span class=\"map-tw__pin-label mt-2 px-2.5 py-1 rounded-md text-xs font-semibold shadow-md whitespace-nowrap\">{{name}}</span>\n  </div>\n  {{#if address}}\n  <figcaption class=\"map-tw__caption absolute left-0 right-0 bottom-0 px-3 py-2 text-xs\">24 Bell Street, Manchester M1 4EE</figcaption>\n  {{/if}}\n</figure>\n<style>\n.map-tw--light { background: linear-gradient(#F3EFE6, #EDE7D8); }\n.map-tw--dark { background: linear-gradient(#241430, #31204a); }\n.map-tw--mono { background: linear-gradient(#E7E7E7, #D6D6D6); }\n.map-tw__grid { background-image: linear-gradient(#24143014 1px, transparent 1px), linear-gradient(90deg, #24143014 1px, transparent 1px); background-size: 32px 32px; }\n.map-tw--dark .map-tw__grid { background-image: linear-gradient(#FAF7F214 1px, transparent 1px), linear-gradient(90deg, #FAF7F214 1px, transparent 1px); }\n.map-tw__pin-label { background: #FAF7F2; color: #241430; }\n.map-tw--dark .map-tw__pin-label { background: #241430; color: #FAF7F2; }\n.map-tw__caption { background: #FAF7F2e6; color: #241430; }\n.map-tw--dark .map-tw__caption { background: #241430e6; color: #FAF7F2; }\n</style>",
-    "react": "export function LocationMap({\n  name = \"{{name}}\",\n  pin = \"{{pin}}\",\n  tone = \"{{tone}}\",\n  height = {{height}},\n  address = {{address}},\n}) {\n  const bg = {\n    light: \"linear-gradient(#F3EFE6, #EDE7D8)\",\n    dark: \"linear-gradient(#241430, #31204a)\",\n    mono: \"linear-gradient(#E7E7E7, #D6D6D6)\",\n  }[tone] ?? \"linear-gradient(#F3EFE6, #EDE7D8)\";\n  const dark = tone === \"dark\";\n  const gridLine = dark ? \"#FAF7F214\" : \"#24143014\";\n  return (\n    <figure style={{ position: \"relative\", margin: 0, width: \"100%\", maxWidth: 360, height, borderRadius: 14, overflow: \"hidden\", border: \"1.5px solid #24143022\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, background: bg }}>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", inset: 0, backgroundImage: `linear-gradient(${gridLine} 1px, transparent 1px), linear-gradient(90deg, ${gridLine} 1px, transparent 1px)`, backgroundSize: \"32px 32px\" }} />\n      <div style={{ position: \"absolute\", top: \"42%\", left: \"48%\", transform: \"translate(-50%, -100%)\", display: \"flex\", flexDirection: \"column\", alignItems: \"center\" }}>\n        <span aria-hidden=\"true\" style={{ width: 16, height: 16, borderRadius: \"50% 50% 50% 0\", background: pin, transform: \"rotate(-45deg)\", boxShadow: \"0 2px 6px rgba(36,20,48,.35)\" }} />\n        <span style={{ marginTop: 8, padding: \"4px 10px\", borderRadius: 6, background: dark ? \"#241430\" : \"#FAF7F2\", color: dark ? \"#FAF7F2\" : \"#241430\", fontWeight: 600, fontSize: 12, boxShadow: \"0 2px 6px rgba(36,20,48,.2)\", whiteSpace: \"nowrap\" }}>{name}</span>\n      </div>\n      {address && (\n        <figcaption style={{ position: \"absolute\", left: 0, right: 0, bottom: 0, padding: \"8px 12px\", background: dark ? \"#241430e6\" : \"#FAF7F2e6\", color: dark ? \"#FAF7F2\" : \"#241430\", fontSize: 12 }}>\n          24 Bell Street, Manchester M1 4EE\n        </figcaption>\n      )}\n    </figure>\n  );\n}"
-  },
-  "slug": "location-map"
+    "html": "<div class=\"lmap lmap--{{theme}}\">\n  <div class=\"lmap__canvas\" role=\"img\" aria-label=\"Map showing location at {{address}}\">\n    <span class=\"lmap__pin\" style=\"color:{{pinColor}};\" aria-hidden=\"true\">&#128205;</span>\n  </div>\n  <div class=\"lmap__footer\">\n    <p class=\"lmap__address\">{{address}}</p>\n    {{#if showDirections}}<a href=\"#\" class=\"lmap__cta\" style=\"background:{{pinColor}};\">Get directions</a>{{/if}}\n  </div>\n</div>\n<style>\n.lmap { font: 14px system-ui, sans-serif; color: #241430; max-width: 320px; border-radius: 14px; overflow: hidden; border: 1px solid #24143022; }\n.lmap__canvas { height: 160px; position: relative; background-image: radial-gradient(#24143022 1px, transparent 1px); background-size: 14px 14px; background-color: #FAF7F2; display: flex; align-items: center; justify-content: center; }\n.lmap--dark .lmap__canvas { background-color: #241430; background-image: radial-gradient(#FAF7F233 1px, transparent 1px); }\n.lmap__pin { font-size: 30px; }\n.lmap__footer { padding: 14px 16px; background: #FAF7F2; display: flex; align-items: center; justify-content: space-between; gap: 10px; }\n.lmap__address { margin: 0; color: #241430cc; }\n.lmap__cta { flex-shrink: 0; color: #FAF7F2; text-decoration: none; font-weight: 700; font-size: 13px; padding: 8px 14px; border-radius: 8px; }\n.lmap__cta:hover, .lmap__cta:focus-visible { opacity: .9; }\n</style>",
+    "tailwind": "<div class=\"lmap-tw lmap-tw--{{theme}} font-sans text-sm text-[#241430] max-w-[320px] rounded-2xl overflow-hidden border border-[#24143022]\">\n  <div class=\"lmap-tw__canvas h-40 relative flex items-center justify-center bg-[#FAF7F2]\" style=\"background-image: radial-gradient(#24143022 1px, transparent 1px); background-size: 14px 14px;\" role=\"img\" aria-label=\"Map showing location at {{address}}\">\n    <span class=\"text-3xl\" style=\"color:{{pinColor}};\" aria-hidden=\"true\">&#128205;</span>\n  </div>\n  <div class=\"px-4 py-3.5 bg-[#FAF7F2] flex items-center justify-between gap-2.5\">\n    <p class=\"m-0 text-[#241430]/80\">{{address}}</p>\n    {{#if showDirections}}<a href=\"#\" class=\"flex-shrink-0 text-[#FAF7F2] no-underline font-bold text-[13px] px-3.5 py-2 rounded-lg hover:opacity-90\" style=\"background:{{pinColor}};\">Get directions</a>{{/if}}\n  </div>\n</div>\n<style>\n.lmap-tw--dark .lmap-tw__canvas { background-color: #241430; background-image: radial-gradient(#FAF7F233 1px, transparent 1px) !important; }\n</style>",
+    "react": "export function LocationMap({\n  address = \"{{address}}\",\n  theme = \"{{theme}}\",\n  pinColor = \"{{pinColor}}\",\n  showDirections = {{showDirections}},\n}) {\n  const dark = theme === \"dark\";\n  return (\n    <div style={{ font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 320, borderRadius: 14, overflow: \"hidden\", border: \"1px solid #24143022\" }}>\n      <div role=\"img\" aria-label={`Map showing location at ${address}`} style={{ height: 160, position: \"relative\",\n        display: \"flex\", alignItems: \"center\", justifyContent: \"center\",\n        backgroundColor: dark ? \"#241430\" : \"#FAF7F2\",\n        backgroundImage: `radial-gradient(${dark ? \"#FAF7F233\" : \"#24143022\"} 1px, transparent 1px)`,\n        backgroundSize: \"14px 14px\" }}>\n        <span aria-hidden=\"true\" style={{ fontSize: 30, color: pinColor }}>&#128205;</span>\n      </div>\n      <div style={{ padding: \"14px 16px\", background: \"#FAF7F2\", display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 10 }}>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>{address}</p>\n        {showDirections && (\n          <a href=\"#\" style={{ flexShrink: 0, color: \"#FAF7F2\", textDecoration: \"none\", fontWeight: 700, fontSize: 13,\n            padding: \"8px 14px\", borderRadius: 8, background: pinColor }}>Get directions</a>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
 }

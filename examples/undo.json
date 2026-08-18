@@ -1,0 +1,51 @@
+{
+ "slug": "undo",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Accessible name",
+   "default": "Undo"
+  },
+  {
+   "id": "iconOnly",
+   "type": "toggle",
+   "label": "Icon only",
+   "default": true
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "radius",
+   "type": "number",
+   "label": "Corner radius",
+   "default": 8,
+   "min": 0,
+   "max": 20,
+   "step": 1
+  },
+  {
+   "id": "disabled",
+   "type": "toggle",
+   "label": "Disabled",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<button type=\"button\" class=\"btn-undo{{#if iconOnly}} btn-undo--iconOnly{{/if}}\" style=\"--bg:{{bg}};border-radius:{{radius}}px\"{{#if iconOnly}} aria-label=\"{{label}}\"{{/if}}{{#if disabled}} disabled{{/if}}>\n  <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 10h9a5 5 0 110 10H9M4 10l4-4M4 10l4 4\"/></svg>\n  {{#unless iconOnly}}<span>{{label}}</span>{{/unless}}\n</button>\n<style>\n.btn-undo {\n  display: inline-flex; align-items: center; gap: 7px;\n  font: 600 14px/1 system-ui, sans-serif;\n  padding: 8px 14px;\n  border: 1.5px solid rgba(36,20,48,.25);\n  background: #FAF7F2;\n  color: #241430;\n  cursor: pointer;\n}\n.btn-undo--iconOnly { padding: 8px; }\n.btn-undo:hover:not(:disabled) { color: var(--bg); border-color: var(--bg); }\n.btn-undo:active:not(:disabled) { background: rgba(36,20,48,.06); }\n.btn-undo:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n.btn-undo:disabled { opacity: .35; cursor: not-allowed; }\n</style>",
+  "tailwind": "<button type=\"button\" class=\"inline-flex items-center gap-1.75 text-sm font-semibold bg-[#FAF7F2] text-[#241430] cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed btn-undo-tw{{#if iconOnly}} btn-undo-tw--iconOnly{{/if}}\" style=\"border:1.5px solid rgba(36,20,48,.25);border-radius:{{radius}}px\"{{#if iconOnly}} aria-label=\"{{label}}\"{{/if}}{{#if disabled}} disabled{{/if}}>\n  <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 10h9a5 5 0 110 10H9M4 10l4-4M4 10l4 4\"/></svg>\n  {{#unless iconOnly}}<span>{{label}}</span>{{/unless}}\n</button>\n<style>\n.btn-undo-tw { padding: 8px 14px; }\n.btn-undo-tw--iconOnly { padding: 8px; }\n.btn-undo-tw:hover:not(:disabled) { color: {{bg}}; border-color: {{bg}}; }\n.btn-undo-tw:focus-visible { outline:2px solid #241430;outline-offset:2px; }\n</style>",
+  "react": "export function UndoButton({\n  label = \"{{label}}\",\n  iconOnly = {{iconOnly}},\n  bg = \"{{bg}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button\n      type=\"button\"\n      aria-label={iconOnly ? label : undefined}\n      disabled={disabled}\n      style={{\n        display: \"inline-flex\",\n        alignItems: \"center\",\n        gap: 7,\n        padding: iconOnly ? 8 : \"8px 14px\",\n        borderRadius: radius,\n        border: \"1.5px solid rgba(36,20,48,.25)\",\n        background: \"#FAF7F2\",\n        color: \"#241430\",\n        font: \"600 14px/1 system-ui, sans-serif\",\n        cursor: disabled ? \"not-allowed\" : \"pointer\",\n        opacity: disabled ? 0.35 : 1,\n      }}\n    >\n      <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden=\"true\">\n        <path d=\"M4 10h9a5 5 0 110 10H9M4 10l4-4M4 10l4 4\" />\n      </svg>\n      {!iconOnly && <span>{label}</span>}\n    </button>\n  );\n}"
+ }
+}

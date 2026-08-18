@@ -1,0 +1,63 @@
+{
+  "slug": "contextual-toolbar",
+  "controls_schema": [
+    {
+      "id": "selectedText",
+      "type": "text",
+      "label": "Selected text",
+      "default": "design tokens"
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Toolbar label",
+      "default": "Text formatting"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "dark",
+      "options": [
+        "light",
+        "dark",
+        "brand"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Icon colour",
+      "default": "#E8A020",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "placement",
+      "type": "select",
+      "label": "Placement",
+      "default": "above",
+      "options": [
+        "above",
+        "below"
+      ]
+    },
+    {
+      "id": "visible",
+      "type": "toggle",
+      "label": "Show toolbar",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ctb-demo\">\n  <div class=\"ctb-wrap\">\n    <p class=\"ctb-text\">Great writing starts with clear <span class=\"ctb-selection\">{{selectedText}}</span> and a consistent voice throughout the document.</p>\n    {{#if visible}}\n    <div class=\"ctb-toolbar ctb-toolbar--{{placement}} ctb-toolbar--{{variant}}\" role=\"toolbar\" aria-label=\"{{label}}\">\n      <button type=\"button\" class=\"ctb-btn\" aria-label=\"Bold\" style=\"color:{{accent}};\"><strong>B</strong></button>\n      <button type=\"button\" class=\"ctb-btn\" aria-label=\"Italic\" style=\"color:{{accent}};\"><em>I</em></button>\n      <span class=\"ctb-divider\" aria-hidden=\"true\"></span>\n      <button type=\"button\" class=\"ctb-btn\" aria-label=\"Add link\" style=\"color:{{accent}};\">\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8.5 11.5 11.5 8.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M9.5 6.5 11 5a2.5 2.5 0 0 1 3.5 3.5L13 10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M10.5 13.5 9 15a2.5 2.5 0 0 1-3.5-3.5L7 10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n      <button type=\"button\" class=\"ctb-btn\" aria-label=\"Add comment\" style=\"color:{{accent}};\">\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M3 4.5h14v9H8l-3 3v-3H3z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg>\n      </button>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.ctb-demo { display: grid; place-items: center; min-height: 260px; border-radius: 12px; padding: 24px; box-sizing: border-box; }\n.ctb-wrap { position: relative; max-width: 420px; font: 15px/1.7 system-ui, sans-serif; color: #241430; }\n.ctb-text { margin: 0; }\n.ctb-selection { background: #BFD9F255; border-radius: 3px; padding: 0 2px; }\n.ctb-toolbar { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-radius: 10px; box-shadow: 0 10px 24px rgba(36,20,48,.28); }\n.ctb-toolbar--above { bottom: calc(100% + 10px); }\n.ctb-toolbar--below { top: calc(100% + 10px); }\n.ctb-toolbar--light { background: #FAF7F2; }\n.ctb-toolbar--dark { background: #241430; }\n.ctb-toolbar--brand { background: #D9C8F0; }\n.ctb-btn { background: none; border: none; cursor: pointer; font: 600 13px system-ui, sans-serif; padding: 5px 8px; border-radius: 6px; display: grid; place-items: center; }\n.ctb-btn:hover, .ctb-btn:focus-visible { background: rgba(255,255,255,.16); outline: none; }\n.ctb-divider { width: 1px; height: 16px; background: currentColor; opacity: .25; }\n</style>",
+    "tailwind": "<div class=\"grid place-items-center min-h-[260px] rounded-xl p-6 box-border\">\n  <div class=\"relative max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#241430]\">\n    <p class=\"m-0\">Great writing starts with clear <span class=\"bg-[#BFD9F2]/30 rounded-[3px] px-0.5\">{{selectedText}}</span> and a consistent voice throughout the document.</p>\n    {{#if visible}}\n    <div role=\"toolbar\" aria-label=\"{{label}}\" class=\"ctb-tw ctb-tw--{{placement}} ctb-tw--{{variant}} absolute left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-1.5 rounded-[10px] shadow-2xl\">\n      <button type=\"button\" aria-label=\"Bold\" class=\"bg-transparent border-none cursor-pointer font-semibold text-[13px] px-2 py-1 rounded-md grid place-items-center\" style=\"color:{{accent}};\"><strong>B</strong></button>\n      <button type=\"button\" aria-label=\"Italic\" class=\"bg-transparent border-none cursor-pointer font-semibold text-[13px] px-2 py-1 rounded-md grid place-items-center\" style=\"color:{{accent}};\"><em>I</em></button>\n      <span aria-hidden=\"true\" class=\"w-px h-4 bg-current opacity-25\"></span>\n      <button type=\"button\" aria-label=\"Add link\" class=\"bg-transparent border-none cursor-pointer px-2 py-1 rounded-md grid place-items-center\" style=\"color:{{accent}};\">\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8.5 11.5 11.5 8.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M9.5 6.5 11 5a2.5 2.5 0 0 1 3.5 3.5L13 10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M10.5 13.5 9 15a2.5 2.5 0 0 1-3.5-3.5L7 10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      </button>\n      <button type=\"button\" aria-label=\"Add comment\" class=\"bg-transparent border-none cursor-pointer px-2 py-1 rounded-md grid place-items-center\" style=\"color:{{accent}};\">\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M3 4.5h14v9H8l-3 3v-3H3z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg>\n      </button>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.ctb-tw--above { bottom: calc(100% + 10px); }\n.ctb-tw--below { top: calc(100% + 10px); }\n.ctb-tw--light { background: #FAF7F2; }\n.ctb-tw--dark { background: #241430; }\n.ctb-tw--brand { background: #D9C8F0; }\n</style>",
+    "react": "export function ContextualToolbar({\n  selectedText = \"{{selectedText}}\",\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  placement = \"{{placement}}\",\n  visible = {{visible}},\n}) {\n  const bg = { light: \"#FAF7F2\", dark: \"#241430\", brand: \"#D9C8F0\" }[variant] ?? \"#241430\";\n  const pos = placement === \"below\" ? { top: \"calc(100% + 10px)\" } : { bottom: \"calc(100% + 10px)\" };\n  return (\n    <div style={{ display: \"grid\", placeItems: \"center\", minHeight: 260, borderRadius: 12, padding: 24, boxSizing: \"border-box\" }}>\n      <div style={{ position: \"relative\", maxWidth: 420, font: \"15px/1.7 system-ui, sans-serif\", color: \"#241430\" }}>\n        <p style={{ margin: 0 }}>\n          Great writing starts with clear{\" \"}\n          <span style={{ background: \"#BFD9F255\", borderRadius: 3, padding: \"0 2px\" }}>{selectedText}</span>{\" \"}\n          and a consistent voice throughout the document.\n        </p>\n        {visible && (\n          <div role=\"toolbar\" aria-label={label} style={{ position: \"absolute\", left: \"50%\", transform: \"translateX(-50%)\", display: \"flex\",\n            alignItems: \"center\", gap: 4, padding: \"6px 8px\", borderRadius: 10, boxShadow: \"0 10px 24px rgba(36,20,48,.28)\", background: bg, ...pos }}>\n            <button type=\"button\" aria-label=\"Bold\" style={{ background: \"none\", border: \"none\", cursor: \"pointer\", fontWeight: 600, fontSize: 13, padding: \"5px 8px\", borderRadius: 6, color: accent }}><strong>B</strong></button>\n            <button type=\"button\" aria-label=\"Italic\" style={{ background: \"none\", border: \"none\", cursor: \"pointer\", fontWeight: 600, fontSize: 13, padding: \"5px 8px\", borderRadius: 6, color: accent }}><em>I</em></button>\n            <span aria-hidden=\"true\" style={{ width: 1, height: 16, background: \"currentColor\", opacity: .25 }} />\n            <button type=\"button\" aria-label=\"Add link\" style={{ background: \"none\", border: \"none\", cursor: \"pointer\", padding: \"5px 8px\", borderRadius: 6, color: accent, display: \"grid\", placeItems: \"center\" }}>\n              <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\">\n                <path d=\"M8.5 11.5 11.5 8.5\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" />\n                <path d=\"M9.5 6.5 11 5a2.5 2.5 0 0 1 3.5 3.5L13 10\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" />\n                <path d=\"M10.5 13.5 9 15a2.5 2.5 0 0 1-3.5-3.5L7 10\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" />\n              </svg>\n            </button>\n            <button type=\"button\" aria-label=\"Add comment\" style={{ background: \"none\", border: \"none\", cursor: \"pointer\", padding: \"5px 8px\", borderRadius: 6, color: accent, display: \"grid\", placeItems: \"center\" }}>\n              <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\">\n                <path d=\"M3 4.5h14v9H8l-3 3v-3H3z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinejoin=\"round\" />\n              </svg>\n            </button>\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

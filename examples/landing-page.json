@@ -1,53 +1,42 @@
 {
+  "slug": "landing-page",
   "controls_schema": [
     {
       "id": "headline",
       "type": "text",
       "label": "Headline",
-      "default": "Launch the new season collection"
+      "default": "Launch your campaign in a day"
     },
     {
-      "id": "cta",
+      "id": "ctaText",
       "type": "text",
-      "label": "CTA label",
-      "default": "Get started free"
+      "label": "CTA text",
+      "default": "Get early access"
     },
     {
       "id": "layout",
       "type": "select",
       "label": "Layout",
-      "default": "centered",
-      "options": [
-        "centered",
-        "split",
-        "minimal"
-      ]
+      "default": "single-column",
+      "options": ["single-column", "split-hero"]
     },
     {
       "id": "accent",
       "type": "color",
       "label": "Accent colour",
-      "default": "#A8E6C1",
-      "presets": [
-        "#A8E6C1",
-        "#F5C2E0",
-        "#BFD9F2",
-        "#D9C8F0",
-        "#E8A020",
-        "#241430"
-      ]
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
     },
     {
-      "id": "supporting",
+      "id": "showFooter",
       "type": "toggle",
-      "label": "Show supporting section",
+      "label": "Show footer strip",
       "default": true
     }
   ],
   "templates": {
-    "html": "<div class=\"landing landing--{{layout}}\" style=\"border-color:{{accent}};\">\n  <header class=\"landing__hero\">\n    <h1 class=\"landing__headline\">{{headline}}</h1>\n    <button class=\"landing__cta\" style=\"background:{{accent}};\" type=\"button\">{{cta}}</button>\n  </header>\n  {{#if supporting}}\n  <section class=\"landing__supporting\">\n    <p>Trusted by teams who ship faster with less busywork.</p>\n  </section>\n  {{/if}}\n</div>\n<style>\n.landing { font: 16px/1.5 system-ui, sans-serif; max-width: 420px; border: 1.5px solid; border-radius: 14px; padding: 28px 24px; background: #FAF7F2; color: #241430; }\n.landing--centered .landing__hero { text-align: center; }\n.landing--split .landing__hero { display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; }\n.landing--minimal .landing__hero { text-align: left; }\n.landing__headline { margin: 0 0 16px; font-size: 22px; font-weight: 700; }\n.landing--split .landing__headline { margin: 0; }\n.landing__cta { border: none; color: #FAF7F2; font: 600 14px system-ui, sans-serif; padding: 10px 18px; border-radius: 8px; cursor: pointer; }\n.landing__cta:hover { filter: brightness(.94); }\n.landing__cta:focus-visible { outline: 2px solid {{accent}}; outline-offset: 2px; }\n.landing__supporting { margin-top: 20px; padding-top: 16px; border-top: 1px solid #24143022; font-size: 14px; color: #241430cc; }\n</style>",
-    "tailwind": "<div class=\"landing-tw landing-tw--{{layout}} max-w-md rounded-2xl border-[1.5px] p-7 bg-[#FAF7F2] text-[#241430] font-sans\" style=\"border-color:{{accent}};\">\n  <div class=\"landing-tw__hero\">\n    <h1 class=\"m-0 mb-4 text-xl font-bold\">{{headline}}</h1>\n    <button type=\"button\" class=\"border-none text-[#FAF7F2] text-sm font-semibold px-[18px] py-[10px] rounded-lg cursor-pointer hover:brightness-95\" style=\"background:{{accent}};\">{{cta}}</button>\n  </div>\n  {{#if supporting}}\n  <div class=\"mt-5 pt-4 border-t border-[#24143022] text-sm text-[#241430]/80\">\n    <p class=\"m-0\">Trusted by teams who ship faster with less busywork.</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n.landing-tw--centered .landing-tw__hero { text-align: center; }\n.landing-tw--split .landing-tw__hero { display: flex; align-items: center; justify-content: space-between; gap: 16px; }\n.landing-tw--minimal .landing-tw__hero { text-align: left; }\n</style>",
-    "react": "export function LandingPage({\n  headline = \"{{headline}}\",\n  cta = \"{{cta}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  supporting = {{supporting}},\n}) {\n  const heroStyle = {\n    centered: { textAlign: \"center\" },\n    split: { display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 16, textAlign: \"left\" },\n    minimal: { textAlign: \"left\" },\n  }[layout] ?? {};\n  return (\n    <div style={{ maxWidth: 420, border: `1.5px solid ${accent}`, borderRadius: 14, padding: \"28px 24px\", background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\" }}>\n      <div style={heroStyle}>\n        <h1 style={{ margin: layout === \"split\" ? 0 : \"0 0 16px\", fontSize: 22, fontWeight: 700 }}>{headline}</h1>\n        <button type=\"button\" style={{ border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 600, fontSize: 14, padding: \"10px 18px\", borderRadius: 8, cursor: \"pointer\" }}>{cta}</button>\n      </div>\n      {supporting && (\n        <div style={{ marginTop: 20, paddingTop: 16, borderTop: \"1px solid #24143022\", fontSize: 14, color: \"#241430cc\" }}>\n          <p style={{ margin: 0 }}>Trusted by teams who ship faster with less busywork.</p>\n        </div>\n      )}\n    </div>\n  );\n}"
-  },
-  "slug": "landing-page"
+    "html": "<div class=\"lpage\">\n  <section class=\"lpage__hero lpage__hero--{{layout}}\" style=\"background:{{accent}};\">\n    <div>\n      <h1 class=\"lpage__headline\">{{headline}}</h1>\n      <button type=\"button\" class=\"lpage__cta\" style=\"color:{{accent}};\">{{ctaText}}</button>\n    </div>\n    <div class=\"lpage__visual\" aria-hidden=\"true\"></div>\n  </section>\n  <section class=\"lpage__strip\">\n    <div></div><div></div><div></div>\n  </section>\n  {{#if showFooter}}<footer class=\"lpage__footer\">&copy; 2026 Campaign Co.</footer>{{/if}}\n</div>\n<style>\n.lpage { font: 16px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; border-radius: 14px; overflow: hidden; max-width: 480px; background: #FAF7F2; }\n.lpage__hero { color: #FAF7F2; padding: 32px 24px; display: flex; align-items: center; gap: 20px; }\n.lpage__hero--single-column { flex-direction: column; text-align: center; }\n.lpage__hero--split-hero { flex-direction: row; text-align: left; }\n.lpage__headline { margin: 0 0 14px; font-size: 22px; font-weight: 800; }\n.lpage__cta { background: #FAF7F2; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }\n.lpage__cta:hover, .lpage__cta:focus-visible { opacity: .9; }\n.lpage__visual { flex: 1 1 120px; min-height: 80px; border-radius: 10px; background: #FAF7F233; }\n.lpage__hero--single-column .lpage__visual { width: 100%; }\n.lpage__strip { display: flex; gap: 10px; padding: 16px 24px; }\n.lpage__strip div { flex: 1; height: 34px; border-radius: 8px; background: #24143012; }\n.lpage__footer { padding: 12px 24px; font-size: 12px; color: #241430aa; border-top: 1px solid #24143018; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] border border-[#24143022] rounded-2xl overflow-hidden max-w-[480px] bg-[#FAF7F2]\">\n  <section class=\"lpage-tw lpage-tw--{{layout}} text-[#FAF7F2] px-6 py-8 flex items-center gap-5\" style=\"background:{{accent}};\">\n    <div>\n      <h1 class=\"m-0 mb-3.5 text-[22px] font-extrabold\">{{headline}}</h1>\n      <button type=\"button\" class=\"bg-[#FAF7F2] border-0 px-5 py-2.5 rounded-lg font-bold cursor-pointer hover:opacity-90\" style=\"color:{{accent}};\">{{ctaText}}</button>\n    </div>\n    <div class=\"flex-1 min-w-[120px] min-h-[80px] rounded-[10px] bg-[#FAF7F233]\" aria-hidden=\"true\"></div>\n  </section>\n  <section class=\"flex gap-2.5 px-6 py-4\">\n    <div class=\"flex-1 h-[34px] rounded-lg bg-[#24143012]\"></div>\n    <div class=\"flex-1 h-[34px] rounded-lg bg-[#24143012]\"></div>\n    <div class=\"flex-1 h-[34px] rounded-lg bg-[#24143012]\"></div>\n  </section>\n  {{#if showFooter}}<footer class=\"px-6 py-3 text-xs text-[#241430]/65 border-t border-[#24143018]\">&copy; 2026 Campaign Co.</footer>{{/if}}\n</div>\n<style>\n.lpage-tw--single-column { flex-direction: column; text-align: center; }\n.lpage-tw--split-hero { flex-direction: row; text-align: left; }\n</style>",
+    "react": "export function LandingPage({\n  headline = \"{{headline}}\",\n  ctaText = \"{{ctaText}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showFooter = {{showFooter}},\n}) {\n  const split = layout === \"split-hero\";\n  return (\n    <div style={{ font: \"16px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143022\",\n      borderRadius: 14, overflow: \"hidden\", maxWidth: 480, background: \"#FAF7F2\" }}>\n      <section style={{ color: \"#FAF7F2\", padding: \"32px 24px\", display: \"flex\", alignItems: \"center\", gap: 20,\n        flexDirection: split ? \"row\" : \"column\", textAlign: split ? \"left\" : \"center\", background: accent }}>\n        <div>\n          <h1 style={{ margin: \"0 0 14px\", fontSize: 22, fontWeight: 800 }}>{headline}</h1>\n          <button type=\"button\" style={{ background: \"#FAF7F2\", border: \"none\", padding: \"10px 20px\", borderRadius: 8,\n            fontWeight: 700, cursor: \"pointer\", color: accent }}>{ctaText}</button>\n        </div>\n        <div aria-hidden=\"true\" style={{ flex: \"1 1 120px\", minHeight: 80, borderRadius: 10, background: \"#FAF7F233\",\n          width: split ? \"auto\" : \"100%\" }} />\n      </section>\n      <section style={{ display: \"flex\", gap: 10, padding: \"16px 24px\" }}>\n        {[0, 1, 2].map((i) => <div key={i} style={{ flex: 1, height: 34, borderRadius: 8, background: \"#24143012\" }} />)}\n      </section>\n      {showFooter && <footer style={{ padding: \"12px 24px\", fontSize: 12, color: \"#241430aa\", borderTop: \"1px solid #24143018\" }}>&copy; 2026 Campaign Co.</footer>}\n    </div>\n  );\n}"
+  }
 }

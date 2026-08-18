@@ -1,0 +1,41 @@
+{
+  "slug": "video-player",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Product walkthrough"
+    },
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Chrome colour",
+      "default": "mint",
+      "options": ["mint", "sky", "blush"]
+    },
+    {
+      "id": "controlsOn",
+      "type": "toggle",
+      "label": "Show controls",
+      "default": true
+    },
+    {
+      "id": "muted",
+      "type": "toggle",
+      "label": "Muted",
+      "default": false
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"vp vp--{{theme}}\">\n  <video class=\"vp__video\" {{#if controlsOn}}controls{{/if}} {{#if muted}}muted{{/if}} {{#if loop}}loop{{/if}} playsinline poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Cpolygon points='170,80 170,145 235,112' fill='%23FAF7F2'/%3E%3C/svg%3E\" aria-label=\"{{title}}\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    <track kind=\"captions\" srclang=\"en\" label=\"English\" default />\n  </video>\n  <p class=\"vp__title\">{{title}}</p>\n</div>\n<style>\n.vp { max-width: 360px; padding: 4px; border-radius: 12px; border: 2px solid #A8E6C1; background: #FAF7F2; }\n.vp--mint { border-color: #A8E6C1; }\n.vp--sky { border-color: #BFD9F2; }\n.vp--blush { border-color: #F5C2E0; }\n.vp__video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; background: #241430; }\n.vp__title { margin: 8px 4px 4px; font: 600 13px/1.4 system-ui, sans-serif; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"vp-tw vp-tw--{{theme}} max-w-[360px] p-1 rounded-xl border-2 bg-[#FAF7F2]\">\n  <video class=\"block w-full rounded-lg bg-[#241430]\" style=\"aspect-ratio:16/9;\" {{#if controlsOn}}controls{{/if}} {{#if muted}}muted{{/if}} {{#if loop}}loop{{/if}} playsinline poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Cpolygon points='170,80 170,145 235,112' fill='%23FAF7F2'/%3E%3C/svg%3E\" aria-label=\"{{title}}\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    <track kind=\"captions\" srclang=\"en\" label=\"English\" default />\n  </video>\n  <p class=\"m-0 mt-2 mx-1 text-[13px] font-semibold text-[#241430]\">{{title}}</p>\n</div>\n<style>\n.vp-tw--mint { border-color: #A8E6C1; }\n.vp-tw--sky { border-color: #BFD9F2; }\n.vp-tw--blush { border-color: #F5C2E0; }\n</style>",
+    "react": "export function VideoPlayer({\n  title = \"{{title}}\",\n  theme = \"{{theme}}\",\n  controlsOn = {{controlsOn}},\n  muted = {{muted}},\n  loop = {{loop}},\n}) {\n  const border = { mint: \"#A8E6C1\", sky: \"#BFD9F2\", blush: \"#F5C2E0\" }[theme] ?? \"#A8E6C1\";\n  return (\n    <div style={{ maxWidth: 360, padding: 4, borderRadius: 12, border: `2px solid ${border}`, background: \"#FAF7F2\" }}>\n      <video\n        style={{ display: \"block\", width: \"100%\", aspectRatio: \"16 / 9\", borderRadius: 8, background: \"#241430\" }}\n        controls={controlsOn}\n        muted={muted}\n        loop={loop}\n        playsInline\n        poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Cpolygon points='170,80 170,145 235,112' fill='%23FAF7F2'/%3E%3C/svg%3E\"\n        aria-label={title}\n      >\n        {/* Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\" /> for playback */}\n        <track kind=\"captions\" srcLang=\"en\" label=\"English\" default />\n      </video>\n      <p style={{ margin: \"8px 4px 4px\", font: \"600 13px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>{title}</p>\n    </div>\n  );\n}"
+  }
+}

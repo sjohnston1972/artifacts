@@ -1,0 +1,38 @@
+{
+  "slug": "map-embed",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Nearby cafés"
+    },
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": ["light", "dark"]
+    },
+    {
+      "id": "zoom",
+      "type": "number",
+      "label": "Zoom level",
+      "default": 12,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "rounded",
+      "type": "toggle",
+      "label": "Rounded corners",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"map-embed map-embed--{{theme}} {{#if rounded}}map-embed--rounded{{/if}}\" role=\"img\" aria-label=\"Map preview: {{title}}, zoom level {{zoom}}\">\n  <svg class=\"map-embed__pin\" viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path d=\"M12 2c-4 0-7 3-7 7 0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z\" fill=\"#E8A020\"/><circle cx=\"12\" cy=\"9\" r=\"2.6\" fill=\"#FAF7F2\"/></svg>\n  <p class=\"map-embed__meta\">{{title}} · zoom {{zoom}}</p>\n</div>\n<!-- Replace with a real embed in production, e.g.:\n<iframe title=\"{{title}}\" src=\"https://your-map-provider.example/embed?q=...\" loading=\"lazy\" style=\"border:0;\"></iframe> -->\n<style>\n.map-embed { position: relative; max-width: 360px; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid #24143022; display: flex; align-items: flex-end; }\n.map-embed--light { background-color: #FAF7F2; background-image: repeating-linear-gradient(0deg, #24143014 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 24px); }\n.map-embed--dark { background-color: #241430; background-image: repeating-linear-gradient(0deg, #ffffff14 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, #ffffff14 0 1px, transparent 1px 24px); color: #FAF7F2; }\n.map-embed--rounded { border-radius: 14px; }\n.map-embed__pin { position: absolute; top: 42%; left: 48%; transform: translate(-50%, -100%); }\n.map-embed__meta { margin: 0; padding: 6px 10px; font: 600 12px/1.4 system-ui, sans-serif; background: #241430cc; color: #FAF7F2; width: 100%; }\n</style>",
+    "tailwind": "<div class=\"map-embed-tw map-embed-tw--{{theme}} {{#if rounded}}rounded-2xl{{/if}} relative max-w-[360px] overflow-hidden border border-[#24143022] flex items-end\" style=\"aspect-ratio:4/3;\" role=\"img\" aria-label=\"Map preview: {{title}}, zoom level {{zoom}}\">\n  <svg class=\"absolute\" style=\"top:42%;left:48%;transform:translate(-50%,-100%);\" viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path d=\"M12 2c-4 0-7 3-7 7 0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z\" fill=\"#E8A020\"/><circle cx=\"12\" cy=\"9\" r=\"2.6\" fill=\"#FAF7F2\"/></svg>\n  <p class=\"m-0 w-full px-2.5 py-1.5 text-xs font-semibold text-[#FAF7F2]\" style=\"background:#241430cc;\">{{title}} · zoom {{zoom}}</p>\n</div>\n<!-- Replace with a real embed in production, e.g.:\n<iframe title=\"{{title}}\" src=\"https://your-map-provider.example/embed?q=...\" loading=\"lazy\" class=\"border-0\"></iframe> -->\n<style>\n.map-embed-tw--light { background-color: #FAF7F2; background-image: repeating-linear-gradient(0deg, #24143014 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 24px); }\n.map-embed-tw--dark { background-color: #241430; background-image: repeating-linear-gradient(0deg, #ffffff14 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, #ffffff14 0 1px, transparent 1px 24px); color: #FAF7F2; }\n</style>",
+    "react": "export function MapEmbed({\n  title = \"{{title}}\",\n  theme = \"{{theme}}\",\n  zoom = {{zoom}},\n  rounded = {{rounded}},\n}) {\n  const dark = theme === \"dark\";\n  return (\n    <div\n      role=\"img\"\n      aria-label={`Map preview: ${title}, zoom level ${zoom}`}\n      style={{\n        position: \"relative\", maxWidth: 360, aspectRatio: \"4 / 3\", overflow: \"hidden\",\n        border: \"1px solid #24143022\", display: \"flex\", alignItems: \"flex-end\",\n        borderRadius: rounded ? 14 : 0,\n        background: dark ? \"#241430\" : \"#FAF7F2\",\n        backgroundImage: `repeating-linear-gradient(0deg, ${dark ? \"#ffffff14\" : \"#24143014\"} 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, ${dark ? \"#ffffff14\" : \"#24143014\"} 0 1px, transparent 1px 24px)`,\n      }}\n    >\n      {/* Replace with a real embed in production, e.g.\n      <iframe title={title} src=\"https://your-map-provider.example/embed?q=...\" loading=\"lazy\" style={{ border: 0 }} /> */}\n      <svg style={{ position: \"absolute\", top: \"42%\", left: \"48%\", transform: \"translate(-50%, -100%)\" }} viewBox=\"0 0 24 24\" width={26} height={26} aria-hidden=\"true\">\n        <path d=\"M12 2c-4 0-7 3-7 7 0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z\" fill=\"#E8A020\" />\n        <circle cx=\"12\" cy=\"9\" r=\"2.6\" fill=\"#FAF7F2\" />\n      </svg>\n      <p style={{ margin: 0, padding: \"6px 10px\", font: \"600 12px/1.4 system-ui, sans-serif\", background: \"#241430cc\", color: \"#FAF7F2\", width: \"100%\" }}>\n        {title} · zoom {zoom}\n      </p>\n    </div>\n  );\n}"
+  }
+}

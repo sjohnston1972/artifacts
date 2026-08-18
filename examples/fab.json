@@ -1,0 +1,58 @@
+{
+ "slug": "fab",
+ "controls_schema": [
+  {
+   "id": "label",
+   "type": "text",
+   "label": "Accessible name",
+   "default": "Create new item"
+  },
+  {
+   "id": "corner",
+   "type": "select",
+   "label": "Corner",
+   "default": "bottom-right",
+   "options": [
+    "bottom-right",
+    "bottom-left",
+    "top-right",
+    "top-left"
+   ]
+  },
+  {
+   "id": "size",
+   "type": "select",
+   "label": "Size",
+   "default": "md",
+   "options": [
+    "md",
+    "lg"
+   ]
+  },
+  {
+   "id": "bg",
+   "type": "color",
+   "label": "Colour",
+   "default": "#241430",
+   "presets": [
+    "#241430",
+    "#A8E6C1",
+    "#F5C2E0",
+    "#BFD9F2",
+    "#D9C8F0",
+    "#E8A020"
+   ]
+  },
+  {
+   "id": "extended",
+   "type": "toggle",
+   "label": "Extended (show label)",
+   "default": false
+  }
+ ],
+ "templates": {
+  "html": "<div class=\"fab-frame\">\n  <p class=\"fab-frame__hint\">Page content</p>\n  <button type=\"button\" class=\"fab fab--{{corner}} fab--{{size}}{{#if extended}} fab--extended{{/if}}\" style=\"--bg:{{bg}}\" aria-label=\"{{label}}\">\n    <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 5v14M5 12h14\"/></svg>\n    {{#if extended}}<span class=\"fab__label\">{{label}}</span>{{/if}}\n  </button>\n</div>\n<style>\n.fab-frame { position: relative; height: 220px; border: 1px dashed rgba(36,20,48,.25); overflow: hidden; }\n.fab-frame__hint { margin: 14px; font: 500 13px/1 system-ui, sans-serif; color: rgba(36,20,48,.5); }\n.fab {\n  position: absolute;\n  display: inline-flex; align-items: center; justify-content: center; gap: 8px;\n  width: 56px; height: 56px;\n  border-radius: 999px;\n  border: none;\n  background: var(--bg);\n  color: #FAF7F2;\n  cursor: pointer;\n  box-shadow: 0 6px 16px rgba(36,20,48,.3);\n}\n.fab--lg { width: 64px; height: 64px; }\n.fab--extended { width: auto; height: 52px; padding: 0 22px 0 20px; border-radius: 999px; }\n.fab--bottom-right { right: 16px; bottom: 16px; }\n.fab--bottom-left { left: 16px; bottom: 16px; }\n.fab--top-right { right: 16px; top: 16px; }\n.fab--top-left { left: 16px; top: 16px; }\n.fab:hover { filter: brightness(1.1); }\n.fab:active { filter: brightness(0.92); }\n.fab:focus-visible { outline: 3px solid #241430; outline-offset: 3px; }\n.fab__label { font: 600 14px/1 system-ui, sans-serif; white-space: nowrap; }\n</style>",
+  "tailwind": "<div class=\"relative h-[220px] overflow-hidden\" style=\"border:1px dashed rgba(36,20,48,.25)\">\n  <p class=\"m-3.5 text-[13px] font-medium\" style=\"color:rgba(36,20,48,.5)\">Page content</p>\n  <button type=\"button\" class=\"absolute inline-flex items-center justify-center gap-2 rounded-full border-none text-[#FAF7F2] cursor-pointer shadow-lg hover:brightness-110 active:brightness-90 fab-tw fab-tw--{{corner}} fab-tw--{{size}}{{#if extended}} fab-tw--extended{{/if}}\" style=\"background:{{bg}}\" aria-label=\"{{label}}\">\n    <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 5v14M5 12h14\"/></svg>\n    {{#if extended}}<span class=\"text-sm font-semibold whitespace-nowrap\">{{label}}</span>{{/if}}\n  </button>\n</div>\n<style>\n.fab-tw--md { width: 56px; height: 56px; }\n.fab-tw--lg { width: 64px; height: 64px; }\n.fab-tw--extended { width: auto; height: 52px; padding: 0 22px 0 20px; }\n.fab-tw--bottom-right { right: 16px; bottom: 16px; }\n.fab-tw--bottom-left { left: 16px; bottom: 16px; }\n.fab-tw--top-right { right: 16px; top: 16px; }\n.fab-tw--top-left { left: 16px; top: 16px; }\n.fab-tw--{{corner}}:focus-visible { outline: 3px solid #241430; outline-offset: 3px; }\n</style>",
+  "react": "export function Fab({\n  label = \"{{label}}\",\n  corner = \"{{corner}}\",\n  size = \"{{size}}\",\n  bg = \"{{bg}}\",\n  extended = {{extended}},\n}) {\n  const pos = {\n    \"bottom-right\": { right: 16, bottom: 16 },\n    \"bottom-left\": { left: 16, bottom: 16 },\n    \"top-right\": { right: 16, top: 16 },\n    \"top-left\": { left: 16, top: 16 },\n  }[corner];\n  const dim = size === \"lg\" ? 64 : 56;\n  return (\n    <div style={{ position: \"relative\", height: 220, border: \"1px dashed rgba(36,20,48,.25)\", overflow: \"hidden\" }}>\n      <p style={{ margin: 14, font: \"500 13px/1 system-ui, sans-serif\", color: \"rgba(36,20,48,.5)\" }}>Page content</p>\n      <button\n        type=\"button\"\n        aria-label={label}\n        style={{\n          position: \"absolute\",\n          ...pos,\n          display: \"inline-flex\",\n          alignItems: \"center\",\n          justifyContent: \"center\",\n          gap: 8,\n          width: extended ? \"auto\" : dim,\n          height: extended ? 52 : dim,\n          padding: extended ? \"0 22px 0 20px\" : 0,\n          borderRadius: 999,\n          border: \"none\",\n          background: bg,\n          color: \"#FAF7F2\",\n          cursor: \"pointer\",\n          boxShadow: \"0 6px 16px rgba(36,20,48,.3)\",\n        }}\n      >\n        <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden=\"true\">\n          <path d=\"M12 5v14M5 12h14\" />\n        </svg>\n        {extended && <span style={{ font: \"600 14px/1 system-ui, sans-serif\", whiteSpace: \"nowrap\" }}>{label}</span>}\n      </button>\n    </div>\n  );\n}"
+ }
+}

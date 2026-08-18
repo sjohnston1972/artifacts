@@ -1,0 +1,47 @@
+{
+  "slug": "cell-selection",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Expense sheet"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "mode",
+      "type": "select",
+      "label": "Selection shape",
+      "default": "single",
+      "options": [
+        "single",
+        "row",
+        "block"
+      ]
+    },
+    {
+      "id": "showRef",
+      "type": "toggle",
+      "label": "Show cell reference",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"csel\" data-mode=\"{{mode}}\" style=\"--accent:{{accent}};\">\n  <div class=\"csel__scroll\">\n    <table class=\"csel__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr><th scope=\"col\">Order</th><th scope=\"col\">Customer</th><th scope=\"col\">Status</th><th scope=\"col\">Total</th></tr></thead>\n      <tbody>\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr class=\"csel__row\">\n          <td>#1041</td><td>R. Okafor</td>\n          <td class=\"csel__cell csel__block\">Processing{{#if showRef}}<span class=\"csel__ref\">C2</span>{{/if}}</td>\n          <td class=\"csel__cell csel__block\">£128.50</td>\n        </tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.csel { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.csel__scroll { overflow-x: auto; }\n.csel__table { border-collapse: collapse; width: 100%; }\n.csel__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.csel__table th, .csel__table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.csel__table th { background: var(--accent); color: #FAF7F2; }\n.csel__cell { position: relative; }\n.csel__ref { position: absolute; top: 2px; right: 4px; font-size: 10px; font-weight: 600; color: var(--accent); }\n.csel[data-mode=\"single\"] .csel__block:first-of-type { outline: 2px solid var(--accent); outline-offset: -2px; }\n.csel[data-mode=\"row\"] .csel__row { background: #A8E6C155; }\n.csel[data-mode=\"block\"] .csel__block { background: #A8E6C155; outline: 1px solid var(--accent); outline-offset: -1px; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" data-mode=\"{{mode}}\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Customer</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1042</td><td class=\"p-3.5 border-b border-[#24143020]\">A. Whitfield</td><td class=\"p-3.5 border-b border-[#24143020]\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020]\">£64.00</td></tr>\n        <tr class=\"csel__row\">\n          <td class=\"p-3.5 border-b border-[#24143020]\">#1041</td><td class=\"p-3.5 border-b border-[#24143020]\">R. Okafor</td>\n          <td class=\"csel__block p-3.5 border-b border-[#24143020] relative\">Processing{{#if showRef}}<span class=\"absolute top-0.5 right-1 text-[10px] font-semibold\" style=\"color:{{accent}}\">C2</span>{{/if}}</td>\n          <td class=\"csel__block p-3.5 border-b border-[#24143020]\">£128.50</td>\n        </tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1040</td><td class=\"p-3.5 border-b border-[#24143020]\">M. Iqbal</td><td class=\"p-3.5 border-b border-[#24143020]\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020]\">£22.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020]\">#1039</td><td class=\"p-3.5 border-b border-[#24143020]\">S. Novak</td><td class=\"p-3.5 border-b border-[#24143020]\">Refunded</td><td class=\"p-3.5 border-b border-[#24143020]\">£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n[data-mode=\"single\"] .csel__block:first-of-type { outline: 2px solid var(--accent); outline-offset: -2px; }\n[data-mode=\"row\"] .csel__row { background: #A8E6C155; }\n[data-mode=\"block\"] .csel__block { background: #A8E6C155; outline: 1px solid var(--accent); outline-offset: -1px; }\n</style>",
+    "react": "function CellSelection({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  mode = \"{{mode}}\",\n  showRef = {{showRef}},\n}) {\n  const cellStyle = { padding: \"10px 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  const blockStyle = {\n    ...cellStyle,\n    position: \"relative\",\n    background: mode === \"row\" || mode === \"block\" ? \"#A8E6C155\" : \"transparent\",\n    outline: mode === \"block\" ? `1px solid ${accent}` : mode === \"single\" ? `2px solid ${accent}` : \"none\",\n    outlineOffset: -2,\n  };\n  const rowStyle = { background: mode === \"row\" ? \"#A8E6C155\" : \"transparent\" };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              {[\"Order\", \"Customer\", \"Status\", \"Total\"].map((h) => <th key={h} scope=\"col\" style={cellStyle}>{h}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            <tr><td style={cellStyle}>#1042</td><td style={cellStyle}>A. Whitfield</td><td style={cellStyle}>Shipped</td><td style={cellStyle}>£64.00</td></tr>\n            <tr style={rowStyle}>\n              <td style={cellStyle}>#1041</td><td style={cellStyle}>R. Okafor</td>\n              <td style={blockStyle}>Processing{showRef && <span style={{ position: \"absolute\", top: 2, right: 4, fontSize: 10, fontWeight: 600, color: accent }}>C2</span>}</td>\n              <td style={blockStyle}>£128.50</td>\n            </tr>\n            <tr><td style={cellStyle}>#1040</td><td style={cellStyle}>M. Iqbal</td><td style={cellStyle}>Shipped</td><td style={cellStyle}>£22.00</td></tr>\n            <tr><td style={cellStyle}>#1039</td><td style={cellStyle}>S. Novak</td><td style={cellStyle}>Refunded</td><td style={cellStyle}>£40.00</td></tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

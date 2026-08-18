@@ -1,0 +1,57 @@
+{
+  "slug": "activity-feed",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Recent activity"
+    },
+    {
+      "id": "entries",
+      "type": "select",
+      "label": "Entries shown",
+      "default": "4",
+      "options": [
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "avatarShape",
+      "type": "select",
+      "label": "Avatar shape",
+      "default": "circle",
+      "options": [
+        "circle",
+        "square"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showTimestamps",
+      "type": "toggle",
+      "label": "Show timestamps",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"feed-demo\">\n  <h3 class=\"feed-demo__heading\">{{heading}}</h3>\n  <ol class=\"feed\" data-entries=\"{{entries}}\">\n    <li class=\"feed__item\">\n      <span class=\"avatar avatar--{{avatarShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">PS</span>\n      <div class=\"feed__body\">\n        <p class=\"feed__text\"><strong>Priya Shah</strong> starred <span class=\"feed__object\">atlas-ui</span></p>\n        {{#if showTimestamps}}<time class=\"feed__time\" datetime=\"2026-08-18T09:42:00Z\">2 minutes ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"feed__item\">\n      <span class=\"avatar avatar--{{avatarShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">TR</span>\n      <div class=\"feed__body\">\n        <p class=\"feed__text\"><strong>Tomás Rivera</strong> commented on <span class=\"feed__object\">Q3 roadmap</span></p>\n        {{#if showTimestamps}}<time class=\"feed__time\" datetime=\"2026-08-18T09:24:00Z\">18 minutes ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"feed__item\">\n      <span class=\"avatar avatar--{{avatarShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">AB</span>\n      <div class=\"feed__body\">\n        <p class=\"feed__text\"><strong>Aisha Bello</strong> uploaded 3 files to <span class=\"feed__object\">Brand assets</span></p>\n        {{#if showTimestamps}}<time class=\"feed__time\" datetime=\"2026-08-18T08:38:00Z\">1 hour ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"feed__item\">\n      <span class=\"avatar avatar--{{avatarShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">JL</span>\n      <div class=\"feed__body\">\n        <p class=\"feed__text\"><strong>Jordan Lee</strong> followed you</p>\n        {{#if showTimestamps}}<time class=\"feed__time\" datetime=\"2026-08-18T06:10:00Z\">3 hours ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"feed__item\">\n      <span class=\"avatar avatar--{{avatarShape}}\" style=\"background:{{accent}};\" aria-hidden=\"true\">SO</span>\n      <div class=\"feed__body\">\n        <p class=\"feed__text\"><strong>Sam Okafor</strong> closed issue <span class=\"feed__object\">Fix pagination bug</span></p>\n        {{#if showTimestamps}}<time class=\"feed__time\" datetime=\"2026-08-17T18:05:00Z\">yesterday</time>{{/if}}\n      </div>\n    </li>\n  </ol>\n</section>\n<style>\n.feed-demo { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; max-width: 380px; box-sizing: border-box; }\n.feed-demo__heading { margin: 0 0 12px; font-size: 15px; font-weight: 600; }\n.feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }\n.feed__item { display: flex; gap: 10px; align-items: flex-start; }\n.avatar { flex: none; width: 30px; height: 30px; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #241430; }\n.avatar--circle { border-radius: 50%; }\n.avatar--square { border-radius: 6px; }\n.feed__body { min-width: 0; }\n.feed__text { margin: 0; font-size: 13.5px; }\n.feed__object { font-weight: 600; }\n.feed__time { display: block; margin-top: 2px; font-size: 12px; color: #24143099; }\n.feed[data-entries=\"3\"] .feed__item:nth-child(n+4) { display: none; }\n.feed[data-entries=\"4\"] .feed__item:nth-child(n+5) { display: none; }\n.feed[data-entries=\"5\"] .feed__item:nth-child(n+6) { display: none; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[14px] leading-relaxed text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl max-w-[380px] box-border\">\n  <h3 class=\"m-0 mb-3 text-[15px] font-semibold\">{{heading}}</h3>\n  <ol class=\"feed-tw list-none m-0 p-0 flex flex-col gap-3.5\" data-entries=\"{{entries}}\">\n    <li class=\"flex gap-2.5 items-start\">\n      <span class=\"avatar-tw avatar-tw--{{avatarShape}} flex-none w-[30px] h-[30px] grid place-items-center text-[11px] font-bold text-[#241430]\" style=\"background:{{accent}};\" aria-hidden=\"true\">PS</span>\n      <div class=\"min-w-0\">\n        <p class=\"m-0 text-[13.5px]\"><strong class=\"font-semibold\">Priya Shah</strong> starred <span class=\"font-semibold\">atlas-ui</span></p>\n        {{#if showTimestamps}}<time class=\"block mt-0.5 text-[12px] text-[#24143099]\" datetime=\"2026-08-18T09:42:00Z\">2 minutes ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"flex gap-2.5 items-start\">\n      <span class=\"avatar-tw avatar-tw--{{avatarShape}} flex-none w-[30px] h-[30px] grid place-items-center text-[11px] font-bold text-[#241430]\" style=\"background:{{accent}};\" aria-hidden=\"true\">TR</span>\n      <div class=\"min-w-0\">\n        <p class=\"m-0 text-[13.5px]\"><strong class=\"font-semibold\">Tomás Rivera</strong> commented on <span class=\"font-semibold\">Q3 roadmap</span></p>\n        {{#if showTimestamps}}<time class=\"block mt-0.5 text-[12px] text-[#24143099]\" datetime=\"2026-08-18T09:24:00Z\">18 minutes ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"flex gap-2.5 items-start\">\n      <span class=\"avatar-tw avatar-tw--{{avatarShape}} flex-none w-[30px] h-[30px] grid place-items-center text-[11px] font-bold text-[#241430]\" style=\"background:{{accent}};\" aria-hidden=\"true\">AB</span>\n      <div class=\"min-w-0\">\n        <p class=\"m-0 text-[13.5px]\"><strong class=\"font-semibold\">Aisha Bello</strong> uploaded 3 files to <span class=\"font-semibold\">Brand assets</span></p>\n        {{#if showTimestamps}}<time class=\"block mt-0.5 text-[12px] text-[#24143099]\" datetime=\"2026-08-18T08:38:00Z\">1 hour ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"flex gap-2.5 items-start\">\n      <span class=\"avatar-tw avatar-tw--{{avatarShape}} flex-none w-[30px] h-[30px] grid place-items-center text-[11px] font-bold text-[#241430]\" style=\"background:{{accent}};\" aria-hidden=\"true\">JL</span>\n      <div class=\"min-w-0\">\n        <p class=\"m-0 text-[13.5px]\"><strong class=\"font-semibold\">Jordan Lee</strong> followed you</p>\n        {{#if showTimestamps}}<time class=\"block mt-0.5 text-[12px] text-[#24143099]\" datetime=\"2026-08-18T06:10:00Z\">3 hours ago</time>{{/if}}\n      </div>\n    </li>\n    <li class=\"flex gap-2.5 items-start\">\n      <span class=\"avatar-tw avatar-tw--{{avatarShape}} flex-none w-[30px] h-[30px] grid place-items-center text-[11px] font-bold text-[#241430]\" style=\"background:{{accent}};\" aria-hidden=\"true\">SO</span>\n      <div class=\"min-w-0\">\n        <p class=\"m-0 text-[13.5px]\"><strong class=\"font-semibold\">Sam Okafor</strong> closed issue <span class=\"font-semibold\">Fix pagination bug</span></p>\n        {{#if showTimestamps}}<time class=\"block mt-0.5 text-[12px] text-[#24143099]\" datetime=\"2026-08-17T18:05:00Z\">yesterday</time>{{/if}}\n      </div>\n    </li>\n  </ol>\n</section>\n<style>\n.avatar-tw--circle { border-radius: 9999px; }\n.avatar-tw--square { border-radius: 6px; }\n.feed-tw[data-entries=\"3\"] li:nth-child(n+4) { display: none; }\n.feed-tw[data-entries=\"4\"] li:nth-child(n+5) { display: none; }\n.feed-tw[data-entries=\"5\"] li:nth-child(n+6) { display: none; }\n</style>",
+    "react": "export function ActivityFeed({\n  heading = \"{{heading}}\",\n  entries = \"{{entries}}\",\n  avatarShape = \"{{avatarShape}}\",\n  accent = \"{{accent}}\",\n  showTimestamps = {{showTimestamps}},\n}) {\n  const items = [\n    { initials: \"PS\", name: \"Priya Shah\", action: \"starred\", object: \"atlas-ui\", time: \"2026-08-18T09:42:00Z\", label: \"2 minutes ago\" },\n    { initials: \"TR\", name: \"Tomás Rivera\", action: \"commented on\", object: \"Q3 roadmap\", time: \"2026-08-18T09:24:00Z\", label: \"18 minutes ago\" },\n    { initials: \"AB\", name: \"Aisha Bello\", action: \"uploaded 3 files to\", object: \"Brand assets\", time: \"2026-08-18T08:38:00Z\", label: \"1 hour ago\" },\n    { initials: \"JL\", name: \"Jordan Lee\", action: \"followed you\", object: null, time: \"2026-08-18T06:10:00Z\", label: \"3 hours ago\" },\n    { initials: \"SO\", name: \"Sam Okafor\", action: \"closed issue\", object: \"Fix pagination bug\", time: \"2026-08-17T18:05:00Z\", label: \"yesterday\" },\n  ].slice(0, Number(entries));\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 15, fontWeight: 600 }}>{heading}</h3>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 14 }}>\n        {items.map((item) => (\n          <li key={item.initials} style={{ display: \"flex\", gap: 10, alignItems: \"flex-start\" }}>\n            <span aria-hidden=\"true\" style={{ flex: \"none\", width: 30, height: 30, display: \"grid\", placeItems: \"center\", fontSize: 11, fontWeight: 700, color: \"#241430\", background: accent, borderRadius: avatarShape === \"circle\" ? \"50%\" : 6 }}>{item.initials}</span>\n            <div style={{ minWidth: 0 }}>\n              <p style={{ margin: 0, fontSize: 13.5 }}>\n                <strong>{item.name}</strong> {item.action}\n                {item.object ? <> <span style={{ fontWeight: 600 }}>{item.object}</span></> : null}\n              </p>\n              {showTimestamps && (\n                <time dateTime={item.time} style={{ display: \"block\", marginTop: 2, fontSize: 12, color: \"#24143099\" }}>{item.label}</time>\n              )}\n            </div>\n          </li>\n        ))}\n      </ol>\n    </section>\n  );\n}"
+  }
+}

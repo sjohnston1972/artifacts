@@ -1,0 +1,53 @@
+{
+  "slug": "approval",
+  "controls_schema": [
+    {
+      "id": "itemTitle",
+      "type": "text",
+      "label": "Item awaiting approval",
+      "default": "Expense report #4021"
+    },
+    {
+      "id": "requester",
+      "type": "text",
+      "label": "Requested by",
+      "default": "Dev Patel"
+    },
+    {
+      "id": "approver",
+      "type": "text",
+      "label": "Awaiting approval from",
+      "default": "Priya Shah"
+    },
+    {
+      "id": "decision",
+      "type": "select",
+      "label": "Decision",
+      "default": "pending",
+      "options": [
+        "pending",
+        "approved",
+        "rejected"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"approval\" data-decision=\"{{decision}}\" style=\"--accent:{{accent}};\">\n  <p class=\"approval__meta\">Requested by {{requester}}</p>\n  <h3 class=\"approval__title\">{{itemTitle}}</h3>\n  <div class=\"approval__status\">\n    <span class=\"approval__icon approval__icon--pending\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.25\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 4.5V8l2.5 1.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"approval__icon approval__icon--approved\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"approval__icon approval__icon--rejected\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"approval__text\">{{decision}}</span>\n  </div>\n  <p class=\"approval__who\">Awaiting approval from <strong>{{approver}}</strong></p>\n</div>\n<style>\n.approval { font: 15px/1.5 system-ui, sans-serif; max-width: 340px; padding: 20px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143020; border-radius: 14px; border-left: 4px solid var(--accent); }\n.approval__meta { margin: 0 0 4px; font-size: 12px; color: #24143099; text-transform: uppercase; letter-spacing: .04em; }\n.approval__title { margin: 0 0 12px; font-size: 17px; font-weight: 600; }\n.approval__status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: 999px; background: #24143010; margin-bottom: 10px; }\n.approval__icon { display: none; color: #241430; }\n.approval[data-decision=\"pending\"] .approval__icon--pending { display: inline-flex; color: var(--accent); }\n.approval[data-decision=\"approved\"] .approval__icon--approved { display: inline-flex; color: #2f8a52; }\n.approval[data-decision=\"rejected\"] .approval__icon--rejected { display: inline-flex; color: #b23b3b; }\n.approval__text { font-weight: 600; font-size: 13px; text-transform: capitalize; }\n.approval__who { margin: 0; font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"approval-tw font-sans max-w-[340px] p-5 bg-[#FAF7F2] text-[#241430] border-[1.5px] border-[#24143020] rounded-2xl border-l-4\" data-decision=\"{{decision}}\" style=\"border-left-color:{{accent}};\">\n  <p class=\"m-0 mb-1 text-xs uppercase tracking-wide text-[#241430]/60\">Requested by {{requester}}</p>\n  <h3 class=\"m-0 mb-3 text-[17px] font-semibold\">{{itemTitle}}</h3>\n  <div class=\"approval-tw__status inline-flex items-center gap-1.5 py-1 pl-2 pr-2.5 rounded-full bg-[#24143010] mb-2.5\">\n    <span class=\"approval-tw__icon approval-tw__icon--pending\" style=\"color:{{accent}}\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.25\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 4.5V8l2.5 1.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"approval-tw__icon approval-tw__icon--approved\" style=\"color:#2f8a52\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"approval-tw__icon approval-tw__icon--rejected\" style=\"color:#b23b3b\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"font-semibold text-[13px] capitalize\">{{decision}}</span>\n  </div>\n  <p class=\"m-0 text-sm\">Awaiting approval from <strong>{{approver}}</strong></p>\n</div>\n<style>\n.approval-tw__icon { display: none; }\n.approval-tw[data-decision=\"pending\"] .approval-tw__icon--pending { display: inline-flex; }\n.approval-tw[data-decision=\"approved\"] .approval-tw__icon--approved { display: inline-flex; }\n.approval-tw[data-decision=\"rejected\"] .approval-tw__icon--rejected { display: inline-flex; }\n</style>",
+    "react": "export function Approval({\n  itemTitle = \"{{itemTitle}}\",\n  requester = \"{{requester}}\",\n  approver = \"{{approver}}\",\n  decision = \"{{decision}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    pending: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><circle cx=\\\"8\\\" cy=\\\"8\\\" r=\\\"6.25\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\"/><path d=\\\"M8 4.5V8l2.5 1.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\", color: accent },\n    approved: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M3 8.5l3 3 7-7\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\", color: \"#2f8a52\" },\n    rejected: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M4 4l8 8M12 4l-8 8\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\"/></svg>\", color: \"#b23b3b\" },\n  };\n  const active = icons[decision] ?? icons.pending;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 340, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", border: \"1.5px solid #24143020\", borderRadius: 14, borderLeft: `4px solid ${accent}` }}>\n      <p style={{ margin: \"0 0 4px\", fontSize: 12, color: \"#24143099\", textTransform: \"uppercase\", letterSpacing: \".04em\" }}>Requested by {requester}</p>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 17, fontWeight: 600 }}>{itemTitle}</h3>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 10px 4px 8px\", borderRadius: 999, background: \"#24143010\", marginBottom: 10 }}>\n        <span style={{ color: active.color, display: \"inline-flex\" }} dangerouslySetInnerHTML={{ __html: active.svg }} />\n        <span style={{ fontWeight: 600, fontSize: 13, textTransform: \"capitalize\" }}>{decision}</span>\n      </div>\n      <p style={{ margin: 0, fontSize: 14 }}>Awaiting approval from <strong>{approver}</strong></p>\n    </div>\n  );\n}"
+  }
+}

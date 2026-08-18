@@ -1,0 +1,46 @@
+{
+  "slug": "prompt",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Prompt text",
+      "default": "Summarise the attached report in three bullet points for a non-technical reader."
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Role",
+      "default": "user",
+      "options": [
+        "system",
+        "user"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "monospace",
+      "type": "toggle",
+      "label": "Monospace text",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"prompt-block prompt-block--{{role}}\" style=\"--accent:{{accent}};\">\n  <span class=\"prompt-block__role\">{{role}}</span>\n  <p class=\"prompt-block__text{{#if monospace}} prompt-block__text--mono{{/if}}\">{{text}}</p>\n</div>\n<style>\n.prompt-block { max-width: 480px; padding: 14px 16px; border-radius: 10px; background: #FAF7F2; color: #241430; border-left: 3px solid var(--accent); box-shadow: 0 1px 3px rgba(36,20,48,.08); box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; }\n.prompt-block--system { background: #24143008; }\n.prompt-block--user { background: color-mix(in srgb, var(--accent) 10%, #FAF7F2); }\n.prompt-block__role { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 6px; }\n.prompt-block__role::before { content: \"\"; }\n.prompt-block--system .prompt-block__role::before { content: \"instructions to AI: \"; color: #24143080; }\n.prompt-block--user .prompt-block__role::before { content: \"asked by user: \"; color: #24143080; }\n.prompt-block__text { margin: 0; }\n.prompt-block__text--mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: #24143010; padding: 10px; border-radius: 6px; white-space: pre-wrap; }\n</style>",
+    "tailwind": "<div class=\"prompt-block-tw prompt-block-tw--{{role}} max-w-lg p-3.5 rounded-lg bg-[#FAF7F2] text-[#241430] border-l-[3px] shadow-sm box-border font-sans text-[15px]\" style=\"--accent:{{accent}};border-left-color:var(--accent);\">\n  <span class=\"prompt-block-tw__role block text-[11px] font-bold uppercase tracking-wide mb-1.5\" style=\"color:var(--accent);\">{{role}}</span>\n  <p class=\"prompt-block-tw__text{{#if monospace}} prompt-block-tw__text--mono{{/if}} m-0\">{{text}}</p>\n</div>\n<style>\n.prompt-block-tw--system { background: #24143008; }\n.prompt-block-tw--user { background: color-mix(in srgb, var(--accent) 10%, #FAF7F2); }\n.prompt-block-tw__role::before { content: \"\"; }\n.prompt-block-tw--system .prompt-block-tw__role::before { content: \"instructions to AI: \"; color: #24143080; }\n.prompt-block-tw--user .prompt-block-tw__role::before { content: \"asked by user: \"; color: #24143080; }\n.prompt-block-tw__text--mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: #24143010; padding: 10px; border-radius: 6px; white-space: pre-wrap; }\n</style>",
+    "react": "export function Prompt({\n  text = \"{{text}}\",\n  role = \"{{role}}\",\n  accent = \"{{accent}}\",\n  monospace = {{monospace}},\n}) {\n  const prefix = { system: \"Instructions to AI: \", user: \"Asked by user: \" }[role] ?? \"\";\n  const wrapBg = role === \"system\" ? \"#24143008\" : `color-mix(in srgb, ${accent} 10%, #FAF7F2)`;\n  const textStyle = monospace\n    ? { fontFamily: \"ui-monospace, SFMono-Regular, Menlo, monospace\", fontSize: 13, background: \"#24143010\", padding: 10, borderRadius: 6, whiteSpace: \"pre-wrap\", margin: 0 }\n    : { margin: 0 };\n  return (\n    <div style={{ maxWidth: 480, padding: \"14px 16px\", borderRadius: 10, background: wrapBg, color: \"#241430\", borderLeft: `3px solid ${accent}`, boxShadow: \"0 1px 3px rgba(36,20,48,.08)\", boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\" }}>\n      <span style={{ display: \"inline-block\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".06em\", color: accent, marginBottom: 6 }}>\n        {prefix}{role}\n      </span>\n      <p style={textStyle}>{text}</p>\n    </div>\n  );\n}"
+  }
+}

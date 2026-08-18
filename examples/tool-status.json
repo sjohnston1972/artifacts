@@ -1,0 +1,47 @@
+{
+  "slug": "tool-status",
+  "controls_schema": [
+    {
+      "id": "toolName",
+      "type": "text",
+      "label": "Tool name",
+      "default": "search_docs"
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "running",
+      "options": [
+        "running",
+        "succeeded",
+        "failed"
+      ]
+    },
+    {
+      "id": "duration",
+      "type": "text",
+      "label": "Duration",
+      "default": "1.2s"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ts ts--{{state}}\" style=\"--accent:{{accent}};\">\n  <span class=\"ts__icon\" aria-hidden=\"true\">\n    <span class=\"ts__icon-part ts__icon-part--running\">↻</span>\n    <span class=\"ts__icon-part ts__icon-part--succeeded\">✓</span>\n    <span class=\"ts__icon-part ts__icon-part--failed\">✕</span>\n  </span>\n  <code class=\"ts__name\">{{toolName}}</code>\n  <span class=\"ts__state\">\n    <span class=\"ts__state-part ts__state-part--running\">running</span>\n    <span class=\"ts__state-part ts__state-part--succeeded\">succeeded</span>\n    <span class=\"ts__state-part ts__state-part--failed\">failed</span>\n  </span>\n  <span class=\"ts__duration\">{{duration}}</span>\n</div>\n<style>\n.ts { display: inline-flex; align-items: center; gap: 6px; font: 12px/1 system-ui, sans-serif; padding: 6px 10px;\n  border-radius: 999px; border: 1.5px solid #24143026; background: #FAF7F2; color: #241430; }\n.ts__icon { display: inline-flex; width: 14px; height: 14px; align-items: center; justify-content: center;\n  border-radius: 50%; background: var(--accent); font-size: 9px; flex: none; }\n.ts__icon-part, .ts__state-part { display: none; }\n.ts--running .ts__icon-part--running { display: inline-block; animation: ts-spin 1s linear infinite; }\n.ts--running .ts__state-part--running { display: inline; color: #241430b3; }\n.ts--succeeded .ts__icon-part--succeeded { display: inline-block; }\n.ts--succeeded .ts__state-part--succeeded { display: inline; color: #2F8F5B; }\n.ts--failed .ts__icon-part--failed { display: inline-block; }\n.ts--failed .ts__state-part--failed { display: inline; color: #B4433A; }\n@keyframes ts-spin { to { transform: rotate(360deg); } }\n.ts__name { font-family: ui-monospace, monospace; font-weight: 600; }\n.ts__state { font-weight: 600; }\n.ts__duration { color: #24143080; font-variant-numeric: tabular-nums; }\n</style>",
+    "tailwind": "<div class=\"ts-tw ts-tw--{{state}} inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border-[1.5px] border-[#24143026] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}};\">\n  <span aria-hidden=\"true\" class=\"inline-flex w-3.5 h-3.5 items-center justify-center rounded-full flex-none text-[9px]\" style=\"background:{{accent}}\">\n    <span class=\"ts-tw__icon-part ts-tw__icon-part--running\">↻</span>\n    <span class=\"ts-tw__icon-part ts-tw__icon-part--succeeded\">✓</span>\n    <span class=\"ts-tw__icon-part ts-tw__icon-part--failed\">✕</span>\n  </span>\n  <code class=\"font-mono font-semibold\">{{toolName}}</code>\n  <span class=\"font-semibold\">\n    <span class=\"ts-tw__state-part ts-tw__state-part--running\">running</span>\n    <span class=\"ts-tw__state-part ts-tw__state-part--succeeded\">succeeded</span>\n    <span class=\"ts-tw__state-part ts-tw__state-part--failed\">failed</span>\n  </span>\n  <span class=\"text-[#241430]/50 tabular-nums\">{{duration}}</span>\n</div>\n<style>\n.ts-tw__icon-part, .ts-tw__state-part { display: none; }\n.ts-tw--running .ts-tw__icon-part--running { display: inline-block; animation: ts-tw-spin 1s linear infinite; }\n.ts-tw--running .ts-tw__state-part--running { display: inline; color: #241430b3; }\n.ts-tw--succeeded .ts-tw__icon-part--succeeded { display: inline-block; }\n.ts-tw--succeeded .ts-tw__state-part--succeeded { display: inline; color: #2F8F5B; }\n.ts-tw--failed .ts-tw__icon-part--failed { display: inline-block; }\n.ts-tw--failed .ts-tw__state-part--failed { display: inline; color: #B4433A; }\n@keyframes ts-tw-spin { to { transform: rotate(360deg); } }\n</style>",
+    "react": "export function ToolStatus({\n  toolName = \"{{toolName}}\",\n  state = \"{{state}}\",\n  duration = \"{{duration}}\",\n  accent = \"{{accent}}\",\n}) {\n  const meta = {\n    running: { icon: \"↻\", color: \"#241430b3\", spin: true },\n    succeeded: { icon: \"✓\", color: \"#2F8F5B\", spin: false },\n    failed: { icon: \"✕\", color: \"#B4433A\", spin: false },\n  }[state];\n  return (\n    <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, fontFamily: \"system-ui, sans-serif\",\n      fontSize: 12, padding: \"6px 10px\", borderRadius: 999, border: \"1.5px solid #24143026\",\n      background: \"#FAF7F2\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ display: \"inline-flex\", width: 14, height: 14, alignItems: \"center\",\n        justifyContent: \"center\", borderRadius: \"50%\", background: accent, fontSize: 9, flex: \"none\",\n        animation: meta.spin ? \"ts-react-spin 1s linear infinite\" : \"none\" }}>\n        {meta.icon}\n      </span>\n      <code style={{ fontFamily: \"ui-monospace, monospace\", fontWeight: 600 }}>{toolName}</code>\n      <span style={{ fontWeight: 600, color: meta.color }}>{state}</span>\n      <span style={{ color: \"#24143080\", fontVariantNumeric: \"tabular-nums\" }}>{duration}</span>\n      <style>{`@keyframes ts-react-spin { to { transform: rotate(360deg); } }`}</style>\n    </div>\n  );\n}"
+  }
+}

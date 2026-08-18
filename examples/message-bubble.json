@@ -1,0 +1,53 @@
+{
+  "slug": "message-bubble",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Message text",
+      "default": "Here is the revised itinerary with two extra hours in the museum district."
+    },
+    {
+      "id": "sender",
+      "type": "select",
+      "label": "Sender",
+      "default": "assistant",
+      "options": [
+        "user",
+        "assistant",
+        "system"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Timestamp",
+      "default": "10:42"
+    },
+    {
+      "id": "tail",
+      "type": "toggle",
+      "label": "Show tail",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"msg-bubble-row msg-bubble-row--{{sender}}\">\n  <span class=\"msg-bubble__who\">{{sender}}</span>\n  <div class=\"msg-bubble msg-bubble--{{sender}}{{#if tail}} msg-bubble--tail{{/if}}\" style=\"--accent:{{accent}};\">\n    <p class=\"msg-bubble__text\">{{text}}</p>\n    <span class=\"msg-bubble__time\">{{timestamp}}</span>\n  </div>\n</div>\n<style>\n.msg-bubble-row { max-width: 420px; display: flex; flex-direction: column; font: 15px/1.4 system-ui, sans-serif; margin-bottom: 4px; }\n.msg-bubble-row--user { align-items: flex-end; }\n.msg-bubble-row--assistant, .msg-bubble-row--system { align-items: flex-start; }\n.msg-bubble__who { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: #24143080; margin-bottom: 4px; }\n.msg-bubble { position: relative; max-width: 320px; padding: 10px 14px; border-radius: 16px; color: #241430; }\n.msg-bubble--user { background: var(--accent); border-bottom-right-radius: 4px; }\n.msg-bubble--assistant { background: #24143010; border-bottom-left-radius: 4px; }\n.msg-bubble--system { background: transparent; border: 1.5px dashed #24143040; font-style: italic; }\n.msg-bubble__text { margin: 0; }\n.msg-bubble__time { display: block; margin-top: 4px; font-size: 11px; color: #24143080; }\n.msg-bubble--tail.msg-bubble--user::after { content: \"\"; position: absolute; right: -6px; bottom: 0; width: 12px; height: 12px; background: var(--accent); clip-path: polygon(0 0, 0% 100%, 100% 100%); }\n.msg-bubble--tail.msg-bubble--assistant::after { content: \"\"; position: absolute; left: -6px; bottom: 0; width: 12px; height: 12px; background: #24143010; clip-path: polygon(100% 0, 0 100%, 100% 100%); }\n</style>",
+    "tailwind": "<div class=\"msg-bubble-tw-row msg-bubble-tw-row--{{sender}} max-w-md flex flex-col font-sans text-[15px] mb-1\">\n  <span class=\"text-[11px] font-semibold uppercase tracking-wide text-[#24143080] mb-1\">{{sender}}</span>\n  <div class=\"msg-bubble-tw msg-bubble-tw--{{sender}}{{#if tail}} msg-bubble-tw--tail{{/if}} relative max-w-xs px-3.5 py-2.5 rounded-2xl text-[#241430]\" style=\"--accent:{{accent}};\">\n    <p class=\"m-0\">{{text}}</p>\n    <span class=\"block mt-1 text-[11px] text-[#24143080]\">{{timestamp}}</span>\n  </div>\n</div>\n<style>\n.msg-bubble-tw-row--user { align-items: flex-end; }\n.msg-bubble-tw-row--assistant, .msg-bubble-tw-row--system { align-items: flex-start; }\n.msg-bubble-tw--user { background: var(--accent); border-bottom-right-radius: 4px; }\n.msg-bubble-tw--assistant { background: #24143010; border-bottom-left-radius: 4px; }\n.msg-bubble-tw--system { background: transparent; border: 1.5px dashed #24143040; font-style: italic; }\n.msg-bubble-tw--tail.msg-bubble-tw--user::after { content: \"\"; position: absolute; right: -6px; bottom: 0; width: 12px; height: 12px; background: var(--accent); clip-path: polygon(0 0, 0% 100%, 100% 100%); }\n.msg-bubble-tw--tail.msg-bubble-tw--assistant::after { content: \"\"; position: absolute; left: -6px; bottom: 0; width: 12px; height: 12px; background: #24143010; clip-path: polygon(100% 0, 0 100%, 100% 100%); }\n</style>",
+    "react": "export function MessageBubble({\n  text = \"{{text}}\",\n  sender = \"{{sender}}\",\n  accent = \"{{accent}}\",\n  timestamp = \"{{timestamp}}\",\n  tail = {{tail}},\n}) {\n  const align = sender === \"user\" ? \"flex-end\" : \"flex-start\";\n  const bubbleStyle = {\n    user: { background: accent, borderBottomRightRadius: 4 },\n    assistant: { background: \"#24143010\", borderBottomLeftRadius: 4 },\n    system: { background: \"transparent\", border: \"1.5px dashed #24143040\", fontStyle: \"italic\" },\n  }[sender] ?? {};\n  const tailStyle = tail\n    ? sender === \"user\"\n      ? { position: \"absolute\", right: -6, bottom: 0, width: 12, height: 12, background: accent, clipPath: \"polygon(0 0, 0% 100%, 100% 100%)\" }\n      : sender === \"assistant\"\n        ? { position: \"absolute\", left: -6, bottom: 0, width: 12, height: 12, background: \"#24143010\", clipPath: \"polygon(100% 0, 0 100%, 100% 100%)\" }\n        : null\n    : null;\n  return (\n    <div style={{ maxWidth: 420, display: \"flex\", flexDirection: \"column\", alignItems: align, font: \"15px/1.4 system-ui, sans-serif\", marginBottom: 4 }}>\n      <span style={{ fontSize: 11, fontWeight: 600, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#24143080\", marginBottom: 4 }}>{sender}</span>\n      <div style={{ position: \"relative\", maxWidth: 320, padding: \"10px 14px\", borderRadius: 16, color: \"#241430\", ...bubbleStyle }}>\n        <p style={{ margin: 0 }}>{text}</p>\n        <span style={{ display: \"block\", marginTop: 4, fontSize: 11, color: \"#24143080\" }}>{timestamp}</span>\n        {tailStyle && <span aria-hidden=\"true\" style={tailStyle} />}\n      </div>\n    </div>\n  );\n}"
+  }
+}

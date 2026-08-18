@@ -1,0 +1,47 @@
+{
+  "slug": "saved-filter",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Filter name",
+      "default": "My open bugs"
+    },
+    {
+      "id": "shared",
+      "type": "toggle",
+      "label": "Shared with team",
+      "default": true
+    },
+    {
+      "id": "summary",
+      "type": "select",
+      "label": "Match summary",
+      "default": "Status = Open",
+      "options": [
+        "Status = Open",
+        "Owner = Me",
+        "Priority = High"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"savedfilter\" style=\"--accent:{{accent}};\">\n  <div class=\"savedfilter__head\">\n    <h3 class=\"savedfilter__name\">{{name}}</h3>\n    {{#if shared}}<span class=\"savedfilter__badge\">Shared</span>{{/if}}\n  </div>\n  <p class=\"savedfilter__summary\">{{summary}}</p>\n  <div class=\"savedfilter__actions\">\n    <button type=\"button\" class=\"savedfilter__apply\">Apply</button>\n    <button type=\"button\" class=\"savedfilter__edit\">Edit</button>\n    <button type=\"button\" class=\"savedfilter__delete\">Delete</button>\n  </div>\n</div>\n<style>\n.savedfilter { font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; border: 1.5px solid #24143020; border-radius: 10px; padding: 14px 16px; }\n.savedfilter__head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }\n.savedfilter__name { margin: 0; font-size: 15px; font-weight: 600; }\n.savedfilter__badge { font-size: 11px; font-weight: 600; background: var(--accent); color: #241430; padding: 2px 8px; border-radius: 999px; }\n.savedfilter__summary { margin: 0 0 12px; font-size: 13px; color: #24143099; }\n.savedfilter__actions { display: flex; gap: 8px; }\n.savedfilter__apply { border: none; background: var(--accent); color: #241430; padding: 7px 12px; border-radius: 6px; cursor: pointer; font: inherit; font-weight: 500; }\n.savedfilter__edit, .savedfilter__delete { border: 1.5px solid #24143020; background: transparent; color: #241430; padding: 7px 12px; border-radius: 6px; cursor: pointer; font: inherit; }\n.savedfilter__apply:hover, .savedfilter__apply:focus-visible { opacity: .85; outline: none; }\n.savedfilter__edit:hover, .savedfilter__edit:focus-visible, .savedfilter__delete:hover, .savedfilter__delete:focus-visible { background: #24143010; outline: none; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[300px] border-[1.5px] border-[#24143020] rounded-[10px] px-4 py-3.5\">\n  <div class=\"flex items-center gap-2 mb-1\">\n    <h3 class=\"m-0 text-[15px] font-semibold\">{{name}}</h3>\n    {{#if shared}}<span class=\"text-[11px] font-semibold text-[#241430] px-2 py-0.5 rounded-full savedfilter-badge-tw\">Shared</span>{{/if}}\n  </div>\n  <p class=\"m-0 mb-3 text-[13px] text-[#24143099]\">{{summary}}</p>\n  <div class=\"flex gap-2\">\n    <button type=\"button\" class=\"border-none text-[#241430] px-3 py-1.5 rounded-md cursor-pointer font-medium savedfilter-apply-tw\">Apply</button>\n    <button type=\"button\" class=\"border-[1.5px] border-[#24143020] bg-transparent text-[#241430] px-3 py-1.5 rounded-md cursor-pointer hover:bg-[#24143010] focus-visible:outline-none\">Edit</button>\n    <button type=\"button\" class=\"border-[1.5px] border-[#24143020] bg-transparent text-[#241430] px-3 py-1.5 rounded-md cursor-pointer hover:bg-[#24143010] focus-visible:outline-none\">Delete</button>\n  </div>\n</div>\n<style>\n.savedfilter-badge-tw { background: {{accent}}; }\n.savedfilter-apply-tw { background: {{accent}}; }\n.savedfilter-apply-tw:hover, .savedfilter-apply-tw:focus-visible { opacity: .85; outline: none; }\n</style>",
+    "react": "export function SavedFilter({\n  name = \"{{name}}\",\n  shared = {{shared}},\n  summary = \"{{summary}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 300, border: \"1.5px solid #24143020\", borderRadius: 10, padding: \"14px 16px\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 4 }}>\n        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>{name}</h3>\n        {shared && <span style={{ fontSize: 11, fontWeight: 600, background: accent, color: \"#241430\", padding: \"2px 8px\", borderRadius: 999 }}>Shared</span>}\n      </div>\n      <p style={{ margin: \"0 0 12px\", fontSize: 13, color: \"#24143099\" }}>{summary}</p>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        <button type=\"button\" style={{ border: \"none\", background: accent, color: \"#241430\", padding: \"7px 12px\", borderRadius: 6, cursor: \"pointer\", fontWeight: 500 }}>Apply</button>\n        <button type=\"button\" style={{ border: \"1.5px solid #24143020\", background: \"transparent\", color: \"#241430\", padding: \"7px 12px\", borderRadius: 6, cursor: \"pointer\" }}>Edit</button>\n        <button type=\"button\" style={{ border: \"1.5px solid #24143020\", background: \"transparent\", color: \"#241430\", padding: \"7px 12px\", borderRadius: 6, cursor: \"pointer\" }}>Delete</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

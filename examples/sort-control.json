@@ -1,0 +1,47 @@
+{
+  "slug": "sort-control",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Sort by"
+    },
+    {
+      "id": "field",
+      "type": "select",
+      "label": "Field",
+      "default": "Name",
+      "options": [
+        "Name",
+        "Date",
+        "Price"
+      ]
+    },
+    {
+      "id": "ascending",
+      "type": "toggle",
+      "label": "Ascending",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sortctrl\" style=\"--accent:{{accent}};\">\n  <label class=\"sortctrl__label\" for=\"sortctrl-field\">{{label}}</label>\n  <div class=\"sortctrl__row\">\n    <select id=\"sortctrl-field\" class=\"sortctrl__select\">\n      <option>Name</option>\n      <option>Date</option>\n      <option>Price</option>\n    </select>\n    {{#if ascending}}\n    <button type=\"button\" class=\"sortctrl__dir sortctrl__dir--asc\" aria-label=\"Sort ascending\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </button>\n    {{/if}}\n    {{#unless ascending}}\n    <button type=\"button\" class=\"sortctrl__dir sortctrl__dir--desc\" aria-label=\"Sort descending\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 2v10M3 8l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </button>\n    {{/unless}}\n  </div>\n  <p class=\"sortctrl__note\">Sorting by {{field}}</p>\n</div>\n<style>\n.sortctrl { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.sortctrl__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.sortctrl__row { display: flex; gap: 8px; }\n.sortctrl__select { flex: 1; box-sizing: border-box; padding: 9px 10px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.sortctrl__select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.sortctrl__dir { width: 38px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid #24143040; background: #FAF7F2; color: #241430; border-radius: 8px; cursor: pointer; }\n.sortctrl__dir:hover, .sortctrl__dir:focus-visible { border-color: var(--accent); outline: none; }\n.sortctrl__note { margin: 8px 0 0; font-size: 12px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[260px]\">\n  <label for=\"sortctrl-field-tw\" class=\"block mb-1.5 font-medium\">{{label}}</label>\n  <div class=\"flex gap-2\">\n    <select id=\"sortctrl-field-tw\" class=\"flex-1 box-border px-2.5 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none sortctrl-select-tw\">\n      <option>Name</option>\n      <option>Date</option>\n      <option>Price</option>\n    </select>\n    {{#if ascending}}\n    <button type=\"button\" aria-label=\"Sort ascending\" class=\"w-[38px] shrink-0 inline-flex items-center justify-center border-[1.5px] border-[#24143040] bg-[#FAF7F2] text-[#241430] rounded-lg cursor-pointer focus-visible:outline-none sortctrl-dir-tw\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </button>\n    {{/if}}\n    {{#unless ascending}}\n    <button type=\"button\" aria-label=\"Sort descending\" class=\"w-[38px] shrink-0 inline-flex items-center justify-center border-[1.5px] border-[#24143040] bg-[#FAF7F2] text-[#241430] rounded-lg cursor-pointer focus-visible:outline-none sortctrl-dir-tw\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 2v10M3 8l4 4 4-4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    </button>\n    {{/unless}}\n  </div>\n  <p class=\"mt-2 text-xs text-[#24143099]\">Sorting by {{field}}</p>\n</div>\n<style>\n.sortctrl-select-tw:focus-visible { border-color: {{accent}}; }\n.sortctrl-dir-tw:hover, .sortctrl-dir-tw:focus-visible { border-color: {{accent}}; }\n</style>",
+    "react": "export function SortControl({\n  label = \"{{label}}\",\n  field = \"{{field}}\",\n  ascending = {{ascending}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label htmlFor=\"sortctrl-field-react\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        <select id=\"sortctrl-field-react\" style={{ flex: 1, boxSizing: \"border-box\", padding: \"9px 10px\", font: \"inherit\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: 8 }}>\n          <option>Name</option>\n          <option>Date</option>\n          <option>Price</option>\n        </select>\n        <button type=\"button\" aria-label={ascending ? \"Sort ascending\" : \"Sort descending\"} style={{ width: 38, flexShrink: 0, display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", border: `1.5px solid ${accent}`, background: \"#FAF7F2\", color: \"#241430\", borderRadius: 8, cursor: \"pointer\" }}>\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\">\n            {ascending\n              ? <path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" strokeWidth=\"1.5\" fill=\"none\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n              : <path d=\"M7 2v10M3 8l4 4 4-4\" stroke=\"currentColor\" strokeWidth=\"1.5\" fill=\"none\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n          </svg>\n        </button>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 12, color: \"#24143099\" }}>Sorting by {field}</p>\n    </div>\n  );\n}"
+  }
+}

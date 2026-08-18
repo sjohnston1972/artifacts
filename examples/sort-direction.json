@@ -1,0 +1,46 @@
+{
+  "slug": "sort-direction",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Order"
+    },
+    {
+      "id": "ascending",
+      "type": "toggle",
+      "label": "Ascending",
+      "default": true
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon style",
+      "default": "Arrow",
+      "options": [
+        "Arrow",
+        "Chevron"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sortdir\">\n  <span class=\"sortdir__label\" id=\"sortdir-label\">{{label}}</span>\n  <button type=\"button\" role=\"switch\" aria-checked=\"{{ascending}}\" aria-labelledby=\"sortdir-label sortdir-state\" class=\"sortdir__btn sortdir__btn--{{icon}}{{#unless ascending}} sortdir__btn--desc{{/unless}}\" style=\"--accent:{{accent}};\">\n    <svg class=\"sortdir__icon-arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"sortdir__icon-chevron\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M3 9l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <span id=\"sortdir-state\" class=\"sortdir__state\">{{#if ascending}}Ascending{{/if}}{{#unless ascending}}Descending{{/unless}}</span>\n  </button>\n</div>\n<style>\n.sortdir { display: flex; align-items: center; gap: 10px; font: 14px system-ui, sans-serif; color: #241430; }\n.sortdir__label { font-weight: 500; }\n.sortdir__btn { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid #24143040; background: #FAF7F2; color: #241430; padding: 7px 12px; border-radius: 8px; cursor: pointer; font: inherit; }\n.sortdir__btn:hover, .sortdir__btn:focus-visible { border-color: var(--accent); outline: none; }\n.sortdir__icon-arrow, .sortdir__icon-chevron { display: none; transition: transform .15s ease; }\n.sortdir__btn--Arrow .sortdir__icon-arrow { display: inline-block; }\n.sortdir__btn--Chevron .sortdir__icon-chevron { display: inline-block; }\n.sortdir__btn--desc svg { transform: rotate(180deg); }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-2.5 font-sans text-sm text-[#241430]\">\n  <span id=\"sortdir-label-tw\" class=\"font-medium\">{{label}}</span>\n  <button type=\"button\" role=\"switch\" aria-checked=\"{{ascending}}\" aria-labelledby=\"sortdir-label-tw sortdir-state-tw\" class=\"inline-flex items-center gap-1.5 border-[1.5px] border-[#24143040] bg-[#FAF7F2] text-[#241430] px-3 py-1.5 rounded-lg cursor-pointer focus-visible:outline-none sortdir-btn-tw sortdir-btn-tw--{{icon}}{{#unless ascending}} sortdir-btn-tw--desc{{/unless}}\">\n    <svg class=\"sortdir-icon-arrow-tw\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"sortdir-icon-chevron-tw\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M3 9l4-4 4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <span id=\"sortdir-state-tw\">{{#if ascending}}Ascending{{/if}}{{#unless ascending}}Descending{{/unless}}</span>\n  </button>\n</div>\n<style>\n.sortdir-btn-tw:hover, .sortdir-btn-tw:focus-visible { border-color: {{accent}}; }\n.sortdir-icon-arrow-tw, .sortdir-icon-chevron-tw { display: none; transition: transform .15s ease; }\n.sortdir-btn-tw--Arrow .sortdir-icon-arrow-tw { display: inline-block; }\n.sortdir-btn-tw--Chevron .sortdir-icon-chevron-tw { display: inline-block; }\n.sortdir-btn-tw--desc svg { transform: rotate(180deg); }\n</style>",
+    "react": "export function SortDirection({\n  label = \"{{label}}\",\n  ascending = {{ascending}},\n  icon = \"{{icon}}\",\n  accent = \"{{accent}}\",\n}) {\n  const rotate = ascending ? \"none\" : \"rotate(180deg)\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <span id=\"sortdir-label-react\" style={{ fontWeight: 500 }}>{label}</span>\n      <button type=\"button\" role=\"switch\" aria-checked={ascending} aria-labelledby=\"sortdir-label-react sortdir-state-react\" style={{\n        display: \"inline-flex\", alignItems: \"center\", gap: 6, border: `1.5px solid ${accent}`, background: \"#FAF7F2\",\n        color: \"#241430\", padding: \"7px 12px\", borderRadius: 8, cursor: \"pointer\", font: \"inherit\",\n      }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\" style={{ transform: rotate, transition: \"transform .15s ease\" }}>\n          {icon === \"Chevron\"\n            ? <path d=\"M3 9l4-4 4 4\" stroke=\"currentColor\" strokeWidth=\"1.5\" fill=\"none\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n            : <path d=\"M7 12V2M3 6l4-4 4 4\" stroke=\"currentColor\" strokeWidth=\"1.5\" fill=\"none\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n        </svg>\n        <span id=\"sortdir-state-react\">{ascending ? \"Ascending\" : \"Descending\"}</span>\n      </button>\n    </div>\n  );\n}"
+  }
+}

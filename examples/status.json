@@ -1,0 +1,57 @@
+{
+  "slug": "status",
+  "controls_schema": [
+    {
+      "id": "task",
+      "type": "text",
+      "label": "Task name",
+      "default": "Refactor auth module"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "inprogress",
+      "options": [
+        "todo",
+        "inprogress",
+        "done",
+        "blocked"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Pill font size",
+      "default": 13,
+      "min": 11,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "id": "showIcon",
+      "type": "toggle",
+      "label": "Show icon",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"status-row\" style=\"font-size:{{size}}px;\">\n  <span class=\"status-row__accent\" style=\"background:{{accent}};\"></span>\n  <span class=\"status-pill status-pill--{{status}}\">\n    {{#if showIcon}}\n    <span class=\"status-pill__icons\">\n      <svg class=\"status-pill__icon status-pill__icon--todo\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle></svg>\n      <svg class=\"status-pill__icon status-pill__icon--inprogress\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle><path d=\"M8 8 L8 2.5 A5.5 5.5 0 0 1 13 9.5 Z\" fill=\"currentColor\"></path></svg>\n      <svg class=\"status-pill__icon status-pill__icon--done\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><path d=\"M3.5 8.5 L6.5 11.5 L12.5 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n      <svg class=\"status-pill__icon status-pill__icon--blocked\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle><path d=\"M4.5 4.5 L11.5 11.5\" stroke=\"currentColor\" stroke-width=\"1.8\"></path></svg>\n    </span>\n    {{/if}}\n    <span class=\"status-pill__labels\">\n      <span class=\"status-pill__label status-pill__label--todo\">To do</span>\n      <span class=\"status-pill__label status-pill__label--inprogress\">In progress</span>\n      <span class=\"status-pill__label status-pill__label--done\">Done</span>\n      <span class=\"status-pill__label status-pill__label--blocked\">Blocked</span>\n    </span>\n  </span>\n  <span class=\"status-row__task\">{{task}}</span>\n</div>\n<style>\n.status-row { display: flex; align-items: center; gap: 10px; font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 10px 14px; border-radius: 10px; max-width: 420px; }\n.status-row__accent { width: 4px; align-self: stretch; border-radius: 2px; flex: 0 0 auto; }\n.status-pill { display: inline-flex; align-items: center; gap: 6px; padding: .35em .7em; border-radius: 999px; font-weight: 600; font-size: 1em; flex: 0 0 auto; }\n.status-pill__icons, .status-pill__labels { display: inline-flex; }\n.status-pill__icon, .status-pill__label { display: none; }\n.status-pill--todo { background: #24143014; color: #241430; }\n.status-pill--todo .status-pill__icon--todo, .status-pill--todo .status-pill__label--todo { display: inline-flex; }\n.status-pill--inprogress { background: #BFD9F250; color: #1a3a5c; }\n.status-pill--inprogress .status-pill__icon--inprogress, .status-pill--inprogress .status-pill__label--inprogress { display: inline-flex; }\n.status-pill--done { background: #A8E6C150; color: #1c5c34; }\n.status-pill--done .status-pill__icon--done, .status-pill--done .status-pill__label--done { display: inline-flex; }\n.status-pill--blocked { background: #F5C2E050; color: #8a1050; }\n.status-pill--blocked .status-pill__icon--blocked, .status-pill--blocked .status-pill__label--blocked { display: inline-flex; }\n.status-row__task { font-weight: 500; font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-2.5 font-sans text-[#241430] bg-[#FAF7F2] px-3.5 py-2.5 rounded-[10px] max-w-[420px]\" style=\"font-size:{{size}}px;\">\n  <span class=\"w-1 self-stretch rounded-full flex-none\" style=\"background:{{accent}};\"></span>\n  <span class=\"status-pill-tw status-pill-tw--{{status}} inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold flex-none\" style=\"font-size:1em;\">\n    {{#if showIcon}}\n    <span class=\"inline-flex\">\n      <svg class=\"status-pill-tw__icon status-pill-tw__icon--todo\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle></svg>\n      <svg class=\"status-pill-tw__icon status-pill-tw__icon--inprogress\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle><path d=\"M8 8 L8 2.5 A5.5 5.5 0 0 1 13 9.5 Z\" fill=\"currentColor\"></path></svg>\n      <svg class=\"status-pill-tw__icon status-pill-tw__icon--done\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><path d=\"M3.5 8.5 L6.5 11.5 L12.5 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n      <svg class=\"status-pill-tw__icon status-pill-tw__icon--blocked\" viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"></circle><path d=\"M4.5 4.5 L11.5 11.5\" stroke=\"currentColor\" stroke-width=\"1.8\"></path></svg>\n    </span>\n    {{/if}}\n    <span class=\"inline-flex\">\n      <span class=\"status-pill-tw__label status-pill-tw__label--todo\">To do</span>\n      <span class=\"status-pill-tw__label status-pill-tw__label--inprogress\">In progress</span>\n      <span class=\"status-pill-tw__label status-pill-tw__label--done\">Done</span>\n      <span class=\"status-pill-tw__label status-pill-tw__label--blocked\">Blocked</span>\n    </span>\n  </span>\n  <span class=\"font-medium text-sm\">{{task}}</span>\n</div>\n<style>\n.status-pill-tw__icon, .status-pill-tw__label { display: none; }\n.status-pill-tw--todo { background: #24143014; color: #241430; }\n.status-pill-tw--todo .status-pill-tw__icon--todo, .status-pill-tw--todo .status-pill-tw__label--todo { display: inline-flex; }\n.status-pill-tw--inprogress { background: #BFD9F250; color: #1a3a5c; }\n.status-pill-tw--inprogress .status-pill-tw__icon--inprogress, .status-pill-tw--inprogress .status-pill-tw__label--inprogress { display: inline-flex; }\n.status-pill-tw--done { background: #A8E6C150; color: #1c5c34; }\n.status-pill-tw--done .status-pill-tw__icon--done, .status-pill-tw--done .status-pill-tw__label--done { display: inline-flex; }\n.status-pill-tw--blocked { background: #F5C2E050; color: #8a1050; }\n.status-pill-tw--blocked .status-pill-tw__icon--blocked, .status-pill-tw--blocked .status-pill-tw__label--blocked { display: inline-flex; }\n</style>",
+    "react": "export function StatusPill({\n  task = \"{{task}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n  showIcon = {{showIcon}},\n}) {\n  const meta = {\n    todo: {\n      text: \"To do\", bg: \"#24143014\", color: \"#241430\",\n      icon: <circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.8\" />,\n    },\n    inprogress: {\n      text: \"In progress\", bg: \"#BFD9F250\", color: \"#1a3a5c\",\n      icon: (\n        <>\n          <circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.8\" />\n          <path d=\"M8 8 L8 2.5 A5.5 5.5 0 0 1 13 9.5 Z\" fill=\"currentColor\" />\n        </>\n      ),\n    },\n    done: {\n      text: \"Done\", bg: \"#A8E6C150\", color: \"#1c5c34\",\n      icon: <path d=\"M3.5 8.5 L6.5 11.5 L12.5 4.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />,\n    },\n    blocked: {\n      text: \"Blocked\", bg: \"#F5C2E050\", color: \"#8a1050\",\n      icon: (\n        <>\n          <circle cx=\"8\" cy=\"8\" r=\"5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.8\" />\n          <path d=\"M4.5 4.5 L11.5 11.5\" stroke=\"currentColor\" strokeWidth=\"1.8\" />\n        </>\n      ),\n    },\n  }[status] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, fontFamily: \"system-ui, sans-serif\",\n      color: \"#241430\", background: \"#FAF7F2\", padding: \"10px 14px\", borderRadius: 10, fontSize: size, maxWidth: 420 }}>\n      <span style={{ width: 4, alignSelf: \"stretch\", borderRadius: 2, background: accent, flex: \"0 0 auto\" }} />\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"0.35em 0.7em\",\n        borderRadius: 999, fontWeight: 600, background: meta.bg, color: meta.color, flex: \"0 0 auto\" }}>\n        {showIcon && (\n          <svg viewBox=\"0 0 16 16\" width=\"1em\" height=\"1em\" aria-hidden=\"true\">{meta.icon}</svg>\n        )}\n        <span>{meta.text}</span>\n      </span>\n      <span style={{ fontWeight: 500, fontSize: 14 }}>{task}</span>\n    </div>\n  );\n}"
+  }
+}

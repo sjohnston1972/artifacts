@@ -1,0 +1,65 @@
+{
+  "slug": "retry",
+  "controls_schema": [
+    {
+      "id": "taskTitle",
+      "type": "text",
+      "label": "Task",
+      "default": "Upload to S3 bucket"
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "Failure reason",
+      "default": "Network timeout"
+    },
+    {
+      "id": "attempt",
+      "type": "number",
+      "label": "Attempt",
+      "default": 2,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "maxAttempts",
+      "type": "number",
+      "label": "Max attempts",
+      "default": 3,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "retrying",
+      "options": [
+        "failed",
+        "retrying",
+        "exhausted"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"retry\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <div class=\"retry__status\">\n    <span class=\"retry__icon retry__icon--failed\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"retry__icon retry__icon--retrying\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.25\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 4.5V8l2.5 1.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"retry__icon retry__icon--exhausted\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M5.5 5.5l5 5M10.5 5.5l-5 5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"retry__text\">{{status}}</span>\n  </div>\n  <h3 class=\"retry__title\">{{taskTitle}}</h3>\n  <p class=\"retry__reason\">{{reason}}</p>\n  <p class=\"retry__attempt\">Attempt {{attempt}} of {{maxAttempts}}</p>\n  <button type=\"button\" class=\"retry__action\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M13 8A5 5 0 1 1 11.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M13 2v3.5H9.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Retry now</button>\n</div>\n<style>\n.retry { font: 15px/1.5 system-ui, sans-serif; max-width: 340px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.retry__status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #24143010; margin-bottom: 12px; }\n.retry__icon { display: none; }\n.retry[data-status=\"failed\"] .retry__icon--failed { display: inline-flex; color: #b23b3b; }\n.retry[data-status=\"retrying\"] .retry__icon--retrying { display: inline-flex; color: var(--accent); }\n.retry[data-status=\"exhausted\"] .retry__icon--exhausted { display: inline-flex; color: #241430; }\n.retry__text { font-weight: 600; font-size: 13px; text-transform: capitalize; }\n.retry__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; }\n.retry__reason { margin: 0 0 4px; font-size: 14px; color: #241430cc; }\n.retry__attempt { margin: 0 0 14px; font-size: 13px; color: #24143099; }\n.retry__action { display: inline-flex; align-items: center; gap: 6px; border: none; background: var(--accent); color: #241430; font: 600 13px system-ui, sans-serif; padding: 8px 14px; border-radius: 8px; cursor: pointer; }\n.retry[data-status=\"exhausted\"] .retry__action { opacity: .5; pointer-events: none; }\n.retry__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"retry-tw font-sans max-w-[340px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020]\" data-status=\"{{status}}\">\n  <div class=\"inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-[#24143010] mb-3\">\n    <span class=\"retry-tw__icon retry-tw__icon--failed\" style=\"color:#b23b3b\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"retry-tw__icon retry-tw__icon--retrying\" style=\"color:{{accent}}\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.25\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 4.5V8l2.5 1.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"retry-tw__icon retry-tw__icon--exhausted\" style=\"color:#241430\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M5.5 5.5l5 5M10.5 5.5l-5 5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"font-semibold text-[13px] capitalize\">{{status}}</span>\n  </div>\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-semibold\">{{taskTitle}}</h3>\n  <p class=\"m-0 mb-1 text-sm text-[#241430]/80\">{{reason}}</p>\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/60\">Attempt {{attempt}} of {{maxAttempts}}</p>\n  <button type=\"button\" class=\"retry-tw__action inline-flex items-center gap-1.5 border-0 font-semibold text-[13px] py-2 px-3.5 rounded-lg cursor-pointer\" style=\"background:{{accent}}\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M13 8A5 5 0 1 1 11.5 4.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M13 2v3.5H9.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Retry now</button>\n</div>\n<style>\n.retry-tw__icon { display: none; }\n.retry-tw[data-status=\"failed\"] .retry-tw__icon--failed { display: inline-flex; }\n.retry-tw[data-status=\"retrying\"] .retry-tw__icon--retrying { display: inline-flex; }\n.retry-tw[data-status=\"exhausted\"] .retry-tw__icon--exhausted { display: inline-flex; }\n.retry-tw[data-status=\"exhausted\"] .retry-tw__action { opacity: .5; pointer-events: none; }\n</style>",
+    "react": "export function Retry({\n  taskTitle = \"{{taskTitle}}\",\n  reason = \"{{reason}}\",\n  attempt = {{attempt}},\n  maxAttempts = {{maxAttempts}},\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    failed: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M4 4l8 8M12 4l-8 8\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\"/></svg>\", color: \"#b23b3b\" },\n    retrying: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><circle cx=\\\"8\\\" cy=\\\"8\\\" r=\\\"6.25\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\"/><path d=\\\"M8 4.5V8l2.5 1.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\", color: accent },\n    exhausted: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"/><path d=\\\"M5.5 5.5l5 5M10.5 5.5l-5 5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/></svg>\", color: \"#241430\" },\n  };\n  const active = icons[status] ?? icons.failed;\n  const exhausted = status === \"exhausted\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 340, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 10px\", borderRadius: 999, background: \"#24143010\", marginBottom: 12 }}>\n        <span style={{ color: active.color, display: \"inline-flex\" }} dangerouslySetInnerHTML={{ __html: active.svg }} />\n        <span style={{ fontWeight: 600, fontSize: 13, textTransform: \"capitalize\" }}>{status}</span>\n      </div>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 600 }}>{taskTitle}</h3>\n      <p style={{ margin: \"0 0 4px\", fontSize: 14, color: \"#241430cc\" }}>{reason}</p>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#24143099\" }}>Attempt {attempt} of {maxAttempts}</p>\n      <button type=\"button\" disabled={exhausted} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, border: \"none\",\n        background: accent, color: \"#241430\", fontWeight: 600, fontSize: 13, padding: \"8px 14px\", borderRadius: 8,\n        cursor: exhausted ? \"default\" : \"pointer\", opacity: exhausted ? 0.5 : 1 }}>\n        <span dangerouslySetInnerHTML={{ __html: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"14\\\" height=\\\"14\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M13 8A5 5 0 1 1 11.5 4.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/><path d=\\\"M13 2v3.5H9.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\" }} /> Retry now\n      </button>\n    </div>\n  );\n}"
+  }
+}

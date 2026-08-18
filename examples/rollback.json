@@ -1,0 +1,53 @@
+{
+  "slug": "rollback",
+  "controls_schema": [
+    {
+      "id": "itemTitle",
+      "type": "text",
+      "label": "Item",
+      "default": "Homepage layout config"
+    },
+    {
+      "id": "currentVersion",
+      "type": "text",
+      "label": "Current version",
+      "default": "v14 (live)"
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Published",
+      "default": "published 2 hours ago"
+    },
+    {
+      "id": "target",
+      "type": "select",
+      "label": "Roll back to",
+      "default": "v13",
+      "options": [
+        "v13",
+        "v12",
+        "v11"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rollback\" data-target=\"{{target}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"rollback__title\">{{itemTitle}}</h3>\n  <p class=\"rollback__current\">Currently on <strong>{{currentVersion}}</strong>, {{timestamp}}</p>\n  <ul class=\"rollback__history\">\n    <li class=\"rollback__entry\" data-version=\"v13\">v13</li>\n    <li class=\"rollback__entry\" data-version=\"v12\">v12</li>\n    <li class=\"rollback__entry\" data-version=\"v11\">v11</li>\n  </ul>\n  <button type=\"button\" class=\"rollback__action\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8a5 5 0 1 0 1.5-3.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M3 3v3.5h3.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Roll back to {{target}}</button>\n</div>\n<style>\n.rollback { font: 15px/1.5 system-ui, sans-serif; max-width: 360px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.rollback__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; }\n.rollback__current { margin: 0 0 12px; font-size: 14px; color: #241430cc; }\n.rollback__history { list-style: none; display: flex; gap: 8px; margin: 0 0 14px; padding: 0; }\n.rollback__entry { font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #24143010; color: #24143099; }\n.rollback[data-target=\"v13\"] .rollback__entry[data-version=\"v13\"] { background: var(--accent); color: #241430; }\n.rollback[data-target=\"v12\"] .rollback__entry[data-version=\"v12\"] { background: var(--accent); color: #241430; }\n.rollback[data-target=\"v11\"] .rollback__entry[data-version=\"v11\"] { background: var(--accent); color: #241430; }\n.rollback__action { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid #241430; background: transparent; color: #241430; font: 600 13px system-ui, sans-serif; padding: 8px 14px; border-radius: 8px; cursor: pointer; }\n.rollback__action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"rollback-tw font-sans max-w-[360px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020]\" data-target=\"{{target}}\">\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-semibold\">{{itemTitle}}</h3>\n  <p class=\"m-0 mb-3 text-sm text-[#241430]/80\">Currently on <strong>{{currentVersion}}</strong>, {{timestamp}}</p>\n  <ul class=\"list-none flex gap-2 m-0 mb-3.5 p-0\">\n    <li class=\"rollback-tw__entry text-[13px] font-semibold py-1.5 px-3 rounded-full bg-[#24143010] text-[#241430]/60\" data-version=\"v13\">v13</li>\n    <li class=\"rollback-tw__entry text-[13px] font-semibold py-1.5 px-3 rounded-full bg-[#24143010] text-[#241430]/60\" data-version=\"v12\">v12</li>\n    <li class=\"rollback-tw__entry text-[13px] font-semibold py-1.5 px-3 rounded-full bg-[#24143010] text-[#241430]/60\" data-version=\"v11\">v11</li>\n  </ul>\n  <button type=\"button\" class=\"inline-flex items-center gap-1.5 border-[1.5px] border-[#241430] bg-transparent text-[#241430] font-semibold text-[13px] py-2 px-3.5 rounded-lg cursor-pointer\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8a5 5 0 1 0 1.5-3.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M3 3v3.5h3.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Roll back to {{target}}</button>\n</div>\n<style>\n.rollback-tw[data-target=\"v13\"] .rollback-tw__entry[data-version=\"v13\"] { background: {{accent}}; color: #241430; }\n.rollback-tw[data-target=\"v12\"] .rollback-tw__entry[data-version=\"v12\"] { background: {{accent}}; color: #241430; }\n.rollback-tw[data-target=\"v11\"] .rollback-tw__entry[data-version=\"v11\"] { background: {{accent}}; color: #241430; }\n</style>",
+    "react": "export function Rollback({\n  itemTitle = \"{{itemTitle}}\",\n  currentVersion = \"{{currentVersion}}\",\n  timestamp = \"{{timestamp}}\",\n  target = \"{{target}}\",\n  accent = \"{{accent}}\",\n}) {\n  const history = [\"v13\", \"v12\", \"v11\"];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 360, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 600 }}>{itemTitle}</h3>\n      <p style={{ margin: \"0 0 12px\", fontSize: 14, color: \"#241430cc\" }}>Currently on <strong>{currentVersion}</strong>, {timestamp}</p>\n      <ul style={{ listStyle: \"none\", display: \"flex\", gap: 8, margin: \"0 0 14px\", padding: 0 }}>\n        {history.map((v) => (\n          <li key={v} style={{ fontSize: 13, fontWeight: 600, padding: \"6px 12px\", borderRadius: 999,\n            background: v === target ? accent : \"#24143010\", color: v === target ? \"#241430\" : \"#24143099\" }}>{v}</li>\n        ))}\n      </ul>\n      <button type=\"button\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, border: \"1.5px solid #241430\",\n        background: \"transparent\", color: \"#241430\", fontWeight: 600, fontSize: 13, padding: \"8px 14px\", borderRadius: 8, cursor: \"pointer\" }}>\n        <span dangerouslySetInnerHTML={{ __html: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"14\\\" height=\\\"14\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M3 8a5 5 0 1 0 1.5-3.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/><path d=\\\"M3 3v3.5h3.5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\" }} /> Roll back to {target}\n      </button>\n    </div>\n  );\n}"
+  }
+}

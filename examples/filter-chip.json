@@ -1,0 +1,46 @@
+{
+  "slug": "filter-chip",
+  "controls_schema": [
+    {
+      "id": "facet",
+      "type": "text",
+      "label": "Facet",
+      "default": "Status"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Open"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Style",
+      "default": "solid",
+      "options": [
+        "solid",
+        "outline"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"chip chip--{{variant}}\" style=\"--accent:{{accent}};\">\n  <span class=\"chip__text\">{{facet}}: {{value}}</span>\n  <button type=\"button\" class=\"chip__remove\" aria-label=\"Remove filter: {{facet}} — {{value}}\">\n    <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1L9 9M9 1L1 9\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>\n  </button>\n</span>\n<style>\n.chip { display: inline-flex; align-items: center; gap: 6px; font: 14px system-ui, sans-serif; color: #241430; padding: 6px 8px 6px 12px; border-radius: 999px; }\n.chip--solid { background: var(--accent); }\n.chip--outline { background: #FAF7F2; border: 1.5px solid var(--accent); }\n.chip__remove { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; border: none; background: transparent; color: #241430; cursor: pointer; padding: 0; }\n.chip__remove:hover, .chip__remove:focus-visible { background: #24143020; outline: none; }\n</style>",
+    "tailwind": "<span class=\"inline-flex items-center gap-1.5 font-sans text-sm text-[#241430] pl-3 pr-1.5 py-1.5 rounded-full chip-tw chip-tw--{{variant}}\" style=\"--accent:{{accent}};\">\n  <span>{{facet}}: {{value}}</span>\n  <button type=\"button\" aria-label=\"Remove filter: {{facet}} — {{value}}\" class=\"inline-flex items-center justify-center w-[18px] h-[18px] rounded-full border-none bg-transparent text-[#241430] cursor-pointer p-0 hover:bg-[#24143020] focus-visible:outline-none focus-visible:bg-[#24143020]\">\n    <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1L9 9M9 1L1 9\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>\n  </button>\n</span>\n<style>\n.chip-tw--solid { background: var(--accent); }\n.chip-tw--outline { background: #FAF7F2; border: 1.5px solid var(--accent); }\n</style>",
+    "react": "export function FilterChip({\n  facet = \"{{facet}}\",\n  value = \"{{value}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <span style={{\n      display: \"inline-flex\", alignItems: \"center\", gap: 6, fontFamily: \"system-ui, sans-serif\", fontSize: 14,\n      color: \"#241430\", padding: \"6px 8px 6px 12px\", borderRadius: 999,\n      background: variant === \"solid\" ? accent : \"#FAF7F2\",\n      border: variant === \"outline\" ? `1.5px solid ${accent}` : \"none\",\n    }}>\n      <span>{facet}: {value}</span>\n      <button type=\"button\" aria-label={`Remove filter: ${facet} — ${value}`} style={{\n        display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 18, height: 18,\n        borderRadius: \"50%\", border: \"none\", background: \"transparent\", color: \"#241430\", cursor: \"pointer\", padding: 0,\n      }}>\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1L9 9M9 1L1 9\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" /></svg>\n      </button>\n    </span>\n  );\n}"
+  }
+}

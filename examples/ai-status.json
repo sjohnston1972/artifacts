@@ -1,0 +1,48 @@
+{
+  "slug": "ai-status",
+  "controls_schema": [
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "thinking",
+      "options": [
+        "idle",
+        "thinking",
+        "responding",
+        "error"
+      ]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label override",
+      "default": ""
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "pulse",
+      "type": "toggle",
+      "label": "Pulse animation",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ai-status ai-status--{{state}} {{#if pulse}}ai-status--pulse{{/if}}\" role=\"status\" aria-live=\"polite\" style=\"--accent:{{accent}};\">\n  <span class=\"ai-status__icon\" aria-hidden=\"true\">\n    <span class=\"glyph glyph--idle\">&#9679;</span>\n    <span class=\"glyph glyph--thinking\">&#8230;</span>\n    <span class=\"glyph glyph--responding\">&#9646;&#9646;&#9646;</span>\n    <span class=\"glyph glyph--error\">&#9650;!</span>\n  </span>\n  <span class=\"ai-status__text\">\n    {{#if label}}{{label}}{{/if}}\n    {{#unless label}}\n    <span class=\"fallback fallback--idle\">Idle</span>\n    <span class=\"fallback fallback--thinking\">Thinking&#8230;</span>\n    <span class=\"fallback fallback--responding\">Responding&#8230;</span>\n    <span class=\"fallback fallback--error\">Something went wrong</span>\n    {{/unless}}\n  </span>\n</div>\n<style>\n.ai-status { display: inline-flex; align-items: center; gap: 8px; font: 13px/1.4 system-ui, sans-serif; padding: 6px 12px; border-radius: 999px; background: #24143008; color: #241430; }\n.ai-status__icon { display: inline-flex; font-size: 13px; font-weight: 700; color: var(--accent); }\n.ai-status__icon .glyph { display: none; }\n.ai-status--idle .glyph--idle, .ai-status--thinking .glyph--thinking, .ai-status--responding .glyph--responding, .ai-status--error .glyph--error { display: inline; }\n.ai-status__text .fallback { display: none; }\n.ai-status--idle .fallback--idle, .ai-status--thinking .fallback--thinking, .ai-status--responding .fallback--responding, .ai-status--error .fallback--error { display: inline; }\n.ai-status--error { color: #8A2F2F; }\n.ai-status--error .ai-status__icon { color: #8A2F2F; }\n.ai-status--pulse .ai-status__icon { animation: ai-status-pulse 1.1s ease-in-out infinite; }\n@keyframes ai-status-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }\n</style>",
+    "tailwind": "<div class=\"ai-status-tw ai-status-tw--{{state}} {{#if pulse}}ai-status-tw--pulse{{/if}} inline-flex items-center gap-2 font-sans text-[13px] px-3 py-1.5 rounded-full bg-[#24143008] text-[#241430]\" role=\"status\" aria-live=\"polite\" style=\"--accent:{{accent}};\">\n  <span class=\"ai-status-tw__icon inline-flex text-[13px] font-bold\" style=\"color:var(--accent)\" aria-hidden=\"true\">\n    <span class=\"glyph glyph--idle\">&#9679;</span>\n    <span class=\"glyph glyph--thinking\">&#8230;</span>\n    <span class=\"glyph glyph--responding\">&#9646;&#9646;&#9646;</span>\n    <span class=\"glyph glyph--error\">&#9650;!</span>\n  </span>\n  <span>\n    {{#if label}}{{label}}{{/if}}\n    {{#unless label}}\n    <span class=\"fallback fallback--idle\">Idle</span>\n    <span class=\"fallback fallback--thinking\">Thinking&#8230;</span>\n    <span class=\"fallback fallback--responding\">Responding&#8230;</span>\n    <span class=\"fallback fallback--error\">Something went wrong</span>\n    {{/unless}}\n  </span>\n</div>\n<style>\n.ai-status-tw__icon .glyph { display: none; }\n.ai-status-tw--idle .glyph--idle, .ai-status-tw--thinking .glyph--thinking, .ai-status-tw--responding .glyph--responding, .ai-status-tw--error .glyph--error { display: inline; }\n.ai-status-tw span .fallback { display: none; }\n.ai-status-tw--idle .fallback--idle, .ai-status-tw--thinking .fallback--thinking, .ai-status-tw--responding .fallback--responding, .ai-status-tw--error .fallback--error { display: inline; }\n.ai-status-tw--error { color: #8A2F2F; }\n.ai-status-tw--error .ai-status-tw__icon { color: #8A2F2F; }\n.ai-status-tw--pulse .ai-status-tw__icon { animation: ai-status-tw-pulse 1.1s ease-in-out infinite; }\n@keyframes ai-status-tw-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }\n</style>",
+    "react": "export function AiStatus({\n  state = \"{{state}}\",\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  pulse = {{pulse}},\n}) {\n  const info = {\n    idle: { icon: \"\\u25CF\", text: \"Idle\", color: accent },\n    thinking: { icon: \"\\u2026\", text: \"Thinking\\u2026\", color: accent },\n    responding: { icon: \"\\u2588\\u2588\\u2588\", text: \"Responding\\u2026\", color: accent },\n    error: { icon: \"\\u25B2!\", text: \"Something went wrong\", color: \"#8A2F2F\" },\n  }[state] ?? { icon: \"\\u25CF\", text: \"Idle\", color: accent };\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, fontSize: 13,\n      padding: \"6px 12px\", borderRadius: 999, background: \"#24143008\", color: state === \"error\" ? \"#8A2F2F\" : \"#241430\",\n      fontFamily: \"system-ui, sans-serif\" }}>\n      <span aria-hidden=\"true\" style={{ fontSize: 13, fontWeight: 700, color: info.color,\n        animation: pulse ? \"ai-status-react-pulse 1.1s ease-in-out infinite\" : \"none\" }}>{info.icon}</span>\n      <span>{label || info.text}</span>\n      <style>{`@keyframes ai-status-react-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }`}</style>\n    </div>\n  );\n}"
+  }
+}

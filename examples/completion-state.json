@@ -1,0 +1,53 @@
+{
+  "slug": "completion-state",
+  "controls_schema": [
+    {
+      "id": "taskTitle",
+      "type": "text",
+      "label": "Task",
+      "default": "Monthly payroll run"
+    },
+    {
+      "id": "detail",
+      "type": "text",
+      "label": "Completion detail",
+      "default": "All 312 payslips generated and sent"
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Timestamp",
+      "default": "Finished 18 Aug 2026, 09:14"
+    },
+    {
+      "id": "outcome",
+      "type": "select",
+      "label": "Outcome",
+      "default": "Completed",
+      "options": [
+        "Completed",
+        "Completed with warnings",
+        "Cancelled"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"completion\" data-outcome=\"{{outcome}}\" style=\"--accent:{{accent}};\">\n  <div class=\"completion__status\">\n    <span class=\"completion__icon completion__icon--ok\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"completion__icon completion__icon--warn\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"completion__icon completion__icon--cancel\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"completion__text\">{{outcome}}</span>\n  </div>\n  <h3 class=\"completion__title\">{{taskTitle}}</h3>\n  <p class=\"completion__detail\">{{detail}}</p>\n  <p class=\"completion__timestamp\">{{timestamp}}</p>\n</div>\n<style>\n.completion { font: 15px/1.5 system-ui, sans-serif; max-width: 340px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.completion__status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #24143010; margin-bottom: 12px; }\n.completion__icon { display: none; }\n.completion[data-outcome=\"Completed\"] .completion__icon--ok { display: inline-flex; color: #2f8a52; }\n.completion[data-outcome=\"Completed with warnings\"] .completion__icon--warn { display: inline-flex; color: var(--accent); }\n.completion[data-outcome=\"Cancelled\"] .completion__icon--cancel { display: inline-flex; color: #b23b3b; }\n.completion__text { font-weight: 600; font-size: 13px; }\n.completion__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; }\n.completion__detail { margin: 0 0 4px; font-size: 14px; color: #241430cc; }\n.completion__timestamp { margin: 0; font-size: 12px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"completion-tw font-sans max-w-[340px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020]\" data-outcome=\"{{outcome}}\">\n  <div class=\"inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-[#24143010] mb-3\">\n    <span class=\"completion-tw__icon completion-tw__icon--ok\" style=\"color:#2f8a52\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"completion-tw__icon completion-tw__icon--warn\" style=\"color:{{accent}}\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"completion-tw__icon completion-tw__icon--cancel\" style=\"color:#b23b3b\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"font-semibold text-[13px]\">{{outcome}}</span>\n  </div>\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-semibold\">{{taskTitle}}</h3>\n  <p class=\"m-0 mb-1 text-sm text-[#241430]/80\">{{detail}}</p>\n  <p class=\"m-0 text-xs text-[#241430]/60\">{{timestamp}}</p>\n</div>\n<style>\n.completion-tw__icon { display: none; }\n.completion-tw[data-outcome=\"Completed\"] .completion-tw__icon--ok { display: inline-flex; }\n.completion-tw[data-outcome=\"Completed with warnings\"] .completion-tw__icon--warn { display: inline-flex; }\n.completion-tw[data-outcome=\"Cancelled\"] .completion-tw__icon--cancel { display: inline-flex; }\n</style>",
+    "react": "export function CompletionState({\n  taskTitle = \"{{taskTitle}}\",\n  detail = \"{{detail}}\",\n  timestamp = \"{{timestamp}}\",\n  outcome = \"{{outcome}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    \"Completed\": { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M3 8.5l3 3 7-7\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\", color: \"#2f8a52\" },\n    \"Completed with warnings\": { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M8 2.5l6.5 11h-13z\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"/><path d=\\\"M8 6.5v3\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/><circle cx=\\\"8\\\" cy=\\\"11.5\\\" r=\\\"0.75\\\" fill=\\\"currentColor\\\"/></svg>\", color: accent },\n    \"Cancelled\": { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M4 4l8 8M12 4l-8 8\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\"/></svg>\", color: \"#b23b3b\" },\n  };\n  const active = icons[outcome] ?? icons[\"Completed\"];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 340, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 10px\", borderRadius: 999, background: \"#24143010\", marginBottom: 12 }}>\n        <span style={{ color: active.color, display: \"inline-flex\" }} dangerouslySetInnerHTML={{ __html: active.svg }} />\n        <span style={{ fontWeight: 600, fontSize: 13 }}>{outcome}</span>\n      </div>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 600 }}>{taskTitle}</h3>\n      <p style={{ margin: \"0 0 4px\", fontSize: 14, color: \"#241430cc\" }}>{detail}</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#24143099\" }}>{timestamp}</p>\n    </div>\n  );\n}"
+  }
+}

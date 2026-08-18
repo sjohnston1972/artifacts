@@ -1,0 +1,53 @@
+{
+  "slug": "escalation",
+  "controls_schema": [
+    {
+      "id": "issueTitle",
+      "type": "text",
+      "label": "Issue",
+      "default": "Payment gateway outage"
+    },
+    {
+      "id": "escalatedTo",
+      "type": "text",
+      "label": "Escalated to",
+      "default": "the on-call lead, Jordan Lee"
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "Reason",
+      "default": "unresolved after 2 hours"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Escalation level",
+      "default": "L2",
+      "options": [
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"escalation\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <p class=\"escalation__issue\">{{issueTitle}}</p>\n  <div class=\"escalation__level\">\n    <span class=\"escalation__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"escalation__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"escalation__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"escalation__level-text\">{{level}}</span>\n  </div>\n  <p class=\"escalation__body\">Escalated to <strong>{{escalatedTo}}</strong> — {{reason}}</p>\n</div>\n<style>\n.escalation { font: 15px/1.5 system-ui, sans-serif; max-width: 360px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.escalation__issue { margin: 0 0 10px; font-weight: 600; font-size: 16px; }\n.escalation__level { display: inline-flex; align-items: center; gap: 3px; padding: 4px 10px; border-radius: 999px; background: #24143010; margin-bottom: 10px; }\n.escalation__chev { color: #24143030; }\n.escalation[data-level=\"L1\"] .escalation__chev:nth-child(-n+1) { color: var(--accent); }\n.escalation[data-level=\"L2\"] .escalation__chev:nth-child(-n+2) { color: var(--accent); }\n.escalation[data-level=\"L3\"] .escalation__chev:nth-child(-n+3) { color: var(--accent); }\n.escalation__level-text { margin-left: 4px; font-weight: 700; font-size: 13px; }\n.escalation__body { margin: 0; font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"escalation-tw font-sans max-w-[360px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020]\" data-level=\"{{level}}\">\n  <p class=\"m-0 mb-2.5 font-semibold text-base\">{{issueTitle}}</p>\n  <div class=\"inline-flex items-center gap-[3px] py-1 px-2.5 rounded-full bg-[#24143010] mb-2.5\">\n    <span class=\"escalation-tw__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"escalation-tw__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"escalation-tw__chev\"><svg viewBox=\"0 0 16 16\" width=\"11\" height=\"11\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 3l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n    <span class=\"ml-1 font-bold text-[13px]\">{{level}}</span>\n  </div>\n  <p class=\"m-0 text-sm\">Escalated to <strong>{{escalatedTo}}</strong> — {{reason}}</p>\n</div>\n<style>\n.escalation-tw__chev { color: #24143030; }\n.escalation-tw[data-level=\"L1\"] .escalation-tw__chev:nth-child(-n+1) { color: {{accent}}; }\n.escalation-tw[data-level=\"L2\"] .escalation-tw__chev:nth-child(-n+2) { color: {{accent}}; }\n.escalation-tw[data-level=\"L3\"] .escalation-tw__chev:nth-child(-n+3) { color: {{accent}}; }\n</style>",
+    "react": "export function Escalation({\n  issueTitle = \"{{issueTitle}}\",\n  escalatedTo = \"{{escalatedTo}}\",\n  reason = \"{{reason}}\",\n  level = \"{{level}}\",\n  accent = \"{{accent}}\",\n}) {\n  const active = { L1: 1, L2: 2, L3: 3 }[level] ?? 1;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 360, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <p style={{ margin: \"0 0 10px\", fontWeight: 600, fontSize: 16 }}>{issueTitle}</p>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 3, padding: \"4px 10px\", borderRadius: 999, background: \"#24143010\", marginBottom: 10 }}>\n        {[1, 2, 3].map((n) => (\n          <span key={n} style={{ color: n <= active ? accent : \"#24143030\" }} dangerouslySetInnerHTML={{ __html: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"11\\\" height=\\\"11\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M4 3l5 5-5 5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\" }} />\n        ))}\n        <span style={{ marginLeft: 4, fontWeight: 700, fontSize: 13 }}>{level}</span>\n      </div>\n      <p style={{ margin: 0, fontSize: 14 }}>Escalated to <strong>{escalatedTo}</strong> — {reason}</p>\n    </div>\n  );\n}"
+  }
+}

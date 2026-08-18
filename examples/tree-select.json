@@ -1,0 +1,56 @@
+{
+  "slug": "tree-select",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Office location"
+    },
+    {
+      "id": "node",
+      "type": "select",
+      "label": "Selected node",
+      "default": "london",
+      "options": [
+        "london",
+        "manchester",
+        "paris"
+      ]
+    },
+    {
+      "id": "expanded",
+      "type": "toggle",
+      "label": "Branches expanded",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ts\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"ts__label\" id=\"ts-label\">{{label}}</div>\n  <ul class=\"ts__tree ts__tree--{{node}}{{#unless expanded}} ts__tree--collapsed{{/unless}}\" role=\"tree\" aria-labelledby=\"ts-label\">\n    <li class=\"ts__branch\" role=\"treeitem\" aria-expanded=\"{{expanded}}\">\n      <span class=\"ts__branch-label\">United Kingdom</span>\n      <ul class=\"ts__group\" role=\"group\">\n        <li id=\"ts-london\" class=\"ts__leaf\" role=\"treeitem\" aria-selected=\"true\">London</li>\n        <li id=\"ts-manchester\" class=\"ts__leaf\" role=\"treeitem\" aria-selected=\"false\">Manchester</li>\n      </ul>\n    </li>\n    <li class=\"ts__branch\" role=\"treeitem\" aria-expanded=\"{{expanded}}\">\n      <span class=\"ts__branch-label\">France</span>\n      <ul class=\"ts__group\" role=\"group\">\n        <li id=\"ts-paris\" class=\"ts__leaf\" role=\"treeitem\" aria-selected=\"false\">Paris</li>\n      </ul>\n    </li>\n  </ul>\n</div>\n<style>\n.ts { font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; background: #FAF7F2; border: 1.5px solid #24143020; padding: 12px; box-sizing: border-box; }\n.ts__label { font-weight: 500; margin-bottom: 8px; }\n.ts__tree, .ts__group { list-style: none; margin: 0; padding: 0; }\n.ts__group { padding-left: 18px; }\n.ts__branch { margin-bottom: 4px; }\n.ts__branch-label { display: block; padding: 6px 8px; border-radius: 6px; font-weight: 500; cursor: pointer; }\n.ts__branch-label:hover { background: #24143014; }\n.ts__branch[aria-expanded=\"false\"] .ts__group { display: none; }\n.ts__tree--collapsed .ts__group { display: none; }\n.ts__leaf { padding: 6px 8px; border-radius: 6px; cursor: pointer; }\n.ts__leaf:hover { background: #24143014; }\n.ts__tree--london #ts-london, .ts__tree--manchester #ts-manchester, .ts__tree--paris #ts-paris { background: var(--accent); font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"ts-tw ts-tw--{{node}} font-sans text-sm text-[#241430] max-w-[260px] bg-[#FAF7F2] border-[1.5px] border-[#24143020] p-3 box-border\" style=\"border-radius:{{radius}}px;\">\n  <div class=\"font-medium mb-2\" id=\"ts-tw-label\">{{label}}</div>\n  <ul class=\"list-none m-0 p-0\" role=\"tree\" aria-labelledby=\"ts-tw-label\">\n    <li class=\"mb-1\" role=\"treeitem\" aria-expanded=\"{{expanded}}\">\n      <span class=\"block px-2 py-1.5 rounded-md font-medium cursor-pointer hover:bg-[#24143014]\">United Kingdom</span>\n      <ul class=\"ts-tw-group list-none m-0 pl-[18px]\" role=\"group\">\n        <li id=\"ts-tw-london\" class=\"px-2 py-1.5 rounded-md cursor-pointer hover:bg-[#24143014]\" role=\"treeitem\" aria-selected=\"true\">London</li>\n        <li id=\"ts-tw-manchester\" class=\"px-2 py-1.5 rounded-md cursor-pointer hover:bg-[#24143014]\" role=\"treeitem\" aria-selected=\"false\">Manchester</li>\n      </ul>\n    </li>\n    <li class=\"mb-1\" role=\"treeitem\" aria-expanded=\"{{expanded}}\">\n      <span class=\"block px-2 py-1.5 rounded-md font-medium cursor-pointer hover:bg-[#24143014]\">France</span>\n      <ul class=\"ts-tw-group list-none m-0 pl-[18px]\" role=\"group\">\n        <li id=\"ts-tw-paris\" class=\"px-2 py-1.5 rounded-md cursor-pointer hover:bg-[#24143014]\" role=\"treeitem\" aria-selected=\"false\">Paris</li>\n      </ul>\n    </li>\n  </ul>\n</div>\n<style>\n.ts-tw--london #ts-tw-london, .ts-tw--manchester #ts-tw-manchester, .ts-tw--paris #ts-tw-paris { background: {{accent}}; font-weight: 600; }\nli[aria-expanded=\"false\"] > .ts-tw-group { display: none; }\n</style>",
+    "react": "export function TreeSelect({\n  label = \"{{label}}\",\n  node = \"{{node}}\",\n  expanded = {{expanded}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const branches = [\n    { name: \"United Kingdom\", children: [{ id: \"london\", name: \"London\" }, { id: \"manchester\", name: \"Manchester\" }] },\n    { name: \"France\", children: [{ id: \"paris\", name: \"Paris\" }] },\n  ];\n  const leafStyle = (id) => ({\n    padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\",\n    background: id === node ? accent : \"transparent\",\n    fontWeight: id === node ? 600 : 400,\n  });\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260, background: \"#FAF7F2\", border: \"1.5px solid #24143020\", padding: 12, boxSizing: \"border-box\", borderRadius: radius }}>\n      <div id=\"ts-r-label\" style={{ fontWeight: 500, marginBottom: 8 }}>{label}</div>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }} role=\"tree\" aria-labelledby=\"ts-r-label\">\n        {branches.map((branch) => (\n          <li key={branch.name} style={{ marginBottom: 4 }} role=\"treeitem\" aria-expanded={expanded}>\n            <span style={{ display: \"block\", padding: \"6px 8px\", borderRadius: 6, fontWeight: 500, cursor: \"pointer\" }}>{branch.name}</span>\n            {expanded && (\n              <ul style={{ listStyle: \"none\", margin: 0, paddingLeft: 18 }} role=\"group\">\n                {branch.children.map((leaf) => (\n                  <li key={leaf.id} role=\"treeitem\" aria-selected={leaf.id === node} style={leafStyle(leaf.id)}>{leaf.name}</li>\n                ))}\n              </ul>\n            )}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

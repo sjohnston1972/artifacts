@@ -1,0 +1,53 @@
+{
+  "slug": "exception-state",
+  "controls_schema": [
+    {
+      "id": "taskTitle",
+      "type": "text",
+      "label": "Task",
+      "default": "Nightly ETL job"
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "Failure reason",
+      "default": "Connection to warehouse timed out after 30s"
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Timestamp",
+      "default": "Failed 18 Aug 2026, 03:41"
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "major",
+      "options": [
+        "minor",
+        "major",
+        "critical"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"exception\" data-severity=\"{{severity}}\" style=\"--accent:{{accent}};\">\n  <div class=\"exception__status\">\n    <span class=\"exception__icon exception__icon--minor\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"exception__icon exception__icon--major\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"exception__icon exception__icon--critical\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M5.5 5.5l5 5M10.5 5.5l-5 5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"exception__text\">{{severity}}</span>\n  </div>\n  <h3 class=\"exception__title\">{{taskTitle}}</h3>\n  <p class=\"exception__reason\">{{reason}}</p>\n  <p class=\"exception__timestamp\">{{timestamp}}</p>\n</div>\n<style>\n.exception { font: 15px/1.5 system-ui, sans-serif; max-width: 340px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; border-left: 4px solid #b23b3b; }\n.exception__status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #24143010; margin-bottom: 12px; }\n.exception__icon { display: none; color: #b23b3b; }\n.exception[data-severity=\"minor\"] .exception__icon--minor { display: inline-flex; color: var(--accent); }\n.exception[data-severity=\"major\"] .exception__icon--major { display: inline-flex; color: #c17a00; }\n.exception[data-severity=\"critical\"] .exception__icon--critical { display: inline-flex; color: #b23b3b; }\n.exception__text { font-weight: 700; font-size: 13px; text-transform: capitalize; }\n.exception__title { margin: 0 0 6px; font-size: 17px; font-weight: 600; }\n.exception__reason { margin: 0 0 4px; font-size: 14px; color: #241430cc; }\n.exception__timestamp { margin: 0; font-size: 12px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"exception-tw font-sans max-w-[340px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020] border-l-4 border-l-[#b23b3b]\" data-severity=\"{{severity}}\">\n  <div class=\"inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-[#24143010] mb-3\">\n    <span class=\"exception-tw__icon exception-tw__icon--minor\" style=\"color:{{accent}}\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"exception-tw__icon exception-tw__icon--major\" style=\"color:#c17a00\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.5\" r=\"0.75\" fill=\"currentColor\"/></svg></span>\n    <span class=\"exception-tw__icon exception-tw__icon--critical\" style=\"color:#b23b3b\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M5.5 5.5l5 5M10.5 5.5l-5 5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></span>\n    <span class=\"font-bold text-[13px] capitalize\">{{severity}}</span>\n  </div>\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-semibold\">{{taskTitle}}</h3>\n  <p class=\"m-0 mb-1 text-sm text-[#241430]/80\">{{reason}}</p>\n  <p class=\"m-0 text-xs text-[#241430]/60\">{{timestamp}}</p>\n</div>\n<style>\n.exception-tw__icon { display: none; }\n.exception-tw[data-severity=\"minor\"] .exception-tw__icon--minor { display: inline-flex; }\n.exception-tw[data-severity=\"major\"] .exception-tw__icon--major { display: inline-flex; }\n.exception-tw[data-severity=\"critical\"] .exception-tw__icon--critical { display: inline-flex; }\n</style>",
+    "react": "export function ExceptionState({\n  taskTitle = \"{{taskTitle}}\",\n  reason = \"{{reason}}\",\n  timestamp = \"{{timestamp}}\",\n  severity = \"{{severity}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    minor: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M8 2.5l6.5 11h-13z\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"/><path d=\\\"M8 6.5v3\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/><circle cx=\\\"8\\\" cy=\\\"11.5\\\" r=\\\"0.75\\\" fill=\\\"currentColor\\\"/></svg>\", color: accent },\n    major: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M8 2.5l6.5 11h-13z\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"/><path d=\\\"M8 6.5v3\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/><circle cx=\\\"8\\\" cy=\\\"11.5\\\" r=\\\"0.75\\\" fill=\\\"currentColor\\\"/></svg>\", color: \"#c17a00\" },\n    critical: { svg: \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"/><path d=\\\"M5.5 5.5l5 5M10.5 5.5l-5 5\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"1.5\\\" stroke-linecap=\\\"round\\\"/></svg>\", color: \"#b23b3b\" },\n  };\n  const active = icons[severity] ?? icons.minor;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 340, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\", borderLeft: \"4px solid #b23b3b\" }}>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 10px\", borderRadius: 999, background: \"#24143010\", marginBottom: 12 }}>\n        <span style={{ color: active.color, display: \"inline-flex\" }} dangerouslySetInnerHTML={{ __html: active.svg }} />\n        <span style={{ fontWeight: 700, fontSize: 13, textTransform: \"capitalize\" }}>{severity}</span>\n      </div>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 600 }}>{taskTitle}</h3>\n      <p style={{ margin: \"0 0 4px\", fontSize: 14, color: \"#241430cc\" }}>{reason}</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#24143099\" }}>{timestamp}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "slug": "entity-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Link a record"
+    },
+    {
+      "id": "entityType",
+      "type": "select",
+      "label": "Entity type",
+      "default": "all",
+      "options": [
+        "all",
+        "document",
+        "person"
+      ]
+    },
+    {
+      "id": "entity",
+      "type": "select",
+      "label": "Selected entity",
+      "default": "brief",
+      "options": [
+        "brief",
+        "declan",
+        "roadmap"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Picker open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ep ep--type-{{entityType}} ep--sel-{{entity}}\" style=\"--accent:{{accent}};\">\n  <label class=\"ep__label\" for=\"ep-trigger\">{{label}}</label>\n  <div class=\"ep__combo{{#if open}} ep__combo--open{{/if}}\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ep-listbox\" aria-expanded=\"{{open}}\">\n    <button type=\"button\" id=\"ep-trigger\" class=\"ep__trigger\" aria-controls=\"ep-listbox\">Search records…</button>\n    <ul id=\"ep-listbox\" class=\"ep__listbox\" role=\"listbox\" aria-label=\"{{label}} results\">\n      <li class=\"ep__row\" data-id=\"brief\" data-type=\"document\" role=\"option\" aria-selected=\"true\">\n        <svg class=\"ep__icon\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><rect x=\"4\" y=\"2.5\" width=\"12\" height=\"15\" rx=\"1.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><line x1=\"7\" y1=\"7\" x2=\"13\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><line x1=\"7\" y1=\"10.5\" x2=\"13\" y2=\"10.5\" stroke=\"currentColor\" stroke-width=\"1.4\"></line></svg>\n        <span class=\"ep__name\">Q3 Brief</span>\n        <span class=\"ep__type\">Document</span>\n      </li>\n      <li class=\"ep__row\" data-id=\"declan\" data-type=\"person\" role=\"option\" aria-selected=\"false\">\n        <svg class=\"ep__icon\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"6.5\" r=\"3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></circle><path d=\"M4 17c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></path></svg>\n        <span class=\"ep__name\">Declan Fox</span>\n        <span class=\"ep__type\">Person</span>\n      </li>\n      <li class=\"ep__row\" data-id=\"roadmap\" data-type=\"document\" role=\"option\" aria-selected=\"false\">\n        <svg class=\"ep__icon\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><rect x=\"4\" y=\"2.5\" width=\"12\" height=\"15\" rx=\"1.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><line x1=\"7\" y1=\"7\" x2=\"13\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><line x1=\"7\" y1=\"10.5\" x2=\"13\" y2=\"10.5\" stroke=\"currentColor\" stroke-width=\"1.4\"></line></svg>\n        <span class=\"ep__name\">Product Roadmap</span>\n        <span class=\"ep__type\">Document</span>\n      </li>\n    </ul>\n  </div>\n</div>\n<style>\n.ep { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.ep__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ep__combo { position: relative; }\n.ep__trigger { width: 100%; box-sizing: border-box; text-align: left; padding: 10px 12px; font: inherit; color: #24143099; background: #FAF7F2; border: 1.5px solid #24143040; cursor: pointer; }\n.ep__trigger:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ep__listbox { list-style: none; margin: 4px 0 0; padding: 4px; border: 1.5px solid #24143020; background: #FAF7F2; box-shadow: 0 8px 20px #24143022; display: none; }\n.ep__combo--open .ep__listbox { display: block; }\n.ep__row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; }\n.ep__row:hover { background: #24143014; }\n.ep__icon { flex-shrink: 0; color: #24143099; }\n.ep__name { flex: 1; }\n.ep__type { font-size: 12px; color: #24143080; }\n.ep--type-document .ep__row[data-type=\"person\"] { display: none; }\n.ep--type-person .ep__row[data-type=\"document\"] { display: none; }\n.ep--sel-brief .ep__row[data-id=\"brief\"], .ep--sel-declan .ep__row[data-id=\"declan\"], .ep--sel-roadmap .ep__row[data-id=\"roadmap\"] { background: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"ep-tw ep-tw--type-{{entityType}} ep-tw--sel-{{entity}} font-sans text-sm text-[#241430] max-w-[280px]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"ep-trigger-tw\">{{label}}</label>\n  <div class=\"relative\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ep-listbox-tw\" aria-expanded=\"{{open}}\">\n    <button type=\"button\" id=\"ep-trigger-tw\" aria-controls=\"ep-listbox-tw\"\n      class=\"w-full box-border text-left px-3 py-2.5 text-[#24143099] bg-[#FAF7F2] border-[1.5px] border-[#24143040] cursor-pointer focus-visible:outline-none\">Search records…</button>\n    <ul id=\"ep-listbox-tw\" role=\"listbox\" aria-label=\"{{label}} results\"\n      class=\"{{#if open}}block{{/if}}{{#unless open}}hidden{{/unless}} list-none m-0 mt-1 p-1 border-[1.5px] border-[#24143020] bg-[#FAF7F2] shadow-lg\">\n      <li class=\"ep-tw-row flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-id=\"brief\" data-type=\"document\" role=\"option\" aria-selected=\"true\">\n        <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\" class=\"shrink-0 text-[#24143099]\"><rect x=\"4\" y=\"2.5\" width=\"12\" height=\"15\" rx=\"1.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><line x1=\"7\" y1=\"7\" x2=\"13\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><line x1=\"7\" y1=\"10.5\" x2=\"13\" y2=\"10.5\" stroke=\"currentColor\" stroke-width=\"1.4\"></line></svg>\n        <span class=\"flex-1\">Q3 Brief</span>\n        <span class=\"text-xs text-[#24143080]\">Document</span>\n      </li>\n      <li class=\"ep-tw-row flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-id=\"declan\" data-type=\"person\" role=\"option\" aria-selected=\"false\">\n        <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\" class=\"shrink-0 text-[#24143099]\"><circle cx=\"10\" cy=\"6.5\" r=\"3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></circle><path d=\"M4 17c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></path></svg>\n        <span class=\"flex-1\">Declan Fox</span>\n        <span class=\"text-xs text-[#24143080]\">Person</span>\n      </li>\n      <li class=\"ep-tw-row flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-id=\"roadmap\" data-type=\"document\" role=\"option\" aria-selected=\"false\">\n        <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\" class=\"shrink-0 text-[#24143099]\"><rect x=\"4\" y=\"2.5\" width=\"12\" height=\"15\" rx=\"1.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><line x1=\"7\" y1=\"7\" x2=\"13\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><line x1=\"7\" y1=\"10.5\" x2=\"13\" y2=\"10.5\" stroke=\"currentColor\" stroke-width=\"1.4\"></line></svg>\n        <span class=\"flex-1\">Product Roadmap</span>\n        <span class=\"text-xs text-[#24143080]\">Document</span>\n      </li>\n    </ul>\n  </div>\n</div>\n<style>\n.ep-tw--type-document .ep-tw-row[data-type=\"person\"] { display: none; }\n.ep-tw--type-person .ep-tw-row[data-type=\"document\"] { display: none; }\n.ep-tw--sel-brief .ep-tw-row[data-id=\"brief\"], .ep-tw--sel-declan .ep-tw-row[data-id=\"declan\"], .ep-tw--sel-roadmap .ep-tw-row[data-id=\"roadmap\"] { background: {{accent}}; }\n</style>",
+    "react": "export function EntityPicker({\n  label = \"{{label}}\",\n  entityType = \"{{entityType}}\",\n  entity = \"{{entity}}\",\n  open = {{open}},\n  accent = \"{{accent}}\",\n}) {\n  const docIcon = (\n    <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\" style={{ flexShrink: 0, color: \"#24143099\" }}>\n      <rect x=\"4\" y=\"2.5\" width=\"12\" height=\"15\" rx=\"1.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n      <line x1=\"7\" y1=\"7\" x2=\"13\" y2=\"7\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n      <line x1=\"7\" y1=\"10.5\" x2=\"13\" y2=\"10.5\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n    </svg>\n  );\n  const personIcon = (\n    <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\" style={{ flexShrink: 0, color: \"#24143099\" }}>\n      <circle cx=\"10\" cy=\"6.5\" r=\"3\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n      <path d=\"M4 17c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n    </svg>\n  );\n  const entities = [\n    { id: \"brief\", name: \"Q3 Brief\", type: \"document\", icon: docIcon },\n    { id: \"declan\", name: \"Declan Fox\", type: \"person\", icon: personIcon },\n    { id: \"roadmap\", name: \"Product Roadmap\", type: \"document\", icon: docIcon },\n  ];\n  const rows = entities.filter((e) => entityType === \"all\" || e.type === entityType);\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <label htmlFor=\"ep-trigger-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <div style={{ position: \"relative\" }} role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ep-listbox-r\" aria-expanded={open}>\n        <button type=\"button\" id=\"ep-trigger-r\" aria-controls=\"ep-listbox-r\" style={{\n          width: \"100%\", boxSizing: \"border-box\", textAlign: \"left\", padding: \"10px 12px\", font: \"inherit\",\n          color: \"#24143099\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", cursor: \"pointer\",\n        }}>Search records…</button>\n        <ul id=\"ep-listbox-r\" role=\"listbox\" aria-label={label + \" results\"} style={{\n          display: open ? \"block\" : \"none\", listStyle: \"none\", margin: \"4px 0 0\", padding: 4,\n          border: \"1.5px solid #24143020\", background: \"#FAF7F2\", boxShadow: \"0 8px 20px #24143022\",\n        }}>\n          {rows.map((row) => (\n            <li key={row.id} role=\"option\" aria-selected={row.id === entity} style={{\n              display: \"flex\", alignItems: \"center\", gap: 8, padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\",\n              background: row.id === entity ? accent : \"transparent\",\n            }}>\n              {row.icon}\n              <span style={{ flex: 1 }}>{row.name}</span>\n              <span style={{ fontSize: 12, color: \"#24143080\" }}>{row.type === \"document\" ? \"Document\" : \"Person\"}</span>\n            </li>\n          ))}\n        </ul>\n      </div>\n    </div>\n  );\n}"
+  }
+}

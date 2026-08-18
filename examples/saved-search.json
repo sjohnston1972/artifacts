@@ -1,0 +1,51 @@
+{
+  "slug": "saved-search",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Search name",
+      "default": "New bugs this week"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Query",
+      "default": "status:open created:>-7d"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Results found",
+      "default": 42,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "notify",
+      "type": "toggle",
+      "label": "Notify on new results",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"savedsearch\" style=\"--accent:{{accent}};\">\n  <div class=\"savedsearch__head\">\n    <h3 class=\"savedsearch__name\">{{name}}</h3>\n    {{#if notify}}\n    <span class=\"savedsearch__bell\" aria-label=\"Notifications on for new results\" title=\"Notifications on\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1a4 4 0 0 0-4 4v2.2c0 .5-.2 1-.5 1.4L2 10.5h12l-1.5-1.9c-.3-.4-.5-.9-.5-1.4V5a4 4 0 0 0-4-4Z\" fill=\"currentColor\"/><path d=\"M6.2 12.5a1.8 1.8 0 0 0 3.6 0\" stroke=\"currentColor\" stroke-width=\"1.2\" fill=\"none\"/></svg>\n    </span>\n    {{/if}}\n    {{#unless notify}}\n    <span class=\"savedsearch__bell savedsearch__bell--off\" aria-label=\"Notifications off\" title=\"Notifications off\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1a4 4 0 0 0-4 4v2.2c0 .5-.2 1-.5 1.4L2 10.5h12l-1.5-1.9c-.3-.4-.5-.9-.5-1.4V5a4 4 0 0 0-4-4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><path d=\"M1.5 1.5l13 13\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>\n    </span>\n    {{/unless}}\n  </div>\n  <p class=\"savedsearch__query\">\"{{query}}\"</p>\n  <p class=\"savedsearch__count\" role=\"status\">{{count}} results found</p>\n  <button type=\"button\" class=\"savedsearch__run\">Run search</button>\n</div>\n<style>\n.savedsearch { font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; border: 1.5px solid #24143020; border-radius: 10px; padding: 14px 16px; }\n.savedsearch__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }\n.savedsearch__name { margin: 0; font-size: 15px; font-weight: 600; }\n.savedsearch__bell { color: var(--accent); display: inline-flex; }\n.savedsearch__bell--off { color: #24143060; }\n.savedsearch__query { margin: 0 0 8px; font-size: 13px; font-family: ui-monospace, monospace; background: #24143010; padding: 6px 8px; border-radius: 6px; }\n.savedsearch__count { margin: 0 0 12px; font-size: 13px; color: #24143099; }\n.savedsearch__run { border: none; background: var(--accent); color: #241430; padding: 8px 14px; border-radius: 6px; cursor: pointer; font: inherit; font-weight: 500; }\n.savedsearch__run:hover, .savedsearch__run:focus-visible { opacity: .85; outline: none; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[300px] border-[1.5px] border-[#24143020] rounded-[10px] px-4 py-3.5\">\n  <div class=\"flex items-center justify-between gap-2 mb-1.5\">\n    <h3 class=\"m-0 text-[15px] font-semibold\">{{name}}</h3>\n    {{#if notify}}\n    <span aria-label=\"Notifications on for new results\" title=\"Notifications on\" class=\"inline-flex savedsearch-bell-tw\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1a4 4 0 0 0-4 4v2.2c0 .5-.2 1-.5 1.4L2 10.5h12l-1.5-1.9c-.3-.4-.5-.9-.5-1.4V5a4 4 0 0 0-4-4Z\" fill=\"currentColor\"/><path d=\"M6.2 12.5a1.8 1.8 0 0 0 3.6 0\" stroke=\"currentColor\" stroke-width=\"1.2\" fill=\"none\"/></svg>\n    </span>\n    {{/if}}\n    {{#unless notify}}\n    <span aria-label=\"Notifications off\" title=\"Notifications off\" class=\"inline-flex text-[#24143060]\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1a4 4 0 0 0-4 4v2.2c0 .5-.2 1-.5 1.4L2 10.5h12l-1.5-1.9c-.3-.4-.5-.9-.5-1.4V5a4 4 0 0 0-4-4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><path d=\"M1.5 1.5l13 13\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>\n    </span>\n    {{/unless}}\n  </div>\n  <p class=\"m-0 mb-2 text-[13px] font-mono bg-[#24143010] px-2 py-1.5 rounded-md\">\"{{query}}\"</p>\n  <p role=\"status\" class=\"m-0 mb-3 text-[13px] text-[#24143099]\">{{count}} results found</p>\n  <button type=\"button\" class=\"border-none text-[#241430] px-3.5 py-2 rounded-md cursor-pointer font-medium savedsearch-run-tw\">Run search</button>\n</div>\n<style>\n.savedsearch-bell-tw { color: {{accent}}; }\n.savedsearch-run-tw { background: {{accent}}; }\n.savedsearch-run-tw:hover, .savedsearch-run-tw:focus-visible { opacity: .85; outline: none; }\n</style>",
+    "react": "export function SavedSearch({\n  name = \"{{name}}\",\n  query = \"{{query}}\",\n  count = {{count}},\n  notify = {{notify}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 300, border: \"1.5px solid #24143020\", borderRadius: 10, padding: \"14px 16px\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8, marginBottom: 6 }}>\n        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>{name}</h3>\n        <span aria-label={notify ? \"Notifications on for new results\" : \"Notifications off\"} title={notify ? \"Notifications on\" : \"Notifications off\"} style={{ display: \"inline-flex\", color: notify ? accent : \"#24143060\" }}>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\">\n            <path d=\"M8 1a4 4 0 0 0-4 4v2.2c0 .5-.2 1-.5 1.4L2 10.5h12l-1.5-1.9c-.3-.4-.5-.9-.5-1.4V5a4 4 0 0 0-4-4Z\" fill={notify ? \"currentColor\" : \"none\"} stroke=\"currentColor\" strokeWidth=\"1.2\" />\n            {!notify && <path d=\"M1.5 1.5l13 13\" stroke=\"currentColor\" strokeWidth=\"1.2\" />}\n          </svg>\n        </span>\n      </div>\n      <p style={{ margin: \"0 0 8px\", fontSize: 13, fontFamily: \"ui-monospace, monospace\", background: \"#24143010\", padding: \"6px 8px\", borderRadius: 6 }}>\"{query}\"</p>\n      <p role=\"status\" style={{ margin: \"0 0 12px\", fontSize: 13, color: \"#24143099\" }}>{count} results found</p>\n      <button type=\"button\" style={{ border: \"none\", background: accent, color: \"#241430\", padding: \"8px 14px\", borderRadius: 6, cursor: \"pointer\", fontWeight: 500 }}>Run search</button>\n    </div>\n  );\n}"
+  }
+}

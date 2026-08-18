@@ -1,0 +1,54 @@
+{
+  "slug": "approval-queue",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Pending approvals"
+    },
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Item 1",
+      "default": "Q3 budget revision — awaiting Priya Shah"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Item 2",
+      "default": "Vendor contract renewal — awaiting Marcus Webb"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Item 3",
+      "default": "Design system rollout — awaiting Lena Ortiz"
+    },
+    {
+      "id": "showThird",
+      "type": "toggle",
+      "label": "Show third item",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"approval-queue\" style=\"--accent:{{accent}};\">\n  <h3 id=\"approval-queue-heading\" class=\"approval-queue__heading\">{{heading}} ({{#if showThird}}3{{/if}}{{#unless showThird}}2{{/unless}})</h3>\n  <ul class=\"approval-queue__list\" aria-labelledby=\"approval-queue-heading\">\n    <li class=\"approval-queue__item\"><span class=\"approval-queue__dot\"></span>{{item1}}</li>\n    <li class=\"approval-queue__item\"><span class=\"approval-queue__dot\"></span>{{item2}}</li>\n    {{#if showThird}}<li class=\"approval-queue__item\"><span class=\"approval-queue__dot\"></span>{{item3}}</li>{{/if}}\n  </ul>\n</section>\n<style>\n.approval-queue { font: 15px/1.5 system-ui, sans-serif; max-width: 360px; padding: 18px 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.approval-queue__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.approval-queue__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }\n.approval-queue__item { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; padding: 8px 10px; background: #24143008; border-radius: 8px; }\n.approval-queue__dot { flex: none; width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background: var(--accent); }\n</style>",
+    "tailwind": "<section class=\"font-sans max-w-[360px] py-[18px] px-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020]\">\n  <h3 id=\"approval-queue-heading-tw\" class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}} ({{#if showThird}}3{{/if}}{{#unless showThird}}2{{/unless}})</h3>\n  <ul aria-labelledby=\"approval-queue-heading-tw\" class=\"list-none m-0 p-0 flex flex-col gap-2\">\n    <li class=\"flex items-start gap-2 text-sm py-2 px-2.5 bg-[#24143008] rounded-lg\"><span class=\"flex-none w-2 h-2 mt-[5px] rounded-full\" style=\"background:{{accent}}\"></span>{{item1}}</li>\n    <li class=\"flex items-start gap-2 text-sm py-2 px-2.5 bg-[#24143008] rounded-lg\"><span class=\"flex-none w-2 h-2 mt-[5px] rounded-full\" style=\"background:{{accent}}\"></span>{{item2}}</li>\n    {{#if showThird}}<li class=\"flex items-start gap-2 text-sm py-2 px-2.5 bg-[#24143008] rounded-lg\"><span class=\"flex-none w-2 h-2 mt-[5px] rounded-full\" style=\"background:{{accent}}\"></span>{{item3}}</li>{{/if}}\n  </ul>\n</section>",
+    "react": "export function ApprovalQueue({\n  heading = \"{{heading}}\",\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  showThird = {{showThird}},\n  accent = \"{{accent}}\",\n}) {\n  const items = [item1, item2, ...(showThird ? [item3] : [])];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 360, padding: \"18px 20px\", background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <h3 id=\"approval-queue-heading-react\" style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>\n        {heading} ({items.length})\n      </h3>\n      <ul aria-labelledby=\"approval-queue-heading-react\" style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n        {items.map((it, i) => (\n          <li key={i} style={{ display: \"flex\", alignItems: \"flex-start\", gap: 8, fontSize: 14, padding: \"8px 10px\", background: \"#24143008\", borderRadius: 8 }}>\n            <span style={{ flex: \"none\", width: 8, height: 8, marginTop: 5, borderRadius: \"50%\", background: accent }} />\n            {it}\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  }
+}

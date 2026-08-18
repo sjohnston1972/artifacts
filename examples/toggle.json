@@ -1,0 +1,44 @@
+{
+  "slug": "toggle",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Accessible name",
+      "default": "Save for later"
+    },
+    {
+      "id": "pressed",
+      "type": "toggle",
+      "label": "Pressed",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<button type=\"button\" class=\"icon-toggle{{#if pressed}} icon-toggle--active{{/if}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" aria-pressed=\"{{pressed}}\" aria-label=\"{{label}}\"{{#if disabled}} disabled{{/if}}>\n  <svg class=\"icon-toggle__star\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><path d=\"M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z\" stroke-width=\"1.6\"/></svg>\n  <span>{{#if pressed}}Saved{{/if}}{{#unless pressed}}Save{{/unless}}</span>\n</button>\n<style>\n.icon-toggle { display: inline-flex; align-items: center; gap: 8px; font: 500 14px system-ui, sans-serif; padding: 9px 16px; border: 1.5px solid #24143040; background: #FAF7F2; color: #241430; cursor: pointer; }\n.icon-toggle__star { fill: none; stroke: #241430; }\n.icon-toggle--active { background: color-mix(in srgb, var(--accent) 25%, #FAF7F2); border-color: var(--accent); }\n.icon-toggle--active .icon-toggle__star { fill: var(--accent); stroke: var(--accent); }\n.icon-toggle:hover:not(:disabled) { border-color: var(--accent); }\n.icon-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.icon-toggle:disabled { opacity: .5; cursor: not-allowed; }\n</style>",
+    "tailwind": "<button type=\"button\" class=\"icon-toggle-tw{{#if pressed}} icon-toggle-tw--active{{/if}} inline-flex items-center gap-2 font-sans text-sm font-medium px-4 py-2.5 border-[1.5px] border-[#24143040] bg-[#FAF7F2] text-[#241430] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed\" style=\"border-radius:{{radius}}px;--accent:{{accent}};\" aria-pressed=\"{{pressed}}\" aria-label=\"{{label}}\"{{#if disabled}} disabled{{/if}}>\n  <svg class=\"icon-toggle-tw__star\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><path d=\"M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z\" stroke-width=\"1.6\"/></svg>\n  <span>{{#if pressed}}Saved{{/if}}{{#unless pressed}}Save{{/unless}}</span>\n</button>\n<style>\n.icon-toggle-tw__star { fill: none; stroke: #241430; }\n.icon-toggle-tw--active { background: color-mix(in srgb, {{accent}} 25%, #FAF7F2) !important; border-color: {{accent}} !important; }\n.icon-toggle-tw--active .icon-toggle-tw__star { fill: {{accent}}; stroke: {{accent}}; }\n.icon-toggle-tw:focus-visible { outline: 2px solid {{accent}}; outline-offset: 2px; }\n</style>",
+    "react": "export function Toggle({\n  label = \"{{label}}\",\n  pressed = {{pressed}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  return (\n    <button type=\"button\" aria-pressed={pressed} aria-label={label} disabled={disabled} style={{\n      display: \"inline-flex\", alignItems: \"center\", gap: 8, fontFamily: \"system-ui, sans-serif\", fontWeight: 500,\n      fontSize: 14, padding: \"9px 16px\", borderRadius: radius,\n      border: `1.5px solid ${pressed ? accent : \"#24143040\"}`,\n      background: pressed ? `color-mix(in srgb, ${accent} 25%, #FAF7F2)` : \"#FAF7F2\",\n      color: \"#241430\", cursor: disabled ? \"not-allowed\" : \"pointer\", opacity: disabled ? 0.5 : 1,\n    }}>\n      <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill={pressed ? accent : \"none\"} stroke={pressed ? accent : \"#241430\"} strokeWidth=\"1.6\">\n        <path d=\"M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z\" />\n      </svg>\n      <span>{pressed ? \"Saved\" : \"Save\"}</span>\n    </button>\n  );\n}"
+  }
+}

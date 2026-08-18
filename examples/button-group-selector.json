@@ -1,0 +1,42 @@
+{
+  "slug": "button-group-selector",
+  "controls_schema": [
+    {
+      "id": "labelA",
+      "type": "text",
+      "label": "First option",
+      "default": "List"
+    },
+    {
+      "id": "labelB",
+      "type": "text",
+      "label": "Second option",
+      "default": "Grid"
+    },
+    {
+      "id": "secondActive",
+      "type": "toggle",
+      "label": "Second option active",
+      "default": false
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Style",
+      "default": "solid",
+      "options": ["solid", "outline"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"btn-group btn-group--{{variant}}\" role=\"group\" aria-label=\"View as\" style=\"--accent:{{accent}};\">\n  <button type=\"button\" class=\"btn-group__btn\"{{#unless secondActive}} aria-pressed=\"true\"{{/unless}}{{#if secondActive}} aria-pressed=\"false\"{{/if}}>{{labelA}}</button>\n  <button type=\"button\" class=\"btn-group__btn\" aria-pressed=\"{{secondActive}}\">{{labelB}}</button>\n</div>\n<style>\n.btn-group { display: inline-flex; font: 500 14px system-ui, sans-serif; color: #241430; border-radius: 8px; overflow: hidden; }\n.btn-group--outline { border: 1.5px solid #24143040; }\n.btn-group__btn { border: none; background: #FAF7F2; color: #241430; padding: 9px 16px; cursor: pointer; }\n.btn-group--solid .btn-group__btn:not(:last-child) { border-right: 1px solid #24143020; }\n.btn-group--outline .btn-group__btn:not(:last-child) { border-right: 1.5px solid #24143040; }\n.btn-group__btn[aria-pressed=\"true\"] { background: var(--accent); }\n.btn-group__btn:hover { background: color-mix(in srgb, var(--accent) 40%, #FAF7F2); }\n.btn-group__btn:focus-visible { outline: 2px solid #241430; outline-offset: -2px; }\n</style>",
+    "tailwind": "<div class=\"btn-group-tw btn-group-tw--{{variant}} inline-flex font-sans text-sm font-medium text-[#241430] rounded-lg overflow-hidden\" role=\"group\" aria-label=\"View as\" style=\"--accent:{{accent}};\">\n  <button type=\"button\" class=\"btn-group-btn-tw bg-[#FAF7F2] text-[#241430] px-4 py-2.5 cursor-pointer border-r border-[#24143020]\"{{#unless secondActive}} aria-pressed=\"true\"{{/unless}}{{#if secondActive}} aria-pressed=\"false\"{{/if}}>{{labelA}}</button>\n  <button type=\"button\" class=\"btn-group-btn-tw bg-[#FAF7F2] text-[#241430] px-4 py-2.5 cursor-pointer\" aria-pressed=\"{{secondActive}}\">{{labelB}}</button>\n</div>\n<style>\n.btn-group-tw--outline { border: 1.5px solid #24143040; }\n.btn-group-btn-tw[aria-pressed=\"true\"] { background: {{accent}}; }\n.btn-group-btn-tw:hover { background: color-mix(in srgb, {{accent}} 40%, #FAF7F2); }\n.btn-group-btn-tw:focus-visible { outline: 2px solid #241430; outline-offset: -2px; }\n</style>",
+    "react": "export function ButtonGroupSelector({\n  labelA = \"{{labelA}}\",\n  labelB = \"{{labelB}}\",\n  secondActive = {{secondActive}},\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  const btn = (active) => ({\n    border: \"none\", background: active ? accent : \"#FAF7F2\", color: \"#241430\",\n    padding: \"9px 16px\", cursor: \"pointer\", font: \"500 14px system-ui, sans-serif\",\n  });\n  return (\n    <div role=\"group\" aria-label=\"View as\" style={{\n      display: \"inline-flex\", borderRadius: 8, overflow: \"hidden\",\n      border: variant === \"outline\" ? \"1.5px solid #24143040\" : \"none\",\n    }}>\n      <button type=\"button\" aria-pressed={!secondActive} style={{ ...btn(!secondActive), borderRight: \"1px solid #24143020\" }}>{labelA}</button>\n      <button type=\"button\" aria-pressed={secondActive} style={btn(secondActive)}>{labelB}</button>\n    </div>\n  );\n}"
+  }
+}

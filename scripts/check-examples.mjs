@@ -42,6 +42,27 @@ const BOOL_ATTR_RE = new RegExp(
 //   node scripts/check-examples.mjs            -> everything
 //   node scripts/check-examples.mjs hero grid  -> just those two
 const only = new Set(process.argv.slice(2));
+// Quote-aware scan: a literal ">" inside an earlier attribute value must not
+// read as the tag's close, or the check silently stops seeing real markup.
+function insideTag(source, offset) {
+  let inTag = false;
+  let quote = null;
+  for (let i = 0; i < offset; i++) {
+    const ch = source[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (inTag && (ch === '"' || ch === "'")) {
+      quote = ch;
+      continue;
+    }
+    if (ch === "<") inTag = true;
+    else if (ch === ">") inTag = false;
+  }
+  return inTag;
+}
+
 const dir = "examples";
 const files = fs
   .readdirSync(dir)
@@ -98,7 +119,12 @@ for (const file of files) {
   // see it — the template is well-formed, every control is referenced, and
   // every option renders distinctly. Found by an author, not by a test.
   for (const [fmt, tpl] of Object.entries(ex.templates)) {
-    const bad = [...String(tpl).matchAll(BOOL_ATTR_RE)].map((m) => m[1]);
+    // Only inside real markup. Without the tag-context test this also fires on
+    // JavaScript — a React default `selected = "{{selected}}"` looks identical
+    // to an attribute — and authors renamed controls twice purely to dodge it.
+    const bad = [...String(tpl).matchAll(BOOL_ATTR_RE)]
+      .filter((m) => insideTag(String(tpl), m.index))
+      .map((m) => m[1]);
     if (bad.length) {
       problems.push([label, `${fmt}: boolean attribute(s) interpolated instead of {{#if}}: ${[...new Set(bad)].join(", ")}`]);
     }

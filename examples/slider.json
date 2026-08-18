@@ -1,0 +1,50 @@
+{
+  "slug": "slider",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Volume"
+    },
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Value",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "min",
+      "type": "number",
+      "label": "Minimum",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "max",
+      "type": "number",
+      "label": "Maximum",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"slider-field\" for=\"sl-1\">\n  <span class=\"slider-field__row\"><span>{{label}}</span><span class=\"slider-field__value\">{{value}}</span></span>\n  <input type=\"range\" id=\"sl-1\" class=\"slider-field__input\" min=\"{{min}}\" max=\"{{max}}\" value=\"{{value}}\" style=\"accent-color:{{accent}};\">\n</label>\n<style>\n.slider-field { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.slider-field__row { display: flex; justify-content: space-between; margin-bottom: 8px; }\n.slider-field__value { font-weight: 600; }\n.slider-field__input { width: 100%; cursor: pointer; }\n.slider-field__input:focus-visible { outline: 2px solid #241430; outline-offset: 3px; }\n</style>",
+    "tailwind": "<label for=\"sl-1-tw\" class=\"block font-sans text-sm text-[#241430] max-w-[280px]\">\n  <span class=\"flex justify-between mb-2\"><span>{{label}}</span><span class=\"font-semibold\">{{value}}</span></span>\n  <input type=\"range\" id=\"sl-1-tw\" min=\"{{min}}\" max=\"{{max}}\" value=\"{{value}}\" class=\"w-full cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430] focus-visible:outline-offset-[3px]\" style=\"accent-color:{{accent}};\">\n</label>",
+    "react": "export function Slider({\n  label = \"{{label}}\",\n  value = {{value}},\n  min = {{min}},\n  max = {{max}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <label style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <span style={{ display: \"flex\", justifyContent: \"space-between\", marginBottom: 8 }}>\n        <span>{label}</span>\n        <span style={{ fontWeight: 600 }}>{value}</span>\n      </span>\n      <input type=\"range\" min={min} max={max} defaultValue={value} style={{ width: \"100%\", cursor: \"pointer\", accentColor: accent }} />\n    </label>\n  );\n}"
+  }
+}

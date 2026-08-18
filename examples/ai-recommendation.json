@@ -1,0 +1,53 @@
+{
+  "slug": "ai-recommendation",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Switch to annual billing"
+    },
+    {
+      "id": "rationale",
+      "type": "text",
+      "label": "Rationale",
+      "default": "Usage has been steady for 4 months and the annual plan saves 18% at this volume."
+    },
+    {
+      "id": "impact",
+      "type": "select",
+      "label": "Impact",
+      "default": "medium",
+      "options": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showRationale",
+      "type": "toggle",
+      "label": "Show rationale",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ai-recommendation\" style=\"--accent:{{accent}};\">\n  <div class=\"ai-recommendation__header\">\n    <h3 class=\"ai-recommendation__title\">{{title}}</h3>\n    <span class=\"ai-recommendation__badge ai-recommendation__badge--{{impact}}\">{{impact}} impact</span>\n  </div>\n  {{#if showRationale}}<p class=\"ai-recommendation__rationale\">{{rationale}}</p>{{/if}}\n  <div class=\"ai-recommendation__actions\">\n    <button type=\"button\" class=\"ai-recommendation__btn ai-recommendation__btn--accept\">Accept</button>\n    <button type=\"button\" class=\"ai-recommendation__btn ai-recommendation__btn--reject\">Reject</button>\n  </div>\n</div>\n<style>\n.ai-recommendation { font: 14px/1.5 system-ui, sans-serif; max-width: 380px; padding: 16px 18px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143022; border-radius: 12px; box-sizing: border-box; }\n.ai-recommendation__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }\n.ai-recommendation__title { margin: 0; font-size: 15px; font-weight: 700; }\n.ai-recommendation__badge { flex-shrink: 0; text-transform: capitalize; font-size: 11px; font-weight: 700; padding: .3em .7em; border-radius: 999px; white-space: nowrap; }\n.ai-recommendation__badge--low { background: transparent; color: #24143099; border: 1.5px solid #24143033; }\n.ai-recommendation__badge--medium { background: color-mix(in srgb, var(--accent) 25%, #FAF7F2); color: #241430; border: 1.5px solid var(--accent); }\n.ai-recommendation__badge--high { background: var(--accent); color: #241430; border: 1.5px solid var(--accent); }\n.ai-recommendation__rationale { margin: 10px 0 0; font-size: 13px; color: #241430cc; }\n.ai-recommendation__actions { display: flex; gap: 8px; margin-top: 14px; }\n.ai-recommendation__btn { font: 600 13px system-ui, sans-serif; padding: 7px 16px; border-radius: 8px; cursor: pointer; }\n.ai-recommendation__btn--accept { border: 1.5px solid var(--accent); background: var(--accent); color: #241430; }\n.ai-recommendation__btn--reject { border: 1.5px solid #24143033; background: transparent; color: #241430; }\n.ai-recommendation__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"max-w-sm p-4 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143022] rounded-xl box-border\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-start justify-between gap-2.5\">\n    <h3 class=\"m-0 text-[15px] font-bold\">{{title}}</h3>\n    <span class=\"ai-recommendation-tw__badge ai-recommendation-tw__badge--{{impact}} flex-shrink-0 capitalize text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap\">{{impact}} impact</span>\n  </div>\n  {{#if showRationale}}<p class=\"mt-2.5 mb-0 text-[13px] text-[#241430]/80\">{{rationale}}</p>{{/if}}\n  <div class=\"flex gap-2 mt-3.5\">\n    <button type=\"button\" class=\"font-semibold text-[13px] px-4 py-1.5 rounded-lg cursor-pointer border-[1.5px]\" style=\"border-color:var(--accent);background:var(--accent);color:#241430\">Accept</button>\n    <button type=\"button\" class=\"font-semibold text-[13px] px-4 py-1.5 rounded-lg cursor-pointer border-[1.5px] bg-transparent border-[#24143033] text-[#241430]\">Reject</button>\n  </div>\n</div>\n<style>\n.ai-recommendation-tw__badge--low { background: transparent; color: #24143099; border: 1.5px solid #24143033; }\n.ai-recommendation-tw__badge--medium { background: color-mix(in srgb, var(--accent) 25%, #FAF7F2); color: #241430; border: 1.5px solid var(--accent); }\n.ai-recommendation-tw__badge--high { background: var(--accent); color: #241430; border: 1.5px solid var(--accent); }\n</style>",
+    "react": "export function AiRecommendation({\n  title = \"{{title}}\",\n  rationale = \"{{rationale}}\",\n  impact = \"{{impact}}\",\n  accent = \"{{accent}}\",\n  showRationale = {{showRationale}},\n}) {\n  const badge = {\n    low: { background: \"transparent\", color: \"#24143099\", border: \"1.5px solid #24143033\" },\n    medium: { background: `color-mix(in srgb, ${accent} 25%, #FAF7F2)`, color: \"#241430\", border: `1.5px solid ${accent}` },\n    high: { background: accent, color: \"#241430\", border: `1.5px solid ${accent}` },\n  }[impact] ?? {};\n  return (\n    <div style={{ maxWidth: 380, padding: \"16px 18px\", background: \"#FAF7F2\", color: \"#241430\",\n      border: \"1.5px solid #24143022\", borderRadius: 12, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\" }}>\n      <div style={{ display: \"flex\", alignItems: \"flex-start\", justifyContent: \"space-between\", gap: 10 }}>\n        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>{title}</h3>\n        <span style={{ flexShrink: 0, textTransform: \"capitalize\", fontSize: 11, fontWeight: 700, padding: \"0.3em 0.7em\",\n          borderRadius: 999, whiteSpace: \"nowrap\", ...badge }}>{impact} impact</span>\n      </div>\n      {showRationale && <p style={{ margin: \"10px 0 0\", fontSize: 13, color: \"#241430cc\" }}>{rationale}</p>}\n      <div style={{ display: \"flex\", gap: 8, marginTop: 14 }}>\n        <button type=\"button\" style={{ font: \"600 13px system-ui, sans-serif\", padding: \"7px 16px\", borderRadius: 8,\n          cursor: \"pointer\", border: `1.5px solid ${accent}`, background: accent, color: \"#241430\" }}>Accept</button>\n        <button type=\"button\" style={{ font: \"600 13px system-ui, sans-serif\", padding: \"7px 16px\", borderRadius: 8,\n          cursor: \"pointer\", border: \"1.5px solid #24143033\", background: \"transparent\", color: \"#241430\" }}>Reject</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

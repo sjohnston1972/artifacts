@@ -1,0 +1,48 @@
+{
+  "slug": "range-slider",
+  "controls_schema": [
+    {
+      "id": "legend",
+      "type": "text",
+      "label": "Legend",
+      "default": "Price range"
+    },
+    {
+      "id": "min",
+      "type": "number",
+      "label": "Minimum",
+      "default": 20,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "max",
+      "type": "number",
+      "label": "Maximum",
+      "default": 80,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "unit",
+      "type": "select",
+      "label": "Unit",
+      "default": "£",
+      "options": ["£", "$", "€"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"range-slider\" style=\"--accent:{{accent}};\">\n  <legend>{{legend}}</legend>\n  <div class=\"range-slider__value\">{{unit}}{{min}} – {{unit}}{{max}}</div>\n  <div class=\"range-slider__track\">\n    <input type=\"range\" aria-label=\"Minimum\" class=\"range-slider__input\" min=\"0\" max=\"100\" value=\"{{min}}\">\n    <input type=\"range\" aria-label=\"Maximum\" class=\"range-slider__input\" min=\"0\" max=\"100\" value=\"{{max}}\">\n  </div>\n</fieldset>\n<style>\n.range-slider { border: none; padding: 0; margin: 0; font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.range-slider legend { font-weight: 500; padding: 0; margin-bottom: 8px; }\n.range-slider__value { font-weight: 600; margin-bottom: 8px; }\n.range-slider__track { position: relative; height: 24px; }\n.range-slider__input { position: absolute; top: 0; left: 0; width: 100%; margin: 0; appearance: none; background: none; pointer-events: none; accent-color: var(--accent); }\n.range-slider__input::-webkit-slider-thumb { pointer-events: auto; }\n.range-slider__input::-moz-range-thumb { pointer-events: auto; }\n.range-slider__input:focus-visible { outline: 2px solid #241430; outline-offset: 3px; }\n</style>",
+    "tailwind": "<fieldset class=\"border-0 p-0 m-0 font-sans text-sm text-[#241430] max-w-[280px]\" style=\"--accent:{{accent}};\">\n  <legend class=\"font-medium p-0 mb-2\">{{legend}}</legend>\n  <div class=\"font-semibold mb-2\">{{unit}}{{min}} – {{unit}}{{max}}</div>\n  <div class=\"relative h-6\">\n    <input type=\"range\" aria-label=\"Minimum\" class=\"range-tw absolute top-0 left-0 w-full m-0 appearance-none bg-transparent pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430]\" min=\"0\" max=\"100\" value=\"{{min}}\" style=\"accent-color:{{accent}};\">\n    <input type=\"range\" aria-label=\"Maximum\" class=\"range-tw absolute top-0 left-0 w-full m-0 appearance-none bg-transparent pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430]\" min=\"0\" max=\"100\" value=\"{{max}}\" style=\"accent-color:{{accent}};\">\n  </div>\n</fieldset>\n<style>\n.range-tw::-webkit-slider-thumb { pointer-events: auto; }\n.range-tw::-moz-range-thumb { pointer-events: auto; }\n</style>",
+    "react": "export function RangeSlider({\n  legend = \"{{legend}}\",\n  min = {{min}},\n  max = {{max}},\n  unit = \"{{unit}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <fieldset style={{ border: \"none\", padding: 0, margin: 0, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 280 }}>\n      <legend style={{ fontWeight: 500, padding: 0, marginBottom: 8 }}>{legend}</legend>\n      <div style={{ fontWeight: 600, marginBottom: 8 }}>{unit}{min} – {unit}{max}</div>\n      <div style={{ position: \"relative\", height: 24 }}>\n        <input type=\"range\" aria-label=\"Minimum\" min={0} max={100} defaultValue={min} style={{ position: \"absolute\", top: 0, left: 0, width: \"100%\", margin: 0, accentColor: accent }} />\n        <input type=\"range\" aria-label=\"Maximum\" min={0} max={100} defaultValue={max} style={{ position: \"absolute\", top: 0, left: 0, width: \"100%\", margin: 0, accentColor: accent }} />\n      </div>\n    </fieldset>\n  );\n}"
+  }
+}

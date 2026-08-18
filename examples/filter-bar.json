@@ -1,0 +1,58 @@
+{
+  "slug": "filter-bar",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Group label",
+      "default": "Filters"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Active filter count",
+      "default": 3,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "compact",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 6,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<form role=\"search\" aria-label=\"{{label}}\" class=\"fbar fbar--{{layout}}\" style=\"--accent:{{accent}};\">\n  <label class=\"fbar__field\">\n    <span class=\"fbar__field-label\">Search</span>\n    <input class=\"fbar__input\" type=\"search\" name=\"q\" placeholder=\"Search...\" style=\"border-radius:{{radius}}px;\">\n  </label>\n  <label class=\"fbar__field\">\n    <span class=\"fbar__field-label\">Status</span>\n    <select class=\"fbar__select\" style=\"border-radius:{{radius}}px;\">\n      <option>Any</option>\n      <option>Open</option>\n      <option>Closed</option>\n    </select>\n  </label>\n  <p class=\"fbar__badge\" role=\"status\">{{count}} active</p>\n</form>\n<style>\n.fbar { display: flex; align-items: center; gap: 10px; font: 14px system-ui, sans-serif; color: #241430; flex-wrap: wrap; }\n.fbar__field { display: flex; flex-direction: column; gap: 4px; }\n.fbar__field-label { font-size: 11px; font-weight: 600; color: #24143099; }\n.fbar__input, .fbar__select { box-sizing: border-box; padding: 7px 10px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; appearance: none; }\n.fbar__input:focus-visible, .fbar__select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.fbar__badge { margin: 0; padding: 6px 10px; font-size: 12px; font-weight: 600; color: #241430; background: var(--accent); }\n.fbar--comfortable { gap: 16px; }\n.fbar--comfortable .fbar__input, .fbar--comfortable .fbar__select { padding: 10px 14px; }\n.fbar--comfortable .fbar__badge { padding: 9px 14px; }\n</style>",
+    "tailwind": "<form role=\"search\" aria-label=\"{{label}}\" class=\"fbar-tw fbar-tw--{{layout}} flex items-center gap-2.5 flex-wrap font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\">\n  <label class=\"flex flex-col gap-1\">\n    <span class=\"text-[11px] font-semibold text-[#24143099]\">Search</span>\n    <input type=\"search\" name=\"q\" placeholder=\"Search...\" style=\"border-radius:{{radius}}px;\" class=\"box-border px-2.5 py-[7px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n  </label>\n  <label class=\"flex flex-col gap-1\">\n    <span class=\"text-[11px] font-semibold text-[#24143099]\">Status</span>\n    <select style=\"border-radius:{{radius}}px;\" class=\"box-border px-2.5 py-[7px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n      <option>Any</option>\n      <option>Open</option>\n      <option>Closed</option>\n    </select>\n  </label>\n  <p role=\"status\" class=\"m-0 px-2.5 py-1.5 text-xs font-semibold text-[#241430] bg-[var(--accent)]\">{{count}} active</p>\n</form>\n<style>\n.fbar-tw--comfortable { gap: 16px !important; }\n.fbar-tw--comfortable input, .fbar-tw--comfortable select { padding: 10px 14px !important; }\n.fbar-tw--comfortable p { padding: 9px 14px !important; }\n</style>",
+    "react": "export function FilterBar({\n  label = \"{{label}}\",\n  count = {{count}},\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const comfortable = layout === \"comfortable\";\n  const fieldInput = { boxSizing: \"border-box\", padding: comfortable ? \"10px 14px\" : \"7px 10px\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", appearance: \"none\", borderRadius: radius };\n  return (\n    <form role=\"search\" aria-label={label} style={{ display: \"flex\", alignItems: \"center\", gap: comfortable ? 16 : 10, flexWrap: \"wrap\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", \"--accent\": accent }}>\n      <label style={{ display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n        <span style={{ fontSize: 11, fontWeight: 600, color: \"#24143099\" }}>Search</span>\n        <input type=\"search\" name=\"q\" placeholder=\"Search...\" style={fieldInput} />\n      </label>\n      <label style={{ display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n        <span style={{ fontSize: 11, fontWeight: 600, color: \"#24143099\" }}>Status</span>\n        <select style={fieldInput}>\n          <option>Any</option>\n          <option>Open</option>\n          <option>Closed</option>\n        </select>\n      </label>\n      <p role=\"status\" style={{ margin: 0, padding: comfortable ? \"9px 14px\" : \"6px 10px\", fontSize: 12, fontWeight: 600, color: \"#241430\", background: accent }}>{count} active</p>\n    </form>\n  );\n}"
+  }
+}

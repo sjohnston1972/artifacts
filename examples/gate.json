@@ -1,0 +1,46 @@
+{
+  "slug": "gate",
+  "controls_schema": [
+    {
+      "id": "gateTitle",
+      "type": "text",
+      "label": "Gate title",
+      "default": "Deploy gate: production release"
+    },
+    {
+      "id": "condition1",
+      "type": "text",
+      "label": "Condition 1",
+      "default": "All tests passing"
+    },
+    {
+      "id": "condition1Met",
+      "type": "toggle",
+      "label": "Condition 1 met",
+      "default": true
+    },
+    {
+      "id": "condition2",
+      "type": "text",
+      "label": "Condition 2",
+      "default": "Security review approved"
+    },
+    {
+      "id": "condition2Met",
+      "type": "toggle",
+      "label": "Condition 2 met",
+      "default": false
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Gate open",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"gate {{#if open}}gate--open{{/if}}{{#unless open}}gate--closed{{/unless}}\">\n  <h3 class=\"gate__title\">{{gateTitle}}</h3>\n  <ul class=\"gate__conditions\">\n    <li class=\"gate__condition{{#if condition1Met}} gate__condition--met{{/if}}\">\n      <span class=\"gate__cond-icon\">{{#if condition1Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>{{/if}}{{#unless condition1Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>{{/unless}}</span>\n      <span>{{condition1}} — {{#if condition1Met}}Met{{/if}}{{#unless condition1Met}}Not met{{/unless}}</span>\n    </li>\n    <li class=\"gate__condition{{#if condition2Met}} gate__condition--met{{/if}}\">\n      <span class=\"gate__cond-icon\">{{#if condition2Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>{{/if}}{{#unless condition2Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>{{/unless}}</span>\n      <span>{{condition2}} — {{#if condition2Met}}Met{{/if}}{{#unless condition2Met}}Not met{{/unless}}</span>\n    </li>\n    <li class=\"gate__condition gate__condition--met\">\n      <span class=\"gate__cond-icon\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n      <span>No open P1 incidents — Met</span>\n    </li>\n  </ul>\n  <p class=\"gate__banner\">{{#if open}}Gate open — ready to proceed{{/if}}{{#unless open}}Gate closed — resolve blocking conditions{{/unless}}</p>\n</div>\n<style>\n.gate { font: 15px/1.5 system-ui, sans-serif; max-width: 380px; padding: 20px; background: #FAF7F2; color: #241430; border-radius: 14px; border: 1.5px solid #24143020; }\n.gate__title { margin: 0 0 12px; font-size: 16px; font-weight: 700; }\n.gate__conditions { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.gate__condition { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #b23b3b; }\n.gate__condition--met { color: #2f8a52; }\n.gate__cond-icon { display: inline-flex; }\n.gate__banner { margin: 0; padding: 10px 12px; border-radius: 8px; font-weight: 600; font-size: 14px; }\n.gate--closed .gate__banner { background: #b23b3b1a; color: #b23b3b; }\n.gate--open .gate__banner { background: #2f8a521a; color: #2f8a52; }\n</style>",
+    "tailwind": "<div class=\"gate-tw font-sans max-w-[380px] p-5 bg-[#FAF7F2] text-[#241430] rounded-2xl border-[1.5px] border-[#24143020] {{#if open}}gate-tw--open{{/if}}{{#unless open}}gate-tw--closed{{/unless}}\">\n  <h3 class=\"m-0 mb-3 text-base font-bold\">{{gateTitle}}</h3>\n  <ul class=\"list-none m-0 mb-3.5 p-0 flex flex-col gap-1.5\">\n    <li class=\"flex items-center gap-2 text-sm\" style=\"color:{{#if condition1Met}}#2f8a52{{/if}}{{#unless condition1Met}}#b23b3b{{/unless}}\">\n      <span class=\"inline-flex\">{{#if condition1Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>{{/if}}{{#unless condition1Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>{{/unless}}</span>\n      <span>{{condition1}} — {{#if condition1Met}}Met{{/if}}{{#unless condition1Met}}Not met{{/unless}}</span>\n    </li>\n    <li class=\"flex items-center gap-2 text-sm\" style=\"color:{{#if condition2Met}}#2f8a52{{/if}}{{#unless condition2Met}}#b23b3b{{/unless}}\">\n      <span class=\"inline-flex\">{{#if condition2Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>{{/if}}{{#unless condition2Met}}<svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>{{/unless}}</span>\n      <span>{{condition2}} — {{#if condition2Met}}Met{{/if}}{{#unless condition2Met}}Not met{{/unless}}</span>\n    </li>\n    <li class=\"flex items-center gap-2 text-sm text-[#2f8a52]\">\n      <span class=\"inline-flex\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n      <span>No open P1 incidents — Met</span>\n    </li>\n  </ul>\n  <p class=\"m-0 py-2.5 px-3 rounded-lg font-semibold text-sm\">{{#if open}}Gate open — ready to proceed{{/if}}{{#unless open}}Gate closed — resolve blocking conditions{{/unless}}</p>\n</div>\n<style>\n.gate-tw--closed p { background: #b23b3b1a; color: #b23b3b; }\n.gate-tw--open p { background: #2f8a521a; color: #2f8a52; }\n</style>",
+    "react": "export function Gate({\n  gateTitle = \"{{gateTitle}}\",\n  condition1 = \"{{condition1}}\",\n  condition1Met = {{condition1Met}},\n  condition2 = \"{{condition2}}\",\n  condition2Met = {{condition2Met}},\n  open = {{open}},\n}) {\n  const rows = [\n    { label: condition1, met: condition1Met },\n    { label: condition2, met: condition2Met },\n    { label: \"No open P1 incidents\", met: true },\n  ];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 380, padding: 20, background: \"#FAF7F2\",\n      color: \"#241430\", borderRadius: 14, border: \"1.5px solid #24143020\" }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 16, fontWeight: 700 }}>{gateTitle}</h3>\n      <ul style={{ listStyle: \"none\", margin: \"0 0 14px\", padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {rows.map((r, i) => (\n          <li key={i} style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 14, color: r.met ? \"#2f8a52\" : \"#b23b3b\" }}>\n            <span style={{ display: \"inline-flex\" }} dangerouslySetInnerHTML={{ __html: r.met ? \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M3 8.5l3 3 7-7\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"/></svg>\" : \"<svg viewBox=\\\"0 0 16 16\\\" width=\\\"16\\\" height=\\\"16\\\" fill=\\\"none\\\" aria-hidden=\\\"true\\\"><path d=\\\"M4 4l8 8M12 4l-8 8\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\"/></svg>\" }} />\n            <span>{r.label} — {r.met ? \"Met\" : \"Not met\"}</span>\n          </li>\n        ))}\n      </ul>\n      <p style={{ margin: 0, padding: \"10px 12px\", borderRadius: 8, fontWeight: 600, fontSize: 14,\n        background: open ? \"#2f8a521a\" : \"#b23b3b1a\", color: open ? \"#2f8a52\" : \"#b23b3b\" }}>\n        {open ? \"Gate open — ready to proceed\" : \"Gate closed — resolve blocking conditions\"}\n      </p>\n    </div>\n  );\n}"
+  }
+}

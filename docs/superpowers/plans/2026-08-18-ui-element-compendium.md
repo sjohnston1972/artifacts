@@ -4050,6 +4050,31 @@ test("the site is usable one-handed on a phone", async ({ page }) => {
   }
 });
 
+test("a hostile URL fragment cannot corrupt the example or the code", async ({ page }) => {
+  // The fragment is attacker-supplyable via a shared link. Unvalidated it
+  // rendered `border-radius:NaNpx` in the example AND all three code tabs
+  // while the slider clamped to its default — panel and specimen disagreeing.
+  await page.goto("/e/button#radius=16");
+  await expect(page.locator('[name="radius"]')).toHaveValue("16");
+  await expect(page.locator('.code__panel:not([hidden]) code')).toContainText("16");
+
+  for (const bad of ["NaN", "Infinity", "1e999"]) {
+    await page.goto(`/e/button#radius=${bad}`);
+    const code = await page.locator('.code__panel:not([hidden]) code').textContent();
+    expect(code).not.toMatch(/NaN|Infinity/);
+    const frame = page.frameLocator("iframe.stage");
+    await expect(frame.locator("button")).not.toHaveCSS("border-radius", /NaN/);
+  }
+
+  // Out-of-range values clamp to the control's own max, so the slider and the
+  // generated code agree by construction.
+  await page.goto("/e/button#radius=9999");
+  const slider = page.locator('[name="radius"]');
+  const max = await slider.getAttribute("max");
+  await expect(slider).toHaveValue(max);
+  await expect(page.locator('.code__panel:not([hidden]) code')).toContainText(max);
+});
+
 test("Cmd+K navigates without the mouse from any page", async ({ page }) => {
   await page.goto("/e/affordance");
   await page.keyboard.press("Meta+k");
@@ -4104,7 +4129,7 @@ test.describe("reduced motion", () => {
 - [ ] **Step 4: Run the acceptance suite and fix what fails**
 
 Run: `npx playwright test`
-Expected: 8 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
+Expected: 9 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
 
 - [ ] **Step 5: Add the responsive rules**
 

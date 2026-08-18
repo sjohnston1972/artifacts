@@ -2,6 +2,7 @@ import { route } from "./router.js";
 import { seed } from "./seed/run.js";
 import * as db from "./db.js";
 import { renderBrowse } from "./render/browse.js";
+import { renderEntry } from "./render/entry.js";
 import { searchIndex } from "./api/index.js";
 
 const TIERS = {
@@ -17,6 +18,7 @@ const routes = [
   { method: "GET", pattern: "/api/index.json", handler: searchIndex },
   { method: "GET", pattern: "/", handler: browse },
   { method: "GET", pattern: "/c/:slug", handler: browse },
+  { method: "GET", pattern: "/e/:slug", handler: entryPage },
 ];
 
 async function healthz() {
@@ -60,6 +62,12 @@ async function browse(request, env, ctx, params) {
     categories, entries: filtered, filters, activeCategory: params.slug,
     total: categories.reduce((n, c) => n + c.entry_count, 0),
   }));
+}
+
+async function entryPage(request, env, ctx, params) {
+  const entry = await db.getEntryBySlug(env.DB, params.slug);
+  if (!entry) return new Response("Not found", { status: 404 });
+  return htmlResponse(renderEntry({ entry }));
 }
 
 function htmlResponse(body, status = 200) {

@@ -397,6 +397,55 @@ kbd {
   .entry__stage-col { grid-row: 1 / span 3; grid-column: 2; }
 }
 
+.backlink {
+  display: inline-block;
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+
+.entry__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: var(--step--1);
+}
+
+/* -------------------- category chips -------------------- */
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  padding: 0.3em 0.8em;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-raised);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: var(--step--1);
+}
+
+.chip__code {
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+}
+
+/* -------------------- notes prose -------------------- */
+
+.prose p { margin: 0 0 var(--space-3); }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--fg); }
+
 /* -------------------- specimen plate -------------------- */
 
 /* The plate's aurora mesh. Four radial gradients, leaning per category. */
@@ -451,6 +500,110 @@ kbd {
   border-radius: calc(var(--radius) - 6px);
   background: var(--bg-raised);
   padding: var(--space-4);
+}
+
+/* -------------------- interactive specimen -------------------- */
+
+.specimen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stage {
+  width: 100%;
+  min-height: 8rem;
+  border: 0;
+  background: transparent;
+}
+
+.stage--empty {
+  color: var(--fg-muted);
+  text-align: center;
+  margin: 0;
+}
+
+.tweaks {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  background: var(--bg-raised);
+}
+
+.tweaks__controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.tweaks__reset {
+  font: inherit;
+  font-size: var(--step--1);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.code {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.code__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+  overflow-x: auto;
+}
+
+.code__tab {
+  font: inherit;
+  font-size: var(--step--1);
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.code__tab[aria-selected="true"] {
+  color: var(--fg);
+  border-bottom-color: var(--gold);
+}
+
+.code__panel {
+  position: relative;
+  padding: var(--space-4);
+}
+
+.code__panel[hidden] { display: none; }
+
+.code__panel pre {
+  margin: 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+
+.copy {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  font: inherit;
+  font-size: var(--step--1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  color: var(--fg);
+  cursor: pointer;
 }
 
 /* -------------------- command palette -------------------- */
@@ -539,6 +692,9 @@ kbd {
   .theme-toggle { transition: background 160ms ease, border-color 160ms ease; }
   .site-nav a { transition: color 160ms ease, border-color 160ms ease; }
   .palette__item { transition: background 120ms ease; }
+  .chip { transition: border-color 160ms ease, background 160ms ease; }
+  .code__tab { transition: color 160ms ease, border-color 160ms ease; }
+  .copy, .tweaks__reset { transition: background 160ms ease, border-color 160ms ease; }
 }
 
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }

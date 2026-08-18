@@ -1,0 +1,55 @@
+{
+  "controls_schema": [
+    {
+      "id": "org",
+      "type": "text",
+      "label": "Current organisation",
+      "default": "Clydeford Ltd"
+    },
+    {
+      "id": "memberCount",
+      "type": "number",
+      "label": "Member count",
+      "default": 128,
+      "min": 1,
+      "max": 9999,
+      "step": 1
+    },
+    {
+      "id": "verified",
+      "type": "toggle",
+      "label": "Verified organisation",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "card",
+      "options": [
+        "card",
+        "compact"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"orgpicker orgpicker--{{style}}\" style=\"--c:{{color}};\">\n  <summary class=\"orgpicker__summary\">\n    <span class=\"orgpicker__mark\" aria-hidden=\"true\">{{org}}</span>\n    <span class=\"orgpicker__text\">\n      <strong>{{org}}</strong>\n      <span class=\"orgpicker__meta\">{{memberCount}} members{{#if verified}} · Verified{{/if}}</span>\n    </span>\n  </summary>\n  <ul class=\"orgpicker__list\">\n    <li><button type=\"button\" class=\"orgpicker__option\">Northbank Studio</button></li>\n    <li><button type=\"button\" class=\"orgpicker__option\">Harlow &amp; Vale</button></li>\n  </ul>\n</details>\n<style>\n.orgpicker { font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 280px; }\n.orgpicker__summary { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1.5px solid var(--c); border-radius: 10px; cursor: pointer; list-style: none; background: #FAF7F2; }\n.orgpicker__summary::-webkit-details-marker { display: none; }\n.orgpicker__summary:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }\n.orgpicker__mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: var(--c); font-weight: 700; font-size: 10px; line-height: 1.1; text-align: center; padding: 2px; flex: none; overflow: hidden; }\n.orgpicker--compact .orgpicker__summary { padding: 6px 10px; }\n.orgpicker__meta { display: block; font-size: 12px; opacity: .75; }\n.orgpicker__list { margin: 6px 0 0; padding: 6px; border: 1px solid #24143022; border-radius: 10px; list-style: none; display: grid; gap: 4px; }\n.orgpicker__option { width: 100%; text-align: left; background: none; border: none; padding: 6px 8px; border-radius: 6px; font: inherit; cursor: pointer; color: #241430; }\n.orgpicker__option:hover, .orgpicker__option:focus-visible { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); outline: none; }\n</style>",
+    "tailwind": "<details class=\"orgpicker-tw orgpicker-tw--{{style}} max-w-xs font-sans text-[#241430]\" style=\"--c:{{color}};\">\n  <summary class=\"orgpicker-tw__summary flex items-center gap-2.5 px-3 py-2.5 border-[1.5px] rounded-[10px] cursor-pointer list-none bg-[#FAF7F2]\" style=\"border-color:var(--c);\">\n    <span class=\"inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold text-[13px] flex-none\" style=\"background:var(--c);\">{{org}}</span>\n    <span>\n      <strong class=\"block\">{{org}}</strong>\n      <span class=\"block text-xs opacity-75\">{{memberCount}} members{{#if verified}} · Verified{{/if}}</span>\n    </span>\n  </summary>\n  <ul class=\"mt-1.5 p-1.5 border border-[#24143022] rounded-[10px] list-none grid gap-1\">\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5\">Northbank Studio</button></li>\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5\">Harlow &amp; Vale</button></li>\n  </ul>\n</details>\n<style>\n.orgpicker-tw--compact .orgpicker-tw__summary { padding: 6px 10px; }\n</style>",
+    "react": "export function OrganisationPicker({\n  org = \"{{org}}\",\n  memberCount = {{memberCount}},\n  verified = {{verified}},\n  color = \"{{color}}\",\n  style: pickerStyle = \"{{style}}\",\n}) {\n  return (\n    <details style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 280 }}>\n      <summary style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: pickerStyle === \"compact\" ? \"6px 10px\" : \"10px 12px\", border: `1.5px solid ${color}`, borderRadius: 10, cursor: \"pointer\", listStyle: \"none\", background: \"#FAF7F2\" }}>\n        <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 32, height: 32, borderRadius: 8, background: color, fontWeight: 700, fontSize: 13, flex: \"none\" }}>{org.slice(0, 2)}</span>\n        <span>\n          <strong style={{ display: \"block\" }}>{org}</strong>\n          <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{memberCount} members{verified ? \" · Verified\" : \"\"}</span>\n        </span>\n      </summary>\n      <ul style={{ margin: \"6px 0 0\", padding: 6, border: \"1px solid #24143022\", borderRadius: 10, listStyle: \"none\", display: \"grid\", gap: 4 }}>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Northbank Studio</button></li>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Harlow &amp; Vale</button></li>\n      </ul>\n    </details>\n  );\n}"
+  },
+  "slug": "organisation-picker"
+}

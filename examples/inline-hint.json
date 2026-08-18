@@ -1,0 +1,53 @@
+{
+  "slug": "inline-hint",
+  "controls_schema": [
+    {
+      "id": "fieldLabel",
+      "type": "text",
+      "label": "Field label",
+      "default": "Email address"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Hint message",
+      "default": "We'll only use this to send receipts."
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "info",
+      "options": [
+        "info",
+        "tip",
+        "warning"
+      ]
+    },
+    {
+      "id": "dismissible",
+      "type": "toggle",
+      "label": "Dismissible",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"inline-hint-field\">\n  <label class=\"inline-hint-field__label\" for=\"ih-email\">{{fieldLabel}}</label>\n  <input id=\"ih-email\" type=\"text\" class=\"inline-hint-field__input\" aria-describedby=\"ih-hint\" />\n  <div id=\"ih-hint\" class=\"inline-hint\" data-icon=\"{{icon}}\" style=\"--accent:{{accent}}\">\n    <svg class=\"ico-info\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"currentColor\" stroke-width=\"1.3\"/><path d=\"M8 7v4.5M8 4.6v.1\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>\n    <svg class=\"ico-tip\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 1.5a4.5 4.5 0 0 0-2.5 8.2c.4.3.6.8.6 1.3v.3h4v-.3c0-.5.2-1 .6-1.3A4.5 4.5 0 0 0 8 1.5z\" stroke=\"currentColor\" stroke-width=\"1.3\"/></svg>\n    <svg class=\"ico-warning\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2 1.5 13.5h13L8 2z\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3M8 11.2v.1\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>\n    <span class=\"inline-hint__text\">{{message}}</span>\n    {{#if dismissible}}<button type=\"button\" class=\"inline-hint__dismiss\" aria-label=\"Dismiss hint\">&times;</button>{{/if}}\n  </div>\n</div>\n<style>\n.inline-hint-field { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 280px; }\n.inline-hint-field__label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }\n.inline-hint-field__input { width: 100%; box-sizing: border-box; border: 1.5px solid #24143030; border-radius: 8px; padding: 9px 11px; font: 14px system-ui, sans-serif; }\n.inline-hint-field__input:focus-visible { outline: 2px solid var(--accent, #BFD9F2); border-color: transparent; }\n.inline-hint { display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; color: var(--accent); }\n.inline-hint svg { display: none; flex-shrink: 0; margin-top: 1px; }\n.inline-hint[data-icon=\"info\"] .ico-info,\n.inline-hint[data-icon=\"tip\"] .ico-tip,\n.inline-hint[data-icon=\"warning\"] .ico-warning { display: block; }\n.inline-hint__text { font-size: 12.5px; color: #241430cc; flex: 1; }\n.inline-hint__dismiss { background: transparent; border: none; color: #24143099; font-size: 13px; line-height: 1; cursor: pointer; padding: 0; }\n.inline-hint__dismiss:focus-visible { outline: 2px solid var(--accent); }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] max-w-[280px]\">\n  <label class=\"block text-[13px] font-semibold mb-1.5\" for=\"ih-email-tw\">{{fieldLabel}}</label>\n  <input id=\"ih-email-tw\" type=\"text\" class=\"w-full box-border border-[1.5px] border-[#24143030] rounded-lg px-2.5 py-2 text-sm\" aria-describedby=\"ih-hint-tw\" />\n  <div id=\"ih-hint-tw\" class=\"inline-hint-tw flex items-start gap-1.5 mt-1.5\" data-icon=\"{{icon}}\" style=\"color:{{accent}}\">\n    <svg class=\"ico-info-tw\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"currentColor\" stroke-width=\"1.3\"/></svg>\n    <svg class=\"ico-tip-tw\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 1.5a4.5 4.5 0 0 0-2.5 8.2c.4.3.6.8.6 1.3v.3h4v-.3c0-.5.2-1 .6-1.3A4.5 4.5 0 0 0 8 1.5z\" stroke=\"currentColor\" stroke-width=\"1.3\"/></svg>\n    <svg class=\"ico-warning-tw\" viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2 1.5 13.5h13L8 2z\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/></svg>\n    <span class=\"text-xs text-[#241430]/80 flex-1\">{{message}}</span>\n    {{#if dismissible}}<button type=\"button\" class=\"bg-transparent border-0 text-[#24143099] text-[13px] leading-none cursor-pointer p-0\" aria-label=\"Dismiss hint\">&times;</button>{{/if}}\n  </div>\n</div>\n<style>\n.inline-hint-tw svg { display: none; flex-shrink: 0; margin-top: 1px; }\n.inline-hint-tw[data-icon=\"info\"] .ico-info-tw,\n.inline-hint-tw[data-icon=\"tip\"] .ico-tip-tw,\n.inline-hint-tw[data-icon=\"warning\"] .ico-warning-tw { display: block; }\n</style>",
+    "react": "export function InlineHint({\n  fieldLabel = \"{{fieldLabel}}\",\n  message = \"{{message}}\",\n  icon = \"{{icon}}\",\n  dismissible = {{dismissible}},\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    info: <svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"currentColor\" strokeWidth=\"1.3\" /></svg>,\n    tip: <svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 1.5a4.5 4.5 0 0 0-2.5 8.2c.4.3.6.8.6 1.3v.3h4v-.3c0-.5.2-1 .6-1.3A4.5 4.5 0 0 0 8 1.5z\" stroke=\"currentColor\" strokeWidth=\"1.3\" /></svg>,\n    warning: <svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2 1.5 13.5h13L8 2z\" stroke=\"currentColor\" strokeWidth=\"1.3\" strokeLinejoin=\"round\" /></svg>,\n  };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 280 }}>\n      <label htmlFor=\"ih-email-react\" style={{ display: \"block\", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{fieldLabel}</label>\n      <input id=\"ih-email-react\" type=\"text\" aria-describedby=\"ih-hint-react\" style={{ width: \"100%\", boxSizing: \"border-box\", border: \"1.5px solid #24143030\", borderRadius: 8, padding: \"9px 11px\", fontSize: 14 }} />\n      <div id=\"ih-hint-react\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 6, marginTop: 6, color: accent }}>\n        {icons[icon] ?? icons.info}\n        <span style={{ fontSize: 12.5, color: \"#241430cc\", flex: 1 }}>{message}</span>\n        {dismissible && (\n          <button type=\"button\" aria-label=\"Dismiss hint\" style={{ background: \"transparent\", border: \"none\", color: \"#24143099\", fontSize: 13, lineHeight: 1, cursor: \"pointer\", padding: 0 }}>&times;</button>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

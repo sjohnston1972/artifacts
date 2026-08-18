@@ -1,0 +1,51 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Dashboard name",
+      "default": "Q3 Growth Review"
+    },
+    {
+      "id": "savedAt",
+      "type": "text",
+      "label": "Last saved",
+      "default": "2 hours ago"
+    },
+    {
+      "id": "shared",
+      "type": "toggle",
+      "label": "Shared with team",
+      "default": true
+    },
+    {
+      "id": "widgetCount",
+      "type": "number",
+      "label": "Widget count",
+      "default": 6,
+      "min": 1,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"saveddash\" style=\"--c:{{color}};\">\n  <div class=\"saveddash__thumb\" aria-hidden=\"true\"><span></span><span></span><span></span></div>\n  <div class=\"saveddash__text\">\n    <strong>{{name}}</strong>\n    <span class=\"saveddash__meta\">{{widgetCount}} widgets · Saved {{savedAt}}{{#if shared}} · Shared{{/if}}</span>\n  </div>\n</article>\n<style>\n.saveddash { display: flex; gap: 12px; align-items: center; border: 1px solid #24143018; border-radius: 10px; padding: 12px; font: 13px system-ui, sans-serif; color: #241430; max-width: 320px; }\n.saveddash__thumb { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 52px; height: 38px; border-radius: 6px; border: 1px solid #24143018; overflow: hidden; flex: none; }\n.saveddash__thumb span { background: var(--c); }\n.saveddash__thumb span:nth-child(1) { grid-column: span 2; opacity: .9; }\n.saveddash__thumb span:nth-child(2) { opacity: .6; }\n.saveddash__thumb span:nth-child(3) { opacity: .4; }\n.saveddash__meta { display: block; font-size: 12px; opacity: .7; }\n</style>",
+    "tailwind": "<article class=\"saveddash-tw flex gap-3 items-center border border-[#24143018] rounded-[10px] p-3 font-sans text-[13px] text-[#241430] max-w-sm\" style=\"--c:{{color}};\">\n  <div class=\"grid grid-cols-2 gap-[3px] w-[52px] h-[38px] rounded-md border border-[#24143018] overflow-hidden flex-none\" aria-hidden=\"true\">\n    <span class=\"col-span-2 opacity-90\" style=\"background:var(--c);\"></span>\n    <span class=\"opacity-60\" style=\"background:var(--c);\"></span>\n    <span class=\"opacity-40\" style=\"background:var(--c);\"></span>\n  </div>\n  <div>\n    <strong class=\"block\">{{name}}</strong>\n    <span class=\"block text-xs opacity-70\">{{widgetCount}} widgets · Saved {{savedAt}}{{#if shared}} · Shared{{/if}}</span>\n  </div>\n</article>",
+    "react": "export function SavedDashboard({\n  name = \"{{name}}\",\n  savedAt = \"{{savedAt}}\",\n  shared = {{shared}},\n  widgetCount = {{widgetCount}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <article style={{ display: \"flex\", gap: 12, alignItems: \"center\", border: \"1px solid #24143018\", borderRadius: 10, padding: 12, font: \"13px system-ui, sans-serif\", color: \"#241430\", maxWidth: 320 }}>\n      <div aria-hidden=\"true\" style={{ display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: 3, width: 52, height: 38, borderRadius: 6, border: \"1px solid #24143018\", overflow: \"hidden\", flex: \"none\" }}>\n        <span style={{ gridColumn: \"span 2\", background: color, opacity: 0.9 }} />\n        <span style={{ background: color, opacity: 0.6 }} />\n        <span style={{ background: color, opacity: 0.4 }} />\n      </div>\n      <div>\n        <strong style={{ display: \"block\" }}>{name}</strong>\n        <span style={{ display: \"block\", fontSize: 12, opacity: 0.7 }}>{widgetCount} widgets · Saved {savedAt}{shared ? \" · Shared\" : \"\"}</span>\n      </div>\n    </article>\n  );\n}"
+  },
+  "slug": "saved-dashboard"
+}

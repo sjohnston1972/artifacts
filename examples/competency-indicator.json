@@ -1,0 +1,48 @@
+{
+  "controls_schema": [
+    {
+      "id": "skill",
+      "type": "text",
+      "label": "Skill",
+      "default": "Systems design"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Level",
+      "default": "advanced",
+      "options": [
+        "novice",
+        "intermediate",
+        "advanced",
+        "expert"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showLabel",
+      "type": "toggle",
+      "label": "Show level label",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"competency competency--{{level}}\" style=\"--c:{{color}};\">\n  <span class=\"competency__skill\">{{skill}}</span>\n  <span class=\"competency__dots\" role=\"img\" aria-label=\"{{skill}}: {{level}} level\">\n    <span class=\"competency__dot\"></span><span class=\"competency__dot\"></span><span class=\"competency__dot\"></span><span class=\"competency__dot\"></span>\n  </span>\n  {{#if showLabel}}<span class=\"competency__label\"></span>{{/if}}\n</div>\n<style>\n.competency { display: flex; align-items: center; gap: 8px; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.competency__dots { display: inline-flex; gap: 4px; }\n.competency__dot { width: 10px; height: 10px; border-radius: 50%; background: #24143018; }\n.competency--novice .competency__dot:nth-child(-n+1) { background: var(--c); }\n.competency--intermediate .competency__dot:nth-child(-n+2) { background: var(--c); }\n.competency--advanced .competency__dot:nth-child(-n+3) { background: var(--c); }\n.competency--expert .competency__dot { background: var(--c); }\n.competency__label { font-size: 12px; opacity: .75; }\n.competency--novice .competency__label::before { content: \"Novice\"; }\n.competency--intermediate .competency__label::before { content: \"Intermediate\"; }\n.competency--advanced .competency__label::before { content: \"Advanced\"; }\n.competency--expert .competency__label::before { content: \"Expert\"; }\n</style>",
+    "tailwind": "<div class=\"competency-tw competency-tw--{{level}} flex items-center gap-2 font-sans text-[#241430]\" style=\"--c:{{color}};\">\n  <span>{{skill}}</span>\n  <span class=\"inline-flex gap-1\" role=\"img\" aria-label=\"{{skill}}: {{level}} level\">\n    <span class=\"competency-tw__dot w-2.5 h-2.5 rounded-full bg-[#24143018]\"></span>\n    <span class=\"competency-tw__dot w-2.5 h-2.5 rounded-full bg-[#24143018]\"></span>\n    <span class=\"competency-tw__dot w-2.5 h-2.5 rounded-full bg-[#24143018]\"></span>\n    <span class=\"competency-tw__dot w-2.5 h-2.5 rounded-full bg-[#24143018]\"></span>\n  </span>\n  {{#if showLabel}}<span class=\"competency-tw__label text-xs opacity-75\"></span>{{/if}}\n</div>\n<style>\n.competency-tw--novice .competency-tw__dot:nth-child(-n+1) { background: var(--c); }\n.competency-tw--intermediate .competency-tw__dot:nth-child(-n+2) { background: var(--c); }\n.competency-tw--advanced .competency-tw__dot:nth-child(-n+3) { background: var(--c); }\n.competency-tw--expert .competency-tw__dot { background: var(--c); }\n.competency-tw--novice .competency-tw__label::before { content: \"Novice\"; }\n.competency-tw--intermediate .competency-tw__label::before { content: \"Intermediate\"; }\n.competency-tw--advanced .competency-tw__label::before { content: \"Advanced\"; }\n.competency-tw--expert .competency-tw__label::before { content: \"Expert\"; }\n</style>",
+    "react": "export function CompetencyIndicator({\n  skill = \"{{skill}}\",\n  level = \"{{level}}\",\n  color = \"{{color}}\",\n  showLabel = {{showLabel}},\n}) {\n  const filled = { novice: 1, intermediate: 2, advanced: 3, expert: 4 }[level] ?? 1;\n  const label = { novice: \"Novice\", intermediate: \"Intermediate\", advanced: \"Advanced\", expert: \"Expert\" }[level] ?? \"Novice\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span>{skill}</span>\n      <span role=\"img\" aria-label={`${skill}: ${level} level`} style={{ display: \"inline-flex\", gap: 4 }}>\n        {[0, 1, 2, 3].map((i) => (\n          <span key={i} style={{ width: 10, height: 10, borderRadius: \"50%\", background: i < filled ? color : \"#24143018\" }} />\n        ))}\n      </span>\n      {showLabel && <span style={{ fontSize: 12, opacity: 0.75 }}>{label}</span>}\n    </div>\n  );\n}"
+  },
+  "slug": "competency-indicator"
+}

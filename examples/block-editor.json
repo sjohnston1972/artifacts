@@ -1,0 +1,52 @@
+{
+  "slug": "block-editor",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading block text",
+      "default": "Meeting notes"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Paragraph block text",
+      "default": "We're shipping the new onboarding flow next sprint. Here's what changed and why."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showHandles",
+      "type": "toggle",
+      "label": "Show drag handles",
+      "default": true
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"editor editor--{{density}}\" style=\"--accent:{{accent}};\">\n  <div class=\"editor__block\">\n    {{#if showHandles}}<span class=\"editor__handle\" aria-hidden=\"true\">&#10247;</span>{{/if}}\n    <h2 class=\"editor__heading\">{{heading}}</h2>\n  </div>\n  <div class=\"editor__block\">\n    {{#if showHandles}}<span class=\"editor__handle\" aria-hidden=\"true\">&#10247;</span>{{/if}}\n    <p class=\"editor__body\">{{body}}</p>\n  </div>\n  <button type=\"button\" class=\"editor__add\">\n    <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 2v12M2 8h12\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    Add block\n  </button>\n</div>\n<style>\n.editor { font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143022; border-radius: 10px; padding: 6px; max-width: 420px; }\n.editor__block { display: flex; align-items: flex-start; gap: 8px; padding: 10px; border-radius: 6px; }\n.editor__block:hover { background: #24143008; }\n.editor--compact .editor__block { padding: 4px 10px; }\n.editor__handle { color: #24143055; padding-top: 3px; cursor: grab; user-select: none; }\n.editor__heading { margin: 0; font-size: 20px; font-weight: 700; }\n.editor__body { margin: 0; color: #241430cc; }\n.editor--compact .editor__heading { font-size: 17px; }\n.editor__add { display: inline-flex; align-items: center; gap: 6px; margin: 6px 4px 4px; padding: 6px 10px; border-radius: 6px; border: 1.5px dashed var(--accent); background: transparent; color: var(--accent); font: 500 13px system-ui, sans-serif; cursor: pointer; }\n.editor__add:hover, .editor__add:focus-visible { background: color-mix(in srgb, var(--accent) 14%, transparent); outline: none; }\n</style>",
+    "tailwind": "<div style=\"--accent:{{accent}};\" class=\"editor-tw editor-tw--{{density}} font-sans text-[15px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143022] rounded-[10px] p-1.5 max-w-[420px]\">\n  <div class=\"editor-tw__block flex items-start gap-2 p-2.5 rounded-md hover:bg-[#24143008]\">\n    {{#if showHandles}}<span class=\"text-[#24143055] pt-0.5 cursor-grab select-none\" aria-hidden=\"true\">&#10247;</span>{{/if}}\n    <h2 class=\"m-0 text-xl font-bold\">{{heading}}</h2>\n  </div>\n  <div class=\"editor-tw__block flex items-start gap-2 p-2.5 rounded-md hover:bg-[#24143008]\">\n    {{#if showHandles}}<span class=\"text-[#24143055] pt-0.5 cursor-grab select-none\" aria-hidden=\"true\">&#10247;</span>{{/if}}\n    <p class=\"m-0 text-[#241430cc]\">{{body}}</p>\n  </div>\n  <button type=\"button\" class=\"inline-flex items-center gap-1.5 m-1.5 px-2.5 py-1.5 rounded-md border-[1.5px] border-dashed bg-transparent text-sm font-medium\" style=\"border-color:{{accent}};color:{{accent}}\">\n    <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 2v12M2 8h12\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    Add block\n  </button>\n</div>\n<style>\n.editor-tw--compact .editor-tw__block { padding: 4px 10px; }\n.editor-tw--compact h2 { font-size: 17px; }\n</style>",
+    "react": "export function BlockEditor({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n  showHandles = {{showHandles}},\n  density = \"{{density}}\",\n}) {\n  const compact = density === \"compact\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderRadius: 10, padding: 6, maxWidth: 420 }}>\n      <div style={{ display: \"flex\", alignItems: \"flex-start\", gap: 8, padding: compact ? \"4px 10px\" : 10, borderRadius: 6 }}>\n        {showHandles && <span aria-hidden=\"true\" style={{ color: \"#24143055\", paddingTop: 3, cursor: \"grab\" }}>&#10247;</span>}\n        <h2 style={{ margin: 0, fontSize: compact ? 17 : 20, fontWeight: 700 }}>{heading}</h2>\n      </div>\n      <div style={{ display: \"flex\", alignItems: \"flex-start\", gap: 8, padding: compact ? \"4px 10px\" : 10, borderRadius: 6 }}>\n        {showHandles && <span aria-hidden=\"true\" style={{ color: \"#24143055\", paddingTop: 3, cursor: \"grab\" }}>&#10247;</span>}\n        <p style={{ margin: 0, color: \"#241430cc\" }}>{body}</p>\n      </div>\n      <button type=\"button\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, margin: \"6px 4px 4px\",\n        padding: \"6px 10px\", borderRadius: 6, border: `1.5px dashed ${accent}`, background: \"transparent\",\n        color: accent, fontSize: 13, fontWeight: 500, cursor: \"pointer\" }}>\n        <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 2v12M2 8h12\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" /></svg>\n        Add block\n      </button>\n    </div>\n  );\n}"
+  }
+}

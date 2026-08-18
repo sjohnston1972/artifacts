@@ -1,0 +1,56 @@
+{
+  "slug": "onboarding-checklist",
+  "controls_schema": [
+    {
+      "id": "greeting",
+      "type": "text",
+      "label": "Greeting",
+      "default": "Welcome aboard — let's set up your workspace"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "stepsDone",
+      "type": "number",
+      "label": "Steps done",
+      "default": 2,
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "tone",
+      "type": "select",
+      "label": "Tone",
+      "default": "friendly",
+      "options": [
+        "friendly",
+        "minimal",
+        "celebratory"
+      ]
+    },
+    {
+      "id": "allDone",
+      "type": "toggle",
+      "label": "Show completion banner",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ob ob--{{tone}}\" style=\"--accent:{{accent}};\">\n  <p class=\"ob__greeting\">{{greeting}}</p>\n  <p class=\"ob__progress\">{{stepsDone}} of 4 steps complete</p>\n  <ul class=\"ob__list\">\n    <li class=\"ob__item\"><span class=\"ob__icon\" aria-hidden=\"true\"></span>Create your workspace</li>\n    <li class=\"ob__item\"><span class=\"ob__icon\" aria-hidden=\"true\"></span>Invite a teammate</li>\n    <li class=\"ob__item\"><span class=\"ob__icon\" aria-hidden=\"true\"></span>Connect your data</li>\n    <li class=\"ob__item\"><span class=\"ob__icon\" aria-hidden=\"true\"></span>Take a quick tour</li>\n  </ul>\n  {{#if allDone}}\n  <p class=\"ob__banner\">You're all set — nice work!</p>\n  {{/if}}\n</div>\n<style>\n.ob { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 22px; max-width: 360px; border-radius: 16px; border: 1.5px solid #24143018; }\n.ob__greeting { margin: 0 0 4px; font-weight: 700; font-size: 16px; }\n.ob__greeting::before { content: \"👋 \"; }\n.ob--minimal .ob__greeting::before { content: \"\"; }\n.ob--celebratory .ob__greeting::before { content: \"✨ \"; }\n.ob__progress { margin: 0 0 14px; font-size: 12.5px; color: #24143090; }\n.ob__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }\n.ob__item { display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: .55; }\n.ob__item:nth-child(-n+{{stepsDone}}) { opacity: 1; font-weight: 600; }\n.ob__icon { width: 20px; height: 20px; border-radius: 999px; border: 1.5px solid #24143035; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; }\n.ob__item:nth-child(-n+{{stepsDone}}) .ob__icon { background: var(--accent); border-color: var(--accent); }\n.ob__item:nth-child(-n+{{stepsDone}}) .ob__icon::before { content: \"✓\"; color: #241430; }\n.ob--celebratory { border-color: transparent; background: linear-gradient(135deg, #FAF7F2, #F5C2E020); }\n.ob--minimal { border-style: dashed; }\n.ob__banner { margin: 16px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--accent); font-size: 13px; font-weight: 600; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"ob-tw ob-tw--{{tone}} relative max-w-sm p-5.5 rounded-2xl border-[1.5px] border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\">\n  <p class=\"ob-tw__greeting m-0 mb-1 font-bold text-[16px]\">{{greeting}}</p>\n  <p class=\"m-0 mb-3.5 text-xs text-[#24143090]\">{{stepsDone}} of 4 steps complete</p>\n  <ul class=\"ob-tw__list list-none m-0 p-0 flex flex-col gap-2.5\">\n    <li class=\"flex items-center gap-2.5 text-sm\">Create your workspace</li>\n    <li class=\"flex items-center gap-2.5 text-sm\">Invite a teammate</li>\n    <li class=\"flex items-center gap-2.5 text-sm\">Connect your data</li>\n    <li class=\"flex items-center gap-2.5 text-sm\">Take a quick tour</li>\n  </ul>\n  {{#if allDone}}\n  <p class=\"mt-4 mb-0 px-3 py-2.5 rounded-lg text-sm font-semibold text-center\" style=\"background:{{accent}}\">You're all set — nice work!</p>\n  {{/if}}\n</div>\n<style>\n.ob-tw__list li { opacity: .55; }\n.ob-tw__list li:nth-child(-n+{{stepsDone}}) { opacity: 1; font-weight: 600; }\n.ob-tw--celebratory .ob-tw__greeting::before { content: \"✨ \"; }\n.ob-tw--friendly .ob-tw__greeting::before { content: \"👋 \"; }\n</style>",
+    "react": "export function OnboardingChecklist({\n  greeting = \"{{greeting}}\",\n  accent = \"{{accent}}\",\n  stepsDone = {{stepsDone}},\n  tone = \"{{tone}}\",\n  allDone = {{allDone}},\n}) {\n  const items = [\"Create your workspace\", \"Invite a teammate\", \"Connect your data\", \"Take a quick tour\"];\n  const prefix = { friendly: \"👋 \", minimal: \"\", celebratory: \"✨ \" }[tone] ?? \"\";\n  const wrap = {\n    friendly: {},\n    minimal: { border: \"1.5px dashed #24143035\" },\n    celebratory: { background: \"linear-gradient(135deg, #FAF7F2, #F5C2E020)\" },\n  }[tone] ?? {};\n  return (\n    <div style={{ position: \"relative\", font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 22, maxWidth: 360, borderRadius: 16, border: \"1.5px solid #24143018\", ...wrap }}>\n      <p style={{ margin: \"0 0 4px\", fontWeight: 700, fontSize: 16 }}>{prefix}{greeting}</p>\n      <p style={{ margin: \"0 0 14px\", fontSize: 12.5, color: \"#24143090\" }}>{stepsDone} of 4 steps complete</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 10 }}>\n        {items.map((label, i) => {\n          const done = i < stepsDone;\n          return (\n            <li key={label} style={{ display: \"flex\", alignItems: \"center\", gap: 10, fontSize: 14, opacity: done ? 1 : 0.55, fontWeight: done ? 600 : 400 }}>\n              <span aria-hidden=\"true\" style={{ width: 20, height: 20, borderRadius: 999, border: \"1.5px solid \" + (done ? accent : \"#24143035\"), background: done ? accent : \"transparent\", flexShrink: 0, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 11 }}>{done ? \"✓\" : \"\"}</span>\n              {label}\n            </li>\n          );\n        })}\n      </ul>\n      {allDone && (\n        <p style={{ margin: \"16px 0 0\", padding: \"10px 12px\", borderRadius: 10, background: accent, fontSize: 13, fontWeight: 600, textAlign: \"center\" }}>You're all set — nice work!</p>\n      )}\n    </div>\n  );\n}"
+  }
+}

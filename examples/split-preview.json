@@ -1,0 +1,55 @@
+{
+  "slug": "split-preview",
+  "controls_schema": [
+    {
+      "id": "editorContent",
+      "type": "text",
+      "label": "Source content",
+      "default": "Release notes: faster search and a refreshed dashboard."
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "side-by-side",
+      "options": [
+        "side-by-side",
+        "stacked"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "syncScroll",
+      "type": "toggle",
+      "label": "Sync scrolling",
+      "default": true
+    },
+    {
+      "id": "splitRatio",
+      "type": "number",
+      "label": "Editor pane width %",
+      "default": 50,
+      "min": 20,
+      "max": 80,
+      "step": 5
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"spv spv--{{layout}}\" data-layout=\"{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"spv__pane\" style=\"flex-basis:{{splitRatio}}%;\">\n    <p class=\"spv__label\">Editor</p>\n    <div class=\"spv__source\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Source content\">{{editorContent}}</div>\n  </div>\n  <div class=\"spv__divider\" aria-hidden=\"true\">\n    {{#if syncScroll}}<span class=\"spv__sync\" title=\"Scroll synced\">&#8645;</span>{{/if}}\n    {{#unless syncScroll}}<span class=\"spv__sync spv__sync--off\" title=\"Scroll not synced\">&#8645;</span>{{/unless}}\n  </div>\n  <div class=\"spv__pane spv__pane--preview\">\n    <p class=\"spv__label\">Preview</p>\n    <div class=\"spv__rendered\">{{editorContent}}</div>\n  </div>\n</div>\n<style>\n.spv { display: flex; font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143020; border-radius: 10px; overflow: hidden; max-width: 460px; }\n.spv--stacked { flex-direction: column; }\n.spv__pane { padding: 14px 16px; min-width: 0; }\n.spv__pane--preview { flex: 1 1 0%; }\n.spv--stacked .spv__pane--preview { flex: 1; }\n.spv__label { margin: 0 0 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #241430aa; }\n.spv__source { font-family: ui-monospace, monospace; font-size: 13px; white-space: pre-wrap; }\n.spv__rendered { font-size: 15px; line-height: 1.6; }\n.spv__divider { width: 1.5px; background: #24143020; display: flex; align-items: center; justify-content: center; position: relative; }\n.spv--stacked .spv__divider { width: auto; height: 1.5px; }\n.spv__sync { position: absolute; color: var(--accent); background: #FAF7F2; font-size: 13px; }\n.spv__sync--off { color: #24143040; }\n</style>",
+    "tailwind": "<div class=\"spv-tw spv-tw--{{layout}} flex max-w-[460px] bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143020] rounded-[10px] overflow-hidden\" data-layout=\"{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"px-4 py-3.5 min-w-0\" style=\"flex-basis:{{splitRatio}}%;\">\n    <p class=\"m-0 mb-1.5 text-[11px] font-bold uppercase tracking-wide text-[#241430]/65\">Editor</p>\n    <div class=\"font-mono text-[13px] whitespace-pre-wrap\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Source content\">{{editorContent}}</div>\n  </div>\n  <div class=\"spv-tw__divider w-[1.5px] bg-[#24143020] relative flex items-center justify-center\" aria-hidden=\"true\">\n    {{#if syncScroll}}<span class=\"absolute text-[13px] bg-[#FAF7F2]\" style=\"color:{{accent}}\" title=\"Scroll synced\">&#8645;</span>{{/if}}\n    {{#unless syncScroll}}<span class=\"absolute text-[13px] bg-[#FAF7F2] text-[#24143040]\" title=\"Scroll not synced\">&#8645;</span>{{/unless}}\n  </div>\n  <div class=\"px-4 py-3.5 min-w-0 flex-1\">\n    <p class=\"m-0 mb-1.5 text-[11px] font-bold uppercase tracking-wide text-[#241430]/65\">Preview</p>\n    <div class=\"text-[15px] leading-relaxed\">{{editorContent}}</div>\n  </div>\n</div>\n<style>\n.spv-tw--stacked { flex-direction: column; }\n.spv-tw--stacked .spv-tw__divider { width: auto; height: 1.5px; }\n</style>",
+    "react": "export function SplitPreview({\n  editorContent = \"{{editorContent}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  syncScroll = {{syncScroll}},\n  splitRatio = {{splitRatio}},\n}) {\n  const stacked = layout === \"stacked\";\n  return (\n    <div style={{ display: \"flex\", flexDirection: stacked ? \"column\" : \"row\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143020\", borderRadius: 10, overflow: \"hidden\", maxWidth: 460 }}>\n      <div style={{ padding: \"14px 16px\", minWidth: 0, flexBasis: stacked ? \"auto\" : `${splitRatio}%` }}>\n        <p style={{ margin: \"0 0 6px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#241430aa\" }}>Editor</p>\n        <div contentEditable suppressContentEditableWarning role=\"textbox\" aria-multiline=\"true\" aria-label=\"Source content\" style={{ fontFamily: \"ui-monospace, monospace\", fontSize: 13, whiteSpace: \"pre-wrap\" }}>{editorContent}</div>\n      </div>\n      <div aria-hidden=\"true\" style={{ width: stacked ? \"auto\" : 1.5, height: stacked ? 1.5 : \"auto\", background: \"#24143020\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", position: \"relative\" }}>\n        <span title={syncScroll ? \"Scroll synced\" : \"Scroll not synced\"} style={{ position: \"absolute\", fontSize: 13, background: \"#FAF7F2\", color: syncScroll ? accent : \"#24143040\" }}>{\"\\u21C5\"}</span>\n      </div>\n      <div style={{ padding: \"14px 16px\", minWidth: 0, flex: 1 }}>\n        <p style={{ margin: \"0 0 6px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#241430aa\" }}>Preview</p>\n        <div style={{ fontSize: 15, lineHeight: 1.6 }}>{editorContent}</div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "owner",
+      "type": "text",
+      "label": "Owner name",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Ownership role",
+      "default": "owner",
+      "options": [
+        "owner",
+        "co-owner",
+        "delegate"
+      ]
+    },
+    {
+      "id": "team",
+      "type": "text",
+      "label": "Team",
+      "default": "Platform"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "transferable",
+      "type": "toggle",
+      "label": "Allow transfer",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ownersel ownersel--{{role}}\" style=\"--c:{{color}};\">\n  <span class=\"ownersel__avatar\" aria-hidden=\"true\">PN</span>\n  <span class=\"ownersel__text\">\n    <strong>{{owner}}</strong>\n    <span class=\"ownersel__meta\">{{team}} · <span class=\"ownersel__role\"></span></span>\n  </span>\n  {{#if transferable}}<button type=\"button\" class=\"ownersel__transfer\">Transfer</button>{{/if}}\n</div>\n<style>\n.ownersel { display: flex; align-items: center; gap: 10px; font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 300px; }\n.ownersel__avatar { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c); font-weight: 700; flex: none; }\n.ownersel__meta { display: block; font-size: 12px; opacity: .75; }\n.ownersel--owner .ownersel__role::before { content: \"Owner\"; font-weight: 700; }\n.ownersel--co-owner .ownersel__role::before { content: \"Co-owner\"; }\n.ownersel--delegate .ownersel__role::before { content: \"Delegate\"; font-style: italic; }\n.ownersel__transfer { margin-left: auto; background: transparent; border: 1.5px solid var(--c); border-radius: 8px; padding: 6px 10px; font: 500 13px system-ui, sans-serif; cursor: pointer; color: #241430; }\n.ownersel__transfer:hover, .ownersel__transfer:focus-visible { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); outline: none; }\n</style>",
+    "tailwind": "<div class=\"ownersel-tw ownersel-tw--{{role}} flex items-center gap-2.5 font-sans text-[#241430] max-w-xs\" style=\"--c:{{color}};\">\n  <span class=\"inline-flex items-center justify-center w-[34px] h-[34px] rounded-full font-bold flex-none\" style=\"background:var(--c);\" aria-hidden=\"true\">PN</span>\n  <span>\n    <strong class=\"block\">{{owner}}</strong>\n    <span class=\"block text-xs opacity-75\">{{team}} · <span class=\"ownersel-tw__role\"></span></span>\n  </span>\n  {{#if transferable}}<button type=\"button\" class=\"ml-auto bg-transparent border-[1.5px] rounded-lg px-2.5 py-1.5 text-[13px] font-medium cursor-pointer\" style=\"border-color:var(--c);\">Transfer</button>{{/if}}\n</div>\n<style>\n.ownersel-tw--owner .ownersel-tw__role::before { content: \"Owner\"; font-weight: 700; }\n.ownersel-tw--co-owner .ownersel-tw__role::before { content: \"Co-owner\"; }\n.ownersel-tw--delegate .ownersel-tw__role::before { content: \"Delegate\"; font-style: italic; }\n</style>",
+    "react": "export function OwnershipSelector({\n  owner = \"{{owner}}\",\n  role = \"{{role}}\",\n  team = \"{{team}}\",\n  color = \"{{color}}\",\n  transferable = {{transferable}},\n}) {\n  const roleText = { owner: \"Owner\", \"co-owner\": \"Co-owner\", delegate: \"Delegate\" }[role] ?? \"Owner\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300 }}>\n      <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 34, height: 34, borderRadius: \"50%\", background: color, fontWeight: 700, flex: \"none\" }}>PN</span>\n      <span>\n        <strong style={{ display: \"block\" }}>{owner}</strong>\n        <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{team} · {roleText}</span>\n      </span>\n      {transferable && (\n        <button type=\"button\" style={{ marginLeft: \"auto\", background: \"transparent\", border: `1.5px solid ${color}`, borderRadius: 8, padding: \"6px 10px\", fontSize: 13, fontWeight: 500, cursor: \"pointer\", color: \"#241430\" }}>\n          Transfer\n        </button>\n      )}\n    </div>\n  );\n}"
+  },
+  "slug": "ownership-selector"
+}

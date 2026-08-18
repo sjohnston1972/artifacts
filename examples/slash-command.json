@@ -1,0 +1,57 @@
+{
+  "slug": "slash-command",
+  "controls_schema": [
+    {
+      "id": "commandQuery",
+      "type": "text",
+      "label": "Typed query",
+      "default": "head"
+    },
+    {
+      "id": "selectedOption",
+      "type": "select",
+      "label": "Highlighted block",
+      "default": "heading",
+      "options": [
+        "heading",
+        "image",
+        "table",
+        "divider"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showDescriptions",
+      "type": "toggle",
+      "label": "Show descriptions",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Menu corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"scd\" data-selected=\"{{selectedOption}}\" style=\"--accent:{{accent}};\">\n  <p class=\"scd__line\">Typing <span class=\"scd__slash\">/{{commandQuery}}</span></p>\n  <ul class=\"scd__menu\" role=\"listbox\" aria-label=\"Insert block\" style=\"border-radius:{{radius}}px;\">\n    <li class=\"scd__item scd__item--heading\" role=\"option\"><span class=\"scd__name\">Heading</span>{{#if showDescriptions}}<span class=\"scd__desc\">Big section title</span>{{/if}}</li>\n    <li class=\"scd__item scd__item--image\" role=\"option\"><span class=\"scd__name\">Image</span>{{#if showDescriptions}}<span class=\"scd__desc\">Upload or embed a picture</span>{{/if}}</li>\n    <li class=\"scd__item scd__item--table\" role=\"option\"><span class=\"scd__name\">Table</span>{{#if showDescriptions}}<span class=\"scd__desc\">Rows and columns of data</span>{{/if}}</li>\n    <li class=\"scd__item scd__item--divider\" role=\"option\"><span class=\"scd__name\">Divider</span>{{#if showDescriptions}}<span class=\"scd__desc\">A horizontal rule</span>{{/if}}</li>\n  </ul>\n</div>\n<style>\n.scd { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 300px; }\n.scd__line { margin: 0 0 8px; }\n.scd__slash { font-family: ui-monospace, monospace; background: #24143010; padding: 2px 6px; border-radius: 4px; }\n.scd__menu { list-style: none; margin: 0; padding: 6px; background: #fff; box-shadow: 0 10px 24px rgba(36,20,48,.16); }\n.scd__item { display: flex; align-items: baseline; gap: 8px; padding: 8px 10px; border-radius: 6px; }\n.scd__name { font-weight: 600; font-size: 14px; }\n.scd__desc { font-size: 12px; color: #241430aa; }\n[data-selected=\"heading\"] .scd__item--heading,\n[data-selected=\"image\"] .scd__item--image,\n[data-selected=\"table\"] .scd__item--table,\n[data-selected=\"divider\"] .scd__item--divider { background: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"max-w-[300px] bg-[#FAF7F2] text-[#241430] font-sans p-5 scd-tw\" data-selected=\"{{selectedOption}}\" style=\"--accent:{{accent}};\">\n  <p class=\"m-0 mb-2\">Typing <span class=\"font-mono bg-[#24143010] px-1.5 py-0.5 rounded\">/{{commandQuery}}</span></p>\n  <ul class=\"list-none m-0 p-1.5 bg-white shadow-lg\" role=\"listbox\" aria-label=\"Insert block\" style=\"border-radius:{{radius}}px;\">\n    <li class=\"scd-tw__item scd-tw__item--heading flex items-baseline gap-2 px-2.5 py-2 rounded-md\" role=\"option\"><span class=\"font-semibold text-sm\">Heading</span>{{#if showDescriptions}}<span class=\"text-xs text-[#241430]/65\">Big section title</span>{{/if}}</li>\n    <li class=\"scd-tw__item scd-tw__item--image flex items-baseline gap-2 px-2.5 py-2 rounded-md\" role=\"option\"><span class=\"font-semibold text-sm\">Image</span>{{#if showDescriptions}}<span class=\"text-xs text-[#241430]/65\">Upload or embed a picture</span>{{/if}}</li>\n    <li class=\"scd-tw__item scd-tw__item--table flex items-baseline gap-2 px-2.5 py-2 rounded-md\" role=\"option\"><span class=\"font-semibold text-sm\">Table</span>{{#if showDescriptions}}<span class=\"text-xs text-[#241430]/65\">Rows and columns of data</span>{{/if}}</li>\n    <li class=\"scd-tw__item scd-tw__item--divider flex items-baseline gap-2 px-2.5 py-2 rounded-md\" role=\"option\"><span class=\"font-semibold text-sm\">Divider</span>{{#if showDescriptions}}<span class=\"text-xs text-[#241430]/65\">A horizontal rule</span>{{/if}}</li>\n  </ul>\n</div>\n<style>\n[data-selected=\"heading\"] .scd-tw__item--heading,\n[data-selected=\"image\"] .scd-tw__item--image,\n[data-selected=\"table\"] .scd-tw__item--table,\n[data-selected=\"divider\"] .scd-tw__item--divider { background: {{accent}}; }\n</style>",
+    "react": "export function SlashCommand({\n  commandQuery = \"{{commandQuery}}\",\n  selectedOption = \"{{selectedOption}}\",\n  accent = \"{{accent}}\",\n  showDescriptions = {{showDescriptions}},\n  radius = {{radius}},\n}) {\n  const items = [\n    { key: \"heading\", name: \"Heading\", desc: \"Big section title\" },\n    { key: \"image\", name: \"Image\", desc: \"Upload or embed a picture\" },\n    { key: \"table\", name: \"Table\", desc: \"Rows and columns of data\" },\n    { key: \"divider\", name: \"Divider\", desc: \"A horizontal rule\" },\n  ];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 300 }}>\n      <p style={{ margin: \"0 0 8px\" }}>Typing <span style={{ fontFamily: \"ui-monospace, monospace\", background: \"#24143010\", padding: \"2px 6px\", borderRadius: 4 }}>/{commandQuery}</span></p>\n      <ul role=\"listbox\" aria-label=\"Insert block\" style={{ listStyle: \"none\", margin: 0, padding: 6, background: \"#fff\", boxShadow: \"0 10px 24px rgba(36,20,48,.16)\", borderRadius: radius }}>\n        {items.map((item) => (\n          <li key={item.key} role=\"option\" style={{ display: \"flex\", alignItems: \"baseline\", gap: 8, padding: \"8px 10px\", borderRadius: 6,\n            background: item.key === selectedOption ? accent : \"transparent\" }}>\n            <span style={{ fontWeight: 600, fontSize: 14 }}>{item.name}</span>\n            {showDescriptions && <span style={{ fontSize: 12, color: \"#241430aa\" }}>{item.desc}</span>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

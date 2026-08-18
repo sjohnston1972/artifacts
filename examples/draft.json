@@ -1,0 +1,52 @@
+{
+  "slug": "draft",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Untitled: Q3 roadmap thoughts"
+    },
+    {
+      "id": "excerpt",
+      "type": "text",
+      "label": "Excerpt",
+      "default": "Some early notes on what we might prioritise next quarter, still rough."
+    },
+    {
+      "id": "lastEdited",
+      "type": "text",
+      "label": "Last edited",
+      "default": "Edited 3 hours ago"
+    },
+    {
+      "id": "visibility",
+      "type": "select",
+      "label": "Visibility",
+      "default": "private",
+      "options": [
+        "private",
+        "unlisted"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"draft\" style=\"--accent:{{accent}};\">\n  <div class=\"draft__top\">\n    <span class=\"draft__badge\">Draft</span>\n    <span class=\"draft__visibility draft__visibility--{{visibility}}\">{{visibility}}</span>\n  </div>\n  <h3 class=\"draft__title\">{{title}}</h3>\n  <p class=\"draft__excerpt\">{{excerpt}}</p>\n  <p class=\"draft__meta\">{{lastEdited}}</p>\n</article>\n<style>\n.draft { font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px dashed #24143040; border-radius: 12px; padding: 16px 18px; max-width: 340px; }\n.draft__top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }\n.draft__badge { font: 700 11px system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: #241430; background: var(--accent); padding: 3px 8px; border-radius: 999px; }\n.draft__visibility { font-size: 12px; color: #24143099; text-transform: capitalize; }\n.draft__visibility--unlisted::before { content: \"\\1F517 \"; }\n.draft__visibility--private::before { content: \"\\1F512 \"; }\n.draft__title { margin: 0 0 6px; font-size: 17px; font-weight: 700; }\n.draft__excerpt { margin: 0 0 10px; color: #241430cc; }\n.draft__meta { margin: 0; font-size: 12px; color: #24143080; }\n</style>",
+    "tailwind": "<article style=\"--accent:{{accent}};\" class=\"draft-tw font-sans text-[15px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-dashed border-[#24143040] rounded-xl px-[18px] py-4 max-w-[340px]\">\n  <div class=\"flex items-center gap-2 mb-2.5\">\n    <span class=\"font-bold text-[11px] uppercase tracking-wide text-[#241430] px-2 py-0.5 rounded-full\" style=\"background:{{accent}}\">Draft</span>\n    <span class=\"draft-tw__visibility draft-tw__visibility--{{visibility}} text-xs text-[#241430]/60 capitalize\">{{visibility}}</span>\n  </div>\n  <h3 class=\"m-0 mb-1.5 text-[17px] font-bold\">{{title}}</h3>\n  <p class=\"m-0 mb-2.5 text-[#241430cc]\">{{excerpt}}</p>\n  <p class=\"m-0 text-xs text-[#24143080]\">{{lastEdited}}</p>\n</article>\n<style>\n.draft-tw__visibility--unlisted::before { content: \"\\1F517 \"; }\n.draft-tw__visibility--private::before { content: \"\\1F512 \"; }\n</style>",
+    "react": "export function Draft({\n  title = \"{{title}}\",\n  excerpt = \"{{excerpt}}\",\n  lastEdited = \"{{lastEdited}}\",\n  visibility = \"{{visibility}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icon = visibility === \"unlisted\" ? \"\\uD83D\\uDD17\" : \"\\uD83D\\uDD12\";\n  return (\n    <article style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", border: \"1.5px dashed #24143040\", borderRadius: 12, padding: \"16px 18px\", maxWidth: 340 }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 10 }}>\n        <span style={{ fontWeight: 700, fontSize: 11, letterSpacing: \".04em\", textTransform: \"uppercase\",\n          color: \"#241430\", background: accent, padding: \"3px 8px\", borderRadius: 999 }}>Draft</span>\n        <span style={{ fontSize: 12, color: \"#24143099\", textTransform: \"capitalize\" }}>{icon} {visibility}</span>\n      </div>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 17, fontWeight: 700 }}>{title}</h3>\n      <p style={{ margin: \"0 0 10px\", color: \"#241430cc\" }}>{excerpt}</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#24143080\" }}>{lastEdited}</p>\n    </article>\n  );\n}"
+  }
+}

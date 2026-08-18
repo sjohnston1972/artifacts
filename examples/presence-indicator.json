@@ -1,0 +1,43 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Person",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "online",
+      "options": [
+        "online",
+        "away",
+        "busy",
+        "offline"
+      ]
+    },
+    {
+      "id": "showLabel",
+      "type": "toggle",
+      "label": "Show text label",
+      "default": true
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Dot size (px)",
+      "default": 10,
+      "min": 6,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"presence presence--{{status}}\">\n  <svg class=\"presence__glyph\" width=\"{{size}}\" height=\"{{size}}\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"{{name}} is\">\n    <circle cx=\"5\" cy=\"5\" r=\"4.5\"/>\n    <path class=\"presence__mark\" d=\"M2.5 5l1.7 1.7L7.5 3\"/>\n  </svg>\n  {{#if showLabel}}<span class=\"presence__label\"></span>{{/if}}\n</span>\n<style>\n.presence { display: inline-flex; align-items: center; gap: 6px; font: 13px/1.3 system-ui, sans-serif; color: #241430; }\n.presence__glyph circle { stroke: #FAF7F2; stroke-width: 1; }\n.presence__mark { fill: none; stroke: #FAF7F2; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; display: none; }\n.presence--online circle { fill: #2f8f4e; }\n.presence--away circle { fill: #E8A020; }\n.presence--busy circle { fill: #b3261e; }\n.presence--busy .presence__mark { display: block; d: path(\"M2.5 5h5\"); }\n.presence--offline circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n.presence--online .presence__mark { display: block; }\n.presence--away .presence__mark, .presence--offline .presence__mark { display: none; }\n.presence--online .presence__label::before { content: \"Online\"; }\n.presence--away .presence__label::before { content: \"Away\"; }\n.presence--busy .presence__label::before { content: \"Busy\"; }\n.presence--offline .presence__label::before { content: \"Offline\"; }\n</style>",
+    "tailwind": "<span class=\"presence-tw presence-tw--{{status}} inline-flex items-center gap-1.5 font-sans text-[13px] text-[#241430]\">\n  <svg class=\"presence-tw__glyph\" width=\"{{size}}\" height=\"{{size}}\" viewBox=\"0 0 10 10\" role=\"img\" aria-label=\"{{name}} is\">\n    <circle cx=\"5\" cy=\"5\" r=\"4.5\"/>\n    <path class=\"presence-tw__mark\" d=\"M2.5 5l1.7 1.7L7.5 3\"/>\n  </svg>\n  {{#if showLabel}}<span class=\"presence-tw__label\"></span>{{/if}}\n</span>\n<style>\n.presence-tw__glyph circle { stroke: #FAF7F2; stroke-width: 1; }\n.presence-tw__mark { fill: none; stroke: #FAF7F2; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; display: none; }\n.presence-tw--online .presence-tw__glyph circle { fill: #2f8f4e; }\n.presence-tw--away .presence-tw__glyph circle { fill: #E8A020; }\n.presence-tw--busy .presence-tw__glyph circle { fill: #b3261e; }\n.presence-tw--offline .presence-tw__glyph circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n.presence-tw--online .presence-tw__mark { display: block; }\n.presence-tw--online .presence-tw__label::before { content: \"Online\"; }\n.presence-tw--away .presence-tw__label::before { content: \"Away\"; }\n.presence-tw--busy .presence-tw__label::before { content: \"Busy\"; }\n.presence-tw--offline .presence-tw__label::before { content: \"Offline\"; }\n</style>",
+    "react": "export function PresenceIndicator({\n  name = \"{{name}}\",\n  status = \"{{status}}\",\n  showLabel = {{showLabel}},\n  size = {{size}},\n}) {\n  const fill = { online: \"#2f8f4e\", away: \"#E8A020\", busy: \"#b3261e\", offline: \"none\" }[status] ?? \"#2f8f4e\";\n  const label = { online: \"Online\", away: \"Away\", busy: \"Busy\", offline: \"Offline\" }[status] ?? \"Online\";\n  return (\n    <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, font: \"13px/1.3 system-ui, sans-serif\", color: \"#241430\" }}>\n      <svg width={size} height={size} viewBox=\"0 0 10 10\" role=\"img\" aria-label={`${name} is ${label.toLowerCase()}`}>\n        <circle cx=\"5\" cy=\"5\" r=\"4.5\" fill={fill} stroke={status === \"offline\" ? \"#24143055\" : \"#FAF7F2\"} strokeWidth={status === \"offline\" ? 1.2 : 1} />\n        {status === \"online\" && <path d=\"M2.5 5l1.7 1.7L7.5 3\" fill=\"none\" stroke=\"#FAF7F2\" strokeWidth=\"1.4\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n        {status === \"busy\" && <path d=\"M2.5 5h5\" fill=\"none\" stroke=\"#FAF7F2\" strokeWidth=\"1.4\" strokeLinecap=\"round\" />}\n      </svg>\n      {showLabel && <span>{label}</span>}\n    </span>\n  );\n}"
+  },
+  "slug": "presence-indicator"
+}

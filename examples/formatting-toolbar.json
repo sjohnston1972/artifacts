@@ -1,0 +1,55 @@
+{
+  "slug": "formatting-toolbar",
+  "controls_schema": [
+    {
+      "id": "boldActive",
+      "type": "toggle",
+      "label": "Bold active",
+      "default": true
+    },
+    {
+      "id": "italicActive",
+      "type": "toggle",
+      "label": "Italic active",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div role=\"toolbar\" aria-label=\"Text formatting\" class=\"toolbar toolbar--{{size}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <button type=\"button\" class=\"toolbar__btn\" aria-pressed=\"{{boldActive}}\" aria-label=\"Bold\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M6 4h5.2a3.3 3.3 0 010 6.6H6zM6 10.6h5.8a3.4 3.4 0 010 6.8H6z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/></svg>\n  </button>\n  <button type=\"button\" class=\"toolbar__btn\" aria-pressed=\"{{italicActive}}\" aria-label=\"Italic\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8 4h6M6 16h6M11.5 4L8.5 16\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>\n  </button>\n  <span class=\"toolbar__divider\" aria-hidden=\"true\"></span>\n  <button type=\"button\" class=\"toolbar__btn\" aria-label=\"Bulleted list\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><circle cx=\"3.5\" cy=\"5\" r=\"1.2\" fill=\"currentColor\"/><circle cx=\"3.5\" cy=\"10\" r=\"1.2\" fill=\"currentColor\"/><circle cx=\"3.5\" cy=\"15\" r=\"1.2\" fill=\"currentColor\"/><path d=\"M7 5h10M7 10h10M7 15h10\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n  </button>\n  <button type=\"button\" class=\"toolbar__btn\" aria-label=\"Insert link\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8.5 11.5l3-3M7 13l-1.5 1.5a2.6 2.6 0 01-3.7-3.7L3.3 9.3M13 7l1.5-1.5a2.6 2.6 0 013.7 3.7L16.7 10.7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>\n  </button>\n</div>\n<style>\n.toolbar { display: inline-flex; align-items: center; gap: 2px; padding: 6px; background: #FAF7F2; border: 1.5px solid #24143022; }\n.toolbar__btn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; background: none; color: #241430; border-radius: 6px; cursor: pointer; }\n.toolbar--compact .toolbar__btn { width: 24px; height: 24px; }\n.toolbar__btn:hover { background: #24143012; }\n.toolbar__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.toolbar__btn[aria-pressed=\"true\"] { background: var(--accent); color: #241430; }\n.toolbar__divider { width: 1px; height: 20px; background: #24143022; margin: 0 4px; }\n</style>",
+    "tailwind": "<div role=\"toolbar\" aria-label=\"Text formatting\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" class=\"toolbar-tw toolbar-tw--{{size}} inline-flex items-center gap-0.5 p-1.5 bg-[#FAF7F2] border-[1.5px] border-[#24143022]\">\n  <button type=\"button\" aria-pressed=\"{{boldActive}}\" aria-label=\"Bold\" class=\"toolbar-tw__btn inline-flex items-center justify-center w-[30px] h-[30px] border-0 bg-transparent text-[#241430] rounded-md\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M6 4h5.2a3.3 3.3 0 010 6.6H6zM6 10.6h5.8a3.4 3.4 0 010 6.8H6z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/></svg>\n  </button>\n  <button type=\"button\" aria-pressed=\"{{italicActive}}\" aria-label=\"Italic\" class=\"toolbar-tw__btn inline-flex items-center justify-center w-[30px] h-[30px] border-0 bg-transparent text-[#241430] rounded-md\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8 4h6M6 16h6M11.5 4L8.5 16\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>\n  </button>\n  <span aria-hidden=\"true\" class=\"w-px h-5 bg-[#24143022] mx-1\"></span>\n  <button type=\"button\" aria-label=\"Bulleted list\" class=\"toolbar-tw__btn inline-flex items-center justify-center w-[30px] h-[30px] border-0 bg-transparent text-[#241430] rounded-md\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><circle cx=\"3.5\" cy=\"5\" r=\"1.2\" fill=\"currentColor\"/><circle cx=\"3.5\" cy=\"10\" r=\"1.2\" fill=\"currentColor\"/><circle cx=\"3.5\" cy=\"15\" r=\"1.2\" fill=\"currentColor\"/><path d=\"M7 5h10M7 10h10M7 15h10\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n  </button>\n  <button type=\"button\" aria-label=\"Insert link\" class=\"toolbar-tw__btn inline-flex items-center justify-center w-[30px] h-[30px] border-0 bg-transparent text-[#241430] rounded-md\">\n    <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8.5 11.5l3-3M7 13l-1.5 1.5a2.6 2.6 0 01-3.7-3.7L3.3 9.3M13 7l1.5-1.5a2.6 2.6 0 013.7 3.7L16.7 10.7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>\n  </button>\n</div>\n<style>\n.toolbar-tw--compact .toolbar-tw__btn { width: 24px; height: 24px; }\n.toolbar-tw__btn:hover { background: #24143012; }\n.toolbar-tw__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.toolbar-tw__btn[aria-pressed=\"true\"] { background: var(--accent); color: #241430; }\n</style>",
+    "react": "export function FormattingToolbar({\n  boldActive = {{boldActive}},\n  italicActive = {{italicActive}},\n  accent = \"{{accent}}\",\n  size = \"{{size}}\",\n  radius = {{radius}},\n}) {\n  const compact = size === \"compact\";\n  const btnStyle = (pressed) => ({\n    display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n    width: compact ? 24 : 30, height: compact ? 24 : 30, border: \"none\",\n    background: pressed ? accent : \"transparent\", color: \"#241430\", borderRadius: 6, cursor: \"pointer\",\n  });\n  return (\n    <div role=\"toolbar\" aria-label=\"Text formatting\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 2,\n      padding: 6, background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderRadius: radius }}>\n      <button type=\"button\" aria-pressed={boldActive} aria-label=\"Bold\" style={btnStyle(boldActive)}>\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M6 4h5.2a3.3 3.3 0 010 6.6H6zM6 10.6h5.8a3.4 3.4 0 010 6.8H6z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinejoin=\"round\" /></svg>\n      </button>\n      <button type=\"button\" aria-pressed={italicActive} aria-label=\"Italic\" style={btnStyle(italicActive)}>\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8 4h6M6 16h6M11.5 4L8.5 16\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" /></svg>\n      </button>\n      <span aria-hidden=\"true\" style={{ width: 1, height: 20, background: \"#24143022\", margin: \"0 4px\" }} />\n      <button type=\"button\" aria-label=\"Bulleted list\" style={btnStyle(false)}>\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><circle cx=\"3.5\" cy=\"5\" r=\"1.2\" fill=\"currentColor\" /><circle cx=\"3.5\" cy=\"10\" r=\"1.2\" fill=\"currentColor\" /><circle cx=\"3.5\" cy=\"15\" r=\"1.2\" fill=\"currentColor\" /><path d=\"M7 5h10M7 10h10M7 15h10\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n      </button>\n      <button type=\"button\" aria-label=\"Insert link\" style={btnStyle(false)}>\n        <svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M8.5 11.5l3-3M7 13l-1.5 1.5a2.6 2.6 0 01-3.7-3.7L3.3 9.3M13 7l1.5-1.5a2.6 2.6 0 013.7 3.7L16.7 10.7\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" /></svg>\n      </button>\n    </div>\n  );\n}"
+  }
+}

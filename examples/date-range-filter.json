@@ -1,0 +1,54 @@
+{
+  "controls_schema": [
+    {
+      "id": "startDate",
+      "type": "text",
+      "label": "Start date",
+      "default": "2026-07-19"
+    },
+    {
+      "id": "endDate",
+      "type": "text",
+      "label": "End date",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "preset",
+      "type": "select",
+      "label": "Preset",
+      "default": "30d",
+      "options": [
+        "today",
+        "7d",
+        "30d",
+        "custom"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "compact",
+      "type": "toggle",
+      "label": "Compact layout",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"drfilter drfilter--{{preset}} {{#if compact}}drfilter--compact{{/if}}\" style=\"--c:{{color}};\">\n  <span class=\"drfilter__preset\"></span>\n  <label class=\"drfilter__field\">\n    <span class=\"drfilter__label\">From</span>\n    <input type=\"date\" class=\"drfilter__input\" value=\"{{startDate}}\">\n  </label>\n  <label class=\"drfilter__field\">\n    <span class=\"drfilter__label\">To</span>\n    <input type=\"date\" class=\"drfilter__input\" value=\"{{endDate}}\">\n  </label>\n</form>\n<style>\n.drfilter { display: flex; align-items: end; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; flex-wrap: wrap; }\n.drfilter__preset { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--c); order: -1; align-self: center; }\n.drfilter--today .drfilter__preset::before { content: \"Today\"; }\n.drfilter--7d .drfilter__preset::before { content: \"Last 7 days\"; }\n.drfilter--30d .drfilter__preset::before { content: \"Last 30 days\"; }\n.drfilter--custom .drfilter__preset::before { content: \"Custom range\"; }\n.drfilter--custom .drfilter__field { display: flex; }\n.drfilter__field { display: flex; flex-direction: column; gap: 3px; font-size: 11px; }\n.drfilter--today .drfilter__field, .drfilter--7d .drfilter__field, .drfilter--30d .drfilter__field { opacity: .5; }\n.drfilter__input { border: 1.5px solid var(--c); border-radius: 6px; padding: 5px 6px; font: inherit; background: #FAF7F2; color: #241430; }\n.drfilter__input:focus-visible { outline: 2px solid var(--c); }\n.drfilter--compact { gap: 6px; }\n.drfilter--compact .drfilter__field { display: none; }\n</style>",
+    "tailwind": "<form class=\"drfilter-tw drfilter-tw--{{preset}} {{#if compact}}drfilter-tw--compact{{/if}} flex items-end gap-2.5 flex-wrap font-sans text-[13px] text-[#241430]\" style=\"--c:{{color}};\">\n  <span class=\"drfilter-tw__preset order-first self-center text-[11px] font-bold uppercase px-2 py-0.5 rounded-full\" style=\"background:var(--c);\"></span>\n  <label class=\"drfilter-tw__field flex flex-col gap-0.5 text-[11px]\">\n    <span>From</span>\n    <input type=\"date\" class=\"border-[1.5px] rounded-md px-1.5 py-1 bg-[#FAF7F2] text-[#241430]\" style=\"border-color:var(--c);\" value=\"{{startDate}}\">\n  </label>\n  <label class=\"drfilter-tw__field flex flex-col gap-0.5 text-[11px]\">\n    <span>To</span>\n    <input type=\"date\" class=\"border-[1.5px] rounded-md px-1.5 py-1 bg-[#FAF7F2] text-[#241430]\" style=\"border-color:var(--c);\" value=\"{{endDate}}\">\n  </label>\n</form>\n<style>\n.drfilter-tw--today .drfilter-tw__preset::before { content: \"Today\"; }\n.drfilter-tw--7d .drfilter-tw__preset::before { content: \"Last 7 days\"; }\n.drfilter-tw--30d .drfilter-tw__preset::before { content: \"Last 30 days\"; }\n.drfilter-tw--custom .drfilter-tw__preset::before { content: \"Custom range\"; }\n.drfilter-tw--today .drfilter-tw__field, .drfilter-tw--7d .drfilter-tw__field, .drfilter-tw--30d .drfilter-tw__field { opacity: .5; }\n.drfilter-tw--compact .drfilter-tw__field { display: none; }\n</style>",
+    "react": "export function DateRangeFilter({\n  startDate = \"{{startDate}}\",\n  endDate = \"{{endDate}}\",\n  preset = \"{{preset}}\",\n  color = \"{{color}}\",\n  compact = {{compact}},\n}) {\n  const presetLabel = { today: \"Today\", \"7d\": \"Last 7 days\", \"30d\": \"Last 30 days\", custom: \"Custom range\" }[preset] ?? \"Today\";\n  const showFields = !compact;\n  const fieldOpacity = preset === \"custom\" ? 1 : 0.5;\n  return (\n    <form style={{ display: \"flex\", alignItems: \"flex-end\", gap: compact ? 6 : 10, flexWrap: \"wrap\", font: \"13px system-ui, sans-serif\", color: \"#241430\" }}>\n      <span style={{ order: -1, alignSelf: \"center\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", padding: \"3px 8px\", borderRadius: 999, background: color }}>{presetLabel}</span>\n      {showFields && (\n        <>\n          <label style={{ display: \"flex\", flexDirection: \"column\", gap: 3, fontSize: 11, opacity: fieldOpacity }}>\n            <span>From</span>\n            <input type=\"date\" defaultValue={startDate} style={{ border: `1.5px solid ${color}`, borderRadius: 6, padding: \"5px 6px\", background: \"#FAF7F2\", color: \"#241430\" }} />\n          </label>\n          <label style={{ display: \"flex\", flexDirection: \"column\", gap: 3, fontSize: 11, opacity: fieldOpacity }}>\n            <span>To</span>\n            <input type=\"date\" defaultValue={endDate} style={{ border: `1.5px solid ${color}`, borderRadius: 6, padding: \"5px 6px\", background: \"#FAF7F2\", color: \"#241430\" }} />\n          </label>\n        </>\n      )}\n    </form>\n  );\n}"
+  },
+  "slug": "date-range-filter"
+}

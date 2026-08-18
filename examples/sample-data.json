@@ -1,0 +1,53 @@
+{
+  "slug": "sample-data",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Try it with sample data"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Description",
+      "default": "Explore the dashboard instantly — no setup required."
+    },
+    {
+      "id": "datasetName",
+      "type": "text",
+      "label": "Dataset badge",
+      "default": "Demo: Q3 Sales"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Preview style",
+      "default": "table",
+      "options": [
+        "table",
+        "chart",
+        "cards"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sd sd--{{style}}\" style=\"--accent:{{accent}};\">\n  <div class=\"sd__head\">\n    <div>\n      <h3 class=\"sd__title\">{{title}}</h3>\n      <p class=\"sd__desc\">{{description}}</p>\n    </div>\n    <span class=\"sd__badge\">{{datasetName}}</span>\n  </div>\n  <table class=\"sd__table\">\n    <thead><tr><th>Region</th><th>Revenue</th><th>Growth</th></tr></thead>\n    <tbody>\n      <tr><td>North</td><td>£48,200</td><td>+12%</td></tr>\n      <tr><td>South</td><td>£31,900</td><td>+4%</td></tr>\n      <tr><td>East</td><td>£55,600</td><td>+18%</td></tr>\n    </tbody>\n  </table>\n  <div class=\"sd__chart\">\n    <span class=\"sd__bar\" style=\"height:52%;\"></span>\n    <span class=\"sd__bar\" style=\"height:78%;\"></span>\n    <span class=\"sd__bar\" style=\"height:36%;\"></span>\n    <span class=\"sd__bar\" style=\"height:90%;\"></span>\n  </div>\n  <div class=\"sd__cards\">\n    <div class=\"sd__card\"><p class=\"sd__card-label\">Revenue</p><p class=\"sd__card-value\">£135.7k</p></div>\n    <div class=\"sd__card\"><p class=\"sd__card-label\">Orders</p><p class=\"sd__card-value\">1,204</p></div>\n    <div class=\"sd__card\"><p class=\"sd__card-label\">Growth</p><p class=\"sd__card-value\">+11%</p></div>\n  </div>\n  <button type=\"button\" class=\"sd__action\">Load sample data →</button>\n</div>\n<style>\n.sd { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 380px; border-radius: 14px; border: 1px solid #24143018; }\n.sd__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 14px; }\n.sd__title { margin: 0 0 4px; font-size: 15px; font-weight: 700; }\n.sd__desc { margin: 0; font-size: 12px; color: #241430b3; }\n.sd__badge { flex-shrink: 0; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--accent); white-space: nowrap; }\n.sd__table, .sd__chart, .sd__cards { display: none; }\n.sd--table .sd__table { display: table; width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }\n.sd__table th { text-align: left; font-size: 10.5px; text-transform: uppercase; color: #24143090; padding: 4px 6px; border-bottom: 1.5px solid #24143018; }\n.sd__table td { padding: 6px; border-bottom: 1px solid #24143012; }\n.sd--chart .sd__chart { display: flex; align-items: flex-end; gap: 8px; height: 80px; margin-bottom: 14px; }\n.sd__bar { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; }\n.sd--cards .sd__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }\n.sd__card { background: #fff; border-radius: 10px; padding: 10px; }\n.sd__card-label { margin: 0 0 2px; font-size: 10px; color: #24143090; }\n.sd__card-value { margin: 0; font-size: 15px; font-weight: 700; }\n.sd__action { width: 100%; background: var(--accent); border: 1.5px solid var(--accent); border-radius: 8px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"sd-tw sd-tw--{{style}} max-w-[380px] p-5 rounded-2xl border border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\">\n  <div class=\"flex justify-between items-start gap-2.5 mb-3.5\">\n    <div>\n      <h3 class=\"m-0 mb-1 text-[15px] font-bold\">{{title}}</h3>\n      <p class=\"m-0 text-xs text-[#241430]/70\">{{description}}</p>\n    </div>\n    <span class=\"shrink-0 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full whitespace-nowrap\" style=\"background:{{accent}}\">{{datasetName}}</span>\n  </div>\n  <table class=\"sd-tw__table hidden w-full border-collapse text-xs mb-3.5\">\n    <thead><tr><th class=\"text-left text-[10.5px] uppercase text-[#24143090] px-1.5 py-1 border-b-[1.5px] border-[#24143018]\">Region</th><th class=\"text-left text-[10.5px] uppercase text-[#24143090] px-1.5 py-1 border-b-[1.5px] border-[#24143018]\">Revenue</th><th class=\"text-left text-[10.5px] uppercase text-[#24143090] px-1.5 py-1 border-b-[1.5px] border-[#24143018]\">Growth</th></tr></thead>\n    <tbody>\n      <tr><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">North</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">£48,200</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">+12%</td></tr>\n      <tr><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">South</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">£31,900</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">+4%</td></tr>\n      <tr><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">East</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">£55,600</td><td class=\"px-1.5 py-1.5 border-b border-[#24143012]\">+18%</td></tr>\n    </tbody>\n  </table>\n  <div class=\"sd-tw__chart hidden items-end gap-2 h-20 mb-3.5\">\n    <span class=\"flex-1 rounded-t\" style=\"background:{{accent}};height:52%\"></span>\n    <span class=\"flex-1 rounded-t\" style=\"background:{{accent}};height:78%\"></span>\n    <span class=\"flex-1 rounded-t\" style=\"background:{{accent}};height:36%\"></span>\n    <span class=\"flex-1 rounded-t\" style=\"background:{{accent}};height:90%\"></span>\n  </div>\n  <div class=\"sd-tw__cards hidden grid-cols-3 gap-2 mb-3.5\">\n    <div class=\"bg-white rounded-lg p-2.5\"><p class=\"m-0 mb-0.5 text-[10px] text-[#24143090]\">Revenue</p><p class=\"m-0 text-[15px] font-bold\">£135.7k</p></div>\n    <div class=\"bg-white rounded-lg p-2.5\"><p class=\"m-0 mb-0.5 text-[10px] text-[#24143090]\">Orders</p><p class=\"m-0 text-[15px] font-bold\">1,204</p></div>\n    <div class=\"bg-white rounded-lg p-2.5\"><p class=\"m-0 mb-0.5 text-[10px] text-[#24143090]\">Growth</p><p class=\"m-0 text-[15px] font-bold\">+11%</p></div>\n  </div>\n  <button type=\"button\" class=\"w-full rounded-lg py-2.5 text-sm font-semibold\" style=\"background:{{accent}};border:1.5px solid {{accent}}\">Load sample data →</button>\n</div>\n<style>\n.sd-tw--table .sd-tw__table { display: table; }\n.sd-tw--chart .sd-tw__chart { display: flex; }\n.sd-tw--cards .sd-tw__cards { display: grid; }\n</style>",
+    "react": "export function SampleData({\n  title = \"{{title}}\",\n  description = \"{{description}}\",\n  datasetName = \"{{datasetName}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n}) {\n  const rows = [\n    [\"North\", \"£48,200\", \"+12%\"],\n    [\"South\", \"£31,900\", \"+4%\"],\n    [\"East\", \"£55,600\", \"+18%\"],\n  ];\n  const bars = [52, 78, 36, 90];\n  const cards = [\n    [\"Revenue\", \"£135.7k\"],\n    [\"Orders\", \"1,204\"],\n    [\"Growth\", \"+11%\"],\n  ];\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 380, borderRadius: 14, border: \"1px solid #24143018\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"flex-start\", gap: 10, marginBottom: 14 }}>\n        <div>\n          <h3 style={{ margin: \"0 0 4px\", fontSize: 15, fontWeight: 700 }}>{title}</h3>\n          <p style={{ margin: 0, fontSize: 12, color: \"#241430b3\" }}>{description}</p>\n        </div>\n        <span style={{ flexShrink: 0, fontSize: 10.5, fontWeight: 700, padding: \"3px 9px\", borderRadius: 999, background: accent, whiteSpace: \"nowrap\" }}>{datasetName}</span>\n      </div>\n      {style === \"table\" && (\n        <table style={{ width: \"100%\", borderCollapse: \"collapse\", fontSize: 12, marginBottom: 14 }}>\n          <thead>\n            <tr>\n              {[\"Region\", \"Revenue\", \"Growth\"].map((h) => (\n                <th key={h} style={{ textAlign: \"left\", fontSize: 10.5, textTransform: \"uppercase\", color: \"#24143090\", padding: \"4px 6px\", borderBottom: \"1.5px solid #24143018\" }}>{h}</th>\n              ))}\n            </tr>\n          </thead>\n          <tbody>\n            {rows.map((r) => (\n              <tr key={r[0]}>\n                {r.map((cell, i) => (\n                  <td key={i} style={{ padding: 6, borderBottom: \"1px solid #24143012\" }}>{cell}</td>\n                ))}\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      )}\n      {style === \"chart\" && (\n        <div style={{ display: \"flex\", alignItems: \"flex-end\", gap: 8, height: 80, marginBottom: 14 }}>\n          {bars.map((h, i) => (\n            <span key={i} style={{ flex: 1, background: accent, borderRadius: \"4px 4px 0 0\", height: h + \"%\" }} />\n          ))}\n        </div>\n      )}\n      {style === \"cards\" && (\n        <div style={{ display: \"grid\", gridTemplateColumns: \"repeat(3, 1fr)\", gap: 8, marginBottom: 14 }}>\n          {cards.map(([label, value]) => (\n            <div key={label} style={{ background: \"#fff\", borderRadius: 10, padding: 10 }}>\n              <p style={{ margin: \"0 0 2px\", fontSize: 10, color: \"#24143090\" }}>{label}</p>\n              <p style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>{value}</p>\n            </div>\n          ))}\n        </div>\n      )}\n      <button type=\"button\" style={{ width: \"100%\", background: accent, border: \"1.5px solid \" + accent, borderRadius: 8, padding: 9, fontSize: 13, fontWeight: 600, cursor: \"pointer\" }}>Load sample data →</button>\n    </div>\n  );\n}"
+  }
+}

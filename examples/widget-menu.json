@@ -1,0 +1,45 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Widget name",
+      "default": "Revenue"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Trigger size (px)",
+      "default": 26,
+      "min": 20,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"wmenu\" style=\"--c:{{color}};\" {{#if open}}open{{/if}}>\n  <summary class=\"wmenu__trigger\" style=\"width:{{size}}px;height:{{size}}px;\" aria-label=\"{{label}} widget options\">⋯</summary>\n  <ul class=\"wmenu__list\">\n    <li><button type=\"button\">Refresh</button></li>\n    <li><button type=\"button\">Export</button></li>\n    <li><button type=\"button\" class=\"wmenu__danger\">Remove</button></li>\n  </ul>\n</details>\n<style>\n.wmenu { position: relative; font: 13px system-ui, sans-serif; color: #241430; }\n.wmenu__trigger { display: inline-flex; align-items: center; justify-content: center; border: 1px solid #24143022; border-radius: 6px; background: #FAF7F2; cursor: pointer; list-style: none; color: var(--c); }\n.wmenu__trigger::-webkit-details-marker { display: none; }\n.wmenu__trigger:focus-visible { outline: 2px solid var(--c); }\n.wmenu__list { position: absolute; z-index: 1; margin: 4px 0 0; padding: 6px; list-style: none; border: 1px solid #24143022; border-radius: 8px; background: #FAF7F2; min-width: 120px; box-shadow: 0 8px 20px rgba(36,20,48,.14); }\n.wmenu__list button { width: 100%; text-align: left; background: none; border: none; padding: 6px 8px; border-radius: 6px; font: inherit; cursor: pointer; color: #241430; }\n.wmenu__list button:hover, .wmenu__list button:focus-visible { background: #24143012; outline: none; }\n.wmenu__danger { color: #b3261e; }\n</style>",
+    "tailwind": "<details class=\"wmenu-tw relative font-sans text-[13px] text-[#241430]\" style=\"--c:{{color}};\" {{#if open}}open{{/if}}>\n  <summary class=\"inline-flex items-center justify-center border border-[#24143022] rounded-md bg-[#FAF7F2] cursor-pointer list-none\" style=\"width:{{size}}px;height:{{size}}px;color:var(--c);\" aria-label=\"{{label}} widget options\">⋯</summary>\n  <ul class=\"absolute z-10 mt-1 p-1.5 list-none border border-[#24143022] rounded-lg bg-[#FAF7F2] min-w-[120px] shadow-lg\">\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5\">Refresh</button></li>\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5\">Export</button></li>\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md text-red-700 hover:bg-black/5\">Remove</button></li>\n  </ul>\n</details>",
+    "react": "export function WidgetMenu({\n  label = \"{{label}}\",\n  open = {{open}},\n  size = {{size}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <details open={open} style={{ position: \"relative\", font: \"13px system-ui, sans-serif\", color: \"#241430\" }}>\n      <summary aria-label={label + \" widget options\"} style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: size, height: size, border: \"1px solid #24143022\", borderRadius: 6, background: \"#FAF7F2\", cursor: \"pointer\", listStyle: \"none\", color }}>⋯</summary>\n      <ul style={{ position: \"absolute\", zIndex: 1, margin: \"4px 0 0\", padding: 6, listStyle: \"none\", border: \"1px solid #24143022\", borderRadius: 8, background: \"#FAF7F2\", minWidth: 120, boxShadow: \"0 8px 20px rgba(36,20,48,.14)\" }}>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Refresh</button></li>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Export</button></li>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#b3261e\" }}>Remove</button></li>\n      </ul>\n    </details>\n  );\n}"
+  },
+  "slug": "widget-menu"
+}

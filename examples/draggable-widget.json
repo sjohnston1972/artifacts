@@ -1,0 +1,47 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Widget title",
+      "default": "Pipeline"
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "idle",
+      "options": [
+        "idle",
+        "dragging",
+        "drop-target"
+      ]
+    },
+    {
+      "id": "showHandle",
+      "type": "toggle",
+      "label": "Show drag handle",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"dragwidget dragwidget--{{state}}\" style=\"--c:{{color}};\" aria-label=\"{{title}} widget, draggable\">\n  {{#if showHandle}}<span class=\"dragwidget__handle\" aria-hidden=\"true\">⠿</span>{{/if}}\n  <h3 class=\"dragwidget__title\">{{title}}</h3>\n  <span class=\"dragwidget__state\"></span>\n</section>\n<style>\n.dragwidget { display: flex; align-items: center; gap: 8px; border: 1.5px solid #24143018; border-radius: 10px; padding: 12px; background: #FAF7F2; font: 13px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.dragwidget__handle { cursor: grab; color: #24143066; font-size: 16px; }\n.dragwidget__title { margin: 0; font-size: 14px; flex: 1; }\n.dragwidget__state { font-size: 11px; opacity: .6; }\n.dragwidget--dragging { border-style: dashed; border-color: var(--c); box-shadow: 0 10px 20px rgba(36,20,48,.18); opacity: .85; transform: rotate(-1deg); }\n.dragwidget--drop-target { border-color: var(--c); background: color-mix(in srgb, var(--c) 20%, #FAF7F2); }\n.dragwidget--idle .dragwidget__state::before { content: \"Idle\"; }\n.dragwidget--dragging .dragwidget__state::before { content: \"Dragging\"; }\n.dragwidget--drop-target .dragwidget__state::before { content: \"Drop target\"; }\n</style>",
+    "tailwind": "<section class=\"dragwidget-tw dragwidget-tw--{{state}} flex items-center gap-2 border-[1.5px] border-[#24143018] rounded-[10px] p-3 bg-[#FAF7F2] font-sans text-[13px] text-[#241430] max-w-xs\" style=\"--c:{{color}};\" aria-label=\"{{title}} widget, draggable\">\n  {{#if showHandle}}<span aria-hidden=\"true\" class=\"cursor-grab text-[#24143066] text-base\">⠿</span>{{/if}}\n  <h3 class=\"m-0 text-sm flex-1\">{{title}}</h3>\n  <span class=\"dragwidget-tw__state text-[11px] opacity-60\"></span>\n</section>\n<style>\n.dragwidget-tw--dragging { border-style: dashed; border-color: var(--c); box-shadow: 0 10px 20px rgba(36,20,48,.18); opacity: .85; transform: rotate(-1deg); }\n.dragwidget-tw--drop-target { border-color: var(--c); background: color-mix(in srgb, var(--c) 20%, #FAF7F2); }\n.dragwidget-tw--idle .dragwidget-tw__state::before { content: \"Idle\"; }\n.dragwidget-tw--dragging .dragwidget-tw__state::before { content: \"Dragging\"; }\n.dragwidget-tw--drop-target .dragwidget-tw__state::before { content: \"Drop target\"; }\n</style>",
+    "react": "export function DraggableWidget({\n  title = \"{{title}}\",\n  state = \"{{state}}\",\n  showHandle = {{showHandle}},\n  color = \"{{color}}\",\n}) {\n  const stateText = { idle: \"Idle\", dragging: \"Dragging\", \"drop-target\": \"Drop target\" }[state] ?? \"Idle\";\n  const wrap = {\n    idle: { border: \"1.5px solid #24143018\" },\n    dragging: { border: `1.5px dashed ${color}`, boxShadow: \"0 10px 20px rgba(36,20,48,.18)\", opacity: 0.85, transform: \"rotate(-1deg)\" },\n    \"drop-target\": { border: `1.5px solid ${color}`, background: `${color}33` },\n  }[state] ?? {};\n  return (\n    <section aria-label={`${title} widget, draggable`} style={{ display: \"flex\", alignItems: \"center\", gap: 8, borderRadius: 10, padding: 12, background: \"#FAF7F2\", font: \"13px system-ui, sans-serif\", color: \"#241430\", maxWidth: 260, ...wrap }}>\n      {showHandle && <span aria-hidden=\"true\" style={{ cursor: \"grab\", color: \"#24143066\", fontSize: 16 }}>⠿</span>}\n      <h3 style={{ margin: 0, fontSize: 14, flex: 1 }}>{title}</h3>\n      <span style={{ fontSize: 11, opacity: 0.6 }}>{stateText}</span>\n    </section>\n  );\n}"
+  },
+  "slug": "draggable-widget"
+}

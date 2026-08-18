@@ -1,0 +1,47 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Template name",
+      "default": "Sales overview"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "overview",
+      "options": [
+        "overview",
+        "sales",
+        "ops"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "starred",
+      "type": "toggle",
+      "label": "Starred template",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dtemplate dtemplate--{{layout}}\" style=\"--c:{{color}};\">\n  <div class=\"dtemplate__thumb\" aria-hidden=\"true\">\n    <span></span><span></span><span></span>\n  </div>\n  <div class=\"dtemplate__meta\">\n    <strong>{{name}}</strong>\n    <span class=\"dtemplate__kind\"></span>\n  </div>\n  {{#if starred}}<svg class=\"dtemplate__star\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-label=\"Starred\"><path d=\"M8 1l2.1 4.6 5 .6-3.7 3.5.9 5-4.3-2.4-4.3 2.4.9-5L1 6.2l5-.6z\" fill=\"{{color}}\"/></svg>{{/if}}\n</div>\n<style>\n.dtemplate { display: flex; align-items: center; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-radius: 10px; padding: 10px; max-width: 300px; }\n.dtemplate__thumb { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 44px; height: 32px; border-radius: 4px; overflow: hidden; border: 1px solid #24143018; flex: none; }\n.dtemplate__thumb span { background: var(--c); opacity: .4; }\n.dtemplate--overview .dtemplate__thumb span:nth-child(1) { grid-column: span 2; opacity: .8; }\n.dtemplate--sales .dtemplate__thumb span:nth-child(2) { grid-row: span 2; opacity: .8; }\n.dtemplate--ops .dtemplate__thumb span { opacity: .6; }\n.dtemplate__kind { display: block; font-size: 11px; opacity: .7; }\n.dtemplate--overview .dtemplate__kind::before { content: \"Overview layout\"; }\n.dtemplate--sales .dtemplate__kind::before { content: \"Sales layout\"; }\n.dtemplate--ops .dtemplate__kind::before { content: \"Ops layout\"; }\n.dtemplate__star { margin-left: auto; flex: none; }\n</style>",
+    "tailwind": "<div class=\"dtemplate-tw dtemplate-tw--{{layout}} flex items-center gap-2.5 font-sans text-[13px] text-[#241430] border border-[#24143018] rounded-[10px] p-2.5 max-w-xs\" style=\"--c:{{color}};\">\n  <div class=\"dtemplate-tw__thumb grid grid-cols-2 gap-0.5 w-11 h-8 rounded overflow-hidden border border-[#24143018] flex-none\" aria-hidden=\"true\">\n    <span class=\"bg-[var(--c)] opacity-40\"></span><span class=\"bg-[var(--c)] opacity-40\"></span><span class=\"bg-[var(--c)] opacity-40\"></span>\n  </div>\n  <div>\n    <strong class=\"block\">{{name}}</strong>\n    <span class=\"block text-[11px] opacity-70 dtemplate-tw__kind\"></span>\n  </div>\n  {{#if starred}}<svg class=\"ml-auto flex-none\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-label=\"Starred\"><path d=\"M8 1l2.1 4.6 5 .6-3.7 3.5.9 5-4.3-2.4-4.3 2.4.9-5L1 6.2l5-.6z\" fill=\"{{color}}\"/></svg>{{/if}}\n</div>\n<style>\n.dtemplate-tw--overview .dtemplate-tw__kind::before { content: \"Overview layout\"; }\n.dtemplate-tw--sales .dtemplate-tw__kind::before { content: \"Sales layout\"; }\n.dtemplate-tw--ops .dtemplate-tw__kind::before { content: \"Ops layout\"; }\n</style>",
+    "react": "export function DashboardTemplate({\n  name = \"{{name}}\",\n  layout = \"{{layout}}\",\n  color = \"{{color}}\",\n  starred = {{starred}},\n}) {\n  const kind = { overview: \"Overview layout\", sales: \"Sales layout\", ops: \"Ops layout\" }[layout] ?? \"Overview layout\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, font: \"13px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderRadius: 10, padding: 10, maxWidth: 300 }}>\n      <div aria-hidden=\"true\" style={{ display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: 2, width: 44, height: 32, borderRadius: 4, overflow: \"hidden\", border: \"1px solid #24143018\", flex: \"none\" }}>\n        <span style={{ background: color, opacity: 0.4 }} /><span style={{ background: color, opacity: 0.4 }} /><span style={{ background: color, opacity: 0.4 }} />\n      </div>\n      <div>\n        <strong style={{ display: \"block\" }}>{name}</strong>\n        <span style={{ display: \"block\", fontSize: 11, opacity: 0.7 }}>{kind}</span>\n      </div>\n      {starred && (\n        <svg style={{ marginLeft: \"auto\", flex: \"none\" }} viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-label=\"Starred\">\n          <path d=\"M8 1l2.1 4.6 5 .6-3.7 3.5.9 5-4.3-2.4-4.3 2.4.9-5L1 6.2l5-.6z\" fill={color} />\n        </svg>\n      )}\n    </div>\n  );\n}"
+  },
+  "slug": "dashboard-template"
+}

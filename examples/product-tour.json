@@ -1,0 +1,54 @@
+{
+  "slug": "product-tour",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "See what's new in your dashboard"
+    },
+    {
+      "id": "step",
+      "type": "number",
+      "label": "Current step",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "totalSteps",
+      "type": "number",
+      "label": "Total steps",
+      "default": 4,
+      "min": 1,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "dismissLabel",
+      "type": "text",
+      "label": "Dismiss label",
+      "default": "Skip tour"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pt-wrap\">\n  <div class=\"pt-backdrop\" aria-hidden=\"true\">\n    <div class=\"pt-chrome\"></div>\n    <div class=\"pt-chrome pt-chrome--wide\"></div>\n    <div class=\"pt-chrome\"></div>\n  </div>\n  <div class=\"pt-card\" style=\"--accent:{{accent}};\">\n    <button type=\"button\" class=\"pt-close\" aria-label=\"{{dismissLabel}}\">×</button>\n    <p class=\"pt-step\">Step {{step}} of {{totalSteps}}</p>\n    <div class=\"pt-bar\"><span class=\"pt-bar__fill\" style=\"width:calc({{step}} / {{totalSteps}} * 100%);\"></span></div>\n    <h3 class=\"pt-title\">{{title}}</h3>\n    <p class=\"pt-body\">Here's a quick look at what's changed — you can revisit this tour any time from Help.</p>\n    <div class=\"pt-actions\">\n      <button type=\"button\" class=\"pt-back\">Back</button>\n      <button type=\"button\" class=\"pt-next\">Next</button>\n    </div>\n  </div>\n</div>\n<style>\n.pt-wrap { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; width: 380px; height: 220px; background: #FAF7F2; border-radius: 14px; overflow: hidden; border: 1px solid #24143018; }\n.pt-backdrop { position: absolute; inset: 0; padding: 18px; opacity: .5; }\n.pt-chrome { height: 16px; border-radius: 6px; background: #24143022; margin-bottom: 10px; }\n.pt-chrome--wide { height: 70px; }\n.pt-card { position: absolute; left: 16px; right: 16px; bottom: 16px; background: #fff; border-radius: 12px; padding: 16px 18px; box-shadow: 0 12px 30px rgba(36,20,48,.22); }\n.pt-close { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border: none; background: transparent; color: #24143070; font-size: 15px; cursor: pointer; border-radius: 6px; }\n.pt-close:hover, .pt-close:focus-visible { background: #24143012; color: #241430; }\n.pt-step { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }\n.pt-bar { height: 4px; border-radius: 2px; background: #24143018; margin-bottom: 12px; overflow: hidden; }\n.pt-bar__fill { display: block; height: 100%; background: var(--accent); border-radius: 2px; }\n.pt-title { margin: 0 0 6px; font-size: 15px; font-weight: 700; }\n.pt-body { margin: 0 0 14px; font-size: 12.5px; color: #241430b3; }\n.pt-actions { display: flex; justify-content: flex-end; gap: 8px; }\n.pt-back, .pt-next { border-radius: 8px; padding: 6px 12px; font-size: 12.5px; font-weight: 600; cursor: pointer; }\n.pt-back { background: none; border: 1.5px solid #24143025; color: #241430; }\n.pt-next { background: var(--accent); border: 1.5px solid var(--accent); color: #241430; }\n</style>",
+    "tailwind": "<div class=\"pt-tw-wrap relative font-sans text-[#241430] w-[380px] h-[220px] bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#24143018]\">\n  <div class=\"absolute inset-0 p-4.5 opacity-50\" aria-hidden=\"true\">\n    <div class=\"h-4 rounded-md bg-[#24143022] mb-2.5\"></div>\n    <div class=\"h-[70px] rounded-md bg-[#24143022] mb-2.5\"></div>\n    <div class=\"h-4 rounded-md bg-[#24143022] mb-2.5\"></div>\n  </div>\n  <div class=\"absolute left-4 right-4 bottom-4 bg-white rounded-xl p-4 shadow-[0_12px_30px_rgba(36,20,48,.22)]\" style=\"--accent:{{accent}}\">\n    <button type=\"button\" class=\"absolute top-2 right-2 w-6 h-6 rounded-md text-[#24143070] hover:bg-[#24143012] hover:text-[#241430]\" aria-label=\"{{dismissLabel}}\">×</button>\n    <p class=\"m-0 mb-1.5 text-[11px] font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">Step {{step}} of {{totalSteps}}</p>\n    <div class=\"h-1 rounded-full bg-[#24143018] mb-3 overflow-hidden\"><span class=\"block h-full rounded-full\" style=\"background:{{accent}};width:calc({{step}} / {{totalSteps}} * 100%)\"></span></div>\n    <h3 class=\"m-0 mb-1.5 text-[15px] font-bold\">{{title}}</h3>\n    <p class=\"m-0 mb-3.5 text-xs text-[#241430]/70\">Here's a quick look at what's changed — you can revisit this tour any time from Help.</p>\n    <div class=\"flex justify-end gap-2\">\n      <button type=\"button\" class=\"rounded-lg px-3 py-1.5 text-xs font-semibold border-[1.5px] border-[#24143025]\">Back</button>\n      <button type=\"button\" class=\"rounded-lg px-3 py-1.5 text-xs font-semibold\" style=\"background:{{accent}};border:1.5px solid {{accent}}\">Next</button>\n    </div>\n  </div>\n</div>",
+    "react": "export function ProductTour({\n  title = \"{{title}}\",\n  step = {{step}},\n  totalSteps = {{totalSteps}},\n  accent = \"{{accent}}\",\n  dismissLabel = \"{{dismissLabel}}\",\n}) {\n  const pct = Math.min(100, (step / totalSteps) * 100);\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", width: 380, height: 220, background: \"#FAF7F2\", borderRadius: 14, overflow: \"hidden\", border: \"1px solid #24143018\" }}>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", inset: 0, padding: 18, opacity: 0.5 }}>\n        <div style={{ height: 16, borderRadius: 6, background: \"#24143022\", marginBottom: 10 }} />\n        <div style={{ height: 70, borderRadius: 6, background: \"#24143022\", marginBottom: 10 }} />\n        <div style={{ height: 16, borderRadius: 6, background: \"#24143022\", marginBottom: 10 }} />\n      </div>\n      <div style={{ position: \"absolute\", left: 16, right: 16, bottom: 16, background: \"#fff\", borderRadius: 12, padding: \"16px 18px\", boxShadow: \"0 12px 30px rgba(36,20,48,.22)\" }}>\n        <button type=\"button\" aria-label={dismissLabel} style={{ position: \"absolute\", top: 8, right: 8, width: 24, height: 24, border: \"none\", background: \"transparent\", color: \"#24143070\", fontSize: 15, borderRadius: 6, cursor: \"pointer\" }}>×</button>\n        <p style={{ margin: \"0 0 6px\", fontSize: 11, fontWeight: 600, color: accent, textTransform: \"uppercase\", letterSpacing: \".04em\" }}>Step {step} of {totalSteps}</p>\n        <div style={{ height: 4, borderRadius: 2, background: \"#24143018\", marginBottom: 12, overflow: \"hidden\" }}>\n          <span style={{ display: \"block\", height: \"100%\", width: pct + \"%\", background: accent, borderRadius: 2 }} />\n        </div>\n        <h3 style={{ margin: \"0 0 6px\", fontSize: 15, fontWeight: 700 }}>{title}</h3>\n        <p style={{ margin: \"0 0 14px\", fontSize: 12.5, color: \"#241430b3\" }}>Here's a quick look at what's changed — you can revisit this tour any time from Help.</p>\n        <div style={{ display: \"flex\", justifyContent: \"flex-end\", gap: 8 }}>\n          <button type=\"button\" style={{ borderRadius: 8, padding: \"6px 12px\", fontSize: 12.5, fontWeight: 600, background: \"none\", border: \"1.5px solid #24143025\", color: \"#241430\", cursor: \"pointer\" }}>Back</button>\n          <button type=\"button\" style={{ borderRadius: 8, padding: \"6px 12px\", fontSize: 12.5, fontWeight: 600, background: accent, border: \"1.5px solid \" + accent, color: \"#241430\", cursor: \"pointer\" }}>Next</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "controls_schema": [
+    {
+      "id": "user",
+      "type": "text",
+      "label": "User",
+      "default": "Alex Chen"
+    },
+    {
+      "id": "scope",
+      "type": "text",
+      "label": "Scope",
+      "default": "Project Atlas"
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Permission",
+      "default": "editor",
+      "options": [
+        "viewer",
+        "editor",
+        "admin",
+        "owner"
+      ]
+    },
+    {
+      "id": "inherited",
+      "type": "toggle",
+      "label": "Inherited from team",
+      "default": false
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"permsel\" style=\"--c:{{color}};\">\n  <div class=\"permsel__text\">\n    <strong>{{user}}</strong>\n    <span class=\"permsel__meta\">{{scope}}{{#if inherited}} · Inherited{{/if}}</span>\n  </div>\n  <label class=\"permsel__field\">\n    <span class=\"permsel__label\">Permission</span>\n    <select class=\"permsel__select\">\n      <option value=\"viewer\">Can view</option>\n      <option value=\"editor\">Can edit</option>\n      <option value=\"admin\">Can administer</option>\n      <option value=\"owner\">Owns resource</option>\n    </select>\n  </label>\n  <span class=\"permsel__badge permsel__badge--{{role}}\">{{role}}</span>\n</div>\n<style>\n.permsel { display: flex; align-items: center; gap: 12px; font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 360px; flex-wrap: wrap; }\n.permsel__meta { display: block; font-size: 12px; opacity: .75; }\n.permsel__field { display: flex; flex-direction: column; font-size: 12px; gap: 2px; margin-left: auto; }\n.permsel__select { border: 1.5px solid var(--c); border-radius: 8px; padding: 5px 8px; font: inherit; background: #FAF7F2; color: #241430; }\n.permsel__select:focus-visible { outline: 2px solid var(--c); }\n.permsel__badge { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1.5px solid var(--c); }\n.permsel__badge--viewer { background: transparent; color: #241430; }\n.permsel__badge--editor { background: var(--c); color: #241430; }\n.permsel__badge--admin { background: #241430; color: #FAF7F2; border-color: #241430; }\n.permsel__badge--owner { background: #E8A020; color: #241430; border-color: #E8A020; }\n</style>",
+    "tailwind": "<div class=\"permsel-tw flex items-center gap-3 flex-wrap font-sans text-[#241430] max-w-sm\" style=\"--c:{{color}};\">\n  <div>\n    <strong class=\"block\">{{user}}</strong>\n    <span class=\"block text-xs opacity-75\">{{scope}}{{#if inherited}} · Inherited{{/if}}</span>\n  </div>\n  <label class=\"flex flex-col text-xs gap-0.5 ml-auto\">\n    <span>Permission</span>\n    <select class=\"border-[1.5px] rounded-lg px-2 py-1 bg-[#FAF7F2] text-[#241430]\" style=\"border-color:var(--c);\">\n      <option value=\"viewer\">Can view</option>\n      <option value=\"editor\">Can edit</option>\n      <option value=\"admin\">Can administer</option>\n      <option value=\"owner\">Owns resource</option>\n    </select>\n  </label>\n  <span class=\"permsel-tw__badge permsel-tw__badge--{{role}} text-[11px] font-bold uppercase px-2 py-0.5 rounded-full border-[1.5px]\" style=\"border-color:var(--c);\">{{role}}</span>\n</div>\n<style>\n.permsel-tw__badge--viewer { background: transparent; }\n.permsel-tw__badge--editor { background: var(--c); }\n.permsel-tw__badge--admin { background: #241430; color: #FAF7F2; border-color: #241430; }\n.permsel-tw__badge--owner { background: #E8A020; border-color: #E8A020; }\n</style>",
+    "react": "export function PermissionSelector({\n  user = \"{{user}}\",\n  scope = \"{{scope}}\",\n  role = \"{{role}}\",\n  inherited = {{inherited}},\n  color = \"{{color}}\",\n}) {\n  const badge = {\n    viewer: { background: \"transparent\", color: \"#241430\", borderColor: color },\n    editor: { background: color, color: \"#241430\", borderColor: color },\n    admin: { background: \"#241430\", color: \"#FAF7F2\", borderColor: \"#241430\" },\n    owner: { background: \"#E8A020\", color: \"#241430\", borderColor: \"#E8A020\" },\n  }[role] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 12, flexWrap: \"wrap\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 360 }}>\n      <div>\n        <strong style={{ display: \"block\" }}>{user}</strong>\n        <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{scope}{inherited ? \" · Inherited\" : \"\"}</span>\n      </div>\n      <label style={{ display: \"flex\", flexDirection: \"column\", fontSize: 12, gap: 2, marginLeft: \"auto\" }}>\n        <span>Permission</span>\n        <select defaultValue={role} style={{ border: `1.5px solid ${color}`, borderRadius: 8, padding: \"5px 8px\", background: \"#FAF7F2\", color: \"#241430\" }}>\n          <option value=\"viewer\">Can view</option>\n          <option value=\"editor\">Can edit</option>\n          <option value=\"admin\">Can administer</option>\n          <option value=\"owner\">Owns resource</option>\n        </select>\n      </label>\n      <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", padding: \"3px 8px\", borderRadius: 999, border: \"1.5px solid\", ...badge }}>{role}</span>\n    </div>\n  );\n}"
+  },
+  "slug": "permission-selector"
+}

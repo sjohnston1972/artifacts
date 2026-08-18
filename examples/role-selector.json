@@ -1,0 +1,47 @@
+{
+  "controls_schema": [
+    {
+      "id": "person",
+      "type": "text",
+      "label": "Person",
+      "default": "Jordan Lee"
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Role",
+      "default": "editor",
+      "options": [
+        "viewer",
+        "editor",
+        "admin"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "locked",
+      "type": "toggle",
+      "label": "Locked (cannot be changed)",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"roleselect roleselect--{{role}}\" style=\"--c:{{color}};\">\n  <span class=\"roleselect__person\">{{person}}</span>\n  <select class=\"roleselect__select\" {{#if locked}}disabled{{/if}}>\n    <option value=\"viewer\">Viewer</option>\n    <option value=\"editor\">Editor</option>\n    <option value=\"admin\">Admin</option>\n  </select>\n  <span class=\"roleselect__current\">current: <span class=\"roleselect__current-text\"></span></span>\n  {{#if locked}}<span class=\"roleselect__lock\" aria-hidden=\"true\">🔒</span>{{/if}}\n</label>\n<style>\n.roleselect { display: flex; align-items: center; gap: 10px; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.roleselect__select { border: 1.5px solid var(--c); border-radius: 8px; padding: 6px 8px; font: inherit; background: #FAF7F2; color: #241430; }\n.roleselect__select:focus-visible { outline: 2px solid var(--c); }\n.roleselect__select:disabled { opacity: .6; cursor: not-allowed; }\n.roleselect__lock { font-size: 13px; }\n.roleselect__current { font-size: 11px; opacity: .7; }\n.roleselect--viewer .roleselect__current-text::before { content: \"Viewer\"; }\n.roleselect--editor .roleselect__current-text::before { content: \"Editor\"; font-weight: 700; color: var(--c); }\n.roleselect--admin .roleselect__current-text::before { content: \"Admin\"; font-weight: 700; color: #E8A020; }\n</style>",
+    "tailwind": "<label class=\"roleselect-tw roleselect-tw--{{role}} flex items-center gap-2.5 font-sans text-[#241430]\" style=\"--c:{{color}};\">\n  <span>{{person}}</span>\n  <select class=\"border-[1.5px] rounded-lg px-2 py-1.5 bg-[#FAF7F2] text-[#241430] disabled:opacity-60\" style=\"border-color:var(--c);\" {{#if locked}}disabled{{/if}}>\n    <option value=\"viewer\">Viewer</option>\n    <option value=\"editor\">Editor</option>\n    <option value=\"admin\">Admin</option>\n  </select>\n  <span class=\"text-[11px] opacity-70\">current: <span class=\"roleselect-tw__current-text\"></span></span>\n  {{#if locked}}<span aria-hidden=\"true\" class=\"text-[13px]\">🔒</span>{{/if}}\n</label>\n<style>\n.roleselect-tw--viewer .roleselect-tw__current-text::before { content: \"Viewer\"; }\n.roleselect-tw--editor .roleselect-tw__current-text::before { content: \"Editor\"; font-weight: 700; color: var(--c); }\n.roleselect-tw--admin .roleselect-tw__current-text::before { content: \"Admin\"; font-weight: 700; color: #E8A020; }\n</style>",
+    "react": "export function RoleSelector({\n  person = \"{{person}}\",\n  role = \"{{role}}\",\n  color = \"{{color}}\",\n  locked = {{locked}},\n}) {\n  return (\n    <label style={{ display: \"flex\", alignItems: \"center\", gap: 10, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span>{person}</span>\n      <select defaultValue={role} disabled={locked} style={{ border: `1.5px solid ${color}`, borderRadius: 8, padding: \"6px 8px\", background: \"#FAF7F2\", color: \"#241430\", opacity: locked ? 0.6 : 1 }}>\n        <option value=\"viewer\">Viewer</option>\n        <option value=\"editor\">Editor</option>\n        <option value=\"admin\">Admin</option>\n      </select>\n      {locked && <span aria-hidden=\"true\" style={{ fontSize: 13 }}>🔒</span>}\n    </label>\n  );\n}"
+  },
+  "slug": "role-selector"
+}

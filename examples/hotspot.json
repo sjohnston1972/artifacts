@@ -1,0 +1,57 @@
+{
+  "slug": "hotspot",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Tooltip text",
+      "default": "New: Bulk export"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "top-right",
+      "options": [
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Dot size (px)",
+      "default": 12,
+      "min": 8,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "pulse",
+      "type": "toggle",
+      "label": "Pulse animation",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"hotspot-stage\">\n  <button type=\"button\" class=\"hotspot{{#if pulse}} hotspot--pulse{{/if}}\" data-position=\"{{position}}\" style=\"--accent:{{accent}};--size:{{size}}px;\" aria-label=\"{{label}}\">\n    <span class=\"hotspot__tooltip\" role=\"tooltip\">{{label}}</span>\n  </button>\n</div>\n<style>\n.hotspot-stage { position: relative; min-height: 190px; font: 16px/1.5 system-ui, sans-serif; background: #FAF7F2; border-radius: 12px; }\n.hotspot { position: absolute; width: var(--size); height: var(--size); border-radius: 50%; background: var(--accent); border: none; padding: 0; cursor: pointer; }\n.hotspot[data-position=\"top-left\"] { top: 20px; left: 20px; }\n.hotspot[data-position=\"top-right\"] { top: 20px; right: 20px; }\n.hotspot[data-position=\"bottom-left\"] { bottom: 20px; left: 20px; }\n.hotspot[data-position=\"bottom-right\"] { bottom: 20px; right: 20px; }\n.hotspot--pulse::after { content: \"\"; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); opacity: .6; animation: hotspot-pulse 1.6s ease-out infinite; }\n@keyframes hotspot-pulse { to { transform: scale(2.6); opacity: 0; } }\n.hotspot__tooltip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #241430; color: #FAF7F2; font-size: 12.5px; padding: 6px 10px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s ease; }\n.hotspot:hover .hotspot__tooltip, .hotspot:focus-visible .hotspot__tooltip { opacity: 1; }\n.hotspot:focus-visible { outline: 2px solid #241430; outline-offset: 3px; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[190px] font-sans bg-[#FAF7F2] rounded-xl\">\n  <button type=\"button\" class=\"hotspot-tw{{#if pulse}} hotspot-tw--pulse{{/if}} absolute rounded-full border-0 p-0 cursor-pointer\" data-position=\"{{position}}\" style=\"background:{{accent}};width:{{size}}px;height:{{size}}px;\" aria-label=\"{{label}}\">\n    <span class=\"hotspot-tw__tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 bg-[#241430] text-[#FAF7F2] text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap opacity-0 pointer-events-none transition-opacity\" role=\"tooltip\">{{label}}</span>\n  </button>\n</div>\n<style>\n.hotspot-tw[data-position=\"top-left\"] { top: 20px; left: 20px; }\n.hotspot-tw[data-position=\"top-right\"] { top: 20px; right: 20px; }\n.hotspot-tw[data-position=\"bottom-left\"] { bottom: 20px; left: 20px; }\n.hotspot-tw[data-position=\"bottom-right\"] { bottom: 20px; right: 20px; }\n.hotspot-tw--pulse::after { content: \"\"; position: absolute; inset: 0; border-radius: 50%; background: inherit; opacity: .6; animation: hotspot-tw-pulse 1.6s ease-out infinite; }\n@keyframes hotspot-tw-pulse { to { transform: scale(2.6); opacity: 0; } }\n.hotspot-tw:hover .hotspot-tw__tooltip, .hotspot-tw:focus-visible .hotspot-tw__tooltip { opacity: 1; }\n</style>",
+    "react": "export function Hotspot({\n  label = \"{{label}}\",\n  position = \"{{position}}\",\n  size = {{size}},\n  accent = \"{{accent}}\",\n  pulse = {{pulse}},\n}) {\n  const corner = {\n    \"top-left\": { top: 20, left: 20 },\n    \"top-right\": { top: 20, right: 20 },\n    \"bottom-left\": { bottom: 20, left: 20 },\n    \"bottom-right\": { bottom: 20, right: 20 },\n  }[position] ?? {};\n  return (\n    <div style={{ position: \"relative\", minHeight: 190, fontFamily: \"system-ui, sans-serif\", background: \"#FAF7F2\", borderRadius: 12 }}>\n      <button type=\"button\" aria-label={label} className=\"hotspot-react\" style={{ position: \"absolute\", width: size, height: size, borderRadius: \"50%\", background: accent, border: \"none\", padding: 0, cursor: \"pointer\", ...corner }}>\n        {pulse && (\n          <span style={{ position: \"absolute\", inset: 0, borderRadius: \"50%\", background: accent, opacity: 0.6, animation: \"hotspot-react-pulse 1.6s ease-out infinite\" }} />\n        )}\n        <span role=\"tooltip\" className=\"hotspot-react-tip\" style={{ position: \"absolute\", bottom: \"calc(100% + 10px)\", left: \"50%\", transform: \"translateX(-50%)\", background: \"#241430\", color: \"#FAF7F2\", fontSize: 12.5, padding: \"6px 10px\", borderRadius: 6, whiteSpace: \"nowrap\", opacity: 0, pointerEvents: \"none\" }}>{label}</span>\n      </button>\n      <style>{\"@keyframes hotspot-react-pulse { to { transform: scale(2.6); opacity: 0; } } .hotspot-react:hover .hotspot-react-tip, .hotspot-react:focus-visible .hotspot-react-tip { opacity: 1; }\"}</style>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "controls_schema": [
+    {
+      "id": "metric",
+      "type": "text",
+      "label": "Metric",
+      "default": "New customers"
+    },
+    {
+      "id": "actual",
+      "type": "number",
+      "label": "Actual",
+      "default": 82,
+      "min": 0,
+      "max": 150,
+      "step": 1
+    },
+    {
+      "id": "target",
+      "type": "number",
+      "label": "Target",
+      "default": 100,
+      "min": 1,
+      "max": 150,
+      "step": 1
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "on-track",
+      "options": [
+        "below",
+        "on-track",
+        "exceeded"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"target target--{{status}}\" style=\"--c:{{color}};\">\n  <div class=\"target__head\">\n    <span class=\"target__metric\">{{metric}}</span>\n    <span class=\"target__status\"></span>\n  </div>\n  <div class=\"target__track\" role=\"img\" aria-label=\"{{actual}} of {{target}} target\">\n    <div class=\"target__fill\" style=\"width:{{actual}}%;\"></div>\n    <div class=\"target__mark\" style=\"left:{{target}}%;\"></div>\n  </div>\n  <div class=\"target__figures\">{{actual}} / {{target}}</div>\n</div>\n<style>\n.target { font: 13px system-ui, sans-serif; color: #241430; max-width: 280px; }\n.target__head { display: flex; justify-content: space-between; margin-bottom: 6px; }\n.target__status { font-size: 12px; font-weight: 600; }\n.target--below .target__status::before { content: \"Below target\"; color: #b3261e; }\n.target--on-track .target__status::before { content: \"On track\"; color: #2f8f4e; }\n.target--exceeded .target__status::before { content: \"Target exceeded\"; color: var(--c); }\n.target__track { position: relative; height: 10px; border-radius: 999px; background: #24143014; }\n.target__fill { height: 100%; border-radius: 999px; background: var(--c); }\n.target--below .target__fill { background: #b3261e; }\n.target--exceeded .target__fill { background: #2f8f4e; }\n.target__mark { position: absolute; top: -3px; width: 2px; height: 16px; background: #241430; }\n.target__figures { margin-top: 6px; font-size: 12px; opacity: .7; }\n</style>",
+    "tailwind": "<div class=\"target-tw target-tw--{{status}} max-w-xs font-sans text-[13px] text-[#241430]\" style=\"--c:{{color}};\">\n  <div class=\"flex justify-between mb-1.5\">\n    <span>{{metric}}</span>\n    <span class=\"target-tw__status text-xs font-semibold\"></span>\n  </div>\n  <div class=\"relative h-2.5 rounded-full bg-[#24143014]\" role=\"img\" aria-label=\"{{actual}} of {{target}} target\">\n    <div class=\"target-tw__fill h-full rounded-full\" style=\"width:{{actual}}%;background:var(--c);\"></div>\n    <div class=\"absolute -top-[3px] w-0.5 h-4 bg-[#241430]\" style=\"left:{{target}}%;\"></div>\n  </div>\n  <div class=\"mt-1.5 text-xs opacity-70\">{{actual}} / {{target}}</div>\n</div>\n<style>\n.target-tw--below .target-tw__status::before { content: \"Below target\"; color: #b3261e; }\n.target-tw--on-track .target-tw__status::before { content: \"On track\"; color: #2f8f4e; }\n.target-tw--exceeded .target-tw__status::before { content: \"Target exceeded\"; color: var(--c); }\n.target-tw--below .target-tw__fill { background: #b3261e !important; }\n.target-tw--exceeded .target-tw__fill { background: #2f8f4e !important; }\n</style>",
+    "react": "export function TargetIndicator({\n  metric = \"{{metric}}\",\n  actual = {{actual}},\n  target = {{target}},\n  status = \"{{status}}\",\n  color = \"{{color}}\",\n}) {\n  const statusText = { below: \"Below target\", \"on-track\": \"On track\", exceeded: \"Target exceeded\" }[status] ?? \"On track\";\n  const statusColor = { below: \"#b3261e\", \"on-track\": \"#2f8f4e\", exceeded: color }[status] ?? \"#2f8f4e\";\n  const fillColor = { below: \"#b3261e\", \"on-track\": color, exceeded: \"#2f8f4e\" }[status] ?? color;\n  return (\n    <div style={{ font: \"13px system-ui, sans-serif\", color: \"#241430\", maxWidth: 280 }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", marginBottom: 6 }}>\n        <span>{metric}</span>\n        <span style={{ fontSize: 12, fontWeight: 600, color: statusColor }}>{statusText}</span>\n      </div>\n      <div role=\"img\" aria-label={actual + \" of \" + target + \" target\"} style={{ position: \"relative\", height: 10, borderRadius: 999, background: \"#24143014\" }}>\n        <div style={{ height: \"100%\", width: actual + \"%\", borderRadius: 999, background: fillColor }} />\n        <div style={{ position: \"absolute\", top: -3, left: target + \"%\", width: 2, height: 16, background: \"#241430\" }} />\n      </div>\n      <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>{actual} / {target}</div>\n    </div>\n  );\n}"
+  },
+  "slug": "target-indicator"
+}

@@ -1,0 +1,53 @@
+{
+  "slug": "feedback-widget",
+  "controls_schema": [
+    {
+      "id": "prompt",
+      "type": "text",
+      "label": "Prompt",
+      "default": "How was your experience?"
+    },
+    {
+      "id": "ratingStyle",
+      "type": "select",
+      "label": "Rating style",
+      "default": "emoji",
+      "options": [
+        "emoji",
+        "stars",
+        "thumbs"
+      ]
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Comment placeholder",
+      "default": "Tell us more (optional)"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Comment box open",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"feedback-widget\" data-rating=\"{{ratingStyle}}\" style=\"--accent:{{accent}}\">\n  <p class=\"feedback-widget__prompt\">{{prompt}}</p>\n  <div class=\"feedback-widget__row feedback-widget__row--emoji\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" aria-label=\"Bad\">&#128542;</button>\n    <button type=\"button\" aria-label=\"Okay\">&#128578;</button>\n    <button type=\"button\" aria-label=\"Great\">&#128516;</button>\n  </div>\n  <div class=\"feedback-widget__row feedback-widget__row--stars\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" aria-label=\"1 star\">&#9733;</button>\n    <button type=\"button\" aria-label=\"2 stars\">&#9733;</button>\n    <button type=\"button\" aria-label=\"3 stars\">&#9733;</button>\n    <button type=\"button\" aria-label=\"4 stars\">&#9733;</button>\n    <button type=\"button\" aria-label=\"5 stars\">&#9733;</button>\n  </div>\n  <div class=\"feedback-widget__row feedback-widget__row--thumbs\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" aria-label=\"Thumbs up\">&#128077;</button>\n    <button type=\"button\" aria-label=\"Thumbs down\">&#128078;</button>\n  </div>\n  <details class=\"feedback-widget__details\"{{#if open}} open{{/if}}>\n    <summary>Add a comment</summary>\n    <textarea class=\"feedback-widget__textarea\" placeholder=\"{{placeholder}}\" rows=\"3\"></textarea>\n  </details>\n</div>\n<style>\n.feedback-widget { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 300px; padding: 18px; background: #FAF7F2; border: 1.5px solid #24143022; border-radius: 12px; }\n.feedback-widget__prompt { margin: 0 0 12px; font-weight: 600; font-size: 14.5px; }\n.feedback-widget__row { display: none; gap: 8px; margin-bottom: 14px; }\n.feedback-widget[data-rating=\"emoji\"] .feedback-widget__row--emoji,\n.feedback-widget[data-rating=\"stars\"] .feedback-widget__row--stars,\n.feedback-widget[data-rating=\"thumbs\"] .feedback-widget__row--thumbs { display: flex; }\n.feedback-widget__row button { background: #fff; border: 1.5px solid #24143022; border-radius: 8px; width: 36px; height: 36px; font-size: 16px; cursor: pointer; }\n.feedback-widget__row--stars button { color: #24143044; }\n.feedback-widget__row button:hover, .feedback-widget__row button:focus-visible { border-color: var(--accent); outline: none; }\n.feedback-widget__details summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); list-style: none; }\n.feedback-widget__details summary::-webkit-details-marker { display: none; }\n.feedback-widget__textarea { width: 100%; box-sizing: border-box; margin-top: 8px; border: 1.5px solid #24143022; border-radius: 8px; padding: 8px 10px; font: 13.5px system-ui, sans-serif; resize: vertical; }\n.feedback-widget__textarea:focus-visible { outline: 2px solid var(--accent); border-color: transparent; }\n</style>",
+    "tailwind": "<div class=\"feedback-widget-tw max-w-[300px] p-4.5 bg-[#FAF7F2] border-[1.5px] border-[#24143022] rounded-xl font-sans text-[#241430]\" data-rating=\"{{ratingStyle}}\" style=\"--accent:{{accent}}\">\n  <p class=\"m-0 mb-3 font-semibold text-sm\">{{prompt}}</p>\n  <div class=\"rating-row-emoji hidden gap-2 mb-3.5\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-base\" aria-label=\"Bad\">&#128542;</button>\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-base\" aria-label=\"Okay\">&#128578;</button>\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-base\" aria-label=\"Great\">&#128516;</button>\n  </div>\n  <div class=\"rating-row-stars hidden gap-2 mb-3.5\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-[#24143044]\" aria-label=\"1 star\">&#9733;</button>\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-[#24143044]\" aria-label=\"2 stars\">&#9733;</button>\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-[#24143044]\" aria-label=\"3 stars\">&#9733;</button>\n  </div>\n  <div class=\"rating-row-thumbs hidden gap-2 mb-3.5\" role=\"group\" aria-label=\"Rating\">\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-base\" aria-label=\"Thumbs up\">&#128077;</button>\n    <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143022] rounded-lg w-9 h-9 text-base\" aria-label=\"Thumbs down\">&#128078;</button>\n  </div>\n  <details{{#if open}} open{{/if}}>\n    <summary class=\"cursor-pointer text-[13px] font-semibold list-none\" style=\"color:{{accent}}\">Add a comment</summary>\n    <textarea class=\"w-full box-border mt-2 border-[1.5px] border-[#24143022] rounded-lg px-2.5 py-2 text-[13.5px]\" placeholder=\"{{placeholder}}\" rows=\"3\"></textarea>\n  </details>\n</div>\n<style>\n.feedback-widget-tw[data-rating=\"emoji\"] .rating-row-emoji,\n.feedback-widget-tw[data-rating=\"stars\"] .rating-row-stars,\n.feedback-widget-tw[data-rating=\"thumbs\"] .rating-row-thumbs { display: flex; }\n.feedback-widget-tw summary::-webkit-details-marker { display: none; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function FeedbackWidget({\n  prompt = \"{{prompt}}\",\n  ratingStyle = \"{{ratingStyle}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  open: initialOpen = {{open}},\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const rows = {\n    emoji: [[\"Bad\", \"😞\"], [\"Okay\", \"🙂\"], [\"Great\", \"😄\"]],\n    stars: [[\"1 star\", \"★\"], [\"2 stars\", \"★\"], [\"3 stars\", \"★\"], [\"4 stars\", \"★\"], [\"5 stars\", \"★\"]],\n    thumbs: [[\"Thumbs up\", \"👍\"], [\"Thumbs down\", \"👎\"]],\n  }[ratingStyle] ?? [];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 300, padding: 18, background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderRadius: 12 }}>\n      <p style={{ margin: \"0 0 12px\", fontWeight: 600, fontSize: 14.5 }}>{prompt}</p>\n      <div role=\"group\" aria-label=\"Rating\" style={{ display: \"flex\", gap: 8, marginBottom: 14 }}>\n        {rows.map(([label, glyph]) => (\n          <button key={label} type=\"button\" aria-label={label} style={{ background: \"#fff\", border: \"1.5px solid #24143022\", borderRadius: 8, width: 36, height: 36, fontSize: 16, cursor: \"pointer\" }}>{glyph}</button>\n        ))}\n      </div>\n      <button type=\"button\" onClick={() => setOpen((o) => !o)} style={{ background: \"none\", border: \"none\", padding: 0, cursor: \"pointer\", fontSize: 13, fontWeight: 600, color: accent }}>\n        Add a comment\n      </button>\n      {open && (\n        <textarea placeholder={placeholder} rows={3} style={{ width: \"100%\", boxSizing: \"border-box\", marginTop: 8, border: \"1.5px solid #24143022\", borderRadius: 8, padding: \"8px 10px\", fontSize: 13.5, resize: \"vertical\" }} />\n      )}\n    </div>\n  );\n}"
+  }
+}

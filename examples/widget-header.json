@@ -1,0 +1,42 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Widget title",
+      "default": "Support tickets"
+    },
+    {
+      "id": "context",
+      "type": "text",
+      "label": "Context",
+      "default": "Last 30 days"
+    },
+    {
+      "id": "toolbar",
+      "type": "toggle",
+      "label": "Show toolbar",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<header class=\"whead\" style=\"--c:{{color}};\">\n  <div class=\"whead__text\">\n    <h3 class=\"whead__title\">{{title}}</h3>\n    <span class=\"whead__context\">{{context}}</span>\n  </div>\n  {{#if toolbar}}\n  <div class=\"whead__toolbar\">\n    <button type=\"button\" aria-label=\"Refresh\">⟳</button>\n    <button type=\"button\" aria-label=\"Expand\">⤢</button>\n  </div>\n  {{/if}}\n</header>\n<style>\n.whead { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; border-bottom: 2px solid var(--c); padding-bottom: 8px; }\n.whead__title { margin: 0; font-size: 15px; }\n.whead__context { font-size: 11px; opacity: .65; }\n.whead__toolbar { display: flex; gap: 4px; flex: none; }\n.whead__toolbar button { border: 1px solid #24143022; background: #FAF7F2; border-radius: 6px; width: 24px; height: 24px; cursor: pointer; }\n.whead__toolbar button:hover, .whead__toolbar button:focus-visible { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); outline: none; }\n</style>",
+    "tailwind": "<header class=\"whead-tw flex justify-between items-start gap-2.5 font-sans text-[13px] text-[#241430] border-b-2 pb-2\" style=\"border-color:{{color}};--c:{{color}};\">\n  <div>\n    <h3 class=\"m-0 text-[15px]\">{{title}}</h3>\n    <span class=\"text-[11px] opacity-65\">{{context}}</span>\n  </div>\n  {{#if toolbar}}\n  <div class=\"flex gap-1 flex-none\">\n    <button type=\"button\" class=\"border border-[#24143022] bg-[#FAF7F2] rounded-md w-6 h-6 cursor-pointer\" aria-label=\"Refresh\">⟳</button>\n    <button type=\"button\" class=\"border border-[#24143022] bg-[#FAF7F2] rounded-md w-6 h-6 cursor-pointer\" aria-label=\"Expand\">⤢</button>\n  </div>\n  {{/if}}\n</header>",
+    "react": "export function WidgetHeader({\n  title = \"{{title}}\",\n  context = \"{{context}}\",\n  toolbar = {{toolbar}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <header style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"flex-start\", gap: 10, font: \"13px system-ui, sans-serif\", color: \"#241430\", borderBottom: \"2px solid \" + color, paddingBottom: 8 }}>\n      <div>\n        <h3 style={{ margin: 0, fontSize: 15 }}>{title}</h3>\n        <span style={{ fontSize: 11, opacity: 0.65 }}>{context}</span>\n      </div>\n      {toolbar && (\n        <div style={{ display: \"flex\", gap: 4, flex: \"none\" }}>\n          <button type=\"button\" aria-label=\"Refresh\" style={{ border: \"1px solid #24143022\", background: \"#FAF7F2\", borderRadius: 6, width: 24, height: 24, cursor: \"pointer\" }}>⟳</button>\n          <button type=\"button\" aria-label=\"Expand\" style={{ border: \"1px solid #24143022\", background: \"#FAF7F2\", borderRadius: 6, width: 24, height: 24, cursor: \"pointer\" }}>⤢</button>\n        </div>\n      )}\n    </header>\n  );\n}"
+  },
+  "slug": "widget-header"
+}

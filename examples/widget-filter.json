@@ -1,0 +1,42 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Filter label",
+      "default": "Channel"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Organic"
+    },
+    {
+      "id": "active",
+      "type": "toggle",
+      "label": "Active",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"wfilter {{#if active}}wfilter--active{{/if}}\" style=\"--c:{{color}};\">\n  <span class=\"wfilter__label\">{{label}}</span>\n  <select class=\"wfilter__select\">\n    <option>{{value}}</option>\n    <option>All</option>\n  </select>\n</label>\n<style>\n.wfilter { display: inline-flex; align-items: center; gap: 6px; font: 12px system-ui, sans-serif; color: #241430; border: 1px solid #24143022; border-radius: 8px; padding: 4px 8px; }\n.wfilter--active { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, #FAF7F2); }\n.wfilter__label { opacity: .65; }\n.wfilter__select { border: none; background: transparent; font: inherit; color: #241430; }\n.wfilter__select:focus-visible { outline: 2px solid var(--c); }\n</style>",
+    "tailwind": "<label class=\"wfilter-tw {{#if active}}wfilter-tw--active{{/if}} inline-flex items-center gap-1.5 font-sans text-xs text-[#241430] border border-[#24143022] rounded-lg px-2 py-1\" style=\"--c:{{color}};\">\n  <span class=\"opacity-65\">{{label}}</span>\n  <select class=\"border-none bg-transparent text-[#241430]\">\n    <option>{{value}}</option>\n    <option>All</option>\n  </select>\n</label>\n<style>\n.wfilter-tw--active { border-color: var(--c) !important; background: color-mix(in srgb, var(--c) 16%, #FAF7F2); }\n</style>",
+    "react": "export function WidgetFilter({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  active = {{active}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <label style={{\n      display: \"inline-flex\", alignItems: \"center\", gap: 6, font: \"12px system-ui, sans-serif\", color: \"#241430\",\n      border: \"1px solid \" + (active ? color : \"#24143022\"), borderRadius: 8, padding: \"4px 8px\",\n      background: active ? color + \"29\" : \"transparent\",\n    }}>\n      <span style={{ opacity: 0.65 }}>{label}</span>\n      <select defaultValue={value} style={{ border: \"none\", background: \"transparent\", color: \"#241430\" }}>\n        <option>{value}</option>\n        <option>All</option>\n      </select>\n    </label>\n  );\n}"
+  },
+  "slug": "widget-filter"
+}

@@ -1,0 +1,46 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "List heading",
+      "default": "Teams"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "showCount",
+      "type": "toggle",
+      "label": "Show member counts",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"teamlist teamlist--{{density}}\" style=\"--c:{{color}};\">\n  <h3 class=\"teamlist__title\">{{title}}</h3>\n  <ul class=\"teamlist__items\">\n    <li class=\"teamlist__item\"><span class=\"teamlist__name\">Platform</span>{{#if showCount}}<span class=\"teamlist__count\">8 members</span>{{/if}}</li>\n    <li class=\"teamlist__item\"><span class=\"teamlist__name\">Design</span>{{#if showCount}}<span class=\"teamlist__count\">5 members</span>{{/if}}</li>\n    <li class=\"teamlist__item\"><span class=\"teamlist__name\">Marketing</span>{{#if showCount}}<span class=\"teamlist__count\">4 members</span>{{/if}}</li>\n  </ul>\n</section>\n<style>\n.teamlist { font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 300px; }\n.teamlist__title { margin: 0 0 8px; font-size: 16px; }\n.teamlist__items { list-style: none; margin: 0; padding: 0; border-top: 1px solid #24143018; }\n.teamlist__item { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px; border-bottom: 1px solid #24143018; border-left: 3px solid var(--c); padding-left: 10px; }\n.teamlist--compact .teamlist__item { padding-top: 5px; padding-bottom: 5px; }\n.teamlist__count { font-size: 12px; opacity: .7; }\n</style>",
+    "tailwind": "<section class=\"teamlist-tw teamlist-tw--{{density}} font-sans text-[#241430] max-w-xs\" style=\"--c:{{color}};\">\n  <h3 class=\"m-0 mb-2 text-base\">{{title}}</h3>\n  <ul class=\"list-none m-0 p-0 border-t border-[#24143018]\">\n    <li class=\"teamlist-tw__item flex justify-between items-center py-2.5 pr-1 border-b border-[#24143018] border-l-[3px] pl-2.5\" style=\"border-left-color:var(--c);\"><span>Platform</span>{{#if showCount}}<span class=\"text-xs opacity-70\">8 members</span>{{/if}}</li>\n    <li class=\"teamlist-tw__item flex justify-between items-center py-2.5 pr-1 border-b border-[#24143018] border-l-[3px] pl-2.5\" style=\"border-left-color:var(--c);\"><span>Design</span>{{#if showCount}}<span class=\"text-xs opacity-70\">5 members</span>{{/if}}</li>\n    <li class=\"teamlist-tw__item flex justify-between items-center py-2.5 pr-1 border-b border-[#24143018] border-l-[3px] pl-2.5\" style=\"border-left-color:var(--c);\"><span>Marketing</span>{{#if showCount}}<span class=\"text-xs opacity-70\">4 members</span>{{/if}}</li>\n  </ul>\n</section>\n<style>\n.teamlist-tw--compact .teamlist-tw__item { padding-top: 5px; padding-bottom: 5px; }\n</style>",
+    "react": "const TEAMS = [\n  { name: \"Platform\", count: 8 },\n  { name: \"Design\", count: 5 },\n  { name: \"Marketing\", count: 4 },\n];\n\nexport function TeamList({\n  title = \"{{title}}\",\n  color = \"{{color}}\",\n  density = \"{{density}}\",\n  showCount = {{showCount}},\n}) {\n  const pad = density === \"compact\" ? \"5px 4px\" : \"10px 4px\";\n  return (\n    <section style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300 }}>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 16 }}>{title}</h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, borderTop: \"1px solid #24143018\" }}>\n        {TEAMS.map((team) => (\n          <li key={team.name} style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", padding: pad, paddingLeft: 10, borderBottom: \"1px solid #24143018\", borderLeft: `3px solid ${color}` }}>\n            <span>{team.name}</span>\n            {showCount && <span style={{ fontSize: 12, opacity: 0.7 }}>{team.count} members</span>}\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  },
+  "slug": "team-list"
+}

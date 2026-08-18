@@ -1,0 +1,46 @@
+{
+  "controls_schema": [
+    {
+      "id": "content",
+      "type": "text",
+      "label": "Content",
+      "default": "1,204 active sessions in the last hour."
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "loading",
+      "type": "toggle",
+      "label": "Loading",
+      "default": false
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wbody wbody--{{density}} {{#if loading}}wbody--loading{{/if}}\" style=\"--c:{{color}};\" aria-busy=\"{{loading}}\">\n  {{#if loading}}<span class=\"wbody__skeleton\"></span>{{/if}}\n  <p class=\"wbody__text\">{{content}}</p>\n</div>\n<style>\n.wbody { font: 13px/1.5 system-ui, sans-serif; color: #241430; padding: 14px; }\n.wbody--compact { padding: 8px; }\n.wbody__text { margin: 0; }\n.wbody--loading .wbody__text { display: none; }\n.wbody__skeleton { display: block; height: 14px; border-radius: 4px; background: linear-gradient(90deg, #24143014, var(--c), #24143014); background-size: 200% 100%; animation: wbody-shimmer 1.4s infinite; }\n@keyframes wbody-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }\n</style>",
+    "tailwind": "<div class=\"wbody-tw wbody-tw--{{density}} {{#if loading}}wbody-tw--loading{{/if}} font-sans text-[13px] leading-relaxed text-[#241430] p-3.5\" style=\"--c:{{color}};\" aria-busy=\"{{loading}}\">\n  {{#if loading}}<span class=\"wbody-tw__skeleton block h-3.5 rounded\"></span>{{/if}}\n  <p class=\"wbody-tw__text m-0\">{{content}}</p>\n</div>\n<style>\n.wbody-tw--compact { padding: 8px; }\n.wbody-tw--loading .wbody-tw__text { display: none; }\n.wbody-tw__skeleton { background: linear-gradient(90deg, #24143014, var(--c), #24143014); background-size: 200% 100%; animation: wbody-tw-shimmer 1.4s infinite; }\n@keyframes wbody-tw-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }\n</style>",
+    "react": "export function WidgetBody({\n  content = \"{{content}}\",\n  density = \"{{density}}\",\n  loading = {{loading}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <div aria-busy={loading} style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", padding: density === \"compact\" ? 8 : 14 }}>\n      {loading ? (\n        <span style={{ display: \"block\", height: 14, borderRadius: 4, background: \"linear-gradient(90deg, #24143014, \" + color + \", #24143014)\" }} />\n      ) : (\n        <p style={{ margin: 0 }}>{content}</p>\n      )}\n    </div>\n  );\n}"
+  },
+  "slug": "widget-body"
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "what-s-new-panel",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "What's new"
+    },
+    {
+      "id": "entriesShown",
+      "type": "number",
+      "label": "Entries shown",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "newFlag",
+      "type": "toggle",
+      "label": "Flag latest entry as new",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Layout style",
+      "default": "list",
+      "options": [
+        "list",
+        "timeline",
+        "compact"
+      ]
+    },
+    {
+      "id": "dismissLabel",
+      "type": "text",
+      "label": "Dismiss label",
+      "default": "Close"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wn wn--{{style}}\" data-entries=\"{{entriesShown}}\" style=\"--accent:{{accent}};\">\n  <div class=\"wn__head\">\n    <h3 class=\"wn__title\">{{title}}</h3>\n    <button type=\"button\" class=\"wn__close\" aria-label=\"{{dismissLabel}}\">×</button>\n  </div>\n  <ul class=\"wn__list\">\n    <li class=\"wn__entry\">\n      {{#if newFlag}}<span class=\"wn__flag\">New</span>{{/if}}\n      <p class=\"wn__entry-title\">Faster search across your workspace</p>\n      <p class=\"wn__entry-date\">12 Aug</p>\n    </li>\n    <li class=\"wn__entry\">\n      <p class=\"wn__entry-title\">Dark mode for the mobile app</p>\n      <p class=\"wn__entry-date\">5 Aug</p>\n    </li>\n    <li class=\"wn__entry\">\n      <p class=\"wn__entry-title\">Bulk export for reports</p>\n      <p class=\"wn__entry-date\">29 Jul</p>\n    </li>\n  </ul>\n</div>\n<style>\n.wn { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px 20px; max-width: 320px; border-radius: 14px; border: 1px solid #24143018; }\n.wn__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }\n.wn__title { margin: 0; font-size: 15px; font-weight: 700; }\n.wn__close { width: 22px; height: 22px; border: none; background: transparent; color: #24143070; font-size: 14px; cursor: pointer; border-radius: 6px; }\n.wn__close:hover, .wn__close:focus-visible { background: #24143012; color: #241430; }\n.wn__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }\n.wn__entry { position: relative; }\n.wn__entry-title { margin: 0 0 2px; font-size: 13px; font-weight: 600; }\n.wn__entry-date { margin: 0; font-size: 11px; color: #24143090; }\n.wn__flag { display: inline-block; font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; padding: 2px 6px; border-radius: 999px; background: var(--accent); margin-bottom: 4px; }\n.wn[data-entries=\"1\"] .wn__entry:nth-child(n+2) { display: none; }\n.wn[data-entries=\"2\"] .wn__entry:nth-child(n+3) { display: none; }\n.wn--timeline .wn__list { padding-left: 14px; border-left: 1.5px solid #24143018; }\n.wn--timeline .wn__entry::before { content: \"\"; position: absolute; left: -18.5px; top: 4px; width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }\n.wn--compact .wn__entry { display: flex; align-items: baseline; gap: 8px; }\n.wn--compact .wn__entry-date { order: -1; }\n</style>",
+    "tailwind": "<div class=\"wn-tw wn-tw--{{style}} relative max-w-[320px] p-4.5 rounded-2xl border border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans\" data-entries=\"{{entriesShown}}\" style=\"--accent:{{accent}}\">\n  <div class=\"flex justify-between items-center mb-2.5\">\n    <h3 class=\"m-0 text-[15px] font-bold\">{{title}}</h3>\n    <button type=\"button\" class=\"w-5.5 h-5.5 rounded-md text-[#24143070] hover:bg-[#24143012] hover:text-[#241430]\" aria-label=\"{{dismissLabel}}\">×</button>\n  </div>\n  <ul class=\"wn-tw__list list-none m-0 p-0 flex flex-col gap-3\">\n    <li class=\"wn-tw__entry relative\">\n      {{#if newFlag}}<span class=\"inline-block text-[9.5px] font-extrabold uppercase tracking-wide px-1.5 py-0.5 rounded-full mb-1\" style=\"background:{{accent}}\">New</span>{{/if}}\n      <p class=\"m-0 mb-0.5 text-[13px] font-semibold\">Faster search across your workspace</p>\n      <p class=\"m-0 text-[11px] text-[#24143090]\">12 Aug</p>\n    </li>\n    <li class=\"wn-tw__entry relative\">\n      <p class=\"m-0 mb-0.5 text-[13px] font-semibold\">Dark mode for the mobile app</p>\n      <p class=\"m-0 text-[11px] text-[#24143090]\">5 Aug</p>\n    </li>\n    <li class=\"wn-tw__entry relative\">\n      <p class=\"m-0 mb-0.5 text-[13px] font-semibold\">Bulk export for reports</p>\n      <p class=\"m-0 text-[11px] text-[#24143090]\">29 Jul</p>\n    </li>\n  </ul>\n</div>\n<style>\n.wn-tw[data-entries=\"1\"] .wn-tw__entry:nth-child(n+2) { display: none; }\n.wn-tw[data-entries=\"2\"] .wn-tw__entry:nth-child(n+3) { display: none; }\n.wn-tw--timeline .wn-tw__list { padding-left: 14px; border-left: 1.5px solid #24143018; }\n.wn-tw--timeline .wn-tw__entry::before { content: \"\"; position: absolute; left: -18.5px; top: 4px; width: 8px; height: 8px; border-radius: 999px; background: var(--accent); }\n.wn-tw--compact .wn-tw__entry { display: flex; align-items: baseline; gap: 8px; }\n</style>",
+    "react": "export function WhatsNewPanel({\n  title = \"{{title}}\",\n  entriesShown = {{entriesShown}},\n  newFlag = {{newFlag}},\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n  dismissLabel = \"{{dismissLabel}}\",\n}) {\n  const entries = [\n    { title: \"Faster search across your workspace\", date: \"12 Aug\" },\n    { title: \"Dark mode for the mobile app\", date: \"5 Aug\" },\n    { title: \"Bulk export for reports\", date: \"29 Jul\" },\n  ].slice(0, entriesShown);\n  const compact = style === \"compact\";\n  const timeline = style === \"timeline\";\n  return (\n    <div style={{ position: \"relative\", font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"18px 20px\", maxWidth: 320, borderRadius: 14, border: \"1px solid #24143018\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", marginBottom: 10 }}>\n        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>{title}</h3>\n        <button type=\"button\" aria-label={dismissLabel} style={{ width: 22, height: 22, border: \"none\", background: \"transparent\", color: \"#24143070\", fontSize: 14, borderRadius: 6, cursor: \"pointer\" }}>×</button>\n      </div>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: timeline ? \"0 0 0 14px\" : 0, borderLeft: timeline ? \"1.5px solid #24143018\" : \"none\", display: \"flex\", flexDirection: \"column\", gap: 12 }}>\n        {entries.map((e, i) => (\n          <li key={e.title} style={{ position: \"relative\", display: compact ? \"flex\" : \"block\", alignItems: compact ? \"baseline\" : \"normal\", gap: compact ? 8 : 0 }}>\n            {timeline && <span style={{ position: \"absolute\", left: -18.5, top: 4, width: 8, height: 8, borderRadius: 999, background: accent }} />}\n            {i === 0 && newFlag && (\n              <span style={{ display: \"inline-block\", fontSize: 9.5, fontWeight: 800, textTransform: \"uppercase\", letterSpacing: \".03em\", padding: \"2px 6px\", borderRadius: 999, background: accent, marginBottom: 4 }}>New</span>\n            )}\n            <p style={{ margin: \"0 0 2px\", fontSize: 13, fontWeight: 600 }}>{e.title}</p>\n            <p style={{ margin: 0, fontSize: 11, color: \"#24143090\" }}>{e.date}</p>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

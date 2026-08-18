@@ -1,0 +1,56 @@
+{
+  "slug": "block",
+  "controls_schema": [
+    {
+      "id": "blockType",
+      "type": "select",
+      "label": "Block type",
+      "default": "paragraph",
+      "options": [
+        "paragraph",
+        "heading",
+        "image"
+      ]
+    },
+    {
+      "id": "content",
+      "type": "text",
+      "label": "Content",
+      "default": "Type '/' to choose a block, or start writing plain text."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "active",
+      "type": "toggle",
+      "label": "Selected",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"block block--{{blockType}} {{#if active}}block--active{{/if}}\" data-type=\"{{blockType}}\" style=\"border-radius:{{radius}}px;--accent:{{accent}};\">\n  {{#if active}}\n  <span class=\"block__handle\" aria-hidden=\"true\" title=\"Drag to reorder\">\n    <svg viewBox=\"0 0 10 16\" width=\"10\" height=\"16\"><circle cx=\"2\" cy=\"2\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"2\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"2\" cy=\"8\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"8\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"2\" cy=\"14\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"14\" r=\"1.3\" fill=\"currentColor\"/></svg>\n  </span>\n  {{/if}}\n  <span class=\"block__icon\" aria-hidden=\"true\">\n    <svg class=\"block__icon-paragraph\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><path d=\"M3 4h14M3 9h14M3 14h9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    <svg class=\"block__icon-heading\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><path d=\"M4 4v12M14 4v12M4 10h10\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    <svg class=\"block__icon-image\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><rect x=\"3\" y=\"4\" width=\"14\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"1.3\" fill=\"currentColor\"/><path d=\"M4 14l4-4 3 3 3-4 3 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>\n  </span>\n  <p class=\"block__content\">{{content}}</p>\n</div>\n<style>\n.block { position: relative; display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid transparent; }\n.block--active { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }\n.block__handle { color: #24143066; cursor: grab; padding-top: 3px; }\n.block__icon { color: var(--accent); padding-top: 2px; }\n.block__icon svg { display: none; }\n.block--paragraph .block__icon-paragraph, .block--heading .block__icon-heading, .block--image .block__icon-image { display: block; }\n.block__content { margin: 0; flex: 1; }\n.block--heading .block__content { font-size: 20px; font-weight: 700; }\n.block--image .block__content { font-style: italic; color: #24143099; }\n</style>",
+    "tailwind": "<div data-type=\"{{blockType}}\" style=\"border-radius:{{radius}}px;--accent:{{accent}};\" class=\"block-tw block-tw--{{blockType}} {{#if active}}block-tw--active{{/if}} relative flex items-start gap-2.5 px-3.5 py-2.5 font-sans text-[15px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-transparent\">\n  {{#if active}}\n  <span class=\"text-[#24143066] pt-0.5\" aria-hidden=\"true\" title=\"Drag to reorder\">\n    <svg viewBox=\"0 0 10 16\" width=\"10\" height=\"16\"><circle cx=\"2\" cy=\"2\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"2\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"2\" cy=\"8\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"8\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"2\" cy=\"14\" r=\"1.3\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"14\" r=\"1.3\" fill=\"currentColor\"/></svg>\n  </span>\n  {{/if}}\n  <span class=\"block-tw__icon pt-0.5\" style=\"color:{{accent}}\" aria-hidden=\"true\">\n    <svg class=\"block-tw__icon-paragraph\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><path d=\"M3 4h14M3 9h14M3 14h9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    <svg class=\"block-tw__icon-heading\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><path d=\"M4 4v12M14 4v12M4 10h10\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>\n    <svg class=\"block-tw__icon-image\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\"><rect x=\"3\" y=\"4\" width=\"14\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"1.3\" fill=\"currentColor\"/><path d=\"M4 14l4-4 3 3 3-4 3 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>\n  </span>\n  <p class=\"flex-1 m-0\">{{content}}</p>\n</div>\n<style>\n.block-tw--active { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); border-color: var(--accent) !important; }\n.block-tw__icon svg { display: none; }\n.block-tw--paragraph .block-tw__icon-paragraph, .block-tw--heading .block-tw__icon-heading, .block-tw--image .block-tw__icon-image { display: block; }\n.block-tw--heading p { font-size: 20px; font-weight: 700; }\n.block-tw--image p { font-style: italic; color: #24143099; }\n</style>",
+    "react": "export function Block({\n  blockType = \"{{blockType}}\",\n  content = \"{{content}}\",\n  accent = \"{{accent}}\",\n  active = {{active}},\n  radius = {{radius}},\n}) {\n  const icons = {\n    paragraph: <path d=\"M3 4h14M3 9h14M3 14h9\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />,\n    heading: <path d=\"M4 4v12M14 4v12M4 10h10\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" />,\n    image: <><rect x=\"3\" y=\"4\" width=\"14\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><circle cx=\"7.5\" cy=\"8.5\" r=\"1.3\" fill=\"currentColor\" /><path d=\"M4 14l4-4 3 3 3-4 3 5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" /></>,\n  };\n  const contentStyle = {\n    paragraph: {},\n    heading: { fontSize: 20, fontWeight: 700 },\n    image: { fontStyle: \"italic\", color: \"#24143099\" },\n  }[blockType] ?? {};\n  return (\n    <div style={{ position: \"relative\", display: \"flex\", alignItems: \"flex-start\", gap: 10, padding: \"10px 14px\",\n      font: \"15px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", borderRadius: radius,\n      border: active ? `1.5px solid ${accent}` : \"1.5px solid transparent\",\n      boxShadow: active ? `0 0 0 3px ${accent}40` : \"none\" }}>\n      {active && (\n        <span aria-hidden=\"true\" title=\"Drag to reorder\" style={{ color: \"#24143066\", paddingTop: 3, cursor: \"grab\" }}>\n          <svg viewBox=\"0 0 10 16\" width=\"10\" height=\"16\"><circle cx=\"2\" cy=\"2\" r=\"1.3\" fill=\"currentColor\" /><circle cx=\"8\" cy=\"2\" r=\"1.3\" fill=\"currentColor\" /><circle cx=\"2\" cy=\"8\" r=\"1.3\" fill=\"currentColor\" /><circle cx=\"8\" cy=\"8\" r=\"1.3\" fill=\"currentColor\" /><circle cx=\"2\" cy=\"14\" r=\"1.3\" fill=\"currentColor\" /><circle cx=\"8\" cy=\"14\" r=\"1.3\" fill=\"currentColor\" /></svg>\n        </span>\n      )}\n      <span aria-hidden=\"true\" style={{ color: accent, paddingTop: 2 }}>\n        <svg viewBox=\"0 0 20 20\" width=\"16\" height=\"16\">{icons[blockType] ?? icons.paragraph}</svg>\n      </span>\n      <p style={{ margin: 0, flex: 1, ...contentStyle }}>{content}</p>\n    </div>\n  );\n}"
+  }
+}

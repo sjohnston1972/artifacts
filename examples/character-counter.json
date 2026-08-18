@@ -1,0 +1,54 @@
+{
+  "slug": "character-counter",
+  "controls_schema": [
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Field value",
+      "default": "Write a short bio that captures who you are in a couple of sentences."
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Current count",
+      "default": 128,
+      "min": 0,
+      "max": 500,
+      "step": 1
+    },
+    {
+      "id": "limit",
+      "type": "number",
+      "label": "Limit",
+      "default": 160,
+      "min": 20,
+      "max": 500,
+      "step": 10
+    },
+    {
+      "id": "nearLimit",
+      "type": "toggle",
+      "label": "Near limit",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"charcount\" style=\"--accent:{{accent}};\">\n  <label class=\"charcount__label\" for=\"charcount-field\">Bio</label>\n  <textarea id=\"charcount-field\" class=\"charcount__field\" aria-describedby=\"charcount-help\" readonly>{{value}}</textarea>\n  <p id=\"charcount-help\" class=\"charcount__help {{#if nearLimit}}charcount__help--warn{{/if}}\" role=\"status\">\n    {{count}} / {{limit}} characters\n    {{#if nearLimit}}<span class=\"charcount__warn-text\"> &#8212; approaching the limit</span>{{/if}}\n  </p>\n</div>\n<style>\n.charcount { font: 14px/1.5 system-ui, sans-serif; color: #241430; max-width: 320px; }\n.charcount__label { display: block; font-weight: 600; margin-bottom: 6px; }\n.charcount__field { width: 100%; box-sizing: border-box; min-height: 76px; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143033; background: #FAF7F2; color: #241430; font: inherit; resize: vertical; }\n.charcount__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.charcount__help { margin: 6px 2px 0; font-size: 12px; color: #24143099; }\n.charcount__help--warn { color: #b3261e; font-weight: 600; }\n.charcount__warn-text { font-weight: 600; }\n</style>",
+    "tailwind": "<div style=\"--accent:{{accent}};\" class=\"font-sans text-sm text-[#241430] max-w-[320px]\">\n  <label for=\"charcount-tw-field\" class=\"block font-semibold mb-1.5\">Bio</label>\n  <textarea id=\"charcount-tw-field\" aria-describedby=\"charcount-tw-help\" readonly class=\"w-full box-border min-h-[76px] px-3 py-2.5 rounded-lg border-[1.5px] border-[#24143033] bg-[#FAF7F2] text-[#241430] resize-y\">{{value}}</textarea>\n  <p id=\"charcount-tw-help\" role=\"status\" class=\"mt-1.5 mx-0.5 text-xs {{#if nearLimit}}text-[#b3261e] font-semibold{{/if}} text-[#241430]/60\">\n    {{count}} / {{limit}} characters\n    {{#if nearLimit}}<span class=\"font-semibold\"> &#8212; approaching the limit</span>{{/if}}\n  </p>\n</div>",
+    "react": "export function CharacterCounter({\n  value = \"{{value}}\",\n  count = {{count}},\n  limit = {{limit}},\n  nearLimit = {{nearLimit}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\", maxWidth: 320 }}>\n      <label htmlFor=\"charcount-react-field\" style={{ display: \"block\", fontWeight: 600, marginBottom: 6 }}>Bio</label>\n      <textarea id=\"charcount-react-field\" aria-describedby=\"charcount-react-help\" readOnly value={value} style={{\n        width: \"100%\", boxSizing: \"border-box\", minHeight: 76, padding: \"10px 12px\", borderRadius: 8,\n        border: \"1.5px solid #24143033\", background: \"#FAF7F2\", color: \"#241430\", font: \"inherit\", resize: \"vertical\" }} />\n      <p id=\"charcount-react-help\" role=\"status\" style={{ margin: \"6px 2px 0\", fontSize: 12,\n        color: nearLimit ? \"#b3261e\" : \"#24143099\", fontWeight: nearLimit ? 600 : 400 }}>\n        {count} / {limit} characters\n        {nearLimit && <span style={{ fontWeight: 600 }}> &#8212; approaching the limit</span>}\n      </p>\n      <style>{`#charcount-react-field:focus-visible { outline: 2px solid ${accent}; outline-offset: 1px; }`}</style>\n    </div>\n  );\n}"
+  }
+}

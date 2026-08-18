@@ -1,0 +1,62 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Full name",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "initials",
+      "type": "text",
+      "label": "Initials",
+      "default": "PN"
+    },
+    {
+      "id": "shape",
+      "type": "select",
+      "label": "Shape",
+      "default": "circle",
+      "options": [
+        "circle",
+        "rounded",
+        "square"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Size (px)",
+      "default": 44,
+      "min": 28,
+      "max": 72,
+      "step": 4
+    },
+    {
+      "id": "icon",
+      "type": "toggle",
+      "label": "Use generic icon instead of initials",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"avatar avatar--{{shape}}\" style=\"--c:{{color}};width:{{size}}px;height:{{size}}px;font-size:calc({{size}}px * 0.4);\" role=\"img\" aria-label=\"{{name}}\">\n  {{#if icon}}\n  <svg class=\"avatar__icon\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8\"/></svg>\n  {{/if}}\n  {{#unless icon}}<span aria-hidden=\"true\">{{initials}}</span>{{/unless}}\n</span>\n<style>\n.avatar { display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: #241430; font: 600 1em system-ui, sans-serif; overflow: hidden; flex: none; }\n.avatar--circle { border-radius: 50%; }\n.avatar--rounded { border-radius: 22%; }\n.avatar--square { border-radius: 0; }\n.avatar__icon { width: 65%; height: 65%; color: #241430; }\n</style>",
+    "tailwind": "<span class=\"avatar-tw avatar-tw--{{shape}} inline-flex items-center justify-center overflow-hidden flex-none font-semibold\" style=\"background:{{color}};width:{{size}}px;height:{{size}}px;font-size:calc({{size}}px * 0.4);color:#241430;\" role=\"img\" aria-label=\"{{name}}\">\n  {{#if icon}}\n  <svg class=\"w-2/3 h-2/3\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8\"/></svg>\n  {{/if}}\n  {{#unless icon}}<span aria-hidden=\"true\">{{initials}}</span>{{/unless}}\n</span>\n<style>\n.avatar-tw--circle { border-radius: 9999px; }\n.avatar-tw--rounded { border-radius: 22%; }\n.avatar-tw--square { border-radius: 0; }\n</style>",
+    "react": "export function Avatar({\n  name = \"{{name}}\",\n  initials = \"{{initials}}\",\n  shape = \"{{shape}}\",\n  color = \"{{color}}\",\n  size = {{size}},\n  icon = {{icon}},\n}) {\n  const radius = { circle: \"50%\", rounded: \"22%\", square: \"0\" }[shape] ?? \"50%\";\n  return (\n    <span role=\"img\" aria-label={name} style={{\n      display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n      background: color, color: \"#241430\", width: size, height: size,\n      fontSize: size * 0.4, fontWeight: 600, borderRadius: radius,\n      overflow: \"hidden\", flex: \"none\", fontFamily: \"system-ui, sans-serif\",\n    }}>\n      {icon ? (\n        <svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" style={{ width: \"65%\", height: \"65%\" }}>\n          <circle cx=\"12\" cy=\"8\" r=\"4\" /><path d=\"M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8\" />\n        </svg>\n      ) : (\n        <span aria-hidden=\"true\">{initials}</span>\n      )}\n    </span>\n  );\n}"
+  },
+  "slug": "avatar"
+}

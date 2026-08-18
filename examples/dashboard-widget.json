@@ -1,0 +1,47 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Widget title",
+      "default": "Active users"
+    },
+    {
+      "id": "toolbar",
+      "type": "toggle",
+      "label": "Show toolbar",
+      "default": true
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "medium",
+      "options": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"dwidget dwidget--{{size}}\" style=\"--c:{{color}};\" aria-labelledby=\"dwidget-title\">\n  <header class=\"dwidget__head\">\n    <h3 id=\"dwidget-title\" class=\"dwidget__title\">{{title}}</h3>\n    {{#if toolbar}}<div class=\"dwidget__toolbar\"><button type=\"button\" aria-label=\"Refresh\">⟳</button><button type=\"button\" aria-label=\"More options\">⋯</button></div>{{/if}}\n  </header>\n  <div class=\"dwidget__body\">Widget content area</div>\n</section>\n<style>\n.dwidget { border: 1px solid #24143018; border-left: 4px solid var(--c); border-radius: 10px; background: #FAF7F2; font: 13px system-ui, sans-serif; color: #241430; }\n.dwidget--small { padding: 8px; }\n.dwidget--medium { padding: 14px; }\n.dwidget--large { padding: 22px; }\n.dwidget__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }\n.dwidget__title { margin: 0; font-size: 14px; }\n.dwidget__toolbar { display: flex; gap: 4px; }\n.dwidget__toolbar button { border: 1px solid #24143022; background: #FAF7F2; border-radius: 6px; width: 24px; height: 24px; cursor: pointer; }\n.dwidget__toolbar button:hover, .dwidget__toolbar button:focus-visible { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); outline: none; }\n.dwidget__body { opacity: .7; min-height: 40px; }\n</style>",
+    "tailwind": "<section class=\"dwidget-tw dwidget-tw--{{size}} border border-[#24143018] border-l-4 rounded-[10px] bg-[#FAF7F2] font-sans text-[13px] text-[#241430]\" style=\"border-left-color:{{color}};--c:{{color}};\" aria-labelledby=\"dwidget-tw-title\">\n  <header class=\"flex justify-between items-center mb-2\">\n    <h3 id=\"dwidget-tw-title\" class=\"m-0 text-sm\">{{title}}</h3>\n    {{#if toolbar}}<div class=\"flex gap-1\"><button type=\"button\" class=\"border border-[#24143022] bg-[#FAF7F2] rounded-md w-6 h-6 cursor-pointer\" aria-label=\"Refresh\">⟳</button><button type=\"button\" class=\"border border-[#24143022] bg-[#FAF7F2] rounded-md w-6 h-6 cursor-pointer\" aria-label=\"More options\">⋯</button></div>{{/if}}\n  </header>\n  <div class=\"opacity-70 min-h-10\">Widget content area</div>\n</section>\n<style>\n.dwidget-tw--small { padding: 8px; }\n.dwidget-tw--medium { padding: 14px; }\n.dwidget-tw--large { padding: 22px; }\n</style>",
+    "react": "export function DashboardWidget({\n  title = \"{{title}}\",\n  toolbar = {{toolbar}},\n  size = \"{{size}}\",\n  color = \"{{color}}\",\n}) {\n  const pad = { small: 8, medium: 14, large: 22 }[size] ?? 14;\n  return (\n    <section aria-labelledby=\"dwidget-react-title\" style={{ border: \"1px solid #24143018\", borderLeft: `4px solid ${color}`, borderRadius: 10, background: \"#FAF7F2\", font: \"13px system-ui, sans-serif\", color: \"#241430\", padding: pad }}>\n      <header style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", marginBottom: 8 }}>\n        <h3 id=\"dwidget-react-title\" style={{ margin: 0, fontSize: 14 }}>{title}</h3>\n        {toolbar && (\n          <div style={{ display: \"flex\", gap: 4 }}>\n            <button type=\"button\" aria-label=\"Refresh\" style={{ border: \"1px solid #24143022\", background: \"#FAF7F2\", borderRadius: 6, width: 24, height: 24, cursor: \"pointer\" }}>⟳</button>\n            <button type=\"button\" aria-label=\"More options\" style={{ border: \"1px solid #24143022\", background: \"#FAF7F2\", borderRadius: 6, width: 24, height: 24, cursor: \"pointer\" }}>⋯</button>\n          </div>\n        )}\n      </header>\n      <div style={{ opacity: 0.7, minHeight: 40 }}>Widget content area</div>\n    </section>\n  );\n}"
+  },
+  "slug": "dashboard-widget"
+}

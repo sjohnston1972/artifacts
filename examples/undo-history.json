@@ -1,0 +1,55 @@
+{
+  "slug": "undo-history",
+  "controls_schema": [
+    {
+      "id": "currentStep",
+      "type": "number",
+      "label": "Current step",
+      "default": 3,
+      "min": 0,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "timeline",
+      "options": [
+        "timeline",
+        "list"
+      ]
+    },
+    {
+      "id": "canRedo",
+      "type": "toggle",
+      "label": "Redo available",
+      "default": true
+    },
+    {
+      "id": "showTimestamps",
+      "type": "toggle",
+      "label": "Show timestamps",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uhd uhd--{{layout}}\" data-layout=\"{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"uhd__progress\"><span class=\"uhd__bar\" style=\"width:calc(20% * {{currentStep}});\"></span></div>\n  <ol class=\"uhd__list\">\n    <li class=\"uhd__item uhd__item--done\">Typed opening paragraph {{#if showTimestamps}}<span class=\"uhd__time\">2m ago</span>{{/if}}</li>\n    <li class=\"uhd__item uhd__item--done\">Bolded heading {{#if showTimestamps}}<span class=\"uhd__time\">90s ago</span>{{/if}}</li>\n    <li class=\"uhd__item uhd__item--current\">Inserted image <span class=\"uhd__here\">You are here</span></li>\n    <li class=\"uhd__item uhd__item--pending\">Deleted stray sentence</li>\n    <li class=\"uhd__item uhd__item--pending\">Reordered sections</li>\n  </ol>\n  <div class=\"uhd__actions\">\n    <button type=\"button\" class=\"uhd__btn\">Undo</button>\n    <button type=\"button\" class=\"uhd__btn\" {{#unless canRedo}}disabled{{/unless}} aria-disabled=\"{{#if canRedo}}false{{/if}}{{#unless canRedo}}true{{/unless}}\">Redo</button>\n  </div>\n</div>\n<style>\n.uhd { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; max-width: 320px; }\n.uhd__progress { height: 4px; background: #24143014; border-radius: 2px; overflow: hidden; margin-bottom: 14px; }\n.uhd__bar { display: block; height: 100%; background: var(--accent); }\n.uhd__list { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 8px; }\n.uhd--timeline .uhd__item { border-left: 2px solid #24143020; padding-left: 12px; }\n.uhd--list .uhd__item { border-bottom: 1px solid #24143014; padding-bottom: 8px; }\n.uhd__item { font-size: 13px; }\n.uhd__item--pending { color: #241430aa; text-decoration: line-through; }\n.uhd__item--current { font-weight: 700; }\n.uhd--timeline .uhd__item--current { border-left-color: var(--accent); }\n.uhd__time { margin-left: 6px; font-size: 11px; color: #241430aa; }\n.uhd__here { margin-left: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent); }\n.uhd__actions { display: flex; gap: 8px; }\n.uhd__btn { border: 1.5px solid #24143026; background: #fff; padding: 6px 14px; border-radius: 8px; font: 600 13px system-ui, sans-serif; cursor: pointer; }\n.uhd__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.uhd__btn[disabled] { opacity: .45; cursor: not-allowed; }\n</style>",
+    "tailwind": "<div class=\"uhd-tw uhd-tw--{{layout}} max-w-[320px] bg-[#FAF7F2] text-[#241430] font-sans p-[18px]\" data-layout=\"{{layout}}\" style=\"--accent:{{accent}};\">\n  <div class=\"h-1 bg-[#24143014] rounded-full overflow-hidden mb-3.5\"><span class=\"block h-full\" style=\"width:calc(20% * {{currentStep}});background:{{accent}}\"></span></div>\n  <ol class=\"list-none m-0 mb-3.5 p-0 flex flex-col gap-2\">\n    <li class=\"uhd-tw__item text-[13px]\">Typed opening paragraph {{#if showTimestamps}}<span class=\"ml-1.5 text-[11px] text-[#241430]/65\">2m ago</span>{{/if}}</li>\n    <li class=\"uhd-tw__item text-[13px]\">Bolded heading {{#if showTimestamps}}<span class=\"ml-1.5 text-[11px] text-[#241430]/65\">90s ago</span>{{/if}}</li>\n    <li class=\"uhd-tw__item uhd-tw__item--current text-[13px] font-bold\">Inserted image <span class=\"ml-1.5 text-[10px] font-bold uppercase\" style=\"color:{{accent}}\">You are here</span></li>\n    <li class=\"uhd-tw__item text-[13px] text-[#241430]/65 line-through\">Deleted stray sentence</li>\n    <li class=\"uhd-tw__item text-[13px] text-[#241430]/65 line-through\">Reordered sections</li>\n  </ol>\n  <div class=\"flex gap-2\">\n    <button type=\"button\" class=\"border-[1.5px] border-[#24143026] bg-white px-3.5 py-1.5 rounded-lg text-[13px] font-semibold cursor-pointer\">Undo</button>\n    <button type=\"button\" class=\"border-[1.5px] border-[#24143026] bg-white px-3.5 py-1.5 rounded-lg text-[13px] font-semibold cursor-pointer disabled:opacity-45\" {{#unless canRedo}}disabled{{/unless}} aria-disabled=\"{{#if canRedo}}false{{/if}}{{#unless canRedo}}true{{/unless}}\">Redo</button>\n  </div>\n</div>\n<style>\n.uhd-tw--timeline .uhd-tw__item { border-left: 2px solid #24143020; padding-left: 12px; }\n.uhd-tw--list .uhd-tw__item { border-bottom: 1px solid #24143014; padding-bottom: 8px; }\n</style>",
+    "react": "export function UndoHistory({\n  currentStep = {{currentStep}},\n  accent = \"{{accent}}\",\n  layout = \"{{layout}}\",\n  canRedo = {{canRedo}},\n  showTimestamps = {{showTimestamps}},\n}) {\n  const timeline = layout === \"timeline\";\n  const items = [\n    { text: \"Typed opening paragraph\", state: \"done\", time: \"2m ago\" },\n    { text: \"Bolded heading\", state: \"done\", time: \"90s ago\" },\n    { text: \"Inserted image\", state: \"current\", time: null },\n    { text: \"Deleted stray sentence\", state: \"pending\", time: null },\n    { text: \"Reordered sections\", state: \"pending\", time: null },\n  ];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, maxWidth: 320 }}>\n      <div style={{ height: 4, background: \"#24143014\", borderRadius: 2, overflow: \"hidden\", marginBottom: 14 }}>\n        <span style={{ display: \"block\", height: \"100%\", width: `calc(20% * ${currentStep})`, background: accent }} />\n      </div>\n      <ol style={{ listStyle: \"none\", margin: \"0 0 14px\", padding: 0, display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n        {items.map((it) => (\n          <li key={it.text} style={{\n            fontSize: 13,\n            fontWeight: it.state === \"current\" ? 700 : 400,\n            color: it.state === \"pending\" ? \"#241430aa\" : \"#241430\",\n            textDecoration: it.state === \"pending\" ? \"line-through\" : \"none\",\n            borderLeft: timeline ? `2px solid ${it.state === \"current\" ? accent : \"#24143020\"}` : \"none\",\n            borderBottom: timeline ? \"none\" : \"1px solid #24143014\",\n            paddingLeft: timeline ? 12 : 0,\n            paddingBottom: timeline ? 0 : 8,\n          }}>\n            {it.text}\n            {showTimestamps && it.time && <span style={{ marginLeft: 6, fontSize: 11, color: \"#241430aa\" }}>{it.time}</span>}\n            {it.state === \"current\" && <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 700, textTransform: \"uppercase\", color: accent }}>You are here</span>}\n          </li>\n        ))}\n      </ol>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        <button type=\"button\" style={{ border: \"1.5px solid #24143026\", background: \"#fff\", padding: \"6px 14px\", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: \"pointer\" }}>Undo</button>\n        <button type=\"button\" disabled={!canRedo} aria-disabled={!canRedo} style={{ border: \"1.5px solid #24143026\", background: \"#fff\", padding: \"6px 14px\", borderRadius: 8, fontSize: 13, fontWeight: 600,\n          cursor: canRedo ? \"pointer\" : \"not-allowed\", opacity: canRedo ? 1 : 0.45 }}>Redo</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

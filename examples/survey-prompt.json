@@ -1,0 +1,53 @@
+{
+  "slug": "survey-prompt",
+  "controls_schema": [
+    {
+      "id": "question",
+      "type": "text",
+      "label": "Question",
+      "default": "What almost stopped you from signing up today?"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Answer placeholder",
+      "default": "Type your answer…"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "corner",
+      "options": [
+        "corner",
+        "banner",
+        "center"
+      ]
+    },
+    {
+      "id": "dismissLabel",
+      "type": "text",
+      "label": "Dismiss label",
+      "default": "Not now"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sv-frame\">\n  <div class=\"sv sv--{{position}}\" style=\"--accent:{{accent}};\">\n    <button type=\"button\" class=\"sv__close\" aria-label=\"{{dismissLabel}}\">×</button>\n    <p class=\"sv__question\">{{question}}</p>\n    <textarea class=\"sv__input\" placeholder=\"{{placeholder}}\" aria-label=\"{{placeholder}}\" rows=\"2\"></textarea>\n    <div class=\"sv__actions\">\n      <button type=\"button\" class=\"sv__skip\">{{dismissLabel}}</button>\n      <button type=\"button\" class=\"sv__submit\">Send</button>\n    </div>\n  </div>\n</div>\n<style>\n.sv-frame { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; width: 400px; height: 220px; background: #FAF7F2; border-radius: 14px; border: 1px solid #24143018; overflow: hidden; }\n.sv { position: absolute; background: #fff; border-radius: 12px; box-shadow: 0 10px 26px rgba(36,20,48,.2); padding: 16px 18px; }\n.sv--corner { width: 230px; right: 16px; bottom: 16px; }\n.sv--banner { left: 0; right: 0; top: 0; border-radius: 0; display: flex; align-items: center; gap: 14px; padding: 12px 18px; }\n.sv--banner .sv__question { margin: 0; flex: 1; }\n.sv--banner .sv__input { display: none; }\n.sv--center { width: 260px; left: 50%; top: 50%; transform: translate(-50%,-50%); }\n.sv__close { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border: none; background: transparent; color: #24143070; font-size: 14px; cursor: pointer; border-radius: 6px; }\n.sv--banner .sv__close { position: static; margin-left: 6px; }\n.sv__close:hover, .sv__close:focus-visible { background: #24143012; color: #241430; }\n.sv__question { margin: 0 0 10px; font-size: 13.5px; font-weight: 700; padding-right: 18px; }\n.sv__input { width: 100%; box-sizing: border-box; border: 1.5px solid #24143025; border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 12.5px; resize: none; margin-bottom: 10px; }\n.sv__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.sv__actions { display: flex; justify-content: flex-end; gap: 8px; }\n.sv--banner .sv__actions { justify-content: flex-start; }\n.sv__skip { background: none; border: 1.5px solid #24143025; border-radius: 7px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }\n.sv__submit { background: var(--accent); border: 1.5px solid var(--accent); border-radius: 7px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"sv-tw-frame relative font-sans text-[#241430] w-[400px] h-[220px] bg-[#FAF7F2] rounded-2xl border border-[#24143018] overflow-hidden\">\n  <div class=\"sv-tw sv-tw--{{position}} absolute bg-white rounded-xl shadow-[0_10px_26px_rgba(36,20,48,.2)] p-4\" style=\"--accent:{{accent}}\">\n    <button type=\"button\" class=\"sv-tw__close absolute top-2 right-2 w-5.5 h-5.5 rounded-md text-[#24143070] hover:bg-[#24143012] hover:text-[#241430]\" aria-label=\"{{dismissLabel}}\">×</button>\n    <p class=\"sv-tw__question m-0 mb-2.5 text-[13.5px] font-bold pr-4.5\">{{question}}</p>\n    <textarea class=\"sv-tw__input w-full box-border border-[1.5px] border-[#24143025] rounded-lg px-2.5 py-2 text-xs mb-2.5\" placeholder=\"{{placeholder}}\" aria-label=\"{{placeholder}}\" rows=\"2\"></textarea>\n    <div class=\"flex justify-end gap-2\">\n      <button type=\"button\" class=\"rounded-lg px-3 py-1.5 text-xs font-semibold border-[1.5px] border-[#24143025]\">{{dismissLabel}}</button>\n      <button type=\"button\" class=\"rounded-lg px-3 py-1.5 text-xs font-semibold\" style=\"background:{{accent}};border:1.5px solid {{accent}}\">Send</button>\n    </div>\n  </div>\n</div>\n<style>\n.sv-tw--corner { width: 230px; right: 16px; bottom: 16px; }\n.sv-tw--banner { left: 0; right: 0; top: 0; border-radius: 0; }\n.sv-tw--banner .sv-tw__input { display: none; }\n.sv-tw--center { width: 260px; left: 50%; top: 50%; transform: translate(-50%,-50%); }\n</style>",
+    "react": "export function SurveyPrompt({\n  question = \"{{question}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  position = \"{{position}}\",\n  dismissLabel = \"{{dismissLabel}}\",\n}) {\n  const pos = {\n    corner: { width: 230, right: 16, bottom: 16 },\n    banner: { left: 0, right: 0, top: 0, borderRadius: 0, display: \"flex\", alignItems: \"center\", gap: 14 },\n    center: { width: 260, left: \"50%\", top: \"50%\", transform: \"translate(-50%,-50%)\" },\n  }[position] ?? {};\n  const isBanner = position === \"banner\";\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", width: 400, height: 220, background: \"#FAF7F2\", borderRadius: 14, border: \"1px solid #24143018\", overflow: \"hidden\" }}>\n      <div style={{ position: \"absolute\", background: \"#fff\", borderRadius: 12, boxShadow: \"0 10px 26px rgba(36,20,48,.2)\", padding: isBanner ? \"12px 18px\" : \"16px 18px\", ...pos }}>\n        <button type=\"button\" aria-label={dismissLabel} style={{ position: \"absolute\", top: 8, right: 8, width: 22, height: 22, border: \"none\", background: \"transparent\", color: \"#24143070\", fontSize: 14, borderRadius: 6, cursor: \"pointer\" }}>×</button>\n        <p style={{ margin: isBanner ? 0 : \"0 0 10px\", fontSize: 13.5, fontWeight: 700, paddingRight: isBanner ? 0 : 18, flex: isBanner ? 1 : \"initial\" }}>{question}</p>\n        {!isBanner && (\n          <textarea placeholder={placeholder} aria-label={placeholder} rows={2} style={{ width: \"100%\", boxSizing: \"border-box\", border: \"1.5px solid #24143025\", borderRadius: 8, padding: \"8px 10px\", fontSize: 12.5, resize: \"none\", marginBottom: 10 }} />\n        )}\n        <div style={{ display: \"flex\", justifyContent: isBanner ? \"flex-start\" : \"flex-end\", gap: 8 }}>\n          <button type=\"button\" style={{ background: \"none\", border: \"1.5px solid #24143025\", borderRadius: 7, padding: \"6px 12px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>{dismissLabel}</button>\n          {!isBanner && (\n            <button type=\"button\" style={{ background: accent, border: \"1.5px solid \" + accent, borderRadius: 7, padding: \"6px 12px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>Send</button>\n          )}\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

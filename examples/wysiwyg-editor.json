@@ -1,0 +1,55 @@
+{
+  "slug": "wysiwyg-editor",
+  "controls_schema": [
+    {
+      "id": "content",
+      "type": "text",
+      "label": "Page content",
+      "default": "Welcome to the new investor update page."
+    },
+    {
+      "id": "pageStyle",
+      "type": "select",
+      "label": "Page style",
+      "default": "article",
+      "options": [
+        "article",
+        "card"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showBadge",
+      "type": "toggle",
+      "label": "Show WYSIWYG badge",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Page corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wyd\" style=\"--accent:{{accent}};\">\n  {{#if showBadge}}<p class=\"wyd__badge\">This is exactly how it will look published</p>{{/if}}\n  <div class=\"wyd__page wyd__page--{{pageStyle}}\" data-style=\"{{pageStyle}}\" style=\"border-radius:{{radius}}px;\">\n    <div class=\"wyd__content\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Page content\">{{content}}</div>\n  </div>\n</div>\n<style>\n.wyd { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 380px; }\n.wyd__badge { margin: 0 0 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }\n.wyd__page { background: #fff; overflow: hidden; }\n.wyd__page--article { border-top: 4px solid var(--accent); padding: 22px 20px; }\n.wyd__page--card { border: 1.5px solid #24143020; box-shadow: 0 10px 26px rgba(36,20,48,.14); padding: 18px; }\n.wyd__content { font-size: 17px; line-height: 1.6; }\n.wyd__page--card .wyd__content { font-size: 15px; }\n.wyd__content:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"max-w-[380px] bg-[#FAF7F2] text-[#241430] font-sans p-5\" style=\"--accent:{{accent}};\">\n  {{#if showBadge}}<p class=\"m-0 mb-2.5 text-[11px] font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">This is exactly how it will look published</p>{{/if}}\n  <div class=\"wyw-tw wyw-tw--{{pageStyle}} bg-white overflow-hidden\" data-style=\"{{pageStyle}}\" style=\"border-radius:{{radius}}px;\">\n    <div class=\"wyw-tw__content text-[17px] leading-relaxed\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Page content\">{{content}}</div>\n  </div>\n</div>\n<style>\n.wyw-tw--article { border-top: 4px solid {{accent}}; padding: 22px 20px; }\n.wyw-tw--card { border: 1.5px solid #24143020; box-shadow: 0 10px 26px rgba(36,20,48,.14); padding: 18px; }\n.wyw-tw--card .wyw-tw__content { font-size: 15px; }\n</style>",
+    "react": "export function WysiwygEditor({\n  content = \"{{content}}\",\n  pageStyle = \"{{pageStyle}}\",\n  accent = \"{{accent}}\",\n  showBadge = {{showBadge}},\n  radius = {{radius}},\n}) {\n  const card = pageStyle === \"card\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 380 }}>\n      {showBadge && (\n        <p style={{ margin: \"0 0 10px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\", color: accent }}>\n          This is exactly how it will look published\n        </p>\n      )}\n      <div style={{\n        background: \"#fff\", overflow: \"hidden\", borderRadius: radius,\n        borderTop: card ? \"none\" : `4px solid ${accent}`,\n        border: card ? \"1.5px solid #24143020\" : \"none\",\n        boxShadow: card ? \"0 10px 26px rgba(36,20,48,.14)\" : \"none\",\n        padding: card ? 18 : \"22px 20px\",\n      }}>\n        <div contentEditable suppressContentEditableWarning role=\"textbox\" aria-multiline=\"true\" aria-label=\"Page content\"\n          style={{ fontSize: card ? 15 : 17, lineHeight: 1.6 }}>\n          {content}\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

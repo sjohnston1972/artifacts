@@ -1,0 +1,48 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Widget title",
+      "default": "Traffic by source"
+    },
+    {
+      "id": "refreshInterval",
+      "type": "select",
+      "label": "Refresh interval",
+      "default": "1m",
+      "options": [
+        "30s",
+        "1m",
+        "5m",
+        "manual"
+      ]
+    },
+    {
+      "id": "showLegend",
+      "type": "toggle",
+      "label": "Show legend",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"wconfig\" style=\"--c:{{color}};\" aria-label=\"Configure {{title}}\">\n  <label class=\"wconfig__field\">\n    <span>Widget title</span>\n    <input type=\"text\" class=\"wconfig__input\" value=\"{{title}}\">\n  </label>\n  <label class=\"wconfig__field\">\n    <span>Refresh interval <span class=\"wconfig__hint\">(currently {{refreshInterval}})</span></span>\n    <select class=\"wconfig__select\">\n      <option value=\"30s\">30 seconds</option>\n      <option value=\"1m\">1 minute</option>\n      <option value=\"5m\">5 minutes</option>\n      <option value=\"manual\">Manual only</option>\n    </select>\n  </label>\n  <label class=\"wconfig__toggle\">\n    <input type=\"checkbox\" {{#if showLegend}}checked{{/if}}>\n    <span>Show legend</span>\n  </label>\n</form>\n<style>\n.wconfig { display: grid; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.wconfig__field { display: flex; flex-direction: column; gap: 3px; font-size: 12px; }\n.wconfig__input, .wconfig__select { border: 1.5px solid var(--c); border-radius: 6px; padding: 6px 8px; font: inherit; background: #FAF7F2; color: #241430; }\n.wconfig__input:focus-visible, .wconfig__select:focus-visible { outline: 2px solid var(--c); }\n.wconfig__toggle { display: flex; align-items: center; gap: 6px; }\n.wconfig__hint { opacity: .6; font-weight: 400; }\n</style>",
+    "tailwind": "<form class=\"wconfig-tw grid gap-2.5 font-sans text-[13px] text-[#241430] max-w-xs\" style=\"--c:{{color}};\" aria-label=\"Configure {{title}}\">\n  <label class=\"flex flex-col gap-0.5 text-xs\">\n    <span>Widget title</span>\n    <input type=\"text\" class=\"border-[1.5px] rounded-md px-2 py-1.5 bg-[#FAF7F2] text-[#241430]\" style=\"border-color:var(--c);\" value=\"{{title}}\">\n  </label>\n  <label class=\"flex flex-col gap-0.5 text-xs\">\n    <span>Refresh interval <span class=\"opacity-60 font-normal\">(currently {{refreshInterval}})</span></span>\n    <select class=\"border-[1.5px] rounded-md px-2 py-1.5 bg-[#FAF7F2] text-[#241430]\" style=\"border-color:var(--c);\">\n      <option value=\"30s\">30 seconds</option>\n      <option value=\"1m\">1 minute</option>\n      <option value=\"5m\">5 minutes</option>\n      <option value=\"manual\">Manual only</option>\n    </select>\n  </label>\n  <label class=\"flex items-center gap-1.5\">\n    <input type=\"checkbox\" {{#if showLegend}}checked{{/if}}>\n    <span>Show legend</span>\n  </label>\n</form>",
+    "react": "export function WidgetConfiguration({\n  title = \"{{title}}\",\n  refreshInterval = \"{{refreshInterval}}\",\n  showLegend = {{showLegend}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <form aria-label={\"Configure \" + title} style={{ display: \"grid\", gap: 10, font: \"13px system-ui, sans-serif\", color: \"#241430\", maxWidth: 260 }}>\n      <label style={{ display: \"flex\", flexDirection: \"column\", gap: 3, fontSize: 12 }}>\n        <span>Widget title</span>\n        <input type=\"text\" defaultValue={title} style={{ border: \"1.5px solid \" + color, borderRadius: 6, padding: \"6px 8px\", background: \"#FAF7F2\", color: \"#241430\" }} />\n      </label>\n      <label style={{ display: \"flex\", flexDirection: \"column\", gap: 3, fontSize: 12 }}>\n        <span>Refresh interval</span>\n        <select defaultValue={refreshInterval} style={{ border: \"1.5px solid \" + color, borderRadius: 6, padding: \"6px 8px\", background: \"#FAF7F2\", color: \"#241430\" }}>\n          <option value=\"30s\">30 seconds</option>\n          <option value=\"1m\">1 minute</option>\n          <option value=\"5m\">5 minutes</option>\n          <option value=\"manual\">Manual only</option>\n        </select>\n      </label>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 6 }}>\n        <input type=\"checkbox\" defaultChecked={showLegend} />\n        <span>Show legend</span>\n      </label>\n    </form>\n  );\n}"
+  },
+  "slug": "widget-configuration"
+}

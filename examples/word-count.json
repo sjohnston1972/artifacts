@@ -1,0 +1,64 @@
+{
+  "slug": "word-count",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Field content",
+      "default": "Draft your announcement here and watch the counter update as you type."
+    },
+    {
+      "id": "wordCount",
+      "type": "number",
+      "label": "Current count",
+      "default": 12,
+      "min": 0,
+      "max": 500,
+      "step": 1
+    },
+    {
+      "id": "limit",
+      "type": "number",
+      "label": "Limit",
+      "default": 40,
+      "min": 10,
+      "max": 500,
+      "step": 1
+    },
+    {
+      "id": "nearLimit",
+      "type": "toggle",
+      "label": "Near limit",
+      "default": false
+    },
+    {
+      "id": "countMode",
+      "type": "select",
+      "label": "Count mode",
+      "default": "words",
+      "options": [
+        "words",
+        "characters"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wcd\" style=\"--accent:{{accent}};\">\n  <div class=\"wcd__field\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Message\" aria-describedby=\"wcd-counter\">{{text}}</div>\n  <p id=\"wcd-counter\" class=\"wcd__counter{{#if nearLimit}} wcd__counter--warn{{/if}}\" role=\"status\">\n    <span class=\"wcd__count\">{{wordCount}}</span> / {{limit}} {{countMode}}\n    {{#if nearLimit}}<span class=\"wcd__warn-label\">Approaching limit</span>{{/if}}\n  </p>\n</div>\n<style>\n.wcd { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; max-width: 320px; border: 1.5px solid #24143020; border-radius: 10px; }\n.wcd__field { min-height: 3.4em; font-size: 14px; line-height: 1.6; padding-bottom: 10px; border-bottom: 1px solid #24143014; margin-bottom: 8px; }\n.wcd__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.wcd__counter { margin: 0; font-size: 12px; color: #241430aa; display: flex; align-items: center; gap: 8px; }\n.wcd__count { font-weight: 700; color: var(--accent); }\n.wcd__counter--warn { color: #b3431f; }\n.wcd__counter--warn .wcd__count { color: #b3431f; }\n.wcd__warn-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }\n</style>",
+    "tailwind": "<div class=\"max-w-[320px] bg-[#FAF7F2] text-[#241430] font-sans p-4 border-[1.5px] border-[#24143020] rounded-[10px]\" style=\"--accent:{{accent}};\">\n  <div class=\"min-h-[3.4em] text-sm leading-relaxed pb-2.5 border-b border-[#24143014] mb-2\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Message\" aria-describedby=\"wcd-tw-counter\">{{text}}</div>\n  <p id=\"wcd-tw-counter\" class=\"wcd-tw__counter{{#if nearLimit}} wcd-tw__counter--warn{{/if}} m-0 text-xs text-[#241430]/65 flex items-center gap-2\" role=\"status\">\n    <span class=\"font-bold\" style=\"color:{{#if nearLimit}}#b3431f{{/if}}{{#unless nearLimit}}{{accent}}{{/unless}}\">{{wordCount}}</span> / {{limit}} {{countMode}}\n    {{#if nearLimit}}<span class=\"text-[11px] font-bold uppercase tracking-wide\">Approaching limit</span>{{/if}}\n  </p>\n</div>\n<style>\n.wcd-tw__counter--warn { color: #b3431f; }\n</style>",
+    "react": "export function WordCount({\n  text = \"{{text}}\",\n  wordCount = {{wordCount}},\n  limit = {{limit}},\n  nearLimit = {{nearLimit}},\n  countMode = \"{{countMode}}\",\n  accent = \"{{accent}}\",\n}) {\n  const warnColor = \"#b3431f\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, maxWidth: 320, border: \"1.5px solid #24143020\", borderRadius: 10 }}>\n      <div contentEditable suppressContentEditableWarning role=\"textbox\" aria-multiline=\"true\" aria-label=\"Message\" aria-describedby=\"wcd-react-counter\"\n        style={{ minHeight: \"3.4em\", fontSize: 14, lineHeight: 1.6, paddingBottom: 10, borderBottom: \"1px solid #24143014\", marginBottom: 8 }}>\n        {text}\n      </div>\n      <p id=\"wcd-react-counter\" role=\"status\" style={{ margin: 0, fontSize: 12, color: nearLimit ? warnColor : \"#241430aa\", display: \"flex\", alignItems: \"center\", gap: 8 }}>\n        <span style={{ fontWeight: 700, color: nearLimit ? warnColor : accent }}>{wordCount}</span> / {limit} {countMode}\n        {nearLimit && <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".03em\" }}>Approaching limit</span>}\n      </p>\n    </div>\n  );\n}"
+  }
+}

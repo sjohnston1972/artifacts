@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "skill",
+      "type": "text",
+      "label": "Skill",
+      "default": "TypeScript"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Level",
+      "default": "proficient",
+      "options": [
+        "beginner",
+        "proficient",
+        "expert"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "endorsed",
+      "type": "toggle",
+      "label": "Endorsed by a peer",
+      "default": true
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Font size",
+      "default": 13,
+      "min": 11,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"skillbadge skillbadge--{{level}}\" style=\"--c:{{color}};font-size:{{size}}px;\">\n  {{skill}}\n  {{#if endorsed}}<svg class=\"skillbadge__check\" viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path d=\"M2 6.5l2.5 2.5L10 3\"/></svg>{{/if}}\n</span>\n<style>\n.skillbadge { display: inline-flex; align-items: center; gap: 5px; font: 600 1em system-ui, sans-serif; padding: .35em .8em; border-radius: 999px; border: 1.5px solid var(--c); color: #241430; }\n.skillbadge--beginner { background: transparent; }\n.skillbadge--proficient { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); }\n.skillbadge--expert { background: var(--c); }\n.skillbadge__check { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }\n</style>",
+    "tailwind": "<span class=\"skillbadge-tw skillbadge-tw--{{level}} inline-flex items-center gap-1.5 font-semibold rounded-full border-[1.5px] px-3 py-1.5 text-[#241430]\" style=\"border-color:{{color}};--c:{{color}};font-size:{{size}}px;\">\n  {{skill}}\n  {{#if endorsed}}<svg viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M2 6.5l2.5 2.5L10 3\"/></svg>{{/if}}\n</span>\n<style>\n.skillbadge-tw--beginner { background: transparent; }\n.skillbadge-tw--proficient { background: color-mix(in srgb, var(--c) 30%, #FAF7F2); }\n.skillbadge-tw--expert { background: var(--c); }\n</style>",
+    "react": "export function SkillBadge({\n  skill = \"{{skill}}\",\n  level = \"{{level}}\",\n  color = \"{{color}}\",\n  endorsed = {{endorsed}},\n  size = {{size}},\n}) {\n  const bg = { beginner: \"transparent\", proficient: `${color}4d`, expert: color }[level] ?? \"transparent\";\n  return (\n    <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, fontWeight: 600, fontSize: size, padding: \"0.35em 0.8em\", borderRadius: 999, border: `1.5px solid ${color}`, color: \"#241430\", background: bg }}>\n      {skill}\n      {endorsed && (\n        <svg viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" strokeLinejoin=\"round\">\n          <path d=\"M2 6.5l2.5 2.5L10 3\" />\n        </svg>\n      )}\n    </span>\n  );\n}"
+  },
+  "slug": "skill-badge"
+}

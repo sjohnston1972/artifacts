@@ -1,0 +1,66 @@
+{
+  "slug": "tour-step",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Filter your results"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Use these filters to narrow down exactly what you're looking for."
+    },
+    {
+      "id": "step",
+      "type": "number",
+      "label": "Current step",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "total",
+      "type": "number",
+      "label": "Total steps",
+      "default": 4,
+      "min": 1,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "id": "placement",
+      "type": "select",
+      "label": "Placement",
+      "default": "bottom",
+      "options": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ts-wrap\">\n  <div class=\"ts-target\" aria-hidden=\"true\"><span class=\"ts-target__dot\" style=\"background:{{accent}};\"></span></div>\n  <div class=\"ts-callout\" data-placement=\"{{placement}}\" style=\"--accent:{{accent}};\">\n    <button type=\"button\" class=\"ts-close\" aria-label=\"Close tour\">×</button>\n    <p class=\"ts-step\">Step {{step}} of {{total}}</p>\n    <h4 class=\"ts-title\">{{title}}</h4>\n    <p class=\"ts-body\">{{body}}</p>\n    <div class=\"ts-actions\"><button type=\"button\" class=\"ts-next\">Next</button></div>\n    <span class=\"ts-arrow\" aria-hidden=\"true\"></span>\n  </div>\n</div>\n<style>\n.ts-wrap { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; width: 360px; height: 240px; background: #FAF7F2; border-radius: 14px; border: 1px solid #24143018; }\n.ts-target { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 6px #24143010; display: flex; align-items: center; justify-content: center; }\n.ts-target__dot { width: 16px; height: 16px; border-radius: 999px; }\n.ts-callout { position: absolute; width: 200px; background: #fff; border-radius: 10px; padding: 14px 16px; box-shadow: 0 10px 26px rgba(36,20,48,.2); }\n.ts-callout[data-placement=\"top\"] { left: 50%; bottom: calc(50% + 60px); transform: translateX(-50%); }\n.ts-callout[data-placement=\"bottom\"] { left: 50%; top: calc(50% + 60px); transform: translateX(-50%); }\n.ts-callout[data-placement=\"left\"] { right: calc(50% + 60px); top: 50%; transform: translateY(-50%); }\n.ts-callout[data-placement=\"right\"] { left: calc(50% + 60px); top: 50%; transform: translateY(-50%); }\n.ts-close { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border: none; background: transparent; color: #24143070; font-size: 13px; cursor: pointer; border-radius: 5px; }\n.ts-close:hover, .ts-close:focus-visible { background: #24143012; color: #241430; }\n.ts-step { margin: 0 0 4px; font-size: 10.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }\n.ts-title { margin: 0 0 4px; font-size: 14px; font-weight: 700; }\n.ts-body { margin: 0 0 10px; font-size: 12px; color: #241430b3; }\n.ts-actions { display: flex; justify-content: flex-end; }\n.ts-next { background: var(--accent); border: 1.5px solid var(--accent); border-radius: 7px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; }\n.ts-arrow { position: absolute; width: 10px; height: 10px; background: #fff; transform: rotate(45deg); }\n.ts-callout[data-placement=\"top\"] .ts-arrow { bottom: -5px; left: 50%; margin-left: -5px; }\n.ts-callout[data-placement=\"bottom\"] .ts-arrow { top: -5px; left: 50%; margin-left: -5px; }\n.ts-callout[data-placement=\"left\"] .ts-arrow { right: -5px; top: 50%; margin-top: -5px; }\n.ts-callout[data-placement=\"right\"] .ts-arrow { left: -5px; top: 50%; margin-top: -5px; }\n</style>",
+    "tailwind": "<div class=\"ts-tw-wrap relative font-sans text-[#241430] w-[360px] h-[240px] bg-[#FAF7F2] rounded-2xl border border-[#24143018]\">\n  <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white shadow-[0_0_0_6px_#24143010] flex items-center justify-center\" aria-hidden=\"true\">\n    <span class=\"w-4 h-4 rounded-full\" style=\"background:{{accent}}\"></span>\n  </div>\n  <div class=\"ts-tw-callout absolute w-[200px] bg-white rounded-[10px] p-3.5 shadow-[0_10px_26px_rgba(36,20,48,.2)]\" data-placement=\"{{placement}}\" style=\"--accent:{{accent}}\">\n    <button type=\"button\" class=\"absolute top-1.5 right-1.5 w-5 h-5 rounded text-[#24143070] hover:bg-[#24143012] hover:text-[#241430]\" aria-label=\"Close tour\">×</button>\n    <p class=\"m-0 mb-1 text-[10.5px] font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">Step {{step}} of {{total}}</p>\n    <h4 class=\"m-0 mb-1 text-sm font-bold\">{{title}}</h4>\n    <p class=\"m-0 mb-2.5 text-xs text-[#241430]/70\">{{body}}</p>\n    <div class=\"flex justify-end\"><button type=\"button\" class=\"rounded-lg px-2.5 py-1 text-xs font-semibold\" style=\"background:{{accent}};border:1.5px solid {{accent}}\">Next</button></div>\n  </div>\n</div>\n<style>\n.ts-tw-callout[data-placement=\"top\"] { left: 50%; bottom: calc(50% + 60px); transform: translateX(-50%); }\n.ts-tw-callout[data-placement=\"bottom\"] { left: 50%; top: calc(50% + 60px); transform: translateX(-50%); }\n.ts-tw-callout[data-placement=\"left\"] { right: calc(50% + 60px); top: 50%; transform: translateY(-50%); }\n.ts-tw-callout[data-placement=\"right\"] { left: calc(50% + 60px); top: 50%; transform: translateY(-50%); }\n</style>",
+    "react": "export function TourStep({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  step = {{step}},\n  total = {{total}},\n  placement = \"{{placement}}\",\n  accent = \"{{accent}}\",\n}) {\n  const pos = {\n    top: { left: \"50%\", bottom: \"calc(50% + 60px)\", transform: \"translateX(-50%)\" },\n    bottom: { left: \"50%\", top: \"calc(50% + 60px)\", transform: \"translateX(-50%)\" },\n    left: { right: \"calc(50% + 60px)\", top: \"50%\", transform: \"translateY(-50%)\" },\n    right: { left: \"calc(50% + 60px)\", top: \"50%\", transform: \"translateY(-50%)\" },\n  }[placement] ?? {};\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", width: 360, height: 240, background: \"#FAF7F2\", borderRadius: 14, border: \"1px solid #24143018\" }}>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", top: \"50%\", left: \"50%\", transform: \"translate(-50%,-50%)\", width: 64, height: 64, borderRadius: 999, background: \"#fff\", boxShadow: \"0 0 0 6px #24143010\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\" }}>\n        <span style={{ width: 16, height: 16, borderRadius: 999, background: accent }} />\n      </div>\n      <div style={{ position: \"absolute\", width: 200, background: \"#fff\", borderRadius: 10, padding: \"14px 16px\", boxShadow: \"0 10px 26px rgba(36,20,48,.2)\", ...pos }}>\n        <button type=\"button\" aria-label=\"Close tour\" style={{ position: \"absolute\", top: 6, right: 6, width: 20, height: 20, border: \"none\", background: \"transparent\", color: \"#24143070\", fontSize: 13, borderRadius: 5, cursor: \"pointer\" }}>×</button>\n        <p style={{ margin: \"0 0 4px\", fontSize: 10.5, fontWeight: 700, color: accent, textTransform: \"uppercase\", letterSpacing: \".04em\" }}>Step {step} of {total}</p>\n        <h4 style={{ margin: \"0 0 4px\", fontSize: 14, fontWeight: 700 }}>{title}</h4>\n        <p style={{ margin: \"0 0 10px\", fontSize: 12, color: \"#241430b3\" }}>{body}</p>\n        <div style={{ display: \"flex\", justifyContent: \"flex-end\" }}>\n          <button type=\"button\" style={{ background: accent, border: \"1.5px solid \" + accent, borderRadius: 7, padding: \"5px 11px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>Next</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "code-block",
+  "controls_schema": [
+    {
+      "id": "code",
+      "type": "text",
+      "label": "Code",
+      "default": "function greet(name) {\n  return 'Hi, ' + name + '!';\n}"
+    },
+    {
+      "id": "language",
+      "type": "select",
+      "label": "Language",
+      "default": "javascript",
+      "options": [
+        "javascript",
+        "python",
+        "css"
+      ]
+    },
+    {
+      "id": "showLineNumbers",
+      "type": "toggle",
+      "label": "Show line gutter",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"codeblock codeblock--{{language}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"codeblock__bar\">\n    <span class=\"codeblock__dots\" aria-hidden=\"true\"><i></i><i></i><i></i></span>\n    <span class=\"codeblock__lang\">{{language}}</span>\n  </div>\n  <div class=\"codeblock__body\">\n    {{#if showLineNumbers}}<span class=\"codeblock__gutter\" aria-hidden=\"true\">1</span>{{/if}}\n    <pre class=\"codeblock__pre\"><code>{{code}}</code></pre>\n  </div>\n</div>\n<style>\n.codeblock { font: 13px/1.6 \"SFMono-Regular\", Consolas, \"Liberation Mono\", monospace; background: #241430; color: #FAF7F2; overflow: hidden; max-width: 460px; }\n.codeblock__bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid #ffffff1a; }\n.codeblock__dots { display: inline-flex; gap: 5px; }\n.codeblock__dots i { width: 8px; height: 8px; border-radius: 50%; background: #ffffff26; display: inline-block; }\n.codeblock__lang { margin-left: auto; font: 600 11px system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }\n.codeblock__body { display: flex; }\n.codeblock__gutter { padding: 14px 0 14px 14px; color: #ffffff40; user-select: none; }\n.codeblock__pre { margin: 0; padding: 14px 16px; overflow-x: auto; white-space: pre; flex: 1; }\n</style>",
+    "tailwind": "<div style=\"--accent:{{accent}};border-radius:{{radius}}px;\" class=\"codeblock-tw codeblock-tw--{{language}} font-mono text-[13px] leading-relaxed bg-[#241430] text-[#FAF7F2] overflow-hidden max-w-[460px]\">\n  <div class=\"flex items-center gap-2.5 px-3 py-2 border-b border-white/10\">\n    <span class=\"inline-flex gap-1.5\" aria-hidden=\"true\"><i class=\"w-2 h-2 rounded-full bg-white/15 inline-block\"></i><i class=\"w-2 h-2 rounded-full bg-white/15 inline-block\"></i><i class=\"w-2 h-2 rounded-full bg-white/15 inline-block\"></i></span>\n    <span class=\"ml-auto font-sans text-[11px] font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">{{language}}</span>\n  </div>\n  <div class=\"flex\">\n    {{#if showLineNumbers}}<span class=\"py-3.5 pl-3.5 text-white/25 select-none\" aria-hidden=\"true\">1</span>{{/if}}\n    <pre class=\"m-0 px-4 py-3.5 overflow-x-auto whitespace-pre flex-1\"><code>{{code}}</code></pre>\n  </div>\n</div>",
+    "react": "export function CodeBlock({\n  code = \"{{code}}\",\n  language = \"{{language}}\",\n  showLineNumbers = {{showLineNumbers}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ fontFamily: \"SFMono-Regular, Consolas, 'Liberation Mono', monospace\", fontSize: 13,\n      lineHeight: 1.6, background: \"#241430\", color: \"#FAF7F2\", overflow: \"hidden\", maxWidth: 460, borderRadius: radius }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"8px 12px\", borderBottom: \"1px solid #ffffff1a\" }}>\n        <span aria-hidden=\"true\" style={{ display: \"inline-flex\", gap: 5 }}>\n          {[0, 1, 2].map((i) => <i key={i} style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#ffffff26\", display: \"inline-block\" }} />)}\n        </span>\n        <span style={{ marginLeft: \"auto\", fontFamily: \"system-ui, sans-serif\", fontSize: 11, fontWeight: 600,\n          letterSpacing: \".04em\", textTransform: \"uppercase\", color: accent }}>{language}</span>\n      </div>\n      <div style={{ display: \"flex\" }}>\n        {showLineNumbers && <span aria-hidden=\"true\" style={{ padding: \"14px 0 14px 14px\", color: \"#ffffff40\", userSelect: \"none\" }}>1</span>}\n        <pre style={{ margin: 0, padding: \"14px 16px\", overflowX: \"auto\", whiteSpace: \"pre\", flex: 1 }}><code>{code}</code></pre>\n      </div>\n    </div>\n  );\n}"
+  }
+}

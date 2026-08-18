@@ -1,0 +1,59 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Full name",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "Principal Engineer"
+    },
+    {
+      "id": "org",
+      "type": "text",
+      "label": "Organisation",
+      "default": "Clydeford Ltd"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Presence",
+      "default": "online",
+      "options": [
+        "online",
+        "away",
+        "offline"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "compact",
+      "type": "toggle",
+      "label": "Compact layout",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"profile profile--{{status}} {{#if compact}}profile--compact{{/if}}\" style=\"--c:{{color}};\">\n  <span class=\"profile__avatar\" role=\"img\" aria-label=\"{{name}}\">\n    PN\n    <svg class=\"profile__presence\" width=\"9\" height=\"9\" viewBox=\"0 0 9 9\" aria-hidden=\"true\"><circle cx=\"4.5\" cy=\"4.5\" r=\"4\"/></svg>\n  </span>\n  <div class=\"profile__text\">\n    <strong class=\"profile__name\">{{name}}</strong>\n    <span class=\"profile__role\">{{role}}</span>\n    <span class=\"profile__org\">{{org}}</span>\n  </div>\n</div>\n<style>\n.profile { display: flex; align-items: center; gap: 12px; font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 300px; }\n.profile__avatar { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: var(--c); font-weight: 700; flex: none; }\n.profile__presence { position: absolute; bottom: -1px; right: -1px; border-radius: 50%; border: 2px solid #FAF7F2; }\n.profile--online .profile__presence circle { fill: #2f8f4e; }\n.profile--away .profile__presence circle { fill: #E8A020; }\n.profile--offline .profile__presence circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n.profile__name { display: block; }\n.profile__role { display: block; font-size: 13px; }\n.profile__org { display: block; font-size: 12px; opacity: .7; }\n.profile--compact .profile__org { display: none; }\n.profile--compact .profile__avatar { width: 36px; height: 36px; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"profile-tw profile-tw--{{status}} {{#if compact}}profile-tw--compact{{/if}} flex items-center gap-3 font-sans text-[#241430] max-w-xs\" style=\"--c:{{color}};\">\n  <span class=\"profile-tw__avatar relative inline-flex items-center justify-center w-12 h-12 rounded-full font-bold flex-none\" style=\"background:var(--c);\" role=\"img\" aria-label=\"{{name}}\">\n    PN\n    <svg class=\"profile-tw__presence absolute -bottom-px -right-px rounded-full border-2 border-[#FAF7F2]\" width=\"9\" height=\"9\" viewBox=\"0 0 9 9\" aria-hidden=\"true\"><circle cx=\"4.5\" cy=\"4.5\" r=\"4\"/></svg>\n  </span>\n  <div class=\"profile-tw__text\">\n    <strong class=\"block\">{{name}}</strong>\n    <span class=\"block text-[13px]\">{{role}}</span>\n    <span class=\"profile-tw__org block text-xs opacity-70\">{{org}}</span>\n  </div>\n</div>\n<style>\n.profile-tw--online .profile-tw__presence circle { fill: #2f8f4e; }\n.profile-tw--away .profile-tw__presence circle { fill: #E8A020; }\n.profile-tw--offline .profile-tw__presence circle { fill: none; stroke: #24143055; stroke-width: 1.2; }\n.profile-tw--compact .profile-tw__org { display: none; }\n.profile-tw--compact .profile-tw__avatar { width: 36px; height: 36px; font-size: 13px; }\n</style>",
+    "react": "export function Profile({\n  name = \"{{name}}\",\n  role = \"{{role}}\",\n  org = \"{{org}}\",\n  status = \"{{status}}\",\n  color = \"{{color}}\",\n  compact = {{compact}},\n}) {\n  const dot = { online: \"#2f8f4e\", away: \"#E8A020\", offline: \"none\" }[status] ?? \"#2f8f4e\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 12, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300 }}>\n      <span role=\"img\" aria-label={name} style={{ position: \"relative\", display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: compact ? 36 : 48, height: compact ? 36 : 48, borderRadius: \"50%\", background: color, fontWeight: 700, fontSize: compact ? 13 : 16, flex: \"none\" }}>\n        PN\n        <svg width=\"9\" height=\"9\" viewBox=\"0 0 9 9\" aria-hidden=\"true\" style={{ position: \"absolute\", bottom: -1, right: -1, borderRadius: \"50%\", border: \"2px solid #FAF7F2\" }}>\n          <circle cx=\"4.5\" cy=\"4.5\" r=\"4\" fill={dot} stroke={status === \"offline\" ? \"#24143055\" : \"none\"} strokeWidth={status === \"offline\" ? 1.2 : 0} />\n        </svg>\n      </span>\n      <div>\n        <strong style={{ display: \"block\" }}>{name}</strong>\n        <span style={{ display: \"block\", fontSize: 13 }}>{role}</span>\n        {!compact && <span style={{ display: \"block\", fontSize: 12, opacity: 0.7 }}>{org}</span>}\n      </div>\n    </div>\n  );\n}"
+  },
+  "slug": "profile"
+}

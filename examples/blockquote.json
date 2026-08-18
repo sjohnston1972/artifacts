@@ -1,0 +1,56 @@
+{
+  "slug": "blockquote",
+  "controls_schema": [
+    {
+      "id": "quote",
+      "type": "text",
+      "label": "Quote",
+      "default": "Design is not just what it looks like and feels like. Design is how it works."
+    },
+    {
+      "id": "citation",
+      "type": "text",
+      "label": "Citation",
+      "default": "Steve Jobs"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "classic",
+      "options": [
+        "classic",
+        "boxed",
+        "minimal"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<blockquote class=\"quote quote--{{style}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <svg class=\"quote__mark\" viewBox=\"0 0 32 24\" width=\"28\" height=\"21\" aria-hidden=\"true\"><path d=\"M0 24V14.5C0 6.5 5 1 13 0l1.5 4C9 5.5 6 9 6 14h7v10H0zm18 0V14.5C18 6.5 23 1 31 0l1.5 4C27 5.5 24 9 24 14h7v10H18z\" fill=\"currentColor\"/></svg>\n  <p class=\"quote__text\">{{quote}}</p>\n  <footer class=\"quote__cite\">&#8212; {{citation}}</footer>\n</blockquote>\n<style>\n.quote { font: 17px/1.6 Georgia, \"Times New Roman\", serif; color: #241430; background: #FAF7F2; max-width: 420px; padding: 20px 24px; margin: 0; }\n.quote__mark { color: var(--accent); display: block; margin-bottom: 8px; }\n.quote__text { margin: 0 0 10px; }\n.quote__cite { font: 500 14px/1.4 system-ui, sans-serif; color: #24143099; }\n.quote--classic { border-left: 4px solid var(--accent); }\n.quote--boxed { border: 1.5px solid var(--accent); box-shadow: 0 8px 24px rgba(36,20,48,.12); }\n.quote--minimal { padding-left: 0; }\n.quote--minimal .quote__mark { display: none; }\n</style>",
+    "tailwind": "<blockquote style=\"--accent:{{accent}};border-radius:{{radius}}px;\" class=\"quote-tw quote-tw--{{style}} font-serif text-[17px] leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[420px] px-6 py-5 m-0\">\n  <svg class=\"quote-tw__mark block mb-2\" style=\"color:{{accent}}\" viewBox=\"0 0 32 24\" width=\"28\" height=\"21\" aria-hidden=\"true\"><path d=\"M0 24V14.5C0 6.5 5 1 13 0l1.5 4C9 5.5 6 9 6 14h7v10H0zm18 0V14.5C18 6.5 23 1 31 0l1.5 4C27 5.5 24 9 24 14h7v10H18z\" fill=\"currentColor\"/></svg>\n  <p class=\"m-0 mb-2.5\">{{quote}}</p>\n  <footer class=\"font-sans text-sm text-[#24143099]\">&#8212; {{citation}}</footer>\n</blockquote>\n<style>\n.quote-tw--classic { border-left: 4px solid var(--accent); }\n.quote-tw--boxed { border: 1.5px solid var(--accent); box-shadow: 0 8px 24px rgba(36,20,48,.12); }\n.quote-tw--minimal { padding-left: 0; }\n.quote-tw--minimal .quote-tw__mark { display: none; }\n</style>",
+    "react": "export function Blockquote({\n  quote = \"{{quote}}\",\n  citation = \"{{citation}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const wrap = {\n    classic: { borderLeft: `4px solid ${accent}` },\n    boxed: { border: `1.5px solid ${accent}`, boxShadow: \"0 8px 24px rgba(36,20,48,.12)\" },\n    minimal: { paddingLeft: 0 },\n  }[style] ?? {};\n  return (\n    <blockquote style={{ font: \"17px/1.6 Georgia, 'Times New Roman', serif\", color: \"#241430\", background: \"#FAF7F2\",\n      maxWidth: 420, padding: \"20px 24px\", margin: 0, borderRadius: radius, ...wrap }}>\n      {style !== \"minimal\" && (\n        <svg style={{ color: accent, display: \"block\", marginBottom: 8 }} viewBox=\"0 0 32 24\" width=\"28\" height=\"21\" aria-hidden=\"true\">\n          <path d=\"M0 24V14.5C0 6.5 5 1 13 0l1.5 4C9 5.5 6 9 6 14h7v10H0zm18 0V14.5C18 6.5 23 1 31 0l1.5 4C27 5.5 24 9 24 14h7v10H18z\" fill=\"currentColor\" />\n        </svg>\n      )}\n      <p style={{ margin: \"0 0 10px\" }}>{quote}</p>\n      <footer style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#24143099\" }}>&#8212; {citation}</footer>\n    </blockquote>\n  );\n}"
+  }
+}

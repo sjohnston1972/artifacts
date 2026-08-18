@@ -1,0 +1,52 @@
+{
+  "slug": "keyboard-shortcut-overlay",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Keyboard shortcuts"
+    },
+    {
+      "id": "hint",
+      "type": "text",
+      "label": "Footer hint",
+      "default": "Press Esc or ? to close"
+    },
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "two",
+      "options": [
+        "one",
+        "two"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Overlay open",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kso-stage\">\n  <button type=\"button\" class=\"kso-trigger\" style=\"--accent:{{accent}}\">Press <kbd>?</kbd> for shortcuts</button>\n  {{#if open}}\n  <div class=\"kso-backdrop\">\n    <div class=\"kso-panel\" data-columns=\"{{columns}}\" style=\"--accent:{{accent}}\" role=\"dialog\" aria-label=\"{{title}}\">\n      <div class=\"kso-panel__head\">\n        <h3>{{title}}</h3>\n        <button type=\"button\" class=\"kso-panel__close\" aria-label=\"Close shortcuts\">&times;</button>\n      </div>\n      <dl class=\"kso-panel__list\">\n        <div><dt>Command palette</dt><dd><kbd>Ctrl</kbd>+<kbd>K</kbd></dd></div>\n        <div><dt>Search</dt><dd><kbd>/</kbd></dd></div>\n        <div><dt>New item</dt><dd><kbd>N</kbd></dd></div>\n        <div><dt>Save</dt><dd><kbd>Ctrl</kbd>+<kbd>S</kbd></dd></div>\n        <div><dt>Toggle sidebar</dt><dd><kbd>[</kbd></dd></div>\n        <div><dt>This panel</dt><dd><kbd>?</kbd></dd></div>\n      </dl>\n      <p class=\"kso-panel__hint\">{{hint}}</p>\n    </div>\n  </div>\n  {{/if}}\n</div>\n<style>\n.kso-stage { position: relative; min-height: 220px; font: 16px/1.5 system-ui, sans-serif; background: #FAF7F2; border-radius: 12px; display: flex; align-items: center; justify-content: center; }\n.kso-trigger { background: #fff; border: 1.5px solid #24143030; border-radius: 8px; padding: 9px 14px; font: 13.5px system-ui, sans-serif; color: #241430; cursor: pointer; }\n.kso-trigger kbd { background: var(--accent); border-radius: 4px; padding: 1px 6px; font-family: inherit; }\n.kso-backdrop { position: absolute; inset: 0; background: #24143066; border-radius: 12px; display: flex; align-items: center; justify-content: center; }\n.kso-panel { width: 300px; max-width: 88%; background: #FAF7F2; border-radius: 12px; padding: 18px; box-shadow: 0 20px 40px rgba(36,20,48,.3); }\n.kso-panel__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }\n.kso-panel__head h3 { margin: 0; font-size: 16px; font-weight: 600; color: #241430; }\n.kso-panel__close { background: transparent; border: none; font-size: 16px; line-height: 1; cursor: pointer; color: #241430; }\n.kso-panel__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.kso-panel__list { margin: 0; display: grid; grid-template-columns: 1fr; gap: 8px 16px; }\n.kso-panel[data-columns=\"two\"] .kso-panel__list { grid-template-columns: 1fr 1fr; }\n.kso-panel__list > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }\n.kso-panel__list dt { margin: 0; font-size: 12.5px; color: #241430cc; }\n.kso-panel__list dd { margin: 0; }\n.kso-panel__list kbd { background: var(--accent); border-radius: 4px; padding: 1px 6px; font: 11.5px system-ui, sans-serif; }\n.kso-panel__hint { margin: 14px 0 0; font-size: 11.5px; color: #24143099; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[220px] font-sans bg-[#FAF7F2] rounded-xl flex items-center justify-center\">\n  <button type=\"button\" class=\"bg-white border-[1.5px] border-[#24143030] rounded-lg px-3.5 py-2 text-[13.5px] text-[#241430] cursor-pointer\">\n    Press <kbd class=\"rounded px-1.5\" style=\"background:{{accent}}\">?</kbd> for shortcuts\n  </button>\n  {{#if open}}\n  <div class=\"absolute inset-0 bg-[#24143066] rounded-xl flex items-center justify-center\">\n    <div class=\"kso-panel-tw w-[300px] max-w-[88%] bg-[#FAF7F2] rounded-xl p-4.5 shadow-[0_20px_40px_rgba(36,20,48,.3)]\" data-columns=\"{{columns}}\">\n      <div class=\"flex items-center justify-between mb-3\">\n        <h3 class=\"m-0 text-base font-semibold text-[#241430]\">{{title}}</h3>\n        <button type=\"button\" class=\"bg-transparent border-0 text-base leading-none cursor-pointer text-[#241430]\" aria-label=\"Close shortcuts\">&times;</button>\n      </div>\n      <dl class=\"m-0 grid grid-cols-1 gap-x-4 gap-y-2\">\n        <div class=\"flex items-center justify-between gap-2\"><dt class=\"m-0 text-[12.5px] text-[#241430]/80\">Command palette</dt><dd class=\"m-0\"><kbd class=\"rounded px-1.5 text-[11.5px]\" style=\"background:{{accent}}\">Ctrl</kbd>+<kbd class=\"rounded px-1.5 text-[11.5px]\" style=\"background:{{accent}}\">K</kbd></dd></div>\n        <div class=\"flex items-center justify-between gap-2\"><dt class=\"m-0 text-[12.5px] text-[#241430]/80\">Search</dt><dd class=\"m-0\"><kbd class=\"rounded px-1.5 text-[11.5px]\" style=\"background:{{accent}}\">/</kbd></dd></div>\n        <div class=\"flex items-center justify-between gap-2\"><dt class=\"m-0 text-[12.5px] text-[#241430]/80\">New item</dt><dd class=\"m-0\"><kbd class=\"rounded px-1.5 text-[11.5px]\" style=\"background:{{accent}}\">N</kbd></dd></div>\n        <div class=\"flex items-center justify-between gap-2\"><dt class=\"m-0 text-[12.5px] text-[#241430]/80\">Toggle sidebar</dt><dd class=\"m-0\"><kbd class=\"rounded px-1.5 text-[11.5px]\" style=\"background:{{accent}}\">[</kbd></dd></div>\n      </dl>\n      <p class=\"mt-3.5 mb-0 text-[11.5px] text-[#241430]/60 text-center\">{{hint}}</p>\n    </div>\n  </div>\n  {{/if}}\n</div>\n<style>\n.kso-panel-tw[data-columns=\"two\"] dl { grid-template-columns: 1fr 1fr; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function KeyboardShortcutOverlay({\n  title = \"{{title}}\",\n  hint = \"{{hint}}\",\n  columns = \"{{columns}}\",\n  accent = \"{{accent}}\",\n  open: initialOpen = {{open}},\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const shortcuts = [\n    [\"Command palette\", \"Ctrl+K\"],\n    [\"Search\", \"/\"],\n    [\"New item\", \"N\"],\n    [\"Save\", \"Ctrl+S\"],\n    [\"Toggle sidebar\", \"[\"],\n    [\"This panel\", \"?\"],\n  ];\n  return (\n    <div style={{ position: \"relative\", minHeight: 220, fontFamily: \"system-ui, sans-serif\", background: \"#FAF7F2\", borderRadius: 12, display: \"flex\", alignItems: \"center\", justifyContent: \"center\" }}>\n      <button type=\"button\" onClick={() => setOpen(true)} style={{ background: \"#fff\", border: \"1.5px solid #24143030\", borderRadius: 8, padding: \"9px 14px\", fontSize: 13.5, color: \"#241430\", cursor: \"pointer\" }}>\n        Press <kbd style={{ background: accent, borderRadius: 4, padding: \"1px 6px\" }}>?</kbd> for shortcuts\n      </button>\n      {open && (\n        <div style={{ position: \"absolute\", inset: 0, background: \"#24143066\", borderRadius: 12, display: \"flex\", alignItems: \"center\", justifyContent: \"center\" }}>\n          <div role=\"dialog\" aria-label={title} style={{ width: 300, maxWidth: \"88%\", background: \"#FAF7F2\", borderRadius: 12, padding: 18, boxShadow: \"0 20px 40px rgba(36,20,48,.3)\" }}>\n            <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", marginBottom: 12 }}>\n              <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: \"#241430\" }}>{title}</h3>\n              <button type=\"button\" aria-label=\"Close shortcuts\" onClick={() => setOpen(false)} style={{ background: \"transparent\", border: \"none\", fontSize: 16, lineHeight: 1, cursor: \"pointer\", color: \"#241430\" }}>&times;</button>\n            </div>\n            <dl style={{ margin: 0, display: \"grid\", gridTemplateColumns: columns === \"two\" ? \"1fr 1fr\" : \"1fr\", gap: \"8px 16px\" }}>\n              {shortcuts.map(([name, key]) => (\n                <div key={name} style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8 }}>\n                  <dt style={{ margin: 0, fontSize: 12.5, color: \"#241430cc\" }}>{name}</dt>\n                  <dd style={{ margin: 0 }}><kbd style={{ background: accent, borderRadius: 4, padding: \"1px 6px\", fontSize: 11.5 }}>{key}</kbd></dd>\n                </div>\n              ))}\n            </dl>\n            <p style={{ margin: \"14px 0 0\", fontSize: 11.5, color: \"#24143099\", textAlign: \"center\" }}>{hint}</p>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Widget title",
+      "default": "Conversion funnel"
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "medium",
+      "options": [
+        "small",
+        "medium",
+        "large",
+        "full"
+      ]
+    },
+    {
+      "id": "showHandle",
+      "type": "toggle",
+      "label": "Show resize handle",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"resizewidget resizewidget--{{size}}\" style=\"--c:{{color}};\" aria-label=\"{{title}} widget\">\n  <h3 class=\"resizewidget__title\">{{title}}</h3>\n  <div class=\"resizewidget__body\">Resizable content area</div>\n  {{#if showHandle}}<span class=\"resizewidget__handle\" aria-hidden=\"true\"></span>{{/if}}\n</section>\n<style>\n.resizewidget { position: relative; border: 1.5px solid #24143018; border-radius: 10px; background: #FAF7F2; font: 13px system-ui, sans-serif; color: #241430; padding: 12px; box-sizing: border-box; }\n.resizewidget--small { width: 160px; }\n.resizewidget--medium { width: 240px; }\n.resizewidget--large { width: 340px; }\n.resizewidget--full { width: 100%; max-width: 100%; }\n.resizewidget__title { margin: 0 0 8px; font-size: 14px; }\n.resizewidget__body { min-height: 60px; opacity: .7; }\n.resizewidget__handle { position: absolute; bottom: 4px; right: 4px; width: 10px; height: 10px; border-right: 2px solid var(--c); border-bottom: 2px solid var(--c); cursor: nwse-resize; }\n</style>",
+    "tailwind": "<section class=\"resizewidget-tw resizewidget-tw--{{size}} relative border-[1.5px] border-[#24143018] rounded-[10px] bg-[#FAF7F2] font-sans text-[13px] text-[#241430] p-3 box-border\" style=\"--c:{{color}};\" aria-label=\"{{title}} widget\">\n  <h3 class=\"m-0 mb-2 text-sm\">{{title}}</h3>\n  <div class=\"min-h-[60px] opacity-70\">Resizable content area</div>\n  {{#if showHandle}}<span aria-hidden=\"true\" class=\"absolute bottom-1 right-1 w-2.5 h-2.5 cursor-nwse-resize\" style=\"border-right:2px solid var(--c);border-bottom:2px solid var(--c);\"></span>{{/if}}\n</section>\n<style>\n.resizewidget-tw--small { width: 160px; }\n.resizewidget-tw--medium { width: 240px; }\n.resizewidget-tw--large { width: 340px; }\n.resizewidget-tw--full { width: 100%; max-width: 100%; }\n</style>",
+    "react": "export function ResizableWidget({\n  title = \"{{title}}\",\n  size = \"{{size}}\",\n  showHandle = {{showHandle}},\n  color = \"{{color}}\",\n}) {\n  const width = { small: 160, medium: 240, large: 340, full: \"100%\" }[size] ?? 240;\n  return (\n    <section aria-label={title + \" widget\"} style={{ position: \"relative\", border: \"1.5px solid #24143018\", borderRadius: 10, background: \"#FAF7F2\", font: \"13px system-ui, sans-serif\", color: \"#241430\", padding: 12, boxSizing: \"border-box\", width }}>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 14 }}>{title}</h3>\n      <div style={{ minHeight: 60, opacity: 0.7 }}>Resizable content area</div>\n      {showHandle && (\n        <span aria-hidden=\"true\" style={{ position: \"absolute\", bottom: 4, right: 4, width: 10, height: 10, borderRight: \"2px solid \" + color, borderBottom: \"2px solid \" + color, cursor: \"nwse-resize\" }} />\n      )}\n    </section>\n  );\n}"
+  },
+  "slug": "resizable-widget"
+}

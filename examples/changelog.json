@@ -1,0 +1,56 @@
+{
+  "slug": "changelog",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "What's new"
+    },
+    {
+      "id": "entries_shown",
+      "type": "number",
+      "label": "Entries shown (label)",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "showNew",
+      "type": "toggle",
+      "label": "Show \"New\" badge",
+      "default": true
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "list",
+      "options": [
+        "list",
+        "timeline",
+        "compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"changelog changelog--{{variant}}\" style=\"--accent:{{accent}};\">\n  <header class=\"changelog__head\">\n    <h3 class=\"changelog__title\">{{title}}</h3>\n    <span class=\"changelog__meta\">Showing last {{entries_shown}} updates</span>\n  </header>\n  <ol class=\"changelog__list\">\n    <li class=\"changelog__entry\">\n      {{#if showNew}}<span class=\"changelog__badge\">New</span>{{/if}}\n      <span class=\"changelog__date\">14 Aug</span>\n      <p class=\"changelog__text\">Faster search across every workspace, with instant results as you type.</p>\n    </li>\n    <li class=\"changelog__entry\">\n      <span class=\"changelog__date\">02 Aug</span>\n      <p class=\"changelog__text\">Dark mode now follows your system setting automatically.</p>\n    </li>\n    <li class=\"changelog__entry\">\n      <span class=\"changelog__date\">27 Jul</span>\n      <p class=\"changelog__text\">Export reports straight to CSV from any table view.</p>\n    </li>\n  </ol>\n</section>\n<style>\n.changelog { font: 16px/1.5 system-ui, sans-serif; max-width: 360px; padding: 20px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143022; border-radius: 12px; }\n.changelog__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }\n.changelog__title { margin: 0; font-size: 17px; font-weight: 600; }\n.changelog__meta { font-size: 12px; color: #241430; opacity: .6; white-space: nowrap; }\n.changelog__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }\n.changelog__entry { position: relative; padding-left: 14px; border-left: 2px solid var(--accent); }\n.changelog__date { display: block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }\n.changelog__text { margin: 0; font-size: 13.5px; color: #241430cc; }\n.changelog__badge { position: absolute; right: 0; top: 0; background: var(--accent); color: #241430; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }\n.changelog--compact .changelog__list { gap: 8px; }\n.changelog--compact .changelog__text { font-size: 12.5px; }\n.changelog--timeline .changelog__entry { padding-left: 18px; }\n.changelog--timeline .changelog__entry::before { content: \"\"; position: absolute; left: -5px; top: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); border: 2px solid #FAF7F2; }\n</style>",
+    "tailwind": "<div class=\"changelog-tw changelog-tw--{{variant}} max-w-sm p-5 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143022] rounded-xl\" style=\"--accent:{{accent}}\">\n  <div class=\"flex items-baseline justify-between gap-3 mb-3.5\">\n    <h3 class=\"m-0 text-[17px] font-semibold\">{{title}}</h3>\n    <span class=\"text-xs text-[#241430]/60 whitespace-nowrap\">Showing last {{entries_shown}} updates</span>\n  </div>\n  <ol class=\"list-none m-0 p-0 flex flex-col gap-3.5\">\n    <li class=\"relative pl-3.5 border-l-2\" style=\"border-color:{{accent}}\">\n      {{#if showNew}}<span class=\"absolute right-0 top-0 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">New</span>{{/if}}\n      <span class=\"block text-[11px] font-semibold uppercase tracking-wide mb-0.5\" style=\"color:{{accent}}\">14 Aug</span>\n      <p class=\"m-0 text-[13.5px] text-[#241430]/80\">Faster search across every workspace, with instant results as you type.</p>\n    </li>\n    <li class=\"relative pl-3.5 border-l-2\" style=\"border-color:{{accent}}\">\n      <span class=\"block text-[11px] font-semibold uppercase tracking-wide mb-0.5\" style=\"color:{{accent}}\">02 Aug</span>\n      <p class=\"m-0 text-[13.5px] text-[#241430]/80\">Dark mode now follows your system setting automatically.</p>\n    </li>\n    <li class=\"relative pl-3.5 border-l-2\" style=\"border-color:{{accent}}\">\n      <span class=\"block text-[11px] font-semibold uppercase tracking-wide mb-0.5\" style=\"color:{{accent}}\">27 Jul</span>\n      <p class=\"m-0 text-[13.5px] text-[#241430]/80\">Export reports straight to CSV from any table view.</p>\n    </li>\n  </ol>\n</div>\n<style>\n.changelog-tw--compact ol { gap: 8px; }\n.changelog-tw--timeline li { padding-left: 18px; }\n.changelog-tw--timeline li::before { content: \"\"; position: absolute; left: -5px; top: 3px; width: 8px; height: 8px; border-radius: 50%; background: #241430; border: 2px solid #FAF7F2; }\n</style>",
+    "react": "export function Changelog({\n  title = \"{{title}}\",\n  entriesShown = {{entries_shown}},\n  showNew = {{showNew}},\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  const entries = [\n    { date: \"14 Aug\", text: \"Faster search across every workspace, with instant results as you type.\" },\n    { date: \"02 Aug\", text: \"Dark mode now follows your system setting automatically.\" },\n    { date: \"27 Jul\", text: \"Export reports straight to CSV from any table view.\" },\n  ];\n  const listGap = variant === \"compact\" ? 8 : 14;\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 16, lineHeight: 1.5, maxWidth: 360, padding: 20, background: \"#FAF7F2\", color: \"#241430\", border: \"1.5px solid #24143022\", borderRadius: 12 }}>\n      <header style={{ display: \"flex\", alignItems: \"baseline\", justifyContent: \"space-between\", gap: 12, marginBottom: 14 }}>\n        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 600 }}>{title}</h3>\n        <span style={{ fontSize: 12, color: \"#241430\", opacity: 0.6, whiteSpace: \"nowrap\" }}>Showing last {entriesShown} updates</span>\n      </header>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: listGap }}>\n        {entries.map((entry, i) => (\n          <li key={entry.date} style={{ position: \"relative\", paddingLeft: variant === \"timeline\" ? 18 : 14, borderLeft: \"2px solid \" + accent }}>\n            {variant === \"timeline\" && (\n              <span style={{ position: \"absolute\", left: -5, top: 3, width: 8, height: 8, borderRadius: \"50%\", background: accent, border: \"2px solid #FAF7F2\" }} />\n            )}\n            {i === 0 && showNew && (\n              <span style={{ position: \"absolute\", right: 0, top: 0, background: accent, color: \"#241430\", fontSize: 10, fontWeight: 700, padding: \"2px 7px\", borderRadius: 999, textTransform: \"uppercase\", letterSpacing: \".04em\" }}>New</span>\n            )}\n            <span style={{ display: \"block\", fontSize: 11, fontWeight: 600, letterSpacing: \".04em\", textTransform: \"uppercase\", color: accent, marginBottom: 2 }}>{entry.date}</span>\n            <p style={{ margin: 0, fontSize: variant === \"compact\" ? 12.5 : 13.5, color: \"#241430cc\" }}>{entry.text}</p>\n          </li>\n        ))}\n      </ol>\n    </section>\n  );\n}"
+  }
+}

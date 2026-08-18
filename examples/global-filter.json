@@ -1,0 +1,51 @@
+{
+  "controls_schema": [
+    {
+      "id": "filterA",
+      "type": "text",
+      "label": "First filter",
+      "default": "Region: EMEA"
+    },
+    {
+      "id": "filterB",
+      "type": "text",
+      "label": "Second filter",
+      "default": "Team: Platform"
+    },
+    {
+      "id": "extraCount",
+      "type": "number",
+      "label": "Additional filters",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "active",
+      "type": "toggle",
+      "label": "Filters applied",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"gfilter {{#if active}}gfilter--active{{/if}}\" style=\"--c:{{color}};\" role=\"group\" aria-label=\"Filters affecting this dashboard\">\n  <span class=\"gfilter__icon\" aria-hidden=\"true\">⚑</span>\n  <span class=\"gfilter__chip\">{{filterA}}</span>\n  <span class=\"gfilter__chip\">{{filterB}}</span>\n  {{#if extraCount}}<span class=\"gfilter__more\">+{{extraCount}} more</span>{{/if}}\n</div>\n<style>\n.gfilter { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font: 12px system-ui, sans-serif; color: #241430; padding: 6px; border-radius: 10px; border: 1px dashed #24143022; }\n.gfilter--active { border-style: solid; border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, #FAF7F2); }\n.gfilter__icon { opacity: .6; }\n.gfilter__chip { background: #FAF7F2; border: 1px solid #24143022; border-radius: 999px; padding: 3px 10px; }\n.gfilter--active .gfilter__chip { border-color: var(--c); }\n.gfilter__more { font-weight: 600; opacity: .7; }\n</style>",
+    "tailwind": "<div class=\"gfilter-tw {{#if active}}gfilter-tw--active{{/if}} flex items-center gap-1.5 flex-wrap font-sans text-xs text-[#241430] p-1.5 rounded-[10px] border border-dashed border-[#24143022]\" style=\"--c:{{color}};\" role=\"group\" aria-label=\"Filters affecting this dashboard\">\n  <span aria-hidden=\"true\" class=\"opacity-60\">⚑</span>\n  <span class=\"gfilter-tw__chip bg-[#FAF7F2] border border-[#24143022] rounded-full px-2.5 py-0.5\">{{filterA}}</span>\n  <span class=\"gfilter-tw__chip bg-[#FAF7F2] border border-[#24143022] rounded-full px-2.5 py-0.5\">{{filterB}}</span>\n  {{#if extraCount}}<span class=\"font-semibold opacity-70\">+{{extraCount}} more</span>{{/if}}\n</div>\n<style>\n.gfilter-tw--active { border-style: solid !important; border-color: var(--c) !important; background: color-mix(in srgb, var(--c) 14%, #FAF7F2); }\n.gfilter-tw--active .gfilter-tw__chip { border-color: var(--c); }\n</style>",
+    "react": "export function GlobalFilter({\n  filterA = \"{{filterA}}\",\n  filterB = \"{{filterB}}\",\n  extraCount = {{extraCount}},\n  active = {{active}},\n  color = \"{{color}}\",\n}) {\n  const chip = { background: \"#FAF7F2\", border: `1px solid ${active ? color : \"#24143022\"}`, borderRadius: 999, padding: \"3px 10px\" };\n  return (\n    <div role=\"group\" aria-label=\"Filters affecting this dashboard\" style={{\n      display: \"flex\", alignItems: \"center\", gap: 6, flexWrap: \"wrap\", font: \"12px system-ui, sans-serif\",\n      color: \"#241430\", padding: 6, borderRadius: 10, border: active ? `1px solid ${color}` : \"1px dashed #24143022\",\n      background: active ? `${color}24` : \"transparent\",\n    }}>\n      <span aria-hidden=\"true\" style={{ opacity: 0.6 }}>⚑</span>\n      <span style={chip}>{filterA}</span>\n      <span style={chip}>{filterB}</span>\n      {extraCount > 0 && <span style={{ fontWeight: 600, opacity: 0.7 }}>+{extraCount} more</span>}\n    </div>\n  );\n}"
+  },
+  "slug": "global-filter"
+}

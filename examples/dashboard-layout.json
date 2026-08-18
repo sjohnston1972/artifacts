@@ -1,0 +1,51 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Dashboard title",
+      "default": "Operations"
+    },
+    {
+      "id": "sidebar",
+      "type": "select",
+      "label": "Sidebar position",
+      "default": "left",
+      "options": [
+        "left",
+        "right",
+        "none"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dlayout dlayout--sidebar-{{sidebar}} dlayout--{{density}}\" style=\"--c:{{color}};\">\n  <nav class=\"dlayout__nav\" aria-label=\"Dashboard sections\">\n    <span class=\"dlayout__navitem\">Overview</span>\n    <span class=\"dlayout__navitem\">Reports</span>\n  </nav>\n  <main class=\"dlayout__main\">\n    <h2 class=\"dlayout__title\">{{title}}</h2>\n    <p class=\"dlayout__body\">Widgets render here.</p>\n  </main>\n</div>\n<style>\n.dlayout { display: flex; gap: 14px; font: 13px system-ui, sans-serif; color: #241430; border: 1px solid #24143018; border-radius: 10px; overflow: hidden; }\n.dlayout__nav { background: var(--c); padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 110px; }\n.dlayout__main { padding: 14px; flex: 1; }\n.dlayout__title { margin: 0 0 6px; font-size: 16px; }\n.dlayout--sidebar-none .dlayout__nav { display: none; }\n.dlayout--sidebar-right { flex-direction: row-reverse; }\n.dlayout--compact .dlayout__nav, .dlayout--compact .dlayout__main { padding: 8px; }\n@media (max-width: 360px) { .dlayout { flex-direction: column; } }\n</style>",
+    "tailwind": "<div class=\"dlayout-tw dlayout-tw--sidebar-{{sidebar}} dlayout-tw--{{density}} flex gap-3.5 font-sans text-[13px] text-[#241430] border border-[#24143018] rounded-[10px] overflow-hidden\" style=\"--c:{{color}};\">\n  <nav class=\"dlayout-tw__nav p-3.5 flex flex-col gap-2 min-w-[110px]\" style=\"background:var(--c);\" aria-label=\"Dashboard sections\">\n    <span>Overview</span>\n    <span>Reports</span>\n  </nav>\n  <main class=\"p-3.5 flex-1\">\n    <h2 class=\"m-0 mb-1.5 text-base\">{{title}}</h2>\n    <p class=\"m-0\">Widgets render here.</p>\n  </main>\n</div>\n<style>\n.dlayout-tw--sidebar-none .dlayout-tw__nav { display: none; }\n.dlayout-tw--sidebar-right { flex-direction: row-reverse; }\n@media (max-width: 360px) { .dlayout-tw { flex-direction: column; } }\n</style>",
+    "react": "export function DashboardLayout({\n  title = \"{{title}}\",\n  sidebar = \"{{sidebar}}\",\n  density = \"{{density}}\",\n  color = \"{{color}}\",\n}) {\n  const pad = density === \"compact\" ? 8 : 14;\n  return (\n    <div style={{ display: \"flex\", flexDirection: sidebar === \"right\" ? \"row-reverse\" : \"row\", gap: 14, font: \"13px system-ui, sans-serif\", color: \"#241430\", border: \"1px solid #24143018\", borderRadius: 10, overflow: \"hidden\" }}>\n      {sidebar !== \"none\" && (\n        <nav aria-label=\"Dashboard sections\" style={{ background: color, padding: pad, display: \"flex\", flexDirection: \"column\", gap: 8, minWidth: 110 }}>\n          <span>Overview</span>\n          <span>Reports</span>\n        </nav>\n      )}\n      <main style={{ padding: pad, flex: 1 }}>\n        <h2 style={{ margin: \"0 0 6px\", fontSize: 16 }}>{title}</h2>\n        <p style={{ margin: 0 }}>Widgets render here.</p>\n      </main>\n    </div>\n  );\n}"
+  },
+  "slug": "dashboard-layout"
+}

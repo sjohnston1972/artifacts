@@ -1,0 +1,59 @@
+{
+  "slug": "emoji-picker",
+  "controls_schema": [
+    {
+      "id": "searchPlaceholder",
+      "type": "text",
+      "label": "Search placeholder",
+      "default": "Search emoji"
+    },
+    {
+      "id": "category",
+      "type": "select",
+      "label": "Active category",
+      "default": "smileys",
+      "options": [
+        "smileys",
+        "animals",
+        "food"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Grid columns",
+      "default": 6,
+      "min": 4,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"emoji\" data-category=\"{{category}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"emoji__search\">\n    <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M13 13l4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <input type=\"text\" placeholder=\"{{searchPlaceholder}}\" readonly>\n  </div>\n  <div class=\"emoji__tabs\" role=\"tablist\" aria-label=\"Emoji categories\">\n    <span class=\"emoji__tab\" data-tab=\"smileys\">&#128512;</span>\n    <span class=\"emoji__tab\" data-tab=\"animals\">&#128040;</span>\n    <span class=\"emoji__tab\" data-tab=\"food\">&#127817;</span>\n  </div>\n  <div class=\"emoji__grid\" style=\"grid-template-columns:repeat({{columns}}, 1fr);\">\n    <div class=\"emoji__group emoji__group--smileys\"><span class=\"emoji__item\">😀</span><span class=\"emoji__item\">😁</span><span class=\"emoji__item\">😂</span><span class=\"emoji__item\">😍</span><span class=\"emoji__item\">😎</span><span class=\"emoji__item\">🙂</span></div>\n    <div class=\"emoji__group emoji__group--animals\"><span class=\"emoji__item\">🐶</span><span class=\"emoji__item\">🐱</span><span class=\"emoji__item\">🐨</span><span class=\"emoji__item\">🦊</span><span class=\"emoji__item\">🐸</span><span class=\"emoji__item\">🐧</span></div>\n    <div class=\"emoji__group emoji__group--food\"><span class=\"emoji__item\">🍎</span><span class=\"emoji__item\">🍉</span><span class=\"emoji__item\">🍕</span><span class=\"emoji__item\">🍩</span><span class=\"emoji__item\">🥑</span><span class=\"emoji__item\">🍓</span></div>\n  </div>\n</div>\n<style>\n.emoji { font: 14px system-ui, sans-serif; background: #FAF7F2; color: #241430; border: 1.5px solid #24143022; padding: 12px; max-width: 260px; }\n.emoji__search { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1.5px solid #24143033; border-radius: 8px; margin-bottom: 10px; color: #24143099; }\n.emoji__search input { border: none; outline: none; background: none; font: inherit; color: #241430; flex: 1; }\n.emoji__tabs { display: flex; gap: 4px; margin-bottom: 10px; }\n.emoji__tab { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; font-size: 15px; opacity: .45; }\n.emoji[data-category=\"smileys\"] .emoji__tab[data-tab=\"smileys\"],\n.emoji[data-category=\"animals\"] .emoji__tab[data-tab=\"animals\"],\n.emoji[data-category=\"food\"] .emoji__tab[data-tab=\"food\"] { opacity: 1; background: color-mix(in srgb, var(--accent) 30%, #FAF7F2); }\n.emoji__grid { display: grid; gap: 6px; font-size: 20px; }\n.emoji__group { display: none; grid-column: 1 / -1; grid-template-columns: inherit; gap: 6px; }\n.emoji[data-category=\"smileys\"] .emoji__group--smileys,\n.emoji[data-category=\"animals\"] .emoji__group--animals,\n.emoji[data-category=\"food\"] .emoji__group--food { display: grid; }\n.emoji__item { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 6px; }\n.emoji__item:hover { background: color-mix(in srgb, var(--accent) 20%, #FAF7F2); }\n</style>",
+    "tailwind": "<div data-category=\"{{category}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" class=\"emoji-tw font-sans text-sm bg-[#FAF7F2] text-[#241430] border-[1.5px] border-[#24143022] p-3 max-w-[260px]\">\n  <div class=\"flex items-center gap-1.5 px-2.5 py-1.5 border-[1.5px] border-[#24143033] rounded-lg mb-2.5 text-[#241430]/60\">\n    <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M13 13l4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <input type=\"text\" placeholder=\"{{searchPlaceholder}}\" readonly class=\"border-0 outline-none bg-transparent flex-1 text-[#241430]\">\n  </div>\n  <div role=\"tablist\" aria-label=\"Emoji categories\" class=\"flex gap-1 mb-2.5\">\n    <span class=\"emoji-tw__tab\" data-tab=\"smileys\">&#128512;</span>\n    <span class=\"emoji-tw__tab\" data-tab=\"animals\">&#128040;</span>\n    <span class=\"emoji-tw__tab\" data-tab=\"food\">&#127817;</span>\n  </div>\n  <div class=\"grid gap-1.5 text-xl\" style=\"grid-template-columns:repeat({{columns}}, 1fr);\">\n    <div class=\"emoji-tw__group emoji-tw__group--smileys\"><span class=\"emoji-tw__item\">😀</span><span class=\"emoji-tw__item\">😁</span><span class=\"emoji-tw__item\">😂</span><span class=\"emoji-tw__item\">😍</span><span class=\"emoji-tw__item\">😎</span><span class=\"emoji-tw__item\">🙂</span></div>\n    <div class=\"emoji-tw__group emoji-tw__group--animals\"><span class=\"emoji-tw__item\">🐶</span><span class=\"emoji-tw__item\">🐱</span><span class=\"emoji-tw__item\">🐨</span><span class=\"emoji-tw__item\">🦊</span><span class=\"emoji-tw__item\">🐸</span><span class=\"emoji-tw__item\">🐧</span></div>\n    <div class=\"emoji-tw__group emoji-tw__group--food\"><span class=\"emoji-tw__item\">🍎</span><span class=\"emoji-tw__item\">🍉</span><span class=\"emoji-tw__item\">🍕</span><span class=\"emoji-tw__item\">🍩</span><span class=\"emoji-tw__item\">🥑</span><span class=\"emoji-tw__item\">🍓</span></div>\n  </div>\n</div>\n<style>\n.emoji-tw__tab { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; opacity: .45; }\n.emoji-tw[data-category=\"smileys\"] .emoji-tw__tab[data-tab=\"smileys\"],\n.emoji-tw[data-category=\"animals\"] .emoji-tw__tab[data-tab=\"animals\"],\n.emoji-tw[data-category=\"food\"] .emoji-tw__tab[data-tab=\"food\"] { opacity: 1; background: color-mix(in srgb, var(--accent) 30%, #FAF7F2); }\n.emoji-tw__group { display: none; grid-column: 1 / -1; grid-template-columns: inherit; gap: 6px; }\n.emoji-tw[data-category=\"smileys\"] .emoji-tw__group--smileys,\n.emoji-tw[data-category=\"animals\"] .emoji-tw__group--animals,\n.emoji-tw[data-category=\"food\"] .emoji-tw__group--food { display: grid; }\n.emoji-tw__item { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 6px; }\n.emoji-tw__item:hover { background: color-mix(in srgb, var(--accent) 20%, #FAF7F2); }\n</style>",
+    "react": "export function EmojiPicker({\n  searchPlaceholder = \"{{searchPlaceholder}}\",\n  category = \"{{category}}\",\n  accent = \"{{accent}}\",\n  columns = {{columns}},\n  radius = {{radius}},\n}) {\n  const groups = {\n    smileys: [\"\\uD83D\\uDE00\", \"\\uD83D\\uDE01\", \"\\uD83D\\uDE02\", \"\\uD83D\\uDE0D\", \"\\uD83D\\uDE0E\", \"\\uD83D\\uDE42\"],\n    animals: [\"\\uD83D\\uDC36\", \"\\uD83D\\uDC31\", \"\\uD83D\\uDC28\", \"\\uD83E\\uDD8A\", \"\\uD83D\\uDC38\", \"\\uD83D\\uDC27\"],\n    food: [\"\\uD83C\\uDF4E\", \"\\uD83C\\uDF49\", \"\\uD83C\\uDF55\", \"\\uD83C\\uDF69\", \"\\uD83E\\uDD51\", \"\\uD83C\\uDF53\"],\n  };\n  const tabs = [\n    { key: \"smileys\", glyph: \"\\uD83D\\uDE00\" },\n    { key: \"animals\", glyph: \"\\uD83D\\uDC28\" },\n    { key: \"food\", glyph: \"\\uD83C\\uDF49\" },\n  ];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, background: \"#FAF7F2\", color: \"#241430\",\n      border: \"1.5px solid #24143022\", padding: 12, maxWidth: 260, borderRadius: radius }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, padding: \"6px 10px\", border: \"1.5px solid #24143033\",\n        borderRadius: 8, marginBottom: 10, color: \"#24143099\" }}>\n        <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"8.5\" cy=\"8.5\" r=\"6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M13 13l4 4\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n        <input type=\"text\" placeholder={searchPlaceholder} readOnly style={{ border: \"none\", outline: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", flex: 1 }} />\n      </div>\n      <div role=\"tablist\" aria-label=\"Emoji categories\" style={{ display: \"flex\", gap: 4, marginBottom: 10 }}>\n        {tabs.map((t) => (\n          <span key={t.key} style={{ width: 28, height: 28, display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n            borderRadius: 8, opacity: t.key === category ? 1 : 0.45,\n            background: t.key === category ? `${accent}4d` : \"transparent\" }}>{t.glyph}</span>\n        ))}\n      </div>\n      <div style={{ display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: 6, fontSize: 20 }}>\n        {(groups[category] ?? groups.smileys).map((e, i) => (\n          <span key={i} style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"center\", aspectRatio: \"1\" }}>{e}</span>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

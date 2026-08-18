@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "rootName",
+      "type": "text",
+      "label": "Leader name",
+      "default": "Morgan Reeve"
+    },
+    {
+      "id": "rootTitle",
+      "type": "text",
+      "label": "Leader title",
+      "default": "Chief Executive"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "vertical",
+      "options": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showTitles",
+      "type": "toggle",
+      "label": "Show job titles",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"orgchart orgchart--{{layout}}\" style=\"--c:{{color}};\">\n  <div class=\"orgchart__node orgchart__node--root\">\n    <strong>{{rootName}}</strong>\n    {{#if showTitles}}<span class=\"orgchart__title\">{{rootTitle}}</span>{{/if}}\n  </div>\n  <div class=\"orgchart__branch\">\n    <div class=\"orgchart__node\">\n      <strong>Alex Chen</strong>\n      {{#if showTitles}}<span class=\"orgchart__title\">VP Engineering</span>{{/if}}\n    </div>\n    <div class=\"orgchart__node\">\n      <strong>Jordan Lee</strong>\n      {{#if showTitles}}<span class=\"orgchart__title\">VP Design</span>{{/if}}\n    </div>\n  </div>\n</div>\n<style>\n.orgchart { font: 14px/1.4 system-ui, sans-serif; color: #241430; display: flex; flex-direction: column; align-items: center; gap: 18px; }\n.orgchart__node { border: 1.5px solid var(--c); background: #FAF7F2; border-radius: 10px; padding: 8px 14px; text-align: center; min-width: 120px; }\n.orgchart__node--root { background: var(--c); }\n.orgchart__title { display: block; font-size: 12px; opacity: .75; }\n.orgchart__branch { display: flex; gap: 24px; position: relative; padding-top: 18px; }\n.orgchart__branch::before { content: \"\"; position: absolute; top: 0; left: 50%; width: 1px; height: 18px; background: var(--c); transform: translateX(-50%); }\n.orgchart--horizontal { flex-direction: row; align-items: flex-start; }\n.orgchart--horizontal .orgchart__branch { flex-direction: column; padding-top: 0; padding-left: 18px; }\n.orgchart--horizontal .orgchart__branch::before { top: 50%; left: 0; width: 18px; height: 1px; transform: translateY(-50%); }\n</style>",
+    "tailwind": "<div class=\"orgchart-tw orgchart-tw--{{layout}} flex flex-col items-center gap-4 font-sans text-[#241430]\" style=\"--c:{{color}};\">\n  <div class=\"border-[1.5px] rounded-[10px] px-3.5 py-2 text-center min-w-[120px]\" style=\"border-color:var(--c);background:var(--c);\">\n    <strong>{{rootName}}</strong>\n    {{#if showTitles}}<span class=\"block text-xs opacity-75\">{{rootTitle}}</span>{{/if}}\n  </div>\n  <div class=\"orgchart-tw__branch flex gap-6 relative pt-4\">\n    <div class=\"border-[1.5px] rounded-[10px] px-3.5 py-2 text-center min-w-[120px] bg-[#FAF7F2]\" style=\"border-color:var(--c);\">\n      <strong>Alex Chen</strong>\n      {{#if showTitles}}<span class=\"block text-xs opacity-75\">VP Engineering</span>{{/if}}\n    </div>\n    <div class=\"border-[1.5px] rounded-[10px] px-3.5 py-2 text-center min-w-[120px] bg-[#FAF7F2]\" style=\"border-color:var(--c);\">\n      <strong>Jordan Lee</strong>\n      {{#if showTitles}}<span class=\"block text-xs opacity-75\">VP Design</span>{{/if}}\n    </div>\n  </div>\n</div>\n<style>\n.orgchart-tw--horizontal { flex-direction: row; align-items: flex-start; }\n.orgchart-tw--horizontal .orgchart-tw__branch { flex-direction: column; padding-top: 0; padding-left: 1rem; }\n</style>",
+    "react": "export function OrgChart({\n  rootName = \"{{rootName}}\",\n  rootTitle = \"{{rootTitle}}\",\n  layout = \"{{layout}}\",\n  color = \"{{color}}\",\n  showTitles = {{showTitles}},\n}) {\n  const nodeStyle = { border: `1.5px solid ${color}`, borderRadius: 10, padding: \"8px 14px\", textAlign: \"center\", minWidth: 120, background: \"#FAF7F2\" };\n  return (\n    <div style={{ display: \"flex\", flexDirection: layout === \"horizontal\" ? \"row\" : \"column\", alignItems: layout === \"horizontal\" ? \"flex-start\" : \"center\", gap: 18, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div style={{ ...nodeStyle, background: color }}>\n        <strong>{rootName}</strong>\n        {showTitles && <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{rootTitle}</span>}\n      </div>\n      <div style={{ display: \"flex\", flexDirection: layout === \"horizontal\" ? \"column\" : \"row\", gap: layout === \"horizontal\" ? 12 : 24 }}>\n        <div style={nodeStyle}><strong>Alex Chen</strong>{showTitles && <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>VP Engineering</span>}</div>\n        <div style={nodeStyle}><strong>Jordan Lee</strong>{showTitles && <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>VP Design</span>}</div>\n      </div>\n    </div>\n  );\n}"
+  },
+  "slug": "org-chart"
+}

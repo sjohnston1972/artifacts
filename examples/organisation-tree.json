@@ -1,0 +1,46 @@
+{
+  "controls_schema": [
+    {
+      "id": "rootName",
+      "type": "text",
+      "label": "Organisation name",
+      "default": "Clydeford Ltd"
+    },
+    {
+      "id": "expanded",
+      "type": "toggle",
+      "label": "Expanded by default",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"orgtree orgtree--{{density}}\" style=\"--c:{{color}};\" {{#if expanded}}open{{/if}}>\n  <summary class=\"orgtree__label\">{{rootName}}</summary>\n  <ul class=\"orgtree__children\">\n    <li>\n      <details>\n        <summary class=\"orgtree__label\">Engineering</summary>\n        <ul class=\"orgtree__children\">\n          <li><span class=\"orgtree__leaf\">Platform</span></li>\n          <li><span class=\"orgtree__leaf\">Product</span></li>\n        </ul>\n      </details>\n    </li>\n    <li><span class=\"orgtree__leaf\">Design</span></li>\n  </ul>\n</details>\n<style>\n.orgtree { font: 14px/1.5 system-ui, sans-serif; color: #241430; }\n.orgtree__label { cursor: pointer; padding: 4px 8px; border-left: 3px solid var(--c); font-weight: 600; }\n.orgtree__label:focus-visible { outline: 2px solid var(--c); }\n.orgtree__children { margin: 0; padding-left: 22px; list-style: none; border-left: 1px dashed #24143033; }\n.orgtree__leaf { display: inline-block; padding: 4px 8px; }\n.orgtree--compact .orgtree__label, .orgtree--compact .orgtree__leaf { padding: 2px 6px; }\n</style>",
+    "tailwind": "<details class=\"orgtree-tw orgtree-tw--{{density}} font-sans text-[#241430]\" style=\"--c:{{color}};\" {{#if expanded}}open{{/if}}>\n  <summary class=\"orgtree-tw__label cursor-pointer px-2 py-1 border-l-[3px] font-semibold\" style=\"border-color:var(--c);\">{{rootName}}</summary>\n  <ul class=\"ml-0 pl-5 list-none border-l border-dashed border-[#24143033]\">\n    <li>\n      <details>\n        <summary class=\"orgtree-tw__label cursor-pointer px-2 py-1 border-l-[3px] font-semibold\" style=\"border-color:var(--c);\">Engineering</summary>\n        <ul class=\"ml-0 pl-5 list-none border-l border-dashed border-[#24143033]\">\n          <li><span class=\"orgtree-tw__leaf inline-block px-2 py-1\">Platform</span></li>\n          <li><span class=\"orgtree-tw__leaf inline-block px-2 py-1\">Product</span></li>\n        </ul>\n      </details>\n    </li>\n    <li><span class=\"orgtree-tw__leaf inline-block px-2 py-1\">Design</span></li>\n  </ul>\n</details>\n<style>\n.orgtree-tw--compact .orgtree-tw__label, .orgtree-tw--compact .orgtree-tw__leaf { padding-top: 2px; padding-bottom: 2px; }\n</style>",
+    "react": "export function OrganisationTree({\n  rootName = \"{{rootName}}\",\n  expanded = {{expanded}},\n  color = \"{{color}}\",\n  density = \"{{density}}\",\n}) {\n  const pad = density === \"compact\" ? \"2px 6px\" : \"4px 8px\";\n  const label = { cursor: \"pointer\", padding: pad, borderLeft: `3px solid ${color}`, fontWeight: 600 };\n  const children = { margin: 0, paddingLeft: 22, listStyle: \"none\", borderLeft: \"1px dashed #24143033\" };\n  return (\n    <details open={expanded} style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\" }}>\n      <summary style={label}>{rootName}</summary>\n      <ul style={children}>\n        <li>\n          <details>\n            <summary style={label}>Engineering</summary>\n            <ul style={children}>\n              <li><span style={{ display: \"inline-block\", padding: pad }}>Platform</span></li>\n              <li><span style={{ display: \"inline-block\", padding: pad }}>Product</span></li>\n            </ul>\n          </details>\n        </li>\n        <li><span style={{ display: \"inline-block\", padding: pad }}>Design</span></li>\n      </ul>\n    </details>\n  );\n}"
+  },
+  "slug": "organisation-tree"
+}

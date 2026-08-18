@@ -1,0 +1,59 @@
+{
+  "slug": "progress-checklist",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Setup progress"
+    },
+    {
+      "id": "completed",
+      "type": "number",
+      "label": "Completed",
+      "default": 3,
+      "min": 0,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "total",
+      "type": "number",
+      "label": "Total steps",
+      "default": 5,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Visualisation",
+      "default": "bar",
+      "options": [
+        "bar",
+        "ring",
+        "fraction"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pc pc--{{style}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"pc__title\">{{title}}</h3>\n  <div class=\"pc__bar\"><span class=\"pc__bar-fill\" style=\"width:calc({{completed}} / {{total}} * 100%);\"></span></div>\n  <div class=\"pc__ring\" style=\"background:conic-gradient(var(--accent) calc({{completed}} / {{total}} * 100%), #24143018 0);\"><span class=\"pc__ring-hole\"></span></div>\n  <p class=\"pc__fraction\">{{completed}} <span class=\"pc__fraction-of\">of {{total}}</span></p>\n  <p class=\"pc__caption\">{{completed}} of {{total}} steps complete</p>\n</div>\n<style>\n.pc { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 300px; border-radius: 14px; border: 1px solid #24143018; text-align: center; }\n.pc__title { margin: 0 0 14px; font-size: 15px; font-weight: 700; text-align: left; }\n.pc__bar, .pc__ring, .pc__fraction { display: none; }\n.pc--bar .pc__bar { display: block; height: 8px; border-radius: 4px; background: #24143018; overflow: hidden; margin-bottom: 10px; }\n.pc--ring .pc__ring { display: inline-flex; width: 88px; height: 88px; border-radius: 999px; align-items: center; justify-content: center; margin-bottom: 10px; }\n.pc--fraction .pc__fraction { display: block; font-size: 34px; font-weight: 800; color: var(--accent); margin: 6px 0; }\n.pc__bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; }\n.pc__ring-hole { width: 64px; height: 64px; border-radius: 999px; background: #FAF7F2; }\n.pc__fraction-of { font-size: 14px; font-weight: 500; color: #24143090; }\n.pc__caption { margin: 0; font-size: 12px; color: #24143090; text-align: left; }\n</style>",
+    "tailwind": "<div class=\"pc-tw pc-tw--{{style}} max-w-[300px] p-5 rounded-2xl border border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans text-center\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-3.5 text-[15px] font-bold text-left\">{{title}}</h3>\n  <div class=\"pc-tw__bar hidden h-2 rounded-full bg-[#24143018] overflow-hidden mb-2.5\"><span class=\"block h-full rounded-full\" style=\"background:{{accent}};width:calc({{completed}} / {{total}} * 100%)\"></span></div>\n  <div class=\"pc-tw__ring hidden w-[88px] h-[88px] rounded-full items-center justify-center mb-2.5 mx-auto\" style=\"background:conic-gradient({{accent}} calc({{completed}} / {{total}} * 100%), #24143018 0)\"><span class=\"w-16 h-16 rounded-full bg-[#FAF7F2] block\"></span></div>\n  <p class=\"pc-tw__fraction hidden text-[34px] font-extrabold my-1.5\" style=\"color:{{accent}}\">{{completed}} <span class=\"text-sm font-medium text-[#24143090]\">of {{total}}</span></p>\n  <p class=\"m-0 text-xs text-[#24143090] text-left\">{{completed}} of {{total}} steps complete</p>\n</div>\n<style>\n.pc-tw--bar .pc-tw__bar { display: block; }\n.pc-tw--ring .pc-tw__ring { display: inline-flex; }\n.pc-tw--fraction .pc-tw__fraction { display: block; }\n</style>",
+    "react": "export function ProgressChecklist({\n  title = \"{{title}}\",\n  completed = {{completed}},\n  total = {{total}},\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n}) {\n  const pct = Math.min(100, (completed / total) * 100);\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 300, borderRadius: 14, border: \"1px solid #24143018\", textAlign: \"center\" }}>\n      <h3 style={{ margin: \"0 0 14px\", fontSize: 15, fontWeight: 700, textAlign: \"left\" }}>{title}</h3>\n      {style === \"bar\" && (\n        <div style={{ height: 8, borderRadius: 4, background: \"#24143018\", overflow: \"hidden\", marginBottom: 10 }}>\n          <span style={{ display: \"block\", height: \"100%\", width: pct + \"%\", background: accent, borderRadius: 4 }} />\n        </div>\n      )}\n      {style === \"ring\" && (\n        <div style={{ width: 88, height: 88, borderRadius: 999, display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", marginBottom: 10, background: \"conic-gradient(\" + accent + \" \" + pct + \"%, #24143018 0)\" }}>\n          <span style={{ width: 64, height: 64, borderRadius: 999, background: \"#FAF7F2\" }} />\n        </div>\n      )}\n      {style === \"fraction\" && (\n        <p style={{ fontSize: 34, fontWeight: 800, color: accent, margin: \"6px 0\" }}>{completed} <span style={{ fontSize: 14, fontWeight: 500, color: \"#24143090\" }}>of {total}</span></p>\n      )}\n      <p style={{ margin: 0, fontSize: 12, color: \"#24143090\", textAlign: \"left\" }}>{completed} of {total} steps complete</p>\n    </div>\n  );\n}"
+  }
+}

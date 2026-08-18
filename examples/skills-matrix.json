@@ -1,0 +1,46 @@
+{
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Matrix title",
+      "default": "Team skills"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "showLegend",
+      "type": "toggle",
+      "label": "Show legend",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"skillsmatrix skillsmatrix--{{density}}\" style=\"--c:{{color}};\">\n  <figcaption class=\"skillsmatrix__title\">{{title}}</figcaption>\n  <table class=\"skillsmatrix__table\">\n    <thead>\n      <tr><th scope=\"col\">Person</th><th scope=\"col\">Design</th><th scope=\"col\">Engineering</th><th scope=\"col\">Writing</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">Priya Nair</th><td><span class=\"skillsmatrix__cell\" data-level=\"3\" aria-label=\"Expert\"></span></td><td><span class=\"skillsmatrix__cell\" data-level=\"2\" aria-label=\"Proficient\"></span></td><td><span class=\"skillsmatrix__cell\" data-level=\"1\" aria-label=\"Beginner\"></span></td></tr>\n      <tr><th scope=\"row\">Alex Chen</th><td><span class=\"skillsmatrix__cell\" data-level=\"1\" aria-label=\"Beginner\"></span></td><td><span class=\"skillsmatrix__cell\" data-level=\"3\" aria-label=\"Expert\"></span></td><td><span class=\"skillsmatrix__cell\" data-level=\"2\" aria-label=\"Proficient\"></span></td></tr>\n    </tbody>\n  </table>\n  {{#if showLegend}}\n  <figcaption class=\"skillsmatrix__legend\">\n    <span><span class=\"skillsmatrix__cell\" data-level=\"1\"></span> Beginner</span>\n    <span><span class=\"skillsmatrix__cell\" data-level=\"2\"></span> Proficient</span>\n    <span><span class=\"skillsmatrix__cell\" data-level=\"3\"></span> Expert</span>\n  </figcaption>\n  {{/if}}\n</figure>\n<style>\n.skillsmatrix { font: 13px/1.4 system-ui, sans-serif; color: #241430; margin: 0; max-width: 420px; }\n.skillsmatrix__title { font-weight: 700; margin-bottom: 8px; text-align: left; }\n.skillsmatrix__table { border-collapse: collapse; width: 100%; }\n.skillsmatrix__table th, .skillsmatrix__table td { border: 1px solid #24143022; padding: 8px; text-align: center; }\n.skillsmatrix__table th[scope=\"row\"] { text-align: left; font-weight: 600; }\n.skillsmatrix--compact .skillsmatrix__table th, .skillsmatrix--compact .skillsmatrix__table td { padding: 4px 6px; }\n.skillsmatrix__cell { display: inline-block; width: 14px; height: 14px; border-radius: 3px; background: #24143014; }\n.skillsmatrix__cell[data-level=\"1\"] { background: color-mix(in srgb, var(--c) 35%, #FAF7F2); }\n.skillsmatrix__cell[data-level=\"2\"] { background: color-mix(in srgb, var(--c) 70%, #FAF7F2); }\n.skillsmatrix__cell[data-level=\"3\"] { background: var(--c); }\n.skillsmatrix__legend { display: flex; gap: 14px; margin-top: 8px; font-size: 12px; }\n.skillsmatrix__legend span { display: inline-flex; align-items: center; gap: 5px; }\n</style>",
+    "tailwind": "<figure class=\"skillsmatrix-tw skillsmatrix-tw--{{density}} font-sans text-[13px] text-[#241430] max-w-md m-0\" style=\"--c:{{color}};\">\n  <figcaption class=\"font-bold mb-2 text-left\">{{title}}</figcaption>\n  <table class=\"border-collapse w-full\">\n    <thead>\n      <tr><th scope=\"col\" class=\"border border-[#24143022] p-2\">Person</th><th scope=\"col\" class=\"border border-[#24143022] p-2\">Design</th><th scope=\"col\" class=\"border border-[#24143022] p-2\">Engineering</th><th scope=\"col\" class=\"border border-[#24143022] p-2\">Writing</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\" class=\"border border-[#24143022] p-2 text-left\">Priya Nair</th><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"3\" aria-label=\"Expert\"></span></td><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"2\" aria-label=\"Proficient\"></span></td><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"1\" aria-label=\"Beginner\"></span></td></tr>\n      <tr><th scope=\"row\" class=\"border border-[#24143022] p-2 text-left\">Alex Chen</th><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"1\" aria-label=\"Beginner\"></span></td><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"3\" aria-label=\"Expert\"></span></td><td class=\"border border-[#24143022] p-2 text-center\"><span class=\"skillsmatrix-tw__cell\" data-level=\"2\" aria-label=\"Proficient\"></span></td></tr>\n    </tbody>\n  </table>\n  {{#if showLegend}}\n  <figcaption class=\"flex gap-3.5 mt-2 text-xs\">\n    <span class=\"inline-flex items-center gap-1\"><span class=\"skillsmatrix-tw__cell\" data-level=\"1\"></span> Beginner</span>\n    <span class=\"inline-flex items-center gap-1\"><span class=\"skillsmatrix-tw__cell\" data-level=\"2\"></span> Proficient</span>\n    <span class=\"inline-flex items-center gap-1\"><span class=\"skillsmatrix-tw__cell\" data-level=\"3\"></span> Expert</span>\n  </figcaption>\n  {{/if}}\n</figure>\n<style>\n.skillsmatrix-tw__cell { display: inline-block; width: 14px; height: 14px; border-radius: 3px; background: #24143014; }\n.skillsmatrix-tw__cell[data-level=\"1\"] { background: color-mix(in srgb, var(--c) 35%, #FAF7F2); }\n.skillsmatrix-tw__cell[data-level=\"2\"] { background: color-mix(in srgb, var(--c) 70%, #FAF7F2); }\n.skillsmatrix-tw__cell[data-level=\"3\"] { background: var(--c); }\n.skillsmatrix-tw--compact th, .skillsmatrix-tw--compact td { padding: 4px 6px !important; }\n</style>",
+    "react": "const ROWS = [\n  { name: \"Priya Nair\", levels: [3, 2, 1] },\n  { name: \"Alex Chen\", levels: [1, 3, 2] },\n];\nconst LEVEL_LABEL = { 1: \"Beginner\", 2: \"Proficient\", 3: \"Expert\" };\n\nexport function SkillsMatrix({\n  title = \"{{title}}\",\n  color = \"{{color}}\",\n  density = \"{{density}}\",\n  showLegend = {{showLegend}},\n}) {\n  const pad = density === \"compact\" ? \"4px 6px\" : \"8px\";\n  const cellColor = (level) => ({ 1: `${color}59`, 2: `${color}b3`, 3: color }[level] ?? \"#24143014\");\n  return (\n    <figure style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 420, margin: 0 }}>\n      <figcaption style={{ fontWeight: 700, marginBottom: 8 }}>{title}</figcaption>\n      <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n        <thead>\n          <tr>\n            <th scope=\"col\" style={{ border: \"1px solid #24143022\", padding: pad }}>Person</th>\n            <th scope=\"col\" style={{ border: \"1px solid #24143022\", padding: pad }}>Design</th>\n            <th scope=\"col\" style={{ border: \"1px solid #24143022\", padding: pad }}>Engineering</th>\n            <th scope=\"col\" style={{ border: \"1px solid #24143022\", padding: pad }}>Writing</th>\n          </tr>\n        </thead>\n        <tbody>\n          {ROWS.map((row) => (\n            <tr key={row.name}>\n              <th scope=\"row\" style={{ border: \"1px solid #24143022\", padding: pad, textAlign: \"left\" }}>{row.name}</th>\n              {row.levels.map((level, i) => (\n                <td key={i} style={{ border: \"1px solid #24143022\", padding: pad, textAlign: \"center\" }}>\n                  <span aria-label={LEVEL_LABEL[level]} style={{ display: \"inline-block\", width: 14, height: 14, borderRadius: 3, background: cellColor(level) }} />\n                </td>\n              ))}\n            </tr>\n          ))}\n        </tbody>\n      </table>\n      {showLegend && (\n        <figcaption style={{ display: \"flex\", gap: 14, marginTop: 8, fontSize: 12 }}>\n          {[1, 2, 3].map((level) => (\n            <span key={level} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5 }}>\n              <span style={{ display: \"inline-block\", width: 14, height: 14, borderRadius: 3, background: cellColor(level) }} /> {LEVEL_LABEL[level]}\n            </span>\n          ))}\n        </figcaption>\n      )}\n    </figure>\n  );\n}"
+  },
+  "slug": "skills-matrix"
+}

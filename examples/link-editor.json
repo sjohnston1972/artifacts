@@ -1,0 +1,52 @@
+{
+  "slug": "link-editor",
+  "controls_schema": [
+    {
+      "id": "linkText",
+      "type": "text",
+      "label": "Link text",
+      "default": "Anthropic documentation"
+    },
+    {
+      "id": "url",
+      "type": "text",
+      "label": "URL",
+      "default": "https://docs.anthropic.com"
+    },
+    {
+      "id": "openNewTab",
+      "type": "toggle",
+      "label": "Open in new tab",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Panel style",
+      "default": "popover",
+      "options": [
+        "popover",
+        "inline"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"led led--{{variant}}\" data-variant=\"{{variant}}\" style=\"--accent:{{accent}};\">\n  <p class=\"led__eyebrow\">Edit link</p>\n  <label class=\"led__field\">\n    <span class=\"led__label\">Text</span>\n    <input class=\"led__input\" type=\"text\" value=\"{{linkText}}\" aria-label=\"Link text\" />\n  </label>\n  <label class=\"led__field\">\n    <span class=\"led__label\">URL</span>\n    <input class=\"led__input\" type=\"url\" value=\"{{url}}\" aria-label=\"Link URL\" />\n  </label>\n  <label class=\"led__toggle\">\n    <input type=\"checkbox\" {{#if openNewTab}}checked{{/if}} />\n    <span>Open in new tab</span>\n  </label>\n  <p class=\"led__preview\">Preview: <a class=\"led__link\" href=\"{{url}}\"{{#if openNewTab}} target=\"_blank\" rel=\"noopener\"{{/if}}>{{linkText}}</a></p>\n</div>\n<style>\n.led { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; padding: 18px; }\n.led--popover { border-radius: 12px; box-shadow: 0 12px 28px rgba(36,20,48,.18); border: 1px solid #24143014; }\n.led--inline { border-top: 3px solid var(--accent); border-radius: 0; box-shadow: none; }\n.led__eyebrow { margin: 0 0 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }\n.led__field { display: block; margin-bottom: 10px; font-size: 13px; }\n.led__label { display: block; margin-bottom: 4px; color: #241430aa; }\n.led__input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #24143026; border-radius: 8px; font: inherit; }\n.led__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }\n.led__toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 12px; }\n.led__preview { margin: 0; font-size: 13px; border-top: 1px solid #24143014; padding-top: 10px; }\n.led__link { color: var(--accent); font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"led-tw led-tw--{{variant}} max-w-[300px] p-[18px] bg-[#FAF7F2] text-[#241430] font-sans\" data-variant=\"{{variant}}\" style=\"--accent:{{accent}};\">\n  <p class=\"m-0 mb-2.5 text-xs font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">Edit link</p>\n  <label class=\"block mb-2.5 text-[13px]\">\n    <span class=\"block mb-1 text-[#241430]/65\">Text</span>\n    <input type=\"text\" value=\"{{linkText}}\" aria-label=\"Link text\" class=\"w-full box-border px-2.5 py-2 border-[1.5px] border-[#24143026] rounded-lg font-sans\" />\n  </label>\n  <label class=\"block mb-2.5 text-[13px]\">\n    <span class=\"block mb-1 text-[#241430]/65\">URL</span>\n    <input type=\"url\" value=\"{{url}}\" aria-label=\"Link URL\" class=\"w-full box-border px-2.5 py-2 border-[1.5px] border-[#24143026] rounded-lg font-sans\" />\n  </label>\n  <label class=\"flex items-center gap-2 text-[13px] mb-3\">\n    <input type=\"checkbox\" {{#if openNewTab}}checked{{/if}} />\n    <span>Open in new tab</span>\n  </label>\n  <p class=\"m-0 text-[13px] border-t border-[#24143014] pt-2.5\">Preview: <a href=\"{{url}}\"{{#if openNewTab}} target=\"_blank\" rel=\"noopener\"{{/if}} class=\"font-semibold\" style=\"color:{{accent}}\">{{linkText}}</a></p>\n</div>\n<style>\n.led-tw--popover { border-radius: 12px; box-shadow: 0 12px 28px rgba(36,20,48,.18); border: 1px solid #24143014; }\n.led-tw--inline { border-top: 3px solid {{accent}}; border-radius: 0; box-shadow: none; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function LinkEditor({\n  linkText = \"{{linkText}}\",\n  url = \"{{url}}\",\n  openNewTab: initialOpenNewTab = {{openNewTab}},\n  accent = \"{{accent}}\",\n  variant = \"{{variant}}\",\n}) {\n  const [openNewTab, setOpenNewTab] = useState(initialOpenNewTab);\n  const wrap = {\n    popover: { borderRadius: 12, boxShadow: \"0 12px 28px rgba(36,20,48,.18)\", border: \"1px solid #24143014\" },\n    inline: { borderTop: `3px solid ${accent}`, borderRadius: 0, boxShadow: \"none\" },\n  }[variant] ?? {};\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, padding: 18, ...wrap }}>\n      <p style={{ margin: \"0 0 10px\", fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\", color: accent }}>Edit link</p>\n      <label style={{ display: \"block\", marginBottom: 10, fontSize: 13 }}>\n        <span style={{ display: \"block\", marginBottom: 4, color: \"#241430aa\" }}>Text</span>\n        <input type=\"text\" defaultValue={linkText} aria-label=\"Link text\" style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", border: \"1.5px solid #24143026\", borderRadius: 8, font: \"inherit\" }} />\n      </label>\n      <label style={{ display: \"block\", marginBottom: 10, fontSize: 13 }}>\n        <span style={{ display: \"block\", marginBottom: 4, color: \"#241430aa\" }}>URL</span>\n        <input type=\"url\" defaultValue={url} aria-label=\"Link URL\" style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", border: \"1.5px solid #24143026\", borderRadius: 8, font: \"inherit\" }} />\n      </label>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 13, marginBottom: 12 }}>\n        <input type=\"checkbox\" checked={openNewTab} onChange={(e) => setOpenNewTab(e.target.checked)} />\n        <span>Open in new tab</span>\n      </label>\n      <p style={{ margin: 0, fontSize: 13, borderTop: \"1px solid #24143014\", paddingTop: 10 }}>\n        Preview: <a href={url} target={openNewTab ? \"_blank\" : undefined} rel={openNewTab ? \"noopener\" : undefined} style={{ color: accent, fontWeight: 600 }}>{linkText}</a>\n      </p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Assignee name",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "team",
+      "type": "text",
+      "label": "Team",
+      "default": "Design"
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "assigned",
+      "options": [
+        "assigned",
+        "unassigned",
+        "pending"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Avatar size (px)",
+      "default": 32,
+      "min": 24,
+      "max": 48,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"assignee assignee--{{state}}\" style=\"--c:{{color}};\">\n  <summary class=\"assignee__summary\">\n    <span class=\"assignee__avatar\" style=\"width:{{size}}px;height:{{size}}px;font-size:calc({{size}}px * 0.4);\" aria-hidden=\"true\"><span class=\"assignee__initials\">PN</span></span>\n    <span class=\"assignee__text\">\n      <strong class=\"assignee__name\">{{name}}</strong>\n      <span class=\"assignee__meta\">{{team}} · <span class=\"assignee__state\">assigned</span></span>\n    </span>\n  </summary>\n  <ul class=\"assignee__list\">\n    <li><button type=\"button\" class=\"assignee__option\">Alex Chen — Design</button></li>\n    <li><button type=\"button\" class=\"assignee__option\">Jordan Lee — Design</button></li>\n    <li><button type=\"button\" class=\"assignee__option assignee__option--clear\">Unassign</button></li>\n  </ul>\n</details>\n<style>\n.assignee { font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 260px; }\n.assignee__summary { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1.5px solid var(--c); border-radius: 10px; cursor: pointer; list-style: none; background: #FAF7F2; }\n.assignee__summary::-webkit-details-marker { display: none; }\n.assignee__summary:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }\n.assignee__avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--c); font-weight: 700; flex: none; }\n.assignee--unassigned .assignee__avatar { background: transparent; border: 2px dashed var(--c); }\n.assignee--pending .assignee__avatar { background: #FAF7F2; border: 2px solid var(--c); }\n.assignee--unassigned .assignee__initials, .assignee--pending .assignee__initials { display: none; }\n.assignee__meta { display: block; font-size: 12px; opacity: .7; }\n.assignee--assigned .assignee__state::before { content: \"Assigned\"; }\n.assignee--unassigned .assignee__state::before { content: \"Unassigned\"; }\n.assignee--pending .assignee__state::before { content: \"Pending review\"; }\n.assignee__list { margin: 6px 0 0; padding: 6px; border: 1px solid #24143022; border-radius: 10px; list-style: none; display: grid; gap: 4px; }\n.assignee__option { width: 100%; text-align: left; background: none; border: none; padding: 6px 8px; border-radius: 6px; font: inherit; cursor: pointer; color: #241430; }\n.assignee__option:hover, .assignee__option:focus-visible { background: color-mix(in srgb, var(--c) 25%, #FAF7F2); outline: none; }\n.assignee__option--clear { color: #b3261e; }\n</style>",
+    "tailwind": "<details class=\"assignee-tw assignee-tw--{{state}} max-w-xs font-sans text-[#241430]\" style=\"--c:{{color}};\">\n  <summary class=\"flex items-center gap-2.5 px-2.5 py-2 border-[1.5px] rounded-[10px] cursor-pointer list-none bg-[#FAF7F2]\" style=\"border-color:var(--c);\">\n    <span class=\"assignee-tw__avatar inline-flex items-center justify-center rounded-full font-bold flex-none\" style=\"width:{{size}}px;height:{{size}}px;font-size:calc({{size}}px * 0.4);background:var(--c);\" aria-hidden=\"true\"><span class=\"assignee-tw__initials\">PN</span></span>\n    <span>\n      <strong class=\"block\">{{name}}</strong>\n      <span class=\"block text-xs opacity-70\">{{team}} · <span class=\"assignee-tw__state\"></span></span>\n    </span>\n  </summary>\n  <ul class=\"mt-1.5 p-1.5 border border-[#24143022] rounded-[10px] list-none grid gap-1\">\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5 focus-visible:outline-2\">Alex Chen — Design</button></li>\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md hover:bg-black/5 focus-visible:outline-2\">Jordan Lee — Design</button></li>\n    <li><button type=\"button\" class=\"w-full text-left bg-transparent border-none px-2 py-1.5 rounded-md text-red-700 hover:bg-black/5\">Unassign</button></li>\n  </ul>\n</details>\n<style>\n.assignee-tw--unassigned .assignee-tw__avatar { background: transparent !important; border: 2px dashed var(--c); }\n.assignee-tw--pending .assignee-tw__avatar { background: #FAF7F2 !important; border: 2px solid var(--c); }\n.assignee-tw--unassigned .assignee-tw__initials, .assignee-tw--pending .assignee-tw__initials { display: none; }\n.assignee-tw--assigned .assignee-tw__state::before { content: \"Assigned\"; }\n.assignee-tw--unassigned .assignee-tw__state::before { content: \"Unassigned\"; }\n.assignee-tw--pending .assignee-tw__state::before { content: \"Pending review\"; }\n</style>",
+    "react": "export function AssigneeSelector({\n  name = \"{{name}}\",\n  team = \"{{team}}\",\n  state = \"{{state}}\",\n  color = \"{{color}}\",\n  size = {{size}},\n}) {\n  const stateText = { assigned: \"Assigned\", unassigned: \"Unassigned\", pending: \"Pending review\" }[state] ?? \"Assigned\";\n  const avatarStyle = {\n    assigned: { background: color },\n    unassigned: { background: \"transparent\", border: `2px dashed ${color}` },\n    pending: { background: \"#FAF7F2\", border: `2px solid ${color}` },\n  }[state] ?? {};\n  return (\n    <details style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 260 }}>\n      <summary style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"8px 10px\", border: `1.5px solid ${color}`, borderRadius: 10, cursor: \"pointer\", listStyle: \"none\", background: \"#FAF7F2\" }}>\n        <span aria-hidden=\"true\" style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: size, height: size, borderRadius: \"50%\", fontWeight: 700, flex: \"none\", fontSize: size * 0.4, ...avatarStyle }}>\n          {state === \"assigned\" ? \"PN\" : \"\"}\n        </span>\n        <span>\n          <strong style={{ display: \"block\" }}>{name}</strong>\n          <span style={{ display: \"block\", fontSize: 12, opacity: 0.7 }}>{team} · {stateText}</span>\n        </span>\n      </summary>\n      <ul style={{ margin: \"6px 0 0\", padding: 6, border: \"1px solid #24143022\", borderRadius: 10, listStyle: \"none\", display: \"grid\", gap: 4 }}>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Alex Chen — Design</button></li>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#241430\" }}>Jordan Lee — Design</button></li>\n        <li><button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", background: \"none\", border: \"none\", padding: \"6px 8px\", borderRadius: 6, cursor: \"pointer\", color: \"#b3261e\" }}>Unassign</button></li>\n      </ul>\n    </details>\n  );\n}"
+  },
+  "slug": "assignee-selector"
+}

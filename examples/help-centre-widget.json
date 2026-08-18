@@ -1,0 +1,56 @@
+{
+  "slug": "help-centre-widget",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Help Centre"
+    },
+    {
+      "id": "searchPlaceholder",
+      "type": "text",
+      "label": "Search placeholder",
+      "default": "Search articles..."
+    },
+    {
+      "id": "articleCount",
+      "type": "number",
+      "label": "Article count",
+      "default": 24,
+      "min": 1,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "panel",
+      "options": [
+        "panel",
+        "popover",
+        "sidebar"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"help-centre help-centre--{{variant}}\" style=\"--accent:{{accent}}\">\n  <h3 class=\"help-centre__heading\">{{heading}}</h3>\n  <label class=\"help-centre__search\">\n    <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"5.2\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M11 11l3.2 3.2\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg>\n    <input type=\"text\" placeholder=\"{{searchPlaceholder}}\" />\n  </label>\n  <p class=\"help-centre__meta\">{{articleCount}} articles available</p>\n  <ul class=\"help-centre__list\">\n    <li><a href=\"#\">Getting started with your workspace</a></li>\n    <li><a href=\"#\">Managing billing and seats</a></li>\n    <li><a href=\"#\">Connecting integrations</a></li>\n  </ul>\n</div>\n<style>\n.help-centre { font: 16px/1.5 system-ui, sans-serif; color: #241430; max-width: 300px; padding: 18px; background: #FAF7F2; }\n.help-centre__heading { margin: 0 0 10px; font-size: 16px; font-weight: 600; }\n.help-centre__search { display: flex; align-items: center; gap: 8px; border: 1.5px solid #24143030; border-radius: 8px; padding: 8px 10px; color: #24143099; }\n.help-centre__search input { border: none; outline: none; font: 13.5px system-ui, sans-serif; flex: 1; background: transparent; color: #241430; }\n.help-centre__meta { margin: 10px 0; font-size: 12px; color: var(--accent); font-weight: 600; }\n.help-centre__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.help-centre__list a { color: #241430; text-decoration: none; font-size: 13.5px; padding: 6px 0; display: block; border-bottom: 1px solid #24143014; }\n.help-centre__list a:hover, .help-centre__list a:focus-visible { color: var(--accent); outline: none; }\n.help-centre--panel { border: 1.5px solid #24143022; border-radius: 12px; }\n.help-centre--popover { border-radius: 12px; box-shadow: 0 14px 30px rgba(36,20,48,.2); }\n.help-centre--sidebar { border-left: 3px solid var(--accent); border-radius: 0; max-width: 260px; }\n</style>",
+    "tailwind": "<div class=\"help-centre-tw help-centre-tw--{{variant}} max-w-[300px] p-4.5 bg-[#FAF7F2] font-sans text-[#241430]\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-2.5 text-base font-semibold\">{{heading}}</h3>\n  <label class=\"flex items-center gap-2 border-[1.5px] border-[#24143030] rounded-lg px-2.5 py-2 text-[#24143099]\">\n    <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"5.2\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M11 11l3.2 3.2\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg>\n    <input type=\"text\" class=\"border-0 outline-none text-[13.5px] flex-1 bg-transparent text-[#241430]\" placeholder=\"{{searchPlaceholder}}\" />\n  </label>\n  <p class=\"my-2.5 text-xs font-semibold\" style=\"color:{{accent}}\">{{articleCount}} articles available</p>\n  <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\">\n    <li><a href=\"#\" class=\"block text-[13.5px] text-[#241430] no-underline py-1.5 border-b border-[#24143014] hover:opacity-70\">Getting started with your workspace</a></li>\n    <li><a href=\"#\" class=\"block text-[13.5px] text-[#241430] no-underline py-1.5 border-b border-[#24143014] hover:opacity-70\">Managing billing and seats</a></li>\n    <li><a href=\"#\" class=\"block text-[13.5px] text-[#241430] no-underline py-1.5 border-b border-[#24143014] hover:opacity-70\">Connecting integrations</a></li>\n  </ul>\n</div>\n<style>\n.help-centre-tw--panel { border: 1.5px solid #24143022; border-radius: 12px; }\n.help-centre-tw--popover { border-radius: 12px; box-shadow: 0 14px 30px rgba(36,20,48,.2); }\n.help-centre-tw--sidebar { border-left: 3px solid #241430; max-width: 260px; }\n</style>",
+    "react": "export function HelpCentreWidget({\n  heading = \"{{heading}}\",\n  searchPlaceholder = \"{{searchPlaceholder}}\",\n  articleCount = {{articleCount}},\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  const wrap = {\n    panel: { border: \"1.5px solid #24143022\", borderRadius: 12 },\n    popover: { borderRadius: 12, boxShadow: \"0 14px 30px rgba(36,20,48,.2)\" },\n    sidebar: { borderLeft: \"3px solid \" + accent, maxWidth: 260 },\n  }[variant] ?? {};\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 300, padding: 18, background: \"#FAF7F2\", ...wrap }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 16, fontWeight: 600 }}>{heading}</h3>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, border: \"1.5px solid #24143030\", borderRadius: 8, padding: \"8px 10px\", color: \"#24143099\" }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"5.2\" stroke=\"currentColor\" strokeWidth=\"1.4\" /><path d=\"M11 11l3.2 3.2\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinecap=\"round\" /></svg>\n        <input type=\"text\" placeholder={searchPlaceholder} style={{ border: \"none\", outline: \"none\", fontSize: 13.5, flex: 1, background: \"transparent\", color: \"#241430\" }} />\n      </label>\n      <p style={{ margin: \"10px 0\", fontSize: 12, color: accent, fontWeight: 600 }}>{articleCount} articles available</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {[\"Getting started with your workspace\", \"Managing billing and seats\", \"Connecting integrations\"].map((item) => (\n          <li key={item}><a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", fontSize: 13.5, padding: \"6px 0\", display: \"block\", borderBottom: \"1px solid #24143014\" }}>{item}</a></li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

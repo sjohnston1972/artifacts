@@ -1,0 +1,53 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Certification",
+      "default": "Cloud Architect"
+    },
+    {
+      "id": "issuer",
+      "type": "text",
+      "label": "Issuer",
+      "default": "Clydeford Academy"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Level",
+      "default": "professional",
+      "options": [
+        "foundation",
+        "professional",
+        "expert"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "verified",
+      "type": "toggle",
+      "label": "Verified",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"certbadge certbadge--{{level}}\" style=\"--c:{{color}};\">\n  <svg class=\"certbadge__seal\" viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n    <path d=\"M16 2l3.5 3.6 5-1 .6 5 4.9 1.7-2.7 4.3 2.7 4.3-4.9 1.7-.6 5-5-1L16 30l-3.5-3.6-5 1-.6-5-4.9-1.7 2.7-4.3-2.7-4.3 4.9-1.7.6-5 5 1z\" fill=\"var(--c)\"/>\n    <text x=\"16\" y=\"20\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"700\" fill=\"#241430\">{{#if verified}}✓{{/if}}</text>\n  </svg>\n  <div class=\"certbadge__text\">\n    <strong class=\"certbadge__name\">{{name}}</strong>\n    <span class=\"certbadge__meta\">{{issuer}} · <span class=\"certbadge__level\"></span></span>\n  </div>\n</div>\n<style>\n.certbadge { display: flex; align-items: center; gap: 10px; font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 300px; }\n.certbadge__seal { width: 40px; height: 40px; flex: none; }\n.certbadge__meta { display: block; font-size: 12px; opacity: .75; }\n.certbadge--foundation .certbadge__level::before { content: \"Foundation\"; }\n.certbadge--professional .certbadge__level::before { content: \"Professional\"; }\n.certbadge--expert .certbadge__level::before { content: \"Expert\"; }\n.certbadge--expert .certbadge__seal { filter: drop-shadow(0 0 3px var(--c)); }\n</style>",
+    "tailwind": "<div class=\"certbadge-tw certbadge-tw--{{level}} flex items-center gap-2.5 font-sans text-[#241430] max-w-xs\" style=\"--c:{{color}};\">\n  <svg class=\"w-10 h-10 flex-none\" viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n    <path d=\"M16 2l3.5 3.6 5-1 .6 5 4.9 1.7-2.7 4.3 2.7 4.3-4.9 1.7-.6 5-5-1L16 30l-3.5-3.6-5 1-.6-5-4.9-1.7 2.7-4.3-2.7-4.3 4.9-1.7.6-5 5 1z\" fill=\"var(--c)\"/>\n    <text x=\"16\" y=\"20\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"700\" fill=\"#241430\">{{#if verified}}✓{{/if}}</text>\n  </svg>\n  <div>\n    <strong class=\"block\">{{name}}</strong>\n    <span class=\"block text-xs opacity-75\">{{issuer}} · <span class=\"certbadge-tw__level\"></span></span>\n  </div>\n</div>\n<style>\n.certbadge-tw--foundation .certbadge-tw__level::before { content: \"Foundation\"; }\n.certbadge-tw--professional .certbadge-tw__level::before { content: \"Professional\"; }\n.certbadge-tw--expert .certbadge-tw__level::before { content: \"Expert\"; }\n</style>",
+    "react": "export function CertificationBadge({\n  name = \"{{name}}\",\n  issuer = \"{{issuer}}\",\n  level = \"{{level}}\",\n  color = \"{{color}}\",\n  verified = {{verified}},\n}) {\n  const levelText = { foundation: \"Foundation\", professional: \"Professional\", expert: \"Expert\" }[level] ?? \"Foundation\";\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 300 }}>\n      <svg style={{ width: 40, height: 40, flex: \"none\", filter: level === \"expert\" ? `drop-shadow(0 0 3px ${color})` : \"none\" }} viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n        <path d=\"M16 2l3.5 3.6 5-1 .6 5 4.9 1.7-2.7 4.3 2.7 4.3-4.9 1.7-.6 5-5-1L16 30l-3.5-3.6-5 1-.6-5-4.9-1.7 2.7-4.3-2.7-4.3 4.9-1.7.6-5 5 1z\" fill={color} />\n        <text x=\"16\" y=\"20\" textAnchor=\"middle\" fontSize=\"10\" fontWeight=\"700\" fill=\"#241430\">{verified ? \"✓\" : \"\"}</text>\n      </svg>\n      <div>\n        <strong style={{ display: \"block\" }}>{name}</strong>\n        <span style={{ display: \"block\", fontSize: 12, opacity: 0.75 }}>{issuer} · {levelText}</span>\n      </div>\n    </div>\n  );\n}"
+  },
+  "slug": "certification-badge"
+}

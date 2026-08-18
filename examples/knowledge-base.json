@@ -1,0 +1,56 @@
+{
+  "slug": "knowledge-base",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Help Centre"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Search placeholder",
+      "default": "Search articles…"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "list",
+      "options": [
+        "list",
+        "grid",
+        "compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "articleCount",
+      "type": "number",
+      "label": "Article count",
+      "default": 128,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kb kb--{{layout}}\" style=\"--accent:{{accent}};\">\n  <h2 class=\"kb__title\">{{title}}</h2>\n  <label class=\"kb__search\">\n    <svg class=\"kb__search-icon\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"9\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <input class=\"kb__input\" type=\"search\" placeholder=\"{{placeholder}}\" aria-label=\"{{placeholder}}\" />\n  </label>\n  <p class=\"kb__count\">{{articleCount}} articles available</p>\n  <ul class=\"kb__results\">\n    <li class=\"kb__result\"><span class=\"kb__tag\">Account</span><h3>Resetting your password</h3><p>Step-by-step instructions to regain access to your account.</p></li>\n    <li class=\"kb__result\"><span class=\"kb__tag\">Security</span><h3>Setting up two-factor authentication</h3><p>Add an extra layer of protection to your login.</p></li>\n    <li class=\"kb__result\"><span class=\"kb__tag\">Data</span><h3>Exporting your data</h3><p>Download a full copy of your workspace in CSV or JSON.</p></li>\n  </ul>\n</div>\n<style>\n.kb { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 420px; border-radius: 14px; border: 1px solid #24143018; }\n.kb__title { margin: 0 0 12px; font-size: 18px; font-weight: 600; }\n.kb__search { position: relative; display: flex; align-items: center; gap: 8px; background: #fff; border: 1.5px solid #24143025; border-radius: 10px; padding: 8px 12px; margin-bottom: 10px; }\n.kb__search-icon { color: #24143070; flex-shrink: 0; }\n.kb__input { border: none; outline: none; flex: 1; font: inherit; background: transparent; }\n.kb__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }\n.kb__count { margin: 0 0 10px; font-size: 12px; color: #24143099; }\n.kb__results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }\n.kb__result { padding: 12px; border-radius: 10px; border: 1px solid #24143014; }\n.kb__result h3 { margin: 4px 0; font-size: 14px; font-weight: 600; }\n.kb__result p { margin: 0; font-size: 12.5px; color: #241430b3; }\n.kb__tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: #241430; }\n.kb--grid .kb__results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }\n.kb--compact .kb__result { padding: 8px 10px; display: flex; align-items: baseline; gap: 8px; }\n.kb--compact .kb__result p { display: none; }\n.kb--compact .kb__result h3 { margin: 0; }\n</style>",
+    "tailwind": "<div class=\"kb-tw kb-tw--{{layout}} max-w-md p-5 rounded-2xl border border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\">\n  <h2 class=\"m-0 mb-3 text-lg font-semibold\">{{title}}</h2>\n  <label class=\"flex items-center gap-2 bg-white border-[1.5px] border-[#24143025] rounded-lg px-3 py-2 mb-2.5\">\n    <svg class=\"text-[#24143070] shrink-0\" viewBox=\"0 0 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"9\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <input class=\"border-none outline-none flex-1 bg-transparent font-inherit\" type=\"search\" placeholder=\"{{placeholder}}\" aria-label=\"{{placeholder}}\" />\n  </label>\n  <p class=\"m-0 mb-2.5 text-xs text-[#24143099]\">{{articleCount}} articles available</p>\n  <ul class=\"kb-tw__results list-none m-0 p-0 flex flex-col gap-2.5\">\n    <li class=\"p-3 rounded-lg border border-[#24143014]\"><span class=\"inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Account</span><h3 class=\"my-1 text-sm font-semibold\">Resetting your password</h3><p class=\"m-0 text-xs text-[#241430]/70\">Step-by-step instructions to regain access to your account.</p></li>\n    <li class=\"p-3 rounded-lg border border-[#24143014]\"><span class=\"inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Security</span><h3 class=\"my-1 text-sm font-semibold\">Setting up two-factor authentication</h3><p class=\"m-0 text-xs text-[#241430]/70\">Add an extra layer of protection to your login.</p></li>\n    <li class=\"p-3 rounded-lg border border-[#24143014]\"><span class=\"inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Data</span><h3 class=\"my-1 text-sm font-semibold\">Exporting your data</h3><p class=\"m-0 text-xs text-[#241430]/70\">Download a full copy of your workspace in CSV or JSON.</p></li>\n  </ul>\n</div>\n<style>\n.kb-tw--grid .kb-tw__results { display: grid; grid-template-columns: 1fr 1fr; }\n.kb-tw--compact li { padding: 8px 10px !important; }\n.kb-tw--compact li p { display: none; }\n</style>",
+    "react": "export function KnowledgeBase({\n  title = \"{{title}}\",\n  placeholder = \"{{placeholder}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  articleCount = {{articleCount}},\n}) {\n  const articles = [\n    { tag: \"Account\", heading: \"Resetting your password\", body: \"Step-by-step instructions to regain access to your account.\" },\n    { tag: \"Security\", heading: \"Setting up two-factor authentication\", body: \"Add an extra layer of protection to your login.\" },\n    { tag: \"Data\", heading: \"Exporting your data\", body: \"Download a full copy of your workspace in CSV or JSON.\" },\n  ];\n  const resultsStyle = {\n    list: { display: \"flex\", flexDirection: \"column\", gap: 10 },\n    grid: { display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: 10 },\n    compact: { display: \"flex\", flexDirection: \"column\", gap: 6 },\n  }[layout] ?? {};\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 420, borderRadius: 14, border: \"1px solid #24143018\" }}>\n      <h2 style={{ margin: \"0 0 12px\", fontSize: 18, fontWeight: 600 }}>{title}</h2>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, background: \"#fff\", border: \"1.5px solid #24143025\", borderRadius: 10, padding: \"8px 12px\", marginBottom: 10 }}>\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" style={{ color: \"#24143070\", flexShrink: 0 }}><circle cx=\"9\" cy=\"9\" r=\"6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><line x1=\"13.2\" y1=\"13.2\" x2=\"18\" y2=\"18\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n        <input type=\"search\" placeholder={placeholder} aria-label={placeholder} style={{ border: \"none\", outline: \"none\", flex: 1, background: \"transparent\", font: \"inherit\" }} />\n      </label>\n      <p style={{ margin: \"0 0 10px\", fontSize: 12, color: \"#24143099\" }}>{articleCount} articles available</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, ...resultsStyle }}>\n        {articles.map((a) => (\n          <li key={a.heading} style={{ padding: layout === \"compact\" ? \"8px 10px\" : 12, borderRadius: 10, border: \"1px solid #24143014\" }}>\n            <span style={{ display: \"inline-block\", fontSize: 11, fontWeight: 600, padding: \"2px 8px\", borderRadius: 999, background: accent, color: \"#241430\" }}>{a.tag}</span>\n            <h3 style={{ margin: \"4px 0\", fontSize: 14, fontWeight: 600 }}>{a.heading}</h3>\n            {layout !== \"compact\" && <p style={{ margin: 0, fontSize: 12.5, color: \"#241430b3\" }}>{a.body}</p>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "preview-mode",
+  "controls_schema": [
+    {
+      "id": "pageTitle",
+      "type": "text",
+      "label": "Page title",
+      "default": "New pricing, simpler tiers"
+    },
+    {
+      "id": "pageBody",
+      "type": "text",
+      "label": "Page body",
+      "default": "We're consolidating five plans into three, effective next month."
+    },
+    {
+      "id": "device",
+      "type": "select",
+      "label": "Preview device",
+      "default": "desktop",
+      "options": [
+        "desktop",
+        "mobile"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "isPublished",
+      "type": "toggle",
+      "label": "Published",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pmd\" style=\"--accent:{{accent}};\">\n  <div class=\"pmd__frame pmd__frame--{{device}}\" data-device=\"{{device}}\">\n    <div class=\"pmd__chrome\">\n      <span class=\"pmd__dot\"></span><span class=\"pmd__dot\"></span><span class=\"pmd__dot\"></span>\n      <span class=\"pmd__badge\">{{#if isPublished}}Published{{/if}}{{#unless isPublished}}Draft preview{{/unless}}</span>\n    </div>\n    <div class=\"pmd__page\">\n      <h1 class=\"pmd__title\">{{pageTitle}}</h1>\n      <p class=\"pmd__body\">{{pageBody}}</p>\n      <button type=\"button\" class=\"pmd__cta\" style=\"background:{{accent}};\">Read more</button>\n    </div>\n  </div>\n</div>\n<style>\n.pmd { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 24px; display: flex; justify-content: center; }\n.pmd__frame { background: #fff; border-radius: 14px; box-shadow: 0 14px 32px rgba(36,20,48,.18); overflow: hidden; width: 360px; }\n.pmd__frame--mobile { width: 220px; border-radius: 22px; border: 6px solid #241430; }\n.pmd__chrome { display: flex; align-items: center; gap: 6px; padding: 10px 12px; background: #24143008; border-bottom: 1px solid #24143014; }\n.pmd__dot { width: 8px; height: 8px; border-radius: 50%; background: #24143026; }\n.pmd__frame--mobile .pmd__dot { display: none; }\n.pmd__badge { margin-left: auto; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--accent); }\n.pmd__page { padding: 20px 18px; }\n.pmd__title { margin: 0 0 8px; font-size: 20px; }\n.pmd__frame--mobile .pmd__title { font-size: 16px; }\n.pmd__body { margin: 0 0 14px; font-size: 14px; color: #241430cc; }\n.pmd__cta { border: none; color: #241430; padding: 8px 16px; border-radius: 8px; font: 600 13px system-ui, sans-serif; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"flex justify-center bg-[#FAF7F2] text-[#241430] font-sans p-6\" style=\"--accent:{{accent}};\">\n  <div class=\"pmt pmt--{{device}} bg-white rounded-2xl shadow-xl overflow-hidden w-[360px]\" data-device=\"{{device}}\">\n    <div class=\"flex items-center gap-1.5 px-3 py-2.5 bg-[#24143008] border-b border-[#24143014]\">\n      <span class=\"pmt__dot w-2 h-2 rounded-full bg-[#24143026]\"></span>\n      <span class=\"pmt__dot w-2 h-2 rounded-full bg-[#24143026]\"></span>\n      <span class=\"pmt__dot w-2 h-2 rounded-full bg-[#24143026]\"></span>\n      <span class=\"ml-auto text-[11px] font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">{{#if isPublished}}Published{{/if}}{{#unless isPublished}}Draft preview{{/unless}}</span>\n    </div>\n    <div class=\"px-[18px] py-5\">\n      <h1 class=\"pmt__title m-0 mb-2 text-xl\">{{pageTitle}}</h1>\n      <p class=\"m-0 mb-3.5 text-sm text-[#241430]/80\">{{pageBody}}</p>\n      <button type=\"button\" class=\"border-0 text-[#241430] px-4 py-2 rounded-lg text-[13px] font-semibold cursor-pointer\" style=\"background:{{accent}}\">Read more</button>\n    </div>\n  </div>\n</div>\n<style>\n.pmt--mobile { width: 220px !important; border-radius: 22px; border: 6px solid #241430; }\n.pmt--mobile .pmt__dot { display: none; }\n.pmt--mobile .pmt__title { font-size: 16px; }\n</style>",
+    "react": "export function PreviewMode({\n  pageTitle = \"{{pageTitle}}\",\n  pageBody = \"{{pageBody}}\",\n  device = \"{{device}}\",\n  accent = \"{{accent}}\",\n  isPublished = {{isPublished}},\n}) {\n  const mobile = device === \"mobile\";\n  return (\n    <div style={{ display: \"flex\", justifyContent: \"center\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 24 }}>\n      <div style={{ background: \"#fff\", borderRadius: mobile ? 22 : 14, boxShadow: \"0 14px 32px rgba(36,20,48,.18)\", overflow: \"hidden\",\n        width: mobile ? 220 : 360, border: mobile ? \"6px solid #241430\" : \"none\" }}>\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, padding: \"10px 12px\", background: \"#24143008\", borderBottom: \"1px solid #24143014\" }}>\n          {!mobile && [0, 1, 2].map((i) => <span key={i} style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#24143026\" }} />)}\n          <span style={{ marginLeft: \"auto\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".03em\", color: accent }}>\n            {isPublished ? \"Published\" : \"Draft preview\"}\n          </span>\n        </div>\n        <div style={{ padding: mobile ? \"16px 14px\" : \"20px 18px\" }}>\n          <h1 style={{ margin: \"0 0 8px\", fontSize: mobile ? 16 : 20 }}>{pageTitle}</h1>\n          <p style={{ margin: \"0 0 14px\", fontSize: 14, color: \"#241430cc\" }}>{pageBody}</p>\n          <button type=\"button\" style={{ border: \"none\", color: \"#241430\", background: accent, padding: \"8px 16px\", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: \"pointer\" }}>Read more</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

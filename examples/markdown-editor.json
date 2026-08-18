@@ -1,0 +1,55 @@
+{
+  "slug": "markdown-editor",
+  "controls_schema": [
+    {
+      "id": "markdownText",
+      "type": "text",
+      "label": "Markdown source",
+      "default": "# Weekly update\n\nShipped the new pricing page and fixed 3 bugs."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showLineNumbers",
+      "type": "toggle",
+      "label": "Show line numbers",
+      "default": true
+    },
+    {
+      "id": "toolbarStyle",
+      "type": "select",
+      "label": "Toolbar style",
+      "default": "compact",
+      "options": [
+        "compact",
+        "expanded"
+      ]
+    },
+    {
+      "id": "fontSize",
+      "type": "number",
+      "label": "Editor font size",
+      "default": 14,
+      "min": 12,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mde\" style=\"--accent:{{accent}};font-size:{{fontSize}}px;\">\n  <div class=\"mde__toolbar mde__toolbar--{{toolbarStyle}}\" data-style=\"{{toolbarStyle}}\" role=\"toolbar\" aria-label=\"Markdown formatting\">\n    <button type=\"button\" class=\"mde__btn\" aria-label=\"Heading\"><span class=\"mde__ic\">H</span><span class=\"mde__lb\">Heading</span></button>\n    <button type=\"button\" class=\"mde__btn\" aria-label=\"Bold\"><span class=\"mde__ic\"><strong>B</strong></span><span class=\"mde__lb\">Bold</span></button>\n    <button type=\"button\" class=\"mde__btn\" aria-label=\"Italic\"><span class=\"mde__ic\"><em>I</em></span><span class=\"mde__lb\">Italic</span></button>\n    <button type=\"button\" class=\"mde__btn\" aria-label=\"Link\"><span class=\"mde__ic\">&#128279;</span><span class=\"mde__lb\">Link</span></button>\n    <button type=\"button\" class=\"mde__btn\" aria-label=\"Code\"><span class=\"mde__ic\">{ }</span><span class=\"mde__lb\">Code</span></button>\n  </div>\n  <div class=\"mde__body\">\n    {{#if showLineNumbers}}\n    <div class=\"mde__gutter\" aria-hidden=\"true\"><span>1</span><span>2</span><span>3</span></div>\n    {{/if}}\n    <div class=\"mde__editor\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Markdown source\">{{markdownText}}</div>\n  </div>\n</div>\n<style>\n.mde { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143020; border-radius: 10px; overflow: hidden; max-width: 420px; }\n.mde__toolbar { display: flex; gap: 2px; padding: 6px; background: #24143008; border-bottom: 1.5px solid #24143020; }\n.mde__btn { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 6px; border: none; background: transparent; border-radius: 6px; cursor: pointer; color: #241430; font: inherit; }\n.mde__btn:hover, .mde__btn:focus-visible { background: var(--accent); outline: none; }\n.mde__lb { display: none; font-size: 12px; }\n.mde__toolbar--expanded .mde__lb { display: inline; }\n.mde__body { display: flex; }\n.mde__gutter { display: flex; flex-direction: column; gap: 2px; padding: 12px 8px; color: #24143066; font-family: ui-monospace, monospace; font-size: .9em; border-right: 1px solid #24143014; user-select: none; }\n.mde__editor { flex: 1; padding: 12px 14px; font-family: ui-monospace, \"SFMono-Regular\", monospace; white-space: pre-wrap; min-height: 3.2em; }\n.mde__editor:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }\n</style>",
+    "tailwind": "<div class=\"mde-tw max-w-[420px] bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143020] rounded-[10px] overflow-hidden\" style=\"--accent:{{accent}};font-size:{{fontSize}}px;\">\n  <div class=\"mde-tw__toolbar flex gap-0.5 p-1.5 bg-[#24143008] border-b-[1.5px] border-[#24143020]\" data-style=\"{{toolbarStyle}}\" role=\"toolbar\" aria-label=\"Markdown formatting\">\n    <button type=\"button\" class=\"mde-tw__btn h-[26px] px-1.5 inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent cursor-pointer\" aria-label=\"Heading\"><span>H</span><span class=\"mde-tw__lb hidden text-xs\">Heading</span></button>\n    <button type=\"button\" class=\"mde-tw__btn h-[26px] px-1.5 inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent cursor-pointer\" aria-label=\"Bold\"><strong>B</strong><span class=\"mde-tw__lb hidden text-xs\">Bold</span></button>\n    <button type=\"button\" class=\"mde-tw__btn h-[26px] px-1.5 inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent cursor-pointer\" aria-label=\"Italic\"><em>I</em><span class=\"mde-tw__lb hidden text-xs\">Italic</span></button>\n    <button type=\"button\" class=\"mde-tw__btn h-[26px] px-1.5 inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent cursor-pointer\" aria-label=\"Link\">&#128279;<span class=\"mde-tw__lb hidden text-xs\">Link</span></button>\n  </div>\n  <div class=\"flex\">\n    {{#if showLineNumbers}}\n    <div class=\"flex flex-col gap-0.5 px-2 py-3 text-[#24143066] font-mono text-[0.9em] border-r border-[#24143014] select-none\" aria-hidden=\"true\"><span>1</span><span>2</span><span>3</span></div>\n    {{/if}}\n    <div class=\"flex-1 px-3.5 py-3 font-mono whitespace-pre-wrap min-h-[3.2em]\" contenteditable=\"true\" role=\"textbox\" aria-multiline=\"true\" aria-label=\"Markdown source\">{{markdownText}}</div>\n  </div>\n</div>\n<style>\n.mde-tw__btn:hover, .mde-tw__btn:focus-visible { background: {{accent}}; outline: none; }\n[data-style=\"expanded\"] .mde-tw__lb { display: inline; }\n</style>",
+    "react": "export function MarkdownEditor({\n  markdownText = \"{{markdownText}}\",\n  accent = \"{{accent}}\",\n  showLineNumbers = {{showLineNumbers}},\n  toolbarStyle = \"{{toolbarStyle}}\",\n  fontSize = {{fontSize}},\n}) {\n  const expanded = toolbarStyle === \"expanded\";\n  const btn = { height: 26, padding: \"0 6px\", border: \"none\", background: \"transparent\", borderRadius: 6, cursor: \"pointer\", display: \"inline-flex\", alignItems: \"center\", gap: 6 };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143020\", borderRadius: 10, overflow: \"hidden\", maxWidth: 420, fontSize }}>\n      <div role=\"toolbar\" aria-label=\"Markdown formatting\" style={{ display: \"flex\", gap: 2, padding: 6, background: \"#24143008\", borderBottom: \"1.5px solid #24143020\" }}>\n        <button type=\"button\" aria-label=\"Heading\" style={btn}>H{expanded && <span style={{ fontSize: 12 }}>Heading</span>}</button>\n        <button type=\"button\" aria-label=\"Bold\" style={btn}><strong>B</strong>{expanded && <span style={{ fontSize: 12 }}>Bold</span>}</button>\n        <button type=\"button\" aria-label=\"Italic\" style={btn}><em>I</em>{expanded && <span style={{ fontSize: 12 }}>Italic</span>}</button>\n        <button type=\"button\" aria-label=\"Link\" style={btn}>{\"\\u{1F517}\"}{expanded && <span style={{ fontSize: 12 }}>Link</span>}</button>\n      </div>\n      <div style={{ display: \"flex\" }}>\n        {showLineNumbers && (\n          <div aria-hidden=\"true\" style={{ display: \"flex\", flexDirection: \"column\", gap: 2, padding: \"12px 8px\", color: \"#24143066\", fontFamily: \"ui-monospace, monospace\", fontSize: \"0.9em\", borderRight: \"1px solid #24143014\" }}>\n            <span>1</span><span>2</span><span>3</span>\n          </div>\n        )}\n        <div contentEditable suppressContentEditableWarning role=\"textbox\" aria-multiline=\"true\" aria-label=\"Markdown source\"\n          style={{ flex: 1, padding: \"12px 14px\", fontFamily: \"ui-monospace, SFMono-Regular, monospace\", whiteSpace: \"pre-wrap\", minHeight: \"3.2em\" }}>\n          {markdownText}\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

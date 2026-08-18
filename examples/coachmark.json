@@ -1,0 +1,54 @@
+{
+  "slug": "coachmark",
+  "controls_schema": [
+    {
+      "id": "targetLabel",
+      "type": "text",
+      "label": "Target element label",
+      "default": "Export button"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Coachmark message",
+      "default": "Export your report as CSV or PDF from here."
+    },
+    {
+      "id": "placement",
+      "type": "select",
+      "label": "Placement",
+      "default": "bottom",
+      "options": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "pulse",
+      "type": "toggle",
+      "label": "Pulse on target",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"coachmark-stage\">\n  <button type=\"button\" class=\"coachmark-stage__target{{#if pulse}} coachmark-stage__target--pulse{{/if}}\" style=\"--accent:{{accent}}\">{{targetLabel}}</button>\n  <div class=\"coachmark\" data-placement=\"{{placement}}\" style=\"--accent:{{accent}}\" role=\"dialog\" aria-label=\"Tip\">\n    <button type=\"button\" class=\"coachmark__dismiss\" aria-label=\"Dismiss coachmark\">&times;</button>\n    <p class=\"coachmark__message\">{{message}}</p>\n    <span class=\"coachmark__arrow\" aria-hidden=\"true\"></span>\n  </div>\n</div>\n<style>\n.coachmark-stage { position: relative; font: 16px/1.5 system-ui, sans-serif; min-height: 190px; padding: 60px 24px; display: flex; align-items: center; justify-content: center; background: #FAF7F2; border-radius: 12px; }\n.coachmark-stage__target { font: 600 14px system-ui, sans-serif; padding: 10px 18px; border-radius: 8px; border: 1.5px solid #24143030; background: #fff; color: #241430; cursor: default; position: relative; }\n.coachmark-stage__target--pulse::after { content: \"\"; position: absolute; inset: -6px; border-radius: 12px; border: 2px solid var(--accent); animation: coachmark-pulse 1.8s ease-out infinite; }\n@keyframes coachmark-pulse { 0% { opacity: .9; transform: scale(.94); } 100% { opacity: 0; transform: scale(1.18); } }\n.coachmark { position: absolute; width: 220px; background: #241430; color: #FAF7F2; padding: 14px 16px; border-radius: 10px; box-shadow: 0 12px 28px rgba(36,20,48,.28); }\n.coachmark[data-placement=\"bottom\"] { top: calc(50% + 46px); left: 50%; transform: translateX(-50%); }\n.coachmark[data-placement=\"top\"] { bottom: calc(50% + 46px); left: 50%; transform: translateX(-50%); top: auto; }\n.coachmark[data-placement=\"right\"] { left: calc(50% + 92px); top: 50%; transform: translateY(-50%); }\n.coachmark[data-placement=\"left\"] { right: calc(50% + 92px); top: 50%; transform: translateY(-50%); left: auto; }\n.coachmark__dismiss { position: absolute; top: 6px; right: 8px; background: transparent; border: none; color: #FAF7F2cc; font-size: 16px; line-height: 1; cursor: pointer; padding: 4px; }\n.coachmark__dismiss:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 4px; }\n.coachmark__message { margin: 4px 18px 0 0; font-size: 13.5px; }\n.coachmark__arrow { position: absolute; width: 10px; height: 10px; background: #241430; }\n.coachmark[data-placement=\"bottom\"] .coachmark__arrow { top: -4px; left: 50%; margin-left: -5px; transform: rotate(45deg); }\n.coachmark[data-placement=\"top\"] .coachmark__arrow { bottom: -4px; left: 50%; margin-left: -5px; transform: rotate(45deg); }\n.coachmark[data-placement=\"right\"] .coachmark__arrow { left: -4px; top: 50%; margin-top: -5px; transform: rotate(45deg); }\n.coachmark[data-placement=\"left\"] .coachmark__arrow { right: -4px; top: 50%; margin-top: -5px; transform: rotate(45deg); }\n</style>",
+    "tailwind": "<div class=\"relative font-sans min-h-[190px] px-6 py-14 flex items-center justify-center bg-[#FAF7F2] rounded-xl\">\n  <button type=\"button\" class=\"coachmark-tw-target{{#if pulse}} coachmark-tw-target--pulse{{/if}} relative font-semibold text-sm px-4.5 py-2.5 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430]\" style=\"--accent:{{accent}}\">{{targetLabel}}</button>\n  <div class=\"coachmark-tw absolute w-[220px] bg-[#241430] text-[#FAF7F2] p-3.5 rounded-[10px] shadow-[0_12px_28px_rgba(36,20,48,.28)]\" data-placement=\"{{placement}}\" role=\"dialog\" aria-label=\"Tip\">\n    <button type=\"button\" class=\"absolute top-1.5 right-2 bg-transparent border-0 text-base leading-none cursor-pointer p-1\" aria-label=\"Dismiss coachmark\">&times;</button>\n    <p class=\"mt-1 mr-4.5 mb-0 text-[13.5px]\">{{message}}</p>\n  </div>\n</div>\n<style>\n.coachmark-tw-target--pulse::after { content: \"\"; position: absolute; inset: -6px; border-radius: 12px; border: 2px solid var(--accent); animation: coachmark-tw-pulse 1.8s ease-out infinite; }\n@keyframes coachmark-tw-pulse { 0% { opacity: .9; transform: scale(.94); } 100% { opacity: 0; transform: scale(1.18); } }\n.coachmark-tw[data-placement=\"bottom\"] { top: calc(50% + 46px); left: 50%; transform: translateX(-50%); }\n.coachmark-tw[data-placement=\"top\"] { bottom: calc(50% + 46px); left: 50%; transform: translateX(-50%); top: auto; }\n.coachmark-tw[data-placement=\"right\"] { left: calc(50% + 92px); top: 50%; transform: translateY(-50%); }\n.coachmark-tw[data-placement=\"left\"] { right: calc(50% + 92px); top: 50%; transform: translateY(-50%); left: auto; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function Coachmark({\n  targetLabel = \"{{targetLabel}}\",\n  message = \"{{message}}\",\n  placement = \"{{placement}}\",\n  accent = \"{{accent}}\",\n  pulse = {{pulse}},\n}) {\n  const [visible, setVisible] = useState(true);\n  const pos = {\n    bottom: { top: \"calc(50% + 46px)\", left: \"50%\", transform: \"translateX(-50%)\" },\n    top: { bottom: \"calc(50% + 46px)\", left: \"50%\", transform: \"translateX(-50%)\" },\n    right: { left: \"calc(50% + 92px)\", top: \"50%\", transform: \"translateY(-50%)\" },\n    left: { right: \"calc(50% + 92px)\", top: \"50%\", transform: \"translateY(-50%)\" },\n  }[placement] ?? {};\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", minHeight: 190, padding: \"60px 24px\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#FAF7F2\", borderRadius: 12 }}>\n      <button type=\"button\" style={{ position: \"relative\", font: \"600 14px system-ui, sans-serif\", padding: \"10px 18px\", borderRadius: 8, border: \"1.5px solid #24143030\", background: \"#fff\", color: \"#241430\" }}>\n        {targetLabel}\n        {pulse && (\n          <span style={{ position: \"absolute\", inset: -6, borderRadius: 12, border: \"2px solid \" + accent, pointerEvents: \"none\" }} />\n        )}\n      </button>\n      {visible && (\n        <div role=\"dialog\" aria-label=\"Tip\" style={{ position: \"absolute\", width: 220, background: \"#241430\", color: \"#FAF7F2\", padding: \"14px 16px\", borderRadius: 10, boxShadow: \"0 12px 28px rgba(36,20,48,.28)\", ...pos }}>\n          <button type=\"button\" aria-label=\"Dismiss coachmark\" onClick={() => setVisible(false)} style={{ position: \"absolute\", top: 6, right: 8, background: \"transparent\", border: \"none\", color: \"#FAF7F2cc\", fontSize: 16, lineHeight: 1, cursor: \"pointer\", padding: 4 }}>\n            &times;\n          </button>\n          <p style={{ margin: \"4px 18px 0 0\", fontSize: 13.5 }}>{message}</p>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

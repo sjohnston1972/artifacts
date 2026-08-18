@@ -1,0 +1,47 @@
+{
+  "controls_schema": [
+    {
+      "id": "columns",
+      "type": "select",
+      "label": "Columns",
+      "default": "3",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable",
+        "spacious"
+      ]
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap (px)",
+      "default": 12,
+      "min": 4,
+      "max": 28,
+      "step": 2
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Show widget labels",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dgrid dgrid--cols-{{columns}} dgrid--{{density}}\" style=\"gap:{{gap}}px;\">\n  <section class=\"dgrid__cell\" aria-label=\"Revenue widget\">{{#if showLabels}}<h4 class=\"dgrid__label\">Revenue</h4>{{/if}}</section>\n  <section class=\"dgrid__cell\" aria-label=\"Signups widget\">{{#if showLabels}}<h4 class=\"dgrid__label\">Signups</h4>{{/if}}</section>\n  <section class=\"dgrid__cell\" aria-label=\"Latency widget\">{{#if showLabels}}<h4 class=\"dgrid__label\">Latency</h4>{{/if}}</section>\n  <section class=\"dgrid__cell\" aria-label=\"Errors widget\">{{#if showLabels}}<h4 class=\"dgrid__label\">Errors</h4>{{/if}}</section>\n</div>\n<style>\n.dgrid { display: grid; grid-template-columns: repeat(3, 1fr); font: 13px system-ui, sans-serif; color: #241430; }\n.dgrid--cols-2 { grid-template-columns: repeat(2, 1fr); }\n.dgrid--cols-3 { grid-template-columns: repeat(3, 1fr); }\n.dgrid--cols-4 { grid-template-columns: repeat(4, 1fr); }\n.dgrid__cell { background: #FAF7F2; border: 1px solid #24143018; border-radius: 10px; min-height: 64px; padding: 10px; }\n.dgrid--compact .dgrid__cell { min-height: 44px; padding: 6px; }\n.dgrid--spacious .dgrid__cell { min-height: 96px; padding: 18px; }\n.dgrid__label { margin: 0; font-size: 13px; }\n@media (max-width: 360px) {\n  .dgrid { grid-template-columns: 1fr !important; }\n}\n</style>",
+    "tailwind": "<div class=\"dgrid-tw dgrid-tw--cols-{{columns}} dgrid-tw--{{density}} grid\" style=\"gap:{{gap}}px;\">\n  <section class=\"bg-[#FAF7F2] border border-[#24143018] rounded-[10px] min-h-16 p-2.5\" aria-label=\"Revenue widget\">{{#if showLabels}}<h4 class=\"m-0 text-[13px]\">Revenue</h4>{{/if}}</section>\n  <section class=\"bg-[#FAF7F2] border border-[#24143018] rounded-[10px] min-h-16 p-2.5\" aria-label=\"Signups widget\">{{#if showLabels}}<h4 class=\"m-0 text-[13px]\">Signups</h4>{{/if}}</section>\n  <section class=\"bg-[#FAF7F2] border border-[#24143018] rounded-[10px] min-h-16 p-2.5\" aria-label=\"Latency widget\">{{#if showLabels}}<h4 class=\"m-0 text-[13px]\">Latency</h4>{{/if}}</section>\n  <section class=\"bg-[#FAF7F2] border border-[#24143018] rounded-[10px] min-h-16 p-2.5\" aria-label=\"Errors widget\">{{#if showLabels}}<h4 class=\"m-0 text-[13px]\">Errors</h4>{{/if}}</section>\n</div>\n<style>\n.dgrid-tw { grid-template-columns: repeat(3, 1fr); }\n.dgrid-tw--cols-2 { grid-template-columns: repeat(2, 1fr); }\n.dgrid-tw--cols-3 { grid-template-columns: repeat(3, 1fr); }\n.dgrid-tw--cols-4 { grid-template-columns: repeat(4, 1fr); }\n.dgrid-tw--compact section { min-height: 44px !important; padding: 6px !important; }\n.dgrid-tw--spacious section { min-height: 96px !important; padding: 18px !important; }\n@media (max-width: 360px) { .dgrid-tw { grid-template-columns: 1fr !important; } }\n</style>",
+    "react": "const WIDGETS = [\"Revenue\", \"Signups\", \"Latency\", \"Errors\"];\n\nexport function DashboardGrid({\n  columns = \"{{columns}}\",\n  density = \"{{density}}\",\n  gap = {{gap}},\n  showLabels = {{showLabels}},\n}) {\n  const pad = { compact: 6, comfortable: 10, spacious: 18 }[density] ?? 10;\n  const minHeight = { compact: 44, comfortable: 64, spacious: 96 }[density] ?? 64;\n  return (\n    <div style={{ display: \"grid\", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap, font: \"13px system-ui, sans-serif\", color: \"#241430\" }}>\n      {WIDGETS.map((w) => (\n        <section key={w} aria-label={`${w} widget`} style={{ background: \"#FAF7F2\", border: \"1px solid #24143018\", borderRadius: 10, minHeight, padding: pad }}>\n          {showLabels && <h4 style={{ margin: 0, fontSize: 13 }}>{w}</h4>}\n        </section>\n      ))}\n    </div>\n  );\n}"
+  },
+  "slug": "dashboard-grid"
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "walkthrough",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Set up your first project"
+    },
+    {
+      "id": "currentStep",
+      "type": "number",
+      "label": "Current step",
+      "default": 2,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "totalSteps",
+      "type": "number",
+      "label": "Total steps",
+      "default": 4,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "vertical",
+      "options": [
+        "vertical",
+        "horizontal",
+        "cards"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wt wt--{{orientation}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"wt__title\">{{title}}</h3>\n  <p class=\"wt__progress\">Step {{currentStep}} of {{totalSteps}}</p>\n  <ol class=\"wt__list\">\n    <li class=\"wt__step\"><span class=\"wt__num\">1</span><span class=\"wt__label\">Create an account</span></li>\n    <li class=\"wt__step\"><span class=\"wt__num\">2</span><span class=\"wt__label\">Import your data</span></li>\n    <li class=\"wt__step\"><span class=\"wt__num\">3</span><span class=\"wt__label\">Invite your team</span></li>\n    <li class=\"wt__step\"><span class=\"wt__num\">4</span><span class=\"wt__label\">Launch your first workflow</span></li>\n  </ol>\n</div>\n<style>\n.wt { font: 16px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; max-width: 420px; border-radius: 14px; border: 1px solid #24143018; }\n.wt__title { margin: 0 0 4px; font-size: 16px; font-weight: 700; }\n.wt__progress { margin: 0 0 14px; font-size: 12px; color: #24143090; }\n.wt__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }\n.wt__step { display: flex; align-items: center; gap: 12px; padding: 8px 0; position: relative; opacity: .5; }\n.wt__step:nth-child(-n+{{currentStep}}) { opacity: 1; }\n.wt__num { width: 24px; height: 24px; border-radius: 999px; border: 1.5px solid #24143035; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }\n.wt__step:nth-child(-n+{{currentStep}}) .wt__num { background: var(--accent); border-color: var(--accent); color: #241430; }\n.wt__step:nth-child({{currentStep}}) .wt__num { box-shadow: 0 0 0 3px var(--accent); }\n.wt__label { font-size: 13.5px; font-weight: 600; }\n.wt--vertical .wt__step:not(:last-child)::after { content: \"\"; position: absolute; left: 11.5px; top: 32px; width: 1.5px; height: calc(100% - 8px); background: #24143020; }\n.wt--horizontal .wt__list { flex-direction: row; flex-wrap: wrap; gap: 16px; }\n.wt--horizontal .wt__step { padding: 0; }\n.wt--cards .wt__list { flex-direction: row; flex-wrap: wrap; gap: 10px; }\n.wt--cards .wt__step { flex: 1 1 160px; flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; border: 1.5px solid #24143018; border-radius: 10px; }\n</style>",
+    "tailwind": "<div class=\"wt-tw wt-tw--{{orientation}} max-w-md p-5 rounded-2xl border border-[#24143018] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-1 text-base font-bold\">{{title}}</h3>\n  <p class=\"m-0 mb-3.5 text-xs text-[#24143090]\">Step {{currentStep}} of {{totalSteps}}</p>\n  <ol class=\"wt-tw__list list-none m-0 p-0 flex flex-col\">\n    <li class=\"wt-tw__step flex items-center gap-3 py-2\"><span class=\"wt-tw__num w-6 h-6 rounded-full border-[1.5px] border-[#24143035] flex items-center justify-center text-xs font-bold shrink-0\">1</span><span class=\"text-[13.5px] font-semibold\">Create an account</span></li>\n    <li class=\"wt-tw__step flex items-center gap-3 py-2\"><span class=\"wt-tw__num w-6 h-6 rounded-full border-[1.5px] border-[#24143035] flex items-center justify-center text-xs font-bold shrink-0\">2</span><span class=\"text-[13.5px] font-semibold\">Import your data</span></li>\n    <li class=\"wt-tw__step flex items-center gap-3 py-2\"><span class=\"wt-tw__num w-6 h-6 rounded-full border-[1.5px] border-[#24143035] flex items-center justify-center text-xs font-bold shrink-0\">3</span><span class=\"text-[13.5px] font-semibold\">Invite your team</span></li>\n    <li class=\"wt-tw__step flex items-center gap-3 py-2\"><span class=\"wt-tw__num w-6 h-6 rounded-full border-[1.5px] border-[#24143035] flex items-center justify-center text-xs font-bold shrink-0\">4</span><span class=\"text-[13.5px] font-semibold\">Launch your first workflow</span></li>\n  </ol>\n</div>\n<style>\n.wt-tw__step { opacity: .5; }\n.wt-tw__step:nth-child(-n+{{currentStep}}) { opacity: 1; }\n.wt-tw__step:nth-child(-n+{{currentStep}}) .wt-tw__num { background: var(--accent); border-color: var(--accent); }\n.wt-tw--horizontal .wt-tw__list { flex-direction: row; flex-wrap: wrap; gap: 16px; }\n.wt-tw--cards .wt-tw__list { flex-direction: row; flex-wrap: wrap; gap: 10px; }\n.wt-tw--cards .wt-tw__step { flex: 1 1 150px; flex-direction: column; align-items: flex-start; padding: 12px; border: 1.5px solid #24143018; border-radius: 10px; }\n</style>",
+    "react": "export function Walkthrough({\n  title = \"{{title}}\",\n  currentStep = {{currentStep}},\n  totalSteps = {{totalSteps}},\n  accent = \"{{accent}}\",\n  orientation = \"{{orientation}}\",\n}) {\n  const steps = [\"Create an account\", \"Import your data\", \"Invite your team\", \"Launch your first workflow\"];\n  const listStyle = {\n    vertical: { display: \"flex\", flexDirection: \"column\" },\n    horizontal: { display: \"flex\", flexDirection: \"row\", flexWrap: \"wrap\", gap: 16 },\n    cards: { display: \"flex\", flexDirection: \"row\", flexWrap: \"wrap\", gap: 10 },\n  }[orientation] ?? {};\n  return (\n    <div style={{ font: \"16px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, maxWidth: 420, borderRadius: 14, border: \"1px solid #24143018\" }}>\n      <h3 style={{ margin: \"0 0 4px\", fontSize: 16, fontWeight: 700 }}>{title}</h3>\n      <p style={{ margin: \"0 0 14px\", fontSize: 12, color: \"#24143090\" }}>Step {currentStep} of {totalSteps}</p>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0, ...listStyle }}>\n        {steps.map((label, i) => {\n          const done = i < currentStep;\n          const card = orientation === \"cards\";\n          return (\n            <li key={label} style={{\n              display: \"flex\", alignItems: card ? \"flex-start\" : \"center\", flexDirection: card ? \"column\" : \"row\",\n              gap: card ? 8 : 12, padding: card ? 12 : \"8px 0\", opacity: done ? 1 : 0.5,\n              border: card ? \"1.5px solid #24143018\" : \"none\", borderRadius: card ? 10 : 0,\n              flex: card ? \"1 1 150px\" : \"initial\",\n            }}>\n              <span style={{ width: 24, height: 24, borderRadius: 999, border: \"1.5px solid \" + (done ? accent : \"#24143035\"), background: done ? accent : \"transparent\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{i + 1}</span>\n              <span style={{ fontSize: 13.5, fontWeight: 600 }}>{label}</span>\n            </li>\n          );\n        })}\n      </ol>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Metric label",
+      "default": "Monthly recurring revenue"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "$482K"
+    },
+    {
+      "id": "period",
+      "type": "text",
+      "label": "Period",
+      "default": "vs previous 30 days"
+    },
+    {
+      "id": "delta",
+      "type": "text",
+      "label": "Delta",
+      "default": "+12.4%"
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Trend direction",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"kpi kpi--{{direction}}\" style=\"--c:{{color}};\" aria-labelledby=\"kpi-label\">\n  <h3 id=\"kpi-label\" class=\"kpi__label\">{{label}}</h3>\n  <p class=\"kpi__value\">{{value}}</p>\n  <p class=\"kpi__delta\">\n    <svg class=\"kpi__arrow\" viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\"><path d=\"M5 1l4 4H1z\"/></svg>\n    <span class=\"kpi__delta-text\">{{delta}}</span>\n    <span class=\"kpi__dir-word\"></span>\n    <span class=\"kpi__period\">{{period}}</span>\n  </p>\n</section>\n<style>\n.kpi { border: 1px solid #24143018; border-radius: 12px; padding: 16px; background: #FAF7F2; font: 13px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.kpi__label { margin: 0 0 6px; font-size: 13px; font-weight: 600; opacity: .8; }\n.kpi__value { margin: 0 0 6px; font-size: 28px; font-weight: 700; }\n.kpi__delta { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: 12px; }\n.kpi__arrow { fill: currentColor; }\n.kpi--up .kpi__delta { color: #2f8f4e; }\n.kpi--down .kpi__delta { color: #b3261e; }\n.kpi--flat .kpi__delta { color: #241430; opacity: .7; }\n.kpi--down .kpi__arrow { transform: rotate(180deg); }\n.kpi--flat .kpi__arrow { transform: rotate(90deg); }\n.kpi--up .kpi__dir-word::before { content: \"increase\"; }\n.kpi--down .kpi__dir-word::before { content: \"decrease\"; }\n.kpi--flat .kpi__dir-word::before { content: \"no change\"; }\n.kpi__period { width: 100%; opacity: .6; color: #241430; }\n</style>",
+    "tailwind": "<section class=\"kpi-tw kpi-tw--{{direction}} border border-[#24143018] rounded-xl p-4 bg-[#FAF7F2] font-sans text-[13px] text-[#241430] max-w-xs\" style=\"--c:{{color}};\" aria-labelledby=\"kpi-tw-label\">\n  <h3 id=\"kpi-tw-label\" class=\"m-0 mb-1.5 text-[13px] font-semibold opacity-80\">{{label}}</h3>\n  <p class=\"m-0 mb-1.5 text-[28px] font-bold\">{{value}}</p>\n  <p class=\"kpi-tw__delta m-0 flex flex-wrap items-center gap-1 text-xs\">\n    <svg class=\"kpi-tw__arrow\" viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\"><path d=\"M5 1l4 4H1z\" fill=\"currentColor\"/></svg>\n    <span>{{delta}}</span>\n    <span class=\"kpi-tw__dir-word\"></span>\n    <span class=\"w-full opacity-60 text-[#241430]\">{{period}}</span>\n  </p>\n</section>\n<style>\n.kpi-tw--up .kpi-tw__delta { color: #2f8f4e; }\n.kpi-tw--down .kpi-tw__delta { color: #b3261e; }\n.kpi-tw--flat .kpi-tw__delta { color: #241430; opacity: .7; }\n.kpi-tw--down .kpi-tw__arrow { transform: rotate(180deg); }\n.kpi-tw--flat .kpi-tw__arrow { transform: rotate(90deg); }\n.kpi-tw--up .kpi-tw__dir-word::before { content: \"increase\"; }\n.kpi-tw--down .kpi-tw__dir-word::before { content: \"decrease\"; }\n.kpi-tw--flat .kpi-tw__dir-word::before { content: \"no change\"; }\n</style>",
+    "react": "export function KpiCard({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  period = \"{{period}}\",\n  delta = \"{{delta}}\",\n  direction = \"{{direction}}\",\n  color = \"{{color}}\",\n}) {\n  const tone = { up: \"#2f8f4e\", down: \"#b3261e\", flat: \"#24143099\" }[direction] ?? \"#2f8f4e\";\n  const word = { up: \"increase\", down: \"decrease\", flat: \"no change\" }[direction] ?? \"increase\";\n  const rotate = { up: \"0deg\", down: \"180deg\", flat: \"90deg\" }[direction] ?? \"0deg\";\n  return (\n    <section aria-labelledby=\"kpi-react-label\" style={{ border: \"1px solid #24143018\", borderRadius: 12, padding: 16, background: \"#FAF7F2\", font: \"13px system-ui, sans-serif\", color: \"#241430\", maxWidth: 260 }}>\n      <h3 id=\"kpi-react-label\" style={{ margin: \"0 0 6px\", fontSize: 13, fontWeight: 600, opacity: 0.8 }}>{label}</h3>\n      <p style={{ margin: \"0 0 6px\", fontSize: 28, fontWeight: 700 }}>{value}</p>\n      <p style={{ margin: 0, display: \"flex\", flexWrap: \"wrap\", alignItems: \"center\", gap: 4, fontSize: 12, color: tone }}>\n        <svg viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" aria-hidden=\"true\" style={{ transform: `rotate(${rotate})` }}><path d=\"M5 1l4 4H1z\" fill=\"currentColor\" /></svg>\n        <span>{delta}</span>\n        <span>{word}</span>\n        <span style={{ width: \"100%\", opacity: 0.6, color: \"#241430\" }}>{period}</span>\n      </p>\n    </section>\n  );\n}"
+  },
+  "slug": "kpi-card"
+}

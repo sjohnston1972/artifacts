@@ -1,0 +1,59 @@
+{
+  "controls_schema": [
+    {
+      "id": "overflowCount",
+      "type": "number",
+      "label": "Additional members not shown",
+      "default": 3,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Avatar size (px)",
+      "default": 36,
+      "min": 24,
+      "max": 56,
+      "step": 2
+    },
+    {
+      "id": "overlap",
+      "type": "select",
+      "label": "Overlap",
+      "default": "cozy",
+      "options": [
+        "tight",
+        "cozy",
+        "loose"
+      ]
+    },
+    {
+      "id": "showOverflow",
+      "type": "toggle",
+      "label": "Show overflow count",
+      "default": true
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Overflow badge colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"avatar-group avatar-group--{{overlap}}\" role=\"group\" aria-label=\"Team members, {{overflowCount}} more not shown\">\n  <span class=\"avatar-group__item\" style=\"width:{{size}}px;height:{{size}}px;background:#A8E6C1;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Priya Nair\">PN</span>\n  <span class=\"avatar-group__item\" style=\"width:{{size}}px;height:{{size}}px;background:#F5C2E0;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Alex Chen\">AC</span>\n  <span class=\"avatar-group__item\" style=\"width:{{size}}px;height:{{size}}px;background:#BFD9F2;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Jordan Lee\">JL</span>\n  {{#if showOverflow}}\n  <span class=\"avatar-group__item avatar-group__more\" style=\"width:{{size}}px;height:{{size}}px;background:{{color}};font-size:calc({{size}}px * 0.3);\" role=\"img\" aria-label=\"{{overflowCount}} more members\">+{{overflowCount}}</span>\n  {{/if}}\n</div>\n<style>\n.avatar-group { display: flex; font: 600 1em system-ui, sans-serif; }\n.avatar-group__item { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: #241430; border: 2px solid #FAF7F2; flex: none; }\n.avatar-group--tight .avatar-group__item + .avatar-group__item { margin-left: -0.5em; }\n.avatar-group--cozy .avatar-group__item + .avatar-group__item { margin-left: -0.28em; }\n.avatar-group--loose .avatar-group__item + .avatar-group__item { margin-left: 0.1em; }\n.avatar-group__more { font-weight: 700; }\n</style>",
+    "tailwind": "<div class=\"avatar-group-tw avatar-group-tw--{{overlap}} flex font-semibold\" role=\"group\" aria-label=\"Team members, {{overflowCount}} more not shown\">\n  <span class=\"avatar-group-tw__item inline-flex items-center justify-center rounded-full text-[#241430] border-2 border-[#FAF7F2] flex-none\" style=\"width:{{size}}px;height:{{size}}px;background:#A8E6C1;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Priya Nair\">PN</span>\n  <span class=\"avatar-group-tw__item inline-flex items-center justify-center rounded-full text-[#241430] border-2 border-[#FAF7F2] flex-none\" style=\"width:{{size}}px;height:{{size}}px;background:#F5C2E0;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Alex Chen\">AC</span>\n  <span class=\"avatar-group-tw__item inline-flex items-center justify-center rounded-full text-[#241430] border-2 border-[#FAF7F2] flex-none\" style=\"width:{{size}}px;height:{{size}}px;background:#BFD9F2;font-size:calc({{size}}px * 0.38);\" role=\"img\" aria-label=\"Jordan Lee\">JL</span>\n  {{#if showOverflow}}\n  <span class=\"avatar-group-tw__item inline-flex items-center justify-center rounded-full text-[#241430] border-2 border-[#FAF7F2] flex-none font-bold\" style=\"width:{{size}}px;height:{{size}}px;background:{{color}};font-size:calc({{size}}px * 0.3);\" role=\"img\" aria-label=\"{{overflowCount}} more members\">+{{overflowCount}}</span>\n  {{/if}}\n</div>\n<style>\n.avatar-group-tw--tight .avatar-group-tw__item + .avatar-group-tw__item { margin-left: -0.5em; }\n.avatar-group-tw--cozy .avatar-group-tw__item + .avatar-group-tw__item { margin-left: -0.28em; }\n.avatar-group-tw--loose .avatar-group-tw__item + .avatar-group-tw__item { margin-left: 0.1em; }\n</style>",
+    "react": "const MEMBERS = [\n  { name: \"Priya Nair\", initials: \"PN\", color: \"#A8E6C1\" },\n  { name: \"Alex Chen\", initials: \"AC\", color: \"#F5C2E0\" },\n  { name: \"Jordan Lee\", initials: \"JL\", color: \"#BFD9F2\" },\n];\n\nexport function AvatarGroup({\n  overflowCount = {{overflowCount}},\n  size = {{size}},\n  overlap = \"{{overlap}}\",\n  showOverflow = {{showOverflow}},\n  color = \"{{color}}\",\n}) {\n  const gap = { tight: \"-0.5em\", cozy: \"-0.28em\", loose: \"0.1em\" }[overlap] ?? \"-0.28em\";\n  const itemStyle = (bg, i) => ({\n    display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n    width: size, height: size, borderRadius: \"50%\", background: bg, color: \"#241430\",\n    border: \"2px solid #FAF7F2\", flex: \"none\", fontSize: size * 0.38,\n    marginLeft: i === 0 ? 0 : gap,\n  });\n  return (\n    <div role=\"group\" aria-label={`Team members, ${overflowCount} more not shown`}\n      style={{ display: \"flex\", fontFamily: \"system-ui, sans-serif\", fontWeight: 600 }}>\n      {MEMBERS.map((m, i) => (\n        <span key={m.name} role=\"img\" aria-label={m.name} style={itemStyle(m.color, i)}>{m.initials}</span>\n      ))}\n      {showOverflow && (\n        <span role=\"img\" aria-label={`${overflowCount} more members`}\n          style={{ ...itemStyle(color, 1), fontSize: size * 0.3, fontWeight: 700 }}>\n          +{overflowCount}\n        </span>\n      )}\n    </div>\n  );\n}"
+  },
+  "slug": "avatar-group"
+}

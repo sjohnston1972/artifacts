@@ -1,0 +1,57 @@
+{
+  "slug": "heading-selector",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Preview text",
+      "default": "Plan for the autumn launch"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Heading level",
+      "default": "h2",
+      "options": [
+        "h1",
+        "h2",
+        "h3",
+        "paragraph"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "underline",
+      "type": "toggle",
+      "label": "Accent underline",
+      "default": false
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 6,
+      "min": 0,
+      "max": 12,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"headsel\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <div class=\"headsel__control\" role=\"group\" aria-label=\"Heading level\" style=\"border-radius:{{radius}}px;\">\n    <span class=\"headsel__opt\" data-value=\"h1\">H1</span>\n    <span class=\"headsel__opt\" data-value=\"h2\">H2</span>\n    <span class=\"headsel__opt\" data-value=\"h3\">H3</span>\n    <span class=\"headsel__opt\" data-value=\"paragraph\">P</span>\n  </div>\n  <div class=\"headsel__preview\">\n    <p class=\"headsel__text headsel__text--{{level}} {{#if underline}}headsel__text--underline{{/if}}\">{{text}}</p>\n  </div>\n</div>\n<style>\n.headsel { font: 14px system-ui, sans-serif; color: #241430; max-width: 340px; }\n.headsel__control { display: inline-flex; gap: 2px; padding: 3px; background: #24143010; margin-bottom: 12px; }\n.headsel__opt { width: 30px; height: 26px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: 600; font-size: 12px; color: #24143099; }\n.headsel[data-level=\"h1\"] .headsel__opt[data-value=\"h1\"],\n.headsel[data-level=\"h2\"] .headsel__opt[data-value=\"h2\"],\n.headsel[data-level=\"h3\"] .headsel__opt[data-value=\"h3\"],\n.headsel[data-level=\"paragraph\"] .headsel__opt[data-value=\"paragraph\"] { background: var(--accent); color: #241430; }\n.headsel__preview { background: #FAF7F2; border: 1.5px solid #24143022; padding: 18px; }\n.headsel__text { margin: 0; font-weight: 600; }\n.headsel__text--h1 { font-size: 30px; }\n.headsel__text--h2 { font-size: 22px; }\n.headsel__text--h3 { font-size: 17px; }\n.headsel__text--paragraph { font-size: 15px; font-weight: 400; }\n.headsel__text--underline { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 5px; }\n</style>",
+    "tailwind": "<div data-level=\"{{level}}\" style=\"--accent:{{accent}};\" class=\"headsel-tw font-sans text-sm text-[#241430] max-w-[340px]\">\n  <div role=\"group\" aria-label=\"Heading level\" style=\"border-radius:{{radius}}px;\" class=\"inline-flex gap-0.5 p-1 bg-[#24143010] mb-3\">\n    <span class=\"headsel-tw__opt w-[30px] h-[26px] inline-flex items-center justify-center rounded-md font-semibold text-xs text-[#241430]/60\" data-value=\"h1\">H1</span>\n    <span class=\"headsel-tw__opt w-[30px] h-[26px] inline-flex items-center justify-center rounded-md font-semibold text-xs text-[#241430]/60\" data-value=\"h2\">H2</span>\n    <span class=\"headsel-tw__opt w-[30px] h-[26px] inline-flex items-center justify-center rounded-md font-semibold text-xs text-[#241430]/60\" data-value=\"h3\">H3</span>\n    <span class=\"headsel-tw__opt w-[30px] h-[26px] inline-flex items-center justify-center rounded-md font-semibold text-xs text-[#241430]/60\" data-value=\"paragraph\">P</span>\n  </div>\n  <div class=\"bg-[#FAF7F2] border-[1.5px] border-[#24143022] p-[18px]\">\n    <p class=\"headsel-tw__text headsel-tw__text--{{level}} {{#if underline}}headsel-tw__text--underline{{/if}} m-0 font-semibold\">{{text}}</p>\n  </div>\n</div>\n<style>\n.headsel-tw[data-level=\"h1\"] .headsel-tw__opt[data-value=\"h1\"],\n.headsel-tw[data-level=\"h2\"] .headsel-tw__opt[data-value=\"h2\"],\n.headsel-tw[data-level=\"h3\"] .headsel-tw__opt[data-value=\"h3\"],\n.headsel-tw[data-level=\"paragraph\"] .headsel-tw__opt[data-value=\"paragraph\"] { background: var(--accent); color: #241430; }\n.headsel-tw__text--h1 { font-size: 30px; }\n.headsel-tw__text--h2 { font-size: 22px; }\n.headsel-tw__text--h3 { font-size: 17px; }\n.headsel-tw__text--paragraph { font-size: 15px; font-weight: 400; }\n.headsel-tw__text--underline { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 5px; }\n</style>",
+    "react": "export function HeadingSelector({\n  text = \"{{text}}\",\n  level = \"{{level}}\",\n  accent = \"{{accent}}\",\n  underline = {{underline}},\n  radius = {{radius}},\n}) {\n  const levels = [\"h1\", \"h2\", \"h3\", \"paragraph\"];\n  const sizeFor = {\n    h1: { fontSize: 30, fontWeight: 600 },\n    h2: { fontSize: 22, fontWeight: 600 },\n    h3: { fontSize: 17, fontWeight: 600 },\n    paragraph: { fontSize: 15, fontWeight: 400 },\n  }[level];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 340 }}>\n      <div role=\"group\" aria-label=\"Heading level\" style={{ display: \"inline-flex\", gap: 2, padding: 3,\n        background: \"#24143010\", marginBottom: 12, borderRadius: radius }}>\n        {levels.map((lv) => (\n          <span key={lv} style={{ width: 30, height: 26, display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n            borderRadius: 6, fontWeight: 600, fontSize: 12,\n            color: lv === level ? \"#241430\" : \"#24143099\", background: lv === level ? accent : \"transparent\" }}>\n            {lv === \"paragraph\" ? \"P\" : lv.toUpperCase()}\n          </span>\n        ))}\n      </div>\n      <div style={{ background: \"#FAF7F2\", border: \"1.5px solid #24143022\", padding: 18 }}>\n        <p style={{ margin: 0, ...sizeFor,\n          textDecoration: underline ? \"underline\" : \"none\",\n          textDecorationColor: accent, textDecorationThickness: 3, textUnderlineOffset: 5 }}>{text}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

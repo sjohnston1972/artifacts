@@ -1,0 +1,55 @@
+{
+  "slug": "spotlight",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Callout label",
+      "default": "New: Bulk export"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Description",
+      "default": "Select multiple rows and export them all at once."
+    },
+    {
+      "id": "targetPosition",
+      "type": "select",
+      "label": "Target position",
+      "default": "bottom-right",
+      "options": [
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right",
+        "center"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "dismissLabel",
+      "type": "text",
+      "label": "Dismiss label",
+      "default": "Got it"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sp-wrap\" data-position=\"{{targetPosition}}\">\n  <div class=\"sp-chrome\" aria-hidden=\"true\">\n    <div class=\"sp-chrome__row\"></div>\n    <div class=\"sp-chrome__row sp-chrome__row--wide\"></div>\n    <div class=\"sp-chrome__row\"></div>\n  </div>\n  <div class=\"sp-hole\" aria-hidden=\"true\"></div>\n  <div class=\"sp-callout\" style=\"--accent:{{accent}};\">\n    <p class=\"sp-label\">{{label}}</p>\n    <p class=\"sp-desc\">{{description}}</p>\n    <button type=\"button\" class=\"sp-dismiss\">{{dismissLabel}}</button>\n  </div>\n</div>\n<style>\n.sp-wrap { position: relative; font: 16px/1.5 system-ui, sans-serif; color: #241430; width: 380px; height: 240px; background: #FAF7F2; border-radius: 14px; overflow: hidden; border: 1px solid #24143018; }\n.sp-chrome { position: absolute; inset: 0; padding: 18px; }\n.sp-chrome__row { height: 14px; border-radius: 6px; background: #24143018; margin-bottom: 10px; }\n.sp-chrome__row--wide { height: 60px; }\n.sp-hole { position: absolute; width: 52px; height: 52px; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(36,20,48,.58); background: transparent; }\n.sp-wrap[data-position=\"top-left\"] .sp-hole { top: 20px; left: 20px; }\n.sp-wrap[data-position=\"top-right\"] .sp-hole { top: 20px; right: 20px; }\n.sp-wrap[data-position=\"bottom-left\"] .sp-hole { bottom: 20px; left: 20px; }\n.sp-wrap[data-position=\"bottom-right\"] .sp-hole { bottom: 20px; right: 20px; }\n.sp-wrap[data-position=\"center\"] .sp-hole { top: 50%; left: 50%; transform: translate(-50%,-50%); }\n.sp-callout { position: absolute; width: 190px; background: #fff; border-radius: 10px; padding: 14px 16px; box-shadow: 0 10px 26px rgba(36,20,48,.24); z-index: 1; }\n.sp-wrap[data-position=\"top-left\"] .sp-callout { top: 82px; left: 20px; }\n.sp-wrap[data-position=\"top-right\"] .sp-callout { top: 82px; right: 20px; }\n.sp-wrap[data-position=\"bottom-left\"] .sp-callout { bottom: 82px; left: 20px; }\n.sp-wrap[data-position=\"bottom-right\"] .sp-callout { bottom: 82px; right: 20px; }\n.sp-wrap[data-position=\"center\"] .sp-callout { top: 50%; left: 50%; transform: translate(-50%,44px); }\n.sp-label { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; color: var(--accent); }\n.sp-desc { margin: 0 0 10px; font-size: 12px; color: #241430b3; }\n.sp-dismiss { background: var(--accent); border: 1.5px solid var(--accent); border-radius: 7px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"sp-tw-wrap relative font-sans text-[#241430] w-[380px] h-[240px] bg-[#FAF7F2] rounded-2xl overflow-hidden border border-[#24143018]\" data-position=\"{{targetPosition}}\">\n  <div class=\"absolute inset-0 p-4.5\" aria-hidden=\"true\">\n    <div class=\"h-3.5 rounded-md bg-[#24143018] mb-2.5\"></div>\n    <div class=\"h-[60px] rounded-md bg-[#24143018] mb-2.5\"></div>\n    <div class=\"h-3.5 rounded-md bg-[#24143018] mb-2.5\"></div>\n  </div>\n  <div class=\"sp-tw-hole absolute w-[52px] h-[52px] rounded-xl shadow-[0_0_0_9999px_rgba(36,20,48,.58)]\" aria-hidden=\"true\"></div>\n  <div class=\"sp-tw-callout absolute w-[190px] bg-white rounded-[10px] p-3.5 shadow-[0_10px_26px_rgba(36,20,48,.24)] z-[1]\" style=\"--accent:{{accent}}\">\n    <p class=\"m-0 mb-1 text-[12.5px] font-bold\" style=\"color:{{accent}}\">{{label}}</p>\n    <p class=\"m-0 mb-2.5 text-xs text-[#241430]/70\">{{description}}</p>\n    <button type=\"button\" class=\"rounded-lg px-3 py-1.5 text-xs font-semibold\" style=\"background:{{accent}};border:1.5px solid {{accent}}\">{{dismissLabel}}</button>\n  </div>\n</div>\n<style>\n.sp-tw-wrap[data-position=\"top-left\"] .sp-tw-hole { top: 20px; left: 20px; }\n.sp-tw-wrap[data-position=\"top-right\"] .sp-tw-hole { top: 20px; right: 20px; }\n.sp-tw-wrap[data-position=\"bottom-left\"] .sp-tw-hole { bottom: 20px; left: 20px; }\n.sp-tw-wrap[data-position=\"bottom-right\"] .sp-tw-hole { bottom: 20px; right: 20px; }\n.sp-tw-wrap[data-position=\"center\"] .sp-tw-hole { top: 50%; left: 50%; transform: translate(-50%,-50%); }\n.sp-tw-wrap[data-position=\"top-left\"] .sp-tw-callout { top: 82px; left: 20px; }\n.sp-tw-wrap[data-position=\"top-right\"] .sp-tw-callout { top: 82px; right: 20px; }\n.sp-tw-wrap[data-position=\"bottom-left\"] .sp-tw-callout { bottom: 82px; left: 20px; }\n.sp-tw-wrap[data-position=\"bottom-right\"] .sp-tw-callout { bottom: 82px; right: 20px; }\n.sp-tw-wrap[data-position=\"center\"] .sp-tw-callout { top: 50%; left: 50%; transform: translate(-50%,44px); }\n</style>",
+    "react": "export function Spotlight({\n  label = \"{{label}}\",\n  description = \"{{description}}\",\n  targetPosition = \"{{targetPosition}}\",\n  accent = \"{{accent}}\",\n  dismissLabel = \"{{dismissLabel}}\",\n}) {\n  const holePos = {\n    \"top-left\": { top: 20, left: 20 },\n    \"top-right\": { top: 20, right: 20 },\n    \"bottom-left\": { bottom: 20, left: 20 },\n    \"bottom-right\": { bottom: 20, right: 20 },\n    center: { top: \"50%\", left: \"50%\", transform: \"translate(-50%,-50%)\" },\n  }[targetPosition] ?? {};\n  const calloutPos = {\n    \"top-left\": { top: 82, left: 20 },\n    \"top-right\": { top: 82, right: 20 },\n    \"bottom-left\": { bottom: 82, left: 20 },\n    \"bottom-right\": { bottom: 82, right: 20 },\n    center: { top: \"50%\", left: \"50%\", transform: \"translate(-50%,44px)\" },\n  }[targetPosition] ?? {};\n  return (\n    <div style={{ position: \"relative\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\", width: 380, height: 240, background: \"#FAF7F2\", borderRadius: 14, overflow: \"hidden\", border: \"1px solid #24143018\" }}>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", inset: 0, padding: 18 }}>\n        <div style={{ height: 14, borderRadius: 6, background: \"#24143018\", marginBottom: 10 }} />\n        <div style={{ height: 60, borderRadius: 6, background: \"#24143018\", marginBottom: 10 }} />\n        <div style={{ height: 14, borderRadius: 6, background: \"#24143018\", marginBottom: 10 }} />\n      </div>\n      <div aria-hidden=\"true\" style={{ position: \"absolute\", width: 52, height: 52, borderRadius: 12, boxShadow: \"0 0 0 9999px rgba(36,20,48,.58)\", ...holePos }} />\n      <div style={{ position: \"absolute\", width: 190, background: \"#fff\", borderRadius: 10, padding: \"14px 16px\", boxShadow: \"0 10px 26px rgba(36,20,48,.24)\", zIndex: 1, ...calloutPos }}>\n        <p style={{ margin: \"0 0 4px\", fontSize: 12.5, fontWeight: 700, color: accent }}>{label}</p>\n        <p style={{ margin: \"0 0 10px\", fontSize: 12, color: \"#241430b3\" }}>{description}</p>\n        <button type=\"button\" style={{ background: accent, border: \"1.5px solid \" + accent, borderRadius: 7, padding: \"6px 12px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>{dismissLabel}</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

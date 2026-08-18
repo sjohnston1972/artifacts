@@ -1,0 +1,53 @@
+{
+  "slug": "help-beacon",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Help"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "bottom-right",
+      "options": [
+        "bottom-right",
+        "bottom-left",
+        "top-right"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Menu open by default",
+      "default": false
+    },
+    {
+      "id": "badge",
+      "type": "toggle",
+      "label": "Show notification dot",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"help-beacon-stage\">\n  <details class=\"help-beacon\" data-position=\"{{position}}\" style=\"--accent:{{accent}}\"{{#if open}} open{{/if}}>\n    <summary class=\"help-beacon__button\" aria-label=\"{{label}}\">\n      ?\n      {{#if badge}}<span class=\"help-beacon__dot\" aria-hidden=\"true\"></span>{{/if}}\n    </summary>\n    <div class=\"help-beacon__menu\" role=\"menu\">\n      <a href=\"#\" role=\"menuitem\">Contact support</a>\n      <a href=\"#\" role=\"menuitem\">View documentation</a>\n      <a href=\"#\" role=\"menuitem\">Keyboard shortcuts</a>\n    </div>\n  </details>\n</div>\n<style>\n.help-beacon-stage { position: relative; min-height: 220px; font: 16px/1.5 system-ui, sans-serif; background: #FAF7F2; border-radius: 12px; }\n.help-beacon { position: absolute; }\n.help-beacon[data-position=\"bottom-right\"] { right: 16px; bottom: 16px; }\n.help-beacon[data-position=\"bottom-left\"] { left: 16px; bottom: 16px; }\n.help-beacon[data-position=\"top-right\"] { right: 16px; top: 16px; }\n.help-beacon__button { list-style: none; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: #241430; font: 700 18px system-ui, sans-serif; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; box-shadow: 0 8px 18px rgba(36,20,48,.22); }\n.help-beacon__button::-webkit-details-marker { display: none; }\n.help-beacon__button:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.help-beacon__dot { position: absolute; top: 2px; right: 2px; width: 10px; height: 10px; border-radius: 50%; background: #241430; border: 2px solid #FAF7F2; }\n.help-beacon__menu { position: absolute; bottom: 54px; right: 0; width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 12px 28px rgba(36,20,48,.24); padding: 8px; display: flex; flex-direction: column; }\n.help-beacon[data-position=\"bottom-left\"] .help-beacon__menu { left: 0; right: auto; }\n.help-beacon[data-position=\"top-right\"] .help-beacon__menu { bottom: auto; top: 54px; }\n.help-beacon__menu a { padding: 8px 10px; border-radius: 6px; font-size: 13.5px; color: #241430; text-decoration: none; }\n.help-beacon__menu a:hover, .help-beacon__menu a:focus-visible { background: #24143010; outline: none; }\n</style>",
+    "tailwind": "<div class=\"relative min-h-[220px] font-sans bg-[#FAF7F2] rounded-xl\">\n  <details class=\"help-beacon-tw absolute\" data-position=\"{{position}}\" style=\"--accent:{{accent}}\"{{#if open}} open{{/if}}>\n    <summary class=\"list-none w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold text-lg cursor-pointer relative shadow-[0_8px_18px_rgba(36,20,48,.22)] text-[#241430]\" style=\"background:{{accent}}\" aria-label=\"{{label}}\">\n      ?\n      {{#if badge}}<span class=\"absolute top-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-[#241430] border-2 border-[#FAF7F2]\" aria-hidden=\"true\"></span>{{/if}}\n    </summary>\n    <div class=\"help-beacon-tw-menu absolute w-[180px] bg-white rounded-[10px] shadow-[0_12px_28px_rgba(36,20,48,.24)] p-2 flex flex-col\" role=\"menu\">\n      <a href=\"#\" role=\"menuitem\" class=\"px-2.5 py-2 rounded-md text-[13.5px] text-[#241430] no-underline hover:bg-[#24143010]\">Contact support</a>\n      <a href=\"#\" role=\"menuitem\" class=\"px-2.5 py-2 rounded-md text-[13.5px] text-[#241430] no-underline hover:bg-[#24143010]\">View documentation</a>\n      <a href=\"#\" role=\"menuitem\" class=\"px-2.5 py-2 rounded-md text-[13.5px] text-[#241430] no-underline hover:bg-[#24143010]\">Keyboard shortcuts</a>\n    </div>\n  </details>\n</div>\n<style>\n.help-beacon-tw[data-position=\"bottom-right\"] { right: 16px; bottom: 16px; }\n.help-beacon-tw[data-position=\"bottom-left\"] { left: 16px; bottom: 16px; }\n.help-beacon-tw[data-position=\"top-right\"] { right: 16px; top: 16px; }\n.help-beacon-tw[data-position=\"bottom-right\"] .help-beacon-tw-menu, .help-beacon-tw[data-position=\"bottom-left\"] .help-beacon-tw-menu { bottom: 54px; }\n.help-beacon-tw[data-position=\"top-right\"] .help-beacon-tw-menu { top: 54px; }\n.help-beacon-tw[data-position=\"bottom-right\"] .help-beacon-tw-menu, .help-beacon-tw[data-position=\"top-right\"] .help-beacon-tw-menu { right: 0; }\n.help-beacon-tw[data-position=\"bottom-left\"] .help-beacon-tw-menu { left: 0; }\n.help-beacon-tw summary::-webkit-details-marker { display: none; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function HelpBeacon({\n  label = \"{{label}}\",\n  position = \"{{position}}\",\n  open: initialOpen = {{open}},\n  badge = {{badge}},\n  accent = \"{{accent}}\",\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const corner = {\n    \"bottom-right\": { right: 16, bottom: 16 },\n    \"bottom-left\": { left: 16, bottom: 16 },\n    \"top-right\": { right: 16, top: 16 },\n  }[position] ?? {};\n  const menuSide = position === \"top-right\" ? { top: 54 } : { bottom: 54 };\n  const menuAlign = position === \"bottom-left\" ? { left: 0 } : { right: 0 };\n  return (\n    <div style={{ position: \"relative\", minHeight: 220, fontFamily: \"system-ui, sans-serif\", background: \"#FAF7F2\", borderRadius: 12 }}>\n      <div style={{ position: \"absolute\", ...corner }}>\n        <button type=\"button\" aria-label={label} aria-expanded={open} onClick={() => setOpen((o) => !o)}\n          style={{ position: \"relative\", width: 46, height: 46, borderRadius: \"50%\", background: accent, color: \"#241430\", fontWeight: 700, fontSize: 18, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", cursor: \"pointer\", border: \"none\", boxShadow: \"0 8px 18px rgba(36,20,48,.22)\" }}>\n          ?\n          {badge && <span style={{ position: \"absolute\", top: 2, right: 2, width: 10, height: 10, borderRadius: \"50%\", background: \"#241430\", border: \"2px solid #FAF7F2\" }} />}\n        </button>\n        {open && (\n          <div role=\"menu\" style={{ position: \"absolute\", width: 180, background: \"#fff\", borderRadius: 10, boxShadow: \"0 12px 28px rgba(36,20,48,.24)\", padding: 8, display: \"flex\", flexDirection: \"column\", ...menuSide, ...menuAlign }}>\n            {[\"Contact support\", \"View documentation\", \"Keyboard shortcuts\"].map((item) => (\n              <a key={item} href=\"#\" role=\"menuitem\" style={{ padding: \"8px 10px\", borderRadius: 6, fontSize: 13.5, color: \"#241430\", textDecoration: \"none\" }}>{item}</a>\n            ))}\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

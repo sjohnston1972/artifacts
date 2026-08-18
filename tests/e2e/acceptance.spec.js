@@ -105,22 +105,47 @@ test("Cmd+K navigates without the mouse from any page", async ({ page }) => {
 });
 
 test("the Button plate shows its gradient, reference and stamp in both themes", async ({ page }) => {
+  const seen = {};
   for (const theme of ["light", "dark"]) {
     await page.goto("/e/button");
     await page.evaluate((t) => { document.documentElement.dataset.theme = t; }, theme);
     await expect(page.locator(".catalogue-ref")).toHaveText(/BTN-\d{3}/);
     await expect(page.locator(".plate__stamp")).toHaveText("Buttons & Actions");
-    const gradient = await page.locator(".plate").evaluate((el) =>
-      getComputedStyle(el, "::before").backgroundImage);
-    expect(gradient).toContain("radial-gradient");
     await expect(page.locator(".plate")).toBeVisible();
+    seen[theme] = await page.locator(".plate").evaluate((el) => ({
+      gradient: getComputedStyle(el, "::before").backgroundImage,
+      opacity: getComputedStyle(el, "::before").opacity,
+      plateBg: getComputedStyle(el).backgroundColor,
+      pageFg: getComputedStyle(document.body).color,
+    }));
+    expect(seen[theme].gradient).toContain("radial-gradient");
   }
+  // Without these three, the loop is decorative: the aurora stops are defined
+  // once on :root and never per theme, so backgroundImage is byte-identical in
+  // light and dark. Every other assertion above is theme-independent too, so
+  // the test would pass with the whole [data-theme="dark"] block deleted.
+  // These read the properties that genuinely change.
+  expect(seen.dark.opacity).not.toBe(seen.light.opacity);
+  expect(seen.dark.plateBg).not.toBe(seen.light.plateBg);
+  expect(seen.dark.pageFg).not.toBe(seen.light.pageFg);
+});
+
+test("exported markdown re-imports cleanly with no data loss", async ({ page, request }) => {
+  // Spec section 12's fourth acceptance check. Re-parsed with parseGlossary —
+  // the very parser the seeder uses — so this is a real round trip rather than
+  // a test of a bespoke reader written to agree with the writer.
+  const { parseGlossary } = await import("../../src/seed/parse.js");
+  const md = await (await request.get("/api/export.md")).text();
+  const json = await (await request.get("/api/export.json")).json();
+  const reparsed = parseGlossary(md);
+  const names = reparsed.categories.flatMap((c) => c.rows.map((r) => r.term)).sort();
+  const expected = json.entries.map((e) => e.name).sort();
+  expect(names).toEqual(expected);
+  expect(reparsed.categories).toHaveLength(json.categories.length);
 });
 
 test("escape closes the palette and returns focus", async ({ page }) => {
   await page.goto("/");
-  await page.locator("#q").focus();
-  const before = await page.evaluate(() => document.activeElement.id);
   await page.keyboard.press("Escape");
   await page.evaluate(() => document.querySelector(".masthead__title").focus());
   await page.keyboard.press("Meta+k");
@@ -129,13 +154,14 @@ test("escape closes the palette and returns focus", async ({ page }) => {
 });
 
 test.describe("reduced motion", () => {
-  // The `reducedMotion` context option (test.use) is a no-op in this
-  // Playwright/Chromium/Windows combination — matchMedia still reports
-  // prefers-reduced-motion: no-preference after it (verified directly:
-  // even on about:blank, test.use({ reducedMotion: "reduce" }) left
-  // `(prefers-reduced-motion: no-preference)` matching true). The CDP-level
-  // page.emulateMedia() call below sets the same media feature and was
-  // confirmed to actually flip matchMedia, so it is used instead. The
+  // The `reducedMotion` context option (test.use) did not take effect in my
+  // testing — matchMedia kept reporting prefers-reduced-motion: no-preference
+  // after it, even on about:blank with no app code involved. Root cause not
+  // isolated (review independently confirmed browser.newContext({
+  // reducedMotion: "reduce" }) does work, so the option is not categorically
+  // inert here — my test.use usage was likely mis-scoped rather than the
+  // mechanism itself being broken). The CDP-level page.emulateMedia() call
+  // below reliably flips the media query, so it is used instead. The
   // assertion itself — zero moving elements — is unchanged.
   test("plays no animation anywhere", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });

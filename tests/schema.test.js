@@ -35,4 +35,11 @@ describe("schema", () => {
     const row = await env.DB.prepare("SELECT value FROM meta WHERE key='index_version'").first();
     expect(row.value).toBe("1");
   });
+
+  it("can be applied twice without error", async () => {
+    await applySchema(env.DB);
+    await applySchema(env.DB);
+    const row = await env.DB.prepare("SELECT value FROM meta WHERE key='index_version'").first();
+    expect(row.value).toBe("1");
+  });
 });

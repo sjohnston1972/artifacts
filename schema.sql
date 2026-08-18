@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS revisions;
 DROP TABLE IF EXISTS entry_categories;
 DROP TABLE IF EXISTS entries;
 DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS meta;
 
 CREATE TABLE categories (
   id          INTEGER PRIMARY KEY,

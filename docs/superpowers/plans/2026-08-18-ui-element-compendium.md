@@ -4301,16 +4301,43 @@ test("Cmd+K navigates without the mouse from any page", async ({ page }) => {
 });
 
 test("the Button plate shows its gradient, reference and stamp in both themes", async ({ page }) => {
+  const seen = {};
   for (const theme of ["light", "dark"]) {
     await page.goto("/e/button");
     await page.evaluate((t) => { document.documentElement.dataset.theme = t; }, theme);
     await expect(page.locator(".catalogue-ref")).toHaveText(/BTN-\d{3}/);
     await expect(page.locator(".plate__stamp")).toHaveText("Buttons & Actions");
-    const gradient = await page.locator(".plate").evaluate((el) =>
-      getComputedStyle(el, "::before").backgroundImage);
-    expect(gradient).toContain("radial-gradient");
     await expect(page.locator(".plate")).toBeVisible();
+    seen[theme] = await page.locator(".plate").evaluate((el) => ({
+      gradient: getComputedStyle(el, "::before").backgroundImage,
+      opacity: getComputedStyle(el, "::before").opacity,
+      plateBg: getComputedStyle(el).backgroundColor,
+      pageFg: getComputedStyle(document.body).color,
+    }));
+    expect(seen[theme].gradient).toContain("radial-gradient");
   }
+  // Without these three, the loop is decorative: the aurora stops are defined
+  // once on :root and never per theme, so backgroundImage is byte-identical in
+  // light and dark. Every other assertion above is theme-independent too, so
+  // the test would pass with the whole [data-theme="dark"] block deleted.
+  // These read the properties that genuinely change.
+  expect(seen.dark.opacity).not.toBe(seen.light.opacity);
+  expect(seen.dark.plateBg).not.toBe(seen.light.plateBg);
+  expect(seen.dark.pageFg).not.toBe(seen.light.pageFg);
+});
+
+test("exported markdown re-imports cleanly with no data loss", async ({ page, request }) => {
+  // Spec section 12's fourth acceptance check. Re-parsed with parseGlossary —
+  // the very parser the seeder uses — so this is a real round trip rather than
+  // a test of a bespoke reader written to agree with the writer.
+  const { parseGlossary } = await import("../../src/seed/parse.js");
+  const md = await (await request.get("/api/export.md")).text();
+  const json = await (await request.get("/api/export.json")).json();
+  const reparsed = parseGlossary(md);
+  const names = reparsed.categories.flatMap((c) => c.rows.map((r) => r.term)).sort();
+  const expected = json.entries.map((e) => e.name).sort();
+  expect(names).toEqual(expected);
+  expect(reparsed.categories).toHaveLength(json.categories.length);
 });
 
 test("escape closes the palette and returns focus", async ({ page }) => {
@@ -4344,7 +4371,7 @@ test.describe("reduced motion", () => {
 - [ ] **Step 4: Run the acceptance suite and fix what fails**
 
 Run: `npx playwright test`
-Expected: 10 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
+Expected: 11 tests pass. Typical fixes: raising touch-target heights to 44px, moving a stray `transition` inside the reduced-motion block, adding `overflow-x: auto` to the code block and the category strip.
 
 - [ ] **Step 5: Add the responsive rules**
 

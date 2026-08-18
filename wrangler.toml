@@ -8,7 +8,7 @@ assets = { directory = "public", binding = "ASSETS" }
 [[d1_databases]]
 binding = "DB"
 database_name = "compendium"
-database_id = ""
+database_id = "3a5852ac-789b-4f3e-8211-ce45f53734a8"
 
 [observability]
 enabled = true

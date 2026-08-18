@@ -4,7 +4,7 @@ import { entryCard } from "./components.js";
 export function renderBrowse({ categories, entries, filters, activeCategory, total }) {
   const body = html`
     <header class="masthead">
-      <h1 class="masthead__title">UI Element Compendium</h1>
+      <h1 class="masthead__title" tabindex="-1">UI Element Compendium</h1>
       <p class="masthead__sub">${entries.length} specimens on display. Press
         <kbd>/</kbd> or <kbd>Cmd</kbd>+<kbd>K</kbd> to search.</p>
       <button class="theme-toggle" data-theme-toggle aria-label="Switch between light and dark themes">Theme</button>

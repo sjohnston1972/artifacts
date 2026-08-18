@@ -43,11 +43,28 @@ function init(root) {
     frame.style.height = `${Math.min(Math.max(h, 80), 2000)}px`;
   });
 
+  // A URL carrying a different #hash for the same entry (a shared link
+  // pasted over the current one, or the address bar edited by hand) is a
+  // same-document navigation: the browser does not reload, so nothing
+  // above re-runs. Without this listener the page would keep showing
+  // whatever tweak values it started with instead of the ones the link
+  // actually encodes. writeHash() below uses history.replaceState, which
+  // never fires "hashchange", so this cannot loop back on itself.
+  addEventListener("hashchange", () => {
+    Object.assign(values, defaultsFor(schema), fromHash());
+    syncInputs();
+    paint();
+  });
+
   let timer = null;
   function onChange(e) {
     const control = schema.find((c) => c.id === e.target.name);
     if (!control) return;
-    values[control.id] = readValue(control, e.target);
+    // A swatch button carries the exact-case hex it was authored with;
+    // <input type="color"> silently lowercases any value assigned to it
+    // (a browser normalisation, not something this app controls), so a
+    // swatch click reads its own dataset instead of the input it just set.
+    values[control.id] = e.detail?.swatchValue ?? readValue(control, e.target);
     if (control.type === "number") {
       const output = e.target.nextElementSibling;
       if (output?.tagName === "OUTPUT") output.textContent = values[control.id];
@@ -186,10 +203,15 @@ function onTabKeydown(e, root, tabs) {
 }
 
 // Preset swatches write into the colour input and fire its change handler.
+// The exact-case hex rides along as event detail because assigning it to
+// input.value below loses the case immediately (see onChange).
 document.addEventListener("click", (e) => {
   const swatch = e.target.closest(".swatch");
   if (!swatch) return;
   const input = document.querySelector(`input[name="${swatch.dataset.for}"]`);
   input.value = swatch.dataset.value;
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+  input.dispatchEvent(new CustomEvent("input", {
+    bubbles: true,
+    detail: { swatchValue: swatch.dataset.value },
+  }));
 });

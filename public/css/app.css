@@ -217,6 +217,26 @@ kbd {
   }
 }
 
+/* One breakpoint (60rem/960px) tells the whole story below the sidebar
+   layout above: the category list stops being a sidebar and becomes a
+   horizontally scrolling strip at exactly the width the two-column browse
+   grid gives way to a single column, so there is no width band where it is
+   neither. The same breakpoint also raises tweak-control touch targets and
+   stacks the entry action links, since both only need the extra room once
+   the layout has already gone single-column.
+   (.specimen's own reset lives beside its base rule further down — a
+   media-scoped override needs to out-order, not just out-specify, the
+   unconditional rule it's overriding, and that rule is declared later.) */
+@media (max-width: 60rem) {
+  .browse__nav ul {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+  }
+  .tweaks__controls input, .tweaks__controls select { min-height: 44px; }
+  .entry__actions a { display: block; padding: var(--space-3) 0; }
+}
+
 .browse__navtitle {
   font-size: var(--step--1);
   text-transform: uppercase;
@@ -366,6 +386,43 @@ kbd {
   gap: var(--space-5);
 }
 
+/* The specimen plate is the design's one expressive moment and the spec
+   asks for the element to be "centred and given generous room". Measured
+   at 1280px before this pass: main was 1152px, but the entry grid put the
+   specimen in a 355px sidebar beside 709px of prose, leaving the iframe
+   179px wide — the signature element in the sidebar, the body text in the
+   spotlight. Now the plate leads at (roughly) the entry's full width, the
+   tweak panel sits in a fixed-width column beside it, and the prose below
+   reads at a comfortable measure instead of stretching edge to edge. */
+.entry__prose { max-width: 42rem; }
+
+.specimen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  gap: var(--space-4);
+}
+
+/* Grid items default to min-width: auto, i.e. their content's min-content
+   size — without overriding it, a wide code line or a dense table example
+   would force its track to grow past minmax()'s 0 minimum ("grid
+   blowout"), which is exactly how the specimen got squeezed in the first
+   place. Overflow is handled inside each child instead (.code__panel pre,
+   .grid). */
+.specimen > * { min-width: 0; }
+.specimen > .plate { grid-column: 1; }
+.specimen > .tweaks { grid-column: 2; }
+.specimen > .code { grid-column: 1 / -1; }
+
+/* Below 60rem .specimen itself drops to a single track (declared with
+   .browse's matching breakpoint further up) — without resetting these
+   placements too, "grid-column: 2" has no explicit column 2 left to land
+   in, and the grid fabricates one, squeezing the plate into a sliver
+   beside it instead of stacking everything in one column. */
+@media (max-width: 60rem) {
+  .specimen { grid-template-columns: minmax(0, 1fr); }
+  .specimen > .plate, .specimen > .tweaks, .specimen > .code { grid-column: 1; }
+}
+
 .entry__header {
   display: flex;
   flex-direction: column;
@@ -387,14 +444,6 @@ kbd {
 .entry__section {
   border-top: 1px solid var(--border);
   padding-top: var(--space-4);
-}
-
-@media (min-width: 60rem) {
-  .entry {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    align-items: start;
-  }
-  .entry__stage-col { grid-row: 1 / span 3; grid-column: 2; }
 }
 
 .backlink {
@@ -560,6 +609,7 @@ kbd {
 /* The plate's aurora mesh. Four radial gradients, leaning per category. */
 .plate {
   position: relative;
+  margin: 0; /* <figure> has a 40px inline UA margin by default */
   border-radius: var(--radius);
   padding: var(--space-4);
   overflow: hidden;
@@ -612,12 +662,9 @@ kbd {
 }
 
 /* -------------------- interactive specimen -------------------- */
-
-.specimen {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
+/* .specimen's grid layout is defined earlier, with .entry — it needs to sit
+   next to .entry__prose's max-width and the specimen-plate-room comment
+   explaining why. */
 
 .stage {
   width: 100%;

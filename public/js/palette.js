@@ -12,6 +12,13 @@ async function loadIndex() {
   return index;
 }
 
+// Fetched as soon as this script runs rather than waiting for the first
+// Cmd+K, so the common case — a visitor who pauses even briefly before
+// typing — never sees the palette open with nothing to search yet. open()
+// still awaits loadIndex() itself, so a visitor who is faster than the
+// fetch is still handled correctly, just not instantly.
+loadIndex();
+
 function score(entry, q) {
   const [name, , aliases, , definition] = entry;
   const n = name.toLowerCase();
@@ -24,6 +31,9 @@ function score(entry, q) {
 }
 
 function search(q) {
+  // index loads asynchronously (see open()), so a keystroke landing before
+  // it resolves must not throw — it just yields no results yet.
+  if (!index) return [];
   const needle = q.trim().toLowerCase();
   if (!needle) return [];
   return index
@@ -80,7 +90,11 @@ function escapeHtml(s) {
 let lastFocused = null;
 
 async function open() {
-  await loadIndex();
+  // The dialog opens and takes focus synchronously so keystrokes typed the
+  // instant the shortcut fires land in the input rather than vanishing into
+  // a still-loading document — the index fetch happens in parallel, and if
+  // the visitor has already typed by the time it resolves, the search
+  // re-runs against what's there.
   if (!dialog) build();
   lastFocused = document.activeElement;
   dialog.hidden = false;
@@ -88,6 +102,8 @@ async function open() {
   results = [];
   paint();
   input.focus();
+  await loadIndex();
+  if (input.value.trim()) { results = search(input.value); active = 0; paint(); }
 }
 
 function close() {

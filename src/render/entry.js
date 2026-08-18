@@ -11,7 +11,7 @@ export function renderEntry({ entry }) {
 
   const body = html`
     <main id="main" class="entry">
-      <header class="entry__header">
+      <header class="entry__header entry__prose">
         <a class="backlink" href="/c/${primary.slug}">← ${primary.name}</a>
         <div class="entry__title">
           <h1>${entry.name}</h1>
@@ -25,18 +25,18 @@ export function renderEntry({ entry }) {
       ${entry.has_example ? raw(exampleSection(entry, formats, values)) : raw(noExample(entry))}
 
       ${entry.notes ? raw(html`
-        <section class="entry__section">
+        <section class="entry__section entry__prose">
           <h2>Also defined in other sections</h2>
           <div class="prose">${raw(notesToHtml(entry.notes))}</div>
         </section>`) : ""}
 
-      <section class="entry__section">
+      <section class="entry__section entry__prose">
         <h2>Categories</h2>
         <ul class="chips">${entry.categories.map((c) => raw(html`
           <li><a class="chip" href="/c/${c.slug}"><span class="chip__code">${c.code}</span> ${c.name}</a></li>`))}</ul>
       </section>
 
-      <section class="entry__section entry__actions">
+      <section class="entry__section entry__actions entry__prose">
         <a href="/e/${entry.slug}/edit">Edit</a>
         <a href="/e/${entry.slug}/history">History</a>
         <a href="/e/${entry.slug}/export.html" download>Download standalone HTML</a>
@@ -55,7 +55,7 @@ export function renderEntry({ entry }) {
 
 function exampleSection(entry, formats, values) {
   return html`
-    <section class="specimen entry__stage-col"
+    <section class="specimen"
              data-entry="${entry.slug}"
              data-controls="${JSON.stringify(entry.controls_schema)}"
              data-templates="${JSON.stringify(entry.templates)}">
@@ -89,7 +89,7 @@ function exampleSection(entry, formats, values) {
 
 function noExample(entry) {
   return html`
-    <div class="entry__stage-col">
+    <div class="entry__section">
       ${specimenPlate({
         entry,
         children: html`<p class="stage stage--empty">No specimen mounted yet.

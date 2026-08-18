@@ -31,6 +31,19 @@ describe("render", () => {
     expect(out).not.toContain('";alert(1);');
   });
 
+  it("warns when a placeholder sits in an event-handler attribute", () => {
+    // HTML decodes entities in attribute values before JS parses them, so
+    // escaping cannot make this safe — the author must be told.
+    const r = render('<button onclick="f(\'{{x}}\')">c</button>', { x: "a" });
+    expect(r.warnings).toContain(
+      'placeholder "x" sits in an event-handler attribute, where HTML escaping cannot make it safe'
+    );
+  });
+
+  it("does not warn for an ordinary quoted attribute", () => {
+    expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
+  });
+
   it("warns when a placeholder sits in an unquoted attribute", () => {
     const r = render("<div class={{x}}>", { x: "a b" });
     expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');

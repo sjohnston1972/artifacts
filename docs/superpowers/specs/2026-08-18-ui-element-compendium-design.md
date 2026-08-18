@@ -150,8 +150,13 @@ Source: `web-development-ui-glossary-complete.md`.
    (39, 40, 41, 42, 44, 45, 46, 47, 48) with no hand-maintained skip list.
    Sections 39 and 40 are bullet lists carrying no definitions, so there is
    nothing in them to seed.
-2. **Each table row becomes an entry.** 1,003 rows. Header rows (`Term`,
-   `Element / Term`) and separator rows are skipped.
+2. **Each table row becomes an entry.** 1,001 rows. A table's header row is
+   identified structurally as *the row immediately preceding the `|---|---|`
+   separator*, not by matching known header text. This matters: the source
+   uses four different header labels — `Term` (42 tables), `Element / Term`,
+   `Pattern` and `State` — and the last two are also legitimate term names
+   elsewhere in the glossary, so text matching would either skip real
+   entries or admit two header rows as terms.
 3. **Duplicate names merge.** 918 unique names remain after merging 85
    repeats. The first occurrence in source order supplies `name`, `slug`,
    `definition` and the primary category. Each later occurrence appends to
@@ -396,7 +401,7 @@ strip. Touch targets at least 44px. Primary actions within thumb reach.
 
 | Area | What is tested |
 |---|---|
-| Seed parser | 45 categories; 1,003 rows; 918 entries; the merge behaviour for "State"; every core name resolves; no slash-split damage |
+| Seed parser | 45 categories; 1,001 rows; 918 entries; the merge behaviour for "State"; every core name resolves; no slash-split damage |
 | Template engine | substitution, escaping, attribute context, conditionals, unknown-id warnings |
 | Code generation | one control change alters all three format outputs consistently |
 | Revisions | a save creates a revision; restore returns the prior text; a restore is itself undoable |

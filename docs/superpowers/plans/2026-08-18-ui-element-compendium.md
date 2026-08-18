@@ -3371,11 +3371,14 @@ describe("POST /api/entries/:slug", () => {
 
 describe("POST /api/entries (new)", () => {
   it("creates a blank entry in a category", async () => {
-    const res = await post("/api/entries", { name: "Split Button", categoryId: 5 });
+    // NOT "Split Button" — that name is already seeded from the glossary, so
+    // createEntry would correctly return the suffixed slug "split-button-2"
+    // and the assertion below would be wrong for the wrong reason.
+    const res = await post("/api/entries", { name: "Segmented Control Test", categoryId: 5 });
     expect(res.status).toBe(200);
     const created = await res.json();
-    expect(created.slug).toBe("split-button");
-    expect((await SELF.fetch("https://example.com/e/split-button")).status).toBe(200);
+    expect(created.slug).toBe("segmented-control-test");
+    expect((await SELF.fetch("https://example.com/e/segmented-control-test")).status).toBe(200);
   });
 
   it("rejects a blank name", async () => {
@@ -3493,6 +3496,7 @@ export async function restoreRoute(request, env, ctx, params) {
 
 Register:
 ```js
+{ method: "GET",  pattern: "/new", handler: newEntryForm },
 { method: "POST", pattern: "/api/entries", handler: createEntryRoute },
 { method: "POST", pattern: "/api/entries/:slug", handler: saveEntryRoute },
 { method: "GET",  pattern: "/api/revisions/:slug", handler: listRevisionsRoute },

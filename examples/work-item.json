@@ -1,0 +1,53 @@
+{
+  "slug": "work-item",
+  "controls_schema": [
+    {
+      "id": "itemId",
+      "type": "text",
+      "label": "Item ID",
+      "default": "WI-482"
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Fix pagination off-by-one"
+    },
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Type",
+      "default": "bug",
+      "options": [
+        "task",
+        "bug",
+        "story"
+      ]
+    },
+    {
+      "id": "assignee",
+      "type": "text",
+      "label": "Assignee initials",
+      "default": "RK"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Avatar colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"work-item work-item--{{type}}\" style=\"--accent: {{accent}};\">\n  <span class=\"work-item__id\">{{itemId}}</span>\n  <span class=\"work-item__type\">\n    <svg class=\"work-item__icon work-item__icon--task\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><rect x=\"2\" y=\"2\" width=\"12\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><path d=\"M4.5 8.5 L7 11 L11.5 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n    <svg class=\"work-item__icon work-item__icon--bug\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><ellipse cx=\"8\" cy=\"9.5\" rx=\"4\" ry=\"4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\"></ellipse><line x1=\"8\" y1=\"4\" x2=\"8\" y2=\"5.5\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"3\" y1=\"7\" x2=\"4.5\" y2=\"7.8\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"13\" y1=\"7\" x2=\"11.5\" y2=\"7.8\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"3\" y1=\"12\" x2=\"4.5\" y2=\"11.2\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"13\" y1=\"12\" x2=\"11.5\" y2=\"11.2\" stroke=\"currentColor\" stroke-width=\"1.3\"></line></svg>\n    <svg class=\"work-item__icon work-item__icon--story\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M4 2 H12 V14 L8 11.5 L4 14 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linejoin=\"round\"></path></svg>\n    <span class=\"work-item__type-text\">{{type}}</span>\n  </span>\n  <span class=\"work-item__title\">{{title}}</span>\n  <span class=\"work-item__avatar\">{{assignee}}</span>\n</div>\n<style>\n.work-item { display: flex; align-items: center; gap: 10px; font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 9px 12px; border-radius: 8px; border: 1px solid #24143018; max-width: 440px; box-sizing: border-box; }\n.work-item__id { font-size: 11px; font-weight: 700; color: #241430aa; font-variant-numeric: tabular-nums; flex: 0 0 auto; }\n.work-item__type { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; text-transform: capitalize; padding: 3px 8px; border-radius: 999px; flex: 0 0 auto; }\n.work-item__icon { display: none; }\n.work-item--task .work-item__icon--task { display: inline-block; }\n.work-item--bug .work-item__icon--bug { display: inline-block; }\n.work-item--story .work-item__icon--story { display: inline-block; }\n.work-item--task .work-item__type { background: #BFD9F260; color: #1a3a5c; }\n.work-item--bug .work-item__type { background: #F5C2E060; color: #8a1050; }\n.work-item--story .work-item__type { background: #D9C8F060; color: #3f2a70; }\n.work-item__title { flex: 1 1 auto; font-size: 13.5px; }\n.work-item__avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #241430; flex: 0 0 auto; }\n</style>",
+    "tailwind": "<div class=\"work-item-tw work-item-tw--{{type}} flex items-center gap-2.5 font-sans text-[#241430] bg-[#FAF7F2] px-3 py-2 rounded-lg border border-[#24143018] max-w-[440px] box-border\" style=\"--accent: {{accent}};\">\n  <span class=\"text-[11px] font-bold text-[#241430aa] flex-none\" style=\"font-variant-numeric: tabular-nums;\">{{itemId}}</span>\n  <span class=\"work-item-tw__type inline-flex items-center gap-1 text-[11px] font-bold capitalize px-2 py-[3px] rounded-full flex-none\">\n    <svg class=\"work-item-tw__icon work-item-tw__icon--task\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><rect x=\"2\" y=\"2\" width=\"12\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"></rect><path d=\"M4.5 8.5 L7 11 L11.5 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n    <svg class=\"work-item-tw__icon work-item-tw__icon--bug\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><ellipse cx=\"8\" cy=\"9.5\" rx=\"4\" ry=\"4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\"></ellipse><line x1=\"8\" y1=\"4\" x2=\"8\" y2=\"5.5\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"3\" y1=\"7\" x2=\"4.5\" y2=\"7.8\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"13\" y1=\"7\" x2=\"11.5\" y2=\"7.8\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"3\" y1=\"12\" x2=\"4.5\" y2=\"11.2\" stroke=\"currentColor\" stroke-width=\"1.3\"></line><line x1=\"13\" y1=\"12\" x2=\"11.5\" y2=\"11.2\" stroke=\"currentColor\" stroke-width=\"1.3\"></line></svg>\n    <svg class=\"work-item-tw__icon work-item-tw__icon--story\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M4 2 H12 V14 L8 11.5 L4 14 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linejoin=\"round\"></path></svg>\n    <span>{{type}}</span>\n  </span>\n  <span class=\"flex-1 text-[13.5px]\">{{title}}</span>\n  <span class=\"w-[22px] h-[22px] rounded-full inline-flex items-center justify-center text-[10px] font-bold flex-none\" style=\"background: var(--accent);\">{{assignee}}</span>\n</div>\n<style>\n.work-item-tw__icon { display: none; }\n.work-item-tw--task .work-item-tw__icon--task { display: inline-block; }\n.work-item-tw--bug .work-item-tw__icon--bug { display: inline-block; }\n.work-item-tw--story .work-item-tw__icon--story { display: inline-block; }\n.work-item-tw--task .work-item-tw__type { background: #BFD9F260; color: #1a3a5c; }\n.work-item-tw--bug .work-item-tw__type { background: #F5C2E060; color: #8a1050; }\n.work-item-tw--story .work-item-tw__type { background: #D9C8F060; color: #3f2a70; }\n</style>",
+    "react": "export function WorkItem({\n  itemId = \"{{itemId}}\",\n  title = \"{{title}}\",\n  type = \"{{type}}\",\n  assignee = \"{{assignee}}\",\n  accent = \"{{accent}}\",\n}) {\n  const meta = {\n    task: {\n      bg: \"#BFD9F260\", color: \"#1a3a5c\",\n      icon: (\n        <>\n          <rect x=\"2\" y=\"2\" width=\"12\" height=\"12\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n          <path d=\"M4.5 8.5 L7 11 L11.5 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n        </>\n      ),\n    },\n    bug: {\n      bg: \"#F5C2E060\", color: \"#8a1050\",\n      icon: (\n        <>\n          <ellipse cx=\"8\" cy=\"9.5\" rx=\"4\" ry=\"4.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n          <line x1=\"8\" y1=\"4\" x2=\"8\" y2=\"5.5\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n          <line x1=\"3\" y1=\"7\" x2=\"4.5\" y2=\"7.8\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n          <line x1=\"13\" y1=\"7\" x2=\"11.5\" y2=\"7.8\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n          <line x1=\"3\" y1=\"12\" x2=\"4.5\" y2=\"11.2\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n          <line x1=\"13\" y1=\"12\" x2=\"11.5\" y2=\"11.2\" stroke=\"currentColor\" strokeWidth=\"1.3\" />\n        </>\n      ),\n    },\n    story: {\n      bg: \"#D9C8F060\", color: \"#3f2a70\",\n      icon: <path d=\"M4 2 H12 V14 L8 11.5 L4 14 Z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.3\" strokeLinejoin=\"round\" />,\n    },\n  }[type] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, fontFamily: \"system-ui, sans-serif\",\n      color: \"#241430\", background: \"#FAF7F2\", padding: \"9px 12px\", borderRadius: 8,\n      border: \"1px solid #24143018\", maxWidth: 440, boxSizing: \"border-box\" }}>\n      <span style={{ fontSize: 11, fontWeight: 700, color: \"#241430aa\", fontVariantNumeric: \"tabular-nums\", flex: \"0 0 auto\" }}>{itemId}</span>\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 4, fontSize: 11, fontWeight: 700,\n        textTransform: \"capitalize\", padding: \"3px 8px\", borderRadius: 999, flex: \"0 0 auto\", background: meta.bg, color: meta.color }}>\n        <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\">{meta.icon}</svg>\n        <span>{type}</span>\n      </span>\n      <span style={{ flex: \"1 1 auto\", fontSize: 13.5 }}>{title}</span>\n      <span style={{ width: 22, height: 22, borderRadius: \"50%\", background: accent, display: \"inline-flex\",\n        alignItems: \"center\", justifyContent: \"center\", fontSize: 10, fontWeight: 700, color: \"#241430\", flex: \"0 0 auto\" }}>{assignee}</span>\n    </div>\n  );\n}"
+  }
+}

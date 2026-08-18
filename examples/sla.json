@@ -1,0 +1,53 @@
+{
+  "slug": "sla",
+  "controls_schema": [
+    {
+      "id": "policy",
+      "type": "text",
+      "label": "Policy name",
+      "default": "First response"
+    },
+    {
+      "id": "target",
+      "type": "text",
+      "label": "Target",
+      "default": "Respond within 4 hours"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "met",
+      "options": [
+        "met",
+        "at risk",
+        "breached"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showTarget",
+      "type": "toggle",
+      "label": "Show target line",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sla\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <span class=\"sla__accent\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n  <div class=\"sla__head\">\n    <p class=\"sla__policy\">{{policy}}</p>\n    <span class=\"sla__badge\">\n      <svg class=\"sla__icon sla__icon--met\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"sla__icon sla__icon--at-risk\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M10 8v4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\"/></svg>\n      <svg class=\"sla__icon sla__icon--breached\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      <span class=\"sla__status-text\">{{status}}</span>\n    </span>\n  </div>\n  {{#if showTarget}}<p class=\"sla__target\">Target: {{target}}</p>{{/if}}\n</div>\n<style>\n.sla { width: 300px; padding: 18px 18px 18px 22px; position: relative; background: #FAF7F2; color: #241430; font: 14px/1.4 system-ui, sans-serif; border-radius: 14px; box-shadow: 0 8px 24px rgba(36,20,48,.12); box-sizing: border-box; }\n.sla__accent { position: absolute; left: 0; top: 14px; bottom: 14px; width: 5px; border-radius: 3px; }\n.sla__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }\n.sla__policy { margin: 0; font-weight: 700; font-size: 15px; }\n.sla__badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; text-transform: capitalize; white-space: nowrap; }\n.sla__icon { width: 13px; height: 13px; display: none; flex-shrink: 0; }\n.sla[data-status=\"met\"] .sla__icon--met { display: block; }\n.sla[data-status=\"at risk\"] .sla__icon--at-risk { display: block; }\n.sla[data-status=\"breached\"] .sla__icon--breached { display: block; }\n.sla[data-status=\"met\"] .sla__badge { background: #A8E6C1; color: #17532F; }\n.sla[data-status=\"at risk\"] .sla__badge { background: #E8A020; color: #4A2E00; }\n.sla[data-status=\"breached\"] .sla__badge { background: #F5C2E0; color: #7A1440; }\n.sla__target { margin: 12px 0 0; color: #241430b3; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"sla-tw relative w-[300px] pl-[22px] pr-[18px] py-[18px] bg-[#FAF7F2] text-[#241430] font-sans text-sm rounded-2xl shadow-lg box-border\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <span class=\"absolute left-0 top-3.5 bottom-3.5 w-[5px] rounded-sm\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n  <div class=\"flex items-start justify-between gap-2.5\">\n    <p class=\"m-0 font-bold text-[15px]\">{{policy}}</p>\n    <span class=\"sla-tw__badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-xs capitalize whitespace-nowrap\">\n      <svg class=\"sla-tw__icon sla-tw__icon--met w-[13px] h-[13px] flex-shrink-0\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"sla-tw__icon sla-tw__icon--at-risk w-[13px] h-[13px] flex-shrink-0\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M10 8v4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\"/></svg>\n      <svg class=\"sla-tw__icon sla-tw__icon--breached w-[13px] h-[13px] flex-shrink-0\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      {{status}}\n    </span>\n  </div>\n  {{#if showTarget}}<p class=\"mt-3 mb-0 text-[13px] text-[#241430]/70\">Target: {{target}}</p>{{/if}}\n</div>\n<style>\n.sla-tw__icon { display: none; }\n.sla-tw[data-status=\"met\"] .sla-tw__icon--met { display: block; }\n.sla-tw[data-status=\"at risk\"] .sla-tw__icon--at-risk { display: block; }\n.sla-tw[data-status=\"breached\"] .sla-tw__icon--breached { display: block; }\n.sla-tw[data-status=\"met\"] .sla-tw__badge { background: #A8E6C1; color: #17532F; }\n.sla-tw[data-status=\"at risk\"] .sla-tw__badge { background: #E8A020; color: #4A2E00; }\n.sla-tw[data-status=\"breached\"] .sla-tw__badge { background: #F5C2E0; color: #7A1440; }\n</style>",
+    "react": "export function Sla({\n  policy = \"{{policy}}\",\n  target = \"{{target}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n  showTarget = {{showTarget}},\n}) {\n  const palette = {\n    met: { background: \"#A8E6C1\", color: \"#17532F\" },\n    \"at risk\": { background: \"#E8A020\", color: \"#4A2E00\" },\n    breached: { background: \"#F5C2E0\", color: \"#7A1440\" },\n  }[status] ?? {};\n  return (\n    <div style={{ width: 300, position: \"relative\", padding: \"18px 18px 18px 22px\", background: \"#FAF7F2\",\n      color: \"#241430\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, borderRadius: 14,\n      boxShadow: \"0 8px 24px rgba(36,20,48,.12)\", boxSizing: \"border-box\" }}>\n      <span aria-hidden=\"true\" style={{ position: \"absolute\", left: 0, top: 14, bottom: 14, width: 5, borderRadius: 3, background: accent }} />\n      <div style={{ display: \"flex\", alignItems: \"flex-start\", justifyContent: \"space-between\", gap: 10 }}>\n        <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{policy}</p>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, padding: \"3px 10px\", borderRadius: 999,\n          fontWeight: 700, fontSize: 12, textTransform: \"capitalize\", whiteSpace: \"nowrap\", ...palette }}>\n          {status === \"met\" && (\n            <svg width=\"13\" height=\"13\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n          )}\n          {status === \"at risk\" && (\n            <svg width=\"13\" height=\"13\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinejoin=\"round\" /><path d=\"M10 8v4\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\" /></svg>\n          )}\n          {status === \"breached\" && (\n            <svg width=\"13\" height=\"13\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n          )}\n          {status}\n        </span>\n      </div>\n      {showTarget && <p style={{ margin: \"12px 0 0\", color: \"#241430b3\", fontSize: 13 }}>Target: {target}</p>}\n    </div>\n  );\n}"
+  }
+}

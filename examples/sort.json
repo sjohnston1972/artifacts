@@ -1,0 +1,58 @@
+{
+  "slug": "sort",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Customer orders"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "customerSort",
+      "type": "select",
+      "label": "Customer column sort",
+      "default": "none",
+      "options": [
+        "ascending",
+        "descending",
+        "none"
+      ]
+    },
+    {
+      "id": "totalSort",
+      "type": "select",
+      "label": "Total column sort",
+      "default": "ascending",
+      "options": [
+        "ascending",
+        "descending",
+        "none"
+      ]
+    },
+    {
+      "id": "reverseOrder",
+      "type": "toggle",
+      "label": "Reverse row order",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sort\" style=\"--accent:{{accent}};\">\n  <div class=\"sort__scroll\">\n    <table class=\"sort__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr>\n        <th scope=\"col\">Order</th>\n        <th scope=\"col\" aria-sort=\"{{customerSort}}\"><button type=\"button\" class=\"sort__btn\">Customer <span class=\"sort__arrow\" aria-hidden=\"true\">{{#if customerSort}}&#9650;{{/if}}</span></button></th>\n        <th scope=\"col\">Status</th>\n        <th scope=\"col\" aria-sort=\"{{totalSort}}\"><button type=\"button\" class=\"sort__btn\">Total <span class=\"sort__arrow\" aria-hidden=\"true\">{{#if totalSort}}&#9650;{{/if}}</span></button></th>\n      </tr></thead>\n      <tbody>\n        {{#if reverseOrder}}\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1041</td><td>R. Okafor</td><td>Processing</td><td>£128.50</td></tr>\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        {{/if}}\n        {{#unless reverseOrder}}\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr><td>#1041</td><td>R. Okafor</td><td>Processing</td><td>£128.50</td></tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n        {{/unless}}\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.sort { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.sort__scroll { overflow-x: auto; }\n.sort__table { border-collapse: collapse; width: 100%; }\n.sort__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.sort__table th, .sort__table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.sort__table th { background: var(--accent); color: #FAF7F2; }\n.sort__btn { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; padding: 0; }\n.sort__btn:hover { text-decoration: underline; }\n.sort__btn:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 2px; }\nth[aria-sort=\"descending\"] .sort__arrow { transform: rotate(180deg); display: inline-block; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\" aria-sort=\"{{customerSort}}\"><button type=\"button\" class=\"bg-transparent border-0 font-inherit text-inherit cursor-pointer inline-flex gap-1 items-center p-0 hover:underline\">Customer <span aria-hidden=\"true\" class=\"sort__arrow inline-block\">{{#if customerSort}}&#9650;{{/if}}</span></button></th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\" aria-sort=\"{{totalSort}}\"><button type=\"button\" class=\"bg-transparent border-0 font-inherit text-inherit cursor-pointer inline-flex gap-1 items-center p-0 hover:underline\">Total <span aria-hidden=\"true\" class=\"sort__arrow inline-block\">{{#if totalSort}}&#9650;{{/if}}</span></button></th>\n      </tr></thead>\n      <tbody>\n        {{#if reverseOrder}}\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1039</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1040</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1041</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1042</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        {{/if}}\n        {{#unless reverseOrder}}\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1042</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1041</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1040</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">#1039</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n        {{/unless}}\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\nth[aria-sort=\"descending\"] .sort__arrow { transform: rotate(180deg); display: inline-block; }\n</style>",
+    "react": "function Sort({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  customerSort = \"{{customerSort}}\",\n  totalSort = \"{{totalSort}}\",\n  reverseOrder = {{reverseOrder}},\n}) {\n  const rows = [\n    [\"#1042\", \"A. Whitfield\", \"Shipped\", \"£64.00\"],\n    [\"#1041\", \"R. Okafor\", \"Processing\", \"£128.50\"],\n    [\"#1040\", \"M. Iqbal\", \"Shipped\", \"£22.00\"],\n    [\"#1039\", \"S. Novak\", \"Refunded\", \"£40.00\"],\n  ];\n  const ordered = reverseOrder ? [...rows].reverse() : rows;\n  const cell = { padding: \"10px 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  const sortHeader = (label, dir) => (\n    <th scope=\"col\" style={cell} aria-sort={dir}>\n      <button type=\"button\" style={{ background: \"none\", border: 0, font: \"inherit\", color: \"inherit\", cursor: \"pointer\", display: \"inline-flex\", gap: 4, alignItems: \"center\", padding: 0 }}>\n        {label} <span aria-hidden=\"true\" style={{ display: \"inline-block\", transform: dir === \"descending\" ? \"rotate(180deg)\" : \"none\" }}>{dir !== \"none\" && \"▲\"}</span>\n      </button>\n    </th>\n  );\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              <th scope=\"col\" style={cell}>Order</th>\n              {sortHeader(\"Customer\", customerSort)}\n              <th scope=\"col\" style={cell}>Status</th>\n              {sortHeader(\"Total\", totalSort)}\n            </tr>\n          </thead>\n          <tbody>\n            {ordered.map((row) => (\n              <tr key={row[0]}>{row.map((c, j) => <td key={j} style={cell}>{c}</td>)}</tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

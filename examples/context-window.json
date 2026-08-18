@@ -1,0 +1,45 @@
+{
+  "slug": "context-window",
+  "controls_schema": [
+    {
+      "id": "usedPercent",
+      "type": "number",
+      "label": "Used percent",
+      "default": 62,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Context window"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "warnHigh",
+      "type": "toggle",
+      "label": "Show warning text",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"context-window\" style=\"--accent:{{accent}};\">\n  <div class=\"context-window__row\">\n    <span class=\"context-window__label\">{{label}}</span>\n    <span class=\"context-window__value\">{{usedPercent}}%</span>\n  </div>\n  <div class=\"context-window__track\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"{{usedPercent}}\" aria-label=\"{{label}}\">\n    <div class=\"context-window__fill\" style=\"width:{{usedPercent}}%;\"></div>\n  </div>\n  {{#if warnHigh}}<p class=\"context-window__warning\">Nearing limit — consider summarising earlier turns.</p>{{/if}}\n</div>\n<style>\n.context-window { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 360px; padding: 16px; border-radius: 12px; border: 1px solid #24143014; box-sizing: border-box; }\n.context-window__row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }\n.context-window__label { font-weight: 600; font-size: 13px; }\n.context-window__value { font-variant-numeric: tabular-nums; font-size: 13px; color: #24143099; }\n.context-window__track { height: 10px; border-radius: 999px; background: #24143014; overflow: hidden; }\n.context-window__fill { height: 100%; border-radius: 999px; background: var(--accent); transition: width .2s ease; }\n.context-window__warning { margin: 8px 0 0; font-size: 12.5px; color: #241430; background: color-mix(in srgb, #E8A020 22%, #FAF7F2); border-left: 3px solid #E8A020; padding: 6px 10px; border-radius: 6px; box-sizing: border-box; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[360px] p-4 rounded-xl border border-[#24143014] box-border\" style=\"--accent:{{accent}};\">\n  <div class=\"flex justify-between items-baseline mb-2\">\n    <span class=\"font-semibold text-[13px]\">{{label}}</span>\n    <span class=\"text-[13px] text-[#24143099] tabular-nums\">{{usedPercent}}%</span>\n  </div>\n  <div class=\"h-2.5 rounded-full bg-[#24143014] overflow-hidden\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"{{usedPercent}}\" aria-label=\"{{label}}\">\n    <div class=\"h-full rounded-full\" style=\"width:{{usedPercent}}%;background:var(--accent);\"></div>\n  </div>\n  {{#if warnHigh}}<p class=\"mt-2 mb-0 text-[12.5px] text-[#241430] px-2.5 py-1.5 rounded-md box-border\" style=\"background:color-mix(in srgb, #E8A020 22%, #FAF7F2);border-left:3px solid #E8A020;\">Nearing limit — consider summarising earlier turns.</p>{{/if}}\n</div>",
+    "react": "export function ContextWindow({\n  usedPercent = {{usedPercent}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  warnHigh = {{warnHigh}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 360, padding: 16, borderRadius: 12, border: \"1px solid #24143014\", boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"baseline\", marginBottom: 8 }}>\n        <span style={{ fontWeight: 600, fontSize: 13 }}>{label}</span>\n        <span style={{ fontSize: 13, color: \"#24143099\", fontVariantNumeric: \"tabular-nums\" }}>{usedPercent}%</span>\n      </div>\n      <div role=\"progressbar\" aria-valuemin={0} aria-valuemax={100} aria-valuenow={usedPercent} aria-label={label}\n        style={{ height: 10, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", borderRadius: 999, background: accent, width: `${usedPercent}%`, transition: \"width .2s ease\" }} />\n      </div>\n      {warnHigh && (\n        <p style={{ margin: \"8px 0 0\", fontSize: 12.5, color: \"#241430\", background: `color-mix(in srgb, #E8A020 22%, #FAF7F2)`,\n          borderLeft: \"3px solid #E8A020\", padding: \"6px 10px\", borderRadius: 6, boxSizing: \"border-box\" }}>\n          Nearing limit — consider summarising earlier turns.\n        </p>\n      )}\n    </div>\n  );\n}"
+  }
+}

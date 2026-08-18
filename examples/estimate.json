@@ -1,0 +1,65 @@
+{
+  "slug": "estimate",
+  "controls_schema": [
+    {
+      "id": "itemName",
+      "type": "text",
+      "label": "Item",
+      "default": "Migrate auth service"
+    },
+    {
+      "id": "points",
+      "type": "number",
+      "label": "Story points",
+      "default": 5,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "hours",
+      "type": "number",
+      "label": "Hours",
+      "default": 8,
+      "min": 1,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "id": "method",
+      "type": "select",
+      "label": "Estimate method",
+      "default": "points",
+      "options": [
+        "points",
+        "hours",
+        "tshirt"
+      ]
+    },
+    {
+      "id": "tshirtSize",
+      "type": "text",
+      "label": "T-shirt size",
+      "default": "M"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"estimate\" data-method=\"{{method}}\" style=\"--accent:{{accent}};\">\n  <p class=\"estimate__item\">{{itemName}}</p>\n  <div class=\"estimate__value estimate__value--points\"><span class=\"estimate__number\">{{points}}</span><span class=\"estimate__unit\">story points</span></div>\n  <div class=\"estimate__value estimate__value--hours\"><span class=\"estimate__number\">{{hours}}</span><span class=\"estimate__unit\">hours</span></div>\n  <div class=\"estimate__value estimate__value--tshirt\"><span class=\"estimate__number\">{{tshirtSize}}</span><span class=\"estimate__unit\">t-shirt size</span></div>\n</div>\n<style>\n.estimate { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px 18px; border-radius:12px; max-width:300px; box-sizing:border-box; text-align:center; }\n.estimate__item { margin:0 0 10px; font-size:13px; font-weight:600; color:#241430cc; }\n.estimate__value { display:none; flex-direction:column; align-items:center; gap:2px; }\n.estimate[data-method=\"points\"] .estimate__value--points,\n.estimate[data-method=\"hours\"] .estimate__value--hours,\n.estimate[data-method=\"tshirt\"] .estimate__value--tshirt { display:flex; }\n.estimate__number { font-size:34px; font-weight:700; color:var(--accent); line-height:1; }\n.estimate__unit { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#241430b3; }\n</style>",
+    "tailwind": "<div class=\"estimate-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl max-w-[300px] box-border text-center\" data-method=\"{{method}}\" style=\"--accent:{{accent}};\">\n  <p class=\"m-0 mb-2.5 text-[13px] font-semibold text-[#241430]/80\">{{itemName}}</p>\n  <div class=\"estimate-tw__value estimate-tw__value--points hidden flex-col items-center gap-0.5\">\n    <span class=\"text-[34px] font-bold leading-none\" style=\"color:{{accent}}\">{{points}}</span>\n    <span class=\"text-xs uppercase tracking-wide text-[#241430]/70\">story points</span>\n  </div>\n  <div class=\"estimate-tw__value estimate-tw__value--hours hidden flex-col items-center gap-0.5\">\n    <span class=\"text-[34px] font-bold leading-none\" style=\"color:{{accent}}\">{{hours}}</span>\n    <span class=\"text-xs uppercase tracking-wide text-[#241430]/70\">hours</span>\n  </div>\n  <div class=\"estimate-tw__value estimate-tw__value--tshirt hidden flex-col items-center gap-0.5\">\n    <span class=\"text-[34px] font-bold leading-none\" style=\"color:{{accent}}\">{{tshirtSize}}</span>\n    <span class=\"text-xs uppercase tracking-wide text-[#241430]/70\">t-shirt size</span>\n  </div>\n</div>\n<style>\n.estimate-tw[data-method=\"points\"] .estimate-tw__value--points,\n.estimate-tw[data-method=\"hours\"] .estimate-tw__value--hours,\n.estimate-tw[data-method=\"tshirt\"] .estimate-tw__value--tshirt { display:flex; }\n</style>",
+    "react": "export function Estimate({\n  itemName = \"{{itemName}}\",\n  points = {{points}},\n  hours = {{hours}},\n  method = \"{{method}}\",\n  tshirtSize = \"{{tshirtSize}}\",\n  accent = \"{{accent}}\",\n}) {\n  const value = {\n    points: { number: points, unit: \"story points\" },\n    hours: { number: hours, unit: \"hours\" },\n    tshirt: { number: tshirtSize, unit: \"t-shirt size\" },\n  }[method] ?? { number: points, unit: \"story points\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      padding: \"16px 18px\", borderRadius: 12, maxWidth: 300, boxSizing: \"border-box\", textAlign: \"center\" }}>\n      <p style={{ margin: \"0 0 10px\", fontSize: 13, fontWeight: 600, color: \"#241430cc\" }}>{itemName}</p>\n      <div style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 2 }}>\n        <span style={{ fontSize: 34, fontWeight: 700, color: accent, lineHeight: 1 }}>{value.number}</span>\n        <span style={{ fontSize: 12, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: \"#241430b3\" }}>{value.unit}</span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

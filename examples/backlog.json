@@ -1,0 +1,56 @@
+{
+  "slug": "backlog",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Growth backlog"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Items pending",
+      "default": 9,
+      "min": 3,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "id": "sortBy",
+      "type": "select",
+      "label": "Sort order",
+      "default": "priority",
+      "options": [
+        "priority",
+        "newest",
+        "manual"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showNumbers",
+      "type": "toggle",
+      "label": "Show ranking numbers",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"backlog\" aria-labelledby=\"backlog-heading\" data-sort=\"{{sortBy}}\" style=\"--accent:{{accent}};\">\n  <div class=\"backlog__head\">\n    <h3 id=\"backlog-heading\" class=\"backlog__title\">{{title}}</h3>\n    <span class=\"backlog__count\">{{count}} items pending</span>\n  </div>\n  <p class=\"backlog__sort\">Sorted by <strong>{{sortBy}}</strong></p>\n  <ol class=\"backlog__list{{#unless showNumbers}} backlog__list--plain{{/unless}}\">\n    <li class=\"backlog__item\"><span class=\"backlog__priority backlog__priority--high\">High priority</span><span class=\"backlog__label\">Redesign onboarding checklist</span></li>\n    <li class=\"backlog__item\"><span class=\"backlog__priority backlog__priority--med\">Medium priority</span><span class=\"backlog__label\">Add CSV export to reports</span></li>\n    <li class=\"backlog__item\"><span class=\"backlog__priority backlog__priority--med\">Medium priority</span><span class=\"backlog__label\">Investigate slow search index</span></li>\n    <li class=\"backlog__item\"><span class=\"backlog__priority backlog__priority--low\">Low priority</span><span class=\"backlog__label\">Refresh empty-state illustrations</span></li>\n  </ol>\n</section>\n<style>\n.backlog { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px; border-radius:12px; max-width:360px; box-sizing:border-box; }\n.backlog__head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }\n.backlog__title { margin:0; font-size:16px; }\n.backlog__count { font-size:12px; font-weight:600; background:var(--accent); color:#241430; padding:3px 8px; border-radius:999px; white-space:nowrap; }\n.backlog__sort { margin:6px 0 10px; font-size:12px; color:#241430b3; }\n.backlog__list { margin:0; padding-left:22px; list-style:decimal; }\n.backlog__list--plain { list-style:disc; padding-left:18px; }\n.backlog__item + .backlog__item { margin-top:8px; }\n.backlog__priority { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; }\n.backlog__priority--high { color:#b0362a; }\n.backlog__priority--med { color:#8a5d00; }\n.backlog__priority--low { color:#1a7a4c; }\n.backlog__label { display:block; font-size:14px; }\n</style>",
+    "tailwind": "<section class=\"backlog-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[360px] box-border\" aria-labelledby=\"backlog-tw-heading\" data-sort=\"{{sortBy}}\" style=\"--accent:{{accent}};\">\n  <div class=\"flex justify-between items-baseline gap-2\">\n    <h3 id=\"backlog-tw-heading\" class=\"m-0 text-base\">{{title}}</h3>\n    <span class=\"text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap\" style=\"background:var(--accent);color:#241430\">{{count}} items pending</span>\n  </div>\n  <p class=\"my-1.5 text-xs text-[#241430]/70\">Sorted by <strong>{{sortBy}}</strong></p>\n  <ol class=\"m-0 pl-[22px]\" style=\"list-style:{{#if showNumbers}}decimal{{/if}}{{#unless showNumbers}}disc{{/unless}}\">\n    <li class=\"mt-2 first:mt-0\"><span class=\"block text-[11px] font-bold uppercase tracking-wide text-[#b0362a]\">High priority</span><span class=\"block text-sm\">Redesign onboarding checklist</span></li>\n    <li class=\"mt-2 first:mt-0\"><span class=\"block text-[11px] font-bold uppercase tracking-wide text-[#8a5d00]\">Medium priority</span><span class=\"block text-sm\">Add CSV export to reports</span></li>\n    <li class=\"mt-2 first:mt-0\"><span class=\"block text-[11px] font-bold uppercase tracking-wide text-[#8a5d00]\">Medium priority</span><span class=\"block text-sm\">Investigate slow search index</span></li>\n    <li class=\"mt-2 first:mt-0\"><span class=\"block text-[11px] font-bold uppercase tracking-wide text-[#1a7a4c]\">Low priority</span><span class=\"block text-sm\">Refresh empty-state illustrations</span></li>\n  </ol>\n</section>",
+    "react": "export function Backlog({\n  title = \"{{title}}\",\n  count = {{count}},\n  sortBy = \"{{sortBy}}\",\n  accent = \"{{accent}}\",\n  showNumbers = {{showNumbers}},\n}) {\n  const items = [\n    { priority: \"High priority\", color: \"#b0362a\", label: \"Redesign onboarding checklist\" },\n    { priority: \"Medium priority\", color: \"#8a5d00\", label: \"Add CSV export to reports\" },\n    { priority: \"Medium priority\", color: \"#8a5d00\", label: \"Investigate slow search index\" },\n    { priority: \"Low priority\", color: \"#1a7a4c\", label: \"Refresh empty-state illustrations\" },\n  ];\n  return (\n    <section aria-labelledby=\"backlog-heading\" style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\",\n      background: \"#FAF7F2\", padding: 16, borderRadius: 12, maxWidth: 360, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"baseline\", gap: 8 }}>\n        <h3 id=\"backlog-heading\" style={{ margin: 0, fontSize: 16 }}>{title}</h3>\n        <span style={{ fontSize: 12, fontWeight: 600, background: accent, color: \"#241430\", padding: \"3px 8px\", borderRadius: 999, whiteSpace: \"nowrap\" }}>{count} items pending</span>\n      </div>\n      <p style={{ margin: \"6px 0 10px\", fontSize: 12, color: \"#241430b3\" }}>Sorted by <strong>{sortBy}</strong></p>\n      <ol style={{ margin: 0, paddingLeft: 22, listStyle: showNumbers ? \"decimal\" : \"disc\" }}>\n        {items.map((item, i) => (\n          <li key={item.label} style={{ marginTop: i === 0 ? 0 : 8 }}>\n            <span style={{ display: \"block\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.03em\", color: item.color }}>{item.priority}</span>\n            <span style={{ display: \"block\", fontSize: 14 }}>{item.label}</span>\n          </li>\n        ))}\n      </ol>\n    </section>\n  );\n}"
+  }
+}

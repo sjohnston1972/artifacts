@@ -1,0 +1,45 @@
+{
+  "slug": "agent-workspace",
+  "controls_schema": [
+    {
+      "id": "task",
+      "type": "text",
+      "label": "Task",
+      "default": "Summarise quarterly report"
+    },
+    {
+      "id": "currentStep",
+      "type": "text",
+      "label": "Current step",
+      "default": "Extracting key figures"
+    },
+    {
+      "id": "stepIndex",
+      "type": "number",
+      "label": "Step index",
+      "default": 2,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"agent-workspace\" style=\"--accent:{{accent}};\">\n  <p class=\"agent-workspace__eyebrow\">Agent workspace</p>\n  <h3 class=\"agent-workspace__task\">{{task}}</h3>\n  <p class=\"agent-workspace__step\">Step {{stepIndex}} of 5 — {{currentStep}}</p>\n  <div class=\"agent-workspace__track\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"5\" aria-valuenow=\"{{stepIndex}}\" aria-label=\"Task progress\">\n    <div class=\"agent-workspace__fill\" style=\"width:calc({{stepIndex}} / 5 * 100%);\"></div>\n  </div>\n</section>\n<style>\n.agent-workspace { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 360px; padding: 18px; border-radius: 14px; border: 1px solid #24143014; box-sizing: border-box; }\n.agent-workspace__eyebrow { margin: 0 0 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #24143099; }\n.agent-workspace__task { margin: 0 0 10px; font-size: 17px; font-weight: 600; }\n.agent-workspace__step { margin: 0 0 10px; font-size: 13px; color: #24143099; }\n.agent-workspace__track { height: 8px; border-radius: 999px; background: #24143014; overflow: hidden; }\n.agent-workspace__fill { height: 100%; border-radius: 999px; background: var(--accent); transition: width .2s ease; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-sm leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[360px] p-[18px] rounded-2xl border border-[#24143014] box-border\" style=\"--accent:{{accent}};\">\n  <p class=\"m-0 mb-1 text-[11px] font-bold uppercase tracking-wide text-[#24143099]\">Agent workspace</p>\n  <h3 class=\"m-0 mb-2.5 text-[17px] font-semibold\">{{task}}</h3>\n  <p class=\"m-0 mb-2.5 text-[13px] text-[#24143099]\">Step {{stepIndex}} of 5 — {{currentStep}}</p>\n  <div class=\"h-2 rounded-full bg-[#24143014] overflow-hidden\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"5\" aria-valuenow=\"{{stepIndex}}\" aria-label=\"Task progress\">\n    <div class=\"h-full rounded-full\" style=\"width:calc({{stepIndex}} / 5 * 100%);background:var(--accent);\"></div>\n  </div>\n</section>",
+    "react": "export function AgentWorkspace({\n  task = \"{{task}}\",\n  currentStep = \"{{currentStep}}\",\n  stepIndex = {{stepIndex}},\n  accent = \"{{accent}}\",\n}) {\n  const pct = (stepIndex / 5) * 100;\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 360, padding: 18, borderRadius: 14, border: \"1px solid #24143014\", boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 4px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".05em\", color: \"#24143099\" }}>Agent workspace</p>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 17, fontWeight: 600 }}>{task}</h3>\n      <p style={{ margin: \"0 0 10px\", fontSize: 13, color: \"#24143099\" }}>Step {stepIndex} of 5 — {currentStep}</p>\n      <div role=\"progressbar\" aria-valuemin={0} aria-valuemax={5} aria-valuenow={stepIndex} aria-label=\"Task progress\"\n        style={{ height: 8, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", borderRadius: 999, background: accent, width: `${pct}%`, transition: \"width .2s ease\" }} />\n      </div>\n    </section>\n  );\n}"
+  }
+}

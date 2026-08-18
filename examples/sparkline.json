@@ -1,0 +1,50 @@
+{
+  "controls_schema": [
+    {
+      "id": "trend",
+      "type": "select",
+      "label": "Trend",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "showMarker",
+      "type": "toggle",
+      "label": "Show end marker",
+      "default": true
+    },
+    {
+      "id": "strokeWidth",
+      "type": "number",
+      "label": "Line thickness",
+      "default": 2,
+      "min": 1,
+      "max": 4,
+      "step": 0.5
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"sparkline sparkline--{{trend}}\" style=\"--accent:{{accent}};--sw:{{strokeWidth}};\" role=\"img\" aria-label=\"Sparkline, trend: {{trend}}\">\n  <svg class=\"sparkline__svg\" viewBox=\"0 0 100 30\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polyline class=\"sparkline__line sparkline__line--up\" points=\"0,26 15,24 30,20 45,15 60,12 75,8 100,4\"></polyline>\n    <polyline class=\"sparkline__line sparkline__line--down\" points=\"0,4 15,8 30,10 45,14 60,18 75,22 100,26\"></polyline>\n    <polyline class=\"sparkline__line sparkline__line--flat\" points=\"0,16 15,15 30,17 45,14 60,16 75,15 100,16\"></polyline>\n    {{#if showMarker}}<circle class=\"sparkline__marker sparkline__marker--up\" cx=\"100\" cy=\"4\"></circle>{{/if}}\n    {{#if showMarker}}<circle class=\"sparkline__marker sparkline__marker--down\" cx=\"100\" cy=\"26\"></circle>{{/if}}\n    {{#if showMarker}}<circle class=\"sparkline__marker sparkline__marker--flat\" cx=\"100\" cy=\"16\"></circle>{{/if}}\n  </svg>\n</span>\n<style>\n.sparkline { display: inline-block; width: 100px; height: 30px; }\n.sparkline__svg { width: 100%; height: 100%; display: block; overflow: visible; }\n.sparkline__line { fill: none; stroke: var(--accent); stroke-width: var(--sw); stroke-linecap: round; stroke-linejoin: round; display: none; }\n.sparkline--up .sparkline__line--up { display: block; }\n.sparkline--down .sparkline__line--down { display: block; }\n.sparkline--flat .sparkline__line--flat { display: block; }\n.sparkline__marker { fill: var(--accent); stroke: #FAF7F2; stroke-width: 1; r: 2.5; display: none; }\n.sparkline--up .sparkline__marker--up { display: block; }\n.sparkline--down .sparkline__marker--down { display: block; }\n.sparkline--flat .sparkline__marker--flat { display: block; }\n</style>",
+    "tailwind": "<span class=\"sparkline-tw sparkline-tw--{{trend}}\" style=\"--accent:{{accent}};--sw:{{strokeWidth}};\" role=\"img\" aria-label=\"Sparkline, trend: {{trend}}\">\n  <svg class=\"sparkline-tw__svg\" viewBox=\"0 0 100 30\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polyline class=\"sparkline-tw__line sparkline-tw__line--up\" points=\"0,26 15,24 30,20 45,15 60,12 75,8 100,4\"></polyline>\n    <polyline class=\"sparkline-tw__line sparkline-tw__line--down\" points=\"0,4 15,8 30,10 45,14 60,18 75,22 100,26\"></polyline>\n    <polyline class=\"sparkline-tw__line sparkline-tw__line--flat\" points=\"0,16 15,15 30,17 45,14 60,16 75,15 100,16\"></polyline>\n    {{#if showMarker}}<circle class=\"sparkline-tw__marker sparkline-tw__marker--up\" cx=\"100\" cy=\"4\"></circle>{{/if}}\n    {{#if showMarker}}<circle class=\"sparkline-tw__marker sparkline-tw__marker--down\" cx=\"100\" cy=\"26\"></circle>{{/if}}\n    {{#if showMarker}}<circle class=\"sparkline-tw__marker sparkline-tw__marker--flat\" cx=\"100\" cy=\"16\"></circle>{{/if}}\n  </svg>\n</span>\n<style>\n.sparkline-tw { display: inline-block; width: 100px; height: 30px; }\n.sparkline-tw__svg { width: 100%; height: 100%; display: block; overflow: visible; }\n.sparkline-tw__line { fill: none; stroke: var(--accent); stroke-width: var(--sw); stroke-linecap: round; stroke-linejoin: round; display: none; }\n.sparkline-tw--up .sparkline-tw__line--up { display: block; }\n.sparkline-tw--down .sparkline-tw__line--down { display: block; }\n.sparkline-tw--flat .sparkline-tw__line--flat { display: block; }\n.sparkline-tw__marker { fill: var(--accent); stroke: #FAF7F2; stroke-width: 1; r: 2.5; display: none; }\n.sparkline-tw--up .sparkline-tw__marker--up { display: block; }\n.sparkline-tw--down .sparkline-tw__marker--down { display: block; }\n.sparkline-tw--flat .sparkline-tw__marker--flat { display: block; }\n</style>",
+    "react": "export function Sparkline({\n  trend = \"{{trend}}\",\n  showMarker = {{showMarker}},\n  strokeWidth = {{strokeWidth}},\n  accent = \"{{accent}}\",\n}) {\n  const lines = {\n    up: \"0,26 15,24 30,20 45,15 60,12 75,8 100,4\",\n    down: \"0,4 15,8 30,10 45,14 60,18 75,22 100,26\",\n    flat: \"0,16 15,15 30,17 45,14 60,16 75,15 100,16\",\n  };\n  const ends = { up: [100, 4], down: [100, 26], flat: [100, 16] };\n  const [ex, ey] = ends[trend] ?? ends.flat;\n  return (\n    <span role=\"img\" aria-label={`Sparkline, trend: ${trend}`} style={{ display: \"inline-block\", width: 100, height: 30 }}>\n      <svg viewBox=\"0 0 100 30\" style={{ width: \"100%\", height: \"100%\", display: \"block\", overflow: \"visible\" }}>\n        <polyline points={lines[trend] ?? lines.flat} fill=\"none\" stroke={accent} strokeWidth={strokeWidth} strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n        {showMarker && <circle cx={ex} cy={ey} r={2.5} fill={accent} stroke=\"#FAF7F2\" strokeWidth={1} />}\n      </svg>\n    </span>\n  );\n}"
+  },
+  "slug": "sparkline"
+}

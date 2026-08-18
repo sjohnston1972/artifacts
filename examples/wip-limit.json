@@ -1,0 +1,54 @@
+{
+  "slug": "wip-limit",
+  "controls_schema": [
+    {
+      "id": "columnName",
+      "type": "text",
+      "label": "Column name",
+      "default": "In progress"
+    },
+    {
+      "id": "limit",
+      "type": "number",
+      "label": "WIP limit",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Cards in column",
+      "default": 4,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "exceeded",
+      "type": "toggle",
+      "label": "Exceeded",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"wip-column\" aria-labelledby=\"wip-heading\" style=\"--accent: {{accent}};\">\n  <header class=\"wip-column__header\">\n    <h3 id=\"wip-heading\" class=\"wip-column__title\">{{columnName}} <span class=\"wip-column__ratio\">({{count}}/{{limit}})</span></h3>\n    <span class=\"wip-column__state{{#if exceeded}} wip-column__state--over{{/if}}{{#unless exceeded}} wip-column__state--within{{/unless}}\">\n      {{#if exceeded}}\n      <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 1.5 L15 14.5 L1 14.5 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"></path><line x1=\"8\" y1=\"6\" x2=\"8\" y2=\"10\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><circle cx=\"8\" cy=\"12.3\" r=\"0.9\" fill=\"currentColor\"></circle></svg>\n      <span>Over limit</span>\n      {{/if}}\n      {{#unless exceeded}}\n      <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M3 8.5 L6.5 12 L13 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n      <span>Within limit</span>\n      {{/unless}}\n    </span>\n  </header>\n  <ul class=\"wip-column__cards\">\n    <li>Design spec review</li>\n    <li>API contract update</li>\n    <li>Empty state illustrations</li>\n    <li>Migrate settings page</li>\n  </ul>\n</section>\n<style>\n.wip-column { font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 280px; border-radius: 10px; border-top: 4px solid var(--accent); padding: 14px; box-shadow: 0 4px 14px rgba(36,20,48,.1); box-sizing: border-box; }\n.wip-column__header { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }\n.wip-column__title { margin: 0; font-size: 14px; font-weight: 700; }\n.wip-column__ratio { font-weight: 600; color: #241430aa; }\n.wip-column__state { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px; width: fit-content; }\n.wip-column__state--over { background: #E8A02030; color: #7a4b06; }\n.wip-column__state--within { background: #A8E6C150; color: #1c5c34; }\n.wip-column__cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.wip-column__cards li { background: #24143008; border-radius: 6px; padding: 6px 8px; font-size: 12.5px; }\n</style>",
+    "tailwind": "<section class=\"max-w-[280px] rounded-[10px] border-t-4 p-3.5 shadow-md font-sans text-[#241430] bg-[#FAF7F2] box-border\" aria-labelledby=\"wip-tw-heading\" style=\"border-top-color: {{accent}};\">\n  <header class=\"flex flex-col gap-1.5 mb-2.5\">\n    <h3 id=\"wip-tw-heading\" class=\"m-0 text-sm font-bold\">{{columnName}} <span class=\"font-semibold text-[#241430aa]\">({{count}}/{{limit}})</span></h3>\n    <span class=\"wip-tw__state{{#if exceeded}} wip-tw__state--over{{/if}}{{#unless exceeded}} wip-tw__state--within{{/unless}} inline-flex items-center gap-1.5 text-xs font-bold px-2 py-[3px] rounded-full w-fit\">\n      {{#if exceeded}}\n      <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 1.5 L15 14.5 L1 14.5 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"></path><line x1=\"8\" y1=\"6\" x2=\"8\" y2=\"10\" stroke=\"currentColor\" stroke-width=\"1.4\"></line><circle cx=\"8\" cy=\"12.3\" r=\"0.9\" fill=\"currentColor\"></circle></svg>\n      <span>Over limit</span>\n      {{/if}}\n      {{#unless exceeded}}\n      <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M3 8.5 L6.5 12 L13 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n      <span>Within limit</span>\n      {{/unless}}\n    </span>\n  </header>\n  <ul class=\"list-none m-0 p-0 flex flex-col gap-1.5\">\n    <li class=\"bg-[#24143008] rounded-md px-2 py-1.5 text-[12.5px]\">Design spec review</li>\n    <li class=\"bg-[#24143008] rounded-md px-2 py-1.5 text-[12.5px]\">API contract update</li>\n    <li class=\"bg-[#24143008] rounded-md px-2 py-1.5 text-[12.5px]\">Empty state illustrations</li>\n    <li class=\"bg-[#24143008] rounded-md px-2 py-1.5 text-[12.5px]\">Migrate settings page</li>\n  </ul>\n</section>\n<style>\n.wip-tw__state--over { background: #E8A02030; color: #7a4b06; }\n.wip-tw__state--within { background: #A8E6C150; color: #1c5c34; }\n</style>",
+    "react": "export function WipColumn({\n  columnName = \"{{columnName}}\",\n  limit = {{limit}},\n  count = {{count}},\n  exceeded = {{exceeded}},\n  accent = \"{{accent}}\",\n}) {\n  const stateStyle = exceeded\n    ? { background: \"#E8A02030\", color: \"#7a4b06\" }\n    : { background: \"#A8E6C150\", color: \"#1c5c34\" };\n  return (\n    <section aria-labelledby=\"wip-heading\" style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 280, borderRadius: 10, borderTop: \"4px solid \" + accent, padding: 14,\n      boxShadow: \"0 4px 14px rgba(36,20,48,.1)\", boxSizing: \"border-box\" }}>\n      <header style={{ display: \"flex\", flexDirection: \"column\", gap: 6, marginBottom: 10 }}>\n        <h3 id=\"wip-heading\" style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>\n          {columnName} <span style={{ fontWeight: 600, color: \"#241430aa\" }}>({count}/{limit})</span>\n        </h3>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, fontSize: 12, fontWeight: 700,\n          padding: \"3px 8px\", borderRadius: 999, width: \"fit-content\", ...stateStyle }}>\n          {exceeded ? (\n            <>\n              <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\">\n                <path d=\"M8 1.5 L15 14.5 L1 14.5 Z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinejoin=\"round\" />\n                <line x1=\"8\" y1=\"6\" x2=\"8\" y2=\"10\" stroke=\"currentColor\" strokeWidth=\"1.4\" />\n                <circle cx=\"8\" cy=\"12.3\" r=\"0.9\" fill=\"currentColor\" />\n              </svg>\n              <span>Over limit</span>\n            </>\n          ) : (\n            <>\n              <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" aria-hidden=\"true\">\n                <path d=\"M3 8.5 L6.5 12 L13 4.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n              </svg>\n              <span>Within limit</span>\n            </>\n          )}\n        </span>\n      </header>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {[\"Design spec review\", \"API contract update\", \"Empty state illustrations\", \"Migrate settings page\"].map((item) => (\n          <li key={item} style={{ background: \"#24143008\", borderRadius: 6, padding: \"6px 8px\", fontSize: 12.5 }}>{item}</li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  }
+}

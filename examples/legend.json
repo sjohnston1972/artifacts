@@ -1,0 +1,51 @@
+{
+  "slug": "legend",
+  "controls_schema": [
+    {
+      "id": "seriesCount",
+      "type": "select",
+      "label": "Series shown",
+      "default": "3",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "vertical",
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Series A colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showValues",
+      "type": "toggle",
+      "label": "Show values",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<ul class=\"legend legend--{{layout}} legend--count-{{seriesCount}}\">\n    <li class=\"legend__item legend__item--1\">\n      <span class=\"legend__swatch\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n      <span class=\"legend__label\">Series A{{#if showValues}} &mdash; 42%{{/if}}</span>\n    </li>\n    <li class=\"legend__item legend__item--2\">\n      <span class=\"legend__swatch\" style=\"background:#F5C2E0;background-image:repeating-linear-gradient(45deg,#241430 0 2px,transparent 2px 5px);\" aria-hidden=\"true\"></span>\n      <span class=\"legend__label\">Series B{{#if showValues}} &mdash; 28%{{/if}}</span>\n    </li>\n    <li class=\"legend__item legend__item--3\">\n      <span class=\"legend__swatch\" style=\"background:#BFD9F2;background-image:radial-gradient(#241430 1px,transparent 1px);background-size:5px 5px;\" aria-hidden=\"true\"></span>\n      <span class=\"legend__label\">Series C{{#if showValues}} &mdash; 18%{{/if}}</span>\n    </li>\n    <li class=\"legend__item legend__item--4\">\n      <span class=\"legend__swatch\" style=\"background:#E8A020;background-image:repeating-linear-gradient(0deg,#241430 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,#241430 0 1px,transparent 1px 4px);\" aria-hidden=\"true\"></span>\n      <span class=\"legend__label\">Series D{{#if showValues}} &mdash; 12%{{/if}}</span>\n    </li>\n</ul>\n<style>\n.legend { list-style: none; margin: 0; padding: 0; font: 14px/1.4 system-ui, sans-serif; color: #241430; display: flex; gap: 14px; }\n.legend--vertical { flex-direction: column; gap: 8px; }\n.legend--horizontal { flex-direction: row; flex-wrap: wrap; }\n.legend__item { display: flex; align-items: center; gap: 8px; }\n.legend__swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid #24143033; }\n.legend--count-2 .legend__item:nth-child(n+3) { display: none; }\n.legend--count-3 .legend__item:nth-child(n+4) { display: none; }\n</style>",
+    "tailwind": "<ul class=\"legend-tw legend-tw--{{layout}} legend-tw--count-{{seriesCount}} list-none m-0 p-0 font-sans text-sm text-[#241430] flex gap-3.5\">\n    <li class=\"legend-tw__item legend-tw__item--1 flex items-center gap-2\">\n      <span class=\"w-3.5 h-3.5 rounded border border-[#24143033]\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n      <span>Series A{{#if showValues}} &mdash; 42%{{/if}}</span>\n    </li>\n    <li class=\"legend-tw__item legend-tw__item--2 flex items-center gap-2\">\n      <span class=\"w-3.5 h-3.5 rounded border border-[#24143033]\" style=\"background:#F5C2E0;background-image:repeating-linear-gradient(45deg,#241430 0 2px,transparent 2px 5px);\" aria-hidden=\"true\"></span>\n      <span>Series B{{#if showValues}} &mdash; 28%{{/if}}</span>\n    </li>\n    <li class=\"legend-tw__item legend-tw__item--3 flex items-center gap-2\">\n      <span class=\"w-3.5 h-3.5 rounded border border-[#24143033]\" style=\"background:#BFD9F2;background-image:radial-gradient(#241430 1px,transparent 1px);background-size:5px 5px;\" aria-hidden=\"true\"></span>\n      <span>Series C{{#if showValues}} &mdash; 18%{{/if}}</span>\n    </li>\n    <li class=\"legend-tw__item legend-tw__item--4 flex items-center gap-2\">\n      <span class=\"w-3.5 h-3.5 rounded border border-[#24143033]\" style=\"background:#E8A020;background-image:repeating-linear-gradient(0deg,#241430 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,#241430 0 1px,transparent 1px 4px);\" aria-hidden=\"true\"></span>\n      <span>Series D{{#if showValues}} &mdash; 12%{{/if}}</span>\n    </li>\n</ul>\n<style>\n.legend-tw--vertical { flex-direction: column; gap: 8px; }\n.legend-tw--horizontal { flex-direction: row; flex-wrap: wrap; }\n.legend-tw--count-2 .legend-tw__item:nth-child(n+3) { display: none; }\n.legend-tw--count-3 .legend-tw__item:nth-child(n+4) { display: none; }\n</style>",
+    "react": "export function Legend({\n  seriesCount = \"{{seriesCount}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showValues = {{showValues}},\n}) {\n  const series = [{\"name\":\"Series A\",\"value\":\"42%\",\"pattern\":\"solid\"},{\"name\":\"Series B\",\"value\":\"28%\",\"pattern\":\"stripes\"},{\"name\":\"Series C\",\"value\":\"18%\",\"pattern\":\"dots\"},{\"name\":\"Series D\",\"value\":\"12%\",\"pattern\":\"cross\"}];\n  const fixedColors = [\"\", \"#F5C2E0\", \"#BFD9F2\", \"#E8A020\"];\n  const patternStyle = (i) => {\n    if (i === 0) return { background: accent };\n    if (i === 1) return { background: fixedColors[1], backgroundImage: \"repeating-linear-gradient(45deg,#241430 0 2px,transparent 2px 5px)\" };\n    if (i === 2) return { background: fixedColors[2], backgroundImage: \"radial-gradient(#241430 1px,transparent 1px)\", backgroundSize: \"5px 5px\" };\n    return {\n      background: fixedColors[3],\n      backgroundImage: \"repeating-linear-gradient(0deg,#241430 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,#241430 0 1px,transparent 1px 4px)\",\n    };\n  };\n  const count = Number(seriesCount);\n  const visible = series.slice(0, count);\n  return (\n    <ul style={{\n      listStyle: \"none\", margin: 0, padding: 0, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\",\n      display: \"flex\", flexDirection: layout === \"vertical\" ? \"column\" : \"row\",\n      flexWrap: layout === \"horizontal\" ? \"wrap\" : \"nowrap\", gap: layout === \"vertical\" ? 8 : 14,\n    }}>\n      {visible.map((s, i) => (\n        <li key={s.name} style={{ display: \"flex\", alignItems: \"center\", gap: 8 }}>\n          <span aria-hidden=\"true\" style={{ width: 14, height: 14, borderRadius: 3, border: \"1px solid #24143033\", ...patternStyle(i) }} />\n          <span>{s.name}{showValues && ` \\u2014 ${s.value}`}</span>\n        </li>\n      ))}\n    </ul>\n  );\n}"
+  }
+}

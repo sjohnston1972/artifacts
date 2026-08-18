@@ -1,0 +1,51 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Milestone name",
+      "default": "Beta launch"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Target date",
+      "default": "14 Sep 2026"
+    },
+    {
+      "id": "progress",
+      "type": "number",
+      "label": "Position on timeline",
+      "default": 62,
+      "min": 4,
+      "max": 96,
+      "step": 2
+    },
+    {
+      "id": "reached",
+      "type": "toggle",
+      "label": "Reached",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"milestone\" aria-label=\"Milestone: {{name}}, {{date}}\">\n  <svg class=\"milestone__track\" viewBox=\"0 0 100 20\" preserveAspectRatio=\"none\" width=\"100%\" height=\"20\" aria-hidden=\"true\">\n    <line x1=\"2\" y1=\"10\" x2=\"98\" y2=\"10\" stroke=\"#24143033\" stroke-width=\"2\"></line>\n    <circle class=\"milestone__marker\" cx=\"{{progress}}\" cy=\"10\" r=\"5\" fill=\"{{accent}}\" stroke=\"#241430\" stroke-width=\"1\"></circle>\n  </svg>\n  <figcaption class=\"milestone__caption\">\n    <h3 class=\"milestone__name\">{{name}}</h3>\n    <p class=\"milestone__date\">{{date}}</p>\n    {{#if reached}}<span class=\"milestone__state milestone__state--reached\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg>Reached</span>{{/if}}\n    {{#unless reached}}<span class=\"milestone__state milestone__state--upcoming\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M4 14V2\"></path><path d=\"M4 3h8l-2 2.5L12 8H4\"></path></svg>Upcoming</span>{{/unless}}\n  </figcaption>\n</figure>\n<style>\n.milestone { margin: 0; max-width: 480px; padding: 18px 20px; border-radius: 12px; background: #FAF7F2; border: 1px solid #24143022; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.milestone__track { display: block; width: 100%; margin-bottom: 14px; }\n.milestone__caption { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }\n.milestone__name { margin: 0; font-size: 15px; font-weight: 700; flex-basis: 100%; }\n.milestone__date { margin: 0; font-size: 13px; color: #241430b3; }\n.milestone__state { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; font: 600 12px/1 system-ui, sans-serif; padding: 4px 9px; border-radius: 999px; }\n.milestone__state--upcoming { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.milestone__state--reached { background: color-mix(in srgb, #A8E6C1 45%, #FAF7F2); color: #205c37; }\n</style>",
+    "tailwind": "<figure aria-label=\"Milestone: {{name}}, {{date}}\" class=\"m-0 max-w-[480px] p-4.5 rounded-xl bg-[#FAF7F2] border border-[#24143022] box-border font-sans text-sm text-[#241430]\">\n  <svg class=\"block w-full mb-3.5\" viewBox=\"0 0 100 20\" preserveAspectRatio=\"none\" width=\"100%\" height=\"20\" aria-hidden=\"true\">\n    <line x1=\"2\" y1=\"10\" x2=\"98\" y2=\"10\" stroke=\"#24143033\" stroke-width=\"2\"></line>\n    <circle cx=\"{{progress}}\" cy=\"10\" r=\"5\" fill=\"{{accent}}\" stroke=\"#241430\" stroke-width=\"1\"></circle>\n  </svg>\n  <figcaption class=\"flex flex-wrap items-center gap-x-3 gap-y-1\">\n    <h3 class=\"basis-full m-0 text-[15px] font-bold\">{{name}}</h3>\n    <p class=\"m-0 text-[13px] text-[#241430]/70\">{{date}}</p>\n    {{#if reached}}<span class=\"ml-auto inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-[#A8E6C1]/45 text-[#205c37]\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg>Reached</span>{{/if}}\n    {{#unless reached}}<span class=\"ml-auto inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-[#D9C8F0]/45 text-[#4a3a68]\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M4 14V2\"></path><path d=\"M4 3h8l-2 2.5L12 8H4\"></path></svg>Upcoming</span>{{/unless}}\n  </figcaption>\n</figure>",
+    "react": "export function Milestone({\n  name = \"{{name}}\",\n  date = \"{{date}}\",\n  progress = {{progress}},\n  reached = {{reached}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <figure aria-label={\"Milestone: \" + name + \", \" + date} style={{ margin: 0, maxWidth: 480, padding: \"18px 20px\", borderRadius: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <svg style={{ display: \"block\", width: \"100%\", marginBottom: 14 }} viewBox=\"0 0 100 20\" preserveAspectRatio=\"none\" width=\"100%\" height=\"20\" aria-hidden=\"true\">\n        <line x1=\"2\" y1=\"10\" x2=\"98\" y2=\"10\" stroke=\"#24143033\" strokeWidth=\"2\" />\n        <circle cx={progress} cy=\"10\" r=\"5\" fill={accent} stroke=\"#241430\" strokeWidth=\"1\" />\n      </svg>\n      <figcaption style={{ display: \"flex\", flexWrap: \"wrap\", alignItems: \"center\", gap: \"4px 12px\" }}>\n        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, flexBasis: \"100%\" }}>{name}</h3>\n        <p style={{ margin: 0, fontSize: 13, color: \"#241430b3\" }}>{date}</p>\n        {reached ? (\n          <span style={{ marginLeft: \"auto\", display: \"inline-flex\", alignItems: \"center\", gap: 5, fontSize: 12, fontWeight: 600, padding: \"4px 9px\", borderRadius: 999, background: \"color-mix(in srgb, #A8E6C1 45%, #FAF7F2)\", color: \"#205c37\" }}>\n            <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\" /><path d=\"M5.3 8.2 7 9.9l3.6-4\" /></svg>\n            Reached\n          </span>\n        ) : (\n          <span style={{ marginLeft: \"auto\", display: \"inline-flex\", alignItems: \"center\", gap: 5, fontSize: 12, fontWeight: 600, padding: \"4px 9px\", borderRadius: 999, background: \"color-mix(in srgb, #D9C8F0 45%, #FAF7F2)\", color: \"#4a3a68\" }}>\n            <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><path d=\"M4 14V2\" /><path d=\"M4 3h8l-2 2.5L12 8H4\" /></svg>\n            Upcoming\n          </span>\n        )}\n      </figcaption>\n    </figure>\n  );\n}"
+  },
+  "slug": "milestone"
+}

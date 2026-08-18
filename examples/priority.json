@@ -1,0 +1,43 @@
+{
+  "controls_schema": [
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Priority level",
+      "default": "high",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ]
+    },
+    {
+      "id": "context",
+      "type": "text",
+      "label": "Applies to",
+      "default": "Fix checkout crash on iOS Safari"
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Font size",
+      "default": 13,
+      "min": 11,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "id": "showLabel",
+      "type": "toggle",
+      "label": "Show text label",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"priority priority--{{level}}\" style=\"font-size:{{size}}px;\" aria-label=\"Priority for {{context}}: {{level}}\">\n  <span class=\"priority__icon priority__icon--low\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M8 3v9M4 9l4 4 4-4\"></path></svg></span>\n  <span class=\"priority__icon priority__icon--medium\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M3 6.5h10M3 9.5h10\"></path></svg></span>\n  <span class=\"priority__icon priority__icon--high\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M8 13V4M4 8l4-4 4 4\"></path></svg></span>\n  <span class=\"priority__icon priority__icon--urgent\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M8 2 1.3 14h13.4L8 2z\"></path><path d=\"M8 6.6v3.2\"></path><circle cx=\"8\" cy=\"11.4\" r=\".9\" fill=\"currentColor\" stroke=\"none\"></circle></svg></span>\n  {{#if showLabel}}<span class=\"priority__label\">{{level}}</span>{{/if}}\n  <span class=\"priority__context\">{{context}}</span>\n</div>\n<style>\n.priority { display: flex; align-items: center; gap: 8px; max-width: 480px; padding: 8px 12px; border-radius: 10px; font: 1em/1.3 system-ui, sans-serif; color: #241430; box-sizing: border-box; }\n.priority__icon { display: none; flex-shrink: 0; }\n.priority--low .priority__icon--low, .priority--medium .priority__icon--medium, .priority--high .priority__icon--high, .priority--urgent .priority__icon--urgent { display: inline-flex; }\n.priority--low { background: color-mix(in srgb, #A8E6C1 35%, #FAF7F2); }\n.priority--low .priority__icon, .priority--low .priority__label { color: #205c37; }\n.priority--medium { background: color-mix(in srgb, #BFD9F2 35%, #FAF7F2); }\n.priority--medium .priority__icon, .priority--medium .priority__label { color: #1f4266; }\n.priority--high { background: color-mix(in srgb, #E8A020 25%, #FAF7F2); }\n.priority--high .priority__icon, .priority--high .priority__label { color: #7a5410; }\n.priority--urgent { background: #241430; }\n.priority--urgent .priority__icon, .priority--urgent .priority__label, .priority--urgent .priority__context { color: #FAF7F2; }\n.priority__label { font-weight: 700; text-transform: capitalize; flex-shrink: 0; }\n.priority__context { font-weight: 500; color: #241430cc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n</style>",
+    "tailwind": "<div aria-label=\"Priority for {{context}}: {{level}}\" class=\"priority-tw priority-tw--{{level}} flex items-center gap-2 max-w-[480px] px-3 py-2 rounded-[10px] font-sans text-[#241430] box-border\" style=\"font-size:{{size}}px;\">\n  <span class=\"priority-tw__icon priority-tw__icon--low flex-shrink-0\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M8 3v9M4 9l4 4 4-4\"></path></svg></span>\n  <span class=\"priority-tw__icon priority-tw__icon--medium flex-shrink-0\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M3 6.5h10M3 9.5h10\"></path></svg></span>\n  <span class=\"priority-tw__icon priority-tw__icon--high flex-shrink-0\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M8 13V4M4 8l4-4 4 4\"></path></svg></span>\n  <span class=\"priority-tw__icon priority-tw__icon--urgent flex-shrink-0\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M8 2 1.3 14h13.4L8 2z\"></path><path d=\"M8 6.6v3.2\"></path><circle cx=\"8\" cy=\"11.4\" r=\".9\" fill=\"currentColor\" stroke=\"none\"></circle></svg></span>\n  {{#if showLabel}}<span class=\"priority-tw__label font-bold capitalize flex-shrink-0\">{{level}}</span>{{/if}}\n  <span class=\"priority-tw__context font-medium overflow-hidden text-ellipsis whitespace-nowrap\">{{context}}</span>\n</div>\n<style>\n.priority-tw__icon { display: none; }\n.priority-tw--low .priority-tw__icon--low, .priority-tw--medium .priority-tw__icon--medium, .priority-tw--high .priority-tw__icon--high, .priority-tw--urgent .priority-tw__icon--urgent { display: inline-flex; }\n.priority-tw--low { background: color-mix(in srgb, #A8E6C1 35%, #FAF7F2); }\n.priority-tw--low .priority-tw__icon, .priority-tw--low .priority-tw__label { color: #205c37; }\n.priority-tw--medium { background: color-mix(in srgb, #BFD9F2 35%, #FAF7F2); }\n.priority-tw--medium .priority-tw__icon, .priority-tw--medium .priority-tw__label { color: #1f4266; }\n.priority-tw--high { background: color-mix(in srgb, #E8A020 25%, #FAF7F2); }\n.priority-tw--high .priority-tw__icon, .priority-tw--high .priority-tw__label { color: #7a5410; }\n.priority-tw--urgent { background: #241430; }\n.priority-tw--urgent .priority-tw__icon, .priority-tw--urgent .priority-tw__label, .priority-tw--urgent .priority-tw__context { color: #FAF7F2; }\n</style>",
+    "react": "export function Priority({\n  level = \"{{level}}\",\n  context = \"{{context}}\",\n  size = {{size}},\n  showLabel = {{showLabel}},\n}) {\n  const palette = {\n    low: { background: \"color-mix(in srgb, #A8E6C1 35%, #FAF7F2)\", color: \"#205c37\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\"><path d=\"M8 3v9M4 9l4 4 4-4\" /></svg> },\n    medium: { background: \"color-mix(in srgb, #BFD9F2 35%, #FAF7F2)\", color: \"#1f4266\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\"><path d=\"M3 6.5h10M3 9.5h10\" /></svg> },\n    high: { background: \"color-mix(in srgb, #E8A020 25%, #FAF7F2)\", color: \"#7a5410\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\"><path d=\"M8 13V4M4 8l4-4 4 4\" /></svg> },\n    urgent: { background: \"#241430\", color: \"#FAF7F2\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><path d=\"M8 2 1.3 14h13.4L8 2z\" /><path d=\"M8 6.6v3.2\" /><circle cx=\"8\" cy=\"11.4\" r=\".9\" fill=\"currentColor\" stroke=\"none\" /></svg> },\n  }[level] ?? {};\n  return (\n    <div aria-label={\"Priority for \" + context + \": \" + level} style={{ display: \"flex\", alignItems: \"center\", gap: 8, maxWidth: 480, padding: \"8px 12px\", borderRadius: 10, font: (size + \"px/1.3 system-ui, sans-serif\"), color: palette.color, background: palette.background, boxSizing: \"border-box\" }}>\n      {palette.icon}\n      {showLabel && <span style={{ fontWeight: 700, textTransform: \"capitalize\", flexShrink: 0 }}>{level}</span>}\n      <span style={{ fontWeight: 500, opacity: 0.85, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{context}</span>\n    </div>\n  );\n}"
+  },
+  "slug": "priority"
+}

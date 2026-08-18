@@ -1,0 +1,63 @@
+{
+  "controls_schema": [
+    {
+      "id": "stage",
+      "type": "select",
+      "label": "Stage name",
+      "default": "In progress",
+      "options": [
+        "To do",
+        "In progress",
+        "Done"
+      ]
+    },
+    {
+      "id": "cardsShown",
+      "type": "number",
+      "label": "Cards shown",
+      "default": 3,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "wipLimit",
+      "type": "number",
+      "label": "WIP limit",
+      "default": 5,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"kanban-col kanban-col--{{density}}\" aria-labelledby=\"kanban-col-heading\" style=\"--accent:{{accent}};\">\n  <header class=\"kanban-col__head\">\n    <span class=\"kanban-col__bar\" aria-hidden=\"true\"></span>\n    <h3 id=\"kanban-col-heading\" class=\"kanban-col__title\">{{stage}}</h3>\n    <span class=\"kanban-col__count\">{{cardsShown}} / {{wipLimit}}</span>\n  </header>\n  <ul class=\"kanban-col__list\" data-count=\"{{cardsShown}}\">\n    <li class=\"kanban-col__card\" draggable=\"true\">\n      <p class=\"kanban-col__card-title\">Redesign onboarding checklist</p>\n      <div class=\"kanban-col__card-meta\">\n        <span class=\"kanban-col__avatar\">RO</span>\n        <label class=\"kanban-col__move-label\">\n          <span class=\"sr-only\">Move &quot;Redesign onboarding checklist&quot; to</span>\n          <select class=\"kanban-col__move\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n    <li class=\"kanban-col__card\" draggable=\"true\">\n      <p class=\"kanban-col__card-title\">Fix pagination on reports table</p>\n      <div class=\"kanban-col__card-meta\">\n        <span class=\"kanban-col__avatar\">MI</span>\n        <label class=\"kanban-col__move-label\">\n          <span class=\"sr-only\">Move &quot;Fix pagination on reports table&quot; to</span>\n          <select class=\"kanban-col__move\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n    <li class=\"kanban-col__card\" draggable=\"true\">\n      <p class=\"kanban-col__card-title\">Write release notes for v2.4</p>\n      <div class=\"kanban-col__card-meta\">\n        <span class=\"kanban-col__avatar\">SN</span>\n        <label class=\"kanban-col__move-label\">\n          <span class=\"sr-only\">Move &quot;Write release notes for v2.4&quot; to</span>\n          <select class=\"kanban-col__move\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n  </ul>\n</section>\n<style>\n.kanban-col { max-width: 300px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; overflow: hidden; }\n.kanban-col__head { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid #24143018; }\n.kanban-col__bar { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }\n.kanban-col__title { margin: 0; font-size: 14px; font-weight: 700; flex: 1; }\n.kanban-col__count { font: 600 12px/1 system-ui, sans-serif; color: #241430; background: #24143012; padding: 3px 8px; border-radius: 999px; }\n.kanban-col__list { list-style: none; margin: 0; padding: 10px; display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto; }\n.kanban-col__list[data-count=\"1\"] li:nth-child(n+2) { display: none; }\n.kanban-col__list[data-count=\"2\"] li:nth-child(n+3) { display: none; }\n.kanban-col__card { background: #FAF7F2; border: 1px solid #24143022; border-radius: 9px; padding: 10px 12px; box-shadow: 0 1px 2px rgba(36,20,48,.06); }\n.kanban-col--compact .kanban-col__list { gap: 6px; padding: 8px; }\n.kanban-col--compact .kanban-col__card { padding: 7px 10px; }\n.kanban-col__card-title { margin: 0 0 8px; font-size: 13px; font-weight: 600; }\n.kanban-col--compact .kanban-col__card-title { margin-bottom: 4px; font-size: 12.5px; }\n.kanban-col__card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }\n.kanban-col__avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #241430; font: 700 10px/22px system-ui, sans-serif; text-align: center; }\n.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.kanban-col__move { font: 500 11px system-ui, sans-serif; padding: 3px 5px; border-radius: 6px; border: 1px solid #24143033; background: #FAF7F2; color: #241430; }\n.kanban-col__move:focus-visible { outline: 2px solid #241430; outline-offset: 1px; }\n</style>",
+    "tailwind": "<section aria-labelledby=\"kanban-col-heading-tw\" class=\"kanban-col-tw kanban-col-tw--{{density}} max-w-[300px] bg-[#FAF7F2] border border-[#24143022] rounded-xl box-border font-sans text-sm text-[#241430] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <header class=\"flex items-center gap-2 px-3.5 py-3 border-b border-[#24143018]\">\n    <span class=\"w-2 h-2 rounded-full flex-shrink-0\" style=\"background:{{accent}}\" aria-hidden=\"true\"></span>\n    <h3 id=\"kanban-col-heading-tw\" class=\"m-0 text-sm font-bold flex-1\">{{stage}}</h3>\n    <span class=\"text-xs font-semibold bg-[#24143012] px-2 py-0.5 rounded-full\">{{cardsShown}} / {{wipLimit}}</span>\n  </header>\n  <ul class=\"kanban-col-tw__list list-none m-0 p-2.5 flex flex-col gap-2.5 max-h-[320px] overflow-y-auto\" data-count=\"{{cardsShown}}\">\n    <li class=\"kanban-col-tw__card bg-[#FAF7F2] border border-[#24143022] rounded-lg shadow-sm\" draggable=\"true\">\n      <p class=\"kanban-col-tw__card-title m-0 mb-2 text-[13px] font-semibold\">Redesign onboarding checklist</p>\n      <div class=\"flex items-center justify-between gap-2\">\n        <span class=\"w-[22px] h-[22px] rounded-full text-[10px] font-bold text-center leading-[22px]\" style=\"background:{{accent}}\">RO</span>\n        <label>\n          <span class=\"sr-only\">Move &quot;Redesign onboarding checklist&quot; to</span>\n          <select class=\"text-[11px] font-medium px-1.5 py-0.5 rounded-md border border-[#24143033] bg-[#FAF7F2]\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n    <li class=\"kanban-col-tw__card bg-[#FAF7F2] border border-[#24143022] rounded-lg shadow-sm\" draggable=\"true\">\n      <p class=\"kanban-col-tw__card-title m-0 mb-2 text-[13px] font-semibold\">Fix pagination on reports table</p>\n      <div class=\"flex items-center justify-between gap-2\">\n        <span class=\"w-[22px] h-[22px] rounded-full text-[10px] font-bold text-center leading-[22px]\" style=\"background:{{accent}}\">MI</span>\n        <label>\n          <span class=\"sr-only\">Move &quot;Fix pagination on reports table&quot; to</span>\n          <select class=\"text-[11px] font-medium px-1.5 py-0.5 rounded-md border border-[#24143033] bg-[#FAF7F2]\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n    <li class=\"kanban-col-tw__card bg-[#FAF7F2] border border-[#24143022] rounded-lg shadow-sm\" draggable=\"true\">\n      <p class=\"kanban-col-tw__card-title m-0 mb-2 text-[13px] font-semibold\">Write release notes for v2.4</p>\n      <div class=\"flex items-center justify-between gap-2\">\n        <span class=\"w-[22px] h-[22px] rounded-full text-[10px] font-bold text-center leading-[22px]\" style=\"background:{{accent}}\">SN</span>\n        <label>\n          <span class=\"sr-only\">Move &quot;Write release notes for v2.4&quot; to</span>\n          <select class=\"text-[11px] font-medium px-1.5 py-0.5 rounded-md border border-[#24143033] bg-[#FAF7F2]\"><option>To do</option><option selected>In progress</option><option>Done</option></select>\n        </label>\n      </div>\n    </li>\n  </ul>\n</section>\n<style>\n.kanban-col-tw__list[data-count=\"1\"] li:nth-child(n+2) { display: none; }\n.kanban-col-tw__list[data-count=\"2\"] li:nth-child(n+3) { display: none; }\n.kanban-col-tw--compact .kanban-col-tw__list { gap: 6px; padding: 8px; }\n.kanban-col-tw--compact .kanban-col-tw__card { padding: 7px 10px; }\n.kanban-col-tw--comfortable .kanban-col-tw__card { padding: 10px 12px; }\n.kanban-col-tw--compact .kanban-col-tw__card-title { margin-bottom: 4px; font-size: 12.5px; }\n.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n</style>",
+    "react": "export function KanbanColumn({\n  stage = \"{{stage}}\",\n  cardsShown = {{cardsShown}},\n  wipLimit = {{wipLimit}},\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const cards = [\n    { title: \"Redesign onboarding checklist\", initials: \"RO\" },\n    { title: \"Fix pagination on reports table\", initials: \"MI\" },\n    { title: \"Write release notes for v2.4\", initials: \"SN\" },\n  ].slice(0, cardsShown);\n  const compact = density === \"compact\";\n  return (\n    <section aria-labelledby=\"kanban-col-heading-react\" style={{ maxWidth: 300, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", overflow: \"hidden\" }}>\n      <header style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"12px 14px\", borderBottom: \"1px solid #24143018\" }}>\n        <span aria-hidden=\"true\" style={{ width: 8, height: 8, borderRadius: \"50%\", background: accent, flexShrink: 0 }} />\n        <h3 id=\"kanban-col-heading-react\" style={{ margin: 0, fontSize: 14, fontWeight: 700, flex: 1 }}>{stage}</h3>\n        <span style={{ font: \"600 12px/1 system-ui, sans-serif\", background: \"#24143012\", padding: \"3px 8px\", borderRadius: 999 }}>{cardsShown} / {wipLimit}</span>\n      </header>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: compact ? 8 : 10, display: \"flex\", flexDirection: \"column\", gap: compact ? 6 : 10, maxHeight: 320, overflowY: \"auto\" }}>\n        {cards.map((card) => (\n          <li key={card.title} draggable style={{ background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 9, padding: compact ? \"7px 10px\" : \"10px 12px\", boxShadow: \"0 1px 2px rgba(36,20,48,.06)\" }}>\n            <p style={{ margin: compact ? \"0 0 4px\" : \"0 0 8px\", fontSize: compact ? 12.5 : 13, fontWeight: 600 }}>{card.title}</p>\n            <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8 }}>\n              <span style={{ width: 22, height: 22, borderRadius: \"50%\", background: accent, color: \"#241430\", font: \"700 10px/22px system-ui, sans-serif\", textAlign: \"center\" }}>{card.initials}</span>\n              <label>\n                <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0,0,0,0)\" }}>{\"Move \" + card.title + \" to\"}</span>\n                <select style={{ font: \"500 11px system-ui, sans-serif\", padding: \"3px 5px\", borderRadius: 6, border: \"1px solid #24143033\", background: \"#FAF7F2\", color: \"#241430\" }} defaultValue={stage}>\n                  <option>To do</option>\n                  <option>In progress</option>\n                  <option>Done</option>\n                </select>\n              </label>\n            </div>\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  },
+  "slug": "kanban-column"
+}

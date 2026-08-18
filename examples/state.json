@@ -1,0 +1,57 @@
+{
+  "slug": "state",
+  "controls_schema": [
+    {
+      "id": "entity",
+      "type": "text",
+      "label": "Entity",
+      "default": "Invoice #4021"
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "in review",
+      "options": [
+        "draft",
+        "in review",
+        "approved",
+        "rejected"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Font size",
+      "default": 14,
+      "min": 12,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "id": "showIcon",
+      "type": "toggle",
+      "label": "Show icon",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"state-card\" data-state=\"{{state}}\" style=\"font-size:{{size}}px;\">\n  <span class=\"state-card__accent\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n  <div class=\"state-card__text\">\n    <p class=\"state-card__entity\">{{entity}}</p>\n    <span class=\"state-card__state\">\n      {{#if showIcon}}\n      <svg class=\"state-card__icon state-card__icon--draft\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 17l1-4 9-9 3 3-9 9-4 1z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"state-card__icon state-card__icon--in-review\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><ellipse cx=\"10\" cy=\"10\" rx=\"8\" ry=\"5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"10\" r=\"2.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg>\n      <svg class=\"state-card__icon state-card__icon--approved\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"state-card__icon state-card__icon--rejected\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg>\n      {{/if}}\n      {{state}}\n    </span>\n  </div>\n</div>\n<style>\n.state-card { display: flex; align-items: center; gap: 12px; width: 280px; padding: 14px 16px; background: #FAF7F2; color: #241430; font-family: system-ui, sans-serif; border-radius: 12px; box-shadow: 0 6px 18px rgba(36,20,48,.1); box-sizing: border-box; }\n.state-card__accent { width: 4px; align-self: stretch; border-radius: 2px; }\n.state-card__entity { margin: 0 0 4px; font-weight: 700; font-size: .9em; }\n.state-card__state { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: .78em; text-transform: capitalize; }\n.state-card__icon { width: 12px; height: 12px; display: none; }\n.state-card[data-state=\"draft\"] .state-card__icon--draft { display: block; }\n.state-card[data-state=\"in review\"] .state-card__icon--in-review { display: block; }\n.state-card[data-state=\"approved\"] .state-card__icon--approved { display: block; }\n.state-card[data-state=\"rejected\"] .state-card__icon--rejected { display: block; }\n.state-card[data-state=\"draft\"] .state-card__state { background: #BFD9F2; color: #12385E; }\n.state-card[data-state=\"in review\"] .state-card__state { background: #E8A020; color: #4A2E00; }\n.state-card[data-state=\"approved\"] .state-card__state { background: #A8E6C1; color: #17532F; }\n.state-card[data-state=\"rejected\"] .state-card__state { background: #F5C2E0; color: #7A1440; }\n</style>",
+    "tailwind": "<div class=\"state-card-tw flex items-center gap-3 w-72 px-4 py-3.5 bg-[#FAF7F2] text-[#241430] font-sans rounded-xl shadow box-border\" data-state=\"{{state}}\" style=\"font-size:{{size}}px;\">\n  <span class=\"self-stretch w-1 rounded-sm\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n  <div>\n    <p class=\"m-0 mb-1 font-bold\" style=\"font-size:0.9em;\">{{entity}}</p>\n    <span class=\"state-card-tw__state inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold capitalize\" style=\"font-size:0.78em;\">\n      {{#if showIcon}}\n      <svg class=\"state-card-tw__icon state-card-tw__icon--draft w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 17l1-4 9-9 3 3-9 9-4 1z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"state-card-tw__icon state-card-tw__icon--in-review w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><ellipse cx=\"10\" cy=\"10\" rx=\"8\" ry=\"5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><circle cx=\"10\" cy=\"10\" r=\"2.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg>\n      <svg class=\"state-card-tw__icon state-card-tw__icon--approved w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"state-card-tw__icon state-card-tw__icon--rejected w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg>\n      {{/if}}\n      {{state}}\n    </span>\n  </div>\n</div>\n<style>\n.state-card-tw__icon { display: none; }\n.state-card-tw[data-state=\"draft\"] .state-card-tw__icon--draft { display: block; }\n.state-card-tw[data-state=\"in review\"] .state-card-tw__icon--in-review { display: block; }\n.state-card-tw[data-state=\"approved\"] .state-card-tw__icon--approved { display: block; }\n.state-card-tw[data-state=\"rejected\"] .state-card-tw__icon--rejected { display: block; }\n.state-card-tw[data-state=\"draft\"] .state-card-tw__state { background: #BFD9F2; color: #12385E; }\n.state-card-tw[data-state=\"in review\"] .state-card-tw__state { background: #E8A020; color: #4A2E00; }\n.state-card-tw[data-state=\"approved\"] .state-card-tw__state { background: #A8E6C1; color: #17532F; }\n.state-card-tw[data-state=\"rejected\"] .state-card-tw__state { background: #F5C2E0; color: #7A1440; }\n</style>",
+    "react": "export function State({\n  entity = \"{{entity}}\",\n  state = \"{{state}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n  showIcon = {{showIcon}},\n}) {\n  const palette = {\n    draft: { background: \"#BFD9F2\", color: \"#12385E\" },\n    \"in review\": { background: \"#E8A020\", color: \"#4A2E00\" },\n    approved: { background: \"#A8E6C1\", color: \"#17532F\" },\n    rejected: { background: \"#F5C2E0\", color: \"#7A1440\" },\n  }[state] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 12, width: 280, padding: \"14px 16px\",\n      background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\", fontSize: size,\n      borderRadius: 12, boxShadow: \"0 6px 18px rgba(36,20,48,.1)\", boxSizing: \"border-box\" }}>\n      <span aria-hidden=\"true\" style={{ alignSelf: \"stretch\", width: 4, borderRadius: 2, background: accent }} />\n      <div>\n        <p style={{ margin: \"0 0 4px\", fontWeight: 700, fontSize: \"0.9em\" }}>{entity}</p>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, padding: \"3px 10px\", borderRadius: 999,\n          fontWeight: 700, fontSize: \"0.78em\", textTransform: \"capitalize\", ...palette }}>\n          {showIcon && state === \"draft\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 17l1-4 9-9 3 3-9 9-4 1z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinejoin=\"round\" /></svg>\n          )}\n          {showIcon && state === \"in review\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><ellipse cx=\"10\" cy=\"10\" rx=\"8\" ry=\"5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" /><circle cx=\"10\" cy=\"10\" r=\"2.2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" /></svg>\n          )}\n          {showIcon && state === \"approved\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n          )}\n          {showIcon && state === \"rejected\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" /><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinecap=\"round\" /></svg>\n          )}\n          {state}\n        </span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

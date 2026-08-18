@@ -1,0 +1,51 @@
+{
+  "slug": "row-header",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Team directory"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "stickyFirstCol",
+      "type": "toggle",
+      "label": "Sticky row headers",
+      "default": false
+    },
+    {
+      "id": "headerWidth",
+      "type": "number",
+      "label": "Row header width (px)",
+      "default": 110,
+      "min": 80,
+      "max": 160,
+      "step": 20
+    },
+    {
+      "id": "boldNames",
+      "type": "toggle",
+      "label": "Bold row headers",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rhdr{{#if stickyFirstCol}} rhdr--sticky{{/if}}{{#if boldNames}} rhdr--bold{{/if}}\" style=\"--accent:{{accent}};\">\n  <div class=\"rhdr__scroll\">\n    <table class=\"rhdr__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr><th scope=\"col\" class=\"rhdr__corner\" style=\"width:{{headerWidth}}px;\">Name</th><th scope=\"col\">Role</th><th scope=\"col\">Status</th><th scope=\"col\">Joined</th></tr></thead>\n      <tbody>\n        <tr><th scope=\"row\" style=\"width:{{headerWidth}}px;\">A. Whitfield</th><td>Engineer</td><td>Active</td><td>2021</td></tr>\n        <tr><th scope=\"row\" style=\"width:{{headerWidth}}px;\">R. Okafor</th><td>Designer</td><td>Active</td><td>2019</td></tr>\n        <tr><th scope=\"row\" style=\"width:{{headerWidth}}px;\">M. Iqbal</th><td>Manager</td><td>Away</td><td>2017</td></tr>\n        <tr><th scope=\"row\" style=\"width:{{headerWidth}}px;\">S. Novak</th><td>Engineer</td><td>Active</td><td>2022</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.rhdr { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.rhdr__scroll { overflow-x: auto; }\n.rhdr__table { border-collapse: collapse; width: 100%; }\n.rhdr__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.rhdr__table th, .rhdr__table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.rhdr__table thead th { background: var(--accent); color: #FAF7F2; }\n.rhdr__table tbody th { background: #24143012; font-weight: 400; text-align: left; }\n.rhdr--bold .rhdr__table tbody th { font-weight: 700; }\n.rhdr--sticky .rhdr__corner, .rhdr--sticky tbody th { position: sticky; left: 0; z-index: 1; }\n.rhdr--sticky .rhdr__corner { z-index: 2; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"rhdr__corner p-3.5 text-left whitespace-nowrap{{#if stickyFirstCol}} sticky left-0 z-[2]{{/if}}\" style=\"width:{{headerWidth}}px;\">Name</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Role</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap\">Joined</th>\n      </tr></thead>\n      <tbody>\n        <tr><th scope=\"row\" class=\"bg-[#24143012] text-left p-3.5 border-b border-[#24143020] whitespace-nowrap{{#if boldNames}} font-bold{{/if}}{{#if stickyFirstCol}} sticky left-0{{/if}}\" style=\"width:{{headerWidth}}px;\">A. Whitfield</th><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Engineer</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Active</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">2021</td></tr>\n        <tr><th scope=\"row\" class=\"bg-[#24143012] text-left p-3.5 border-b border-[#24143020] whitespace-nowrap{{#if boldNames}} font-bold{{/if}}{{#if stickyFirstCol}} sticky left-0{{/if}}\" style=\"width:{{headerWidth}}px;\">R. Okafor</th><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Designer</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Active</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">2019</td></tr>\n        <tr><th scope=\"row\" class=\"bg-[#24143012] text-left p-3.5 border-b border-[#24143020] whitespace-nowrap{{#if boldNames}} font-bold{{/if}}{{#if stickyFirstCol}} sticky left-0{{/if}}\" style=\"width:{{headerWidth}}px;\">M. Iqbal</th><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Manager</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Away</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">2017</td></tr>\n        <tr><th scope=\"row\" class=\"bg-[#24143012] text-left p-3.5 border-b border-[#24143020] whitespace-nowrap{{#if boldNames}} font-bold{{/if}}{{#if stickyFirstCol}} sticky left-0{{/if}}\" style=\"width:{{headerWidth}}px;\">S. Novak</th><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Engineer</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">Active</td><td class=\"p-3.5 border-b border-[#24143020] whitespace-nowrap\">2022</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+    "react": "function RowHeader({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  stickyFirstCol = {{stickyFirstCol}},\n  headerWidth = {{headerWidth}},\n  boldNames = {{boldNames}},\n}) {\n  const rows = [\n    [\"A. Whitfield\", \"Engineer\", \"Active\", \"2021\"],\n    [\"R. Okafor\", \"Designer\", \"Active\", \"2019\"],\n    [\"M. Iqbal\", \"Manager\", \"Away\", \"2017\"],\n    [\"S. Novak\", \"Engineer\", \"Active\", \"2022\"],\n  ];\n  const th = { padding: \"10px 14px\", textAlign: \"left\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\", background: \"#24143012\", fontWeight: boldNames ? 700 : 400, width: headerWidth, position: stickyFirstCol ? \"sticky\" : \"static\", left: 0 };\n  const cell = { padding: \"10px 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              <th scope=\"col\" style={{ ...cell, width: headerWidth, position: stickyFirstCol ? \"sticky\" : \"static\", left: 0, zIndex: 2 }}>Name</th>\n              <th scope=\"col\" style={cell}>Role</th>\n              <th scope=\"col\" style={cell}>Status</th>\n              <th scope=\"col\" style={cell}>Joined</th>\n            </tr>\n          </thead>\n          <tbody>\n            {rows.map((row) => (\n              <tr key={row[0]}>\n                <th scope=\"row\" style={th}>{row[0]}</th>\n                <td style={cell}>{row[1]}</td><td style={cell}>{row[2]}</td><td style={cell}>{row[3]}</td>\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

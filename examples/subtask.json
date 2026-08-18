@@ -1,0 +1,54 @@
+{
+  "slug": "subtask",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Parent task title",
+      "default": "Launch checklist"
+    },
+    {
+      "id": "sub1",
+      "type": "toggle",
+      "label": "Design review complete",
+      "default": true
+    },
+    {
+      "id": "sub2",
+      "type": "toggle",
+      "label": "Write release notes",
+      "default": true
+    },
+    {
+      "id": "sub3",
+      "type": "toggle",
+      "label": "QA sign-off",
+      "default": false
+    },
+    {
+      "id": "sub4",
+      "type": "toggle",
+      "label": "Notify stakeholders",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"subtask\" open style=\"border-left-color: {{accent}};\">\n  <summary class=\"subtask__summary\">{{title}}</summary>\n  <ul class=\"subtask__list\">\n    <li><label><input type=\"checkbox\" {{#if sub1}}checked{{/if}}><span>Design review complete</span></label></li>\n    <li><label><input type=\"checkbox\" {{#if sub2}}checked{{/if}}><span>Write release notes</span></label></li>\n    <li><label><input type=\"checkbox\" {{#if sub3}}checked{{/if}}><span>QA sign-off</span></label></li>\n    <li><label><input type=\"checkbox\" {{#if sub4}}checked{{/if}}><span>Notify stakeholders</span></label></li>\n  </ul>\n  <p class=\"subtask__count\">Progress: <span class=\"subtask__count-num\"></span> of 4 subtasks complete</p>\n</details>\n<style>\n.subtask { counter-reset: done 0; font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 380px; padding: 16px 18px; border-radius: 8px; border-left: 4px solid; box-shadow: 0 4px 14px rgba(36,20,48,.1); }\n.subtask__summary { font-weight: 700; cursor: pointer; font-size: 15px; }\n.subtask__list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.subtask__list label { display: flex; align-items: center; gap: 8px; font-size: 14px; }\n.subtask__list input { width: 16px; height: 16px; accent-color: {{accent}}; }\n.subtask__list input:checked { counter-increment: done 1; }\n.subtask__list input:checked + span { text-decoration: line-through; opacity: .6; }\n.subtask__count { margin: 12px 0 0; font-size: 13px; font-weight: 600; color: #241430cc; }\n.subtask__count-num::before { content: counter(done); }\n</style>",
+    "tailwind": "<details class=\"max-w-[380px] px-[18px] py-4 rounded-lg shadow-md font-sans text-[#241430] bg-[#FAF7F2] border-l-4\" open style=\"border-left-color: {{accent}};\">\n  <summary class=\"font-bold text-[15px] cursor-pointer\">{{title}}</summary>\n  <ul class=\"subtask-tw__list list-none m-0 mt-2.5 p-0 flex flex-col gap-1.5\">\n    <li><label class=\"flex items-center gap-2 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" {{#if sub1}}checked{{/if}}><span>Design review complete</span></label></li>\n    <li><label class=\"flex items-center gap-2 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" {{#if sub2}}checked{{/if}}><span>Write release notes</span></label></li>\n    <li><label class=\"flex items-center gap-2 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" {{#if sub3}}checked{{/if}}><span>QA sign-off</span></label></li>\n    <li><label class=\"flex items-center gap-2 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" {{#if sub4}}checked{{/if}}><span>Notify stakeholders</span></label></li>\n  </ul>\n  <p class=\"mt-3 text-[13px] font-semibold text-[#241430cc]\">Progress: <span class=\"subtask-tw__count-num\"></span> of 4 subtasks complete</p>\n</details>\n<style>\n.subtask-tw__list { counter-reset: done 0; }\n.subtask-tw__list input:checked { counter-increment: done 1; }\n.subtask-tw__list input:checked + span { text-decoration: line-through; opacity: .6; }\n.subtask-tw__count-num::before { content: counter(done); }\n</style>",
+    "react": "export function Subtask({\n  title = \"{{title}}\",\n  sub1 = {{sub1}},\n  sub2 = {{sub2}},\n  sub3 = {{sub3}},\n  sub4 = {{sub4}},\n  accent = \"{{accent}}\",\n}) {\n  const items = [\n    { label: \"Design review complete\", done: sub1 },\n    { label: \"Write release notes\", done: sub2 },\n    { label: \"QA sign-off\", done: sub3 },\n    { label: \"Notify stakeholders\", done: sub4 },\n  ];\n  const doneCount = items.filter((i) => i.done).length;\n  return (\n    <details open style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\",\n      maxWidth: 380, padding: \"16px 18px\", borderRadius: 8, borderLeft: \"4px solid \" + accent,\n      boxShadow: \"0 4px 14px rgba(36,20,48,.1)\" }}>\n      <summary style={{ fontWeight: 700, cursor: \"pointer\", fontSize: 15 }}>{title}</summary>\n      <ul style={{ listStyle: \"none\", margin: \"10px 0 0\", padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {items.map((item) => (\n          <li key={item.label}>\n            <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 14 }}>\n              <input type=\"checkbox\" checked={item.done} readOnly style={{ width: 16, height: 16, accentColor: accent }} />\n              <span style={{ textDecoration: item.done ? \"line-through\" : \"none\", opacity: item.done ? 0.6 : 1 }}>{item.label}</span>\n            </label>\n          </li>\n        ))}\n      </ul>\n      <p style={{ margin: \"12px 0 0\", fontSize: 13, fontWeight: 600, color: \"#241430cc\" }}>\n        Progress: {doneCount} of {items.length} subtasks complete\n      </p>\n    </details>\n  );\n}"
+  }
+}

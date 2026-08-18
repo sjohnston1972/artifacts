@@ -1,0 +1,59 @@
+{
+  "slug": "blocker",
+  "controls_schema": [
+    {
+      "id": "itemName",
+      "type": "text",
+      "label": "Blocked item",
+      "default": "Checkout redesign"
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "Reason",
+      "default": "Waiting on legal sign-off for new terms copy"
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "blocking",
+      "options": [
+        "blocking",
+        "at-risk",
+        "resolved"
+      ]
+    },
+    {
+      "id": "owner",
+      "type": "text",
+      "label": "Follow up with",
+      "default": "Legal team"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showOwner",
+      "type": "toggle",
+      "label": "Show follow-up owner",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"blocker\" data-severity=\"{{severity}}\" style=\"--accent:{{accent}};\">\n  <div class=\"blocker__badge blocker__badge--blocking\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\"/></svg>Blocking</div>\n  <div class=\"blocker__badge blocker__badge--at-risk\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 5v3.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11\" r=\"0.9\" fill=\"currentColor\"/></svg>At risk</div>\n  <div class=\"blocker__badge blocker__badge--resolved\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Resolved</div>\n  <h3 class=\"blocker__title\">{{itemName}} is blocked</h3>\n  <p class=\"blocker__reason\">{{reason}}</p>\n  {{#if showOwner}}<p class=\"blocker__owner\">Follow up with <strong>{{owner}}</strong></p>{{/if}}\n</div>\n<style>\n.blocker { font:14px/1.5 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px 18px; border-radius:12px; max-width:380px; box-sizing:border-box; border-left:4px solid var(--accent); }\n.blocker__badge { display:none; align-items:center; gap:6px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; padding:3px 9px; border-radius:999px; width:fit-content; margin-bottom:8px; }\n.blocker[data-severity=\"blocking\"] .blocker__badge--blocking { display:flex; background:#f6d3cd; color:#8a2c1e; }\n.blocker[data-severity=\"at-risk\"] .blocker__badge--at-risk { display:flex; background:#fbe6bd; color:#8a5d00; }\n.blocker[data-severity=\"resolved\"] .blocker__badge--resolved { display:flex; background:#cdeedb; color:#1a7a4c; }\n.blocker__title { margin:0 0 4px; font-size:16px; }\n.blocker__reason { margin:0; color:#241430cc; }\n.blocker__owner { margin:10px 0 0; font-size:13px; }\n</style>",
+    "tailwind": "<div class=\"blocker-tw font-sans text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl max-w-[380px] box-border border-l-4\" data-severity=\"{{severity}}\" style=\"border-color:{{accent}};--accent:{{accent}};\">\n  <div class=\"blocker-tw__badge blocker-tw__badge--blocking hidden items-center gap-1.5 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full w-fit mb-2 bg-[#f6d3cd] text-[#8a2c1e]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\"/></svg>Blocking</div>\n  <div class=\"blocker-tw__badge blocker-tw__badge--at-risk hidden items-center gap-1.5 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full w-fit mb-2 bg-[#fbe6bd] text-[#8a5d00]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 5v3.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11\" r=\"0.9\" fill=\"currentColor\"/></svg>At risk</div>\n  <div class=\"blocker-tw__badge blocker-tw__badge--resolved hidden items-center gap-1.5 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full w-fit mb-2 bg-[#cdeedb] text-[#1a7a4c]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Resolved</div>\n  <h3 class=\"m-0 mb-1 text-base\">{{itemName}} is blocked</h3>\n  <p class=\"m-0 text-[#241430]/80\">{{reason}}</p>\n  {{#if showOwner}}<p class=\"mt-2.5 text-[13px]\">Follow up with <strong>{{owner}}</strong></p>{{/if}}\n</div>\n<style>\n.blocker-tw[data-severity=\"blocking\"] .blocker-tw__badge--blocking,\n.blocker-tw[data-severity=\"at-risk\"] .blocker-tw__badge--at-risk,\n.blocker-tw[data-severity=\"resolved\"] .blocker-tw__badge--resolved { display:flex; }\n</style>",
+    "react": "export function Blocker({\n  itemName = \"{{itemName}}\",\n  reason = \"{{reason}}\",\n  severity = \"{{severity}}\",\n  owner = \"{{owner}}\",\n  accent = \"{{accent}}\",\n  showOwner = {{showOwner}},\n}) {\n  const badge = {\n    blocking: { text: \"Blocking\", bg: \"#f6d3cd\", color: \"#8a2c1e\" },\n    \"at-risk\": { text: \"At risk\", bg: \"#fbe6bd\", color: \"#8a5d00\" },\n    resolved: { text: \"Resolved\", bg: \"#cdeedb\", color: \"#1a7a4c\" },\n  }[severity] ?? { text: \"Blocking\", bg: \"#f6d3cd\", color: \"#8a2c1e\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", padding: \"16px 18px\", borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\",\n      borderLeft: `4px solid ${accent}` }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, fontSize: 12, fontWeight: 700, textTransform: \"uppercase\",\n        letterSpacing: \"0.03em\", padding: \"3px 9px\", borderRadius: 999, width: \"fit-content\", marginBottom: 8,\n        background: badge.bg, color: badge.color }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\">\n          {severity === \"blocking\" && <><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" /><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" /><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\" /></>}\n          {severity === \"at-risk\" && <><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M8 5v3.6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /><circle cx=\"8\" cy=\"11\" r=\"0.9\" fill=\"currentColor\" /></>}\n          {severity === \"resolved\" && <path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n        </svg>\n        {badge.text}\n      </div>\n      <h3 style={{ margin: \"0 0 4px\", fontSize: 16 }}>{itemName} is blocked</h3>\n      <p style={{ margin: 0, color: \"#241430cc\" }}>{reason}</p>\n      {showOwner && <p style={{ margin: \"10px 0 0\", fontSize: 13 }}>Follow up with <strong>{owner}</strong></p>}\n    </div>\n  );\n}"
+  }
+}

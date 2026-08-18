@@ -1,0 +1,57 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Project name",
+      "default": "Checkout Redesign"
+    },
+    {
+      "id": "owner",
+      "type": "text",
+      "label": "Owner",
+      "default": "M. Iqbal"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "active",
+      "options": [
+        "planning",
+        "active",
+        "blocked",
+        "done"
+      ]
+    },
+    {
+      "id": "progress",
+      "type": "number",
+      "label": "Progress",
+      "default": 45,
+      "min": 0,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"project\" aria-label=\"Project: {{name}}\">\n  <header class=\"project__head\">\n    <h3 class=\"project__name\">{{name}}</h3>\n    <span class=\"project__status project__status--{{status}}\">\n      <span class=\"project__icon project__icon--planning\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"3\" y=\"2.5\" width=\"10\" height=\"11.5\" rx=\"1.5\"></rect><path d=\"M6 2.5h4v1.8H6z\"></path></svg></span>\n      <span class=\"project__icon project__icon--active\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\"></path></svg></span>\n      <span class=\"project__icon project__icon--blocked\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\"></path><path d=\"M6 6v4M10 6v4\"></path></svg></span>\n      <span class=\"project__icon project__icon--done\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg></span>\n      <span class=\"project__status-label\">{{status}}</span>\n    </span>\n  </header>\n  <p class=\"project__owner\">Owned by {{owner}}</p>\n  <div class=\"project__bar-track\" role=\"progressbar\" aria-valuenow=\"{{progress}}\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"{{name}} progress\">\n    <div class=\"project__bar-fill\" style=\"width:{{progress}}%;background:{{accent}};\"></div>\n  </div>\n  <p class=\"project__bar-label\">{{progress}}% complete</p>\n</article>\n<style>\n.project { max-width: 420px; padding: 18px 20px; border-radius: 12px; background: #FAF7F2; border: 1px solid #24143022; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.project__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }\n.project__name { margin: 0; font-size: 16px; font-weight: 700; }\n.project__status { display: inline-flex; align-items: center; gap: 5px; font: 600 12px/1 system-ui, sans-serif; padding: 4px 9px; border-radius: 999px; text-transform: capitalize; flex-shrink: 0; }\n.project__icon { display: none; }\n.project__status--planning .project__icon--planning, .project__status--active .project__icon--active, .project__status--blocked .project__icon--blocked, .project__status--done .project__icon--done { display: inline-flex; }\n.project__status--planning { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.project__status--active { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.project__status--blocked { background: color-mix(in srgb, #F5C2E0 45%, #FAF7F2); color: #7a2f57; }\n.project__status--done { background: color-mix(in srgb, #A8E6C1 45%, #FAF7F2); color: #205c37; }\n.project__owner { margin: 4px 0 14px; font-size: 12.5px; color: #241430b3; }\n.project__bar-track { height: 8px; border-radius: 999px; background: #24143014; overflow: hidden; }\n.project__bar-fill { height: 100%; border-radius: 999px; }\n.project__bar-label { margin: 6px 0 0; font-size: 12px; font-weight: 600; color: #241430b3; }\n</style>",
+    "tailwind": "<article aria-label=\"Project: {{name}}\" class=\"max-w-[420px] p-4.5 rounded-xl bg-[#FAF7F2] border border-[#24143022] box-border font-sans text-sm text-[#241430]\">\n  <header class=\"flex items-start justify-between gap-2.5\">\n    <h3 class=\"m-0 text-base font-bold\">{{name}}</h3>\n    <span class=\"project-tw__status project-tw__status--{{status}} inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full capitalize flex-shrink-0\">\n      <span class=\"project-tw__icon project-tw__icon--planning\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"3\" y=\"2.5\" width=\"10\" height=\"11.5\" rx=\"1.5\"></rect><path d=\"M6 2.5h4v1.8H6z\"></path></svg></span>\n      <span class=\"project-tw__icon project-tw__icon--active\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\"></path></svg></span>\n      <span class=\"project-tw__icon project-tw__icon--blocked\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\"></path><path d=\"M6 6v4M10 6v4\"></path></svg></span>\n      <span class=\"project-tw__icon project-tw__icon--done\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg></span>\n      <span>{{status}}</span>\n    </span>\n  </header>\n  <p class=\"mt-1 mb-3.5 text-[12.5px] text-[#241430]/70\">Owned by {{owner}}</p>\n  <div class=\"h-2 rounded-full bg-[#24143014] overflow-hidden\" role=\"progressbar\" aria-valuenow=\"{{progress}}\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"{{name}} progress\">\n    <div class=\"h-full rounded-full\" style=\"width:{{progress}}%;background:{{accent}};\"></div>\n  </div>\n  <p class=\"mt-1.5 mb-0 text-xs font-semibold text-[#241430]/70\">{{progress}}% complete</p>\n</article>\n<style>\n.project-tw__icon { display: none; }\n.project-tw__status--planning .project-tw__icon--planning, .project-tw__status--active .project-tw__icon--active, .project-tw__status--blocked .project-tw__icon--blocked, .project-tw__status--done .project-tw__icon--done { display: inline-flex; }\n.project-tw__status--planning { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.project-tw__status--active { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.project-tw__status--blocked { background: color-mix(in srgb, #F5C2E0 45%, #FAF7F2); color: #7a2f57; }\n.project-tw__status--done { background: color-mix(in srgb, #A8E6C1 45%, #FAF7F2); color: #205c37; }\n</style>",
+    "react": "export function Project({\n  name = \"{{name}}\",\n  owner = \"{{owner}}\",\n  status = \"{{status}}\",\n  progress = {{progress}},\n  accent = \"{{accent}}\",\n}) {\n  const palette = {\n    planning: { background: \"color-mix(in srgb, #D9C8F0 45%, #FAF7F2)\", color: \"#4a3a68\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><rect x=\"3\" y=\"2.5\" width=\"10\" height=\"11.5\" rx=\"1.5\" /><path d=\"M6 2.5h4v1.8H6z\" /></svg> },\n    active: { background: \"color-mix(in srgb, #BFD9F2 45%, #FAF7F2)\", color: \"#1f4266\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\" /></svg> },\n    blocked: { background: \"color-mix(in srgb, #F5C2E0 45%, #FAF7F2)\", color: \"#7a2f57\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><path d=\"M5 1.5h6L14.5 5v6L11 14.5H5L1.5 11V5z\" /><path d=\"M6 6v4M10 6v4\" /></svg> },\n    done: { background: \"color-mix(in srgb, #A8E6C1 45%, #FAF7F2)\", color: \"#205c37\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\" /><path d=\"M5.3 8.2 7 9.9l3.6-4\" /></svg> },\n  }[status] ?? {};\n  return (\n    <article aria-label={\"Project: \" + name} style={{ maxWidth: 420, padding: \"18px 20px\", borderRadius: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <header style={{ display: \"flex\", alignItems: \"flex-start\", justifyContent: \"space-between\", gap: 10 }}>\n        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{name}</h3>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, fontSize: 12, fontWeight: 600, padding: \"4px 9px\", borderRadius: 999, textTransform: \"capitalize\", flexShrink: 0, background: palette.background, color: palette.color }}>\n          {palette.icon}\n          <span>{status}</span>\n        </span>\n      </header>\n      <p style={{ margin: \"4px 0 14px\", fontSize: 12.5, color: \"#241430b3\" }}>Owned by {owner}</p>\n      <div role=\"progressbar\" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100} aria-label={name + \" progress\"} style={{ height: 8, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", borderRadius: 999, width: progress + \"%\", background: accent }} />\n      </div>\n      <p style={{ margin: \"6px 0 0\", fontSize: 12, fontWeight: 600, color: \"#241430b3\" }}>{progress}% complete</p>\n    </article>\n  );\n}"
+  },
+  "slug": "project"
+}

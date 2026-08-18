@@ -1,0 +1,50 @@
+{
+  "slug": "citation",
+  "controls_schema": [
+    {
+      "id": "sourceLabel",
+      "type": "text",
+      "label": "Source label",
+      "default": "MDN Web Docs"
+    },
+    {
+      "id": "index",
+      "type": "number",
+      "label": "Citation index",
+      "default": 1,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Marker style",
+      "default": "numeric",
+      "options": [
+        "numeric",
+        "bracket",
+        "superscript"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"citation-demo\" style=\"--accent:{{accent}};\">\n  Large language models can produce inaccurate statements<details class=\"citation citation--{{style}}\"><summary class=\"citation__marker\">{{index}}</summary><span class=\"citation__source\">Source: {{sourceLabel}}</span></details>, so claims should be checked against primary sources.\n</div>\n<style>\n.citation-demo { font: 15px/1.7 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.citation { display: inline; }\n.citation__marker { display: inline-flex; align-items: center; justify-content: center; min-width: 1.4em; height: 1.4em; padding: 0 .3em; margin: 0 .15em; border-radius: 999px; border: 1.5px solid var(--accent); color: var(--accent); font: 700 .72em/1 system-ui, sans-serif; cursor: pointer; list-style: none; vertical-align: baseline; }\n.citation__marker::-webkit-details-marker { display: none; }\n.citation--bracket .citation__marker { border-radius: 4px; border: none; background: color-mix(in srgb, var(--accent) 18%, #FAF7F2); }\n.citation--bracket .citation__marker::before { content: \"[\"; }\n.citation--bracket .citation__marker::after { content: \"]\"; }\n.citation--superscript .citation__marker { border: none; min-width: 0; height: auto; padding: 0; margin: 0 .1em; vertical-align: super; font-size: .68em; background: transparent; }\n.citation__source { display: block; margin-top: 6px; padding: 8px 10px; background: color-mix(in srgb, var(--accent) 14%, #FAF7F2); border-left: 3px solid var(--accent); border-radius: 6px; font-size: .82em; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"citation-demo-tw font-sans text-[15px] leading-[1.7] text-[#241430] bg-[#FAF7F2] max-w-[480px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};\">\n  Large language models can produce inaccurate statements<details class=\"citation-tw citation-tw--{{style}}\"><summary class=\"citation-tw__marker\">{{index}}</summary><span class=\"citation-tw__source block mt-1.5 px-2.5 py-2 rounded-md text-[0.82em] text-[#241430]\" style=\"background:color-mix(in srgb, var(--accent) 14%, #FAF7F2);border-left:3px solid var(--accent);\">Source: {{sourceLabel}}</span></details>, so claims should be checked against primary sources.\n</div>\n<style>\n.citation-tw { display: inline; }\n.citation-tw__marker { display: inline-flex; align-items: center; justify-content: center; min-width: 1.4em; height: 1.4em; padding: 0 .3em; margin: 0 .15em; border-radius: 999px; border: 1.5px solid var(--accent); color: var(--accent); font: 700 .72em/1 system-ui, sans-serif; cursor: pointer; list-style: none; vertical-align: baseline; }\n.citation-tw__marker::-webkit-details-marker { display: none; }\n.citation-tw--bracket .citation-tw__marker { border-radius: 4px; border: none; background: color-mix(in srgb, var(--accent) 18%, #FAF7F2); }\n.citation-tw--bracket .citation-tw__marker::before { content: \"[\"; }\n.citation-tw--bracket .citation-tw__marker::after { content: \"]\"; }\n.citation-tw--superscript .citation-tw__marker { border: none; min-width: 0; height: auto; padding: 0; margin: 0 .1em; vertical-align: super; font-size: .68em; background: transparent; }\n</style>",
+    "react": "export function Citation({\n  sourceLabel = \"{{sourceLabel}}\",\n  index = {{index}},\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n}) {\n  const markerStyle = {\n    numeric: { borderRadius: 999, border: `1.5px solid ${accent}`, minWidth: \"1.4em\", height: \"1.4em\", padding: \"0 0.3em\", background: \"transparent\" },\n    bracket: { borderRadius: 4, border: \"none\", minWidth: \"1.4em\", height: \"1.4em\", padding: \"0 0.3em\", background: `color-mix(in srgb, ${accent} 18%, #FAF7F2)` },\n    superscript: { border: \"none\", minWidth: 0, height: \"auto\", padding: 0, verticalAlign: \"super\", fontSize: \"0.68em\", background: \"transparent\" },\n  }[style] ?? {};\n  const label = style === \"bracket\" ? `[${index}]` : index;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 15, lineHeight: 1.7, color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 480, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      Large language models can produce inaccurate statements\n      <details style={{ display: \"inline\" }}>\n        <summary style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", margin: \"0 0.15em\",\n          color: accent, font: \"700 0.72em/1 system-ui, sans-serif\", cursor: \"pointer\", listStyle: \"none\",\n          verticalAlign: \"baseline\", ...markerStyle }}>{label}</summary>\n        <span style={{ display: \"block\", marginTop: 6, padding: \"8px 10px\", borderRadius: 6, fontSize: \"0.82em\",\n          color: \"#241430\", background: `color-mix(in srgb, ${accent} 14%, #FAF7F2)`, borderLeft: `3px solid ${accent}` }}>\n          Source: {sourceLabel}\n        </span>\n      </details>\n      , so claims should be checked against primary sources.\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "assignee",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name",
+      "default": "Priya Anand"
+    },
+    {
+      "id": "initials",
+      "type": "text",
+      "label": "Initials",
+      "default": "PA"
+    },
+    {
+      "id": "role",
+      "type": "text",
+      "label": "Role",
+      "default": "Frontend engineer"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Assignment status",
+      "default": "assigned",
+      "options": [
+        "assigned",
+        "unassigned",
+        "pending"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showRole",
+      "type": "toggle",
+      "label": "Show role",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"assignee\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <span class=\"assignee__avatar\">{{initials}}</span>\n  <div class=\"assignee__info\">\n    <p class=\"assignee__name\">{{name}}</p>\n    {{#if showRole}}<p class=\"assignee__role\">{{role}}</p>{{/if}}\n    <p class=\"assignee__status assignee__status--assigned\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Assigned to this item</p>\n    <p class=\"assignee__status assignee__status--unassigned\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M4 4l8 8\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>Unassigned — needs an owner</p>\n    <p class=\"assignee__status assignee__status--pending\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Invite pending</p>\n  </div>\n</div>\n<style>\n.assignee { display:flex; gap:12px; align-items:flex-start; font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px; border-radius:12px; max-width:340px; box-sizing:border-box; }\n.assignee__avatar { flex:none; width:40px; height:40px; border-radius:50%; background:var(--accent); border:2px solid transparent; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#241430; }\n.assignee[data-status=\"unassigned\"] .assignee__avatar { background:transparent; border:2px dashed #24143066; color:#24143066; }\n.assignee__name { margin:0; font-weight:600; }\n.assignee__role { margin:2px 0 0; color:#241430b3; font-size:13px; }\n.assignee__status { display:none; align-items:center; gap:6px; margin:8px 0 0; font-size:13px; font-weight:600; }\n.assignee[data-status=\"assigned\"] .assignee__status--assigned,\n.assignee[data-status=\"unassigned\"] .assignee__status--unassigned,\n.assignee[data-status=\"pending\"] .assignee__status--pending { display:flex; }\n.assignee[data-status=\"assigned\"] .assignee__status--assigned { color:#1a7a4c; }\n.assignee[data-status=\"unassigned\"] .assignee__status--unassigned { color:#24143099; }\n.assignee[data-status=\"pending\"] .assignee__status--pending { color:#8a5d00; }\n</style>",
+    "tailwind": "<div class=\"assignee-tw flex gap-3 items-start font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[340px] box-border\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <span class=\"flex-none w-10 h-10 rounded-full flex items-center justify-center font-bold text-[13px]\" style=\"background:var(--accent)\">{{initials}}</span>\n  <div class=\"min-w-0\">\n    <p class=\"m-0 font-semibold\">{{name}}</p>\n    {{#if showRole}}<p class=\"mt-0.5 text-[13px] text-[#241430]/70\">{{role}}</p>{{/if}}\n    <p class=\"assignee-tw__status assignee-tw__status--assigned hidden items-center gap-1.5 mt-2 text-[13px] font-semibold text-[#1a7a4c]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Assigned to this item</p>\n    <p class=\"assignee-tw__status assignee-tw__status--unassigned hidden items-center gap-1.5 mt-2 text-[13px] font-semibold text-[#241430]/60\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M4 4l8 8\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>Unassigned — needs an owner</p>\n    <p class=\"assignee-tw__status assignee-tw__status--pending hidden items-center gap-1.5 mt-2 text-[13px] font-semibold text-[#8a5d00]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Invite pending</p>\n  </div>\n</div>\n<style>\n.assignee-tw[data-status=\"assigned\"] .assignee-tw__status--assigned,\n.assignee-tw[data-status=\"unassigned\"] .assignee-tw__status--unassigned,\n.assignee-tw[data-status=\"pending\"] .assignee-tw__status--pending { display:flex; }\n.assignee-tw[data-status=\"unassigned\"] > span:first-child { background:transparent; border:2px dashed #24143066; color:#24143066; }\n</style>",
+    "react": "export function Assignee({\n  name = \"{{name}}\",\n  initials = \"{{initials}}\",\n  role = \"{{role}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n  showRole = {{showRole}},\n}) {\n  const info = {\n    assigned: { text: \"Assigned to this item\", color: \"#1a7a4c\" },\n    unassigned: { text: \"Unassigned — needs an owner\", color: \"#24143099\" },\n    pending: { text: \"Invite pending\", color: \"#8a5d00\" },\n  }[status] ?? { text: \"Assigned to this item\", color: \"#1a7a4c\" };\n  const unassigned = status === \"unassigned\";\n  return (\n    <div style={{ display: \"flex\", gap: 12, alignItems: \"flex-start\", fontFamily: \"system-ui, sans-serif\",\n      fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12, maxWidth: 340, boxSizing: \"border-box\" }}>\n      <span style={{ flex: \"none\", width: 40, height: 40, borderRadius: \"50%\",\n        background: unassigned ? \"transparent\" : accent, border: unassigned ? \"2px dashed #24143066\" : \"2px solid transparent\",\n        color: unassigned ? \"#24143066\" : \"#241430\", display: \"flex\", alignItems: \"center\", justifyContent: \"center\",\n        fontWeight: 700, fontSize: 13 }}>{initials}</span>\n      <div>\n        <p style={{ margin: 0, fontWeight: 600 }}>{name}</p>\n        {showRole && <p style={{ margin: \"2px 0 0\", color: \"#241430b3\", fontSize: 13 }}>{role}</p>}\n        <p style={{ display: \"flex\", alignItems: \"center\", gap: 6, margin: \"8px 0 0\", fontSize: 13, fontWeight: 600, color: info.color }}>\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\">\n            {status === \"assigned\" && <path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n            {status === \"unassigned\" && <><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M4 4l8 8\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></>}\n            {status === \"pending\" && <><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></>}\n          </svg>\n          {info.text}\n        </p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

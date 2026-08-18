@@ -1,0 +1,53 @@
+{
+  "slug": "dependency",
+  "controls_schema": [
+    {
+      "id": "itemA",
+      "type": "text",
+      "label": "First item",
+      "default": "Design system tokens"
+    },
+    {
+      "id": "itemB",
+      "type": "text",
+      "label": "Second item",
+      "default": "Component library v2"
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Relationship",
+      "default": "blocks",
+      "options": [
+        "blocks",
+        "blocked-by",
+        "related"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showStatus",
+      "type": "toggle",
+      "label": "Show status pill",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dependency\" data-direction=\"{{direction}}\" style=\"--accent:{{accent}};\">\n  <div class=\"dependency__item\">\n    <span class=\"dependency__label\">{{itemA}}</span>\n    {{#if showStatus}}<span class=\"dependency__pill\">In progress</span>{{/if}}\n  </div>\n  <div class=\"dependency__relation\">\n    <span class=\"dependency__relation-text dependency__relation-text--blocks\">Blocks</span>\n    <span class=\"dependency__relation-text dependency__relation-text--blocked-by\">Blocked by</span>\n    <span class=\"dependency__relation-text dependency__relation-text--related\">Related to</span>\n    <svg class=\"dependency__arrow dependency__arrow--blocks\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 6h19M15 1l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"dependency__arrow dependency__arrow--blocked-by\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M23 6H4M9 1L4 6l5 5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"dependency__arrow dependency__arrow--related\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 6h22\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-dasharray=\"3 3\"/></svg>\n  </div>\n  <div class=\"dependency__item\">\n    <span class=\"dependency__label\">{{itemB}}</span>\n  </div>\n</div>\n<style>\n.dependency { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px; border-radius:12px; max-width:380px; box-sizing:border-box; display:flex; flex-direction:column; gap:4px; }\n.dependency__item { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; background:#FFFFFF; border:1.5px solid #24143020; border-radius:10px; }\n.dependency__label { font-weight:600; font-size:13px; }\n.dependency__pill { font-size:11px; font-weight:600; background:var(--accent); padding:2px 8px; border-radius:999px; }\n.dependency__relation { display:flex; flex-direction:column; align-items:center; gap:2px; padding:4px 0; color:var(--accent); }\n.dependency__relation-text { display:none; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#241430; }\n.dependency__arrow { display:none; }\n.dependency[data-direction=\"blocks\"] .dependency__relation-text--blocks,\n.dependency[data-direction=\"blocked-by\"] .dependency__relation-text--blocked-by,\n.dependency[data-direction=\"related\"] .dependency__relation-text--related { display:block; }\n.dependency[data-direction=\"blocks\"] .dependency__arrow--blocks,\n.dependency[data-direction=\"blocked-by\"] .dependency__arrow--blocked-by,\n.dependency[data-direction=\"related\"] .dependency__arrow--related { display:block; }\n</style>",
+    "tailwind": "<div class=\"dependency-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[380px] box-border flex flex-col gap-1\" data-direction=\"{{direction}}\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-center justify-between gap-2 px-3 py-2.5 bg-white border-[1.5px] border-[#24143020] rounded-[10px]\">\n    <span class=\"font-semibold text-[13px]\">{{itemA}}</span>\n    {{#if showStatus}}<span class=\"text-[11px] font-semibold px-2 py-0.5 rounded-full\" style=\"background:{{accent}}\">In progress</span>{{/if}}\n  </div>\n  <div class=\"flex flex-col items-center gap-0.5 py-1\" style=\"color:{{accent}}\">\n    <span class=\"dependency-tw__text dependency-tw__text--blocks hidden text-[11px] font-bold uppercase tracking-wide text-[#241430]\">Blocks</span>\n    <span class=\"dependency-tw__text dependency-tw__text--blocked-by hidden text-[11px] font-bold uppercase tracking-wide text-[#241430]\">Blocked by</span>\n    <span class=\"dependency-tw__text dependency-tw__text--related hidden text-[11px] font-bold uppercase tracking-wide text-[#241430]\">Related to</span>\n    <svg class=\"dependency-tw__arrow dependency-tw__arrow--blocks hidden\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 6h19M15 1l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"dependency-tw__arrow dependency-tw__arrow--blocked-by hidden\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M23 6H4M9 1L4 6l5 5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <svg class=\"dependency-tw__arrow dependency-tw__arrow--related hidden\" width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 6h22\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-dasharray=\"3 3\"/></svg>\n  </div>\n  <div class=\"flex items-center justify-between gap-2 px-3 py-2.5 bg-white border-[1.5px] border-[#24143020] rounded-[10px]\">\n    <span class=\"font-semibold text-[13px]\">{{itemB}}</span>\n  </div>\n</div>\n<style>\n.dependency-tw[data-direction=\"blocks\"] .dependency-tw__text--blocks, .dependency-tw[data-direction=\"blocks\"] .dependency-tw__arrow--blocks,\n.dependency-tw[data-direction=\"blocked-by\"] .dependency-tw__text--blocked-by, .dependency-tw[data-direction=\"blocked-by\"] .dependency-tw__arrow--blocked-by,\n.dependency-tw[data-direction=\"related\"] .dependency-tw__text--related, .dependency-tw[data-direction=\"related\"] .dependency-tw__arrow--related { display:block; }\n</style>",
+    "react": "export function Dependency({\n  itemA = \"{{itemA}}\",\n  itemB = \"{{itemB}}\",\n  direction = \"{{direction}}\",\n  accent = \"{{accent}}\",\n  showStatus = {{showStatus}},\n}) {\n  const relation = {\n    blocks: \"Blocks\",\n    \"blocked-by\": \"Blocked by\",\n    related: \"Related to\",\n  }[direction] ?? \"Blocks\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      padding: 16, borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\", display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8, padding: \"10px 12px\",\n        background: \"#FFFFFF\", border: \"1.5px solid #24143020\", borderRadius: 10 }}>\n        <span style={{ fontWeight: 600, fontSize: 13 }}>{itemA}</span>\n        {showStatus && <span style={{ fontSize: 11, fontWeight: 600, background: accent, padding: \"2px 8px\", borderRadius: 999 }}>In progress</span>}\n      </div>\n      <div style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 2, padding: \"4px 0\", color: accent }}>\n        <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: \"#241430\" }}>{relation}</span>\n        <svg width=\"60\" height=\"16\" viewBox=\"0 0 24 12\" fill=\"none\" aria-hidden=\"true\">\n          {direction === \"blocks\" && <path d=\"M1 6h19M15 1l5 5-5 5\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n          {direction === \"blocked-by\" && <path d=\"M23 6H4M9 1L4 6l5 5\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n          {direction === \"related\" && <path d=\"M1 6h22\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" strokeDasharray=\"3 3\" />}\n        </svg>\n      </div>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8, padding: \"10px 12px\",\n        background: \"#FFFFFF\", border: \"1.5px solid #24143020\", borderRadius: 10 }}>\n        <span style={{ fontWeight: 600, fontSize: 13 }}>{itemB}</span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

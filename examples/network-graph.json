@@ -1,0 +1,49 @@
+{
+  "controls_schema": [
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "circular",
+      "options": [
+        "circular",
+        "hierarchical"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Node colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Show node labels",
+      "default": true
+    },
+    {
+      "id": "nodeSize",
+      "type": "number",
+      "label": "Node radius",
+      "default": 9,
+      "min": 5,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"network network--{{layout}}\" style=\"--accent:{{accent}};--r:{{nodeSize}};\" role=\"img\" aria-label=\"Network diagram, {{layout}} layout, showing 5 connected nodes\">\n  <svg class=\"network__svg\" viewBox=\"0 0 260 160\" xmlns=\"http://www.w3.org/2000/svg\">\n    <g class=\"graph graph--circular\">\n      <line class=\"ng-edge\" x1=\"130\" y1=\"25\" x2=\"185\" y2=\"55\"></line>\n      <line class=\"ng-edge\" x1=\"185\" y1=\"55\" x2=\"165\" y2=\"120\"></line>\n      <line class=\"ng-edge\" x1=\"165\" y1=\"120\" x2=\"95\" y2=\"120\"></line>\n      <line class=\"ng-edge\" x1=\"95\" y1=\"120\" x2=\"75\" y2=\"55\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"55\" x2=\"130\" y2=\"25\"></line>\n      <line class=\"ng-edge\" x1=\"130\" y1=\"25\" x2=\"95\" y2=\"120\"></line>\n      <circle class=\"ng-node\" cx=\"130\" cy=\"25\"></circle>\n      <circle class=\"ng-node\" cx=\"185\" cy=\"55\"></circle>\n      <circle class=\"ng-node\" cx=\"165\" cy=\"120\"></circle>\n      <circle class=\"ng-node\" cx=\"95\" cy=\"120\"></circle>\n      <circle class=\"ng-node\" cx=\"75\" cy=\"55\"></circle>\n      {{#if showLabels}}\n      <text class=\"ng-label\" x=\"130\" y=\"14\">A</text>\n      <text class=\"ng-label\" x=\"199\" y=\"55\">B</text>\n      <text class=\"ng-label\" x=\"178\" y=\"137\">C</text>\n      <text class=\"ng-label\" x=\"82\" y=\"137\">D</text>\n      <text class=\"ng-label\" x=\"61\" y=\"55\">E</text>\n      {{/if}}\n    </g>\n    <g class=\"graph graph--hierarchical\">\n      <line class=\"ng-edge\" x1=\"130\" y1=\"20\" x2=\"75\" y2=\"75\"></line>\n      <line class=\"ng-edge\" x1=\"130\" y1=\"20\" x2=\"185\" y2=\"75\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"75\" x2=\"45\" y2=\"135\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"75\" x2=\"110\" y2=\"135\"></line>\n      <circle class=\"ng-node\" cx=\"130\" cy=\"20\"></circle>\n      <circle class=\"ng-node\" cx=\"75\" cy=\"75\"></circle>\n      <circle class=\"ng-node\" cx=\"185\" cy=\"75\"></circle>\n      <circle class=\"ng-node\" cx=\"45\" cy=\"135\"></circle>\n      <circle class=\"ng-node\" cx=\"110\" cy=\"135\"></circle>\n      {{#if showLabels}}\n      <text class=\"ng-label\" x=\"130\" y=\"10\">Root</text>\n      <text class=\"ng-label\" x=\"75\" y=\"65\">A</text>\n      <text class=\"ng-label\" x=\"185\" y=\"65\">B</text>\n      <text class=\"ng-label\" x=\"45\" y=\"150\">A1</text>\n      <text class=\"ng-label\" x=\"110\" y=\"150\">A2</text>\n      {{/if}}\n    </g>\n  </svg>\n</figure>\n<style>\n.network { max-width: 320px; font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 12px; box-sizing: border-box; }\n.network__svg { width: 100%; height: auto; display: block; }\n.network .graph { display: none; }\n.network--circular .graph--circular { display: block; }\n.network--hierarchical .graph--hierarchical { display: block; }\n.network .ng-edge { stroke: #24143055; stroke-width: 1.5; }\n.network .ng-node { fill: var(--accent); stroke: #241430; stroke-width: 1.5; r: var(--r); }\n.network .ng-label { fill: #241430; font-size: 9px; text-anchor: middle; }\n</style>",
+    "tailwind": "<figure class=\"network-tw network-tw--{{layout}} max-w-xs p-3 font-sans text-[#241430] bg-[#FAF7F2] box-border\" style=\"--accent:{{accent}};--r:{{nodeSize}};\" role=\"img\" aria-label=\"Network diagram, {{layout}} layout, showing 5 connected nodes\">\n  <svg class=\"network-tw__svg w-full h-auto block\" viewBox=\"0 0 260 160\" xmlns=\"http://www.w3.org/2000/svg\">\n    <g class=\"graph graph--circular\">\n      <line class=\"ng-edge\" x1=\"130\" y1=\"25\" x2=\"185\" y2=\"55\"></line>\n      <line class=\"ng-edge\" x1=\"185\" y1=\"55\" x2=\"165\" y2=\"120\"></line>\n      <line class=\"ng-edge\" x1=\"165\" y1=\"120\" x2=\"95\" y2=\"120\"></line>\n      <line class=\"ng-edge\" x1=\"95\" y1=\"120\" x2=\"75\" y2=\"55\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"55\" x2=\"130\" y2=\"25\"></line>\n      <line class=\"ng-edge\" x1=\"130\" y1=\"25\" x2=\"95\" y2=\"120\"></line>\n      <circle class=\"ng-node\" cx=\"130\" cy=\"25\"></circle>\n      <circle class=\"ng-node\" cx=\"185\" cy=\"55\"></circle>\n      <circle class=\"ng-node\" cx=\"165\" cy=\"120\"></circle>\n      <circle class=\"ng-node\" cx=\"95\" cy=\"120\"></circle>\n      <circle class=\"ng-node\" cx=\"75\" cy=\"55\"></circle>\n      {{#if showLabels}}\n      <text class=\"ng-label\" x=\"130\" y=\"14\">A</text>\n      <text class=\"ng-label\" x=\"199\" y=\"55\">B</text>\n      <text class=\"ng-label\" x=\"178\" y=\"137\">C</text>\n      <text class=\"ng-label\" x=\"82\" y=\"137\">D</text>\n      <text class=\"ng-label\" x=\"61\" y=\"55\">E</text>\n      {{/if}}\n    </g>\n    <g class=\"graph graph--hierarchical\">\n      <line class=\"ng-edge\" x1=\"130\" y1=\"20\" x2=\"75\" y2=\"75\"></line>\n      <line class=\"ng-edge\" x1=\"130\" y1=\"20\" x2=\"185\" y2=\"75\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"75\" x2=\"45\" y2=\"135\"></line>\n      <line class=\"ng-edge\" x1=\"75\" y1=\"75\" x2=\"110\" y2=\"135\"></line>\n      <circle class=\"ng-node\" cx=\"130\" cy=\"20\"></circle>\n      <circle class=\"ng-node\" cx=\"75\" cy=\"75\"></circle>\n      <circle class=\"ng-node\" cx=\"185\" cy=\"75\"></circle>\n      <circle class=\"ng-node\" cx=\"45\" cy=\"135\"></circle>\n      <circle class=\"ng-node\" cx=\"110\" cy=\"135\"></circle>\n      {{#if showLabels}}\n      <text class=\"ng-label\" x=\"130\" y=\"10\">Root</text>\n      <text class=\"ng-label\" x=\"75\" y=\"65\">A</text>\n      <text class=\"ng-label\" x=\"185\" y=\"65\">B</text>\n      <text class=\"ng-label\" x=\"45\" y=\"150\">A1</text>\n      <text class=\"ng-label\" x=\"110\" y=\"150\">A2</text>\n      {{/if}}\n    </g>\n  </svg>\n</figure>\n<style>\n.network-tw { max-width: 320px; font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 12px; box-sizing: border-box; }\n.network-tw__svg { width: 100%; height: auto; display: block; }\n.network-tw .graph { display: none; }\n.network-tw--circular .graph--circular { display: block; }\n.network-tw--hierarchical .graph--hierarchical { display: block; }\n.network-tw .ng-edge { stroke: #24143055; stroke-width: 1.5; }\n.network-tw .ng-node { fill: var(--accent); stroke: #241430; stroke-width: 1.5; r: var(--r); }\n.network-tw .ng-label { fill: #241430; font-size: 9px; text-anchor: middle; }\n</style>",
+    "react": "export function NetworkGraph({\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showLabels = {{showLabels}},\n  nodeSize = {{nodeSize}},\n}) {\n  const nodesCircular = [[130,25,\"A\"],[185,55,\"B\"],[165,120,\"C\"],[95,120,\"D\"],[75,55,\"E\"]];\n  const edgesCircular = [[130,25,185,55],[185,55,165,120],[165,120,95,120],[95,120,75,55],[75,55,130,25],[130,25,95,120]];\n  const nodesHier = [[130,20,\"Root\"],[75,75,\"A\"],[185,75,\"B\"],[45,135,\"A1\"],[110,135,\"A2\"]];\n  const edgesHier = [[130,20,75,75],[130,20,185,75],[75,75,45,135],[75,75,110,135]];\n  const nodes = layout === \"hierarchical\" ? nodesHier : nodesCircular;\n  const edges = layout === \"hierarchical\" ? edgesHier : edgesCircular;\n  return (\n    <figure role=\"img\" aria-label={`Network diagram, ${layout} layout, showing 5 connected nodes`}\n      style={{ maxWidth: 320, padding: 12, font: \"12px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", boxSizing: \"border-box\" }}>\n      <svg viewBox=\"0 0 260 160\" style={{ width: \"100%\", height: \"auto\", display: \"block\" }}>\n        {edges.map(([x1, y1, x2, y2], i) => (\n          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke=\"#24143055\" strokeWidth={1.5} />\n        ))}\n        {nodes.map(([cx, cy], i) => (\n          <circle key={i} cx={cx} cy={cy} r={nodeSize} fill={accent} stroke=\"#241430\" strokeWidth={1.5} />\n        ))}\n        {showLabels && nodes.map(([cx, cy, label], i) => (\n          <text key={i} x={cx} y={cy - (layout === \"hierarchical\" ? 10 : 11)} fill=\"#241430\" fontSize={9} textAnchor=\"middle\">{label}</text>\n        ))}\n      </svg>\n    </figure>\n  );\n}"
+  },
+  "slug": "network-graph"
+}

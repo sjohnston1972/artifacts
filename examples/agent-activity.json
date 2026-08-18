@@ -1,0 +1,46 @@
+{
+  "slug": "agent-activity",
+  "controls_schema": [
+    {
+      "id": "latestAction",
+      "type": "text",
+      "label": "Latest action",
+      "default": "Called search tool"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showTimestamps",
+      "type": "toggle",
+      "label": "Show timestamps",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"agent-activity agent-activity--{{density}}\" style=\"--accent:{{accent}};\">\n  <p class=\"agent-activity__eyebrow\">Agent activity</p>\n  <ul class=\"agent-activity__list\">\n    <li class=\"agent-activity__row\">\n      <span class=\"agent-activity__dot\" aria-hidden=\"true\"></span>\n      <span class=\"agent-activity__text\">{{latestAction}}</span>\n      {{#if showTimestamps}}<time class=\"agent-activity__time\">just now</time>{{/if}}\n    </li>\n    <li class=\"agent-activity__row\">\n      <span class=\"agent-activity__dot\" aria-hidden=\"true\"></span>\n      <span class=\"agent-activity__text\">Read file <code>config.json</code></span>\n      {{#if showTimestamps}}<time class=\"agent-activity__time\">2 min ago</time>{{/if}}\n    </li>\n    <li class=\"agent-activity__row\">\n      <span class=\"agent-activity__dot\" aria-hidden=\"true\"></span>\n      <span class=\"agent-activity__text\">Ran test suite</span>\n      {{#if showTimestamps}}<time class=\"agent-activity__time\">6 min ago</time>{{/if}}\n    </li>\n  </ul>\n</section>\n<style>\n.agent-activity { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 360px; padding: 16px; border-radius: 12px; border: 1px solid #24143014; box-sizing: border-box; }\n.agent-activity__eyebrow { margin: 0 0 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #24143099; }\n.agent-activity__list { list-style: none; margin: 0; padding: 0; }\n.agent-activity__row { display: flex; align-items: baseline; gap: 10px; padding: 10px 0; border-bottom: 1px solid #24143014; }\n.agent-activity__row:last-child { border-bottom: none; }\n.agent-activity--compact .agent-activity__row { padding: 5px 0; gap: 8px; font-size: 12.5px; }\n.agent-activity__dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); align-self: center; }\n.agent-activity__text { margin: 0; flex: 1; }\n.agent-activity__text code { background: #24143012; padding: .1em .35em; border-radius: 4px; font-size: .92em; }\n.agent-activity__time { flex: none; font-size: 12px; color: #24143099; white-space: nowrap; }\n</style>",
+    "tailwind": "<section class=\"agent-activity-tw agent-activity-tw--{{density}} font-sans text-sm leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[360px] p-4 rounded-xl border border-[#24143014] box-border\" style=\"--accent:{{accent}};\">\n  <p class=\"m-0 mb-2.5 text-[11px] font-bold uppercase tracking-wide text-[#24143099]\">Agent activity</p>\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"flex items-baseline gap-2.5 py-2.5 border-b border-[#24143014]\">\n      <span class=\"flex-none w-[7px] h-[7px] rounded-full self-center\" style=\"background:var(--accent)\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1\">{{latestAction}}</span>\n      {{#if showTimestamps}}<time class=\"flex-none text-xs text-[#24143099] whitespace-nowrap\">just now</time>{{/if}}\n    </li>\n    <li class=\"flex items-baseline gap-2.5 py-2.5 border-b border-[#24143014]\">\n      <span class=\"flex-none w-[7px] h-[7px] rounded-full self-center\" style=\"background:var(--accent)\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1\">Read file <code class=\"bg-[#24143012] px-1 rounded text-[0.92em]\">config.json</code></span>\n      {{#if showTimestamps}}<time class=\"flex-none text-xs text-[#24143099] whitespace-nowrap\">2 min ago</time>{{/if}}\n    </li>\n    <li class=\"flex items-baseline gap-2.5 py-2.5\">\n      <span class=\"flex-none w-[7px] h-[7px] rounded-full self-center\" style=\"background:var(--accent)\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1\">Ran test suite</span>\n      {{#if showTimestamps}}<time class=\"flex-none text-xs text-[#24143099] whitespace-nowrap\">6 min ago</time>{{/if}}\n    </li>\n  </ul>\n</section>\n<style>\n.agent-activity-tw--compact li { padding-top: 5px; padding-bottom: 5px; gap: 8px; font-size: 12.5px; }\n</style>",
+    "react": "export function AgentActivity({\n  latestAction = \"{{latestAction}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n  showTimestamps = {{showTimestamps}},\n}) {\n  const rowPad = density === \"compact\" ? \"5px 0\" : \"10px 0\";\n  const rowGap = density === \"compact\" ? 8 : 10;\n  const fontSize = density === \"compact\" ? 12.5 : 14;\n  const rows = [\n    { text: latestAction, code: null, time: \"just now\" },\n    { text: \"Read file \", code: \"config.json\", time: \"2 min ago\" },\n    { text: \"Ran test suite\", code: null, time: \"6 min ago\" },\n  ];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 360, padding: 16, borderRadius: 12, border: \"1px solid #24143014\", boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 10px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".05em\", color: \"#24143099\" }}>Agent activity</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {rows.map((row, i) => (\n          <li key={row.time} style={{ display: \"flex\", alignItems: \"baseline\", gap: rowGap, padding: rowPad,\n            borderBottom: i < rows.length - 1 ? \"1px solid #24143014\" : \"none\" }}>\n            <span aria-hidden=\"true\" style={{ flex: \"none\", width: 7, height: 7, borderRadius: \"50%\", background: accent, alignSelf: \"center\" }} />\n            <span style={{ flex: 1 }}>{row.text}{row.code && <code style={{ background: \"#24143012\", padding: \"0.1em 0.35em\", borderRadius: 4, fontSize: \"0.92em\" }}>{row.code}</code>}</span>\n            {showTimestamps && <time style={{ flex: \"none\", fontSize: 12, color: \"#24143099\", whiteSpace: \"nowrap\" }}>{row.time}</time>}\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  }
+}

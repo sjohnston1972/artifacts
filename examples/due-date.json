@@ -1,0 +1,62 @@
+{
+  "slug": "due-date",
+  "controls_schema": [
+    {
+      "id": "itemName",
+      "type": "text",
+      "label": "Item",
+      "default": "Publish release notes"
+    },
+    {
+      "id": "dueDate",
+      "type": "text",
+      "label": "Due date",
+      "default": "Fri, 22 Aug"
+    },
+    {
+      "id": "urgency",
+      "type": "select",
+      "label": "Urgency",
+      "default": "on-track",
+      "options": [
+        "on-track",
+        "due-soon",
+        "overdue"
+      ]
+    },
+    {
+      "id": "daysLeft",
+      "type": "number",
+      "label": "Days left",
+      "default": 4,
+      "min": -5,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "compact",
+      "type": "toggle",
+      "label": "Compact row",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"due-date{{#if compact}} due-date--compact{{/if}}\" data-urgency=\"{{urgency}}\" style=\"--accent:{{accent}};\">\n  <div class=\"due-date__main\">\n    <p class=\"due-date__item\">{{itemName}}</p>\n    <p class=\"due-date__date\">Due {{dueDate}} · {{daysLeft}} days left</p>\n  </div>\n  <p class=\"due-date__urgency due-date__urgency--on-track\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>On track</p>\n  <p class=\"due-date__urgency due-date__urgency--due-soon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Due soon</p>\n  <p class=\"due-date__urgency due-date__urgency--overdue\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\"/></svg>Overdue</p>\n</div>\n<style>\n.due-date { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:14px 16px; border-radius:12px; max-width:360px; box-sizing:border-box; display:flex; align-items:center; justify-content:space-between; gap:12px; border:1.5px solid var(--accent); flex-wrap:wrap; }\n.due-date--compact { padding:8px 12px; gap:8px; }\n.due-date__item { margin:0; font-weight:600; }\n.due-date--compact .due-date__item { font-size:13px; }\n.due-date__date { margin:2px 0 0; font-size:12px; color:#241430b3; }\n.due-date--compact .due-date__date { margin:0; }\n.due-date__urgency { display:none; align-items:center; gap:6px; margin:0; font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap; }\n.due-date[data-urgency=\"on-track\"] .due-date__urgency--on-track { display:flex; background:#cdeedb; color:#1a7a4c; }\n.due-date[data-urgency=\"due-soon\"] .due-date__urgency--due-soon { display:flex; background:#fbe6bd; color:#8a5d00; }\n.due-date[data-urgency=\"overdue\"] .due-date__urgency--overdue { display:flex; background:#f6d3cd; color:#8a2c1e; }\n</style>",
+    "tailwind": "<div class=\"due-date-tw{{#if compact}} due-date-tw--compact{{/if}} font-sans text-sm text-[#241430] bg-[#FAF7F2] rounded-xl max-w-[360px] box-border flex items-center justify-between gap-3 flex-wrap border-[1.5px] px-4 py-3.5\" data-urgency=\"{{urgency}}\" style=\"border-color:{{accent}};--accent:{{accent}};\">\n  <div>\n    <p class=\"due-date-tw__item m-0 font-semibold\">{{itemName}}</p>\n    <p class=\"due-date-tw__date mt-0.5 text-xs text-[#241430]/70\">Due {{dueDate}} · {{daysLeft}} days left</p>\n  </div>\n  <p class=\"due-date-tw__urgency due-date-tw__urgency--on-track hidden items-center gap-1.5 m-0 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap bg-[#cdeedb] text-[#1a7a4c]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>On track</p>\n  <p class=\"due-date-tw__urgency due-date-tw__urgency--due-soon hidden items-center gap-1.5 m-0 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap bg-[#fbe6bd] text-[#8a5d00]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Due soon</p>\n  <p class=\"due-date-tw__urgency due-date-tw__urgency--overdue hidden items-center gap-1.5 m-0 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap bg-[#f6d3cd] text-[#8a2c1e]\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\"/></svg>Overdue</p>\n</div>\n<style>\n.due-date-tw--compact { padding:8px 12px !important; gap:8px !important; }\n.due-date-tw--compact .due-date-tw__item { font-size:13px; }\n.due-date-tw--compact .due-date-tw__date { margin-top:0; }\n.due-date-tw[data-urgency=\"on-track\"] .due-date-tw__urgency--on-track,\n.due-date-tw[data-urgency=\"due-soon\"] .due-date-tw__urgency--due-soon,\n.due-date-tw[data-urgency=\"overdue\"] .due-date-tw__urgency--overdue { display:flex; }\n</style>",
+    "react": "export function DueDate({\n  itemName = \"{{itemName}}\",\n  dueDate = \"{{dueDate}}\",\n  urgency = \"{{urgency}}\",\n  daysLeft = {{daysLeft}},\n  accent = \"{{accent}}\",\n  compact = {{compact}},\n}) {\n  const info = {\n    \"on-track\": { text: \"On track\", bg: \"#cdeedb\", color: \"#1a7a4c\" },\n    \"due-soon\": { text: \"Due soon\", bg: \"#fbe6bd\", color: \"#8a5d00\" },\n    overdue: { text: \"Overdue\", bg: \"#f6d3cd\", color: \"#8a2c1e\" },\n  }[urgency] ?? { text: \"On track\", bg: \"#cdeedb\", color: \"#1a7a4c\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      borderRadius: 12, maxWidth: 360, boxSizing: \"border-box\", display: \"flex\", alignItems: \"center\",\n      justifyContent: \"space-between\", gap: 12, flexWrap: \"wrap\", border: `1.5px solid ${accent}`,\n      padding: compact ? \"8px 12px\" : \"14px 16px\" }}>\n      <div>\n        <p style={{ margin: 0, fontWeight: 600, fontSize: compact ? 13 : 14 }}>{itemName}</p>\n        <p style={{ margin: compact ? 0 : \"2px 0 0\", fontSize: 12, color: \"#241430b3\" }}>Due {dueDate} · {daysLeft} days left</p>\n      </div>\n      <p style={{ display: \"flex\", alignItems: \"center\", gap: 6, margin: 0, fontSize: 12, fontWeight: 700,\n        padding: \"4px 10px\", borderRadius: 999, whiteSpace: \"nowrap\", background: info.bg, color: info.color }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\">\n          {urgency === \"on-track\" && <path d=\"M3 8.5l3 3 7-7\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />}\n          {urgency === \"due-soon\" && <><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M8 4.5V8l3 1.6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></>}\n          {urgency === \"overdue\" && <><path d=\"M8 2.5l6.5 11h-13L8 2.5z\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" /><path d=\"M8 6.5v3.2\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" /><circle cx=\"8\" cy=\"11.6\" r=\".9\" fill=\"currentColor\" /></>}\n        </svg>\n        {info.text}\n      </p>\n    </div>\n  );\n}"
+  }
+}

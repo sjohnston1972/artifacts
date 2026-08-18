@@ -1,0 +1,53 @@
+{
+  "slug": "conversation",
+  "controls_schema": [
+    {
+      "id": "userText",
+      "type": "text",
+      "label": "User message",
+      "default": "What is a context window?"
+    },
+    {
+      "id": "aiText",
+      "type": "text",
+      "label": "AI message",
+      "default": "It is the amount of text the model can consider at once."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "bubbleShape",
+      "type": "select",
+      "label": "Bubble shape",
+      "default": "rounded",
+      "options": [
+        "rounded",
+        "sharp",
+        "pill"
+      ]
+    },
+    {
+      "id": "showAvatars",
+      "type": "toggle",
+      "label": "Show avatars",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"conversation conversation--{{bubbleShape}}\" style=\"--accent:{{accent}};\">\n  <div class=\"conversation__turn conversation__turn--user\">\n    {{#if showAvatars}}<span class=\"conversation__avatar conversation__avatar--user\" aria-hidden=\"true\">U</span>{{/if}}\n    <p class=\"conversation__bubble conversation__bubble--user\">{{userText}}</p>\n  </div>\n  <div class=\"conversation__turn conversation__turn--ai\">\n    {{#if showAvatars}}<span class=\"conversation__avatar conversation__avatar--ai\" aria-hidden=\"true\">AI</span>{{/if}}\n    <p class=\"conversation__bubble conversation__bubble--ai\">{{aiText}}</p>\n  </div>\n</div>\n<style>\n.conversation { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 380px; padding: 16px; border-radius: 14px; box-sizing: border-box; }\n.conversation__turn { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 10px; }\n.conversation__turn:last-child { margin-bottom: 0; }\n.conversation__turn--user { flex-direction: row-reverse; }\n.conversation__avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 700 10px/1 system-ui, sans-serif; color: #FAF7F2; }\n.conversation__avatar--user { background: #241430; }\n.conversation__avatar--ai { background: var(--accent); color: #241430; }\n.conversation__bubble { margin: 0; padding: 10px 14px; max-width: 78%; box-sizing: border-box; }\n.conversation__bubble--user { background: var(--accent); color: #241430; }\n.conversation__bubble--ai { background: #24143010; }\n.conversation--rounded .conversation__bubble { border-radius: 14px; }\n.conversation--sharp .conversation__bubble { border-radius: 4px; }\n.conversation--pill .conversation__bubble { border-radius: 999px; }\n</style>",
+    "tailwind": "<div class=\"conversation-tw conversation-tw--{{bubbleShape}} font-sans text-sm leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[380px] p-4 rounded-2xl box-border\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-end gap-2 mb-2.5 flex-row-reverse\">\n    {{#if showAvatars}}<span class=\"flex-none w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-[#FAF7F2]\" style=\"background:#241430\" aria-hidden=\"true\">U</span>{{/if}}\n    <p class=\"conversation-tw__bubble m-0 px-3.5 py-2.5 max-w-[78%] box-border\" style=\"background:var(--accent);color:#241430;\">{{userText}}</p>\n  </div>\n  <div class=\"flex items-end gap-2\">\n    {{#if showAvatars}}<span class=\"flex-none w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold\" style=\"background:var(--accent);color:#241430;\" aria-hidden=\"true\">AI</span>{{/if}}\n    <p class=\"conversation-tw__bubble m-0 px-3.5 py-2.5 max-w-[78%] bg-[#24143010] box-border\">{{aiText}}</p>\n  </div>\n</div>\n<style>\n.conversation-tw--rounded .conversation-tw__bubble { border-radius: 14px; }\n.conversation-tw--sharp .conversation-tw__bubble { border-radius: 4px; }\n.conversation-tw--pill .conversation-tw__bubble { border-radius: 999px; }\n</style>",
+    "react": "export function Conversation({\n  userText = \"{{userText}}\",\n  aiText = \"{{aiText}}\",\n  accent = \"{{accent}}\",\n  bubbleShape = \"{{bubbleShape}}\",\n  showAvatars = {{showAvatars}},\n}) {\n  const radius = { rounded: 14, sharp: 4, pill: 999 }[bubbleShape] ?? 14;\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\",\n      background: \"#FAF7F2\", maxWidth: 380, padding: 16, borderRadius: 14, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", alignItems: \"flex-end\", gap: 8, marginBottom: 10, flexDirection: \"row-reverse\" }}>\n        {showAvatars && <span aria-hidden=\"true\" style={{ flex: \"none\", width: 24, height: 24, borderRadius: \"50%\",\n          display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 10, fontWeight: 700, color: \"#FAF7F2\", background: \"#241430\" }}>U</span>}\n        <p style={{ margin: 0, padding: \"10px 14px\", maxWidth: \"78%\", borderRadius: radius, background: accent, color: \"#241430\", boxSizing: \"border-box\" }}>{userText}</p>\n      </div>\n      <div style={{ display: \"flex\", alignItems: \"flex-end\", gap: 8 }}>\n        {showAvatars && <span aria-hidden=\"true\" style={{ flex: \"none\", width: 24, height: 24, borderRadius: \"50%\",\n          display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 10, fontWeight: 700, color: \"#241430\", background: accent }}>AI</span>}\n        <p style={{ margin: 0, padding: \"10px 14px\", maxWidth: \"78%\", borderRadius: radius, background: \"#24143010\", boxSizing: \"border-box\" }}>{aiText}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

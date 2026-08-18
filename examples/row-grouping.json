@@ -1,0 +1,48 @@
+{
+  "slug": "row-grouping",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Orders by region"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "groupBy",
+      "type": "text",
+      "label": "Grouped by",
+      "default": "Region"
+    },
+    {
+      "id": "collapsedGroup",
+      "type": "toggle",
+      "label": "Collapse EMEA group",
+      "default": false
+    },
+    {
+      "id": "showCounts",
+      "type": "toggle",
+      "label": "Show group counts",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rgrp\" style=\"--accent:{{accent}};\">\n  <div class=\"rgrp__scroll\">\n    <table class=\"rgrp__table\">\n      <caption>{{caption}} — grouped by {{groupBy}}</caption>\n      <thead><tr><th scope=\"col\">Order</th><th scope=\"col\">Customer</th><th scope=\"col\">Status</th><th scope=\"col\">Total</th></tr></thead>\n      <tbody>\n        <tr class=\"rgrp__group\"><td colspan=\"4\">EMEA{{#if showCounts}} <span class=\"rgrp__count\">(3)</span>{{/if}}</td></tr>\n        {{#unless collapsedGroup}}\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr><td>#1041</td><td>R. Okafor</td><td>Processing</td><td>£128.50</td></tr>\n        <tr><td>#1038</td><td>L. Duarte</td><td>Shipped</td><td>£96.20</td></tr>\n        {{/unless}}\n        <tr class=\"rgrp__group\"><td colspan=\"4\">Americas{{#if showCounts}} <span class=\"rgrp__count\">(2)</span>{{/if}}</td></tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.rgrp { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.rgrp__scroll { overflow-x: auto; }\n.rgrp__table { border-collapse: collapse; width: 100%; }\n.rgrp__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.rgrp__table th, .rgrp__table td { padding: 9px 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.rgrp__table th { background: var(--accent); color: #FAF7F2; }\n.rgrp__group td { background: #24143012; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }\n.rgrp__count { font-weight: 400; text-transform: none; color: #241430a0; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}} — grouped by {{groupBy}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"p-2.5 text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"p-2.5 text-left whitespace-nowrap\">Customer</th>\n        <th scope=\"col\" class=\"p-2.5 text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"p-2.5 text-left whitespace-nowrap\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td colspan=\"4\" class=\"bg-[#24143012] font-semibold text-xs uppercase tracking-wide p-2.5\">EMEA{{#if showCounts}} <span class=\"font-normal normal-case text-[#241430a0]\">(3)</span>{{/if}}</td></tr>\n        {{#unless collapsedGroup}}\n        <tr><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">#1042</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">#1041</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">#1038</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">L. Duarte</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">£96.20</td></tr>\n        {{/unless}}\n        <tr><td colspan=\"4\" class=\"bg-[#24143012] font-semibold text-xs uppercase tracking-wide p-2.5\">Americas{{#if showCounts}} <span class=\"font-normal normal-case text-[#241430a0]\">(2)</span>{{/if}}</td></tr>\n        <tr><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">#1040</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">#1039</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"p-2.5 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+    "react": "function RowGrouping({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  groupBy = \"{{groupBy}}\",\n  collapsedGroup = {{collapsedGroup}},\n  showCounts = {{showCounts}},\n}) {\n  const cell = { padding: \"9px 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  const groupRow = { background: \"#24143012\", fontWeight: 600, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", padding: \"9px 14px\" };\n  const groups = [\n    { name: \"EMEA\", collapsible: true, rows: [[\"#1042\", \"A. Whitfield\", \"Shipped\", \"£64.00\"], [\"#1041\", \"R. Okafor\", \"Processing\", \"£128.50\"], [\"#1038\", \"L. Duarte\", \"Shipped\", \"£96.20\"]] },\n    { name: \"Americas\", collapsible: false, rows: [[\"#1040\", \"M. Iqbal\", \"Shipped\", \"£22.00\"], [\"#1039\", \"S. Novak\", \"Refunded\", \"£40.00\"]] },\n  ];\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption} — grouped by {groupBy}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              {[\"Order\", \"Customer\", \"Status\", \"Total\"].map((h) => <th key={h} scope=\"col\" style={cell}>{h}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            {groups.flatMap((g) => {\n              const header = (\n                <tr key={`${g.name}-header`}><td colSpan={4} style={groupRow}>{g.name}{showCounts && <span style={{ fontWeight: 400, textTransform: \"none\", color: \"#241430a0\" }}> ({g.rows.length})</span>}</td></tr>\n              );\n              const dataRows = (g.collapsible && collapsedGroup) ? [] : g.rows.map((row) => (\n                <tr key={row[0]}>{row.map((c, j) => <td key={j} style={cell}>{c}</td>)}</tr>\n              ));\n              return [header, ...dataRows];\n            })}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

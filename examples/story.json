@@ -1,0 +1,62 @@
+{
+  "slug": "story",
+  "controls_schema": [
+    {
+      "id": "persona",
+      "type": "text",
+      "label": "Persona",
+      "default": "product manager"
+    },
+    {
+      "id": "need",
+      "type": "text",
+      "label": "Need",
+      "default": "compare velocity across teams"
+    },
+    {
+      "id": "benefit",
+      "type": "text",
+      "label": "Benefit",
+      "default": "I can rebalance workload before it becomes a bottleneck"
+    },
+    {
+      "id": "points",
+      "type": "number",
+      "label": "Story points",
+      "default": 5,
+      "min": 1,
+      "max": 13,
+      "step": 1
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "In progress",
+      "options": [
+        "Backlog",
+        "In progress",
+        "Done"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"story-card\" style=\"border-top: 4px solid {{accent}};\">\n  <div class=\"story-card__meta\">\n    <span class=\"story-card__points\">{{points}} pts</span>\n    <span class=\"story-card__status\" data-status=\"{{status}}\">{{status}}</span>\n  </div>\n  <p class=\"story-card__text\">\n    <span class=\"story-card__kicker\">As a</span> {{persona}},\n    <span class=\"story-card__kicker\">I want</span> {{need}},\n    <span class=\"story-card__kicker\">so that</span> {{benefit}}.\n  </p>\n</article>\n<style>\n.story-card { font-family: system-ui, sans-serif; max-width: 420px; padding: 18px 20px; background: #FAF7F2; color: #241430; border-radius: 10px; box-shadow: 0 6px 18px rgba(36,20,48,.12); }\n.story-card__meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }\n.story-card__points { font-weight: 700; font-size: 13px; background: #24143014; padding: 3px 9px; border-radius: 999px; }\n.story-card__status { font-weight: 600; font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1.5px solid currentColor; }\n.story-card__status[data-status=\"Backlog\"] { color: #5b5266; border-color: #5b5266; background: #24143010; }\n.story-card__status[data-status=\"In progress\"] { color: #1a3a5c; border-color: #6ea3d6; background: #BFD9F250; }\n.story-card__status[data-status=\"Done\"] { color: #1c5c34; border-color: #5fae7f; background: #A8E6C150; }\n.story-card__text { margin: 0; line-height: 1.6; font-size: 14px; }\n.story-card__kicker { font-weight: 700; color: #241430; }\n</style>",
+    "tailwind": "<article class=\"max-w-[420px] px-5 py-[18px] bg-[#FAF7F2] text-[#241430] rounded-[10px] shadow-md font-sans\" style=\"border-top: 4px solid {{accent}};\">\n  <div class=\"flex items-center justify-between mb-2.5\">\n    <span class=\"font-bold text-[13px] bg-[#24143014] px-2.5 py-1 rounded-full\">{{points}} pts</span>\n    <span class=\"story-status-tw font-semibold text-xs px-2.5 py-1 rounded-full border-[1.5px]\" data-status=\"{{status}}\">{{status}}</span>\n  </div>\n  <p class=\"m-0 leading-relaxed text-sm\">\n    <span class=\"font-bold\">As a</span> {{persona}},\n    <span class=\"font-bold\">I want</span> {{need}},\n    <span class=\"font-bold\">so that</span> {{benefit}}.\n  </p>\n</article>\n<style>\n.story-status-tw[data-status=\"Backlog\"] { color: #5b5266; border-color: #5b5266; background: #24143010; }\n.story-status-tw[data-status=\"In progress\"] { color: #1a3a5c; border-color: #6ea3d6; background: #BFD9F250; }\n.story-status-tw[data-status=\"Done\"] { color: #1c5c34; border-color: #5fae7f; background: #A8E6C150; }\n</style>",
+    "react": "export function StoryCard({\n  persona = \"{{persona}}\",\n  need = \"{{need}}\",\n  benefit = \"{{benefit}}\",\n  points = {{points}},\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const statusStyle = {\n    \"Backlog\": { color: \"#5b5266\", borderColor: \"#5b5266\", background: \"#24143010\" },\n    \"In progress\": { color: \"#1a3a5c\", borderColor: \"#6ea3d6\", background: \"#BFD9F250\" },\n    \"Done\": { color: \"#1c5c34\", borderColor: \"#5fae7f\", background: \"#A8E6C150\" },\n  }[status] ?? {};\n  return (\n    <article style={{ fontFamily: \"system-ui, sans-serif\", maxWidth: 420, padding: \"18px 20px\",\n      background: \"#FAF7F2\", color: \"#241430\", borderRadius: 10, boxShadow: \"0 6px 18px rgba(36,20,48,.12)\",\n      borderTop: \"4px solid \" + accent }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", marginBottom: 10 }}>\n        <span style={{ fontWeight: 700, fontSize: 13, background: \"#24143014\", padding: \"3px 9px\", borderRadius: 999 }}>{points} pts</span>\n        <span style={{ fontWeight: 600, fontSize: 12, padding: \"3px 10px\", borderRadius: 999, border: \"1.5px solid\", ...statusStyle }}>{status}</span>\n      </div>\n      <p style={{ margin: 0, lineHeight: 1.6, fontSize: 14 }}>\n        <strong>As a</strong> {persona}, <strong>I want</strong> {need}, <strong>so that</strong> {benefit}.\n      </p>\n    </article>\n  );\n}"
+  }
+}

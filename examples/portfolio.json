@@ -1,0 +1,54 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Portfolio name",
+      "default": "Growth Platform Portfolio"
+    },
+    {
+      "id": "lead",
+      "type": "text",
+      "label": "Portfolio lead",
+      "default": "S. Novak"
+    },
+    {
+      "id": "projectsShown",
+      "type": "number",
+      "label": "Projects shown",
+      "default": 3,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "onTrack",
+      "type": "number",
+      "label": "Projects on track",
+      "default": 2,
+      "min": 0,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"portfolio\" aria-labelledby=\"portfolio-heading\" style=\"--accent:{{accent}};\">\n  <header class=\"portfolio__head\">\n    <h3 id=\"portfolio-heading\" class=\"portfolio__name\">{{name}}</h3>\n    <p class=\"portfolio__lead\">Led by {{lead}}</p>\n  </header>\n  <p class=\"portfolio__stat\">{{projectsShown}} projects &middot; {{onTrack}} on track</p>\n  <ul class=\"portfolio__list\" data-count=\"{{projectsShown}}\">\n    <li class=\"portfolio__item\"><span class=\"portfolio__dot\"></span>Checkout Redesign</li>\n    <li class=\"portfolio__item\"><span class=\"portfolio__dot\"></span>Onboarding Revamp</li>\n    <li class=\"portfolio__item\"><span class=\"portfolio__dot\"></span>Billing Migration</li>\n  </ul>\n</section>\n<style>\n.portfolio { max-width: 480px; padding: 18px 20px; border-radius: 12px; background: #FAF7F2; border: 1px solid #24143022; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.portfolio__head { border-left: 3px solid var(--accent); padding-left: 10px; margin-bottom: 10px; }\n.portfolio__name { margin: 0; font-size: 16px; font-weight: 700; }\n.portfolio__lead { margin: 2px 0 0; font-size: 12.5px; color: #241430b3; }\n.portfolio__stat { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: #241430; }\n.portfolio__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }\n.portfolio__list[data-count=\"1\"] li:nth-child(n+2) { display: none; }\n.portfolio__list[data-count=\"2\"] li:nth-child(n+3) { display: none; }\n.portfolio__item { display: flex; align-items: center; gap: 8px; font-size: 13.5px; padding: 8px 10px; border-radius: 8px; background: #24143008; }\n.portfolio__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }\n</style>",
+    "tailwind": "<section aria-labelledby=\"portfolio-heading-tw\" class=\"max-w-[480px] p-4.5 rounded-xl bg-[#FAF7F2] border border-[#24143022] box-border font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\">\n  <header class=\"border-l-[3px] pl-2.5 mb-2.5\" style=\"border-color:{{accent}}\">\n    <h3 id=\"portfolio-heading-tw\" class=\"m-0 text-base font-bold\">{{name}}</h3>\n    <p class=\"m-0 mt-0.5 text-[12.5px] text-[#241430]/70\">Led by {{lead}}</p>\n  </header>\n  <p class=\"m-0 mb-2.5 text-[13px] font-semibold\">{{projectsShown}} projects &middot; {{onTrack}} on track</p>\n  <ul class=\"portfolio-tw__list list-none m-0 p-0 flex flex-col gap-2\" data-count=\"{{projectsShown}}\">\n    <li class=\"flex items-center gap-2 text-[13.5px] px-2.5 py-2 rounded-lg bg-[#24143008]\"><span class=\"w-2 h-2 rounded-full flex-shrink-0\" style=\"background:{{accent}}\"></span>Checkout Redesign</li>\n    <li class=\"flex items-center gap-2 text-[13.5px] px-2.5 py-2 rounded-lg bg-[#24143008]\"><span class=\"w-2 h-2 rounded-full flex-shrink-0\" style=\"background:{{accent}}\"></span>Onboarding Revamp</li>\n    <li class=\"flex items-center gap-2 text-[13.5px] px-2.5 py-2 rounded-lg bg-[#24143008]\"><span class=\"w-2 h-2 rounded-full flex-shrink-0\" style=\"background:{{accent}}\"></span>Billing Migration</li>\n  </ul>\n</section>\n<style>\n.portfolio-tw__list[data-count=\"1\"] li:nth-child(n+2) { display: none; }\n.portfolio-tw__list[data-count=\"2\"] li:nth-child(n+3) { display: none; }\n</style>",
+    "react": "export function Portfolio({\n  name = \"{{name}}\",\n  lead = \"{{lead}}\",\n  projectsShown = {{projectsShown}},\n  onTrack = {{onTrack}},\n  accent = \"{{accent}}\",\n}) {\n  const projects = [\"Checkout Redesign\", \"Onboarding Revamp\", \"Billing Migration\"].slice(0, projectsShown);\n  return (\n    <section aria-labelledby=\"portfolio-heading-react\" style={{ maxWidth: 480, padding: \"18px 20px\", borderRadius: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <header style={{ borderLeft: \"3px solid \" + accent, paddingLeft: 10, marginBottom: 10 }}>\n        <h3 id=\"portfolio-heading-react\" style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{name}</h3>\n        <p style={{ margin: \"2px 0 0\", fontSize: 12.5, color: \"#241430b3\" }}>Led by {lead}</p>\n      </header>\n      <p style={{ margin: \"0 0 10px\", fontSize: 13, fontWeight: 600 }}>{projectsShown} projects &middot; {onTrack} on track</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n        {projects.map((p) => (\n          <li key={p} style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 13.5, padding: \"8px 10px\", borderRadius: 8, background: \"#24143008\" }}>\n            <span style={{ width: 8, height: 8, borderRadius: \"50%\", background: accent, flexShrink: 0 }} />\n            {p}\n          </li>\n        ))}\n      </ul>\n    </section>\n  );\n}"
+  },
+  "slug": "portfolio"
+}

@@ -1,0 +1,56 @@
+{
+  "controls_schema": [
+    {
+      "id": "number",
+      "type": "number",
+      "label": "Sprint number",
+      "default": 24,
+      "min": 1,
+      "max": 99,
+      "step": 1
+    },
+    {
+      "id": "dateRange",
+      "type": "text",
+      "label": "Date range",
+      "default": "1–14 Sep 2026"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "active",
+      "options": [
+        "planned",
+        "active",
+        "completed"
+      ]
+    },
+    {
+      "id": "goal",
+      "type": "text",
+      "label": "Sprint goal",
+      "default": "Ship the new checkout flow end-to-end"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<header class=\"sprint\" aria-label=\"Sprint {{number}}, {{dateRange}}\" style=\"--accent:{{accent}};\">\n  <div class=\"sprint__top\">\n    <h3 class=\"sprint__title\">Sprint {{number}}</h3>\n    <span class=\"sprint__status sprint__status--{{status}}\">\n      <span class=\"sprint__icon sprint__icon--planned\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"2\" y=\"3\" width=\"12\" height=\"11\" rx=\"1.5\"></rect><path d=\"M2 6.5h12M5 2v3M11 2v3\"></path></svg></span>\n      <span class=\"sprint__icon sprint__icon--active\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\"></path></svg></span>\n      <span class=\"sprint__icon sprint__icon--completed\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg></span>\n      <span class=\"sprint__status-label\">{{status}}</span>\n    </span>\n  </div>\n  <p class=\"sprint__dates\">{{dateRange}}</p>\n  <p class=\"sprint__goal\">{{goal}}</p>\n</header>\n<style>\n.sprint { max-width: 480px; padding: 18px 20px; border-radius: 12px; background: #FAF7F2; border: 1px solid #24143022; border-top: 4px solid var(--accent); box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.sprint__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }\n.sprint__title { margin: 0; font-size: 16px; font-weight: 700; }\n.sprint__status { display: inline-flex; align-items: center; gap: 5px; font: 600 12px/1 system-ui, sans-serif; padding: 4px 9px; border-radius: 999px; text-transform: capitalize; flex-shrink: 0; }\n.sprint__icon { display: none; }\n.sprint__status--planned .sprint__icon--planned, .sprint__status--active .sprint__icon--active, .sprint__status--completed .sprint__icon--completed { display: inline-flex; }\n.sprint__status--planned { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.sprint__status--active { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.sprint__status--completed { background: color-mix(in srgb, #A8E6C1 45%, #FAF7F2); color: #205c37; }\n.sprint__dates { margin: 4px 0 10px; font-size: 12.5px; color: #241430b3; font-weight: 600; }\n.sprint__goal { margin: 0; font-size: 13.5px; }\n</style>",
+    "tailwind": "<header aria-label=\"Sprint {{number}}, {{dateRange}}\" class=\"max-w-[480px] p-4.5 rounded-xl rounded-t-none border-t-4 bg-[#FAF7F2] border border-[#24143022] box-border font-sans text-sm text-[#241430]\" style=\"border-top-color:{{accent}};\">\n  <div class=\"flex items-center justify-between gap-2.5\">\n    <h3 class=\"m-0 text-base font-bold\">Sprint {{number}}</h3>\n    <span class=\"sprint-tw__status sprint-tw__status--{{status}} inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full capitalize flex-shrink-0\">\n      <span class=\"sprint-tw__icon sprint-tw__icon--planned\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"2\" y=\"3\" width=\"12\" height=\"11\" rx=\"1.5\"></rect><path d=\"M2 6.5h12M5 2v3M11 2v3\"></path></svg></span>\n      <span class=\"sprint-tw__icon sprint-tw__icon--active\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\"></path></svg></span>\n      <span class=\"sprint-tw__icon sprint-tw__icon--completed\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\"></circle><path d=\"M5.3 8.2 7 9.9l3.6-4\"></path></svg></span>\n      <span>{{status}}</span>\n    </span>\n  </div>\n  <p class=\"mt-1 mb-2.5 text-[12.5px] font-semibold text-[#241430]/70\">{{dateRange}}</p>\n  <p class=\"m-0 text-[13.5px]\">{{goal}}</p>\n</header>\n<style>\n.sprint-tw__icon { display: none; }\n.sprint-tw__status--planned .sprint-tw__icon--planned, .sprint-tw__status--active .sprint-tw__icon--active, .sprint-tw__status--completed .sprint-tw__icon--completed { display: inline-flex; }\n.sprint-tw__status--planned { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.sprint-tw__status--active { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.sprint-tw__status--completed { background: color-mix(in srgb, #A8E6C1 45%, #FAF7F2); color: #205c37; }\n</style>",
+    "react": "export function Sprint({\n  number = {{number}},\n  dateRange = \"{{dateRange}}\",\n  status = \"{{status}}\",\n  goal = \"{{goal}}\",\n  accent = \"{{accent}}\",\n}) {\n  const palette = {\n    planned: { background: \"color-mix(in srgb, #D9C8F0 45%, #FAF7F2)\", color: \"#4a3a68\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><rect x=\"2\" y=\"3\" width=\"12\" height=\"11\" rx=\"1.5\" /><path d=\"M2 6.5h12M5 2v3M11 2v3\" /></svg> },\n    active: { background: \"color-mix(in srgb, #BFD9F2 45%, #FAF7F2)\", color: \"#1f4266\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><path d=\"M5 3.2 12.5 8 5 12.8V3.2z\" /></svg> },\n    completed: { background: \"color-mix(in srgb, #A8E6C1 45%, #FAF7F2)\", color: \"#205c37\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><circle cx=\"8\" cy=\"8\" r=\"6.3\" /><path d=\"M5.3 8.2 7 9.9l3.6-4\" /></svg> },\n  }[status] ?? {};\n  return (\n    <header aria-label={\"Sprint \" + number + \", \" + dateRange} style={{ maxWidth: 480, padding: \"18px 20px\", borderRadius: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderTop: \"4px solid \" + accent, boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 10 }}>\n        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>Sprint {number}</h3>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, fontSize: 12, fontWeight: 600, padding: \"4px 9px\", borderRadius: 999, textTransform: \"capitalize\", flexShrink: 0, background: palette.background, color: palette.color }}>\n          {palette.icon}\n          <span>{status}</span>\n        </span>\n      </div>\n      <p style={{ margin: \"4px 0 10px\", fontSize: 12.5, color: \"#241430b3\", fontWeight: 600 }}>{dateRange}</p>\n      <p style={{ margin: 0, fontSize: 13.5 }}>{goal}</p>\n    </header>\n  );\n}"
+  },
+  "slug": "sprint"
+}

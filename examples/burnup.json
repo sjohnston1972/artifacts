@@ -1,0 +1,57 @@
+{
+  "slug": "burnup",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Q3 roadmap burnup"
+    },
+    {
+      "id": "totalPoints",
+      "type": "number",
+      "label": "Total scope (pts)",
+      "default": 40,
+      "min": 10,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "id": "completion",
+      "type": "select",
+      "label": "Completion",
+      "default": "50",
+      "options": [
+        "25",
+        "50",
+        "75",
+        "100"
+      ]
+    },
+    {
+      "id": "scopeChange",
+      "type": "toggle",
+      "label": "Scope grew mid-sprint",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"burnup\" data-completion=\"{{completion}}\" style=\"--accent:{{accent}};\">\n  <div class=\"burnup__head\">\n    <h3 class=\"burnup__title\">{{title}}</h3>\n    <span class=\"burnup__meta\">{{totalPoints}} pts scope</span>\n  </div>\n  <svg class=\"burnup__chart\" viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burnup chart of completed work against total scope\">\n    <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"135\" class=\"burnup__grid\"/>\n    <line x1=\"20\" y1=\"135\" x2=\"280\" y2=\"135\" class=\"burnup__grid\"/>\n    {{#if scopeChange}}<polyline class=\"burnup__scope\" points=\"20,50 140,50 140,25 280,25\" fill=\"none\"/>{{/if}}\n    {{#unless scopeChange}}<polyline class=\"burnup__scope\" points=\"20,30 280,30\" fill=\"none\"/>{{/unless}}\n    <polyline class=\"burnup__done burnup__done--25\" points=\"20,130 100,120 180,112 280,105\" fill=\"none\"/>\n    <polyline class=\"burnup__done burnup__done--50\" points=\"20,130 100,105 180,80 280,65\" fill=\"none\"/>\n    <polyline class=\"burnup__done burnup__done--75\" points=\"20,130 100,90 180,55 280,40\" fill=\"none\"/>\n    <polyline class=\"burnup__done burnup__done--100\" points=\"20,130 100,80 180,45 280,25\" fill=\"none\"/>\n  </svg>\n  <div class=\"burnup__legend\">\n    <span class=\"burnup__legend-item\"><span class=\"burnup__swatch burnup__swatch--scope\"></span>Total scope</span>\n    <span class=\"burnup__legend-item\"><span class=\"burnup__swatch burnup__swatch--done\"></span>Completed</span>\n  </div>\n  <p class=\"burnup__status burnup__status--25\">25% of scope complete</p>\n  <p class=\"burnup__status burnup__status--50\">50% of scope complete</p>\n  <p class=\"burnup__status burnup__status--75\">75% of scope complete</p>\n  <p class=\"burnup__status burnup__status--100\">100% of scope complete — done</p>\n</div>\n<style>\n.burnup { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px; border-radius:12px; max-width:380px; box-sizing:border-box; }\n.burnup__head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }\n.burnup__title { margin:0; font-size:16px; }\n.burnup__meta { font-size:12px; color:#241430b3; }\n.burnup__chart { width:100%; height:auto; margin-top:10px; }\n.burnup__grid { stroke:#24143026; stroke-width:1; }\n.burnup__scope { stroke:#24143066; stroke-width:1.5; stroke-dasharray:4 3; }\n.burnup__done { stroke-width:2.5; display:none; stroke:var(--accent); }\n.burnup[data-completion=\"25\"] .burnup__done--25,\n.burnup[data-completion=\"50\"] .burnup__done--50,\n.burnup[data-completion=\"75\"] .burnup__done--75,\n.burnup[data-completion=\"100\"] .burnup__done--100 { display:block; }\n.burnup__legend { display:flex; gap:14px; margin-top:8px; font-size:12px; }\n.burnup__legend-item { display:inline-flex; align-items:center; gap:5px; }\n.burnup__swatch { width:14px; height:3px; border-radius:2px; display:inline-block; }\n.burnup__swatch--scope { background:#24143066; }\n.burnup__swatch--done { background:var(--accent); }\n.burnup__status { display:none; margin:8px 0 0; font-size:13px; font-weight:600; color:var(--accent); }\n.burnup[data-completion=\"25\"] .burnup__status--25,\n.burnup[data-completion=\"50\"] .burnup__status--50,\n.burnup[data-completion=\"75\"] .burnup__status--75,\n.burnup[data-completion=\"100\"] .burnup__status--100 { display:block; }\n</style>",
+    "tailwind": "<div class=\"burnup-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[380px] box-border\" data-completion=\"{{completion}}\" style=\"--accent:{{accent}};\">\n  <div class=\"flex justify-between items-baseline gap-2\">\n    <h3 class=\"m-0 text-base\">{{title}}</h3>\n    <span class=\"text-xs text-[#241430]/70\">{{totalPoints}} pts scope</span>\n  </div>\n  <svg class=\"w-full h-auto mt-2.5\" viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burnup chart of completed work against total scope\">\n    <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"135\" stroke=\"#24143026\"/>\n    <line x1=\"20\" y1=\"135\" x2=\"280\" y2=\"135\" stroke=\"#24143026\"/>\n    {{#if scopeChange}}<polyline points=\"20,50 140,50 140,25 280,25\" fill=\"none\" stroke=\"#24143066\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\"/>{{/if}}\n    {{#unless scopeChange}}<polyline points=\"20,30 280,30\" fill=\"none\" stroke=\"#24143066\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\"/>{{/unless}}\n    <polyline class=\"burnup-tw__done burnup-tw__done--25 hidden\" points=\"20,130 100,120 180,112 280,105\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <polyline class=\"burnup-tw__done burnup-tw__done--50 hidden\" points=\"20,130 100,105 180,80 280,65\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <polyline class=\"burnup-tw__done burnup-tw__done--75 hidden\" points=\"20,130 100,90 180,55 280,40\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <polyline class=\"burnup-tw__done burnup-tw__done--100 hidden\" points=\"20,130 100,80 180,45 280,25\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n  </svg>\n  <p class=\"burnup-tw__status burnup-tw__status--25 hidden mt-2 text-[13px] font-semibold\" style=\"color:{{accent}}\">25% of scope complete</p>\n  <p class=\"burnup-tw__status burnup-tw__status--50 hidden mt-2 text-[13px] font-semibold\" style=\"color:{{accent}}\">50% of scope complete</p>\n  <p class=\"burnup-tw__status burnup-tw__status--75 hidden mt-2 text-[13px] font-semibold\" style=\"color:{{accent}}\">75% of scope complete</p>\n  <p class=\"burnup-tw__status burnup-tw__status--100 hidden mt-2 text-[13px] font-semibold\" style=\"color:{{accent}}\">100% of scope complete — done</p>\n</div>\n<style>\n.burnup-tw[data-completion=\"25\"] .burnup-tw__done--25, .burnup-tw[data-completion=\"25\"] .burnup-tw__status--25,\n.burnup-tw[data-completion=\"50\"] .burnup-tw__done--50, .burnup-tw[data-completion=\"50\"] .burnup-tw__status--50,\n.burnup-tw[data-completion=\"75\"] .burnup-tw__done--75, .burnup-tw[data-completion=\"75\"] .burnup-tw__status--75,\n.burnup-tw[data-completion=\"100\"] .burnup-tw__done--100, .burnup-tw[data-completion=\"100\"] .burnup-tw__status--100 { display:block; }\n</style>",
+    "react": "export function Burnup({\n  title = \"{{title}}\",\n  totalPoints = {{totalPoints}},\n  completion = \"{{completion}}\",\n  scopeChange = {{scopeChange}},\n  accent = \"{{accent}}\",\n}) {\n  const done = {\n    \"25\": \"20,130 100,120 180,112 280,105\",\n    \"50\": \"20,130 100,105 180,80 280,65\",\n    \"75\": \"20,130 100,90 180,55 280,40\",\n    \"100\": \"20,130 100,80 180,45 280,25\",\n  }[completion] ?? \"20,130 100,105 180,80 280,65\";\n  const scope = scopeChange ? \"20,50 140,50 140,25 280,25\" : \"20,30 280,30\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      padding: 16, borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"baseline\", gap: 8 }}>\n        <h3 style={{ margin: 0, fontSize: 16 }}>{title}</h3>\n        <span style={{ fontSize: 12, color: \"#241430b3\" }}>{totalPoints} pts scope</span>\n      </div>\n      <svg style={{ width: \"100%\", height: \"auto\", marginTop: 10 }} viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burnup chart of completed work against total scope\">\n        <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"135\" stroke=\"#24143026\" />\n        <line x1=\"20\" y1=\"135\" x2=\"280\" y2=\"135\" stroke=\"#24143026\" />\n        <polyline points={scope} fill=\"none\" stroke=\"#24143066\" strokeWidth=\"1.5\" strokeDasharray=\"4 3\" />\n        <polyline points={done} fill=\"none\" stroke={accent} strokeWidth=\"2.5\" />\n      </svg>\n      <p style={{ margin: \"8px 0 0\", fontSize: 13, fontWeight: 600, color: accent }}>{completion}% of scope complete{completion === \"100\" ? \" — done\" : \"\"}</p>\n    </div>\n  );\n}"
+  }
+}

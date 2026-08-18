@@ -1,0 +1,56 @@
+{
+  "slug": "burndown",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Sprint 14 burndown"
+    },
+    {
+      "id": "sprintLength",
+      "type": "number",
+      "label": "Sprint length (days)",
+      "default": 10,
+      "min": 5,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "trend",
+      "type": "select",
+      "label": "Trend",
+      "default": "on-track",
+      "options": [
+        "on-track",
+        "behind",
+        "ahead"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showGrid",
+      "type": "toggle",
+      "label": "Show gridlines",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"burndown\" data-trend=\"{{trend}}\" style=\"--accent:{{accent}};\">\n  <div class=\"burndown__head\">\n    <h3 class=\"burndown__title\">{{title}}</h3>\n    <span class=\"burndown__meta\">{{sprintLength}}-day sprint</span>\n  </div>\n  <svg class=\"burndown__chart\" viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burndown chart of remaining work across the sprint\">\n    {{#if showGrid}}<line x1=\"20\" y1=\"20\" x2=\"280\" y2=\"20\" class=\"burndown__grid\"/>\n    <line x1=\"20\" y1=\"45\" x2=\"280\" y2=\"45\" class=\"burndown__grid\"/>\n    <line x1=\"20\" y1=\"70\" x2=\"280\" y2=\"70\" class=\"burndown__grid\"/>\n    <line x1=\"20\" y1=\"95\" x2=\"280\" y2=\"95\" class=\"burndown__grid\"/>\n    <line x1=\"20\" y1=\"120\" x2=\"280\" y2=\"120\" class=\"burndown__grid\"/>{{/if}}\n    <polyline class=\"burndown__ideal\" points=\"20,20 87,45 155,70 222,95 280,120\" fill=\"none\"/>\n    <polyline class=\"burndown__actual burndown__actual--on-track\" points=\"20,20 90,48 150,74 220,100 280,124\" fill=\"none\"/>\n    <polyline class=\"burndown__actual burndown__actual--behind\" points=\"20,20 92,34 152,52 218,78 280,96\" fill=\"none\"/>\n    <polyline class=\"burndown__actual burndown__actual--ahead\" points=\"20,20 84,58 140,90 195,112 280,128\" fill=\"none\"/>\n    <text x=\"20\" y=\"143\" class=\"burndown__axis\">Day 0</text>\n    <text x=\"250\" y=\"143\" class=\"burndown__axis\">Day {{sprintLength}}</text>\n  </svg>\n  <div class=\"burndown__legend\">\n    <span class=\"burndown__legend-item\"><span class=\"burndown__swatch burndown__swatch--ideal\"></span>Ideal</span>\n    <span class=\"burndown__legend-item\"><span class=\"burndown__swatch burndown__swatch--actual\"></span>Actual</span>\n  </div>\n  <p class=\"burndown__status burndown__status--on-track\">On track — remaining work matches the plan.</p>\n  <p class=\"burndown__status burndown__status--behind\">Behind schedule — more work remains than planned.</p>\n  <p class=\"burndown__status burndown__status--ahead\">Ahead of schedule — less work remains than planned.</p>\n</div>\n<style>\n.burndown { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px; border-radius:12px; max-width:380px; box-sizing:border-box; }\n.burndown__head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }\n.burndown__title { margin:0; font-size:16px; }\n.burndown__meta { font-size:12px; color:#241430b3; }\n.burndown__chart { width:100%; height:auto; margin-top:10px; }\n.burndown__grid { stroke:#24143014; stroke-width:1; }\n.burndown__ideal { stroke:#24143066; stroke-width:1.5; stroke-dasharray:4 3; }\n.burndown__actual { stroke-width:2.5; display:none; }\n.burndown[data-trend=\"on-track\"] .burndown__actual--on-track,\n.burndown[data-trend=\"behind\"] .burndown__actual--behind,\n.burndown[data-trend=\"ahead\"] .burndown__actual--ahead { display:block; stroke:var(--accent); }\n.burndown__axis { font-size:9px; fill:#241430b3; }\n.burndown__legend { display:flex; gap:14px; margin-top:8px; font-size:12px; }\n.burndown__legend-item { display:inline-flex; align-items:center; gap:5px; }\n.burndown__swatch { width:14px; height:3px; border-radius:2px; display:inline-block; }\n.burndown__swatch--ideal { background:#24143066; }\n.burndown__swatch--actual { background:var(--accent); }\n.burndown__status { display:none; margin:8px 0 0; font-size:13px; font-weight:600; }\n.burndown[data-trend=\"on-track\"] .burndown__status--on-track,\n.burndown[data-trend=\"behind\"] .burndown__status--behind,\n.burndown[data-trend=\"ahead\"] .burndown__status--ahead { display:block; }\n</style>",
+    "tailwind": "<div class=\"burndown-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl max-w-[380px] box-border\" data-trend=\"{{trend}}\" style=\"--accent:{{accent}};\">\n  <div class=\"flex justify-between items-baseline gap-2\">\n    <h3 class=\"m-0 text-base\">{{title}}</h3>\n    <span class=\"text-xs text-[#241430]/70\">{{sprintLength}}-day sprint</span>\n  </div>\n  <svg class=\"w-full h-auto mt-2.5\" viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burndown chart of remaining work across the sprint\">\n    {{#if showGrid}}<line x1=\"20\" y1=\"20\" x2=\"280\" y2=\"20\" stroke=\"#24143014\"/>\n    <line x1=\"20\" y1=\"45\" x2=\"280\" y2=\"45\" stroke=\"#24143014\"/>\n    <line x1=\"20\" y1=\"70\" x2=\"280\" y2=\"70\" stroke=\"#24143014\"/>\n    <line x1=\"20\" y1=\"95\" x2=\"280\" y2=\"95\" stroke=\"#24143014\"/>\n    <line x1=\"20\" y1=\"120\" x2=\"280\" y2=\"120\" stroke=\"#24143014\"/>{{/if}}\n    <polyline points=\"20,20 87,45 155,70 222,95 280,120\" fill=\"none\" stroke=\"#24143066\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\"/>\n    <polyline class=\"burndown-tw__actual burndown-tw__actual--on-track hidden\" points=\"20,20 90,48 150,74 220,100 280,124\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <polyline class=\"burndown-tw__actual burndown-tw__actual--behind hidden\" points=\"20,20 92,34 152,52 218,78 280,96\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <polyline class=\"burndown-tw__actual burndown-tw__actual--ahead hidden\" points=\"20,20 84,58 140,90 195,112 280,128\" fill=\"none\" stroke-width=\"2.5\" style=\"stroke:{{accent}}\"/>\n    <text x=\"20\" y=\"143\" font-size=\"9\" fill=\"#241430b3\">Day 0</text>\n    <text x=\"250\" y=\"143\" font-size=\"9\" fill=\"#241430b3\">Day {{sprintLength}}</text>\n  </svg>\n  <div class=\"flex gap-3.5 mt-2 text-xs\">\n    <span class=\"inline-flex items-center gap-1.5\"><span class=\"inline-block w-3.5 h-[3px] rounded\" style=\"background:#24143066\"></span>Ideal</span>\n    <span class=\"inline-flex items-center gap-1.5\"><span class=\"inline-block w-3.5 h-[3px] rounded\" style=\"background:{{accent}}\"></span>Actual</span>\n  </div>\n  <p class=\"burndown-tw__status burndown-tw__status--on-track hidden mt-2 text-[13px] font-semibold\">On track — remaining work matches the plan.</p>\n  <p class=\"burndown-tw__status burndown-tw__status--behind hidden mt-2 text-[13px] font-semibold\">Behind schedule — more work remains than planned.</p>\n  <p class=\"burndown-tw__status burndown-tw__status--ahead hidden mt-2 text-[13px] font-semibold\">Ahead of schedule — less work remains than planned.</p>\n</div>\n<style>\n.burndown-tw[data-trend=\"on-track\"] .burndown-tw__actual--on-track, .burndown-tw[data-trend=\"on-track\"] .burndown-tw__status--on-track,\n.burndown-tw[data-trend=\"behind\"] .burndown-tw__actual--behind, .burndown-tw[data-trend=\"behind\"] .burndown-tw__status--behind,\n.burndown-tw[data-trend=\"ahead\"] .burndown-tw__actual--ahead, .burndown-tw[data-trend=\"ahead\"] .burndown-tw__status--ahead { display:block; }\n</style>",
+    "react": "export function Burndown({\n  title = \"{{title}}\",\n  sprintLength = {{sprintLength}},\n  trend = \"{{trend}}\",\n  accent = \"{{accent}}\",\n  showGrid = {{showGrid}},\n}) {\n  const lines = {\n    \"on-track\": { points: \"20,20 90,48 150,74 220,100 280,124\", text: \"On track — remaining work matches the plan.\" },\n    behind: { points: \"20,20 92,34 152,52 218,78 280,96\", text: \"Behind schedule — more work remains than planned.\" },\n    ahead: { points: \"20,20 84,58 140,90 195,112 280,128\", text: \"Ahead of schedule — less work remains than planned.\" },\n  }[trend] ?? { points: \"20,20 90,48 150,74 220,100 280,124\", text: \"On track — remaining work matches the plan.\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      padding: 16, borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"baseline\", gap: 8 }}>\n        <h3 style={{ margin: 0, fontSize: 16 }}>{title}</h3>\n        <span style={{ fontSize: 12, color: \"#241430b3\" }}>{sprintLength}-day sprint</span>\n      </div>\n      <svg style={{ width: \"100%\", height: \"auto\", marginTop: 10 }} viewBox=\"0 0 300 150\" role=\"img\" aria-label=\"Burndown chart of remaining work across the sprint\">\n        {showGrid && [20, 45, 70, 95, 120].map((y) => (\n          <line key={y} x1=\"20\" y1={y} x2=\"280\" y2={y} stroke=\"#24143014\" />\n        ))}\n        <polyline points=\"20,20 87,45 155,70 222,95 280,120\" fill=\"none\" stroke=\"#24143066\" strokeWidth=\"1.5\" strokeDasharray=\"4 3\" />\n        <polyline points={lines.points} fill=\"none\" stroke={accent} strokeWidth=\"2.5\" />\n        <text x=\"20\" y=\"143\" fontSize=\"9\" fill=\"#241430b3\">Day 0</text>\n        <text x=\"250\" y=\"143\" fontSize=\"9\" fill=\"#241430b3\">Day {sprintLength}</text>\n      </svg>\n      <div style={{ display: \"flex\", gap: 14, marginTop: 8, fontSize: 12 }}>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5 }}><span style={{ display: \"inline-block\", width: 14, height: 3, borderRadius: 2, background: \"#24143066\" }} />Ideal</span>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5 }}><span style={{ display: \"inline-block\", width: 14, height: 3, borderRadius: 2, background: accent }} />Actual</span>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 13, fontWeight: 600 }}>{lines.text}</p>\n    </div>\n  );\n}"
+  }
+}

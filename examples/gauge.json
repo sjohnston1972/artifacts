@@ -1,0 +1,50 @@
+{
+  "slug": "gauge",
+  "controls_schema": [
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Value",
+      "default": 68,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "CPU load"
+    },
+    {
+      "id": "zone",
+      "type": "select",
+      "label": "Zone",
+      "default": "safe",
+      "options": [
+        "safe",
+        "warning",
+        "critical"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#E8A020",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"gauge gauge--{{zone}}\" style=\"--val:{{value}};--accent:{{accent}};\" role=\"img\" aria-label=\"Gauge showing {{label}}: {{value}} percent, {{zone}} zone\">\n  <div class=\"gauge__ring\">\n    <div class=\"gauge__hole\">\n      <span class=\"gauge__value\">{{value}}<span class=\"gauge__unit\">%</span></span>\n      <span class=\"gauge__label\">{{label}}</span>\n    </div>\n  </div>\n  <div class=\"gauge__scale\" aria-hidden=\"true\">\n    <span class=\"gauge__tick\">0%</span>\n    <span class=\"gauge__tick\">25%</span>\n    <span class=\"gauge__tick\">50%</span>\n    <span class=\"gauge__tick\">75%</span>\n    <span class=\"gauge__tick\">100%</span>\n  </div>\n  <p class=\"gauge__zone\">Zone: {{zone}}</p>\n</div>\n<style>\n.gauge { font: 14px/1.4 system-ui, sans-serif; color: #241430; max-width: 260px; text-align: center; }\n.gauge__ring { width: 160px; height: 160px; margin: 0 auto; border-radius: 50%; position: relative;\n  background: conic-gradient(var(--accent) calc(var(--val) * 3.6deg), #24143022 0); }\n.gauge--safe .gauge__ring { outline: 3px solid #241430; outline-offset: 3px; }\n.gauge--warning .gauge__ring { outline: 3px dashed #241430; outline-offset: 3px; }\n.gauge--critical .gauge__ring { outline: 3px dotted #241430; outline-offset: 3px; }\n.gauge__hole { position: absolute; inset: 25px; border-radius: 50%; background: #FAF7F2;\n  display: flex; flex-direction: column; align-items: center; justify-content: center; }\n.gauge__value { font-size: 28px; font-weight: 700; }\n.gauge__unit { font-size: 16px; font-weight: 500; margin-left: 1px; }\n.gauge__label { font-size: 12px; color: #241430aa; margin-top: 2px; }\n.gauge__scale { display: flex; justify-content: space-between; max-width: 200px; margin: 14px auto 0;\n  padding-top: 8px; border-top: 2px solid #24143033; font-size: 10px; color: #241430aa; }\n.gauge__zone { margin: 10px 0 0; font-size: 13px; font-weight: 600; text-transform: capitalize; }\n</style>",
+    "tailwind": "<div class=\"gauge-tw gauge-tw--{{zone}} max-w-[260px] text-center font-sans text-sm\" style=\"--val:{{value}};--accent:{{accent}};\" role=\"img\" aria-label=\"Gauge showing {{label}}: {{value}} percent, {{zone}} zone\">\n  <div class=\"gauge-tw__ring w-40 h-40 mx-auto rounded-full relative\" style=\"background:conic-gradient(var(--accent) calc(var(--val) * 3.6deg), #24143022 0)\">\n    <div class=\"absolute inset-6 rounded-full bg-[#FAF7F2] flex flex-col items-center justify-center\">\n      <span class=\"text-[28px] font-bold\">{{value}}<span class=\"text-base font-medium ml-px\">%</span></span>\n      <span class=\"text-xs text-[#241430aa] mt-0.5\">{{label}}</span>\n    </div>\n  </div>\n  <div class=\"flex justify-between max-w-[200px] mx-auto mt-3.5 pt-2 border-t-2 border-[#24143033] text-[10px] text-[#241430aa]\" aria-hidden=\"true\">\n    <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>\n  </div>\n  <p class=\"mt-2.5 text-[13px] font-semibold capitalize\">Zone: {{zone}}</p>\n</div>\n<style>\n.gauge-tw--safe .gauge-tw__ring { outline: 3px solid #241430; outline-offset: 3px; }\n.gauge-tw--warning .gauge-tw__ring { outline: 3px dashed #241430; outline-offset: 3px; }\n.gauge-tw--critical .gauge-tw__ring { outline: 3px dotted #241430; outline-offset: 3px; }\n</style>",
+    "react": "export function Gauge({\n  value = {{value}},\n  label = \"{{label}}\",\n  zone = \"{{zone}}\",\n  accent = \"{{accent}}\",\n}) {\n  const outline = {\n    safe: \"3px solid #241430\",\n    warning: \"3px dashed #241430\",\n    critical: \"3px dotted #241430\",\n  }[zone] ?? \"3px solid #241430\";\n  return (\n    <div role=\"img\" aria-label={`Gauge showing ${label}: ${value} percent, ${zone} zone`}\n      style={{ fontFamily: \"system-ui, sans-serif\", color: \"#241430\", maxWidth: 260, textAlign: \"center\", fontSize: 14 }}>\n      <div style={{\n        width: 160, height: 160, margin: \"0 auto\", borderRadius: \"50%\", position: \"relative\",\n        background: `conic-gradient(${accent} ${value * 3.6}deg, #24143022 0)`,\n        outline, outlineOffset: 3,\n      }}>\n        <div style={{ position: \"absolute\", inset: 25, borderRadius: \"50%\", background: \"#FAF7F2\",\n          display: \"flex\", flexDirection: \"column\", alignItems: \"center\", justifyContent: \"center\" }}>\n          <span style={{ fontSize: 28, fontWeight: 700 }}>{value}<span style={{ fontSize: 16, fontWeight: 500, marginLeft: 1 }}>%</span></span>\n          <span style={{ fontSize: 12, color: \"#241430aa\", marginTop: 2 }}>{label}</span>\n        </div>\n      </div>\n      <div aria-hidden=\"true\" style={{ display: \"flex\", justifyContent: \"space-between\", maxWidth: 200, margin: \"14px auto 0\",\n        paddingTop: 8, borderTop: \"2px solid #24143033\", fontSize: 10, color: \"#241430aa\" }}>\n        <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>\n      </div>\n      <p style={{ margin: \"10px 0 0\", fontSize: 13, fontWeight: 600, textTransform: \"capitalize\" }}>Zone: {zone}</p>\n    </div>\n  );\n}"
+  }
+}

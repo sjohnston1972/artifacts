@@ -1,0 +1,68 @@
+{
+  "slug": "epic",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Epic title",
+      "default": "Checkout redesign"
+    },
+    {
+      "id": "doneStories",
+      "type": "number",
+      "label": "Stories done",
+      "default": 6,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "totalStories",
+      "type": "number",
+      "label": "Stories total",
+      "default": 10,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "percent",
+      "type": "number",
+      "label": "Percent complete",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "on-track",
+      "options": [
+        "on-track",
+        "at-risk",
+        "done"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"epic\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <div class=\"epic__head\">\n    <h3 class=\"epic__title\">{{title}}</h3>\n    <span class=\"epic__badge epic__badge--on-track\">On track</span>\n    <span class=\"epic__badge epic__badge--at-risk\">At risk</span>\n    <span class=\"epic__badge epic__badge--done\">Done</span>\n  </div>\n  <p class=\"epic__progress-label\">{{doneStories}} of {{totalStories}} stories done</p>\n  <div class=\"epic__bar\"><div class=\"epic__bar-fill\" style=\"width:{{percent}}%;\"></div></div>\n  <p class=\"epic__percent\">{{percent}}% complete</p>\n</div>\n<style>\n.epic { font:14px/1.4 system-ui, sans-serif; color:#241430; background:#FAF7F2; padding:16px 18px; border-radius:12px; max-width:380px; box-sizing:border-box; border:1.5px solid #24143014; }\n.epic__head { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }\n.epic__title { margin:0; font-size:16px; }\n.epic__badge { display:none; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; padding:3px 9px; border-radius:999px; }\n.epic[data-status=\"on-track\"] .epic__badge--on-track { display:inline-block; background:#cdeedb; color:#1a7a4c; }\n.epic[data-status=\"at-risk\"] .epic__badge--at-risk { display:inline-block; background:#fbe6bd; color:#8a5d00; }\n.epic[data-status=\"done\"] .epic__badge--done { display:inline-block; background:var(--accent); color:#241430; }\n.epic__progress-label { margin:10px 0 6px; font-size:13px; color:#241430cc; }\n.epic__bar { height:8px; border-radius:999px; background:#24143014; overflow:hidden; }\n.epic__bar-fill { height:100%; border-radius:999px; background:var(--accent); }\n.epic__percent { margin:6px 0 0; font-size:12px; font-weight:600; color:#241430b3; }\n</style>",
+    "tailwind": "<div class=\"epic-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl max-w-[380px] box-border border-[1.5px] border-[#24143014]\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-center justify-between gap-2 flex-wrap\">\n    <h3 class=\"m-0 text-base\">{{title}}</h3>\n    <span class=\"epic-tw__badge epic-tw__badge--on-track hidden text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full bg-[#cdeedb] text-[#1a7a4c]\">On track</span>\n    <span class=\"epic-tw__badge epic-tw__badge--at-risk hidden text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full bg-[#fbe6bd] text-[#8a5d00]\">At risk</span>\n    <span class=\"epic-tw__badge epic-tw__badge--done hidden text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full text-[#241430]\" style=\"background:{{accent}}\">Done</span>\n  </div>\n  <p class=\"mt-2.5 mb-1.5 text-[13px] text-[#241430]/80\">{{doneStories}} of {{totalStories}} stories done</p>\n  <div class=\"h-2 rounded-full bg-[#24143014] overflow-hidden\"><div class=\"h-full rounded-full\" style=\"width:{{percent}}%;background:{{accent}}\"></div></div>\n  <p class=\"mt-1.5 text-xs font-semibold text-[#241430]/70\">{{percent}}% complete</p>\n</div>\n<style>\n.epic-tw[data-status=\"on-track\"] .epic-tw__badge--on-track,\n.epic-tw[data-status=\"at-risk\"] .epic-tw__badge--at-risk,\n.epic-tw[data-status=\"done\"] .epic-tw__badge--done { display:inline-block; }\n</style>",
+    "react": "export function Epic({\n  title = \"{{title}}\",\n  doneStories = {{doneStories}},\n  totalStories = {{totalStories}},\n  percent = {{percent}},\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const badge = {\n    \"on-track\": { text: \"On track\", bg: \"#cdeedb\", color: \"#1a7a4c\" },\n    \"at-risk\": { text: \"At risk\", bg: \"#fbe6bd\", color: \"#8a5d00\" },\n    done: { text: \"Done\", bg: accent, color: \"#241430\" },\n  }[status] ?? { text: \"On track\", bg: \"#cdeedb\", color: \"#1a7a4c\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\",\n      padding: \"16px 18px\", borderRadius: 12, maxWidth: 380, boxSizing: \"border-box\", border: \"1.5px solid #24143014\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8, flexWrap: \"wrap\" }}>\n        <h3 style={{ margin: 0, fontSize: 16 }}>{title}</h3>\n        <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.03em\",\n          padding: \"3px 9px\", borderRadius: 999, background: badge.bg, color: badge.color }}>{badge.text}</span>\n      </div>\n      <p style={{ margin: \"10px 0 6px\", fontSize: 13, color: \"#241430cc\" }}>{doneStories} of {totalStories} stories done</p>\n      <div style={{ height: 8, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", borderRadius: 999, background: accent, width: `${percent}%` }} />\n      </div>\n      <p style={{ margin: \"6px 0 0\", fontSize: 12, fontWeight: 600, color: \"#241430b3\" }}>{percent}% complete</p>\n    </div>\n  );\n}"
+  }
+}

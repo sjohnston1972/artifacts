@@ -1,0 +1,59 @@
+{
+  "slug": "virtualisation",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "240-row dataset"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "visibleRows",
+      "type": "select",
+      "label": "Rows in viewport",
+      "default": "5",
+      "options": [
+        "3",
+        "5",
+        "7"
+      ]
+    },
+    {
+      "id": "itemHeight",
+      "type": "number",
+      "label": "Row height (px)",
+      "default": 36,
+      "min": 28,
+      "max": 48,
+      "step": 4
+    },
+    {
+      "id": "renderedCount",
+      "type": "number",
+      "label": "Rows rendered (of 240)",
+      "default": 12,
+      "min": 6,
+      "max": 24,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"virt\" style=\"--accent:{{accent}};\">\n  <div class=\"virt__viewport\">\n    <table class=\"virt__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr><th scope=\"col\">Row</th><th scope=\"col\">Customer</th><th scope=\"col\">Status</th><th scope=\"col\">Total</th></tr></thead>\n      <tbody data-rows=\"{{visibleRows}}\">\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0001</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0002</td><td>R. Okafor</td><td>Processing</td><td>£128.50</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0003</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0004</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0005</td><td>L. Duarte</td><td>Shipped</td><td>£96.20</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0006</td><td>P. Andersson</td><td>Processing</td><td>£15.75</td></tr>\n        <tr style=\"height:{{itemHeight}}px;\"><td>#0007</td><td>K. Fischer</td><td>Shipped</td><td>£58.40</td></tr>\n      </tbody>\n    </table>\n    <div class=\"virt__spacer\" aria-hidden=\"true\"></div>\n  </div>\n  <div class=\"virt__status\" role=\"status\">{{renderedCount}} of 240 rows rendered in the DOM</div>\n</div>\n<style>\n.virt { font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.virt__viewport { max-height: 210px; overflow: auto; position: relative; }\n.virt__table { border-collapse: collapse; width: 100%; }\n.virt__table caption { text-align: left; font-weight: 600; padding: 10px 14px; position: sticky; left: 0; }\n.virt__table th, .virt__table td { padding: 0 14px; text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.virt__table th { background: var(--accent); color: #FAF7F2; padding: 10px 14px; position: sticky; top: 0; }\ntbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\ntbody[data-rows=\"5\"] tr:nth-child(n+6) { display: none; }\ntbody[data-rows=\"7\"] tr:nth-child(n+8) { display: none; }\n.virt__spacer { height: 1400px; background: repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 36px); }\n.virt__status { font-size: 12px; color: #241430a0; padding: 8px 14px; border-top: 1px solid #24143020; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-sm text-[#241430] bg-[#FAF7F2] overflow-hidden\" style=\"--accent:{{accent}};\">\n  <div class=\"max-h-[210px] overflow-auto relative\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5 sticky left-0\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap sticky top-0\" style=\"background:{{accent}}\">Row</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap sticky top-0\" style=\"background:{{accent}}\">Customer</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap sticky top-0\" style=\"background:{{accent}}\">Status</th>\n        <th scope=\"col\" class=\"p-3.5 text-left whitespace-nowrap sticky top-0\" style=\"background:{{accent}}\">Total</th>\n      </tr></thead>\n      <tbody data-rows=\"{{visibleRows}}\">\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0001</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0002</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0003</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0004</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0005</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">L. Duarte</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£96.20</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0006</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">P. Andersson</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£15.75</td></tr>\n        <tr style=\"height:{{itemHeight}}px\"><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">#0007</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">K. Fischer</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"px-3.5 border-b border-[#24143020] whitespace-nowrap\">£58.40</td></tr>\n      </tbody>\n    </table>\n    <div aria-hidden=\"true\" class=\"h-[1400px]\" style=\"background:repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 36px);\"></div>\n  </div>\n  <div role=\"status\" class=\"text-xs text-[#241430a0] px-3.5 py-2 border-t border-[#24143020]\">{{renderedCount}} of 240 rows rendered in the DOM</div>\n</div>\n<style>\ntbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\ntbody[data-rows=\"5\"] tr:nth-child(n+6) { display: none; }\ntbody[data-rows=\"7\"] tr:nth-child(n+8) { display: none; }\n</style>",
+    "react": "function Virtualisation({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  visibleRows = \"{{visibleRows}}\",\n  itemHeight = {{itemHeight}},\n  renderedCount = {{renderedCount}},\n}) {\n  const rows = [\n    [\"#0001\", \"A. Whitfield\", \"Shipped\", \"£64.00\"],\n    [\"#0002\", \"R. Okafor\", \"Processing\", \"£128.50\"],\n    [\"#0003\", \"M. Iqbal\", \"Shipped\", \"£22.00\"],\n    [\"#0004\", \"S. Novak\", \"Refunded\", \"£40.00\"],\n    [\"#0005\", \"L. Duarte\", \"Shipped\", \"£96.20\"],\n    [\"#0006\", \"P. Andersson\", \"Processing\", \"£15.75\"],\n    [\"#0007\", \"K. Fischer\", \"Shipped\", \"£58.40\"],\n  ].slice(0, Number(visibleRows));\n  const cell = { padding: \"0 14px\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ maxHeight: 210, overflow: \"auto\", position: \"relative\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              {[\"Row\", \"Customer\", \"Status\", \"Total\"].map((h) => <th key={h} scope=\"col\" style={{ padding: \"10px 14px\", textAlign: \"left\", position: \"sticky\", top: 0, background: accent }}>{h}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            {rows.map((row) => (\n              <tr key={row[0]} style={{ height: itemHeight }}>{row.map((c, j) => <td key={j} style={cell}>{c}</td>)}</tr>\n            ))}\n          </tbody>\n        </table>\n        <div aria-hidden=\"true\" style={{ height: 1400, background: \"repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 36px)\" }} />\n      </div>\n      <div role=\"status\" style={{ fontSize: 12, color: \"#241430a0\", padding: \"8px 14px\", borderTop: \"1px solid #24143020\" }}>{renderedCount} of 240 rows rendered in the DOM</div>\n    </div>\n  );\n}"
+  }
+}

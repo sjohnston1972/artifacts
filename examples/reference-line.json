@@ -1,0 +1,50 @@
+{
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Line label",
+      "default": "Target"
+    },
+    {
+      "id": "positionPercent",
+      "type": "number",
+      "label": "Line position (%)",
+      "default": 65,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "lineStyle",
+      "type": "select",
+      "label": "Line style",
+      "default": "dashed",
+      "options": [
+        "dashed",
+        "solid",
+        "dotted"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Line colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"reference-line reference-line--{{lineStyle}}\" style=\"--accent:{{accent}};--pos:{{positionPercent}};\" role=\"img\" aria-label=\"Bar chart with a reference line labelled {{label}} at {{positionPercent}} percent of the axis\">\n  <figcaption class=\"reference-line__title\">Weekly output vs. reference line</figcaption>\n  <svg class=\"reference-line__svg\" viewBox=\"0 0 220 120\" xmlns=\"http://www.w3.org/2000/svg\">\n    <g aria-hidden=\"true\">\n      <line class=\"rl-grid\" x1=\"20\" y1=\"10\" x2=\"20\" y2=\"100\"></line>\n      <line class=\"rl-grid\" x1=\"20\" y1=\"100\" x2=\"212\" y2=\"100\"></line>\n      <line class=\"rl-gridline\" x1=\"20\" y1=\"10\" x2=\"212\" y2=\"10\"></line>\n      <line class=\"rl-gridline\" x1=\"20\" y1=\"55\" x2=\"212\" y2=\"55\"></line>\n      <text class=\"rl-tick\" x=\"16\" y=\"103\">0%</text>\n      <text class=\"rl-tick\" x=\"16\" y=\"58\">50%</text>\n      <text class=\"rl-tick\" x=\"16\" y=\"13\">100%</text></g>\n    <g aria-hidden=\"true\">\n      <rect class=\"rl-bar\" x=\"30\" y=\"64\" width=\"24\" height=\"36\"></rect>\n      <rect class=\"rl-bar\" x=\"68\" y=\"50.5\" width=\"24\" height=\"49.5\"></rect>\n      <rect class=\"rl-bar\" x=\"106\" y=\"68.5\" width=\"24\" height=\"31.5\"></rect>\n      <rect class=\"rl-bar\" x=\"144\" y=\"46\" width=\"24\" height=\"54\"></rect>\n      <rect class=\"rl-bar\" x=\"182\" y=\"55\" width=\"24\" height=\"45\"></rect></g>\n    <line class=\"reference-line__refline\" x1=\"20\" x2=\"212\"></line>\n    <text class=\"reference-line__reflabel\" x=\"208\">{{label}}</text>\n  </svg>\n</figure>\n<style>\n.reference-line { max-width: 420px; font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 14px; box-sizing: border-box; }\n.reference-line__title { font-size: 12px; font-weight: 600; margin: 0 0 8px; }\n.reference-line__svg { width: 100%; height: auto; display: block; overflow: visible; }\n.reference-line .rl-grid { stroke: #24143055; stroke-width: 1; }\n.reference-line .rl-gridline { stroke: #24143014; stroke-width: 1; }\n.reference-line .rl-tick { font-size: 8px; fill: #24143099; text-anchor: end; }\n.reference-line .rl-bar { fill: #BFD9F2; }\n.reference-line__refline { stroke: var(--accent); stroke-width: 2; y1: calc(100px - (var(--pos) * 0.9px)); y2: calc(100px - (var(--pos) * 0.9px)); }\n.reference-line--dashed .reference-line__refline { stroke-dasharray: 6 4; }\n.reference-line--solid .reference-line__refline { stroke-dasharray: none; }\n.reference-line--dotted .reference-line__refline { stroke-dasharray: 1.5 3.5; stroke-linecap: round; }\n.reference-line__reflabel { fill: var(--accent); font-size: 10px; font-weight: 700; text-anchor: end; y: calc(100px - (var(--pos) * 0.9px) - 5px); }\n</style>",
+    "tailwind": "<figure class=\"reference-line-tw reference-line-tw--{{lineStyle}} max-w-[420px] p-3.5 font-sans text-[#241430] bg-[#FAF7F2] box-border\" style=\"--accent:{{accent}};--pos:{{positionPercent}};\" role=\"img\" aria-label=\"Bar chart with a reference line labelled {{label}} at {{positionPercent}} percent of the axis\">\n  <figcaption class=\"text-xs font-semibold mb-2\">Weekly output vs. reference line</figcaption>\n  <svg class=\"w-full h-auto block\" style=\"overflow:visible;\" viewBox=\"0 0 220 120\" xmlns=\"http://www.w3.org/2000/svg\">\n    <g aria-hidden=\"true\">\n      <line class=\"reference-line-tw__grid\" x1=\"20\" y1=\"10\" x2=\"20\" y2=\"100\"></line>\n      <line class=\"reference-line-tw__grid\" x1=\"20\" y1=\"100\" x2=\"212\" y2=\"100\"></line>\n      <line class=\"reference-line-tw__gridline\" x1=\"20\" y1=\"10\" x2=\"212\" y2=\"10\"></line>\n      <line class=\"reference-line-tw__gridline\" x1=\"20\" y1=\"55\" x2=\"212\" y2=\"55\"></line>\n      <text class=\"reference-line-tw__tick\" x=\"16\" y=\"103\">0%</text>\n      <text class=\"reference-line-tw__tick\" x=\"16\" y=\"58\">50%</text>\n      <text class=\"reference-line-tw__tick\" x=\"16\" y=\"13\">100%</text></g>\n    <g aria-hidden=\"true\">\n      <rect class=\"reference-line-tw__bar\" x=\"30\" y=\"64\" width=\"24\" height=\"36\"></rect>\n      <rect class=\"reference-line-tw__bar\" x=\"68\" y=\"50.5\" width=\"24\" height=\"49.5\"></rect>\n      <rect class=\"reference-line-tw__bar\" x=\"106\" y=\"68.5\" width=\"24\" height=\"31.5\"></rect>\n      <rect class=\"reference-line-tw__bar\" x=\"144\" y=\"46\" width=\"24\" height=\"54\"></rect>\n      <rect class=\"reference-line-tw__bar\" x=\"182\" y=\"55\" width=\"24\" height=\"45\"></rect></g>\n    <line class=\"reference-line-tw__refline\" x1=\"20\" x2=\"212\"></line>\n    <text class=\"reference-line-tw__reflabel\" x=\"208\">{{label}}</text>\n  </svg>\n</figure>\n<style>\n.reference-line-tw__grid { stroke: #24143055; stroke-width: 1; }\n.reference-line-tw__gridline { stroke: #24143014; stroke-width: 1; }\n.reference-line-tw__tick { font-size: 8px; fill: #24143099; text-anchor: end; }\n.reference-line-tw__bar { fill: #BFD9F2; }\n.reference-line-tw__refline { stroke: var(--accent); stroke-width: 2; y1: calc(100px - (var(--pos) * 0.9px)); y2: calc(100px - (var(--pos) * 0.9px)); }\n.reference-line-tw--dashed .reference-line-tw__refline { stroke-dasharray: 6 4; }\n.reference-line-tw--solid .reference-line-tw__refline { stroke-dasharray: none; }\n.reference-line-tw--dotted .reference-line-tw__refline { stroke-dasharray: 1.5 3.5; stroke-linecap: round; }\n.reference-line-tw__reflabel { fill: var(--accent); font-size: 10px; font-weight: 700; text-anchor: end; y: calc(100px - (var(--pos) * 0.9px) - 5px); }\n</style>",
+    "react": "export function ReferenceLine({\n  label = \"{{label}}\",\n  positionPercent = {{positionPercent}},\n  lineStyle = \"{{lineStyle}}\",\n  accent = \"{{accent}}\",\n}) {\n  const bars = [\n    [30, 64, 36], [68, 50.5, 49.5], [106, 68.5, 31.5], [144, 46, 54], [182, 55, 45],\n  ];\n  const dash = { dashed: \"6 4\", solid: \"none\", dotted: \"1.5 3.5\" }[lineStyle] ?? \"none\";\n  const y = 100 - positionPercent * 0.9;\n  return (\n    <figure role=\"img\" aria-label={`Bar chart with a reference line labelled ${label} at ${positionPercent} percent of the axis`}\n      style={{ maxWidth: 420, padding: 14, font: \"12px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", boxSizing: \"border-box\" }}>\n      <figcaption style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>Weekly output vs. reference line</figcaption>\n      <svg viewBox=\"0 0 220 120\" style={{ width: \"100%\", height: \"auto\", display: \"block\", overflow: \"visible\" }}>\n        <g aria-hidden=\"true\">\n          <line x1={20} y1={10} x2={20} y2={100} stroke=\"#24143055\" />\n          <line x1={20} y1={100} x2={212} y2={100} stroke=\"#24143055\" />\n          <line x1={20} y1={10} x2={212} y2={10} stroke=\"#24143014\" />\n          <line x1={20} y1={55} x2={212} y2={55} stroke=\"#24143014\" />\n          <text x={16} y={103} fontSize={8} fill=\"#24143099\" textAnchor=\"end\">0%</text>\n          <text x={16} y={58} fontSize={8} fill=\"#24143099\" textAnchor=\"end\">50%</text>\n          <text x={16} y={13} fontSize={8} fill=\"#24143099\" textAnchor=\"end\">100%</text>\n        </g>\n        <g aria-hidden=\"true\">\n          {bars.map(([x, by, h], i) => <rect key={i} x={x} y={by} width={24} height={h} fill=\"#BFD9F2\" />)}\n        </g>\n        <line x1={20} y1={y} x2={212} y2={y} stroke={accent} strokeWidth={2} strokeDasharray={dash} strokeLinecap={lineStyle === \"dotted\" ? \"round\" : \"butt\"} />\n        <text x={208} y={y - 5} fill={accent} fontSize={10} fontWeight={700} textAnchor=\"end\">{label}</text>\n      </svg>\n    </figure>\n  );\n}"
+  },
+  "slug": "reference-line"
+}

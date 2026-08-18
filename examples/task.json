@@ -1,0 +1,53 @@
+{
+  "slug": "task",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Task title",
+      "default": "Update pricing copy"
+    },
+    {
+      "id": "assignee",
+      "type": "text",
+      "label": "Assignee initials",
+      "default": "JM"
+    },
+    {
+      "id": "done",
+      "type": "toggle",
+      "label": "Complete",
+      "default": false
+    },
+    {
+      "id": "due",
+      "type": "select",
+      "label": "Due",
+      "default": "This week",
+      "options": [
+        "Today",
+        "This week",
+        "Overdue"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"task-row{{#if done}} task-row--done{{/if}}\" style=\"--accent: {{accent}};\">\n  <label class=\"task-row__check\">\n    <input type=\"checkbox\" {{#if done}}checked{{/if}}>\n    <span class=\"task-row__box\" aria-hidden=\"true\"></span>\n  </label>\n  <span class=\"task-row__title\">{{title}}</span>\n  <span class=\"task-row__due\" data-due=\"{{due}}\">{{due}}</span>\n  <span class=\"task-row__avatar\">{{assignee}}</span>\n</div>\n<style>\n.task-row { display: flex; align-items: center; gap: 10px; font-family: system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 10px 14px; border-radius: 8px; border: 1px solid #24143018; max-width: 420px; box-sizing: border-box; }\n.task-row__check { position: relative; display: inline-flex; cursor: pointer; flex: 0 0 auto; }\n.task-row__check input { position: absolute; opacity: 0; width: 20px; height: 20px; margin: 0; cursor: pointer; }\n.task-row__box { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid #241430; display: inline-block; box-sizing: border-box; }\n.task-row__check input:checked + .task-row__box { background: var(--accent); border-color: var(--accent); position: relative; }\n.task-row__check input:checked + .task-row__box::after { content: \"\\2713\"; display: block; text-align: center; line-height: 17px; font-size: 13px; color: #241430; }\n.task-row__check input:focus-visible + .task-row__box { outline: 2px solid #241430; outline-offset: 2px; }\n.task-row__title { flex: 1 1 auto; font-size: 14px; }\n.task-row--done .task-row__title { text-decoration: line-through; opacity: .6; }\n.task-row__due { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; flex: 0 0 auto; }\n.task-row__due[data-due=\"Today\"] { background: #F5C2E060; color: #8a1050; }\n.task-row__due[data-due=\"This week\"] { background: #BFD9F260; color: #1a3a5c; }\n.task-row__due[data-due=\"Overdue\"] { background: #E8A02040; color: #7a4b06; }\n.task-row__avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #241430; flex: 0 0 auto; }\n</style>",
+    "tailwind": "<div class=\"task-row-tw{{#if done}} task-row-tw--done{{/if}} flex items-center gap-2.5 font-sans text-[#241430] bg-[#FAF7F2] px-3.5 py-2.5 rounded-lg border border-[#24143018] max-w-[420px] box-border\" style=\"--accent: {{accent}};\">\n  <label class=\"task-row-tw__check relative inline-flex cursor-pointer flex-none\">\n    <input type=\"checkbox\" class=\"absolute opacity-0 w-5 h-5 m-0 cursor-pointer\" {{#if done}}checked{{/if}}>\n    <span class=\"task-row-tw__box w-5 h-5 rounded-[5px] border-[1.5px] border-[#241430] inline-block box-border\" aria-hidden=\"true\"></span>\n  </label>\n  <span class=\"task-row-tw__title flex-1 text-sm\">{{title}}</span>\n  <span class=\"text-[11px] font-bold px-2 py-[3px] rounded-full flex-none\" data-due=\"{{due}}\">{{due}}</span>\n  <span class=\"w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-bold flex-none\" style=\"background: var(--accent);\">{{assignee}}</span>\n</div>\n<style>\n.task-row-tw__check input:checked + .task-row-tw__box { background: var(--accent); border-color: var(--accent); position: relative; }\n.task-row-tw__check input:checked + .task-row-tw__box::after { content: \"\\2713\"; display: block; text-align: center; line-height: 17px; font-size: 13px; color: #241430; }\n.task-row-tw__check input:focus-visible + .task-row-tw__box { outline: 2px solid #241430; outline-offset: 2px; }\n.task-row-tw--done .task-row-tw__title { text-decoration: line-through; opacity: .6; }\n[data-due=\"Today\"] { background: #F5C2E060; color: #8a1050; }\n[data-due=\"This week\"] { background: #BFD9F260; color: #1a3a5c; }\n[data-due=\"Overdue\"] { background: #E8A02040; color: #7a4b06; }\n</style>",
+    "react": "export function TaskRow({\n  title = \"{{title}}\",\n  assignee = \"{{assignee}}\",\n  done = {{done}},\n  due = \"{{due}}\",\n  accent = \"{{accent}}\",\n}) {\n  const dueStyle = {\n    \"Today\": { background: \"#F5C2E060\", color: \"#8a1050\" },\n    \"This week\": { background: \"#BFD9F260\", color: \"#1a3a5c\" },\n    \"Overdue\": { background: \"#E8A02040\", color: \"#7a4b06\" },\n  }[due] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, fontFamily: \"system-ui, sans-serif\",\n      color: \"#241430\", background: \"#FAF7F2\", padding: \"10px 14px\", borderRadius: 8,\n      border: \"1px solid #24143018\", maxWidth: 420, boxSizing: \"border-box\" }}>\n      <label style={{ position: \"relative\", display: \"inline-flex\", cursor: \"pointer\", flex: \"0 0 auto\" }}>\n        <input type=\"checkbox\" checked={done} readOnly style={{ position: \"absolute\", opacity: 0, width: 20, height: 20, margin: 0, cursor: \"pointer\" }} />\n        <span aria-hidden=\"true\" style={{ width: 20, height: 20, borderRadius: 5, boxSizing: \"border-box\",\n          border: \"1.5px solid \" + (done ? accent : \"#241430\"), background: done ? accent : \"transparent\",\n          display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 13, color: \"#241430\" }}>\n          {done ? \"\\u2713\" : \"\"}\n        </span>\n      </label>\n      <span style={{ flex: \"1 1 auto\", fontSize: 14, textDecoration: done ? \"line-through\" : \"none\", opacity: done ? 0.6 : 1 }}>{title}</span>\n      <span style={{ fontSize: 11, fontWeight: 700, padding: \"3px 8px\", borderRadius: 999, flex: \"0 0 auto\", ...dueStyle }}>{due}</span>\n      <span style={{ width: 24, height: 24, borderRadius: \"50%\", background: accent, display: \"inline-flex\",\n        alignItems: \"center\", justifyContent: \"center\", fontSize: 10, fontWeight: 700, color: \"#241430\", flex: \"0 0 auto\" }}>{assignee}</span>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "sla-timer",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "First response"
+    },
+    {
+      "id": "remaining",
+      "type": "text",
+      "label": "Time remaining",
+      "default": "2h 15m remaining"
+    },
+    {
+      "id": "percentElapsed",
+      "type": "number",
+      "label": "Time elapsed (%)",
+      "default": 65,
+      "min": 0,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "on track",
+      "options": [
+        "on track",
+        "at risk",
+        "breached"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sla-timer\" data-state=\"{{state}}\">\n  <div class=\"sla-timer__ring-wrap\">\n    <svg class=\"sla-timer__ring\" viewBox=\"0 0 36 36\" aria-hidden=\"true\">\n      <circle class=\"sla-timer__track\" cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" stroke-width=\"3\"/>\n      <circle class=\"sla-timer__fill\" cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"{{percentElapsed}} 100\" stroke-dashoffset=\"25\" style=\"stroke:{{accent}};\" stroke-linecap=\"round\"/>\n    </svg>\n    <span class=\"sla-timer__pct\">{{percentElapsed}}%</span>\n  </div>\n  <div class=\"sla-timer__body\">\n    <p class=\"sla-timer__label\">{{label}}</p>\n    <p class=\"sla-timer__remaining\">{{remaining}}</p>\n    <span class=\"sla-timer__state\">\n      <svg class=\"sla-timer__icon sla-timer__icon--on-track\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"sla-timer__icon sla-timer__icon--at-risk\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M10 8v4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\"/></svg>\n      <svg class=\"sla-timer__icon sla-timer__icon--breached\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      {{state}}\n    </span>\n  </div>\n</div>\n<style>\n.sla-timer { display: flex; align-items: center; gap: 16px; width: 320px; padding: 16px; background: #FAF7F2; color: #241430; font: 14px/1.4 system-ui, sans-serif; border-radius: 14px; box-shadow: 0 8px 24px rgba(36,20,48,.12); box-sizing: border-box; }\n.sla-timer__ring-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; }\n.sla-timer__ring { width: 64px; height: 64px; transform: rotate(-90deg); }\n.sla-timer__track { stroke: #24143018; }\n.sla-timer__pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }\n.sla-timer__label { margin: 0; font-weight: 700; }\n.sla-timer__remaining { margin: 2px 0 8px; color: #241430b3; font-size: 13px; }\n.sla-timer__state { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; text-transform: capitalize; }\n.sla-timer__icon { width: 12px; height: 12px; display: none; }\n.sla-timer[data-state=\"on track\"] .sla-timer__icon--on-track { display: block; }\n.sla-timer[data-state=\"at risk\"] .sla-timer__icon--at-risk { display: block; }\n.sla-timer[data-state=\"breached\"] .sla-timer__icon--breached { display: block; }\n.sla-timer[data-state=\"on track\"] .sla-timer__state { background: #A8E6C1; color: #17532F; }\n.sla-timer[data-state=\"at risk\"] .sla-timer__state { background: #E8A020; color: #4A2E00; }\n.sla-timer[data-state=\"breached\"] .sla-timer__state { background: #F5C2E0; color: #7A1440; }\n</style>",
+    "tailwind": "<div class=\"sla-timer-tw flex items-center gap-4 w-80 p-4 bg-[#FAF7F2] text-[#241430] font-sans text-sm rounded-2xl shadow-lg box-border\" data-state=\"{{state}}\">\n  <div class=\"relative w-16 h-16 flex-shrink-0\">\n    <svg class=\"w-16 h-16 -rotate-90\" viewBox=\"0 0 36 36\" aria-hidden=\"true\">\n      <circle cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" stroke=\"#24143018\" stroke-width=\"3\"/>\n      <circle cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"{{percentElapsed}} 100\" stroke-dashoffset=\"25\" stroke-linecap=\"round\" style=\"stroke:{{accent}};\"/>\n    </svg>\n    <span class=\"absolute inset-0 flex items-center justify-center font-bold text-xs\">{{percentElapsed}}%</span>\n  </div>\n  <div>\n    <p class=\"m-0 font-bold\">{{label}}</p>\n    <p class=\"mt-0.5 mb-2 text-[13px] text-[#241430]/70\">{{remaining}}</p>\n    <span class=\"sla-timer-tw__state inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-xs capitalize\">\n      <svg class=\"sla-timer-tw__icon sla-timer-tw__icon--on-track w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n      <svg class=\"sla-timer-tw__icon sla-timer-tw__icon--at-risk w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M10 8v4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\"/></svg>\n      <svg class=\"sla-timer-tw__icon sla-timer-tw__icon--breached w-3 h-3\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n      {{state}}\n    </span>\n  </div>\n</div>\n<style>\n.sla-timer-tw__icon { display: none; }\n.sla-timer-tw[data-state=\"on track\"] .sla-timer-tw__icon--on-track { display: block; }\n.sla-timer-tw[data-state=\"at risk\"] .sla-timer-tw__icon--at-risk { display: block; }\n.sla-timer-tw[data-state=\"breached\"] .sla-timer-tw__icon--breached { display: block; }\n.sla-timer-tw[data-state=\"on track\"] .sla-timer-tw__state { background: #A8E6C1; color: #17532F; }\n.sla-timer-tw[data-state=\"at risk\"] .sla-timer-tw__state { background: #E8A020; color: #4A2E00; }\n.sla-timer-tw[data-state=\"breached\"] .sla-timer-tw__state { background: #F5C2E0; color: #7A1440; }\n</style>",
+    "react": "export function SlaTimer({\n  label = \"{{label}}\",\n  remaining = \"{{remaining}}\",\n  percentElapsed = {{percentElapsed}},\n  state = \"{{state}}\",\n  accent = \"{{accent}}\",\n}) {\n  const palette = {\n    \"on track\": { background: \"#A8E6C1\", color: \"#17532F\" },\n    \"at risk\": { background: \"#E8A020\", color: \"#4A2E00\" },\n    breached: { background: \"#F5C2E0\", color: \"#7A1440\" },\n  }[state] ?? {};\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 16, width: 320, padding: 16, background: \"#FAF7F2\",\n      color: \"#241430\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, borderRadius: 14,\n      boxShadow: \"0 8px 24px rgba(36,20,48,.12)\", boxSizing: \"border-box\" }}>\n      <div style={{ position: \"relative\", width: 64, height: 64, flexShrink: 0 }}>\n        <svg width=\"64\" height=\"64\" viewBox=\"0 0 36 36\" style={{ transform: \"rotate(-90deg)\" }} aria-hidden=\"true\">\n          <circle cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" stroke=\"#24143018\" strokeWidth=\"3\" />\n          <circle cx=\"18\" cy=\"18\" r=\"15.9155\" fill=\"none\" strokeWidth=\"3\" strokeDasharray={`${percentElapsed} 100`}\n            strokeDashoffset=\"25\" strokeLinecap=\"round\" stroke={accent} />\n        </svg>\n        <span style={{ position: \"absolute\", inset: 0, display: \"flex\", alignItems: \"center\", justifyContent: \"center\",\n          fontWeight: 700, fontSize: 12 }}>{percentElapsed}%</span>\n      </div>\n      <div>\n        <p style={{ margin: 0, fontWeight: 700 }}>{label}</p>\n        <p style={{ margin: \"2px 0 8px\", color: \"#241430b3\", fontSize: 13 }}>{remaining}</p>\n        <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, padding: \"3px 10px\", borderRadius: 999,\n          fontWeight: 700, fontSize: 12, textTransform: \"capitalize\", ...palette }}>\n          {state === \"on track\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l3.5 3.5L16 5.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n          )}\n          {state === \"at risk\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M10 2L18.5 17H1.5L10 2z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinejoin=\"round\" /><path d=\"M10 8v4\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /><circle cx=\"10\" cy=\"14.6\" r=\"1\" fill=\"currentColor\" /></svg>\n          )}\n          {state === \"breached\" && (\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M7 7l6 6M13 7l-6 6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n          )}\n          {state}\n        </span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

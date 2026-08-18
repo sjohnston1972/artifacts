@@ -1,0 +1,52 @@
+{
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Owner name",
+      "default": "Platform Reliability"
+    },
+    {
+      "id": "initials",
+      "type": "text",
+      "label": "Avatar initials",
+      "default": "PR"
+    },
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Accountability type",
+      "default": "team",
+      "options": [
+        "individual",
+        "team"
+      ]
+    },
+    {
+      "id": "note",
+      "type": "text",
+      "label": "Accountable for",
+      "default": "Uptime and incident response SLAs"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"owner\" aria-label=\"Owner: {{name}}\">\n  <span class=\"owner__avatar\" style=\"background:{{accent}};\">{{initials}}</span>\n  <div class=\"owner__body\">\n    <p class=\"owner__name\">{{name}}</p>\n    <p class=\"owner__note\">{{note}}</p>\n  </div>\n  <span class=\"owner__type owner__type--{{type}}\">\n    <span class=\"owner__icon owner__icon--individual\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"5.5\" r=\"2.6\"></circle><path d=\"M3 14c0-3 2.4-5.2 5-5.2s5 2.2 5 5.2\"></path></svg></span>\n    <span class=\"owner__icon owner__icon--team\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"5.6\" cy=\"6\" r=\"2.1\"></circle><circle cx=\"10.6\" cy=\"6.3\" r=\"1.9\"></circle><path d=\"M1.6 14c0-2.7 1.9-4.6 4-4.6s4 1.9 4 4.6\"></path><path d=\"M9 9.6c.5-.3 1-.4 1.6-.4 2.1 0 3.8 1.9 3.8 4.4\"></path></svg></span>\n    <span class=\"owner__type-label\">{{type}}</span>\n  </span>\n</div>\n<style>\n.owner { display: flex; align-items: center; gap: 12px; max-width: 480px; padding: 14px 16px; border-radius: 12px; background: #FAF7F2; border: 1px solid #24143022; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.owner__avatar { width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; font: 700 13px system-ui, sans-serif; color: #241430; }\n.owner__body { flex: 1; min-width: 0; }\n.owner__name { margin: 0; font-weight: 700; font-size: 14.5px; }\n.owner__note { margin: 2px 0 0; font-size: 12.5px; color: #241430b3; }\n.owner__type { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; font: 600 12px/1 system-ui, sans-serif; text-transform: capitalize; flex-shrink: 0; }\n.owner__type--individual { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.owner__type--team { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.owner__icon { display: none; }\n.owner__type--individual .owner__icon--individual, .owner__type--team .owner__icon--team { display: inline-flex; }\n</style>",
+    "tailwind": "<div aria-label=\"Owner: {{name}}\" class=\"owner-tw flex items-center gap-3 max-w-[480px] p-3.5 rounded-xl bg-[#FAF7F2] border border-[#24143022] box-border font-sans text-sm text-[#241430]\">\n  <span class=\"w-[38px] h-[38px] flex-shrink-0 rounded-full grid place-items-center text-[13px] font-bold\" style=\"background:{{accent}}\">{{initials}}</span>\n  <div class=\"flex-1 min-w-0\">\n    <p class=\"m-0 font-bold text-[14.5px]\">{{name}}</p>\n    <p class=\"m-0 mt-0.5 text-[12.5px] text-[#241430]/70\">{{note}}</p>\n  </div>\n  <span class=\"owner-tw__type owner-tw__type--{{type}} inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold capitalize flex-shrink-0\">\n    <span class=\"owner-tw__icon owner-tw__icon--individual\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"8\" cy=\"5.5\" r=\"2.6\"></circle><path d=\"M3 14c0-3 2.4-5.2 5-5.2s5 2.2 5 5.2\"></path></svg></span>\n    <span class=\"owner-tw__icon owner-tw__icon--team\" aria-hidden=\"true\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"5.6\" cy=\"6\" r=\"2.1\"></circle><circle cx=\"10.6\" cy=\"6.3\" r=\"1.9\"></circle><path d=\"M1.6 14c0-2.7 1.9-4.6 4-4.6s4 1.9 4 4.6\"></path><path d=\"M9 9.6c.5-.3 1-.4 1.6-.4 2.1 0 3.8 1.9 3.8 4.4\"></path></svg></span>\n    <span>{{type}}</span>\n  </span>\n</div>\n<style>\n.owner-tw__icon { display: none; }\n.owner-tw__type--individual { background: color-mix(in srgb, #BFD9F2 45%, #FAF7F2); color: #1f4266; }\n.owner-tw__type--team { background: color-mix(in srgb, #D9C8F0 45%, #FAF7F2); color: #4a3a68; }\n.owner-tw__type--individual .owner-tw__icon--individual, .owner-tw__type--team .owner-tw__icon--team { display: inline-flex; }\n</style>",
+    "react": "export function Owner({\n  name = \"{{name}}\",\n  initials = \"{{initials}}\",\n  type = \"{{type}}\",\n  note = \"{{note}}\",\n  accent = \"{{accent}}\",\n}) {\n  const palette = {\n    individual: { background: \"color-mix(in srgb, #BFD9F2 45%, #FAF7F2)\", color: \"#1f4266\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><circle cx=\"8\" cy=\"5.5\" r=\"2.6\" /><path d=\"M3 14c0-3 2.4-5.2 5-5.2s5 2.2 5 5.2\" /></svg> },\n    team: { background: \"color-mix(in srgb, #D9C8F0 45%, #FAF7F2)\", color: \"#4a3a68\", icon: <svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\"><circle cx=\"5.6\" cy=\"6\" r=\"2.1\" /><circle cx=\"10.6\" cy=\"6.3\" r=\"1.9\" /><path d=\"M1.6 14c0-2.7 1.9-4.6 4-4.6s4 1.9 4 4.6\" /><path d=\"M9 9.6c.5-.3 1-.4 1.6-.4 2.1 0 3.8 1.9 3.8 4.4\" /></svg> },\n  }[type] ?? {};\n  return (\n    <div aria-label={\"Owner: \" + name} style={{ display: \"flex\", alignItems: \"center\", gap: 12, maxWidth: 480, padding: \"14px 16px\", borderRadius: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", boxSizing: \"border-box\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span style={{ width: 38, height: 38, flexShrink: 0, borderRadius: \"50%\", display: \"grid\", placeItems: \"center\", font: \"700 13px system-ui, sans-serif\", color: \"#241430\", background: accent }}>{initials}</span>\n      <div style={{ flex: 1, minWidth: 0 }}>\n        <p style={{ margin: 0, fontWeight: 700, fontSize: 14.5 }}>{name}</p>\n        <p style={{ margin: \"2px 0 0\", fontSize: 12.5, color: \"#241430b3\" }}>{note}</p>\n      </div>\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 5, padding: \"4px 9px\", borderRadius: 999, font: \"600 12px/1 system-ui, sans-serif\", textTransform: \"capitalize\", flexShrink: 0, background: palette.background, color: palette.color }}>\n        {palette.icon}\n        <span>{type}</span>\n      </span>\n    </div>\n  );\n}"
+  },
+  "slug": "owner"
+}

@@ -1,0 +1,47 @@
+{
+  "slug": "comparison-indicator",
+  "controls_schema": [
+    {
+      "id": "currentValue",
+      "type": "text",
+      "label": "Current value",
+      "default": "128"
+    },
+    {
+      "id": "previousValue",
+      "type": "text",
+      "label": "Previous value",
+      "default": "112"
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"comparison-indicator-demo comparison-indicator-demo--{{direction}}\" style=\"--accent:{{accent}};\">\n  <span class=\"comparison-indicator-demo__current\">{{currentValue}}</span>\n  <span class=\"comparison-indicator-demo__delta\">\n    <svg class=\"comparison-indicator-demo__icon comparison-indicator-demo__icon--up\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 2 14 10 10 10 10 14 6 14 6 10 2 10Z\" /></svg>\n    <svg class=\"comparison-indicator-demo__icon comparison-indicator-demo__icon--down\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 14 2 6 6 6 6 2 10 2 10 6 14 6Z\" /></svg>\n    <svg class=\"comparison-indicator-demo__icon comparison-indicator-demo__icon--flat\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><rect x=\"2\" y=\"7\" width=\"12\" height=\"2\" /></svg>\n    <span class=\"comparison-indicator-demo__word comparison-indicator-demo__word--up\">Up</span>\n    <span class=\"comparison-indicator-demo__word comparison-indicator-demo__word--down\">Down</span>\n    <span class=\"comparison-indicator-demo__word comparison-indicator-demo__word--flat\">Flat</span>\n  </span>\n  <span class=\"comparison-indicator-demo__previous\">from {{previousValue}} previously</span>\n</div>\n<style>\n.comparison-indicator-demo { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font: 14px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 12px 16px; border: 1.5px solid #24143022; border-radius: 12px; box-sizing: border-box; }\n.comparison-indicator-demo__current { font-size: 22px; font-weight: 700; }\n.comparison-indicator-demo__delta { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 30%, #FAF7F2); font-weight: 700; font-size: 12px; color: #241430; }\n.comparison-indicator-demo__icon { width: 12px; height: 12px; fill: var(--accent); display: none; }\n.comparison-indicator-demo__word { display: none; }\n.comparison-indicator-demo--up .comparison-indicator-demo__icon--up,\n.comparison-indicator-demo--up .comparison-indicator-demo__word--up,\n.comparison-indicator-demo--down .comparison-indicator-demo__icon--down,\n.comparison-indicator-demo--down .comparison-indicator-demo__word--down,\n.comparison-indicator-demo--flat .comparison-indicator-demo__icon--flat,\n.comparison-indicator-demo--flat .comparison-indicator-demo__word--flat { display: inline-flex; }\n.comparison-indicator-demo__previous { font-size: 12px; color: #24143099; width: 100%; }\n</style>",
+    "tailwind": "<div class=\"comparison-indicator-tw comparison-indicator-tw--{{direction}} inline-flex flex-wrap items-baseline gap-2 font-sans text-sm text-[#241430] bg-[#FAF7F2] px-4 py-3 border-[1.5px] border-[#24143022] rounded-xl box-border\" style=\"--accent:{{accent}};\">\n  <span class=\"text-[22px] font-bold\">{{currentValue}}</span>\n  <span class=\"inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-bold text-xs\" style=\"background:color-mix(in srgb, {{accent}} 30%, #FAF7F2);\">\n    <svg class=\"comparison-indicator-tw__icon comparison-indicator-tw__icon--up w-3 h-3\" style=\"fill:{{accent}};\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 2 14 10 10 10 10 14 6 14 6 10 2 10Z\" /></svg>\n    <svg class=\"comparison-indicator-tw__icon comparison-indicator-tw__icon--down w-3 h-3\" style=\"fill:{{accent}};\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 14 2 6 6 6 6 2 10 2 10 6 14 6Z\" /></svg>\n    <svg class=\"comparison-indicator-tw__icon comparison-indicator-tw__icon--flat w-3 h-3\" style=\"fill:{{accent}};\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><rect x=\"2\" y=\"7\" width=\"12\" height=\"2\" /></svg>\n    <span class=\"comparison-indicator-tw__word comparison-indicator-tw__word--up\">Up</span>\n    <span class=\"comparison-indicator-tw__word comparison-indicator-tw__word--down\">Down</span>\n    <span class=\"comparison-indicator-tw__word comparison-indicator-tw__word--flat\">Flat</span>\n  </span>\n  <span class=\"text-xs text-[#241430]/60 w-full\">from {{previousValue}} previously</span>\n</div>\n<style>\n.comparison-indicator-tw__icon, .comparison-indicator-tw__word { display: none; }\n.comparison-indicator-tw--up .comparison-indicator-tw__icon--up,\n.comparison-indicator-tw--up .comparison-indicator-tw__word--up,\n.comparison-indicator-tw--down .comparison-indicator-tw__icon--down,\n.comparison-indicator-tw--down .comparison-indicator-tw__word--down,\n.comparison-indicator-tw--flat .comparison-indicator-tw__icon--flat,\n.comparison-indicator-tw--flat .comparison-indicator-tw__word--flat { display: inline-flex; }\n</style>",
+    "react": "export function ComparisonIndicator({\n  currentValue = \"{{currentValue}}\",\n  previousValue = \"{{previousValue}}\",\n  direction = \"{{direction}}\",\n  accent = \"{{accent}}\",\n}) {\n  const icons = {\n    up: { path: \"M8 2 14 10 10 10 10 14 6 14 6 10 2 10Z\", word: \"Up\" },\n    down: { path: \"M8 14 2 6 6 6 6 2 10 2 10 6 14 6Z\", word: \"Down\" },\n    flat: { path: null, word: \"Flat\" },\n  }[direction];\n  return (\n    <div style={{ display: \"inline-flex\", flexWrap: \"wrap\", alignItems: \"baseline\", gap: 8, font: \"14px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"12px 16px\", border: \"1.5px solid #24143022\", borderRadius: 12, boxSizing: \"border-box\" }}>\n      <span style={{ fontSize: 22, fontWeight: 700 }}>{currentValue}</span>\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 4, padding: \"3px 8px\", borderRadius: 999, background: \"color-mix(in srgb, \" + accent + \" 30%, #FAF7F2)\", fontWeight: 700, fontSize: 12 }}>\n        <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" aria-hidden=\"true\" style={{ fill: accent }}>\n          {icons.path ? <path d={icons.path} /> : <rect x=\"2\" y=\"7\" width=\"12\" height=\"2\" />}\n        </svg>\n        {icons.word}\n      </span>\n      <span style={{ fontSize: 12, color: \"#24143099\", width: \"100%\" }}>from {previousValue} previously</span>\n    </div>\n  );\n}"
+  }
+}

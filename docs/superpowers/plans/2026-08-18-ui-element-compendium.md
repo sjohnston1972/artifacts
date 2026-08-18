@@ -1602,6 +1602,19 @@ describe("render", () => {
     expect(out).not.toContain('";alert(1);');
   });
 
+  it("warns when a placeholder sits in an event-handler attribute", () => {
+    // HTML decodes entities in attribute values before JS parses them, so
+    // escaping cannot make this safe — the author must be told.
+    const r = render('<button onclick="f('{{x}}')">c</button>', { x: "a" });
+    expect(r.warnings).toContain(
+      'placeholder "x" sits in an event-handler attribute, where HTML escaping cannot make it safe'
+    );
+  });
+
+  it("does not warn for an ordinary quoted attribute", () => {
+    expect(render('<a title="{{t}}">x</a>', { t: "hi" }).warnings).toEqual([]);
+  });
+
   it("warns when a placeholder sits in an unquoted attribute", () => {
     const r = render("<div class={{x}}>", { x: "a b" });
     expect(r.warnings).toContain('placeholder "x" sits in an unquoted attribute; wrap it in quotes');
@@ -1732,6 +1745,9 @@ export function render(template, values) {
     if (inUnquotedAttribute(whole, offset)) {
       warn(`placeholder "${id}" sits in an unquoted attribute; wrap it in quotes`);
     }
+    if (inEventHandler(whole, offset)) {
+      warn(`placeholder "${id}" sits in an event-handler attribute, where HTML escaping cannot make it safe`);
+    }
     return escape(value);
   });
 
@@ -1763,6 +1779,21 @@ function inUnquotedAttribute(source, offset) {
   return i >= 0 && source[i] === "=";
 }
 
+// HTML decodes character references in attribute values BEFORE JavaScript
+// parses them, so `onclick="f(&#39;)"` hands the handler a real quote. No
+// amount of HTML escaping fixes that — the value would need JS-string
+// escaping, which depends on the surrounding JS. A <script> block is fine by
+// contrast, because entities are NOT decoded there. So this is surfaced as an
+// authoring warning rather than silently pretending to be safe.
+// The value may legitimately contain the OTHER quote character, so match
+// on the opening quote only.
+const EVENT_ATTR_RE = /([A-Za-z_:][-\w:.]*)\s*=\s*(?:"[^"]*|'[^']*)$/;
+
+function inEventHandler(source, offset) {
+  const match = EVENT_ATTR_RE.exec(source.slice(0, offset));
+  return Boolean(match) && /^on[a-z]+$/i.test(match[1]);
+}
+
 export function defaultsFor(schema) {
   const values = {};
   for (const control of schema || []) {
@@ -1786,7 +1817,7 @@ export function defaultsFor(schema) {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `npx vitest run tests/template.test.js`
-Expected: PASS, 20 tests.
+Expected: PASS, 21 tests.
 
 - [ ] **Step 5: Commit and push**
 

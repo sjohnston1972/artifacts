@@ -1,0 +1,44 @@
+{
+  "slug": "thumbnail-strip",
+  "controls_schema": [
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Active colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "thumbSize",
+      "type": "number",
+      "label": "Thumb size",
+      "default": 56,
+      "min": 40,
+      "max": 96,
+      "step": 4
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap",
+      "default": 8,
+      "min": 4,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tstrip\" style=\"gap:{{gap}}px;\">\n  <button type=\"button\" class=\"tstrip__item is-active\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 1\" aria-current=\"true\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#A8E6C1\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip__item\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 2\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#F5C2E0\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip__item\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 3\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#BFD9F2\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip__item\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 4\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#D9C8F0\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip__item\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 5\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#E8A020\"/></svg>\n  </button>\n</div>\n<style>\n.tstrip { display: flex; overflow-x: auto; max-width: 340px; padding: 4px; }\n.tstrip__item { flex: none; padding: 0; border: 2px solid transparent; background: none; cursor: pointer; overflow: hidden; }\n.tstrip__item svg { display: block; }\n.tstrip__item:hover, .tstrip__item:focus-visible { border-color: var(--accent); outline: none; }\n.tstrip__item.is-active { border-color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"tstrip-tw flex overflow-x-auto max-w-[340px] p-1\" style=\"gap:{{gap}}px;\">\n  <button type=\"button\" class=\"tstrip-tw__item is-active flex-none p-0 border-2 border-transparent bg-transparent cursor-pointer overflow-hidden\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 1\" aria-current=\"true\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" class=\"block\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#A8E6C1\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip-tw__item flex-none p-0 border-2 border-transparent bg-transparent cursor-pointer overflow-hidden\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 2\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" class=\"block\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#F5C2E0\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip-tw__item flex-none p-0 border-2 border-transparent bg-transparent cursor-pointer overflow-hidden\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 3\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" class=\"block\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#BFD9F2\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip-tw__item flex-none p-0 border-2 border-transparent bg-transparent cursor-pointer overflow-hidden\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 4\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" class=\"block\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#D9C8F0\"/></svg>\n  </button>\n  <button type=\"button\" class=\"tstrip-tw__item flex-none p-0 border-2 border-transparent bg-transparent cursor-pointer overflow-hidden\" style=\"width:{{thumbSize}}px;height:{{thumbSize}}px;border-radius:{{radius}}px;--accent:{{accent}};\" aria-label=\"View item 5\">\n    <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" class=\"block\" aria-hidden=\"true\"><rect width=\"40\" height=\"40\" fill=\"#E8A020\"/></svg>\n  </button>\n</div>\n<style>\n.tstrip-tw__item:hover, .tstrip-tw__item:focus-visible { border-color: var(--accent); outline: none; }\n.tstrip-tw__item.is-active { border-color: var(--accent); }\n</style>",
+    "react": "export function ThumbnailStrip({\n  accent = \"{{accent}}\",\n  thumbSize = {{thumbSize}},\n  gap = {{gap}},\n  radius = {{radius}},\n}) {\n  const colors = [\"#A8E6C1\", \"#F5C2E0\", \"#BFD9F2\", \"#D9C8F0\", \"#E8A020\"];\n  return (\n    <div style={{ display: \"flex\", overflowX: \"auto\", maxWidth: 340, padding: 4, gap }}>\n      {colors.map((fill, i) => (\n        <button\n          key={fill}\n          type=\"button\"\n          aria-label={`View item ${i + 1}`}\n          aria-current={i === 0 ? \"true\" : undefined}\n          style={{ flex: \"none\", padding: 0, cursor: \"pointer\", overflow: \"hidden\", background: \"none\",\n            width: thumbSize, height: thumbSize, borderRadius: radius,\n            border: `2px solid ${i === 0 ? accent : \"transparent\"}` }}\n        >\n          <svg viewBox=\"0 0 40 40\" width=\"100%\" height=\"100%\" style={{ display: \"block\" }} aria-hidden=\"true\">\n            <rect width=\"40\" height=\"40\" fill={fill} />\n          </svg>\n        </button>\n      ))}\n    </div>\n  );\n}"
+  }
+}

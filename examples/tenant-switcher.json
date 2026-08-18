@@ -1,0 +1,42 @@
+{
+  "slug": "tenant-switcher",
+  "controls_schema": [
+    {
+      "id": "tenantName",
+      "type": "text",
+      "label": "Tenant name",
+      "default": "Globex Corp"
+    },
+    {
+      "id": "environment",
+      "type": "text",
+      "label": "Environment",
+      "default": "Production"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"tenantsw\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"tenantsw__trigger\" aria-label=\"Switch tenant\">\n    <span class=\"tenantsw__mark\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"tenantsw__id\"><span class=\"tenantsw__name\">{{tenantName}}</span><span class=\"tenantsw__env\">{{environment}}</span></span>\n    <span class=\"tenantsw__chevron\" aria-hidden=\"true\">&#9662;</span>\n  </summary>\n  <div class=\"tenantsw__panel\" role=\"group\" aria-label=\"Tenants\">\n    <a class=\"tenantsw__item is-current\" href=\"#\" aria-current=\"true\">{{tenantName}}</a>\n    <a class=\"tenantsw__item\" href=\"#\">Initech LLC</a>\n    <button class=\"tenantsw__add\" type=\"button\">+ Add tenant</button>\n  </div>\n</details>\n<style>\n.tenantsw { position: relative; width: fit-content; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.tenantsw__trigger { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #FAF7F2; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; cursor: pointer; list-style: none; }\n.tenantsw__trigger::-webkit-details-marker { display: none; }\n.tenantsw__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.tenantsw__mark { width: 26px; height: 26px; border-radius: 50%; flex: none; }\n.tenantsw__id { display: flex; flex-direction: column; line-height: 1.25; }\n.tenantsw__name { font-weight: 600; }\n.tenantsw__env { font-size: 12px; opacity: .6; }\n.tenantsw__chevron { opacity: .5; font-size: 11px; }\n.tenantsw__panel { position: absolute; top: calc(100% + 6px); left: 0; min-width: 200px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.tenantsw__item { padding: 8px 10px; border-radius: 8px; text-decoration: none; color: #241430; }\n.tenantsw__item.is-current { font-weight: 600; }\n.tenantsw__item:hover, .tenantsw__item:focus-visible { background: #FAF7F2; outline: none; }\n.tenantsw__add { text-align: left; padding: 8px 10px; border-radius: 8px; border: none; background: none; font: inherit; color: #241430; opacity: .7; cursor: pointer; }\n.tenantsw__add:hover, .tenantsw__add:focus-visible { background: #FAF7F2; opacity: 1; outline: none; }\n</style>",
+    "tailwind": "<details class=\"relative w-fit font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"tenantsw-tw__trigger flex items-center gap-2.5 px-3 py-2 bg-[#FAF7F2] border border-[#241430]/10 rounded-xl cursor-pointer list-none\" aria-label=\"Switch tenant\">\n    <span class=\"w-[26px] h-[26px] rounded-full flex-none\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"flex flex-col leading-tight\">\n      <span class=\"font-semibold\">{{tenantName}}</span>\n      <span class=\"text-xs opacity-60\">{{environment}}</span>\n    </span>\n    <span class=\"opacity-50 text-[11px]\" aria-hidden=\"true\">&#9662;</span>\n  </summary>\n  <div class=\"absolute top-1.5 left-0 min-w-[200px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\" role=\"group\" aria-label=\"Tenants\">\n    <a class=\"px-2.5 py-2 rounded-lg font-semibold no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\" aria-current=\"true\">{{tenantName}}</a>\n    <a class=\"px-2.5 py-2 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Initech LLC</a>\n    <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430]/70 cursor-pointer hover:bg-[#FAF7F2] hover:text-[#241430]\" type=\"button\">+ Add tenant</button>\n  </div>\n</details>\n<style>\n.tenantsw-tw__trigger::-webkit-details-marker { display: none; }\n.tenantsw-tw__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function TenantSwitcher({\n  tenantName = \"{{tenantName}}\",\n  environment = \"{{environment}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <summary aria-label=\"Switch tenant\" style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"8px 12px\", background: \"#FAF7F2\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, cursor: \"pointer\", listStyle: \"none\" }}>\n        <span aria-hidden=\"true\" style={{ width: 26, height: 26, borderRadius: \"50%\", background: accent, flex: \"none\" }} />\n        <span style={{ display: \"flex\", flexDirection: \"column\", lineHeight: 1.25 }}>\n          <span style={{ fontWeight: 600 }}>{tenantName}</span>\n          <span style={{ fontSize: 12, opacity: .6 }}>{environment}</span>\n        </span>\n        <span aria-hidden=\"true\" style={{ opacity: .5, fontSize: 11 }}>&#9662;</span>\n      </summary>\n      <div role=\"group\" aria-label=\"Tenants\" style={{ position: \"absolute\", top: \"calc(100% + 6px)\", left: 0, minWidth: 200, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n        <a href=\"#\" aria-current=\"true\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\", fontWeight: 600 }}>{tenantName}</a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Initech LLC</a>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", opacity: .7, cursor: \"pointer\" }}>+ Add tenant</button>\n      </div>\n    </details>\n  );\n}"
+  }
+}

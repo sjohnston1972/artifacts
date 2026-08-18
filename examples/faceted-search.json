@@ -1,0 +1,55 @@
+{
+  "slug": "faceted-search",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Search label",
+      "default": "Search results"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Result count",
+      "default": 128,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "availableChecked",
+      "type": "toggle",
+      "label": "In stock checked",
+      "default": true
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "list",
+      "options": [
+        "list",
+        "grid"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"facets\" style=\"--accent:{{accent}};\">\n  <form role=\"search\" class=\"facets__search\">\n    <label class=\"facets__search-label\" for=\"fq\">{{label}}</label>\n    <input class=\"facets__search-input\" id=\"fq\" type=\"search\" name=\"q\" placeholder=\"Search...\">\n  </form>\n  <p class=\"facets__status\" role=\"status\">{{count}} results</p>\n  <div class=\"facets__groups facets__groups--{{layout}}\">\n    <fieldset class=\"facets__group\">\n      <legend class=\"facets__legend\">Availability</legend>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"availability\" value=\"in-stock\"{{#if availableChecked}} checked{{/if}}>\n        In stock\n      </label>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"availability\" value=\"pre-order\">\n        Pre-order\n      </label>\n    </fieldset>\n    <fieldset class=\"facets__group\">\n      <legend class=\"facets__legend\">Brand</legend>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"brand\" value=\"acme\">\n        Acme\n      </label>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"brand\" value=\"orbit\">\n        Orbit\n      </label>\n    </fieldset>\n    <fieldset class=\"facets__group\">\n      <legend class=\"facets__legend\">Colour</legend>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"colour\" value=\"mint\">\n        Mint\n      </label>\n      <label class=\"facets__option\">\n        <input type=\"checkbox\" name=\"colour\" value=\"blush\">\n        Blush\n      </label>\n    </fieldset>\n  </div>\n</section>\n<style>\n.facets { font: 14px system-ui, sans-serif; color: #241430; max-width: 340px; }\n.facets__search { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }\n.facets__search-label { font-weight: 600; }\n.facets__search-input { flex: 1; box-sizing: border-box; padding: 8px 10px; font: inherit; border: 1.5px solid #24143040; background: #FAF7F2; }\n.facets__search-input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.facets__status { margin: 0 0 12px; font-size: 12px; color: #24143099; }\n.facets__groups--list { display: grid; gap: 14px; }\n.facets__groups--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }\n.facets__group { border: none; padding: 0; margin: 0; }\n.facets__legend { padding: 0; font-weight: 600; font-size: 13px; margin-bottom: 6px; }\n.facets__option { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; }\n.facets__option input { accent-color: var(--accent); width: 16px; height: 16px; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-sm text-[#241430] max-w-[340px]\" style=\"--accent:{{accent}};\">\n  <form role=\"search\" class=\"flex items-center gap-2 mb-2.5\">\n    <label for=\"fq-tw\" class=\"font-semibold\">{{label}}</label>\n    <input id=\"fq-tw\" type=\"search\" name=\"q\" placeholder=\"Search...\" class=\"flex-1 box-border px-2.5 py-2 border-[1.5px] border-[#24143040] bg-[#FAF7F2] focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n  </form>\n  <p role=\"status\" class=\"m-0 mb-3 text-xs text-[#24143099]\">{{count}} results</p>\n  <div class=\"facets-groups-tw facets-groups-tw--{{layout}} grid gap-3.5\">\n    <fieldset class=\"border-0 p-0 m-0\">\n      <legend class=\"p-0 font-semibold text-[13px] mb-1.5\">Availability</legend>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"availability\" value=\"in-stock\"{{#if availableChecked}} checked{{/if}} class=\"w-4 h-4 accent-[var(--accent)]\">\n        In stock\n      </label>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"availability\" value=\"pre-order\" class=\"w-4 h-4 accent-[var(--accent)]\">\n        Pre-order\n      </label>\n    </fieldset>\n    <fieldset class=\"border-0 p-0 m-0\">\n      <legend class=\"p-0 font-semibold text-[13px] mb-1.5\">Brand</legend>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"brand\" value=\"acme\" class=\"w-4 h-4 accent-[var(--accent)]\">\n        Acme\n      </label>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"brand\" value=\"orbit\" class=\"w-4 h-4 accent-[var(--accent)]\">\n        Orbit\n      </label>\n    </fieldset>\n    <fieldset class=\"border-0 p-0 m-0\">\n      <legend class=\"p-0 font-semibold text-[13px] mb-1.5\">Colour</legend>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"colour\" value=\"mint\" class=\"w-4 h-4 accent-[var(--accent)]\">\n        Mint\n      </label>\n      <label class=\"flex items-center gap-2 py-0.5 cursor-pointer\">\n        <input type=\"checkbox\" name=\"colour\" value=\"blush\" class=\"w-4 h-4 accent-[var(--accent)]\">\n        Blush\n      </label>\n    </fieldset>\n  </div>\n</section>\n<style>\n.facets-groups-tw--grid { grid-template-columns: 1fr 1fr; }\n</style>",
+    "react": "export function FacetedSearch({\n  label = \"{{label}}\",\n  count = {{count}},\n  availableChecked = {{availableChecked}},\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n}) {\n  const groupsStyle = layout === \"grid\"\n    ? { display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: 14 }\n    : { display: \"grid\", gap: 14 };\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 340, \"--accent\": accent }}>\n      <form role=\"search\" style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 10 }}>\n        <label htmlFor=\"fq-r\" style={{ fontWeight: 600 }}>{label}</label>\n        <input id=\"fq-r\" type=\"search\" name=\"q\" placeholder=\"Search...\" style={{ flex: 1, boxSizing: \"border-box\", padding: \"8px 10px\", border: \"1.5px solid #24143040\", background: \"#FAF7F2\" }} />\n      </form>\n      <p role=\"status\" style={{ margin: \"0 0 12px\", fontSize: 12, color: \"#24143099\" }}>{count} results</p>\n      <div style={groupsStyle}>\n        <fieldset style={{ border: \"none\", padding: 0, margin: 0 }}>\n          <legend style={{ padding: 0, fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Availability</legend>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"availability\" value=\"in-stock\" defaultChecked={availableChecked} style={{ width: 16, height: 16, accentColor: accent }} />\n            In stock\n          </label>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"availability\" value=\"pre-order\" style={{ width: 16, height: 16, accentColor: accent }} />\n            Pre-order\n          </label>\n        </fieldset>\n        <fieldset style={{ border: \"none\", padding: 0, margin: 0 }}>\n          <legend style={{ padding: 0, fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Brand</legend>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"brand\" value=\"acme\" style={{ width: 16, height: 16, accentColor: accent }} />\n            Acme\n          </label>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"brand\" value=\"orbit\" style={{ width: 16, height: 16, accentColor: accent }} />\n            Orbit\n          </label>\n        </fieldset>\n        <fieldset style={{ border: \"none\", padding: 0, margin: 0 }}>\n          <legend style={{ padding: 0, fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Colour</legend>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"colour\" value=\"mint\" style={{ width: 16, height: 16, accentColor: accent }} />\n            Mint\n          </label>\n          <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"3px 0\", cursor: \"pointer\" }}>\n            <input type=\"checkbox\" name=\"colour\" value=\"blush\" style={{ width: 16, height: 16, accentColor: accent }} />\n            Blush\n          </label>\n        </fieldset>\n      </div>\n    </section>\n  );\n}"
+  }
+}

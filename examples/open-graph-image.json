@@ -1,0 +1,36 @@
+{
+  "slug": "open-graph-image",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "How we redesigned our onboarding flow"
+    },
+    {
+      "id": "domain",
+      "type": "text",
+      "label": "Domain",
+      "default": "example.com"
+    },
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": ["light", "dark"]
+    },
+    {
+      "id": "ratio",
+      "type": "select",
+      "label": "Image ratio",
+      "default": "1.91 / 1",
+      "options": ["1.91 / 1", "1 / 1"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"og-card og-card--{{theme}}\">\n  <div class=\"og-card__image\" style=\"aspect-ratio:{{ratio}};\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 400 210\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"210\" fill=\"#F5C2E0\"/><circle cx=\"320\" cy=\"50\" r=\"26\" fill=\"#E8A020\"/><path d=\"M0 170 L100 110 L200 160 L300 90 L400 150 L400 210 L0 210 Z\" fill=\"#BFD9F2\"/></svg>\n  </div>\n  <div class=\"og-card__body\">\n    <p class=\"og-card__title\">{{title}}</p>\n    <p class=\"og-card__domain\">{{domain}}</p>\n  </div>\n</div>\n<style>\n.og-card { max-width: 360px; border-radius: 10px; overflow: hidden; border: 1px solid #24143022; font: 13px/1.4 system-ui, sans-serif; }\n.og-card--light { background: #FAF7F2; color: #241430; }\n.og-card--dark { background: #241430; color: #FAF7F2; }\n.og-card__image { display: block; width: 100%; }\n.og-card__body { padding: 10px 12px; }\n.og-card__title { margin: 0 0 4px; font-weight: 600; }\n.og-card__domain { margin: 0; opacity: .6; text-transform: uppercase; font-size: 11px; letter-spacing: .04em; }\n</style>",
+    "tailwind": "<div class=\"og-card-tw og-card-tw--{{theme}} max-w-[360px] rounded-[10px] overflow-hidden border border-[#24143022] font-sans text-[13px]\">\n  <div class=\"block w-full\" style=\"aspect-ratio:{{ratio}};\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 400 210\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"210\" fill=\"#F5C2E0\"/><circle cx=\"320\" cy=\"50\" r=\"26\" fill=\"#E8A020\"/><path d=\"M0 170 L100 110 L200 160 L300 90 L400 150 L400 210 L0 210 Z\" fill=\"#BFD9F2\"/></svg>\n  </div>\n  <div class=\"px-3 py-2.5\">\n    <p class=\"m-0 mb-1 font-semibold\">{{title}}</p>\n    <p class=\"m-0 opacity-60 uppercase text-[11px] tracking-wide\">{{domain}}</p>\n  </div>\n</div>\n<style>\n.og-card-tw--light { background: #FAF7F2; color: #241430; }\n.og-card-tw--dark { background: #241430; color: #FAF7F2; }\n</style>",
+    "react": "export function OpenGraphImage({\n  title = \"{{title}}\",\n  domain = \"{{domain}}\",\n  theme = \"{{theme}}\",\n  ratio = \"{{ratio}}\",\n}) {\n  const dark = theme === \"dark\";\n  return (\n    <div style={{ maxWidth: 360, borderRadius: 10, overflow: \"hidden\", border: \"1px solid #24143022\",\n      font: \"13px/1.4 system-ui, sans-serif\", background: dark ? \"#241430\" : \"#FAF7F2\", color: dark ? \"#FAF7F2\" : \"#241430\" }}>\n      <div style={{ display: \"block\", width: \"100%\", aspectRatio: ratio }} aria-hidden=\"true\">\n        <svg viewBox=\"0 0 400 210\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"xMidYMid slice\">\n          <rect width=\"400\" height=\"210\" fill=\"#F5C2E0\" />\n          <circle cx=\"320\" cy=\"50\" r=\"26\" fill=\"#E8A020\" />\n          <path d=\"M0 170 L100 110 L200 160 L300 90 L400 150 L400 210 L0 210 Z\" fill=\"#BFD9F2\" />\n        </svg>\n      </div>\n      <div style={{ padding: \"10px 12px\" }}>\n        <p style={{ margin: \"0 0 4px\", fontWeight: 600 }}>{title}</p>\n        <p style={{ margin: 0, opacity: 0.6, textTransform: \"uppercase\", fontSize: 11, letterSpacing: \"0.04em\" }}>{domain}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

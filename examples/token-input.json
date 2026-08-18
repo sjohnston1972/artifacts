@@ -1,0 +1,53 @@
+{
+  "slug": "token-input",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Assignees"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Add a person…"
+    },
+    {
+      "id": "extraToken",
+      "type": "toggle",
+      "label": "Show fourth token",
+      "default": true
+    },
+    {
+      "id": "maxTokens",
+      "type": "number",
+      "label": "Maximum tokens",
+      "default": 6,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 14,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"tokenfield\" style=\"--accent:{{accent}};--radius:{{radius}}px;\">\n  <legend class=\"tokenfield__legend\"><label for=\"tokenfield-input\">{{label}}</label></legend>\n  <div class=\"tokenfield__row\">\n    <span class=\"tokenfield__chip\">Priya Shah<button type=\"button\" class=\"tokenfield__x\" aria-label=\"Remove Priya Shah\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    <span class=\"tokenfield__chip\">Sam Ortiz<button type=\"button\" class=\"tokenfield__x\" aria-label=\"Remove Sam Ortiz\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    <span class=\"tokenfield__chip\">Lena Fischer<button type=\"button\" class=\"tokenfield__x\" aria-label=\"Remove Lena Fischer\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    {{#if extraToken}}<span class=\"tokenfield__chip\">Wren Okafor<button type=\"button\" class=\"tokenfield__x\" aria-label=\"Remove Wren Okafor\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>{{/if}}\n    <input id=\"tokenfield-input\" type=\"text\" class=\"tokenfield__input\" placeholder=\"{{placeholder}}\">\n  </div>\n  <p class=\"tokenfield__help\">Up to {{maxTokens}} people</p>\n</fieldset>\n<style>\n.tokenfield { font: 14px system-ui, sans-serif; color: #241430; max-width: 320px; border: none; padding: 0; margin: 0; }\n.tokenfield__legend { padding: 0; margin-bottom: 6px; font-weight: 500; }\n.tokenfield__row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; border: 1.5px solid #24143040; border-radius: var(--radius); background: #FAF7F2; }\n.tokenfield__row:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.tokenfield__chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; background: var(--accent); border-radius: var(--radius); font-size: 13px; }\n.tokenfield__x { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: none; border-radius: 50%; background: #24143020; color: #241430; cursor: pointer; padding: 0; }\n.tokenfield__x:hover { background: #24143040; }\n.tokenfield__x:focus-visible { outline: 2px solid #241430; outline-offset: 1px; }\n.tokenfield__input { flex: 1; min-width: 100px; border: none; outline: none; background: transparent; font: inherit; color: #241430; padding: 4px; }\n.tokenfield__help { margin: 6px 0 0; font-size: 12.5px; color: #24143099; }\n</style>",
+    "tailwind": "<fieldset class=\"font-sans text-sm text-[#241430] max-w-[320px] border-0 p-0 m-0\">\n  <legend class=\"p-0 mb-1.5 font-medium\"><label for=\"tokenfield-input-tw\">{{label}}</label></legend>\n  <div class=\"flex flex-wrap gap-1.5 items-center p-2 border-[1.5px] border-[#24143040] bg-[#FAF7F2] focus-within:outline-none\" style=\"border-radius:{{radius}}px;\">\n    <span class=\"tokenchip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 text-[13px]\" style=\"background:{{accent}};border-radius:{{radius}}px;\">Priya Shah<button type=\"button\" class=\"tokenx-tw inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] text-[#241430] cursor-pointer p-0\" aria-label=\"Remove Priya Shah\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    <span class=\"tokenchip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 text-[13px]\" style=\"background:{{accent}};border-radius:{{radius}}px;\">Sam Ortiz<button type=\"button\" class=\"tokenx-tw inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] text-[#241430] cursor-pointer p-0\" aria-label=\"Remove Sam Ortiz\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    <span class=\"tokenchip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 text-[13px]\" style=\"background:{{accent}};border-radius:{{radius}}px;\">Lena Fischer<button type=\"button\" class=\"tokenx-tw inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] text-[#241430] cursor-pointer p-0\" aria-label=\"Remove Lena Fischer\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>\n    {{#if extraToken}}<span class=\"tokenchip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 text-[13px]\" style=\"background:{{accent}};border-radius:{{radius}}px;\">Wren Okafor<button type=\"button\" class=\"tokenx-tw inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] text-[#241430] cursor-pointer p-0\" aria-label=\"Remove Wren Okafor\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg></button></span>{{/if}}\n    <input id=\"tokenfield-input-tw\" type=\"text\" class=\"flex-1 min-w-[100px] border-0 outline-none bg-transparent font-inherit text-[#241430] p-1\" placeholder=\"{{placeholder}}\">\n  </div>\n  <p class=\"mt-1.5 text-xs text-[#24143099]\">Up to {{maxTokens}} people</p>\n</fieldset>",
+    "react": "export function TokenInput({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  extraToken = {{extraToken}},\n  maxTokens = {{maxTokens}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const people = [\"Priya Shah\", \"Sam Ortiz\", \"Lena Fischer\", ...(extraToken ? [\"Wren Okafor\"] : [])];\n  return (\n    <fieldset style={{ font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 320, border: \"none\", padding: 0, margin: 0 }}>\n      <legend style={{ padding: 0, marginBottom: 6, fontWeight: 500 }}>\n        <label htmlFor=\"tokenfield-input-r\">{label}</label>\n      </legend>\n      <div style={{ display: \"flex\", flexWrap: \"wrap\", gap: 6, alignItems: \"center\", padding: 8, border: \"1.5px solid #24143040\", borderRadius: radius, background: \"#FAF7F2\" }}>\n        {people.map((name) => (\n          <span key={name} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 6px 4px 10px\", background: accent, borderRadius: radius, fontSize: 13 }}>\n            {name}\n            <button type=\"button\" aria-label={`Remove ${name}`} style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 16, height: 16, border: \"none\", borderRadius: \"50%\", background: \"#24143020\", color: \"#241430\", cursor: \"pointer\", padding: 0 }}>\n              <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1 1l8 8M9 1l-8 8\" stroke=\"currentColor\" strokeWidth=\"1.4\" /></svg>\n            </button>\n          </span>\n        ))}\n        <input id=\"tokenfield-input-r\" type=\"text\" placeholder={placeholder} style={{ flex: 1, minWidth: 100, border: \"none\", outline: \"none\", background: \"transparent\", font: \"inherit\", color: \"#241430\", padding: 4 }} />\n      </div>\n      <p style={{ margin: \"6px 0 0\", fontSize: 12.5, color: \"#24143099\" }}>Up to {maxTokens} people</p>\n    </fieldset>\n  );\n}"
+  }
+}

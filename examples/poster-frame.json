@@ -1,0 +1,38 @@
+{
+  "slug": "poster-frame",
+  "controls_schema": [
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Chrome colour",
+      "default": "mint",
+      "options": ["mint", "sky", "blush"]
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Field recording, take 2"
+    },
+    {
+      "id": "playIconSize",
+      "type": "number",
+      "label": "Play icon size",
+      "default": 40,
+      "min": 24,
+      "max": 64,
+      "step": 2
+    },
+    {
+      "id": "dimmed",
+      "type": "toggle",
+      "label": "Dim poster",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pf pf--{{theme}}\">\n  <video class=\"pf__video\" controls poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='90' fill='%23FAF7F2' opacity='0.08'/%3E%3C/svg%3E\" aria-label=\"{{title}}\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    <track kind=\"captions\" srclang=\"en\" label=\"English\" default />\n  </video>\n  <div class=\"pf__overlay {{#if dimmed}}pf__overlay--dim{{/if}}\" aria-hidden=\"true\">\n    <svg class=\"pf__play\" width=\"{{playIconSize}}\" height=\"{{playIconSize}}\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"#FAF7F2\" fill-opacity=\"0.92\"/><polygon points=\"10,8 17,12 10,16\" fill=\"#241430\"/></svg>\n  </div>\n  <p class=\"pf__title\">{{title}}</p>\n</div>\n<style>\n.pf { position: relative; max-width: 360px; padding: 4px; border-radius: 12px; border: 2px solid #A8E6C1; background: #FAF7F2; }\n.pf--mint { border-color: #A8E6C1; }\n.pf--sky { border-color: #BFD9F2; }\n.pf--blush { border-color: #F5C2E0; }\n.pf__video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; background: #241430; }\n.pf__overlay { position: absolute; left: 4px; right: 4px; top: 4px; bottom: 36px; display: flex; align-items: center; justify-content: center; pointer-events: none; border-radius: 8px; }\n.pf__overlay--dim { background: #241430aa; }\n.pf__play { filter: drop-shadow(0 2px 6px rgba(36,20,48,.35)); }\n.pf__title { margin: 8px 4px 4px; font: 600 13px/1.4 system-ui, sans-serif; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"pf-tw pf-tw--{{theme}} relative max-w-[360px] p-1 rounded-xl border-2 bg-[#FAF7F2]\">\n  <video class=\"block w-full rounded-lg bg-[#241430]\" style=\"aspect-ratio:16/9;\" controls poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='90' fill='%23FAF7F2' opacity='0.08'/%3E%3C/svg%3E\" aria-label=\"{{title}}\">\n    <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    <track kind=\"captions\" srclang=\"en\" label=\"English\" default />\n  </video>\n  <div class=\"absolute left-1 right-1 top-1 flex items-center justify-center rounded-lg pointer-events-none {{#if dimmed}}pf-tw__overlay--dim{{/if}}\" style=\"bottom:36px;\" aria-hidden=\"true\">\n    <svg width=\"{{playIconSize}}\" height=\"{{playIconSize}}\" viewBox=\"0 0 24 24\" style=\"filter:drop-shadow(0 2px 6px rgba(36,20,48,.35));\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"#FAF7F2\" fill-opacity=\"0.92\"/><polygon points=\"10,8 17,12 10,16\" fill=\"#241430\"/></svg>\n  </div>\n  <p class=\"m-0 mt-2 mx-1 text-[13px] font-semibold text-[#241430]\">{{title}}</p>\n</div>\n<style>\n.pf-tw--mint { border-color: #A8E6C1; }\n.pf-tw--sky { border-color: #BFD9F2; }\n.pf-tw--blush { border-color: #F5C2E0; }\n.pf-tw__overlay--dim { background: #241430aa; }\n</style>",
+    "react": "export function PosterFrame({\n  theme = \"{{theme}}\",\n  title = \"{{title}}\",\n  playIconSize = {{playIconSize}},\n  dimmed = {{dimmed}},\n}) {\n  const border = { mint: \"#A8E6C1\", sky: \"#BFD9F2\", blush: \"#F5C2E0\" }[theme] ?? \"#A8E6C1\";\n  return (\n    <div style={{ position: \"relative\", maxWidth: 360, padding: 4, borderRadius: 12, border: `2px solid ${border}`, background: \"#FAF7F2\" }}>\n      <video\n        style={{ display: \"block\", width: \"100%\", aspectRatio: \"16 / 9\", borderRadius: 8, background: \"#241430\" }}\n        controls\n        poster=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225'%3E%3Crect width='400' height='225' fill='%23241430'/%3E%3Ccircle cx='200' cy='112' r='90' fill='%23FAF7F2' opacity='0.08'/%3E%3C/svg%3E\"\n        aria-label={title}\n      >\n        {/* Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\" /> for playback */}\n        <track kind=\"captions\" srcLang=\"en\" label=\"English\" default />\n      </video>\n      <div style={{ position: \"absolute\", left: 4, right: 4, top: 4, bottom: 36, display: \"flex\", alignItems: \"center\",\n        justifyContent: \"center\", pointerEvents: \"none\", borderRadius: 8, background: dimmed ? \"#241430aa\" : \"transparent\" }} aria-hidden=\"true\">\n        <svg width={playIconSize} height={playIconSize} viewBox=\"0 0 24 24\" style={{ filter: \"drop-shadow(0 2px 6px rgba(36,20,48,.35))\" }}>\n          <circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"#FAF7F2\" fillOpacity=\"0.92\" />\n          <polygon points=\"10,8 17,12 10,16\" fill=\"#241430\" />\n        </svg>\n      </div>\n      <p style={{ margin: \"8px 4px 4px\", font: \"600 13px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>{title}</p>\n    </div>\n  );\n}"
+  }
+}

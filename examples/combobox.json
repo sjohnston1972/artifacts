@@ -1,0 +1,56 @@
+{
+  "slug": "combobox",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Assignee"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "List open",
+      "default": true
+    },
+    {
+      "id": "chosen",
+      "type": "select",
+      "label": "Selected value",
+      "default": "priya",
+      "options": [
+        "priya",
+        "declan",
+        "yuki"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cb\" style=\"--accent:{{accent}};\">\n  <label class=\"cb__label\" for=\"cb-trigger\">{{label}}</label>\n  <div class=\"cb__combo cb__combo--{{chosen}}{{#if open}} cb__combo--open{{/if}}\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"cb-listbox\" aria-expanded=\"{{open}}\">\n    <button type=\"button\" id=\"cb-trigger\" class=\"cb__trigger\" aria-controls=\"cb-listbox\" style=\"border-radius:{{radius}}px;\">\n      <span class=\"cb__value cb__value--priya\">Priya Nair</span>\n      <span class=\"cb__value cb__value--declan\">Declan Fox</span>\n      <span class=\"cb__value cb__value--yuki\">Yuki Tanaka</span>\n      <svg class=\"cb__chev\" viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M5 8l5 5 5-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n    </button>\n    <ul id=\"cb-listbox\" class=\"cb__listbox\" role=\"listbox\" aria-label=\"{{label}} options\">\n      <li class=\"cb__option\" data-person=\"priya\" role=\"option\" aria-selected=\"true\">Priya Nair</li>\n      <li class=\"cb__option\" data-person=\"declan\" role=\"option\" aria-selected=\"false\">Declan Fox</li>\n      <li class=\"cb__option\" data-person=\"yuki\" role=\"option\" aria-selected=\"false\">Yuki Tanaka</li>\n    </ul>\n  </div>\n</div>\n<style>\n.cb { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.cb__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.cb__combo { position: relative; }\n.cb__trigger { width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; cursor: pointer; }\n.cb__trigger:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.cb__value { display: none; }\n.cb__combo--priya .cb__value--priya, .cb__combo--declan .cb__value--declan, .cb__combo--yuki .cb__value--yuki { display: inline; }\n.cb__listbox { list-style: none; margin: 4px 0 0; padding: 4px; border: 1.5px solid #24143020; background: #FAF7F2; box-shadow: 0 8px 20px #24143022; display: none; }\n.cb__combo--open .cb__listbox { display: block; }\n.cb__option { padding: 8px 10px; border-radius: 6px; cursor: pointer; }\n.cb__option:hover { background: #24143014; }\n.cb__combo--priya .cb__option[data-person=\"priya\"], .cb__combo--declan .cb__option[data-person=\"declan\"], .cb__combo--yuki .cb__option[data-person=\"yuki\"] { background: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"max-w-[260px] font-sans text-sm text-[#241430]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"cb-trigger-tw\">{{label}}</label>\n  <div class=\"cb-tw cb-tw--{{chosen}} relative\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"cb-listbox-tw\" aria-expanded=\"{{open}}\">\n    <button type=\"button\" id=\"cb-trigger-tw\" aria-controls=\"cb-listbox-tw\" style=\"border-radius:{{radius}}px;\"\n      class=\"w-full box-border flex items-center justify-between gap-2 px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] cursor-pointer focus-visible:outline-none\">\n      <span class=\"cb-tw-value cb-tw-value--priya hidden\">Priya Nair</span>\n      <span class=\"cb-tw-value cb-tw-value--declan hidden\">Declan Fox</span>\n      <span class=\"cb-tw-value cb-tw-value--yuki hidden\">Yuki Tanaka</span>\n      <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M5 8l5 5 5-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>\n    </button>\n    <ul id=\"cb-listbox-tw\" role=\"listbox\" aria-label=\"{{label}} options\"\n      class=\"{{#if open}}block{{/if}}{{#unless open}}hidden{{/unless}} list-none m-0 mt-1 p-1 border-[1.5px] border-[#24143020] bg-[#FAF7F2] shadow-lg\">\n      <li class=\"cb-tw-opt px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-person=\"priya\" role=\"option\" aria-selected=\"true\">Priya Nair</li>\n      <li class=\"cb-tw-opt px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-person=\"declan\" role=\"option\" aria-selected=\"false\">Declan Fox</li>\n      <li class=\"cb-tw-opt px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\" data-person=\"yuki\" role=\"option\" aria-selected=\"false\">Yuki Tanaka</li>\n    </ul>\n  </div>\n</div>\n<style>\n.cb-tw--priya .cb-tw-value--priya, .cb-tw--declan .cb-tw-value--declan, .cb-tw--yuki .cb-tw-value--yuki { display: inline; }\n.cb-tw--priya .cb-tw-opt[data-person=\"priya\"], .cb-tw--declan .cb-tw-opt[data-person=\"declan\"], .cb-tw--yuki .cb-tw-opt[data-person=\"yuki\"] { background: {{accent}}; }\n</style>",
+    "react": "export function Combobox({\n  label = \"{{label}}\",\n  open = {{open}},\n  chosen = \"{{chosen}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const people = [\n    { id: \"priya\", name: \"Priya Nair\" },\n    { id: \"declan\", name: \"Declan Fox\" },\n    { id: \"yuki\", name: \"Yuki Tanaka\" },\n  ];\n  const current = people.find((p) => p.id === chosen) ?? people[0];\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label htmlFor=\"cb-trigger-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <div style={{ position: \"relative\" }} role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"cb-listbox-r\" aria-expanded={open}>\n        <button type=\"button\" id=\"cb-trigger-r\" aria-controls=\"cb-listbox-r\" style={{\n          width: \"100%\", boxSizing: \"border-box\", display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 8,\n          padding: \"10px 12px\", font: \"inherit\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: radius, cursor: \"pointer\",\n        }}>\n          <span>{current.name}</span>\n          <svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M5 8l5 5 5-5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n        </button>\n        <ul id=\"cb-listbox-r\" role=\"listbox\" aria-label={label + \" options\"} style={{\n          display: open ? \"block\" : \"none\", listStyle: \"none\", margin: \"4px 0 0\", padding: 4,\n          border: \"1.5px solid #24143020\", background: \"#FAF7F2\", boxShadow: \"0 8px 20px #24143022\",\n        }}>\n          {people.map((p) => (\n            <li key={p.id} role=\"option\" aria-selected={p.id === chosen} style={{\n              padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\", background: p.id === chosen ? accent : \"transparent\",\n            }}>{p.name}</li>\n          ))}\n        </ul>\n      </div>\n    </div>\n  );\n}"
+  }
+}

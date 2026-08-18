@@ -1,0 +1,36 @@
+{
+  "slug": "favicon",
+  "controls_schema": [
+    {
+      "id": "letter",
+      "type": "text",
+      "label": "Letter",
+      "default": "C"
+    },
+    {
+      "id": "bg",
+      "type": "color",
+      "label": "Background",
+      "default": "#241430",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "shape",
+      "type": "select",
+      "label": "Shape",
+      "default": "rounded",
+      "options": ["circle", "rounded", "square"]
+    },
+    {
+      "id": "monochrome",
+      "type": "toggle",
+      "label": "Monochrome",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"favicon-demo\">\n  <div class=\"favicon-demo__tab\">\n    <span class=\"favicon-demo__mark favicon-demo__mark--{{shape}} favicon-demo__mark--16 {{#if monochrome}}favicon-demo__mark--mono{{/if}}\" style=\"background:{{bg}};\" role=\"img\" aria-label=\"Site favicon\">{{letter}}</span>\n    <span class=\"favicon-demo__tablabel\">Your Site</span>\n  </div>\n  <div class=\"favicon-demo__zoom\">\n    <span class=\"favicon-demo__mark favicon-demo__mark--{{shape}} favicon-demo__mark--big {{#if monochrome}}favicon-demo__mark--mono{{/if}}\" style=\"background:{{bg}};\" aria-hidden=\"true\">{{letter}}</span>\n    <p class=\"favicon-demo__caption\">32 &times; 32 preview</p>\n  </div>\n</div>\n<style>\n.favicon-demo { display: flex; align-items: center; gap: 20px; max-width: 360px; font: 13px/1.4 system-ui, sans-serif; color: #241430; }\n.favicon-demo__tab { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px 8px 0 0; background: #FAF7F2; border: 1px solid #24143022; border-bottom: none; }\n.favicon-demo__tablabel { color: #24143099; }\n.favicon-demo__mark { display: inline-flex; align-items: center; justify-content: center; color: #FAF7F2; font-weight: 700; line-height: 1; flex: none; }\n.favicon-demo__mark--16 { width: 16px; height: 16px; font-size: 10px; border-radius: 4px; }\n.favicon-demo__mark--big { width: 48px; height: 48px; font-size: 22px; border-radius: 12px; }\n.favicon-demo__mark--circle { border-radius: 50% !important; }\n.favicon-demo__mark--square { border-radius: 0 !important; }\n.favicon-demo__mark--mono { filter: grayscale(1); }\n.favicon-demo__zoom { display: flex; flex-direction: column; align-items: center; gap: 6px; }\n.favicon-demo__caption { margin: 0; color: #24143099; font-size: 11px; }\n</style>",
+    "tailwind": "<div class=\"favicon-demo-tw flex items-center gap-5 max-w-[360px] font-sans text-[13px] text-[#241430]\">\n  <div class=\"flex items-center gap-1.5 px-3 py-2 rounded-t-lg bg-[#FAF7F2] border border-b-0 border-[#24143022]\">\n    <span class=\"favicon-demo-tw__mark favicon-demo-tw__mark--{{shape}} {{#if monochrome}}grayscale{{/if}} inline-flex items-center justify-center w-4 h-4 rounded text-[10px] font-bold text-[#FAF7F2]\" style=\"background:{{bg}};\" role=\"img\" aria-label=\"Site favicon\">{{letter}}</span>\n    <span class=\"text-[#241430]/60\">Your Site</span>\n  </div>\n  <div class=\"flex flex-col items-center gap-1.5\">\n    <span class=\"favicon-demo-tw__mark favicon-demo-tw__mark--{{shape}} {{#if monochrome}}grayscale{{/if}} inline-flex items-center justify-center w-12 h-12 rounded-xl text-[22px] font-bold text-[#FAF7F2]\" style=\"background:{{bg}};\" aria-hidden=\"true\">{{letter}}</span>\n    <p class=\"m-0 text-[11px] text-[#241430]/60\">32 &times; 32 preview</p>\n  </div>\n</div>\n<style>\n.favicon-demo-tw__mark--circle { border-radius: 50% !important; }\n.favicon-demo-tw__mark--square { border-radius: 0 !important; }\n</style>",
+    "react": "export function FaviconDemo({\n  letter = \"{{letter}}\",\n  bg = \"{{bg}}\",\n  shape = \"{{shape}}\",\n  monochrome = {{monochrome}},\n}) {\n  const radius = { circle: \"50%\", rounded: \"30%\", square: \"0\" }[shape] ?? \"30%\";\n  const markStyle = (size, fontSize) => ({\n    display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", flex: \"none\",\n    width: size, height: size, fontSize, fontWeight: 700, lineHeight: 1, color: \"#FAF7F2\",\n    background: bg, borderRadius: radius, filter: monochrome ? \"grayscale(1)\" : \"none\",\n  });\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 20, maxWidth: 360, font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 6, padding: \"8px 12px\", borderRadius: \"8px 8px 0 0\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderBottom: \"none\" }}>\n        <span style={markStyle(16, 10)} role=\"img\" aria-label=\"Site favicon\">{letter}</span>\n        <span style={{ color: \"#24143099\" }}>Your Site</span>\n      </div>\n      <div style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 6 }}>\n        <span style={markStyle(48, 22)} aria-hidden=\"true\">{letter}</span>\n        <p style={{ margin: 0, color: \"#24143099\", fontSize: 11 }}>32 &times; 32 preview</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "slug": "prompt-input",
+  "controls_schema": [
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Ask anything…"
+    },
+    {
+      "id": "sendState",
+      "type": "select",
+      "label": "Send state",
+      "default": "idle",
+      "options": [
+        "idle",
+        "sending",
+        "sent"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "rows",
+      "type": "number",
+      "label": "Textarea rows",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"pi\" style=\"--accent:{{accent}};\">\n  <textarea class=\"pi__field\" rows=\"{{rows}}\" placeholder=\"{{placeholder}}\"></textarea>\n  <button type=\"button\" class=\"pi__send pi__send--{{sendState}}\">\n    <span class=\"pi__label pi__label--idle\">Send</span>\n    <span class=\"pi__label pi__label--sending\">Sending…</span>\n    <span class=\"pi__label pi__label--sent\">Sent</span>\n  </button>\n</form>\n<style>\n.pi { font: 14px/1.4 system-ui, sans-serif; max-width: 480px; display: flex; align-items: flex-end; gap: 8px;\n  padding: 10px; border: 1.5px solid #24143026; border-radius: 12px; background: #FAF7F2; color: #241430; }\n.pi__field { flex: 1; resize: vertical; border: none; outline: none; background: transparent; color: inherit;\n  font: inherit; min-height: 1.4em; }\n.pi__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }\n.pi__send { flex: none; border: none; border-radius: 8px; padding: 8px 16px; font: 600 14px system-ui, sans-serif;\n  cursor: pointer; background: var(--accent); color: #241430; }\n.pi__send:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.pi__label { display: none; }\n.pi__send--idle .pi__label--idle { display: inline; }\n.pi__send--sending { opacity: .55; cursor: progress; }\n.pi__send--sending .pi__label--sending { display: inline; }\n.pi__send--sent { background: #24143010; color: #241430; }\n.pi__send--sent .pi__label--sent { display: inline; }\n</style>",
+    "tailwind": "<form class=\"pi-tw pi-tw--{{sendState}} max-w-md flex items-end gap-2 p-2.5 rounded-xl border-[1.5px] border-[#24143026] bg-[#FAF7F2] text-[#241430] font-sans\" style=\"--accent:{{accent}};\">\n  <textarea rows=\"{{rows}}\" placeholder=\"{{placeholder}}\" class=\"flex-1 resize-y border-none outline-none bg-transparent text-inherit font-inherit min-h-[1.4em]\"></textarea>\n  <button type=\"button\" class=\"pi-tw__send flex-none rounded-lg px-4 py-2 text-sm font-semibold border-none\" style=\"background:var(--accent);color:#241430;\">\n    <span class=\"pi-tw__label pi-tw__label--idle\">Send</span>\n    <span class=\"pi-tw__label pi-tw__label--sending\">Sending…</span>\n    <span class=\"pi-tw__label pi-tw__label--sent\">Sent</span>\n  </button>\n</form>\n<style>\n.pi-tw__label { display: none; }\n.pi-tw--idle .pi-tw__label--idle { display: inline; }\n.pi-tw--sending .pi-tw__label--sending { display: inline; }\n.pi-tw--sending .pi-tw__send { opacity: .55; cursor: progress; }\n.pi-tw--sent .pi-tw__label--sent { display: inline; }\n.pi-tw--sent .pi-tw__send { background: #24143010 !important; }\n</style>",
+    "react": "export function PromptInput({\n  placeholder = \"{{placeholder}}\",\n  sendState = \"{{sendState}}\",\n  accent = \"{{accent}}\",\n  rows = {{rows}},\n}) {\n  const label = { idle: \"Send\", sending: \"Sending…\", sent: \"Sent\" }[sendState] ?? \"Send\";\n  const sendStyle = {\n    idle: { background: accent, color: \"#241430\", opacity: 1, cursor: \"pointer\" },\n    sending: { background: accent, color: \"#241430\", opacity: 0.55, cursor: \"progress\" },\n    sent: { background: \"#24143010\", color: \"#241430\", opacity: 1, cursor: \"pointer\" },\n  }[sendState];\n  return (\n    <form style={{ maxWidth: 480, display: \"flex\", alignItems: \"flex-end\", gap: 8, padding: 10,\n      border: \"1.5px solid #24143026\", borderRadius: 12, background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\" }}>\n      <textarea rows={rows} placeholder={placeholder} style={{ flex: 1, resize: \"vertical\", border: \"none\",\n        outline: \"none\", background: \"transparent\", color: \"inherit\", font: \"inherit\", minHeight: \"1.4em\" }} />\n      <button type=\"button\" style={{ flex: \"none\", border: \"none\", borderRadius: 8, padding: \"8px 16px\",\n        fontWeight: 600, fontSize: 14, fontFamily: \"system-ui, sans-serif\", cursor: sendStyle.cursor,\n        background: sendStyle.background, color: sendStyle.color, opacity: sendStyle.opacity }}>\n        {label}\n      </button>\n    </form>\n  );\n}"
+  }
+}

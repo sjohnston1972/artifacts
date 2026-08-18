@@ -1,0 +1,42 @@
+{
+  "slug": "team-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Team"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Query text",
+      "default": ""
+    },
+    {
+      "id": "selected",
+      "type": "select",
+      "label": "Selected team",
+      "default": "design",
+      "options": ["design", "platform", "growth"]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"teampicker\" style=\"--accent:{{accent}};\">\n  <label id=\"tp-label\" for=\"tp-input\" class=\"teampicker__label\">{{label}}</label>\n  <input id=\"tp-input\" type=\"text\" role=\"combobox\" aria-expanded=\"{{open}}\" aria-controls=\"tp-list\" aria-activedescendant=\"tp-opt-{{selected}}\" aria-autocomplete=\"list\" class=\"teampicker__input\" value=\"{{query}}\" placeholder=\"Search teams…\">\n  {{#if open}}\n  <ul role=\"listbox\" id=\"tp-list\" aria-labelledby=\"tp-label\" class=\"teampicker__list teampicker--sel-{{selected}}\">\n    <li role=\"option\" id=\"tp-opt-design\" data-key=\"design\" aria-selected=\"true\" class=\"teampicker__option\"><span class=\"teampicker__dot teampicker__dot--design\" aria-hidden=\"true\"></span>Design</li>\n    <li role=\"option\" id=\"tp-opt-platform\" data-key=\"platform\" aria-selected=\"false\" class=\"teampicker__option\"><span class=\"teampicker__dot teampicker__dot--platform\" aria-hidden=\"true\"></span>Platform</li>\n    <li role=\"option\" id=\"tp-opt-growth\" data-key=\"growth\" aria-selected=\"false\" class=\"teampicker__option\"><span class=\"teampicker__dot teampicker__dot--growth\" aria-hidden=\"true\"></span>Growth</li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.teampicker { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.teampicker__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.teampicker__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; border-radius: 8px; }\n.teampicker__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.teampicker__list { list-style: none; margin: 6px 0 0; padding: 4px; border: 1.5px solid #24143040; border-radius: 8px; background: #fff; }\n.teampicker__option { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; }\n.teampicker__option:hover { background: #24143010; }\n.teampicker__dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }\n.teampicker__dot--design { background: #D9C8F0; }\n.teampicker__dot--platform { background: #BFD9F2; }\n.teampicker__dot--growth { background: #A8E6C1; }\n.teampicker--sel-design [data-key=\"design\"],\n.teampicker--sel-platform [data-key=\"platform\"],\n.teampicker--sel-growth [data-key=\"growth\"] { background: #24143010; font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"teampicker--sel-{{selected}} block font-sans text-sm text-[#241430] max-w-[260px]\" style=\"--accent:{{accent}};\">\n  <label id=\"tp-label-tw\" for=\"tp-input-tw\" class=\"block mb-1.5 font-medium\">{{label}}</label>\n  <input id=\"tp-input-tw\" type=\"text\" role=\"combobox\" aria-expanded=\"{{open}}\" aria-controls=\"tp-list-tw\" aria-activedescendant=\"tp-opt-tw-{{selected}}\" aria-autocomplete=\"list\" value=\"{{query}}\" placeholder=\"Search teams…\"\n    class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] rounded-lg focus-visible:outline-none focus-visible:border-[color:var(--accent)]\">\n  {{#if open}}\n  <ul role=\"listbox\" id=\"tp-list-tw\" aria-labelledby=\"tp-label-tw\" class=\"list-none mt-1.5 p-1 border-[1.5px] border-[#24143040] rounded-lg bg-white\">\n    <li role=\"option\" id=\"tp-opt-tw-design\" data-key=\"design\" aria-selected=\"true\" class=\"tp-opt-tw flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143010]\"><span class=\"inline-block w-2.5 h-2.5 rounded-full bg-[#D9C8F0]\" aria-hidden=\"true\"></span>Design</li>\n    <li role=\"option\" id=\"tp-opt-tw-platform\" data-key=\"platform\" aria-selected=\"false\" class=\"tp-opt-tw flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143010]\"><span class=\"inline-block w-2.5 h-2.5 rounded-full bg-[#BFD9F2]\" aria-hidden=\"true\"></span>Platform</li>\n    <li role=\"option\" id=\"tp-opt-tw-growth\" data-key=\"growth\" aria-selected=\"false\" class=\"tp-opt-tw flex items-center gap-2 px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143010]\"><span class=\"inline-block w-2.5 h-2.5 rounded-full bg-[#A8E6C1]\" aria-hidden=\"true\"></span>Growth</li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.teampicker--sel-design [data-key=\"design\"],\n.teampicker--sel-platform [data-key=\"platform\"],\n.teampicker--sel-growth [data-key=\"growth\"] { background: #24143010; font-weight: 600; }\n</style>",
+    "react": "export function TeamPicker({\n  label = \"{{label}}\",\n  query = \"{{query}}\",\n  selected = \"{{selected}}\",\n  open = {{open}},\n  accent = \"{{accent}}\",\n}) {\n  const teams = [\n    { key: \"design\", name: \"Design\", colour: \"#D9C8F0\" },\n    { key: \"platform\", name: \"Platform\", colour: \"#BFD9F2\" },\n    { key: \"growth\", name: \"Growth\", colour: \"#A8E6C1\" },\n  ];\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label id=\"tp-label-r\" htmlFor=\"tp-input-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <input id=\"tp-input-r\" type=\"text\" role=\"combobox\" aria-expanded={open} aria-controls=\"tp-list-r\" aria-activedescendant={`tp-opt-r-${selected}`} aria-autocomplete=\"list\" defaultValue={query} placeholder=\"Search teams…\" style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: 8,\n      }} />\n      {open && (\n        <ul role=\"listbox\" id=\"tp-list-r\" aria-labelledby=\"tp-label-r\" style={{ listStyle: \"none\", margin: \"6px 0 0\", padding: 4, border: \"1.5px solid #24143040\", borderRadius: 8, background: \"#fff\" }}>\n          {teams.map((team) => (\n            <li key={team.key} id={`tp-opt-r-${team.key}`} role=\"option\" aria-selected={team.key === selected} style={{\n              display: \"flex\", alignItems: \"center\", gap: 8, padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\",\n              background: team.key === selected ? \"#24143010\" : \"transparent\",\n              fontWeight: team.key === selected ? 600 : 400,\n            }}>\n              <span aria-hidden=\"true\" style={{ display: \"inline-block\", width: 10, height: 10, borderRadius: \"50%\", background: team.colour, flex: \"none\" }} />\n              {team.name}\n            </li>\n          ))}\n        </ul>\n      )}\n    </div>\n  );\n}"
+  }
+}

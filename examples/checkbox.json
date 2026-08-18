@@ -1,0 +1,45 @@
+{
+  "slug": "checkbox",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Email me about product updates"
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "checked",
+      "options": ["unchecked", "checked", "indeterminate"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 5,
+      "min": 0,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"checkbox\" for=\"chk-1\">\n  <input type=\"checkbox\" id=\"chk-1\" class=\"checkbox__box checkbox__box--{{state}}\" style=\"--accent:{{accent}};--radius:{{radius}}px;\"{{#if disabled}} disabled{{/if}}>\n  <span class=\"checkbox__label\">{{label}}</span>\n</label>\n<style>\n.checkbox { display: inline-flex; align-items: center; gap: 10px; font: 14px system-ui, sans-serif; color: #241430; cursor: pointer; }\n.checkbox__box { appearance: none; margin: 0; width: 20px; height: 20px; flex: none; border: 1.5px solid #24143050; border-radius: var(--radius); background: #FAF7F2; position: relative; }\n.checkbox__box--checked, .checkbox__box--indeterminate { background: var(--accent); border-color: var(--accent); }\n.checkbox__box--checked::after { content: \"\"; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px; border: solid #241430; border-width: 0 2px 2px 0; transform: rotate(45deg); }\n.checkbox__box--indeterminate::after { content: \"\"; position: absolute; left: 4px; top: 8px; width: 10px; height: 2px; background: #241430; border-radius: 1px; }\n.checkbox__box:hover { border-color: var(--accent); }\n.checkbox__box:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent); }\n.checkbox__box:disabled { opacity: .5; cursor: not-allowed; }\n.checkbox:has(.checkbox__box:disabled) { cursor: not-allowed; }\n</style>",
+    "tailwind": "<label for=\"chk-1-tw\" class=\"inline-flex items-center gap-2.5 font-sans text-sm text-[#241430] cursor-pointer\">\n  <input type=\"checkbox\" id=\"chk-1-tw\" class=\"chk-tw chk-tw--{{state}} appearance-none m-0 w-5 h-5 flex-none border-[1.5px] border-[#24143050] bg-[#FAF7F2] relative disabled:opacity-50 disabled:cursor-not-allowed\" style=\"border-radius:{{radius}}px;\"{{#if disabled}} disabled{{/if}}>\n  <span>{{label}}</span>\n</label>\n<style>\n.chk-tw--checked, .chk-tw--indeterminate { background: {{accent}} !important; border-color: {{accent}} !important; }\n.chk-tw--checked::after { content: \"\"; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px; border: solid #241430; border-width: 0 2px 2px 0; transform: rotate(45deg); }\n.chk-tw--indeterminate::after { content: \"\"; position: absolute; left: 4px; top: 8px; width: 10px; height: 2px; background: #241430; border-radius: 1px; }\n.chk-tw:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, {{accent}} 40%, transparent); }\n</style>",
+    "react": "export function Checkbox({\n  label = \"{{label}}\",\n  state = \"{{state}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  disabled = {{disabled}},\n}) {\n  const filled = state === \"checked\" || state === \"indeterminate\";\n  return (\n    <label style={{ display: \"inline-flex\", alignItems: \"center\", gap: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", cursor: disabled ? \"not-allowed\" : \"pointer\" }}>\n      <span style={{\n        position: \"relative\", width: 20, height: 20, flex: \"none\", borderRadius: radius,\n        border: `1.5px solid ${filled ? accent : \"#24143050\"}`, background: filled ? accent : \"#FAF7F2\",\n        opacity: disabled ? 0.5 : 1, display: \"inline-block\",\n      }}>\n        {state === \"checked\" && (\n          <svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" style={{ position: \"absolute\", left: 5, top: 4 }}>\n            <polyline points=\"1,5 4,8 9,1\" fill=\"none\" stroke=\"#241430\" strokeWidth=\"2\" />\n          </svg>\n        )}\n        {state === \"indeterminate\" && (\n          <span style={{ position: \"absolute\", left: 4, top: 8, width: 10, height: 2, background: \"#241430\", borderRadius: 1 }} />\n        )}\n        <input type=\"checkbox\" disabled={disabled} readOnly checked={state === \"checked\"} style={{ opacity: 0, position: \"absolute\", inset: 0, margin: 0 }} />\n      </span>\n      <span>{label}</span>\n    </label>\n  );\n}"
+  }
+}

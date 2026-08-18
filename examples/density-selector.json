@@ -1,0 +1,56 @@
+{
+  "slug": "density-selector",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Customer orders"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Header colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Row density",
+      "default": "cosy",
+      "options": [
+        "compact",
+        "cosy",
+        "comfortable"
+      ]
+    },
+    {
+      "id": "stripe",
+      "type": "toggle",
+      "label": "Zebra striping",
+      "default": true
+    },
+    {
+      "id": "fontScale",
+      "type": "number",
+      "label": "Font size (px)",
+      "default": 14,
+      "min": 12,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dsel{{#if stripe}} dsel--stripe{{/if}}\" data-density=\"{{density}}\" style=\"--accent:{{accent}}; --fs:{{fontScale}}px;\">\n  <div class=\"dsel__scroll\">\n    <table class=\"dsel__table\">\n      <caption>{{caption}}</caption>\n      <thead><tr><th scope=\"col\">Order</th><th scope=\"col\">Customer</th><th scope=\"col\">Status</th><th scope=\"col\">Total</th></tr></thead>\n      <tbody>\n        <tr><td>#1042</td><td>A. Whitfield</td><td>Shipped</td><td>£64.00</td></tr>\n        <tr><td>#1041</td><td>R. Okafor</td><td>Processing</td><td>£128.50</td></tr>\n        <tr><td>#1040</td><td>M. Iqbal</td><td>Shipped</td><td>£22.00</td></tr>\n        <tr><td>#1039</td><td>S. Novak</td><td>Refunded</td><td>£40.00</td></tr>\n        <tr><td>#1038</td><td>L. Duarte</td><td>Shipped</td><td>£96.20</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n.dsel { font-family: system-ui, sans-serif; font-size: var(--fs); color: #241430; background: #FAF7F2; max-width: 480px; border: 1px solid #24143020; border-radius: 10px; overflow: hidden; }\n.dsel__scroll { overflow-x: auto; }\n.dsel__table { border-collapse: collapse; width: 100%; }\n.dsel__table caption { text-align: left; font-weight: 600; padding: 10px 14px; }\n.dsel__table th, .dsel__table td { text-align: left; border-bottom: 1px solid #24143020; white-space: nowrap; }\n.dsel__table th { background: var(--accent); color: #FAF7F2; }\n.dsel--stripe tbody tr:nth-child(even) { background: #24143010; }\n.dsel[data-density=\"compact\"] th, .dsel[data-density=\"compact\"] td { padding: 4px 10px; }\n.dsel[data-density=\"cosy\"] th, .dsel[data-density=\"cosy\"] td { padding: 9px 14px; }\n.dsel[data-density=\"comfortable\"] th, .dsel[data-density=\"comfortable\"] td { padding: 16px 18px; }\n</style>",
+    "tailwind": "<div class=\"max-w-[480px] rounded-[10px] border border-[#24143020] font-sans text-[#241430] bg-[#FAF7F2] overflow-hidden{{#if stripe}} [&_tbody_tr:nth-child(even)]:bg-[#24143010]{{/if}}\" data-density=\"{{density}}\" style=\"--accent:{{accent}}; font-size:{{fontScale}}px;\">\n  <div class=\"overflow-x-auto\">\n    <table class=\"border-collapse w-full\">\n      <caption class=\"text-left font-semibold px-3.5 py-2.5\">{{caption}}</caption>\n      <thead><tr class=\"text-[#FAF7F2]\" style=\"background:{{accent}}\">\n        <th scope=\"col\" class=\"dsel__cell text-left whitespace-nowrap\">Order</th>\n        <th scope=\"col\" class=\"dsel__cell text-left whitespace-nowrap\">Customer</th>\n        <th scope=\"col\" class=\"dsel__cell text-left whitespace-nowrap\">Status</th>\n        <th scope=\"col\" class=\"dsel__cell text-left whitespace-nowrap\">Total</th>\n      </tr></thead>\n      <tbody>\n        <tr><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">#1042</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">A. Whitfield</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">£64.00</td></tr>\n        <tr><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">#1041</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">R. Okafor</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">Processing</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">£128.50</td></tr>\n        <tr><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">#1040</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">M. Iqbal</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">£22.00</td></tr>\n        <tr><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">#1039</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">S. Novak</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">Refunded</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">£40.00</td></tr>\n        <tr><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">#1038</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">L. Duarte</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">Shipped</td><td class=\"dsel__cell border-b border-[#24143020] whitespace-nowrap\">£96.20</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n<style>\n[data-density=\"compact\"] .dsel__cell { padding: 4px 10px; }\n[data-density=\"cosy\"] .dsel__cell { padding: 9px 14px; }\n[data-density=\"comfortable\"] .dsel__cell { padding: 16px 18px; }\n</style>",
+    "react": "function DensitySelector({\n  caption = \"{{caption}}\",\n  accent = \"{{accent}}\",\n  density = \"{{density}}\",\n  stripe = {{stripe}},\n  fontScale = {{fontScale}},\n}) {\n  const rows = [\n    [\"#1042\", \"A. Whitfield\", \"Shipped\", \"£64.00\"],\n    [\"#1041\", \"R. Okafor\", \"Processing\", \"£128.50\"],\n    [\"#1040\", \"M. Iqbal\", \"Shipped\", \"£22.00\"],\n    [\"#1039\", \"S. Novak\", \"Refunded\", \"£40.00\"],\n    [\"#1038\", \"L. Duarte\", \"Shipped\", \"£96.20\"],\n  ];\n  const padByDensity = { compact: \"4px 10px\", cosy: \"9px 14px\", comfortable: \"16px 18px\" };\n  const pad = padByDensity[density] || padByDensity.cosy;\n  const cell = { padding: pad, textAlign: \"left\", borderBottom: \"1px solid #24143020\", whiteSpace: \"nowrap\" };\n  return (\n    <div style={{ maxWidth: 480, borderRadius: 10, border: \"1px solid #24143020\", overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: fontScale, color: \"#241430\", background: \"#FAF7F2\" }}>\n      <div style={{ overflowX: \"auto\" }}>\n        <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n          <caption style={{ textAlign: \"left\", fontWeight: 600, padding: \"10px 14px\" }}>{caption}</caption>\n          <thead>\n            <tr style={{ background: accent, color: \"#FAF7F2\" }}>\n              {[\"Order\", \"Customer\", \"Status\", \"Total\"].map((h) => <th key={h} scope=\"col\" style={cell}>{h}</th>)}\n            </tr>\n          </thead>\n          <tbody>\n            {rows.map((row, i) => (\n              <tr key={row[0]} style={{ background: stripe && i % 2 === 1 ? \"#24143010\" : \"transparent\" }}>\n                {row.map((c, j) => <td key={j} style={cell}>{c}</td>)}\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}"
+  }
+}

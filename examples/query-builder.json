@@ -1,0 +1,62 @@
+{
+  "slug": "query-builder",
+  "controls_schema": [
+    {
+      "id": "field",
+      "type": "select",
+      "label": "Field",
+      "default": "Status",
+      "options": [
+        "Status",
+        "Owner",
+        "Priority"
+      ]
+    },
+    {
+      "id": "operator",
+      "type": "select",
+      "label": "Operator",
+      "default": "is",
+      "options": [
+        "is",
+        "is not",
+        "contains"
+      ]
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Open"
+    },
+    {
+      "id": "logic",
+      "type": "select",
+      "label": "Match logic",
+      "default": "AND",
+      "options": [
+        "AND",
+        "OR"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"qbuilder\" style=\"--accent:{{accent}};\">\n  <div class=\"qbuilder__row\">\n    <select class=\"qbuilder__select\" aria-label=\"Field\">\n      <option>Status</option>\n      <option>Owner</option>\n      <option>Priority</option>\n    </select>\n    <select class=\"qbuilder__select\" aria-label=\"Operator\">\n      <option>is</option>\n      <option>is not</option>\n      <option>contains</option>\n    </select>\n    <input class=\"qbuilder__input\" type=\"text\" aria-label=\"Value\" value=\"{{value}}\">\n  </div>\n  <div class=\"qbuilder__joiner\">\n    <select class=\"qbuilder__select qbuilder__select--joiner\" aria-label=\"Match logic\">\n      <option>AND</option>\n      <option>OR</option>\n    </select>\n  </div>\n  <div class=\"qbuilder__row\">\n    <select class=\"qbuilder__select\" aria-label=\"Field\" disabled>\n      <option>Priority</option>\n    </select>\n    <select class=\"qbuilder__select\" aria-label=\"Operator\" disabled>\n      <option>is</option>\n    </select>\n    <input class=\"qbuilder__input\" type=\"text\" aria-label=\"Value\" value=\"High\" disabled>\n  </div>\n  <p class=\"qbuilder__preview\" role=\"status\">{{field}} {{operator}} &quot;{{value}}&quot; {{logic}} Priority is &quot;High&quot;</p>\n</div>\n<style>\n.qbuilder { font: 14px system-ui, sans-serif; color: #241430; max-width: 420px; }\n.qbuilder__row { display: flex; gap: 8px; margin-bottom: 8px; }\n.qbuilder__select, .qbuilder__input { box-sizing: border-box; padding: 8px 10px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; appearance: none; }\n.qbuilder__select { flex: 0 0 auto; }\n.qbuilder__input { flex: 1; }\n.qbuilder__select:focus-visible, .qbuilder__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.qbuilder__joiner { display: flex; justify-content: center; margin-bottom: 8px; }\n.qbuilder__select--joiner { font-weight: 600; background: var(--accent); border-color: transparent; }\n.qbuilder__row:last-of-type .qbuilder__select, .qbuilder__row:last-of-type .qbuilder__input { opacity: .55; }\n.qbuilder__preview { margin: 10px 0 0; padding: 10px 12px; background: #24143010; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] max-w-[420px]\" style=\"--accent:{{accent}};\">\n  <div class=\"flex gap-2 mb-2\">\n    <select aria-label=\"Field\" class=\"box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n      <option>Status</option>\n      <option>Owner</option>\n      <option>Priority</option>\n    </select>\n    <select aria-label=\"Operator\" class=\"box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n      <option>is</option>\n      <option>is not</option>\n      <option>contains</option>\n    </select>\n    <input type=\"text\" aria-label=\"Value\" value=\"{{value}}\" class=\"flex-1 box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none focus-visible:border-[var(--accent)]\">\n  </div>\n  <div class=\"flex justify-center mb-2\">\n    <select aria-label=\"Match logic\" class=\"px-2.5 py-2 font-semibold text-[#241430] bg-[var(--accent)] border-[1.5px] border-transparent appearance-none\">\n      <option>AND</option>\n      <option>OR</option>\n    </select>\n  </div>\n  <div class=\"flex gap-2 mb-2 opacity-55\">\n    <select aria-label=\"Field\" disabled class=\"box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none\">\n      <option>Priority</option>\n    </select>\n    <select aria-label=\"Operator\" disabled class=\"box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none\">\n      <option>is</option>\n    </select>\n    <input type=\"text\" aria-label=\"Value\" value=\"High\" disabled class=\"flex-1 box-border px-2.5 py-2 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040]\">\n  </div>\n  <p role=\"status\" class=\"mt-2.5 px-3 py-2.5 bg-[#24143010] text-[13px]\">{{field}} {{operator}} &quot;{{value}}&quot; {{logic}} Priority is &quot;High&quot;</p>\n</div>",
+    "react": "export function QueryBuilder({\n  field = \"{{field}}\",\n  operator = \"{{operator}}\",\n  value = \"{{value}}\",\n  logic = \"{{logic}}\",\n  accent = \"{{accent}}\",\n}) {\n  const selectStyle = { boxSizing: \"border-box\", padding: \"8px 10px\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", appearance: \"none\" };\n  const inputStyle = { flex: 1, boxSizing: \"border-box\", padding: \"8px 10px\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 420, \"--accent\": accent }}>\n      <div style={{ display: \"flex\", gap: 8, marginBottom: 8 }}>\n        <select aria-label=\"Field\" style={selectStyle} defaultValue={field}>\n          <option>Status</option>\n          <option>Owner</option>\n          <option>Priority</option>\n        </select>\n        <select aria-label=\"Operator\" style={selectStyle} defaultValue={operator}>\n          <option>is</option>\n          <option>is not</option>\n          <option>contains</option>\n        </select>\n        <input type=\"text\" aria-label=\"Value\" defaultValue={value} style={inputStyle} />\n      </div>\n      <div style={{ display: \"flex\", justifyContent: \"center\", marginBottom: 8 }}>\n        <select aria-label=\"Match logic\" style={{ ...selectStyle, fontWeight: 600, background: accent, borderColor: \"transparent\" }} defaultValue={logic}>\n          <option>AND</option>\n          <option>OR</option>\n        </select>\n      </div>\n      <div style={{ display: \"flex\", gap: 8, marginBottom: 8, opacity: 0.55 }}>\n        <select aria-label=\"Field\" disabled style={selectStyle}>\n          <option>Priority</option>\n        </select>\n        <select aria-label=\"Operator\" disabled style={selectStyle}>\n          <option>is</option>\n        </select>\n        <input type=\"text\" aria-label=\"Value\" defaultValue=\"High\" disabled style={inputStyle} />\n      </div>\n      <p role=\"status\" style={{ margin: \"10px 0 0\", padding: \"10px 12px\", background: \"#24143010\", fontSize: 13 }}>\n        {field} {operator} &quot;{value}&quot; {logic} Priority is &quot;High&quot;\n      </p>\n    </div>\n  );\n}"
+  }
+}

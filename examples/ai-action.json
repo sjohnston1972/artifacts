@@ -1,0 +1,56 @@
+{
+  "slug": "ai-action",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Action label",
+      "default": "Archive 12 read newsletters"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "suggested",
+      "options": [
+        "suggested",
+        "applied",
+        "dismissed"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "reversible",
+      "type": "toggle",
+      "label": "Reversible",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ai-action ai-action--{{status}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"ai-action__row\">\n    <span class=\"ai-action__icon\" aria-hidden=\"true\">&#10022;</span>\n    <p class=\"ai-action__label\">{{label}}</p>\n    <span class=\"ai-action__badge ai-action__badge--{{status}}\">{{status}}</span>\n  </div>\n  <div class=\"ai-action__footer\">\n    <button type=\"button\" class=\"ai-action__btn ai-action__btn--run\">Run</button>\n    <button type=\"button\" class=\"ai-action__btn ai-action__btn--undo\" {{#unless reversible}}disabled{{/unless}}>Undo</button>\n    {{#if reversible}}<p class=\"ai-action__hint\">Undo available</p>{{/if}}\n  </div>\n</div>\n<style>\n.ai-action { font: 15px/1.5 system-ui, sans-serif; max-width: 420px; padding: 16px 18px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143022; box-sizing: border-box; }\n.ai-action__row { display: flex; align-items: center; gap: 10px; }\n.ai-action__icon { color: var(--accent); font-size: 16px; flex-shrink: 0; }\n.ai-action__label { flex: 1; margin: 0; font-weight: 600; font-size: 14px; }\n.ai-action__badge { text-transform: capitalize; font-size: 11px; font-weight: 700; padding: .3em .7em; border-radius: 999px; border: 1.5px solid var(--accent); box-sizing: border-box; }\n.ai-action__badge--suggested { background: transparent; color: var(--accent); }\n.ai-action__badge--applied { background: var(--accent); color: #FAF7F2; }\n.ai-action__badge--dismissed { background: transparent; color: #24143066; border-color: #24143033; text-decoration: line-through; }\n.ai-action__footer { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }\n.ai-action__btn { font: 600 13px system-ui, sans-serif; padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--accent); background: var(--accent); color: #FAF7F2; cursor: pointer; }\n.ai-action__btn--undo { background: transparent; color: var(--accent); }\n.ai-action__btn:disabled { opacity: .4; cursor: not-allowed; }\n.ai-action__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.ai-action__hint { margin: 0; font-size: 12px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"ai-action-tw ai-action-tw--{{status}} max-w-md p-4 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143022] box-border\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\">\n  <div class=\"flex items-center gap-2.5\">\n    <span class=\"text-base flex-shrink-0\" style=\"color:var(--accent)\" aria-hidden=\"true\">&#10022;</span>\n    <p class=\"flex-1 m-0 font-semibold text-sm\">{{label}}</p>\n    <span class=\"ai-action-tw__badge ai-action-tw__badge--{{status}} capitalize text-[11px] font-bold px-2.5 py-1 rounded-full border-[1.5px] box-border\" style=\"border-color:var(--accent)\">{{status}}</span>\n  </div>\n  <div class=\"flex items-center gap-2.5 mt-3 flex-wrap\">\n    <button type=\"button\" class=\"font-semibold text-[13px] px-3.5 py-1.5 rounded-lg border-[1.5px] cursor-pointer\" style=\"border-color:var(--accent);background:var(--accent);color:#FAF7F2\">Run</button>\n    <button type=\"button\" class=\"font-semibold text-[13px] px-3.5 py-1.5 rounded-lg border-[1.5px] bg-transparent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed\" style=\"border-color:var(--accent);color:var(--accent)\" {{#unless reversible}}disabled{{/unless}}>Undo</button>\n    {{#if reversible}}<p class=\"m-0 text-xs text-[#24143099]\">Undo available</p>{{/if}}\n  </div>\n</div>\n<style>\n.ai-action-tw__badge--suggested { background: transparent; color: var(--accent); }\n.ai-action-tw__badge--applied { background: var(--accent); color: #FAF7F2; }\n.ai-action-tw__badge--dismissed { background: transparent; color: #24143066; border-color: #24143033 !important; text-decoration: line-through; }\n</style>",
+    "react": "export function AiAction({\n  label = \"{{label}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n  reversible = {{reversible}},\n}) {\n  const badge = {\n    suggested: { background: \"transparent\", color: accent, borderColor: accent },\n    applied: { background: accent, color: \"#FAF7F2\", borderColor: accent },\n    dismissed: { background: \"transparent\", color: \"#24143066\", borderColor: \"#24143033\", textDecoration: \"line-through\" },\n  }[status] ?? {};\n  return (\n    <div style={{ maxWidth: 420, padding: \"16px 18px\", background: \"#FAF7F2\", color: \"#241430\",\n      border: \"1.5px solid #24143022\", borderRadius: radius, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span aria-hidden=\"true\" style={{ color: accent, fontSize: 16, flexShrink: 0 }}>&#10022;</span>\n        <p style={{ flex: 1, margin: 0, fontWeight: 600, fontSize: 14 }}>{label}</p>\n        <span style={{ textTransform: \"capitalize\", fontSize: 11, fontWeight: 700, padding: \"0.3em 0.7em\",\n          borderRadius: 999, border: \"1.5px solid\", boxSizing: \"border-box\", ...badge }}>{status}</span>\n      </div>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, marginTop: 12, flexWrap: \"wrap\" }}>\n        <button type=\"button\" style={{ font: \"600 13px system-ui, sans-serif\", padding: \"7px 14px\", borderRadius: 8,\n          border: `1.5px solid ${accent}`, background: accent, color: \"#FAF7F2\", cursor: \"pointer\" }}>Run</button>\n        <button type=\"button\" disabled={!reversible} style={{ font: \"600 13px system-ui, sans-serif\", padding: \"7px 14px\",\n          borderRadius: 8, border: `1.5px solid ${accent}`, background: \"transparent\", color: accent,\n          cursor: reversible ? \"pointer\" : \"not-allowed\", opacity: reversible ? 1 : 0.4 }}>Undo</button>\n        {reversible && <p style={{ margin: 0, fontSize: 12, color: \"#24143099\" }}>Undo available</p>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

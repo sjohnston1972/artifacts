@@ -1,0 +1,56 @@
+{
+  "slug": "cascading-select",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Category"
+    },
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Second label",
+      "default": "Item"
+    },
+    {
+      "id": "parent",
+      "type": "select",
+      "label": "Category",
+      "default": "fruit",
+      "options": [
+        "fruit",
+        "veg",
+        "herb"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"csc csc--{{parent}}\" style=\"--accent:{{accent}};\">\n  <div class=\"csc__field\">\n    <label class=\"csc__label\" for=\"csc-parent\">{{label}}</label>\n    <select id=\"csc-parent\" class=\"csc__select\" style=\"border-radius:{{radius}}px;\">\n      <option>Fruit</option>\n      <option>Vegetable</option>\n      <option>Herb</option>\n    </select>\n  </div>\n  <div class=\"csc__field csc__field--fruit\">\n    <label class=\"csc__label\" for=\"csc-item-fruit\">{{itemLabel}}</label>\n    <select id=\"csc-item-fruit\" class=\"csc__select\" style=\"border-radius:{{radius}}px;\">\n      <option>Apple</option>\n      <option>Pear</option>\n      <option>Plum</option>\n    </select>\n  </div>\n  <div class=\"csc__field csc__field--veg\">\n    <label class=\"csc__label\" for=\"csc-item-veg\">{{itemLabel}}</label>\n    <select id=\"csc-item-veg\" class=\"csc__select\" style=\"border-radius:{{radius}}px;\">\n      <option>Carrot</option>\n      <option>Pea</option>\n      <option>Leek</option>\n    </select>\n  </div>\n  <div class=\"csc__field csc__field--herb\">\n    <label class=\"csc__label\" for=\"csc-item-herb\">{{itemLabel}}</label>\n    <select id=\"csc-item-herb\" class=\"csc__select\" style=\"border-radius:{{radius}}px;\">\n      <option>Basil</option>\n      <option>Mint</option>\n      <option>Thyme</option>\n    </select>\n  </div>\n</div>\n<style>\n.csc { display: flex; gap: 12px; font: 14px system-ui, sans-serif; color: #241430; max-width: 360px; flex-wrap: wrap; }\n.csc__field { flex: 1; min-width: 140px; }\n.csc__field--fruit, .csc__field--veg, .csc__field--herb { display: none; }\n.csc--fruit .csc__field--fruit, .csc--veg .csc__field--veg, .csc--herb .csc__field--herb { display: block; }\n.csc__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.csc__select { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; appearance: none; }\n.csc__select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n</style>",
+    "tailwind": "<div class=\"csc-tw csc-tw--{{parent}} flex gap-3 flex-wrap font-sans text-sm text-[#241430] max-w-[360px]\">\n  <div class=\"flex-1 min-w-[140px]\">\n    <label class=\"block mb-1.5 font-medium\" for=\"csc-parent-tw\">{{label}}</label>\n    <select id=\"csc-parent-tw\" style=\"border-radius:{{radius}}px;\"\n      class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none\">\n      <option>Fruit</option>\n      <option>Vegetable</option>\n      <option>Herb</option>\n    </select>\n  </div>\n  <div class=\"csc-tw-item csc-tw-item--fruit flex-1 min-w-[140px] hidden\">\n    <label class=\"block mb-1.5 font-medium\" for=\"csc-item-fruit-tw\">{{itemLabel}}</label>\n    <select id=\"csc-item-fruit-tw\" style=\"border-radius:{{radius}}px;\"\n      class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none\">\n      <option>Apple</option>\n      <option>Pear</option>\n      <option>Plum</option>\n    </select>\n  </div>\n  <div class=\"csc-tw-item csc-tw-item--veg flex-1 min-w-[140px] hidden\">\n    <label class=\"block mb-1.5 font-medium\" for=\"csc-item-veg-tw\">{{itemLabel}}</label>\n    <select id=\"csc-item-veg-tw\" style=\"border-radius:{{radius}}px;\"\n      class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none\">\n      <option>Carrot</option>\n      <option>Pea</option>\n      <option>Leek</option>\n    </select>\n  </div>\n  <div class=\"csc-tw-item csc-tw-item--herb flex-1 min-w-[140px] hidden\">\n    <label class=\"block mb-1.5 font-medium\" for=\"csc-item-herb-tw\">{{itemLabel}}</label>\n    <select id=\"csc-item-herb-tw\" style=\"border-radius:{{radius}}px;\"\n      class=\"w-full box-border px-3 py-2.5 bg-[#FAF7F2] border-[1.5px] border-[#24143040] appearance-none focus-visible:outline-none\">\n      <option>Basil</option>\n      <option>Mint</option>\n      <option>Thyme</option>\n    </select>\n  </div>\n</div>\n<style>\n.csc-tw--fruit .csc-tw-item--fruit, .csc-tw--veg .csc-tw-item--veg, .csc-tw--herb .csc-tw-item--herb { display: block !important; }\nselect:focus-visible { border-color: {{accent}} !important; }\n</style>",
+    "react": "export function CascadingSelect({\n  label = \"{{label}}\",\n  itemLabel = \"{{itemLabel}}\",\n  parent = \"{{parent}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const itemsByParent = {\n    fruit: [\"Apple\", \"Pear\", \"Plum\"],\n    veg: [\"Carrot\", \"Pea\", \"Leek\"],\n    herb: [\"Basil\", \"Mint\", \"Thyme\"],\n  };\n  const items = itemsByParent[parent] ?? itemsByParent.fruit;\n  const selectStyle = {\n    width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\",\n    color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: radius, appearance: \"none\",\n  };\n  return (\n    <div style={{ display: \"flex\", gap: 12, flexWrap: \"wrap\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 360 }}>\n      <div style={{ flex: 1, minWidth: 140 }}>\n        <label htmlFor=\"csc-parent-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n        <select id=\"csc-parent-r\" style={selectStyle} defaultValue={parent}>\n          <option value=\"fruit\">Fruit</option>\n          <option value=\"veg\">Vegetable</option>\n          <option value=\"herb\">Herb</option>\n        </select>\n      </div>\n      <div style={{ flex: 1, minWidth: 140 }}>\n        <label htmlFor=\"csc-item-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{itemLabel}</label>\n        <select id=\"csc-item-r\" style={{ ...selectStyle, borderColor: accent }}>\n          {items.map((item) => <option key={item}>{item}</option>)}\n        </select>\n      </div>\n    </div>\n  );\n}"
+  }
+}

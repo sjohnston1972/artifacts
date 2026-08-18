@@ -1,0 +1,58 @@
+{
+  "slug": "ai-assistant",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Assistant name",
+      "default": "Ada"
+    },
+    {
+      "id": "tone",
+      "type": "select",
+      "label": "Tone",
+      "default": "friendly",
+      "options": [
+        "neutral",
+        "friendly",
+        "formal"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "avatarShape",
+      "type": "select",
+      "label": "Avatar shape",
+      "default": "circle",
+      "options": [
+        "circle",
+        "rounded",
+        "square"
+      ]
+    },
+    {
+      "id": "online",
+      "type": "toggle",
+      "label": "Online",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ai-assistant\" style=\"--accent:{{accent}};\">\n  <div class=\"ai-assistant__header\">\n    <span class=\"ai-assistant__avatar ai-assistant__avatar--{{avatarShape}}\" aria-hidden=\"true\">{{name}}</span>\n    <div class=\"ai-assistant__who\">\n      <p class=\"ai-assistant__name\">{{name}}</p>\n      <p class=\"ai-assistant__presence\">\n        <span class=\"ai-assistant__dot ai-assistant__dot--{{online}}\" aria-hidden=\"true\"></span>\n        {{#if online}}<span>Online</span>{{/if}}\n        {{#unless online}}<span>Offline</span>{{/unless}}\n      </p>\n    </div>\n  </div>\n  <div class=\"ai-assistant__reply ai-assistant__reply--{{tone}}\">\n    <p class=\"reply reply--neutral\">Here is a summary of your request.</p>\n    <p class=\"reply reply--friendly\">Happy to help! Here's what I found.</p>\n    <p class=\"reply reply--formal\">Certainly. Please find the requested summary below.</p>\n  </div>\n  <div class=\"ai-assistant__input\">\n    <input type=\"text\" class=\"ai-assistant__field\" placeholder=\"Ask {{name}} something\" />\n    <button type=\"button\" class=\"ai-assistant__send\">Send</button>\n  </div>\n</div>\n<style>\n.ai-assistant { font: 15px/1.5 system-ui, sans-serif; max-width: 380px; padding: 18px; background: #FAF7F2; color: #241430; border: 1.5px solid #24143022; border-radius: 14px; box-sizing: border-box; }\n.ai-assistant__header { display: flex; align-items: center; gap: 10px; }\n.ai-assistant__avatar { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: var(--accent); color: #241430; font-weight: 700; font-size: 13px; flex-shrink: 0; }\n.ai-assistant__avatar--circle { border-radius: 50%; }\n.ai-assistant__avatar--rounded { border-radius: 10px; }\n.ai-assistant__avatar--square { border-radius: 0; }\n.ai-assistant__name { margin: 0; font-weight: 600; font-size: 14px; }\n.ai-assistant__presence { margin: 2px 0 0; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #24143099; }\n.ai-assistant__dot { width: 8px; height: 8px; border-radius: 50%; background: #24143044; }\n.ai-assistant__dot--true { background: var(--accent); }\n.ai-assistant__reply { margin: 14px 0; padding: 10px 12px; background: #24143008; border-radius: 10px; border-left: 3px solid var(--accent); }\n.ai-assistant__reply .reply { margin: 0; font-size: 13px; }\n.ai-assistant__reply--neutral .reply--friendly, .ai-assistant__reply--neutral .reply--formal { display: none; }\n.ai-assistant__reply--friendly .reply--neutral, .ai-assistant__reply--friendly .reply--formal { display: none; }\n.ai-assistant__reply--formal .reply--neutral, .ai-assistant__reply--formal .reply--friendly { display: none; }\n.ai-assistant__input { display: flex; gap: 8px; }\n.ai-assistant__field { flex: 1; min-width: 0; padding: 8px 10px; border: 1.5px solid #24143033; border-radius: 8px; font: 13px system-ui, sans-serif; background: #FAF7F2; color: #241430; box-sizing: border-box; }\n.ai-assistant__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.ai-assistant__send { padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #241430; font: 600 13px system-ui, sans-serif; cursor: pointer; }\n.ai-assistant__send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"max-w-sm p-4.5 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143022] rounded-2xl box-border\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-center gap-2.5\">\n    <span class=\"ai-assistant-tw__avatar ai-assistant-tw__avatar--{{avatarShape}} flex items-center justify-center w-9 h-9 font-bold text-[13px] flex-shrink-0\" style=\"background:var(--accent)\" aria-hidden=\"true\">{{name}}</span>\n    <div>\n      <p class=\"m-0 font-semibold text-sm\">{{name}}</p>\n      <p class=\"m-0 mt-0.5 flex items-center gap-1.5 text-xs text-[#24143099]\">\n        <span class=\"ai-assistant-tw__dot ai-assistant-tw__dot--{{online}} w-2 h-2 rounded-full\" aria-hidden=\"true\"></span>\n        {{#if online}}<span>Online</span>{{/if}}\n        {{#unless online}}<span>Offline</span>{{/unless}}\n      </p>\n    </div>\n  </div>\n  <div class=\"ai-assistant-tw__reply ai-assistant-tw__reply--{{tone}} my-3.5 px-3 py-2.5 bg-[#24143008] rounded-[10px]\" style=\"border-left:3px solid var(--accent)\">\n    <p class=\"reply reply--neutral m-0 text-[13px]\">Here is a summary of your request.</p>\n    <p class=\"reply reply--friendly m-0 text-[13px]\">Happy to help! Here's what I found.</p>\n    <p class=\"reply reply--formal m-0 text-[13px]\">Certainly. Please find the requested summary below.</p>\n  </div>\n  <div class=\"flex gap-2\">\n    <input type=\"text\" class=\"flex-1 min-w-0 px-2.5 py-2 border-[1.5px] border-[#24143033] rounded-lg text-[13px] bg-[#FAF7F2] text-[#241430] box-border\" placeholder=\"Ask {{name}} something\" />\n    <button type=\"button\" class=\"px-3.5 py-2 rounded-lg border-none font-semibold text-[13px] cursor-pointer text-[#241430]\" style=\"background:var(--accent)\">Send</button>\n  </div>\n</div>\n<style>\n.ai-assistant-tw__avatar--circle { border-radius: 50%; }\n.ai-assistant-tw__avatar--rounded { border-radius: 10px; }\n.ai-assistant-tw__avatar--square { border-radius: 0; }\n.ai-assistant-tw__dot { background: #24143044; }\n.ai-assistant-tw__dot--true { background: var(--accent); }\n.ai-assistant-tw__reply--neutral .reply--friendly, .ai-assistant-tw__reply--neutral .reply--formal { display: none; }\n.ai-assistant-tw__reply--friendly .reply--neutral, .ai-assistant-tw__reply--friendly .reply--formal { display: none; }\n.ai-assistant-tw__reply--formal .reply--neutral, .ai-assistant-tw__reply--formal .reply--friendly { display: none; }\n</style>",
+    "react": "export function AiAssistant({\n  name = \"{{name}}\",\n  tone = \"{{tone}}\",\n  accent = \"{{accent}}\",\n  avatarShape = \"{{avatarShape}}\",\n  online = {{online}},\n}) {\n  const avatarRadius = { circle: \"50%\", rounded: 10, square: 0 }[avatarShape] ?? \"50%\";\n  const replies = {\n    neutral: \"Here is a summary of your request.\",\n    friendly: \"Happy to help! Here's what I found.\",\n    formal: \"Certainly. Please find the requested summary below.\",\n  };\n  return (\n    <div style={{ maxWidth: 380, padding: 18, background: \"#FAF7F2\", color: \"#241430\", border: \"1.5px solid #24143022\",\n      borderRadius: 14, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span aria-hidden=\"true\" style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"center\", width: 36,\n          height: 36, background: accent, color: \"#241430\", fontWeight: 700, fontSize: 13, flexShrink: 0, borderRadius: avatarRadius }}>{name}</span>\n        <div>\n          <p style={{ margin: 0, fontWeight: 600, fontSize: 14 }}>{name}</p>\n          <p style={{ margin: \"2px 0 0\", display: \"flex\", alignItems: \"center\", gap: 6, fontSize: 12, color: \"#24143099\" }}>\n            <span aria-hidden=\"true\" style={{ width: 8, height: 8, borderRadius: \"50%\", background: online ? accent : \"#24143044\" }} />\n            {online ? \"Online\" : \"Offline\"}\n          </p>\n        </div>\n      </div>\n      <div style={{ margin: \"14px 0\", padding: \"10px 12px\", background: \"#24143008\", borderRadius: 10, borderLeft: `3px solid ${accent}` }}>\n        <p style={{ margin: 0, fontSize: 13 }}>{replies[tone] ?? replies.neutral}</p>\n      </div>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        <input type=\"text\" placeholder={`Ask ${name} something`} style={{ flex: 1, minWidth: 0, padding: \"8px 10px\",\n          border: \"1.5px solid #24143033\", borderRadius: 8, fontSize: 13, background: \"#FAF7F2\", color: \"#241430\", boxSizing: \"border-box\" }} />\n        <button type=\"button\" style={{ padding: \"8px 14px\", borderRadius: 8, border: \"none\", background: accent,\n          color: \"#241430\", fontWeight: 600, fontSize: 13, cursor: \"pointer\" }}>Send</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

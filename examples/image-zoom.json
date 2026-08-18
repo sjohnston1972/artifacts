@@ -1,0 +1,41 @@
+{
+  "slug": "image-zoom",
+  "controls_schema": [
+    {
+      "id": "trigger",
+      "type": "select",
+      "label": "Zoom trigger",
+      "default": "hover",
+      "options": ["hover", "focus"]
+    },
+    {
+      "id": "zoomLevel",
+      "type": "number",
+      "label": "Zoom level",
+      "default": 1.6,
+      "min": 1.1,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Hover to inspect detail"
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"img-zoom img-zoom--{{trigger}}\">\n  <div class=\"img-zoom__frame\" style=\"border-radius:{{radius}}px;--zoom:{{zoomLevel}};\" tabindex=\"0\" role=\"img\" aria-label=\"{{caption}}\">\n    <svg class=\"img-zoom__svg\" viewBox=\"0 0 400 300\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"400\" height=\"300\" fill=\"#F5C2E0\"/><circle cx=\"140\" cy=\"110\" r=\"46\" fill=\"#FAF7F2\"/><circle cx=\"260\" cy=\"190\" r=\"30\" fill=\"#A8E6C1\"/></svg>\n  </div>\n  <figcaption class=\"img-zoom__caption\">{{caption}}</figcaption>\n</figure>\n<style>\n.img-zoom { margin: 0; max-width: 320px; font: 12px/1.4 system-ui, sans-serif; color: #241430; }\n.img-zoom__frame { overflow: hidden; border: 1px solid #24143022; cursor: zoom-in; }\n.img-zoom__svg { display: block; width: 100%; height: 100%; transition: transform .3s ease; transform-origin: center; }\n.img-zoom--hover .img-zoom__frame:hover .img-zoom__svg { transform: scale(var(--zoom)); }\n.img-zoom--focus .img-zoom__frame:focus-visible .img-zoom__svg { transform: scale(var(--zoom)); }\n.img-zoom__frame:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.img-zoom__caption { margin-top: 8px; color: #24143099; }\n</style>",
+    "tailwind": "<figure class=\"img-zoom-tw img-zoom-tw--{{trigger}} m-0 max-w-[320px] font-sans text-xs text-[#241430]\">\n  <div class=\"img-zoom-tw__frame overflow-hidden border border-[#24143022] cursor-zoom-in\" style=\"border-radius:{{radius}}px;--zoom:{{zoomLevel}};\" tabindex=\"0\" role=\"img\" aria-label=\"{{caption}}\">\n    <svg class=\"img-zoom-tw__svg block w-full h-full\" viewBox=\"0 0 400 300\" width=\"100%\" height=\"100%\" aria-hidden=\"true\"><rect width=\"400\" height=\"300\" fill=\"#F5C2E0\"/><circle cx=\"140\" cy=\"110\" r=\"46\" fill=\"#FAF7F2\"/><circle cx=\"260\" cy=\"190\" r=\"30\" fill=\"#A8E6C1\"/></svg>\n  </div>\n  <figcaption class=\"mt-2 text-[#241430]/60\">{{caption}}</figcaption>\n</figure>\n<style>\n.img-zoom-tw__svg { transition: transform .3s ease; transform-origin: center; }\n.img-zoom-tw--hover .img-zoom-tw__frame:hover .img-zoom-tw__svg { transform: scale(var(--zoom)); }\n.img-zoom-tw--focus .img-zoom-tw__frame:focus-visible .img-zoom-tw__svg { transform: scale(var(--zoom)); }\n.img-zoom-tw__frame:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "react": "export function ImageZoom({\n  trigger = \"{{trigger}}\",\n  zoomLevel = {{zoomLevel}},\n  radius = {{radius}},\n  caption = \"{{caption}}\",\n}) {\n  return (\n    <figure style={{ margin: 0, maxWidth: 320, font: \"12px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div\n        className={`img-zoom-rc img-zoom-rc--${trigger}`}\n        style={{ overflow: \"hidden\", border: \"1px solid #24143022\", cursor: \"zoom-in\", borderRadius: radius, \"--zoom\": zoomLevel }}\n        tabIndex={0}\n        role=\"img\"\n        aria-label={caption}\n      >\n        <svg viewBox=\"0 0 400 300\" width=\"100%\" height=\"100%\" style={{ display: \"block\" }} aria-hidden=\"true\">\n          <rect width=\"400\" height=\"300\" fill=\"#F5C2E0\" />\n          <circle cx=\"140\" cy=\"110\" r=\"46\" fill=\"#FAF7F2\" />\n          <circle cx=\"260\" cy=\"190\" r=\"30\" fill=\"#A8E6C1\" />\n        </svg>\n      </div>\n      <figcaption style={{ marginTop: 8, color: \"#24143099\" }}>{caption}</figcaption>\n      <style>{`\n        .img-zoom-rc svg { transition: transform .3s ease; transform-origin: center; }\n        .img-zoom-rc--hover:hover svg { transform: scale(var(--zoom)); }\n        .img-zoom-rc--focus:focus-visible svg { transform: scale(var(--zoom)); }\n        .img-zoom-rc:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n      `}</style>\n    </figure>\n  );\n}"
+  }
+}

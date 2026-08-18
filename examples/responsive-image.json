@@ -1,0 +1,39 @@
+{
+  "slug": "responsive-image",
+  "controls_schema": [
+    {
+      "id": "sizesPreset",
+      "type": "select",
+      "label": "Sizes attribute",
+      "default": "100vw",
+      "options": ["100vw", "50vw", "33vw"]
+    },
+    {
+      "id": "objectFit",
+      "type": "select",
+      "label": "Object fit",
+      "default": "cover",
+      "options": ["cover", "contain"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Scales to the viewport, not just the container."
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"ri\">\n  <img class=\"ri__img\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect width='800' height='500' fill='%23F5C2E0'/%3E%3Ccircle cx='400' cy='250' r='140' fill='%23D9C8F0'/%3E%3C/svg%3E\" style=\"object-fit:{{objectFit}};border-radius:{{radius}}px;\" sizes=\"{{sizesPreset}}\" alt=\"{{caption}}\" loading=\"lazy\" width=\"800\" height=\"500\" />\n  <!-- Production: pair `sizes` with a real `srcset` listing multiple source widths, e.g. \"photo-480.jpg 480w, photo-960.jpg 960w\". -->\n  <figcaption class=\"ri__caption\">{{caption}}</figcaption>\n</figure>\n<style>\n.ri { margin: 0; max-width: 360px; font: 12px/1.4 system-ui, sans-serif; color: #241430; }\n.ri__img { display: block; width: 100%; aspect-ratio: 8 / 5; }\n.ri__caption { margin-top: 6px; color: #24143099; }\n</style>",
+    "tailwind": "<figure class=\"ri-tw m-0 max-w-[360px] font-sans text-xs text-[#241430]\">\n  <img class=\"block w-full\" style=\"aspect-ratio:8/5;object-fit:{{objectFit}};border-radius:{{radius}}px;\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect width='800' height='500' fill='%23F5C2E0'/%3E%3Ccircle cx='400' cy='250' r='140' fill='%23D9C8F0'/%3E%3C/svg%3E\" sizes=\"{{sizesPreset}}\" alt=\"{{caption}}\" loading=\"lazy\" width=\"800\" height=\"500\" />\n  <!-- Production: pair `sizes` with a real `srcset` listing multiple source widths, e.g. \"photo-480.jpg 480w, photo-960.jpg 960w\". -->\n  <figcaption class=\"mt-1.5 text-[#241430]/60\">{{caption}}</figcaption>\n</figure>",
+    "react": "export function ResponsiveImage({\n  sizesPreset = \"{{sizesPreset}}\",\n  objectFit = \"{{objectFit}}\",\n  radius = {{radius}},\n  caption = \"{{caption}}\",\n}) {\n  return (\n    <figure style={{ margin: 0, maxWidth: 360, font: \"12px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <img\n        src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect width='800' height='500' fill='%23F5C2E0'/%3E%3Ccircle cx='400' cy='250' r='140' fill='%23D9C8F0'/%3E%3C/svg%3E\"\n        sizes={sizesPreset}\n        alt={caption}\n        loading=\"lazy\"\n        width={800}\n        height={500}\n        style={{ display: \"block\", width: \"100%\", aspectRatio: \"8 / 5\", objectFit, borderRadius: radius }}\n      />\n      {/* Production: pair `sizes` with a real `srcset` listing multiple source widths, e.g. \"photo-480.jpg 480w, photo-960.jpg 960w\". */}\n      <figcaption style={{ marginTop: 6, color: \"#24143099\" }}>{caption}</figcaption>\n    </figure>\n  );\n}"
+  }
+}

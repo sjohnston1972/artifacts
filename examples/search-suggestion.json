@@ -1,0 +1,47 @@
+{
+  "slug": "search-suggestion",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Search"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Query",
+      "default": "gra"
+    },
+    {
+      "id": "highlighted",
+      "type": "select",
+      "label": "Highlighted suggestion",
+      "default": "graphs",
+      "options": [
+        "graphs",
+        "grants",
+        "gradients"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ssug ssug--{{highlighted}}\" style=\"--accent:{{accent}};\">\n  <label class=\"ssug__label\" for=\"ssug-input\">{{label}}</label>\n  <input id=\"ssug-input\" class=\"ssug__input\" type=\"search\" role=\"combobox\" aria-expanded=\"true\" aria-controls=\"ssug-list\" aria-activedescendant=\"opt-{{highlighted}}\" value=\"{{query}}\">\n  <ul id=\"ssug-list\" class=\"ssug__list\" role=\"listbox\">\n    <li id=\"opt-graphs\" class=\"ssug__opt\" role=\"option\" aria-selected=\"false\">Graphs &amp; charts</li>\n    <li id=\"opt-grants\" class=\"ssug__opt\" role=\"option\" aria-selected=\"false\">Grants overview</li>\n    <li id=\"opt-gradients\" class=\"ssug__opt\" role=\"option\" aria-selected=\"false\">Gradient presets</li>\n  </ul>\n</div>\n<style>\n.ssug { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; position: relative; }\n.ssug__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ssug__input { width: 100%; box-sizing: border-box; padding: 9px 11px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143026; border-radius: 8px 8px 0 0; }\n.ssug__input:focus-visible { outline: none; border-color: var(--accent); }\n.ssug__list { list-style: none; margin: 0; padding: 4px; background: #FAF7F2; border: 1.5px solid #24143026; border-top: none; border-radius: 0 0 8px 8px; }\n.ssug__opt { padding: 7px 8px; border-radius: 6px; cursor: pointer; }\n.ssug__opt:hover { background: #24143010; }\n.ssug--graphs #opt-graphs, .ssug--grants #opt-grants, .ssug--gradients #opt-gradients { background: var(--accent); font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"ssug-tw ssug-tw--{{highlighted}} block font-sans text-sm text-[#241430] max-w-[260px] relative\">\n  <label for=\"ssug-input-tw\" class=\"block mb-1.5 font-medium\">{{label}}</label>\n  <input id=\"ssug-input-tw\" type=\"search\" role=\"combobox\" aria-expanded=\"true\" aria-controls=\"ssug-list-tw\" aria-activedescendant=\"opt-tw-{{highlighted}}\" value=\"{{query}}\" class=\"w-full box-border px-2.5 py-2 bg-[#FAF7F2] border-[1.5px] border-[#24143026] rounded-t-lg focus-visible:outline-none\" style=\"--tw-accent:{{accent}};\">\n  <ul id=\"ssug-list-tw\" role=\"listbox\" class=\"list-none m-0 p-1 bg-[#FAF7F2] border-[1.5px] border-t-0 border-[#24143026] rounded-b-lg\">\n    <li id=\"opt-tw-graphs\" role=\"option\" aria-selected=\"false\" class=\"px-2 py-1.5 rounded-md hover:bg-[#24143010]\">Graphs &amp; charts</li>\n    <li id=\"opt-tw-grants\" role=\"option\" aria-selected=\"false\" class=\"px-2 py-1.5 rounded-md hover:bg-[#24143010]\">Grants overview</li>\n    <li id=\"opt-tw-gradients\" role=\"option\" aria-selected=\"false\" class=\"px-2 py-1.5 rounded-md hover:bg-[#24143010]\">Gradient presets</li>\n  </ul>\n</div>\n<style>\n.ssug-tw--graphs #opt-tw-graphs, .ssug-tw--grants #opt-tw-grants, .ssug-tw--gradients #opt-tw-gradients { font-weight: 600; background: color-mix(in srgb, var(--tw-accent, #241430) 30%, transparent); }\n</style>",
+    "react": "export function SearchSuggestion({\n  label = \"{{label}}\",\n  query = \"{{query}}\",\n  highlighted = \"{{highlighted}}\",\n  accent = \"{{accent}}\",\n}) {\n  const options = [\n    { id: \"graphs\", text: \"Graphs & charts\" },\n    { id: \"grants\", text: \"Grants overview\" },\n    { id: \"gradients\", text: \"Gradient presets\" },\n  ];\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260, position: \"relative\" }}>\n      <label htmlFor=\"ssug-input\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <input id=\"ssug-input\" type=\"search\" role=\"combobox\" aria-expanded=\"true\" aria-controls=\"ssug-list\" aria-activedescendant={`opt-${highlighted}`} defaultValue={query} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"9px 11px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: \"1.5px solid #24143026\", borderRadius: \"8px 8px 0 0\",\n      }} />\n      <ul id=\"ssug-list\" role=\"listbox\" style={{ listStyle: \"none\", margin: 0, padding: 4, background: \"#FAF7F2\", border: \"1.5px solid #24143026\", borderTop: \"none\", borderRadius: \"0 0 8px 8px\" }}>\n        {options.map((opt) => (\n          <li key={opt.id} id={`opt-${opt.id}`} role=\"option\" aria-selected={opt.id === highlighted} style={{\n            padding: \"7px 8px\", borderRadius: 6, cursor: \"pointer\",\n            background: opt.id === highlighted ? accent : \"transparent\",\n            fontWeight: opt.id === highlighted ? 600 : 400,\n          }}>{opt.text}</li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

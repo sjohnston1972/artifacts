@@ -1,0 +1,46 @@
+{
+  "slug": "conversation-history",
+  "controls_schema": [
+    {
+      "id": "activeTitle",
+      "type": "text",
+      "label": "Active conversation title",
+      "default": "Renaming photos in bulk"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "grouped",
+      "type": "toggle",
+      "label": "Group by date",
+      "default": true
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"conv-history\" aria-label=\"Conversation history\">\n  {{#if grouped}}\n  <details class=\"conv-history__group\" open>\n    <summary>Today</summary>\n    <ul class=\"conv-history__list conv-history__list--{{density}}\">\n      <li class=\"conv-history__item conv-history__item--active\" style=\"--accent:{{accent}};\"><button type=\"button\" class=\"conv-history__link\">{{activeTitle}}</button></li>\n    </ul>\n  </details>\n  <details class=\"conv-history__group\" open>\n    <summary>Earlier</summary>\n    <ul class=\"conv-history__list conv-history__list--{{density}}\">\n      <li class=\"conv-history__item\"><button type=\"button\" class=\"conv-history__link\">Trip itinerary draft</button></li>\n      <li class=\"conv-history__item\"><button type=\"button\" class=\"conv-history__link\">Newsletter subject lines</button></li>\n    </ul>\n  </details>\n  {{/if}}\n  {{#unless grouped}}\n  <ul class=\"conv-history__list conv-history__list--{{density}}\">\n    <li class=\"conv-history__item conv-history__item--active\" style=\"--accent:{{accent}};\"><button type=\"button\" class=\"conv-history__link\">{{activeTitle}}</button></li>\n    <li class=\"conv-history__item\"><button type=\"button\" class=\"conv-history__link\">Trip itinerary draft</button></li>\n    <li class=\"conv-history__item\"><button type=\"button\" class=\"conv-history__link\">Newsletter subject lines</button></li>\n  </ul>\n  {{/unless}}\n</nav>\n<style>\n.conv-history { max-width: 300px; font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 12px; border-radius: 12px; border: 1px solid #24143018; box-sizing: border-box; }\n.conv-history__group { margin-bottom: 4px; }\n.conv-history__group summary { cursor: pointer; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding: 6px 4px; list-style: none; color: #24143099; }\n.conv-history__group summary::-webkit-details-marker { display: none; }\n.conv-history__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }\n.conv-history__list--compact .conv-history__link { padding: 4px 8px; font-size: 13px; }\n.conv-history__list--comfortable .conv-history__link { padding: 9px 10px; font-size: 14px; }\n.conv-history__link { display: block; width: 100%; text-align: left; background: transparent; border: none; border-radius: 8px; font: inherit; color: inherit; cursor: pointer; }\n.conv-history__item--active .conv-history__link { background: color-mix(in srgb, var(--accent) 24%, #FAF7F2); border-left: 3px solid var(--accent); font-weight: 600; }\n.conv-history__link:hover, .conv-history__link:focus-visible { background: #24143012; outline: none; }\n.conv-history__item--active .conv-history__link:hover { background: color-mix(in srgb, var(--accent) 32%, #FAF7F2); }\n</style>",
+    "tailwind": "<nav aria-label=\"Conversation history\" class=\"conv-history-tw max-w-xs font-sans text-sm text-[#241430] bg-[#FAF7F2] p-3 rounded-xl border border-[#24143018] box-border\">\n  {{#if grouped}}\n  <details class=\"mb-1\" open>\n    <summary class=\"cursor-pointer font-semibold text-xs uppercase tracking-wide py-1.5 px-1 text-[#24143099] [&::-webkit-details-marker]:hidden\">Today</summary>\n    <ul class=\"conv-history-tw__list conv-history-tw__list--{{density}} list-none m-0 p-0 flex flex-col\">\n      <li style=\"--accent:{{accent}};\" class=\"conv-history-tw__item--active\"><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">{{activeTitle}}</button></li>\n    </ul>\n  </details>\n  <details open>\n    <summary class=\"cursor-pointer font-semibold text-xs uppercase tracking-wide py-1.5 px-1 text-[#24143099] [&::-webkit-details-marker]:hidden\">Earlier</summary>\n    <ul class=\"conv-history-tw__list conv-history-tw__list--{{density}} list-none m-0 p-0 flex flex-col\">\n      <li><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">Trip itinerary draft</button></li>\n      <li><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">Newsletter subject lines</button></li>\n    </ul>\n  </details>\n  {{/if}}\n  {{#unless grouped}}\n  <ul class=\"conv-history-tw__list conv-history-tw__list--{{density}} list-none m-0 p-0 flex flex-col\">\n    <li style=\"--accent:{{accent}};\" class=\"conv-history-tw__item--active\"><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">{{activeTitle}}</button></li>\n    <li><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">Trip itinerary draft</button></li>\n    <li><button type=\"button\" class=\"conv-history-tw__link block w-full text-left bg-transparent border-0 rounded-lg font-inherit cursor-pointer\">Newsletter subject lines</button></li>\n  </ul>\n  {{/unless}}\n</nav>\n<style>\n.conv-history-tw__list--compact .conv-history-tw__link { padding: 4px 8px; font-size: 13px; }\n.conv-history-tw__list--comfortable .conv-history-tw__link { padding: 9px 10px; font-size: 14px; }\n.conv-history-tw__item--active .conv-history-tw__link { background: color-mix(in srgb, var(--accent) 24%, #FAF7F2); border-left: 3px solid var(--accent); font-weight: 600; }\n.conv-history-tw__link:hover, .conv-history-tw__link:focus-visible { background: #24143012; outline: none; }\n</style>",
+    "react": "export function ConversationHistory({\n  activeTitle = \"{{activeTitle}}\",\n  accent = \"{{accent}}\",\n  grouped = {{grouped}},\n  density = \"{{density}}\",\n}) {\n  const listStyle = { listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\" };\n  const linkPad = density === \"compact\" ? \"4px 8px\" : \"9px 10px\";\n  const linkBase = { display: \"block\", width: \"100%\", textAlign: \"left\", background: \"transparent\", border: \"none\", borderRadius: 8, font: \"inherit\", color: \"inherit\", cursor: \"pointer\", padding: linkPad };\n  const activeLink = { ...linkBase, background: `color-mix(in srgb, ${accent} 24%, #FAF7F2)`, borderLeft: `3px solid ${accent}`, fontWeight: 600 };\n  const activeItem = <li><button type=\"button\" style={activeLink}>{activeTitle}</button></li>;\n  const otherItems = (\n    <>\n      <li><button type=\"button\" style={linkBase}>Trip itinerary draft</button></li>\n      <li><button type=\"button\" style={linkBase}>Newsletter subject lines</button></li>\n    </>\n  );\n  return (\n    <nav aria-label=\"Conversation history\" style={{ maxWidth: 300, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 12, borderRadius: 12, border: \"1px solid #24143018\", boxSizing: \"border-box\" }}>\n      {grouped ? (\n        <>\n          <details open style={{ marginBottom: 4 }}>\n            <summary style={{ cursor: \"pointer\", fontWeight: 600, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", padding: \"6px 4px\", color: \"#24143099\" }}>Today</summary>\n            <ul style={listStyle}>{activeItem}</ul>\n          </details>\n          <details open>\n            <summary style={{ cursor: \"pointer\", fontWeight: 600, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", padding: \"6px 4px\", color: \"#24143099\" }}>Earlier</summary>\n            <ul style={listStyle}>{otherItems}</ul>\n          </details>\n        </>\n      ) : (\n        <ul style={listStyle}>{activeItem}{otherItems}</ul>\n      )}\n    </nav>\n  );\n}"
+  }
+}

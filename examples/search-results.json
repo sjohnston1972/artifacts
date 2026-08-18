@@ -1,0 +1,48 @@
+{
+  "slug": "search-results",
+  "controls_schema": [
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Query",
+      "default": "roadmap"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Result count",
+      "default": 3,
+      "min": 0,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"sres\" style=\"--accent:{{accent}};\">\n  <p class=\"sres__status\" role=\"status\">{{count}} results for \"{{query}}\"</p>\n  {{#if count}}<ul class=\"sres__list\">\n    <li class=\"sres__item\" style=\"border-radius:{{radius}}px;\">\n      <p class=\"sres__title\">Q3 {{query}} overview</p>\n      <p class=\"sres__meta\">Docs · updated 2 days ago</p>\n    </li>\n    <li class=\"sres__item\" style=\"border-radius:{{radius}}px;\">\n      <p class=\"sres__title\">{{query}} planning notes</p>\n      <p class=\"sres__meta\">Wiki · updated 5 days ago</p>\n    </li>\n    <li class=\"sres__item\" style=\"border-radius:{{radius}}px;\">\n      <p class=\"sres__title\">Archive: {{query}} v1</p>\n      <p class=\"sres__meta\">Docs · updated 3 weeks ago</p>\n    </li>\n  </ul>{{/if}}\n  {{#unless count}}<div class=\"sres__empty\" style=\"border-radius:{{radius}}px;\">\n    <p class=\"sres__empty-title\">No results for \"{{query}}\"</p>\n    <p class=\"sres__empty-body\">Try a different spelling or a broader term.</p>\n  </div>{{/unless}}\n</section>\n<style>\n.sres { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 380px; }\n.sres__status { margin: 0 0 10px; font-size: 12.5px; color: #24143090; }\n.sres__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }\n.sres__item { padding: 10px 12px; background: #FAF7F2; border: 1px solid #24143018; border-left: 3px solid var(--accent); }\n.sres__item:hover { background: #24143008; }\n.sres__title { margin: 0 0 2px; font-weight: 600; }\n.sres__meta { margin: 0; font-size: 12px; color: #24143080; }\n.sres__empty { padding: 20px 16px; text-align: center; background: #24143008; border: 1px dashed #24143030; }\n.sres__empty-title { margin: 0 0 4px; font-weight: 600; }\n.sres__empty-body { margin: 0; font-size: 12.5px; color: #24143080; }\n</style>",
+    "tailwind": "<section class=\"block font-sans text-sm text-[#241430] max-w-[380px]\">\n  <p role=\"status\" class=\"mb-2.5 text-[12.5px] text-[#24143090]\">{{count}} results for \"{{query}}\"</p>\n  {{#if count}}<ul class=\"list-none m-0 p-0 grid gap-2\">\n    <li class=\"px-3 py-2.5 bg-[#FAF7F2] border border-[#24143018] hover:bg-[#24143008]\" style=\"border-radius:{{radius}}px;border-left:3px solid {{accent}};\">\n      <p class=\"m-0 mb-0.5 font-semibold\">Q3 {{query}} overview</p>\n      <p class=\"m-0 text-xs text-[#24143080]\">Docs · updated 2 days ago</p>\n    </li>\n    <li class=\"px-3 py-2.5 bg-[#FAF7F2] border border-[#24143018] hover:bg-[#24143008]\" style=\"border-radius:{{radius}}px;border-left:3px solid {{accent}};\">\n      <p class=\"m-0 mb-0.5 font-semibold\">{{query}} planning notes</p>\n      <p class=\"m-0 text-xs text-[#24143080]\">Wiki · updated 5 days ago</p>\n    </li>\n    <li class=\"px-3 py-2.5 bg-[#FAF7F2] border border-[#24143018] hover:bg-[#24143008]\" style=\"border-radius:{{radius}}px;border-left:3px solid {{accent}};\">\n      <p class=\"m-0 mb-0.5 font-semibold\">Archive: {{query}} v1</p>\n      <p class=\"m-0 text-xs text-[#24143080]\">Docs · updated 3 weeks ago</p>\n    </li>\n  </ul>{{/if}}\n  {{#unless count}}<div class=\"px-4 py-5 text-center bg-[#24143008] border border-dashed border-[#24143030]\" style=\"border-radius:{{radius}}px;\">\n    <p class=\"m-0 mb-1 font-semibold\">No results for \"{{query}}\"</p>\n    <p class=\"m-0 text-[12.5px] text-[#24143080]\">Try a different spelling or a broader term.</p>\n  </div>{{/unless}}\n</section>",
+    "react": "export function SearchResults({\n  query = \"{{query}}\",\n  count = {{count}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const items = [\n    { title: `Q3 ${query} overview`, meta: \"Docs · updated 2 days ago\" },\n    { title: `${query} planning notes`, meta: \"Wiki · updated 5 days ago\" },\n    { title: `Archive: ${query} v1`, meta: \"Docs · updated 3 weeks ago\" },\n  ];\n  return (\n    <section style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 380 }}>\n      <p role=\"status\" style={{ margin: \"0 0 10px\", fontSize: 12.5, color: \"#24143090\" }}>{count} results for \"{query}\"</p>\n      {count > 0 ? (\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"grid\", gap: 8 }}>\n          {items.map((item) => (\n            <li key={item.title} style={{ padding: \"10px 12px\", background: \"#FAF7F2\", border: \"1px solid #24143018\", borderLeft: `3px solid ${accent}`, borderRadius: radius }}>\n              <p style={{ margin: \"0 0 2px\", fontWeight: 600 }}>{item.title}</p>\n              <p style={{ margin: 0, fontSize: 12, color: \"#24143080\" }}>{item.meta}</p>\n            </li>\n          ))}\n        </ul>\n      ) : (\n        <div style={{ padding: \"20px 16px\", textAlign: \"center\", background: \"#24143008\", border: \"1px dashed #24143030\", borderRadius: radius }}>\n          <p style={{ margin: \"0 0 4px\", fontWeight: 600 }}>No results for \"{query}\"</p>\n          <p style={{ margin: 0, fontSize: 12.5, color: \"#24143080\" }}>Try a different spelling or a broader term.</p>\n        </div>\n      )}\n    </section>\n  );\n}"
+  }
+}

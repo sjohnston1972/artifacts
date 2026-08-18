@@ -1,0 +1,36 @@
+{
+  "slug": "interactive-map",
+  "controls_schema": [
+    {
+      "id": "zoom",
+      "type": "select",
+      "label": "Zoom",
+      "default": "100%",
+      "options": ["100%", "150%", "200%"]
+    },
+    {
+      "id": "markerLabel",
+      "type": "text",
+      "label": "First marker label",
+      "default": "Studio HQ"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#241430",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Show permanent labels",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"imap\">\n  <div class=\"imap__viewport\">\n    <div class=\"imap__layer\" style=\"transform:scale({{zoom}});\">\n      <details class=\"imap__marker\" style=\"left:30%;top:38%;\">\n        <summary class=\"imap__pin\" style=\"background:{{accent}};\" aria-label=\"Marker: {{markerLabel}}\"></summary>\n        <div class=\"imap__popover\">{{markerLabel}}</div>\n        {{#if showLabels}}<span class=\"imap__perm-label\">{{markerLabel}}</span>{{/if}}\n      </details>\n      <details class=\"imap__marker\" style=\"left:64%;top:56%;\">\n        <summary class=\"imap__pin\" style=\"background:{{accent}};\" aria-label=\"Marker: Riverside Cafe\"></summary>\n        <div class=\"imap__popover\">Riverside Cafe</div>\n        {{#if showLabels}}<span class=\"imap__perm-label\">Riverside Cafe</span>{{/if}}\n      </details>\n    </div>\n  </div>\n</div>\n<style>\n.imap { max-width: 360px; font: 12px/1.4 system-ui, sans-serif; color: #241430; }\n.imap__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; border: 1px solid #24143022; background: linear-gradient(#D9C8F0, #BFD9F2); cursor: grab; }\n.imap__layer { position: absolute; inset: 0; transform-origin: center; transition: transform .3s ease; background-image: repeating-linear-gradient(0deg, #24143014 0 1px, transparent 1px 40px), repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 40px); }\n.imap__marker { position: absolute; list-style: none; }\n.imap__pin { display: block; width: 18px; height: 18px; border-radius: 50% 50% 50% 0; transform: translate(-50%, -100%) rotate(-45deg); cursor: pointer; border: 2px solid #FAF7F2; list-style: none; }\n.imap__pin::marker { content: \"\"; }\n.imap__pin::-webkit-details-marker { display: none; }\n.imap__pin:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.imap__popover { position: absolute; left: 0; bottom: calc(100% + 6px); padding: 4px 8px; border-radius: 6px; background: #241430; color: #FAF7F2; font-size: 11px; white-space: nowrap; }\n.imap__perm-label { position: absolute; top: 2px; left: 22px; font-size: 10px; color: #241430cc; white-space: nowrap; }\n</style>",
+    "tailwind": "<div class=\"imap-tw max-w-[360px] font-sans text-xs text-[#241430]\">\n  <div class=\"imap-tw__viewport relative overflow-hidden rounded-xl border border-[#24143022] cursor-grab\" style=\"aspect-ratio:4/3;background:linear-gradient(#D9C8F0,#BFD9F2);\">\n    <div class=\"imap-tw__layer absolute inset-0\" style=\"transform:scale({{zoom}});transform-origin:center;background-image:repeating-linear-gradient(0deg,#24143014 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,#24143014 0 1px,transparent 1px 40px);\">\n      <details class=\"imap-tw__marker absolute list-none\" style=\"left:30%;top:38%;\">\n        <summary class=\"imap-tw__pin block w-[18px] h-[18px] cursor-pointer border-2 border-[#FAF7F2]\" style=\"background:{{accent}};border-radius:50% 50% 50% 0;transform:translate(-50%,-100%) rotate(-45deg);\" aria-label=\"Marker: {{markerLabel}}\"></summary>\n        <div class=\"absolute left-0 px-2 py-1 rounded-md bg-[#241430] text-[#FAF7F2] text-[11px] whitespace-nowrap\" style=\"bottom:calc(100% + 6px);\">{{markerLabel}}</div>\n        {{#if showLabels}}<span class=\"absolute text-[10px] text-[#241430]/80 whitespace-nowrap\" style=\"top:2px;left:22px;\">{{markerLabel}}</span>{{/if}}\n      </details>\n      <details class=\"imap-tw__marker absolute list-none\" style=\"left:64%;top:56%;\">\n        <summary class=\"imap-tw__pin block w-[18px] h-[18px] cursor-pointer border-2 border-[#FAF7F2]\" style=\"background:{{accent}};border-radius:50% 50% 50% 0;transform:translate(-50%,-100%) rotate(-45deg);\" aria-label=\"Marker: Riverside Cafe\"></summary>\n        <div class=\"absolute left-0 px-2 py-1 rounded-md bg-[#241430] text-[#FAF7F2] text-[11px] whitespace-nowrap\" style=\"bottom:calc(100% + 6px);\">Riverside Cafe</div>\n        {{#if showLabels}}<span class=\"absolute text-[10px] text-[#241430]/80 whitespace-nowrap\" style=\"top:2px;left:22px;\">Riverside Cafe</span>{{/if}}\n      </details>\n    </div>\n  </div>\n</div>\n<style>\n.imap-tw__pin::-webkit-details-marker { display: none; }\n.imap-tw__pin::marker { content: \"\"; }\n.imap-tw__pin:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "react": "export function InteractiveMap({\n  zoom = \"{{zoom}}\",\n  markerLabel = \"{{markerLabel}}\",\n  accent = \"{{accent}}\",\n  showLabels = {{showLabels}},\n}) {\n  const markers = [\n    { left: \"30%\", top: \"38%\", label: markerLabel },\n    { left: \"64%\", top: \"56%\", label: \"Riverside Cafe\" },\n  ];\n  return (\n    <div style={{ maxWidth: 360, font: \"12px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div style={{ position: \"relative\", aspectRatio: \"4 / 3\", overflow: \"hidden\", borderRadius: 12,\n        border: \"1px solid #24143022\", background: \"linear-gradient(#D9C8F0, #BFD9F2)\", cursor: \"grab\" }}>\n        <div style={{ position: \"absolute\", inset: 0, transformOrigin: \"center\", transition: \"transform .3s ease\",\n          transform: `scale(${zoom})`,\n          backgroundImage: \"repeating-linear-gradient(0deg, #24143014 0 1px, transparent 1px 40px), repeating-linear-gradient(90deg, #24143014 0 1px, transparent 1px 40px)\" }}>\n          {markers.map((m) => (\n            <details key={m.label} style={{ position: \"absolute\", left: m.left, top: m.top, listStyle: \"none\" }}>\n              <summary\n                style={{ display: \"block\", width: 18, height: 18, borderRadius: \"50% 50% 50% 0\",\n                  transform: \"translate(-50%, -100%) rotate(-45deg)\", cursor: \"pointer\", border: \"2px solid #FAF7F2\",\n                  background: accent, listStyle: \"none\" }}\n                aria-label={`Marker: ${m.label}`}\n              />\n              <div style={{ position: \"absolute\", left: 0, bottom: \"calc(100% + 6px)\", padding: \"4px 8px\",\n                borderRadius: 6, background: \"#241430\", color: \"#FAF7F2\", fontSize: 11, whiteSpace: \"nowrap\" }}>\n                {m.label}\n              </div>\n              {showLabels && (\n                <span style={{ position: \"absolute\", top: 2, left: 22, fontSize: 10, color: \"#241430cc\", whiteSpace: \"nowrap\" }}>\n                  {m.label}\n                </span>\n              )}\n            </details>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

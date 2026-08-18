@@ -1,0 +1,39 @@
+{
+  "slug": "icon-set",
+  "controls_schema": [
+    {
+      "id": "iconStyle",
+      "type": "select",
+      "label": "Icon style",
+      "default": "outline",
+      "options": ["outline", "filled", "duotone"]
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Size",
+      "default": 28,
+      "min": 16,
+      "max": 48,
+      "step": 2
+    },
+    {
+      "id": "labels",
+      "type": "toggle",
+      "label": "Show labels",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<ul class=\"icon-set icon-set--{{iconStyle}}\" style=\"--icon-color:{{color}};--icon-size:{{size}}px;\">\n  <li class=\"icon-set__item\">\n    <svg class=\"icon-set__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 12l2 2 4-4\"/></svg>\n    {{#if labels}}<span class=\"icon-set__label\">Done</span>{{/if}}\n  </li>\n  <li class=\"icon-set__item\">\n    <svg class=\"icon-set__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\"/><path d=\"M8 12h8\"/></svg>\n    {{#if labels}}<span class=\"icon-set__label\">Menu</span>{{/if}}\n  </li>\n  <li class=\"icon-set__item\">\n    <svg class=\"icon-set__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><path d=\"M12 3l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z\"/></svg>\n    {{#if labels}}<span class=\"icon-set__label\">Star</span>{{/if}}\n  </li>\n  <li class=\"icon-set__item\">\n    <svg class=\"icon-set__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><path d=\"M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z\"/><path d=\"M14 4v5h5\"/></svg>\n    {{#if labels}}<span class=\"icon-set__label\">File</span>{{/if}}\n  </li>\n</ul>\n<style>\n.icon-set { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; max-width: 360px; font: 11px/1.4 system-ui, sans-serif; color: #241430; }\n.icon-set__item { display: flex; flex-direction: column; align-items: center; gap: 6px; }\n.icon-set__svg { fill: none; stroke: var(--icon-color); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }\n.icon-set--filled .icon-set__svg { fill: var(--icon-color); stroke: none; }\n.icon-set--duotone .icon-set__svg { fill: var(--icon-color); fill-opacity: .25; stroke: var(--icon-color); stroke-width: 1.4; }\n.icon-set__label { color: #24143099; }\n</style>",
+    "tailwind": "<ul class=\"icon-set-tw icon-set-tw--{{iconStyle}} flex gap-5 list-none m-0 p-0 max-w-[360px] font-sans text-[11px] text-[#241430]\" style=\"--icon-color:{{color}};--icon-size:{{size}}px;\">\n  <li class=\"flex flex-col items-center gap-1.5\">\n    <svg class=\"icon-set-tw__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 12l2 2 4-4\"/></svg>\n    {{#if labels}}<span class=\"text-[#241430]/60\">Done</span>{{/if}}\n  </li>\n  <li class=\"flex flex-col items-center gap-1.5\">\n    <svg class=\"icon-set-tw__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\"/><path d=\"M8 12h8\"/></svg>\n    {{#if labels}}<span class=\"text-[#241430]/60\">Menu</span>{{/if}}\n  </li>\n  <li class=\"flex flex-col items-center gap-1.5\">\n    <svg class=\"icon-set-tw__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><path d=\"M12 3l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z\"/></svg>\n    {{#if labels}}<span class=\"text-[#241430]/60\">Star</span>{{/if}}\n  </li>\n  <li class=\"flex flex-col items-center gap-1.5\">\n    <svg class=\"icon-set-tw__svg\" viewBox=\"0 0 24 24\" width=\"{{size}}\" height=\"{{size}}\"><path d=\"M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z\"/><path d=\"M14 4v5h5\"/></svg>\n    {{#if labels}}<span class=\"text-[#241430]/60\">File</span>{{/if}}\n  </li>\n</ul>\n<style>\n.icon-set-tw__svg { fill: none; stroke: var(--icon-color); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }\n.icon-set-tw--filled .icon-set-tw__svg { fill: var(--icon-color); stroke: none; }\n.icon-set-tw--duotone .icon-set-tw__svg { fill: var(--icon-color); fill-opacity: .25; stroke: var(--icon-color); stroke-width: 1.4; }\n</style>",
+    "react": "export function IconSet({\n  iconStyle = \"{{iconStyle}}\",\n  color = \"{{color}}\",\n  size = {{size}},\n  labels = {{labels}},\n}) {\n  const svgProps = iconStyle === \"filled\"\n    ? { fill: color, stroke: \"none\" }\n    : iconStyle === \"duotone\"\n      ? { fill: color, fillOpacity: 0.25, stroke: color, strokeWidth: 1.4 }\n      : { fill: \"none\", stroke: color, strokeWidth: 1.7 };\n  const icons = [\n    { label: \"Done\", path: <><circle cx=\"12\" cy=\"12\" r=\"9\" /><path d=\"M9 12l2 2 4-4\" /></> },\n    { label: \"Menu\", path: <><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" /><path d=\"M8 12h8\" /></> },\n    { label: \"Star\", path: <path d=\"M12 3l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z\" /> },\n    { label: \"File\", path: <><path d=\"M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z\" /><path d=\"M14 4v5h5\" /></> },\n  ];\n  return (\n    <ul style={{ display: \"flex\", gap: 20, listStyle: \"none\", margin: 0, padding: 0, maxWidth: 360, font: \"11px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      {icons.map((icon) => (\n        <li key={icon.label} style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 6 }}>\n          <svg viewBox=\"0 0 24 24\" width={size} height={size} strokeLinecap=\"round\" strokeLinejoin=\"round\" {...svgProps}>\n            {icon.path}\n          </svg>\n          {labels && <span style={{ color: \"#24143099\" }}>{icon.label}</span>}\n        </li>\n      ))}\n    </ul>\n  );\n}"
+  }
+}

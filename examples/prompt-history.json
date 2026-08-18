@@ -1,0 +1,46 @@
+{
+  "slug": "prompt-history",
+  "controls_schema": [
+    {
+      "id": "latestPrompt",
+      "type": "text",
+      "label": "Latest prompt",
+      "default": "Summarise this quarter's support tickets"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showTimestamps",
+      "type": "toggle",
+      "label": "Show timestamps",
+      "default": true
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "compact",
+        "comfortable"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ph ph--{{density}}\">\n  <h3 class=\"ph__heading\">Previous prompts</h3>\n  <ul class=\"ph__list\">\n    <li class=\"ph__item ph__item--current\" style=\"border-color:{{accent}};\">\n      <span class=\"ph__dot\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n      <span class=\"ph__text\">{{latestPrompt}}</span>\n      {{#if showTimestamps}}<span class=\"ph__time\">just now</span>{{/if}}\n    </li>\n    <li class=\"ph__item\">\n      <span class=\"ph__dot\" aria-hidden=\"true\"></span>\n      <span class=\"ph__text\">Draft a reply to the billing escalation</span>\n      {{#if showTimestamps}}<span class=\"ph__time\">14:02</span>{{/if}}\n    </li>\n    <li class=\"ph__item\">\n      <span class=\"ph__dot\" aria-hidden=\"true\"></span>\n      <span class=\"ph__text\">List open pull requests for this repo</span>\n      {{#if showTimestamps}}<span class=\"ph__time\">Yesterday</span>{{/if}}\n    </li>\n  </ul>\n</div>\n<style>\n.ph { font: 14px/1.5 system-ui, sans-serif; max-width: 420px; color: #241430; background: #FAF7F2; }\n.ph__heading { margin: 0 0 10px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: #241430b3; }\n.ph__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }\n.ph__item { display: flex; align-items: baseline; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid transparent; }\n.ph--compact .ph__item { padding: 6px 10px; }\n.ph__item--current { background: #24143008; border-color: currentColor; }\n.ph__dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #24143033; align-self: center; }\n.ph__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.ph__time { flex: none; font-size: 12px; color: #24143080; }\n</style>",
+    "tailwind": "<div class=\"ph-tw ph-tw--{{density}} max-w-md font-sans text-[#241430] bg-[#FAF7F2]\">\n  <h3 class=\"m-0 mb-2.5 text-[13px] font-semibold uppercase tracking-wide text-[#241430]/70\">Previous prompts</h3>\n  <ul class=\"list-none m-0 p-0 flex flex-col gap-1\">\n    <li class=\"flex items-baseline gap-2.5 px-3 py-2.5 rounded-lg border\" style=\"background:#24143008;border-color:{{accent}};\">\n      <span class=\"flex-none w-1.5 h-1.5 rounded-full self-center\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap\">{{latestPrompt}}</span>\n      {{#if showTimestamps}}<span class=\"flex-none text-xs text-[#241430]/50\">just now</span>{{/if}}\n    </li>\n    <li class=\"flex items-baseline gap-2.5 px-3 py-2.5 rounded-lg border border-transparent\">\n      <span class=\"flex-none w-1.5 h-1.5 rounded-full self-center bg-[#241430]/20\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap\">Draft a reply to the billing escalation</span>\n      {{#if showTimestamps}}<span class=\"flex-none text-xs text-[#241430]/50\">14:02</span>{{/if}}\n    </li>\n    <li class=\"flex items-baseline gap-2.5 px-3 py-2.5 rounded-lg border border-transparent\">\n      <span class=\"flex-none w-1.5 h-1.5 rounded-full self-center bg-[#241430]/20\" aria-hidden=\"true\"></span>\n      <span class=\"flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap\">List open pull requests for this repo</span>\n      {{#if showTimestamps}}<span class=\"flex-none text-xs text-[#241430]/50\">Yesterday</span>{{/if}}\n    </li>\n  </ul>\n</div>\n<style>\n.ph-tw--compact li { padding-top: 6px; padding-bottom: 6px; }\n</style>",
+    "react": "export function PromptHistory({\n  latestPrompt = \"{{latestPrompt}}\",\n  accent = \"{{accent}}\",\n  showTimestamps = {{showTimestamps}},\n  density = \"{{density}}\",\n}) {\n  const itemPad = density === \"compact\" ? \"6px 10px\" : \"10px 12px\";\n  const older = [\n    { text: \"Draft a reply to the billing escalation\", time: \"14:02\" },\n    { text: \"List open pull requests for this repo\", time: \"Yesterday\" },\n  ];\n  return (\n    <div style={{ maxWidth: 420, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 13, fontWeight: 600, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#241430b3\" }}>\n        Previous prompts\n      </h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n        <li style={{ display: \"flex\", alignItems: \"baseline\", gap: 10, padding: itemPad, borderRadius: 8, border: \"1px solid\", borderColor: accent, background: \"#24143008\" }}>\n          <span aria-hidden=\"true\" style={{ flex: \"none\", width: 6, height: 6, borderRadius: \"50%\", background: accent, alignSelf: \"center\" }} />\n          <span style={{ flex: 1, minWidth: 0, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{latestPrompt}</span>\n          {showTimestamps && <span style={{ flex: \"none\", fontSize: 12, color: \"#24143080\" }}>just now</span>}\n        </li>\n        {older.map((item) => (\n          <li key={item.text} style={{ display: \"flex\", alignItems: \"baseline\", gap: 10, padding: itemPad, borderRadius: 8, border: \"1px solid transparent\" }}>\n            <span aria-hidden=\"true\" style={{ flex: \"none\", width: 6, height: 6, borderRadius: \"50%\", background: \"#24143033\", alignSelf: \"center\" }} />\n            <span style={{ flex: 1, minWidth: 0, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{item.text}</span>\n            {showTimestamps && <span style={{ flex: \"none\", fontSize: 12, color: \"#24143080\" }}>{item.time}</span>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

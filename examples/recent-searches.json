@@ -1,0 +1,45 @@
+{
+  "slug": "recent-searches",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Recent searches"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Number shown",
+      "default": 3,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "showClear",
+      "type": "toggle",
+      "label": "Show clear action",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"rsearch rsearch--{{count}}\" aria-label=\"{{label}}\" style=\"--accent:{{accent}};\">\n  <div class=\"rsearch__head\">\n    <span class=\"rsearch__title\">{{label}}</span>\n    {{#if showClear}}<button type=\"button\" class=\"rsearch__clear\">Clear recent searches</button>{{/if}}\n  </div>\n  <ul class=\"rsearch__list\">\n    <li class=\"rsearch__row-1\"><button type=\"button\" class=\"rsearch__item\">quarterly roadmap</button></li>\n    <li class=\"rsearch__row-2\"><button type=\"button\" class=\"rsearch__item\">design tokens</button></li>\n    <li class=\"rsearch__row-3\"><button type=\"button\" class=\"rsearch__item\">onboarding flow</button></li>\n    <li class=\"rsearch__row-4\"><button type=\"button\" class=\"rsearch__item\">release notes</button></li>\n  </ul>\n</nav>\n<style>\n.rsearch { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.rsearch__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }\n.rsearch__title { font-weight: 600; }\n.rsearch__clear { border: none; background: none; padding: 0; font: inherit; font-size: 12px; color: #24143090; text-decoration: underline; cursor: pointer; }\n.rsearch__clear:hover { color: #241430; }\n.rsearch__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }\n.rsearch--1 .rsearch__row-2, .rsearch--1 .rsearch__row-3, .rsearch--1 .rsearch__row-4 { display: none; }\n.rsearch--2 .rsearch__row-3, .rsearch--2 .rsearch__row-4 { display: none; }\n.rsearch--3 .rsearch__row-4 { display: none; }\n.rsearch__item { width: 100%; text-align: left; border: none; background: transparent; padding: 6px 8px; border-radius: 6px; font: inherit; color: #241430; cursor: pointer; }\n.rsearch__item:hover { background: color-mix(in srgb, var(--accent) 25%, transparent); }\n</style>",
+    "tailwind": "<nav aria-label=\"{{label}}\" class=\"rsearch-tw rsearch-tw--{{count}} block font-sans text-sm text-[#241430] max-w-[260px]\" style=\"--accent:{{accent}};\">\n  <div class=\"flex items-baseline justify-between gap-2 mb-2\">\n    <span class=\"font-semibold\">{{label}}</span>\n    {{#if showClear}}<button type=\"button\" class=\"border-none bg-transparent p-0 text-xs underline text-[#24143090] hover:text-[#241430]\">Clear recent searches</button>{{/if}}\n  </div>\n  <ul class=\"list-none m-0 p-0 grid gap-0.5\">\n    <li class=\"rsearch-tw-row-1\"><button type=\"button\" class=\"w-full text-left border-none bg-transparent px-2 py-1.5 rounded-md hover:bg-[color-mix(in_srgb,var(--accent)_25%,transparent)]\">quarterly roadmap</button></li>\n    <li class=\"rsearch-tw-row-2\"><button type=\"button\" class=\"w-full text-left border-none bg-transparent px-2 py-1.5 rounded-md hover:bg-[color-mix(in_srgb,var(--accent)_25%,transparent)]\">design tokens</button></li>\n    <li class=\"rsearch-tw-row-3\"><button type=\"button\" class=\"w-full text-left border-none bg-transparent px-2 py-1.5 rounded-md hover:bg-[color-mix(in_srgb,var(--accent)_25%,transparent)]\">onboarding flow</button></li>\n    <li class=\"rsearch-tw-row-4\"><button type=\"button\" class=\"w-full text-left border-none bg-transparent px-2 py-1.5 rounded-md hover:bg-[color-mix(in_srgb,var(--accent)_25%,transparent)]\">release notes</button></li>\n  </ul>\n</nav>\n<style>\n.rsearch-tw--1 .rsearch-tw-row-2, .rsearch-tw--1 .rsearch-tw-row-3, .rsearch-tw--1 .rsearch-tw-row-4 { display: none; }\n.rsearch-tw--2 .rsearch-tw-row-3, .rsearch-tw--2 .rsearch-tw-row-4 { display: none; }\n.rsearch-tw--3 .rsearch-tw-row-4 { display: none; }\n</style>",
+    "react": "export function RecentSearches({\n  label = \"{{label}}\",\n  count = {{count}},\n  showClear = {{showClear}},\n  accent = \"{{accent}}\",\n}) {\n  const queries = [\"quarterly roadmap\", \"design tokens\", \"onboarding flow\", \"release notes\"];\n  const shown = queries.slice(0, Math.min(Math.max(count, 1), queries.length));\n  return (\n    <nav aria-label={label} style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <div style={{ display: \"flex\", alignItems: \"baseline\", justifyContent: \"space-between\", gap: 8, marginBottom: 8 }}>\n        <span style={{ fontWeight: 600 }}>{label}</span>\n        {showClear && (\n          <button type=\"button\" style={{ border: \"none\", background: \"none\", padding: 0, font: \"inherit\", fontSize: 12, color: \"#24143090\", textDecoration: \"underline\", cursor: \"pointer\" }}>Clear recent searches</button>\n        )}\n      </div>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"grid\", gap: 2 }}>\n        {shown.map((q) => (\n          <li key={q}>\n            <button type=\"button\" style={{ width: \"100%\", textAlign: \"left\", border: \"none\", background: \"transparent\", padding: \"6px 8px\", borderRadius: 6, font: \"inherit\", color: \"#241430\", cursor: \"pointer\" }}\n              onMouseOver={(e) => { e.currentTarget.style.background = `${accent}40`; }}\n              onMouseOut={(e) => { e.currentTarget.style.background = \"transparent\"; }}>{q}</button>\n          </li>\n        ))}\n      </ul>\n    </nav>\n  );\n}"
+  }
+}

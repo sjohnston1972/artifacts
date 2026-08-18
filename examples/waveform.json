@@ -1,0 +1,41 @@
+{
+  "slug": "waveform",
+  "controls_schema": [
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Bar gap",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "playedPercent",
+      "type": "number",
+      "label": "Played",
+      "default": 40,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "rounded",
+      "type": "toggle",
+      "label": "Rounded bar caps",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wave {{#if rounded}}wave--rounded{{/if}}\" style=\"--accent:{{accent}};--gap:{{gap}}px;\" role=\"img\" aria-label=\"Audio waveform, {{playedPercent}}% played\">\n  <div class=\"wave__track\">\n    <span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span><span class=\"wave__bar\"></span>\n  </div>\n  <div class=\"wave__played\" style=\"clip-path:inset(0 calc(100% - {{playedPercent}}%) 0 0);\" aria-hidden=\"true\">\n    <span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span><span class=\"wave__bar wave__bar--played\"></span>\n  </div>\n</div>\n<style>\n.wave { position: relative; height: 48px; max-width: 340px; padding: 4px 0; }\n.wave__track, .wave__played { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: var(--gap); }\n.wave__bar { flex: 1; background: #24143026; border-radius: 2px; }\n.wave__bar--played { background: var(--accent); }\n.wave--rounded .wave__bar { border-radius: 999px; }\n.wave__bar:nth-child(4n+1) { height: 40%; }\n.wave__bar:nth-child(4n+2) { height: 85%; }\n.wave__bar:nth-child(4n+3) { height: 60%; }\n.wave__bar:nth-child(4n) { height: 100%; }\n.wave__bar:nth-child(3n) { height: 30%; }\n</style>",
+    "tailwind": "<div class=\"wave-tw {{#if rounded}}wave-tw--rounded{{/if}} relative h-12 max-w-[340px] py-1\" style=\"--accent:{{accent}};--gap:{{gap}}px;\" role=\"img\" aria-label=\"Audio waveform, {{playedPercent}}% played\">\n  <div class=\"wave-tw__track absolute inset-0 flex items-end\" style=\"gap:var(--gap);\">\n    <span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span><span class=\"wave-tw__bar\"></span>\n  </div>\n  <div class=\"absolute inset-0 flex items-end\" style=\"gap:var(--gap);clip-path:inset(0 calc(100% - {{playedPercent}}%) 0 0);\" aria-hidden=\"true\">\n    <span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span><span class=\"wave-tw__bar wave-tw__bar--played\"></span>\n  </div>\n</div>\n<style>\n.wave-tw__bar { flex: 1; background: #24143026; border-radius: 2px; }\n.wave-tw__bar--played { background: var(--accent); }\n.wave-tw--rounded .wave-tw__bar { border-radius: 999px; }\n.wave-tw__bar:nth-child(4n+1) { height: 40%; }\n.wave-tw__bar:nth-child(4n+2) { height: 85%; }\n.wave-tw__bar:nth-child(4n+3) { height: 60%; }\n.wave-tw__bar:nth-child(4n) { height: 100%; }\n.wave-tw__bar:nth-child(3n) { height: 30%; }\n</style>",
+    "react": "export function Waveform({\n  accent = \"{{accent}}\",\n  gap = {{gap}},\n  playedPercent = {{playedPercent}},\n  rounded = {{rounded}},\n}) {\n  const heights = [40, 85, 60, 100, 30, 40, 85, 60, 100, 30, 40, 85, 60, 100, 30, 40, 85, 60, 100, 30];\n  const barStyle = (played) => ({\n    flex: 1,\n    background: played ? accent : \"#24143026\",\n    borderRadius: rounded ? 999 : 2,\n  });\n  return (\n    <div style={{ position: \"relative\", height: 48, maxWidth: 340, padding: \"4px 0\" }}\n      role=\"img\" aria-label={`Audio waveform, ${playedPercent}% played`}>\n      <div style={{ position: \"absolute\", inset: 0, display: \"flex\", alignItems: \"flex-end\", gap }}>\n        {heights.map((h, i) => (\n          <span key={`track-${i}`} style={{ ...barStyle(false), height: `${h}%` }} />\n        ))}\n      </div>\n      <div style={{ position: \"absolute\", inset: 0, display: \"flex\", alignItems: \"flex-end\", gap,\n        clipPath: `inset(0 calc(100% - ${playedPercent}%) 0 0)` }} aria-hidden=\"true\">\n        {heights.map((h, i) => (\n          <span key={`played-${i}`} style={{ ...barStyle(true), height: `${h}%` }} />\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

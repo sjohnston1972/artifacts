@@ -1,0 +1,36 @@
+{
+  "slug": "playlist",
+  "controls_schema": [
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showDuration",
+      "type": "toggle",
+      "label": "Show duration",
+      "default": true
+    },
+    {
+      "id": "showArt",
+      "type": "toggle",
+      "label": "Show artwork",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<ul class=\"playlist playlist--{{layout}}\">\n  <li class=\"playlist__item is-now-playing\" style=\"--accent:{{accent}};\">\n    {{#if showArt}}<span class=\"playlist__art\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"playlist__meta\">\n      <span class=\"playlist__title\">Slow Static</span>\n      <span class=\"playlist__now\" aria-hidden=\"true\">Now playing</span>\n    </span>\n    {{#if showDuration}}<span class=\"playlist__duration\">3:12</span>{{/if}}\n  </li>\n  <li class=\"playlist__item\">\n    {{#if showArt}}<span class=\"playlist__art\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"playlist__meta\">\n      <span class=\"playlist__title\">Amber Fields</span>\n    </span>\n    {{#if showDuration}}<span class=\"playlist__duration\">4:05</span>{{/if}}\n  </li>\n  <li class=\"playlist__item\">\n    {{#if showArt}}<span class=\"playlist__art\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"playlist__meta\">\n      <span class=\"playlist__title\">Quiet Harbour</span>\n    </span>\n    {{#if showDuration}}<span class=\"playlist__duration\">2:47</span>{{/if}}\n  </li>\n</ul>\n<style>\n.playlist { list-style: none; margin: 0; padding: 0; max-width: 340px; font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; }\n.playlist__item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #24143014; }\n.playlist__item:last-child { border-bottom: none; }\n.playlist--compact .playlist__item { padding: 7px 12px; }\n.playlist__item.is-now-playing { background: #24143010; border-left: 3px solid var(--accent); }\n.playlist__art { width: 28px; height: 28px; border-radius: 6px; background: linear-gradient(135deg, #BFD9F2, #D9C8F0); flex: none; }\n.playlist--compact .playlist__art { width: 20px; height: 20px; }\n.playlist__meta { display: flex; flex-direction: column; flex: 1; min-width: 0; }\n.playlist__title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.playlist__now { font-size: 11px; color: var(--accent); font-weight: 600; }\n.playlist__duration { font-size: 12px; color: #24143099; flex: none; }\n</style>",
+    "tailwind": "<ul class=\"playlist-tw playlist-tw--{{layout}} list-none m-0 p-0 max-w-[340px] font-sans text-sm text-[#241430] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden\" style=\"--accent:{{accent}};\">\n  <li class=\"flex items-center gap-2.5 px-3.5 py-3 border-b border-[#24143014]\" style=\"background:#24143010;border-left:3px solid var(--accent);\">\n    {{#if showArt}}<span class=\"w-7 h-7 rounded-md flex-none\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"flex flex-col flex-1 min-w-0\">\n      <span class=\"font-semibold overflow-hidden text-ellipsis whitespace-nowrap\">Slow Static</span>\n      <span class=\"text-[11px] font-semibold\" style=\"color:var(--accent);\" aria-hidden=\"true\">Now playing</span>\n    </span>\n    {{#if showDuration}}<span class=\"text-xs text-[#241430]/60 flex-none\">3:12</span>{{/if}}\n  </li>\n  <li class=\"flex items-center gap-2.5 px-3.5 py-3 border-b border-[#24143014]\">\n    {{#if showArt}}<span class=\"w-7 h-7 rounded-md flex-none\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"flex flex-col flex-1 min-w-0\">\n      <span class=\"font-semibold overflow-hidden text-ellipsis whitespace-nowrap\">Amber Fields</span>\n    </span>\n    {{#if showDuration}}<span class=\"text-xs text-[#241430]/60 flex-none\">4:05</span>{{/if}}\n  </li>\n  <li class=\"flex items-center gap-2.5 px-3.5 py-3\">\n    {{#if showArt}}<span class=\"w-7 h-7 rounded-md flex-none\" style=\"background:linear-gradient(135deg,#BFD9F2,#D9C8F0);\" aria-hidden=\"true\"></span>{{/if}}\n    <span class=\"flex flex-col flex-1 min-w-0\">\n      <span class=\"font-semibold overflow-hidden text-ellipsis whitespace-nowrap\">Quiet Harbour</span>\n    </span>\n    {{#if showDuration}}<span class=\"text-xs text-[#241430]/60 flex-none\">2:47</span>{{/if}}\n  </li>\n</ul>\n<style>\n.playlist-tw--compact li { padding-top: 7px; padding-bottom: 7px; }\n</style>",
+    "react": "export function Playlist({\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showDuration = {{showDuration}},\n  showArt = {{showArt}},\n}) {\n  const compact = layout === \"compact\";\n  const tracks = [\n    { title: \"Slow Static\", duration: \"3:12\", now: true },\n    { title: \"Amber Fields\", duration: \"4:05\", now: false },\n    { title: \"Quiet Harbour\", duration: \"2:47\", now: false },\n  ];\n  return (\n    <ul style={{ listStyle: \"none\", margin: 0, padding: 0, maxWidth: 340, font: \"14px/1.4 system-ui, sans-serif\",\n      color: \"#241430\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\" }}>\n      {tracks.map((track, i) => (\n        <li key={track.title} style={{ display: \"flex\", alignItems: \"center\", gap: 10,\n          padding: compact ? \"7px 12px\" : \"12px 14px\",\n          borderBottom: i < tracks.length - 1 ? \"1px solid #24143014\" : \"none\",\n          background: track.now ? \"#24143010\" : \"transparent\",\n          borderLeft: track.now ? `3px solid ${accent}` : \"3px solid transparent\" }}>\n          {showArt && (\n            <span style={{ width: compact ? 20 : 28, height: compact ? 20 : 28, borderRadius: 6,\n              background: \"linear-gradient(135deg,#BFD9F2,#D9C8F0)\", flex: \"none\" }} aria-hidden=\"true\" />\n          )}\n          <span style={{ display: \"flex\", flexDirection: \"column\", flex: 1, minWidth: 0 }}>\n            <span style={{ fontWeight: 600, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>\n              {track.title}\n            </span>\n            {track.now && (\n              <span style={{ fontSize: 11, fontWeight: 600, color: accent }} aria-hidden=\"true\">Now playing</span>\n            )}\n          </span>\n          {showDuration && <span style={{ fontSize: 12, color: \"#24143099\", flex: \"none\" }}>{track.duration}</span>}\n        </li>\n      ))}\n    </ul>\n  );\n}"
+  }
+}

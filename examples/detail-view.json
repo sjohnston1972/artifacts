@@ -1,0 +1,66 @@
+{
+  "slug": "detail-view",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Record title",
+      "default": "Order #4821"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "active",
+      "options": [
+        "active",
+        "pending",
+        "closed"
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "two-column",
+      "options": [
+        "stacked",
+        "two-column"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "notes",
+      "type": "toggle",
+      "label": "Show notes field",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"detail-demo\" style=\"border-radius:{{radius}}px; border-top: 4px solid {{accent}};\">\n  <div class=\"detail-demo__head\">\n    <h2 class=\"detail-demo__title\">{{name}}</h2>\n    <span class=\"status-badge status-badge--{{status}}\">{{status}}</span>\n  </div>\n  <dl class=\"detail-dl detail-dl--{{layout}}\">\n    <div class=\"detail-field\"><dt>Customer</dt><dd>Priya Nair</dd></div>\n    <div class=\"detail-field\"><dt>Email</dt><dd>priya@example.com</dd></div>\n    <div class=\"detail-field\"><dt>Placed</dt><dd><time datetime=\"2026-08-12T09:30:00Z\">12 Aug 2026, 9:30am</time></dd></div>\n    <div class=\"detail-field\"><dt>Total</dt><dd>£128.00</dd></div>\n    <div class=\"detail-field\"><dt>Shipping</dt><dd>14 Elm Road, Bristol BS1 4ST</dd></div>\n    {{#if notes}}<div class=\"detail-field detail-field--notes\"><dt>Notes</dt><dd>Gift wrap requested; leave with neighbour if out.</dd></div>{{/if}}\n  </dl>\n</div>\n<style>\n.detail-demo { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143022; padding: 20px; box-sizing: border-box; }\n.detail-demo__head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }\n.detail-demo__title { margin: 0; font-size: 18px; font-weight: 600; }\n.status-badge { font-size: 11px; font-weight: 600; text-transform: capitalize; padding: 3px 10px; border-radius: 999px; }\n.status-badge--active { background: #A8E6C1; color: #241430; }\n.status-badge--pending { background: #E8A020; color: #241430; }\n.status-badge--closed { background: #24143018; color: #241430; }\n.detail-dl { margin: 0; }\n.detail-field dt { font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #24143099; margin-bottom: 2px; }\n.detail-field dd { margin: 0 0 16px; font-size: 14px; }\n.detail-dl--two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 28px; }\n.detail-dl--two-column .detail-field dd { margin-bottom: 4px; }\n.detail-field--notes { border-top: 1px dashed #24143022; padding-top: 10px; margin-top: 4px; }\n.detail-dl--two-column .detail-field--notes { grid-column: 1 / -1; }\n</style>",
+    "tailwind": "<div class=\"detail-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143022] p-5 box-border\" style=\"border-radius:{{radius}}px; border-top: 4px solid {{accent}};\">\n  <div class=\"flex items-center gap-2.5 mb-4\">\n    <h2 class=\"m-0 text-lg font-semibold\">{{name}}</h2>\n    <span class=\"detail-tw-badge detail-tw-badge--{{status}} text-[11px] font-semibold capitalize px-2.5 py-[3px] rounded-full\">{{status}}</span>\n  </div>\n  <dl class=\"detail-tw-dl detail-tw-dl--{{layout}} m-0\">\n    <div class=\"detail-tw-field\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Customer</dt><dd class=\"m-0 mb-3.5 text-sm\">Priya Nair</dd></div>\n    <div class=\"detail-tw-field\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Email</dt><dd class=\"m-0 mb-3.5 text-sm\">priya@example.com</dd></div>\n    <div class=\"detail-tw-field\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Placed</dt><dd class=\"m-0 mb-3.5 text-sm\"><time datetime=\"2026-08-12T09:30:00Z\">12 Aug 2026, 9:30am</time></dd></div>\n    <div class=\"detail-tw-field\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Total</dt><dd class=\"m-0 mb-3.5 text-sm\">£128.00</dd></div>\n    <div class=\"detail-tw-field\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Shipping</dt><dd class=\"m-0 mb-3.5 text-sm\">14 Elm Road, Bristol BS1 4ST</dd></div>\n    {{#if notes}}<div class=\"detail-tw-field detail-tw-field--notes border-t border-dashed border-[#24143022] pt-2.5 mt-1\"><dt class=\"text-[12px] uppercase tracking-wide text-[#241430]/60 mb-0.5\">Notes</dt><dd class=\"m-0 text-sm\">Gift wrap requested; leave with neighbour if out.</dd></div>{{/if}}\n  </dl>\n</div>\n<style>\n.detail-tw-badge--active { background: #A8E6C1; color: #241430; }\n.detail-tw-badge--pending { background: #E8A020; color: #241430; }\n.detail-tw-badge--closed { background: #24143018; color: #241430; }\n.detail-tw-dl--two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 28px; }\n.detail-tw-dl--two-column .detail-tw-field--notes { grid-column: 1 / -1; }\n</style>",
+    "react": "export function DetailView({\n  name = \"{{name}}\",\n  status = \"{{status}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  notes = {{notes}},\n  radius = {{radius}},\n}) {\n  const badgeColors = { active: \"#A8E6C1\", pending: \"#E8A020\", closed: \"#24143018\" };\n  const fields = [\n    { label: \"Customer\", value: \"Priya Nair\" },\n    { label: \"Email\", value: \"priya@example.com\" },\n    { label: \"Placed\", value: <time dateTime=\"2026-08-12T09:30:00Z\">12 Aug 2026, 9:30am</time> },\n    { label: \"Total\", value: \"£128.00\" },\n    { label: \"Shipping\", value: \"14 Elm Road, Bristol BS1 4ST\" },\n  ];\n  const twoColumn = layout === \"two-column\";\n  const dlStyle = twoColumn ? { display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: \"4px 28px\" } : { display: \"block\" };\n  return (\n    <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderTop: `4px solid ${accent}`, borderRadius: radius, padding: 20, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, marginBottom: 16 }}>\n        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{name}</h2>\n        <span style={{ fontSize: 11, fontWeight: 600, textTransform: \"capitalize\", padding: \"3px 10px\", borderRadius: 999, background: badgeColors[status] ?? accent, color: \"#241430\" }}>{status}</span>\n      </div>\n      <dl style={{ margin: 0, ...dlStyle }}>\n        {fields.map((f) => (\n          <div key={f.label} style={{ marginBottom: twoColumn ? 4 : 16 }}>\n            <dt style={{ fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#24143099\", marginBottom: 2 }}>{f.label}</dt>\n            <dd style={{ margin: 0, fontSize: 14 }}>{f.value}</dd>\n          </div>\n        ))}\n        {notes && (\n          <div style={{ borderTop: \"1px dashed #24143022\", paddingTop: 10, marginTop: 4, gridColumn: twoColumn ? \"1 / -1\" : \"auto\" }}>\n            <dt style={{ fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#24143099\", marginBottom: 2 }}>Notes</dt>\n            <dd style={{ margin: 0, fontSize: 14 }}>Gift wrap requested; leave with neighbour if out.</dd>\n          </div>\n        )}\n      </dl>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "slug": "multi-select",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Notification channels"
+    },
+    {
+      "id": "selectedCount",
+      "type": "number",
+      "label": "Selected count",
+      "default": 2,
+      "min": 0,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "maxSelectable",
+      "type": "number",
+      "label": "Maximum selectable",
+      "default": 3,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "list",
+      "options": ["list", "grid"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"mselect mselect--{{layout}}\" style=\"--accent:{{accent}};\">\n  <legend class=\"mselect__legend\">{{label}}</legend>\n  <p role=\"status\" class=\"mselect__status\">{{selectedCount}} of 5 selected &middot; choose up to {{maxSelectable}}</p>\n  <label class=\"mselect__option\"><input type=\"checkbox\" name=\"channel\" value=\"email\" checked> Email</label>\n  <label class=\"mselect__option\"><input type=\"checkbox\" name=\"channel\" value=\"sms\" checked> SMS</label>\n  <label class=\"mselect__option\"><input type=\"checkbox\" name=\"channel\" value=\"push\"> Push</label>\n  <label class=\"mselect__option\"><input type=\"checkbox\" name=\"channel\" value=\"slack\"> Slack</label>\n  <label class=\"mselect__option\"><input type=\"checkbox\" name=\"channel\" value=\"webhook\"> Webhook</label>\n</fieldset>\n<style>\n.mselect { font: 14px system-ui, sans-serif; color: #241430; max-width: 280px; border: 1.5px solid #24143040; border-radius: 8px; padding: 12px; }\n.mselect__legend { font-weight: 600; padding: 0 4px; }\n.mselect__status { margin: 2px 0 10px; font-size: 12.5px; color: #24143099; }\n.mselect__option { display: flex; align-items: center; gap: 8px; padding: 6px 4px; cursor: pointer; border-radius: 6px; }\n.mselect__option:hover { background: #24143008; }\n.mselect--grid { display: grid; grid-template-columns: 1fr 1fr; }\n.mselect--grid .mselect__status { grid-column: 1 / -1; }\n.mselect__option input { width: 16px; height: 16px; accent-color: var(--accent); }\n</style>",
+    "tailwind": "<fieldset class=\"mselect-tw--{{layout}} font-sans text-sm text-[#241430] max-w-[280px] border-[1.5px] border-[#24143040] rounded-lg p-3\">\n  <legend class=\"font-semibold px-1\">{{label}}</legend>\n  <p role=\"status\" class=\"mselect-status-tw mt-0.5 mb-2.5 text-xs text-[#24143099]\">{{selectedCount}} of 5 selected &middot; choose up to {{maxSelectable}}</p>\n  <label class=\"flex items-center gap-2 px-1 py-1.5 rounded-md cursor-pointer hover:bg-[#24143008]\"><input type=\"checkbox\" name=\"channel\" value=\"email\" class=\"w-4 h-4\" style=\"accent-color:{{accent}};\" checked> Email</label>\n  <label class=\"flex items-center gap-2 px-1 py-1.5 rounded-md cursor-pointer hover:bg-[#24143008]\"><input type=\"checkbox\" name=\"channel\" value=\"sms\" class=\"w-4 h-4\" style=\"accent-color:{{accent}};\" checked> SMS</label>\n  <label class=\"flex items-center gap-2 px-1 py-1.5 rounded-md cursor-pointer hover:bg-[#24143008]\"><input type=\"checkbox\" name=\"channel\" value=\"push\" class=\"w-4 h-4\" style=\"accent-color:{{accent}};\"> Push</label>\n  <label class=\"flex items-center gap-2 px-1 py-1.5 rounded-md cursor-pointer hover:bg-[#24143008]\"><input type=\"checkbox\" name=\"channel\" value=\"slack\" class=\"w-4 h-4\" style=\"accent-color:{{accent}};\"> Slack</label>\n  <label class=\"flex items-center gap-2 px-1 py-1.5 rounded-md cursor-pointer hover:bg-[#24143008]\"><input type=\"checkbox\" name=\"channel\" value=\"webhook\" class=\"w-4 h-4\" style=\"accent-color:{{accent}};\"> Webhook</label>\n</fieldset>\n<style>\n.mselect-tw--grid { display: grid; grid-template-columns: 1fr 1fr; }\n.mselect-tw--grid .mselect-status-tw { grid-column: 1 / -1; }\n</style>",
+    "react": "export function MultiSelect({\n  label = \"{{label}}\",\n  selectedCount = {{selectedCount}},\n  maxSelectable = {{maxSelectable}},\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n}) {\n  const options = [\n    { value: \"email\", text: \"Email\", checked: true },\n    { value: \"sms\", text: \"SMS\", checked: true },\n    { value: \"push\", text: \"Push\", checked: false },\n    { value: \"slack\", text: \"Slack\", checked: false },\n    { value: \"webhook\", text: \"Webhook\", checked: false },\n  ];\n  return (\n    <fieldset style={{\n      font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 280,\n      border: \"1.5px solid #24143040\", borderRadius: 8, padding: 12,\n      display: layout === \"grid\" ? \"grid\" : \"block\",\n      gridTemplateColumns: layout === \"grid\" ? \"1fr 1fr\" : undefined,\n    }}>\n      <legend style={{ fontWeight: 600, padding: \"0 4px\" }}>{label}</legend>\n      <p role=\"status\" style={{\n        margin: \"2px 0 10px\", fontSize: 12.5, color: \"#24143099\",\n        gridColumn: layout === \"grid\" ? \"1 / -1\" : undefined,\n      }}>{selectedCount} of 5 selected &middot; choose up to {maxSelectable}</p>\n      {options.map((opt) => (\n        <label key={opt.value} style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 4px\", cursor: \"pointer\" }}>\n          <input type=\"checkbox\" defaultChecked={opt.checked} style={{ width: 16, height: 16, accentColor: accent }} /> {opt.text}\n        </label>\n      ))}\n    </fieldset>\n  );\n}"
+  }
+}

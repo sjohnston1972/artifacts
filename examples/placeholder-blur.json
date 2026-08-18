@@ -1,0 +1,41 @@
+{
+  "slug": "placeholder-blur",
+  "controls_schema": [
+    {
+      "id": "blurAmount",
+      "type": "number",
+      "label": "Blur amount",
+      "default": 14,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Theme",
+      "default": "mint",
+      "options": ["mint", "sky", "blush"]
+    },
+    {
+      "id": "transitionMs",
+      "type": "number",
+      "label": "Transition (ms)",
+      "default": 400,
+      "min": 0,
+      "max": 2000,
+      "step": 50
+    },
+    {
+      "id": "caption",
+      "type": "toggle",
+      "label": "Show note",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"ph-blur ph-blur--{{theme}}\" style=\"filter:blur({{blurAmount}}px);transition:filter {{transitionMs}}ms ease;\">\n  <svg viewBox=\"0 0 320 200\" width=\"100%\" height=\"100%\" role=\"img\" aria-label=\"Placeholder preview while the full image loads\"><rect width=\"320\" height=\"200\" fill=\"currentColor\"/></svg>\n</figure>\n{{#if caption}}\n<p class=\"ph-blur__note\">Low-quality placeholder shown while the full image loads.</p>\n{{/if}}\n<!-- In production, remove the blur filter and swap in the full-resolution <img> on its \"load\" event. -->\n<style>\n.ph-blur { margin: 0; max-width: 320px; aspect-ratio: 8 / 5; border-radius: 10px; overflow: hidden; }\n.ph-blur--mint { color: #A8E6C1; }\n.ph-blur--sky { color: #BFD9F2; }\n.ph-blur--blush { color: #F5C2E0; }\n.ph-blur__note { margin: 8px 2px 0; font: 12px/1.4 system-ui, sans-serif; color: #24143099; max-width: 320px; }\n</style>",
+    "tailwind": "<figure class=\"ph-blur-tw ph-blur-tw--{{theme}} m-0 max-w-[320px] rounded-[10px] overflow-hidden\" style=\"aspect-ratio:8/5;filter:blur({{blurAmount}}px);transition:filter {{transitionMs}}ms ease;\">\n  <svg viewBox=\"0 0 320 200\" width=\"100%\" height=\"100%\" role=\"img\" aria-label=\"Placeholder preview while the full image loads\"><rect width=\"320\" height=\"200\" fill=\"currentColor\"/></svg>\n</figure>\n{{#if caption}}\n<p class=\"mt-2 mx-0.5 max-w-[320px] text-xs text-[#241430]/60\">Low-quality placeholder shown while the full image loads.</p>\n{{/if}}\n<!-- In production, remove the blur filter and swap in the full-resolution <img> on its \"load\" event. -->\n<style>\n.ph-blur-tw--mint { color: #A8E6C1; }\n.ph-blur-tw--sky { color: #BFD9F2; }\n.ph-blur-tw--blush { color: #F5C2E0; }\n</style>",
+    "react": "export function PlaceholderBlur({\n  blurAmount = {{blurAmount}},\n  theme = \"{{theme}}\",\n  transitionMs = {{transitionMs}},\n  caption = {{caption}},\n}) {\n  const swatch = { mint: \"#A8E6C1\", sky: \"#BFD9F2\", blush: \"#F5C2E0\" }[theme] ?? \"#A8E6C1\";\n  return (\n    <div>\n      {/* In production, remove the blur filter and swap in the full-resolution <img> on its \"load\" event. */}\n      <figure style={{ margin: 0, maxWidth: 320, aspectRatio: \"8 / 5\", borderRadius: 10, overflow: \"hidden\",\n        color: swatch, filter: `blur(${blurAmount}px)`, transition: `filter ${transitionMs}ms ease` }}>\n        <svg viewBox=\"0 0 320 200\" width=\"100%\" height=\"100%\" role=\"img\" aria-label=\"Placeholder preview while the full image loads\">\n          <rect width=\"320\" height=\"200\" fill=\"currentColor\" />\n        </svg>\n      </figure>\n      {caption && (\n        <p style={{ margin: \"8px 2px 0\", font: \"12px/1.4 system-ui, sans-serif\", color: \"#24143099\", maxWidth: 320 }}>\n          Low-quality placeholder shown while the full image loads.\n        </p>\n      )}\n    </div>\n  );\n}"
+  }
+}

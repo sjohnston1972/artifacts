@@ -1,0 +1,42 @@
+{
+  "slug": "route-segment",
+  "controls_schema": [
+    {
+      "id": "base",
+      "type": "text",
+      "label": "Base path",
+      "default": "/shop/shoes"
+    },
+    {
+      "id": "current",
+      "type": "text",
+      "label": "Current segment",
+      "default": "running"
+    },
+    {
+      "id": "showParam",
+      "type": "toggle",
+      "label": "Show dynamic segment",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"rseg\" aria-label=\"Route segments\" style=\"--accent:{{accent}};\">\n  <ol class=\"rseg__list\">\n    <li class=\"rseg__item\"><a class=\"rseg__link\" href=\"#\">{{base}}</a></li>\n    {{#if showParam}}<li class=\"rseg__item rseg__item--param\"><a class=\"rseg__link\" href=\"#\">:size</a></li>{{/if}}\n    <li class=\"rseg__item\"><span class=\"rseg__current\" aria-current=\"page\">{{current}}</span></li>\n  </ol>\n</nav>\n<style>\n.rseg { font: 13px \"SFMono-Regular\", Consolas, monospace; color: #241430; }\n.rseg__list { display: flex; list-style: none; padding: 8px 12px; margin: 0; background: #FAF7F2; border-radius: 8px; width: fit-content; }\n.rseg__item { display: flex; align-items: center; }\n.rseg__item:not(:first-child)::before { content: \"/\"; margin: 0 4px; opacity: .4; }\n.rseg__link { color: #241430; text-decoration: none; opacity: .7; }\n.rseg__link:hover, .rseg__link:focus-visible { opacity: 1; outline: none; text-decoration: underline; }\n.rseg__item--param .rseg__link { color: var(--accent); font-weight: 700; }\n.rseg__current { color: var(--accent); font-weight: 700; }\n</style>",
+    "tailwind": "<nav aria-label=\"Route segments\" class=\"font-mono text-[13px] text-[#241430]\" style=\"--accent:{{accent}};\">\n  <ol class=\"rseg-tw flex list-none px-3 py-2 m-0 bg-[#FAF7F2] rounded-lg w-fit\">\n    <li class=\"rseg-tw__item flex items-center\"><a class=\"text-[#241430] no-underline opacity-70 hover:opacity-100 hover:underline\" href=\"#\">{{base}}</a></li>\n    {{#if showParam}}<li class=\"rseg-tw__item flex items-center\"><a class=\"no-underline font-bold\" href=\"#\" style=\"color:{{accent}};\">:size</a></li>{{/if}}\n    <li class=\"rseg-tw__item flex items-center\"><span class=\"font-bold\" aria-current=\"page\" style=\"color:{{accent}};\">{{current}}</span></li>\n  </ol>\n</nav>\n<style>\n.rseg-tw__item:not(:first-child)::before { content: \"/\"; margin: 0 4px; opacity: .4; }\n</style>",
+    "react": "export function RouteSegment({\n  base = \"{{base}}\",\n  current = \"{{current}}\",\n  showParam = {{showParam}},\n  accent = \"{{accent}}\",\n}) {\n  const segments = [{ label: base, link: true }];\n  if (showParam) segments.push({ label: \":size\", link: true, dynamic: true });\n  return (\n    <nav aria-label=\"Route segments\" style={{ fontFamily: \"SFMono-Regular, Consolas, monospace\", fontSize: 13, color: \"#241430\" }}>\n      <ol style={{ display: \"flex\", listStyle: \"none\", padding: \"8px 12px\", margin: 0, background: \"#FAF7F2\", borderRadius: 8, width: \"fit-content\" }}>\n        {segments.map((s, i) => (\n          <li key={s.label} style={{ display: \"flex\", alignItems: \"center\" }}>\n            {i > 0 && <span style={{ margin: \"0 4px\", opacity: .4 }}>/</span>}\n            <a href=\"#\" style={{ color: s.dynamic ? accent : \"#241430\", textDecoration: \"none\", opacity: s.dynamic ? 1 : .7, fontWeight: s.dynamic ? 700 : 400 }}>{s.label}</a>\n          </li>\n        ))}\n        <li style={{ display: \"flex\", alignItems: \"center\" }}>\n          <span style={{ margin: \"0 4px\", opacity: .4 }}>/</span>\n          <span aria-current=\"page\" style={{ color: accent, fontWeight: 700 }}>{current}</span>\n        </li>\n      </ol>\n    </nav>\n  );\n}"
+  }
+}

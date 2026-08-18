@@ -1,0 +1,45 @@
+{
+  "slug": "tag-editor",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Tags"
+    },
+    {
+      "id": "tagStyle",
+      "type": "select",
+      "label": "Tag style",
+      "default": "solid",
+      "options": ["solid", "outline", "soft"]
+    },
+    {
+      "id": "extraTag",
+      "type": "toggle",
+      "label": "Show fourth tag",
+      "default": true
+    },
+    {
+      "id": "maxTags",
+      "type": "number",
+      "label": "Maximum tags",
+      "default": 8,
+      "min": 1,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"tageditor tageditor--{{tagStyle}}\" style=\"--accent:{{accent}};\">\n  <legend class=\"tageditor__legend\"><label for=\"tageditor-input\">{{label}}</label></legend>\n  <div class=\"tageditor__row\">\n    <span class=\"tageditor__tag\">Design<button type=\"button\" class=\"tageditor__x\" aria-label=\"Remove tag: Design\">&times;</button></span>\n    <span class=\"tageditor__tag\">Frontend<button type=\"button\" class=\"tageditor__x\" aria-label=\"Remove tag: Frontend\">&times;</button></span>\n    <span class=\"tageditor__tag\">Urgent<button type=\"button\" class=\"tageditor__x\" aria-label=\"Remove tag: Urgent\">&times;</button></span>\n    {{#if extraTag}}<span class=\"tageditor__tag\">Backlog<button type=\"button\" class=\"tageditor__x\" aria-label=\"Remove tag: Backlog\">&times;</button></span>{{/if}}\n    <input id=\"tageditor-input\" type=\"text\" class=\"tageditor__input\" placeholder=\"Add a tag…\">\n  </div>\n  <p class=\"tageditor__help\">Up to {{maxTags}} tags</p>\n</fieldset>\n<style>\n.tageditor { font: 14px system-ui, sans-serif; color: #241430; max-width: 320px; border: none; padding: 0; margin: 0; }\n.tageditor__legend { padding: 0; margin-bottom: 6px; font-weight: 500; }\n.tageditor__row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; border: 1.5px solid #24143040; border-radius: 8px; background: #FAF7F2; }\n.tageditor__row:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.tageditor__tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; }\n.tageditor--solid .tageditor__tag { background: var(--accent); color: #241430; }\n.tageditor--outline .tageditor__tag { background: transparent; border: 1.5px solid var(--accent); color: #241430; }\n.tageditor--soft .tageditor__tag { background: color-mix(in srgb, var(--accent) 25%, #FAF7F2); color: #241430; }\n.tageditor__x { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: none; border-radius: 50%; background: #24143020; color: #241430; cursor: pointer; padding: 0; line-height: 1; font-size: 12px; }\n.tageditor__x:hover { background: #24143040; }\n.tageditor__x:focus-visible { outline: 2px solid #241430; outline-offset: 1px; }\n.tageditor__input { flex: 1; min-width: 90px; border: none; outline: none; background: transparent; font: inherit; color: #241430; padding: 4px; }\n.tageditor__help { margin: 6px 0 0; font-size: 12.5px; color: #24143099; }\n</style>",
+    "tailwind": "<fieldset class=\"tag-tw--{{tagStyle}} font-sans text-sm text-[#241430] max-w-[320px] border-0 p-0 m-0\">\n  <legend class=\"p-0 mb-1.5 font-medium\"><label for=\"tageditor-input-tw\">{{label}}</label></legend>\n  <div class=\"flex flex-wrap gap-1.5 items-center p-2 border-[1.5px] border-[#24143040] rounded-lg bg-[#FAF7F2]\">\n    <span class=\"tag-chip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 rounded-full text-[13px] font-medium\">Design<button type=\"button\" class=\"inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] cursor-pointer p-0\" aria-label=\"Remove tag: Design\">&times;</button></span>\n    <span class=\"tag-chip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 rounded-full text-[13px] font-medium\">Frontend<button type=\"button\" class=\"inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] cursor-pointer p-0\" aria-label=\"Remove tag: Frontend\">&times;</button></span>\n    <span class=\"tag-chip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 rounded-full text-[13px] font-medium\">Urgent<button type=\"button\" class=\"inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] cursor-pointer p-0\" aria-label=\"Remove tag: Urgent\">&times;</button></span>\n    {{#if extraTag}}<span class=\"tag-chip-tw inline-flex items-center gap-1.5 py-1 pl-2.5 pr-1 rounded-full text-[13px] font-medium\">Backlog<button type=\"button\" class=\"inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#24143020] hover:bg-[#24143040] cursor-pointer p-0\" aria-label=\"Remove tag: Backlog\">&times;</button></span>{{/if}}\n    <input id=\"tageditor-input-tw\" type=\"text\" class=\"flex-1 min-w-[90px] border-0 outline-none bg-transparent p-1\" placeholder=\"Add a tag…\">\n  </div>\n  <p class=\"mt-1.5 text-xs text-[#24143099]\">Up to {{maxTags}} tags</p>\n</fieldset>\n<style>\n.tag-tw--solid .tag-chip-tw { background: {{accent}}; color: #241430; }\n.tag-tw--outline .tag-chip-tw { background: transparent; border: 1.5px solid {{accent}}; color: #241430; }\n.tag-tw--soft .tag-chip-tw { background: color-mix(in srgb, {{accent}} 25%, #FAF7F2); color: #241430; }\n</style>",
+    "react": "export function TagEditor({\n  label = \"{{label}}\",\n  tagStyle = \"{{tagStyle}}\",\n  extraTag = {{extraTag}},\n  maxTags = {{maxTags}},\n  accent = \"{{accent}}\",\n}) {\n  const tags = [\"Design\", \"Frontend\", \"Urgent\", ...(extraTag ? [\"Backlog\"] : [])];\n  const chipStyle = {\n    solid: { background: accent, border: \"none\" },\n    outline: { background: \"transparent\", border: `1.5px solid ${accent}` },\n    soft: { background: `color-mix(in srgb, ${accent} 25%, #FAF7F2)`, border: \"none\" },\n  }[tagStyle] ?? { background: accent, border: \"none\" };\n  return (\n    <fieldset style={{ font: \"14px system-ui, sans-serif\", color: \"#241430\", maxWidth: 320, border: \"none\", padding: 0, margin: 0 }}>\n      <legend style={{ padding: 0, marginBottom: 6, fontWeight: 500 }}>\n        <label htmlFor=\"tageditor-input-r\">{label}</label>\n      </legend>\n      <div style={{ display: \"flex\", flexWrap: \"wrap\", gap: 6, alignItems: \"center\", padding: 8, border: \"1.5px solid #24143040\", borderRadius: 8, background: \"#FAF7F2\" }}>\n        {tags.map((tag) => (\n          <span key={tag} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"4px 6px 4px 10px\", borderRadius: 999, fontSize: 13, fontWeight: 500, color: \"#241430\", ...chipStyle }}>\n            {tag}\n            <button type=\"button\" aria-label={`Remove tag: ${tag}`} style={{ display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 16, height: 16, border: \"none\", borderRadius: \"50%\", background: \"#24143020\", cursor: \"pointer\", padding: 0, fontSize: 12 }}>&times;</button>\n          </span>\n        ))}\n        <input type=\"text\" placeholder=\"Add a tag…\" style={{ flex: 1, minWidth: 90, border: \"none\", outline: \"none\", background: \"transparent\", font: \"inherit\", color: \"#241430\", padding: 4 }} />\n      </div>\n      <p style={{ margin: \"6px 0 0\", fontSize: 12.5, color: \"#24143099\" }}>Up to {maxTags} tags</p>\n    </fieldset>\n  );\n}"
+  }
+}

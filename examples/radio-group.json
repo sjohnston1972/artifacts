@@ -1,0 +1,42 @@
+{
+  "slug": "radio-group",
+  "controls_schema": [
+    {
+      "id": "legend",
+      "type": "text",
+      "label": "Legend",
+      "default": "Notify me by"
+    },
+    {
+      "id": "secondSelected",
+      "type": "toggle",
+      "label": "SMS selected",
+      "default": false
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "vertical",
+      "options": ["vertical", "horizontal"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"rg rg--{{orientation}}\" style=\"--accent:{{accent}};\">\n  <legend>{{legend}}</legend>\n  <label class=\"rg__opt\"><input type=\"radio\" name=\"notify\"{{#unless secondSelected}} checked{{/unless}}{{#if disabled}} disabled{{/if}}> <span>Email</span></label>\n  <label class=\"rg__opt\"><input type=\"radio\" name=\"notify\"{{#if secondSelected}} checked{{/if}}{{#if disabled}} disabled{{/if}}> <span>SMS</span></label>\n  <label class=\"rg__opt\"><input type=\"radio\" name=\"notify\"{{#if disabled}} disabled{{/if}}> <span>Phone call</span></label>\n</fieldset>\n<style>\n.rg { border: none; padding: 0; margin: 0; font: 14px system-ui, sans-serif; color: #241430; display: flex; gap: 10px; }\n.rg--vertical { flex-direction: column; }\n.rg--horizontal { flex-direction: row; gap: 18px; }\n.rg legend { font-weight: 500; margin-bottom: 6px; padding: 0; width: 100%; }\n.rg__opt { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }\n.rg__opt input { appearance: none; margin: 0; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #24143050; position: relative; flex: none; }\n.rg__opt input:checked { border-color: var(--accent); }\n.rg__opt input:checked::after { content: \"\"; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); }\n.rg__opt input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent); }\n.rg__opt input:disabled { opacity: .5; cursor: not-allowed; }\n</style>",
+    "tailwind": "<fieldset class=\"rg-tw rg-tw--{{orientation}} border-0 p-0 m-0 font-sans text-sm text-[#241430] flex gap-2.5\" style=\"--accent:{{accent}};\">\n  <legend class=\"font-medium mb-1.5 p-0 w-full\">{{legend}}</legend>\n  <label class=\"inline-flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"notify-tw\" class=\"rg-radio-tw appearance-none m-0 w-[18px] h-[18px] rounded-full border-[1.5px] border-[#24143050] relative flex-none disabled:opacity-50\"{{#unless secondSelected}} checked{{/unless}}{{#if disabled}} disabled{{/if}}> <span>Email</span></label>\n  <label class=\"inline-flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"notify-tw\" class=\"rg-radio-tw appearance-none m-0 w-[18px] h-[18px] rounded-full border-[1.5px] border-[#24143050] relative flex-none disabled:opacity-50\"{{#if secondSelected}} checked{{/if}}{{#if disabled}} disabled{{/if}}> <span>SMS</span></label>\n  <label class=\"inline-flex items-center gap-2 cursor-pointer\"><input type=\"radio\" name=\"notify-tw\" class=\"rg-radio-tw appearance-none m-0 w-[18px] h-[18px] rounded-full border-[1.5px] border-[#24143050] relative flex-none disabled:opacity-50\"{{#if disabled}} disabled{{/if}}> <span>Phone call</span></label>\n</fieldset>\n<style>\n.rg-tw--vertical { flex-direction: column; }\n.rg-tw--horizontal { flex-direction: row; gap: 18px; }\n.rg-radio-tw:checked { border-color: {{accent}} !important; }\n.rg-radio-tw:checked::after { content: \"\"; position: absolute; inset: 3px; border-radius: 50%; background: {{accent}}; }\n.rg-radio-tw:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, {{accent}} 40%, transparent); }\n</style>",
+    "react": "export function RadioGroup({\n  legend = \"{{legend}}\",\n  secondSelected = {{secondSelected}},\n  orientation = \"{{orientation}}\",\n  accent = \"{{accent}}\",\n  disabled = {{disabled}},\n}) {\n  const dot = (checked) => (\n    <span style={{\n      display: \"inline-block\", width: 18, height: 18, borderRadius: \"50%\",\n      border: `1.5px solid ${checked ? accent : \"#24143050\"}`, position: \"relative\", flex: \"none\",\n    }}>\n      {checked && <span style={{ position: \"absolute\", inset: 3, borderRadius: \"50%\", background: accent }} />}\n    </span>\n  );\n  const opt = { display: \"inline-flex\", alignItems: \"center\", gap: 8, cursor: disabled ? \"not-allowed\" : \"pointer\", opacity: disabled ? 0.5 : 1 };\n  return (\n    <fieldset style={{ border: \"none\", padding: 0, margin: 0, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", display: \"flex\", flexDirection: orientation === \"horizontal\" ? \"row\" : \"column\", gap: orientation === \"horizontal\" ? 18 : 10 }}>\n      <legend style={{ fontWeight: 500, marginBottom: 6, padding: 0, width: \"100%\" }}>{legend}</legend>\n      <label style={opt}>{dot(!secondSelected)}<span>Email</span></label>\n      <label style={opt}>{dot(secondSelected)}<span>SMS</span></label>\n      <label style={opt}>{dot(false)}<span>Phone call</span></label>\n    </fieldset>\n  );\n}"
+  }
+}

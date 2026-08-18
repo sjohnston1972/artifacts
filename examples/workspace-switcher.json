@@ -1,0 +1,45 @@
+{
+  "slug": "workspace-switcher",
+  "controls_schema": [
+    {
+      "id": "workspaceName",
+      "type": "text",
+      "label": "Workspace name",
+      "default": "Design Systems"
+    },
+    {
+      "id": "memberCount",
+      "type": "number",
+      "label": "Member count",
+      "default": 12,
+      "min": 1,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"wssw\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"wssw__trigger\" aria-label=\"Switch workspace\">\n    <span class=\"wssw__mark\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"wssw__id\"><span class=\"wssw__name\">{{workspaceName}}</span><span class=\"wssw__meta\">{{memberCount}} members</span></span>\n    <span class=\"wssw__chevron\" aria-hidden=\"true\">&#9662;</span>\n  </summary>\n  <div class=\"wssw__panel\" role=\"group\" aria-label=\"Workspaces\">\n    <a class=\"wssw__item is-current\" href=\"#\" aria-current=\"true\">{{workspaceName}}</a>\n    <a class=\"wssw__item\" href=\"#\">Marketing Site</a>\n    <button class=\"wssw__add\" type=\"button\">+ New workspace</button>\n  </div>\n</details>\n<style>\n.wssw { position: relative; width: fit-content; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.wssw__trigger { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #FAF7F2; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; cursor: pointer; list-style: none; }\n.wssw__trigger::-webkit-details-marker { display: none; }\n.wssw__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.wssw__mark { width: 26px; height: 26px; border-radius: 8px; flex: none; }\n.wssw__id { display: flex; flex-direction: column; line-height: 1.25; }\n.wssw__name { font-weight: 600; }\n.wssw__meta { font-size: 12px; opacity: .6; }\n.wssw__chevron { opacity: .5; font-size: 11px; }\n.wssw__panel { position: absolute; top: calc(100% + 6px); left: 0; min-width: 210px; background: #fff; border: 1px solid rgba(36,20,48,.12); border-radius: 10px; box-shadow: 0 8px 24px rgba(36,20,48,.14); padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 10; }\n.wssw__item { padding: 8px 10px; border-radius: 8px; text-decoration: none; color: #241430; }\n.wssw__item.is-current { font-weight: 600; }\n.wssw__item:hover, .wssw__item:focus-visible { background: #FAF7F2; outline: none; }\n.wssw__add { text-align: left; padding: 8px 10px; border-radius: 8px; border: none; background: none; font: inherit; color: #241430; opacity: .7; cursor: pointer; }\n.wssw__add:hover, .wssw__add:focus-visible { background: #FAF7F2; opacity: 1; outline: none; }\n</style>",
+    "tailwind": "<details class=\"relative w-fit font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}};\" {{#if open}}open{{/if}}>\n  <summary class=\"wssw-tw__trigger flex items-center gap-2.5 px-3 py-2 bg-[#FAF7F2] border border-[#241430]/10 rounded-xl cursor-pointer list-none\" aria-label=\"Switch workspace\">\n    <span class=\"w-[26px] h-[26px] rounded-lg flex-none\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n    <span class=\"flex flex-col leading-tight\">\n      <span class=\"font-semibold\">{{workspaceName}}</span>\n      <span class=\"text-xs opacity-60\">{{memberCount}} members</span>\n    </span>\n    <span class=\"opacity-50 text-[11px]\" aria-hidden=\"true\">&#9662;</span>\n  </summary>\n  <div class=\"absolute top-1.5 left-0 min-w-[210px] bg-white border border-[#241430]/10 rounded-xl shadow-lg p-1.5 flex flex-col gap-0.5 z-10\" role=\"group\" aria-label=\"Workspaces\">\n    <a class=\"px-2.5 py-2 rounded-lg font-semibold no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\" aria-current=\"true\">{{workspaceName}}</a>\n    <a class=\"px-2.5 py-2 rounded-lg no-underline text-[#241430] hover:bg-[#FAF7F2]\" href=\"#\">Marketing Site</a>\n    <button class=\"text-left px-2.5 py-2 rounded-lg border-0 bg-transparent font-sans text-[#241430]/70 cursor-pointer hover:bg-[#FAF7F2] hover:text-[#241430]\" type=\"button\">+ New workspace</button>\n  </div>\n</details>\n<style>\n.wssw-tw__trigger::-webkit-details-marker { display: none; }\n.wssw-tw__trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "react": "export function WorkspaceSwitcher({\n  workspaceName = \"{{workspaceName}}\",\n  memberCount = {{memberCount}},\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  return (\n    <details open={open} style={{ position: \"relative\", width: \"fit-content\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <summary aria-label=\"Switch workspace\" style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"8px 12px\", background: \"#FAF7F2\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, cursor: \"pointer\", listStyle: \"none\" }}>\n        <span aria-hidden=\"true\" style={{ width: 26, height: 26, borderRadius: 8, background: accent, flex: \"none\" }} />\n        <span style={{ display: \"flex\", flexDirection: \"column\", lineHeight: 1.25 }}>\n          <span style={{ fontWeight: 600 }}>{workspaceName}</span>\n          <span style={{ fontSize: 12, opacity: .6 }}>{memberCount} members</span>\n        </span>\n        <span aria-hidden=\"true\" style={{ opacity: .5, fontSize: 11 }}>&#9662;</span>\n      </summary>\n      <div role=\"group\" aria-label=\"Workspaces\" style={{ position: \"absolute\", top: \"calc(100% + 6px)\", left: 0, minWidth: 210, background: \"#fff\", border: \"1px solid rgba(36,20,48,.12)\", borderRadius: 10, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", padding: 6, display: \"flex\", flexDirection: \"column\", gap: 2 }}>\n        <a href=\"#\" aria-current=\"true\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\", fontWeight: 600 }}>{workspaceName}</a>\n        <a href=\"#\" style={{ padding: \"8px 10px\", borderRadius: 8, textDecoration: \"none\", color: \"#241430\" }}>Marketing Site</a>\n        <button type=\"button\" style={{ textAlign: \"left\", padding: \"8px 10px\", borderRadius: 8, border: \"none\", background: \"none\", font: \"inherit\", color: \"#241430\", opacity: .7, cursor: \"pointer\" }}>+ New workspace</button>\n      </div>\n    </details>\n  );\n}"
+  }
+}

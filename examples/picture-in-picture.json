@@ -1,0 +1,39 @@
+{
+  "slug": "picture-in-picture",
+  "controls_schema": [
+    {
+      "id": "corner",
+      "type": "select",
+      "label": "Docked corner",
+      "default": "bottom-right",
+      "options": ["bottom-right", "bottom-left", "top-right", "top-left"]
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Width",
+      "default": 160,
+      "min": 120,
+      "max": 240,
+      "step": 10
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Chrome colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "closeBtn",
+      "type": "toggle",
+      "label": "Show close button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pip-stage\">\n  <div class=\"pip-stage__page\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 380 220\" width=\"100%\" height=\"100%\"><rect width=\"380\" height=\"220\" fill=\"#FAF7F2\"/><rect x=\"20\" y=\"20\" width=\"180\" height=\"14\" rx=\"7\" fill=\"#24143022\"/><rect x=\"20\" y=\"46\" width=\"260\" height=\"10\" rx=\"5\" fill=\"#24143014\"/><rect x=\"20\" y=\"66\" width=\"220\" height=\"10\" rx=\"5\" fill=\"#24143014\"/></svg>\n  </div>\n  <div class=\"pip pip--{{corner}}\" style=\"width:{{width}}px;border-color:{{accent}};\">\n    <video class=\"pip__video\" muted autoplay loop playsinline aria-label=\"Picture-in-picture video\">\n      <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    </video>\n    {{#if closeBtn}}\n    <button class=\"pip__close\" type=\"button\" aria-label=\"Close picture-in-picture\" style=\"background:{{accent}};\">&times;</button>\n    {{/if}}\n  </div>\n</div>\n<style>\n.pip-stage { position: relative; max-width: 380px; aspect-ratio: 380 / 220; border-radius: 10px; overflow: hidden; border: 1px solid #24143022; }\n.pip-stage__page { position: absolute; inset: 0; }\n.pip { position: absolute; border-radius: 8px; border: 2px solid; overflow: hidden; box-shadow: 0 8px 20px rgba(36,20,48,.28); background: #241430; }\n.pip--bottom-right { right: 10px; bottom: 10px; }\n.pip--bottom-left { left: 10px; bottom: 10px; }\n.pip--top-right { right: 10px; top: 10px; }\n.pip--top-left { left: 10px; top: 10px; }\n.pip__video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #241430; }\n.pip__close { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; border: none; color: #241430; font-size: 13px; line-height: 1; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"pip-stage-tw relative max-w-[380px] rounded-[10px] overflow-hidden border border-[#24143022]\" style=\"aspect-ratio:380/220;\">\n  <div class=\"absolute inset-0\" aria-hidden=\"true\">\n    <svg viewBox=\"0 0 380 220\" width=\"100%\" height=\"100%\"><rect width=\"380\" height=\"220\" fill=\"#FAF7F2\"/><rect x=\"20\" y=\"20\" width=\"180\" height=\"14\" rx=\"7\" fill=\"#24143022\"/><rect x=\"20\" y=\"46\" width=\"260\" height=\"10\" rx=\"5\" fill=\"#24143014\"/><rect x=\"20\" y=\"66\" width=\"220\" height=\"10\" rx=\"5\" fill=\"#24143014\"/></svg>\n  </div>\n  <div class=\"pip-tw pip-tw--{{corner}} absolute rounded-lg border-2 overflow-hidden bg-[#241430]\" style=\"width:{{width}}px;border-color:{{accent}};box-shadow:0 8px 20px rgba(36,20,48,.28);\">\n    <video class=\"block w-full bg-[#241430]\" style=\"aspect-ratio:16/9;\" muted autoplay loop playsinline aria-label=\"Picture-in-picture video\">\n      <!-- Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\"> for playback -->\n    </video>\n    {{#if closeBtn}}\n    <button class=\"absolute top-1 right-1 w-5 h-5 rounded-full border-0 text-[#241430] text-[13px] leading-none cursor-pointer\" type=\"button\" aria-label=\"Close picture-in-picture\" style=\"background:{{accent}};\">&times;</button>\n    {{/if}}\n  </div>\n</div>\n<style>\n.pip-tw--bottom-right { right: 10px; bottom: 10px; }\n.pip-tw--bottom-left { left: 10px; bottom: 10px; }\n.pip-tw--top-right { right: 10px; top: 10px; }\n.pip-tw--top-left { left: 10px; top: 10px; }\n</style>",
+    "react": "export function PictureInPicture({\n  corner = \"{{corner}}\",\n  width = {{width}},\n  accent = \"{{accent}}\",\n  closeBtn = {{closeBtn}},\n}) {\n  const pos = {\n    \"bottom-right\": { right: 10, bottom: 10 },\n    \"bottom-left\": { left: 10, bottom: 10 },\n    \"top-right\": { right: 10, top: 10 },\n    \"top-left\": { left: 10, top: 10 },\n  }[corner] ?? { right: 10, bottom: 10 };\n  return (\n    <div style={{ position: \"relative\", maxWidth: 380, aspectRatio: \"380 / 220\", borderRadius: 10,\n      overflow: \"hidden\", border: \"1px solid #24143022\" }}>\n      <div style={{ position: \"absolute\", inset: 0 }} aria-hidden=\"true\">\n        <svg viewBox=\"0 0 380 220\" width=\"100%\" height=\"100%\">\n          <rect width=\"380\" height=\"220\" fill=\"#FAF7F2\" />\n          <rect x=\"20\" y=\"20\" width=\"180\" height=\"14\" rx=\"7\" fill=\"#24143022\" />\n          <rect x=\"20\" y=\"46\" width=\"260\" height=\"10\" rx=\"5\" fill=\"#24143014\" />\n          <rect x=\"20\" y=\"66\" width=\"220\" height=\"10\" rx=\"5\" fill=\"#24143014\" />\n        </svg>\n      </div>\n      <div style={{ position: \"absolute\", ...pos, width, borderRadius: 8, border: `2px solid ${accent}`,\n        overflow: \"hidden\", boxShadow: \"0 8px 20px rgba(36,20,48,.28)\", background: \"#241430\" }}>\n        <video style={{ display: \"block\", width: \"100%\", aspectRatio: \"16 / 9\", background: \"#241430\" }}\n          muted autoPlay loop playsInline aria-label=\"Picture-in-picture video\">\n          {/* Provide a real <source src=\"your-video.mp4\" type=\"video/mp4\" /> for playback */}\n        </video>\n        {closeBtn && (\n          <button type=\"button\" aria-label=\"Close picture-in-picture\"\n            style={{ position: \"absolute\", top: 4, right: 4, width: 20, height: 20, borderRadius: \"50%\",\n              border: \"none\", color: \"#241430\", fontSize: 13, lineHeight: 1, cursor: \"pointer\", background: accent }}>\n            &times;\n          </button>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

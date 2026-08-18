@@ -1,0 +1,47 @@
+{
+  "slug": "tab",
+  "controls_schema": [
+    {
+      "id": "selectedLabel",
+      "type": "text",
+      "label": "Selected tab label",
+      "default": "Overview"
+    },
+    {
+      "id": "disabledLabel",
+      "type": "text",
+      "label": "Disabled tab label",
+      "default": "Archived"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "md",
+      "options": [
+        "sm",
+        "md",
+        "lg"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tabatom-wrap\">\n  <div class=\"tabatom tabatom--{{size}}\" role=\"tablist\" aria-label=\"Sections\" style=\"--accent:{{accent}};\">\n    <button id=\"tabatom-1\" class=\"tabatom__tab is-selected\" role=\"tab\" aria-selected=\"true\" aria-controls=\"tabatom-panel-1\" type=\"button\">{{selectedLabel}}</button>\n    <button id=\"tabatom-2\" class=\"tabatom__tab\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabatom-panel-2\" tabindex=\"-1\" type=\"button\">Updates</button>\n    <button id=\"tabatom-3\" class=\"tabatom__tab\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabatom-panel-3\" tabindex=\"-1\" disabled type=\"button\">{{disabledLabel}}</button>\n  </div>\n  <div id=\"tabatom-panel-1\" class=\"tabatom__panel\" role=\"tabpanel\" aria-labelledby=\"tabatom-1\">{{selectedLabel}} content goes here.</div>\n</div>\n<style>\n.tabatom-wrap { font: 14px system-ui, sans-serif; color: #241430; width: fit-content; }\n.tabatom { display: flex; gap: 2px; background: #FAF7F2; padding: 4px; border-radius: 10px; }\n.tabatom__tab { border: none; background: none; font: 500 14px system-ui, sans-serif; color: #241430; padding: 8px 14px; border-radius: 8px; opacity: .6; cursor: pointer; }\n.tabatom__tab.is-selected { opacity: 1; background: #fff; box-shadow: 0 1px 2px rgba(36,20,48,.12); }\n.tabatom__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.tabatom__tab:disabled { opacity: .3; cursor: not-allowed; }\n.tabatom--sm .tabatom__tab { padding: 5px 10px; font-size: 12px; }\n.tabatom--lg .tabatom__tab { padding: 11px 18px; font-size: 16px; }\n.tabatom__panel { margin-top: 10px; padding: 12px 14px; border-radius: 10px; background: #fff; border: 1px solid rgba(36,20,48,.1); font-size: 13px; opacity: .75; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-sm text-[#241430] w-fit\">\n  <div id=\"tabatom-tw-1\" class=\"tabatom-tw tabatom-tw--{{size}} flex gap-0.5 bg-[#FAF7F2] p-1 rounded-xl\" role=\"tablist\" aria-label=\"Sections\" style=\"--accent:{{accent}};\">\n    <button class=\"tabatom-tw__tab tabatom-tw__tab--selected border-0 bg-white shadow-sm font-medium text-[#241430] px-3.5 py-2 rounded-lg cursor-pointer\" role=\"tab\" aria-selected=\"true\" aria-controls=\"tabatom-tw-panel-1\" type=\"button\">{{selectedLabel}}</button>\n    <button class=\"tabatom-tw__tab border-0 bg-transparent font-medium text-[#241430]/60 px-3.5 py-2 rounded-lg cursor-pointer\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabatom-tw-panel-2\" tabindex=\"-1\" type=\"button\">Updates</button>\n    <button class=\"tabatom-tw__tab border-0 bg-transparent font-medium text-[#241430]/30 px-3.5 py-2 rounded-lg cursor-not-allowed\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabatom-tw-panel-3\" tabindex=\"-1\" disabled type=\"button\">{{disabledLabel}}</button>\n  </div>\n  <div id=\"tabatom-tw-panel-1\" class=\"mt-2.5 px-3.5 py-3 rounded-xl bg-white border border-[#241430]/10 text-[13px] opacity-75\" role=\"tabpanel\" aria-labelledby=\"tabatom-tw-1\">{{selectedLabel}} content goes here.</div>\n</div>\n<style>\n.tabatom-tw__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.tabatom-tw--sm .tabatom-tw__tab { padding: 5px 10px; font-size: 12px; }\n.tabatom-tw--lg .tabatom-tw__tab { padding: 11px 18px; font-size: 16px; }\n</style>",
+    "react": "export function Tab({\n  selectedLabel = \"{{selectedLabel}}\",\n  disabledLabel = \"{{disabledLabel}}\",\n  accent = \"{{accent}}\",\n  size = \"{{size}}\",\n}) {\n  const pad = { sm: \"5px 10px\", md: \"8px 14px\", lg: \"11px 18px\" }[size] ?? \"8px 14px\";\n  const fontSize = { sm: 12, md: 14, lg: 16 }[size] ?? 14;\n  const base = { border: \"none\", background: \"none\", fontFamily: \"system-ui, sans-serif\", fontWeight: 500, fontSize, color: \"#241430\", padding: pad, borderRadius: 8, cursor: \"pointer\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", width: \"fit-content\" }}>\n      <div role=\"tablist\" aria-label=\"Sections\" style={{ display: \"flex\", gap: 2, background: \"#FAF7F2\", padding: 4, borderRadius: 10 }}>\n        <button id=\"tab-1\" role=\"tab\" aria-selected=\"true\" aria-controls=\"tab-panel-1\" type=\"button\" style={{ ...base, opacity: 1, background: \"#fff\", boxShadow: \"0 1px 2px rgba(36,20,48,.12)\" }}>{selectedLabel}</button>\n        <button id=\"tab-2\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tab-panel-2\" tabIndex={-1} type=\"button\" style={{ ...base, opacity: .6 }}>Updates</button>\n        <button id=\"tab-3\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tab-panel-3\" tabIndex={-1} disabled type=\"button\" style={{ ...base, opacity: .3, cursor: \"not-allowed\" }}>{disabledLabel}</button>\n      </div>\n      <div id=\"tab-panel-1\" role=\"tabpanel\" aria-labelledby=\"tab-1\" style={{ marginTop: 10, padding: \"12px 14px\", borderRadius: 10, background: \"#fff\", border: \"1px solid rgba(36,20,48,.1)\", fontSize: 13, opacity: .75 }}>{selectedLabel} content goes here.</div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "slug": "search-scope",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Search in"
+    },
+    {
+      "id": "scope",
+      "type": "select",
+      "label": "Scope",
+      "default": "everywhere",
+      "options": [
+        "everywhere",
+        "project",
+        "mine"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sscope\" style=\"--accent:{{accent}};\">\n  <label class=\"sscope__label\" for=\"sscope-select\">{{label}}</label>\n  <select id=\"sscope-select\" class=\"sscope__select\" style=\"border-radius:{{radius}}px;\">\n    <option value=\"everywhere\">Everywhere</option>\n    <option value=\"project\">This project</option>\n    <option value=\"mine\">My items</option>\n  </select>\n  <p class=\"sscope__hint\">Scope: <b>{{scope}}</b> — currently searching {{scope}}.</p>\n</div>\n<style>\n.sscope { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 260px; }\n.sscope__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.sscope__select { width: 100%; box-sizing: border-box; padding: 9px 11px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143026; appearance: none; }\n.sscope__select:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.sscope__hint { margin: 6px 0 0; font-size: 12px; color: #24143090; }\n</style>",
+    "tailwind": "<div class=\"block font-sans text-sm text-[#241430] max-w-[260px]\">\n  <label for=\"sscope-select-tw\" class=\"block mb-1.5 font-medium\">{{label}}</label>\n  <select id=\"sscope-select-tw\" class=\"w-full box-border px-2.5 py-2 bg-[#FAF7F2] border-[1.5px] border-[#24143026] appearance-none focus-visible:outline-none focus-visible:border-[color:var(--tw-accent)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--tw-accent)_35%,transparent)]\" style=\"border-radius:{{radius}}px;--tw-accent:{{accent}};\">\n    <option value=\"everywhere\">Everywhere</option>\n    <option value=\"project\">This project</option>\n    <option value=\"mine\">My items</option>\n  </select>\n  <p class=\"mt-1.5 text-xs text-[#24143090]\">Scope: <b>{{scope}}</b> — currently searching {{scope}}.</p>\n</div>",
+    "react": "export function SearchScope({\n  label = \"{{label}}\",\n  scope = \"{{scope}}\",\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const hint = {\n    everywhere: \"Everywhere — results span the whole workspace.\",\n    project: \"This project — results are limited to the current project.\",\n    mine: \"My items — results are limited to things you own.\",\n  }[scope] ?? scope;\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 260 }}>\n      <label htmlFor=\"sscope-select\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <select id=\"sscope-select\" defaultValue={scope} style={{\n        width: \"100%\", boxSizing: \"border-box\", padding: \"9px 11px\", font: \"inherit\", color: \"#241430\",\n        background: \"#FAF7F2\", border: \"1.5px solid #24143026\", borderRadius: radius, appearance: \"none\",\n      }}>\n        <option value=\"everywhere\">Everywhere</option>\n        <option value=\"project\">This project</option>\n        <option value=\"mine\">My items</option>\n      </select>\n      <p style={{ margin: \"6px 0 0\", fontSize: 12, color: \"#24143090\" }}>{hint}</p>\n    </div>\n  );\n}"
+  }
+}

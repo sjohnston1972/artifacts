@@ -1,0 +1,67 @@
+{
+  "slug": "data-grid",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Caption",
+      "default": "Recent orders"
+    },
+    {
+      "id": "sort",
+      "type": "select",
+      "label": "Date sort",
+      "default": "ascending",
+      "options": [
+        "ascending",
+        "descending",
+        "none"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        "comfortable",
+        "compact"
+      ]
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "loaded",
+      "options": [
+        "loaded",
+        "empty"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "stripes",
+      "type": "toggle",
+      "label": "Zebra stripes",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"grid-demo\" data-state=\"{{state}}\" style=\"--accent:{{accent}};\">\n  <table class=\"grid-table grid-table--{{density}}{{#if stripes}} grid-table--stripes{{/if}}\">\n    <caption>{{title}}</caption>\n    <thead>\n      <tr>\n        <th scope=\"col\">Order</th>\n        <th scope=\"col\">Customer</th>\n        <th scope=\"col\" aria-sort=\"{{sort}}\">Date<span class=\"grid-table__sort-ind\" aria-hidden=\"true\"></span></th>\n        <th scope=\"col\">Amount</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <th scope=\"row\">#1042</th>\n        <td>Priya Nair</td>\n        <td><time datetime=\"2026-08-12T09:30:00Z\">12 Aug, 9:30am</time></td>\n        <td>£128.00</td>\n      </tr>\n      <tr>\n        <th scope=\"row\">#1041</th>\n        <td>Owen Clarke</td>\n        <td><time datetime=\"2026-08-11T14:05:00Z\">11 Aug, 2:05pm</time></td>\n        <td>£64.50</td>\n      </tr>\n      <tr>\n        <th scope=\"row\">#1040</th>\n        <td>Maya Singh</td>\n        <td><time datetime=\"2026-08-10T17:45:00Z\">10 Aug, 5:45pm</time></td>\n        <td>£212.10</td>\n      </tr>\n      <tr>\n        <th scope=\"row\">#1039</th>\n        <td>Leo Ferrante</td>\n        <td><time datetime=\"2026-08-09T08:15:00Z\">9 Aug, 8:15am</time></td>\n        <td>£45.00</td>\n      </tr>\n    </tbody>\n  </table>\n  <div class=\"grid-empty\">\n    <svg viewBox=\"0 0 48 48\" width=\"40\" height=\"40\" aria-hidden=\"true\">\n      <rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"3\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n      <path d=\"M6 18h36\" stroke=\"#241430\" stroke-width=\"2\"/>\n      <path d=\"M16 27l6 6 10-12\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\".35\"/>\n    </svg>\n    <p class=\"grid-empty__title\">Nothing here yet</p>\n    <p class=\"grid-empty__sub\">New orders will appear in this table as they come in.</p>\n  </div>\n</div>\n<style>\n.grid-demo { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143022; border-radius: 12px; padding: 4px; box-sizing: border-box; }\n.grid-table { width: 100%; border-collapse: collapse; }\n.grid-table caption { text-align: left; font-size: 15px; font-weight: 600; padding: 10px 12px 6px; }\n.grid-table th, .grid-table td { text-align: left; border-bottom: 1px solid #24143018; }\n.grid-table--comfortable th, .grid-table--comfortable td { padding: 10px 12px; }\n.grid-table--compact th, .grid-table--compact td { padding: 4px 12px; font-size: 13px; }\n.grid-table thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #24143099; }\n.grid-table th[aria-sort=\"ascending\"], .grid-table th[aria-sort=\"descending\"] { color: var(--accent); }\n.grid-table__sort-ind::after { margin-left: 4px; font-size: 10px; }\n.grid-table th[aria-sort=\"ascending\"] .grid-table__sort-ind::after { content: \"▲\"; }\n.grid-table th[aria-sort=\"descending\"] .grid-table__sort-ind::after { content: \"▼\"; }\n.grid-table--stripes tbody tr:nth-child(even) { background: #BFD9F218; }\n.grid-empty { display: none; padding: 32px 12px; text-align: center; }\n.grid-empty__title { margin: 10px 0 4px; font-weight: 600; }\n.grid-empty__sub { margin: 0; font-size: 13px; color: #241430aa; }\n.grid-demo[data-state=\"empty\"] .grid-table { display: none; }\n.grid-demo[data-state=\"empty\"] .grid-empty { display: block; }\n</style>",
+    "tailwind": "<div class=\"grid-tw-demo font-sans text-sm text-[#241430] bg-[#FAF7F2] border border-[#24143022] rounded-xl p-1 box-border\" data-state=\"{{state}}\" style=\"--accent:{{accent}};\">\n  <table class=\"grid-tw-table grid-tw-table--{{density}}{{#if stripes}} grid-tw-table--stripes{{/if}} w-full border-collapse\">\n    <caption class=\"text-left text-[15px] font-semibold px-3 pt-2.5 pb-1.5\">{{title}}</caption>\n    <thead>\n      <tr>\n        <th scope=\"col\" class=\"text-left text-[11px] uppercase tracking-wide text-[#241430]/60 border-b border-[#24143018]\">Order</th>\n        <th scope=\"col\" class=\"text-left text-[11px] uppercase tracking-wide text-[#241430]/60 border-b border-[#24143018]\">Customer</th>\n        <th scope=\"col\" aria-sort=\"{{sort}}\" class=\"grid-tw-table__sort text-left text-[11px] uppercase tracking-wide border-b border-[#24143018]\">Date<span class=\"grid-tw-table__sort-ind\" aria-hidden=\"true\"></span></th>\n        <th scope=\"col\" class=\"text-left text-[11px] uppercase tracking-wide text-[#241430]/60 border-b border-[#24143018]\">Amount</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <th scope=\"row\" class=\"text-left font-medium border-b border-[#24143018]\">#1042</th>\n        <td class=\"border-b border-[#24143018]\">Priya Nair</td>\n        <td class=\"border-b border-[#24143018]\"><time datetime=\"2026-08-12T09:30:00Z\">12 Aug, 9:30am</time></td>\n        <td class=\"border-b border-[#24143018]\">£128.00</td>\n      </tr>\n      <tr>\n        <th scope=\"row\" class=\"text-left font-medium border-b border-[#24143018]\">#1041</th>\n        <td class=\"border-b border-[#24143018]\">Owen Clarke</td>\n        <td class=\"border-b border-[#24143018]\"><time datetime=\"2026-08-11T14:05:00Z\">11 Aug, 2:05pm</time></td>\n        <td class=\"border-b border-[#24143018]\">£64.50</td>\n      </tr>\n      <tr>\n        <th scope=\"row\" class=\"text-left font-medium border-b border-[#24143018]\">#1040</th>\n        <td class=\"border-b border-[#24143018]\">Maya Singh</td>\n        <td class=\"border-b border-[#24143018]\"><time datetime=\"2026-08-10T17:45:00Z\">10 Aug, 5:45pm</time></td>\n        <td class=\"border-b border-[#24143018]\">£212.10</td>\n      </tr>\n      <tr>\n        <th scope=\"row\" class=\"text-left font-medium\">#1039</th>\n        <td>Leo Ferrante</td>\n        <td><time datetime=\"2026-08-09T08:15:00Z\">9 Aug, 8:15am</time></td>\n        <td>£45.00</td>\n      </tr>\n    </tbody>\n  </table>\n  <div class=\"grid-tw-empty text-center px-3 py-8\">\n    <svg viewBox=\"0 0 48 48\" width=\"40\" height=\"40\" aria-hidden=\"true\">\n      <rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"3\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\"/>\n      <path d=\"M6 18h36\" stroke=\"#241430\" stroke-width=\"2\"/>\n      <path d=\"M16 27l6 6 10-12\" fill=\"none\" stroke=\"#241430\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\".35\"/>\n    </svg>\n    <p class=\"mt-2.5 mb-1 font-semibold\">Nothing here yet</p>\n    <p class=\"m-0 text-[13px] text-[#241430]/65\">New orders will appear in this table as they come in.</p>\n  </div>\n</div>\n<style>\n.grid-tw-table--comfortable th, .grid-tw-table--comfortable td { padding: 10px 12px; }\n.grid-tw-table--compact th, .grid-tw-table--compact td { padding: 4px 12px; font-size: 13px; }\n.grid-tw-table--stripes tbody tr:nth-child(even) { background: #BFD9F218; }\n.grid-tw-table__sort[aria-sort=\"ascending\"], .grid-tw-table__sort[aria-sort=\"descending\"] { color: var(--accent); }\n.grid-tw-table__sort-ind::after { margin-left: 4px; font-size: 10px; }\n.grid-tw-table__sort[aria-sort=\"ascending\"] .grid-tw-table__sort-ind::after { content: \"▲\"; }\n.grid-tw-table__sort[aria-sort=\"descending\"] .grid-tw-table__sort-ind::after { content: \"▼\"; }\n.grid-tw-empty { display: none; }\n.grid-tw-demo[data-state=\"empty\"] .grid-tw-table { display: none; }\n.grid-tw-demo[data-state=\"empty\"] .grid-tw-empty { display: block; }\n</style>",
+    "react": "export function DataGrid({\n  title = \"{{title}}\",\n  sort = \"{{sort}}\",\n  density = \"{{density}}\",\n  state = \"{{state}}\",\n  accent = \"{{accent}}\",\n  stripes = {{stripes}},\n}) {\n  const rows = [\n    { id: \"#1042\", customer: \"Priya Nair\", iso: \"2026-08-12T09:30:00Z\", date: \"12 Aug, 9:30am\", amount: \"£128.00\" },\n    { id: \"#1041\", customer: \"Owen Clarke\", iso: \"2026-08-11T14:05:00Z\", date: \"11 Aug, 2:05pm\", amount: \"£64.50\" },\n    { id: \"#1040\", customer: \"Maya Singh\", iso: \"2026-08-10T17:45:00Z\", date: \"10 Aug, 5:45pm\", amount: \"£212.10\" },\n    { id: \"#1039\", customer: \"Leo Ferrante\", iso: \"2026-08-09T08:15:00Z\", date: \"9 Aug, 8:15am\", amount: \"£45.00\" },\n  ];\n  const pad = density === \"compact\" ? \"4px 12px\" : \"10px 12px\";\n  const cellStyle = { textAlign: \"left\", borderBottom: \"1px solid #24143018\", padding: pad };\n  if (state === \"empty\") {\n    return (\n      <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderRadius: 12, padding: \"32px 12px\", textAlign: \"center\", boxSizing: \"border-box\" }}>\n        <p style={{ margin: \"10px 0 4px\", fontWeight: 600 }}>Nothing here yet</p>\n        <p style={{ margin: 0, fontSize: 13, color: \"#241430aa\" }}>New orders will appear in this table as they come in.</p>\n      </div>\n    );\n  }\n  const arrow = sort === \"ascending\" ? \"▲\" : sort === \"descending\" ? \"▼\" : \"\";\n  const dimColor = \"#24143099\";\n  return (\n    <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143022\", borderRadius: 12, padding: 4, boxSizing: \"border-box\" }}>\n      <table style={{ width: \"100%\", borderCollapse: \"collapse\" }}>\n        <caption style={{ textAlign: \"left\", fontSize: 15, fontWeight: 600, padding: \"10px 12px 6px\" }}>{title}</caption>\n        <thead>\n          <tr>\n            <th scope=\"col\" style={{ ...cellStyle, fontSize: 12, textTransform: \"uppercase\", color: dimColor }}>Order</th>\n            <th scope=\"col\" style={{ ...cellStyle, fontSize: 12, textTransform: \"uppercase\", color: dimColor }}>Customer</th>\n            <th scope=\"col\" aria-sort={sort} style={{ ...cellStyle, fontSize: 12, textTransform: \"uppercase\", color: arrow ? accent : dimColor }}>Date {arrow}</th>\n            <th scope=\"col\" style={{ ...cellStyle, fontSize: 12, textTransform: \"uppercase\", color: dimColor }}>Amount</th>\n          </tr>\n        </thead>\n        <tbody>\n          {rows.map((r, i) => (\n            <tr key={r.id} style={{ background: stripes && i % 2 === 1 ? \"#BFD9F218\" : \"transparent\" }}>\n              <th scope=\"row\" style={cellStyle}>{r.id}</th>\n              <td style={cellStyle}>{r.customer}</td>\n              <td style={cellStyle}><time dateTime={r.iso}>{r.date}</time></td>\n              <td style={cellStyle}>{r.amount}</td>\n            </tr>\n          ))}\n        </tbody>\n      </table>\n    </div>\n  );\n}"
+  }
+}

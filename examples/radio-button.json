@@ -1,0 +1,42 @@
+{
+  "slug": "radio-button",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Legend",
+      "default": "Delivery speed"
+    },
+    {
+      "id": "selected",
+      "type": "toggle",
+      "label": "Second option selected",
+      "default": false
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "md",
+      "options": ["sm", "md", "lg"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"radio-fs radio-fs--{{size}}\" style=\"--accent:{{accent}};\">\n  <legend>{{label}}</legend>\n  <label class=\"radio-opt\">\n    <input type=\"radio\" name=\"speed\" id=\"speed-standard\"{{#unless selected}} checked{{/unless}}{{#if disabled}} disabled{{/if}}>\n    <span>Standard</span>\n  </label>\n  <label class=\"radio-opt\">\n    <input type=\"radio\" name=\"speed\" id=\"speed-express\"{{#if selected}} checked{{/if}}{{#if disabled}} disabled{{/if}}>\n    <span>Express</span>\n  </label>\n</fieldset>\n<style>\n.radio-fs { border: none; padding: 0; margin: 0; font: 14px system-ui, sans-serif; color: #241430; display: flex; flex-direction: column; gap: 8px; }\n.radio-fs legend { font-weight: 500; margin-bottom: 4px; padding: 0; }\n.radio-opt { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }\n.radio-opt input { appearance: none; margin: 0; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #24143050; position: relative; flex: none; }\n.radio-fs--sm .radio-opt input { width: 15px; height: 15px; }\n.radio-fs--lg .radio-opt input { width: 22px; height: 22px; }\n.radio-opt input:checked { border-color: var(--accent); }\n.radio-opt input:checked::after { content: \"\"; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); }\n.radio-opt input:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent); }\n.radio-opt input:disabled { opacity: .5; cursor: not-allowed; }\n</style>",
+    "tailwind": "<fieldset class=\"radio-fs-tw radio-fs-tw--{{size}} border-0 p-0 m-0 font-sans text-sm text-[#241430] flex flex-col gap-2\" style=\"--accent:{{accent}};\">\n  <legend class=\"font-medium mb-1 p-0\">{{label}}</legend>\n  <label class=\"inline-flex items-center gap-2 cursor-pointer\">\n    <input type=\"radio\" name=\"speed-tw\" class=\"radio-tw appearance-none m-0 w-[18px] h-[18px] rounded-full border-[1.5px] border-[#24143050] relative flex-none disabled:opacity-50 disabled:cursor-not-allowed\"{{#unless selected}} checked{{/unless}}{{#if disabled}} disabled{{/if}}>\n    <span>Standard</span>\n  </label>\n  <label class=\"inline-flex items-center gap-2 cursor-pointer\">\n    <input type=\"radio\" name=\"speed-tw\" class=\"radio-tw appearance-none m-0 w-[18px] h-[18px] rounded-full border-[1.5px] border-[#24143050] relative flex-none disabled:opacity-50 disabled:cursor-not-allowed\"{{#if selected}} checked{{/if}}{{#if disabled}} disabled{{/if}}>\n    <span>Express</span>\n  </label>\n</fieldset>\n<style>\n.radio-fs-tw--sm .radio-tw { width: 15px !important; height: 15px !important; }\n.radio-fs-tw--lg .radio-tw { width: 22px !important; height: 22px !important; }\n.radio-tw:checked { border-color: {{accent}} !important; }\n.radio-tw:checked::after { content: \"\"; position: absolute; inset: 3px; border-radius: 50%; background: {{accent}}; }\n.radio-tw:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, {{accent}} 40%, transparent); }\n</style>",
+    "react": "export function RadioButton({\n  label = \"{{label}}\",\n  selected = {{selected}},\n  size = \"{{size}}\",\n  accent = \"{{accent}}\",\n  disabled = {{disabled}},\n}) {\n  const dim = { sm: 15, md: 18, lg: 22 }[size] ?? 18;\n  const dot = (checked) => (\n    <span style={{\n      appearance: \"none\", display: \"inline-block\", width: dim, height: dim, borderRadius: \"50%\",\n      border: `1.5px solid ${checked ? accent : \"#24143050\"}`, position: \"relative\", flex: \"none\",\n      opacity: disabled ? 0.5 : 1,\n    }}>\n      {checked && <span style={{ position: \"absolute\", inset: 3, borderRadius: \"50%\", background: accent }} />}\n    </span>\n  );\n  return (\n    <fieldset style={{ border: \"none\", padding: 0, margin: 0, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n      <legend style={{ fontWeight: 500, marginBottom: 4, padding: 0 }}>{label}</legend>\n      <label style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, cursor: disabled ? \"not-allowed\" : \"pointer\" }}>\n        {dot(!selected)}\n        <span>Standard</span>\n      </label>\n      <label style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, cursor: disabled ? \"not-allowed\" : \"pointer\" }}>\n        {dot(selected)}\n        <span>Express</span>\n      </label>\n    </fieldset>\n  );\n}"
+  }
+}

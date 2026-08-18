@@ -1,0 +1,47 @@
+{
+  "slug": "human-in-the-loop",
+  "controls_schema": [
+    {
+      "id": "stepLabel",
+      "type": "text",
+      "label": "Step label",
+      "default": "Publish blog post"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "waiting",
+      "options": [
+        "waiting",
+        "reviewed",
+        "skipped"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showNote",
+      "type": "toggle",
+      "label": "Show note",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"hitl-step hitl-step--{{status}}\" style=\"--accent:{{accent}};\" {{#if isWaiting}}role=\"status\" aria-live=\"polite\"{{/if}}>\n  <div class=\"hitl-step__row\">\n    <span class=\"hitl-step__marker\" aria-hidden=\"true\"></span>\n    <span class=\"hitl-step__label\">{{stepLabel}}</span>\n    <span class=\"hitl-step__badge\">{{status}}</span>\n  </div>\n  {{#if showNote}}\n  <p class=\"hitl-step__note\">A person must review this step before the workflow continues.</p>\n  {{/if}}\n</div>\n<style>\n.hitl-step { max-width: 420px; padding: 14px 16px; border-radius: 12px; background: #FAF7F2; color: #241430; border: 1px solid #24143020; box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; }\n.hitl-step__row { display: flex; align-items: center; gap: 10px; }\n.hitl-step__marker { width: 10px; height: 10px; border-radius: 50%; flex: none; background: #24143030; }\n.hitl-step--waiting .hitl-step__marker { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }\n.hitl-step--reviewed .hitl-step__marker { background: #2f8f5b; }\n.hitl-step--skipped .hitl-step__marker { background: #24143030; }\n.hitl-step__label { flex: 1; font-weight: 600; }\n.hitl-step__badge { font-size: 11px; font-weight: 700; text-transform: capitalize; padding: 3px 9px; border-radius: 999px; background: #24143012; }\n.hitl-step--waiting .hitl-step__badge { color: #241430; background: color-mix(in srgb, var(--accent) 40%, #FAF7F2); }\n.hitl-step--reviewed .hitl-step__badge { color: #1c5c3a; background: #A8E6C140; }\n.hitl-step--skipped .hitl-step__badge { color: #24143080; text-decoration: line-through; }\n.hitl-step__note { margin: 10px 0 0; font-size: 13px; color: #24143099; padding-left: 20px; }\n</style>",
+    "tailwind": "<div class=\"hitl-tw hitl-tw--{{status}} max-w-md p-3.5 rounded-xl bg-[#FAF7F2] text-[#241430] border border-[#24143020] box-border font-sans text-[15px]\" style=\"--accent:{{accent}};\" {{#if isWaiting}}role=\"status\" aria-live=\"polite\"{{/if}}>\n  <div class=\"flex items-center gap-2.5\">\n    <span class=\"hitl-tw__marker w-2.5 h-2.5 rounded-full flex-none\" aria-hidden=\"true\"></span>\n    <span class=\"flex-1 font-semibold\">{{stepLabel}}</span>\n    <span class=\"hitl-tw__badge text-[11px] font-bold capitalize px-2.5 py-0.5 rounded-full\">{{status}}</span>\n  </div>\n  {{#if showNote}}\n  <p class=\"mt-2.5 mb-0 text-[13px] text-[#24143099] pl-5\">A person must review this step before the workflow continues.</p>\n  {{/if}}\n</div>\n<style>\n.hitl-tw__marker { background: #24143030; }\n.hitl-tw--waiting .hitl-tw__marker { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }\n.hitl-tw--reviewed .hitl-tw__marker { background: #2f8f5b; }\n.hitl-tw--skipped .hitl-tw__marker { background: #24143030; }\n.hitl-tw__badge { background: #24143012; }\n.hitl-tw--waiting .hitl-tw__badge { color: #241430; background: color-mix(in srgb, var(--accent) 40%, #FAF7F2); }\n.hitl-tw--reviewed .hitl-tw__badge { color: #1c5c3a; background: #A8E6C140; }\n.hitl-tw--skipped .hitl-tw__badge { color: #24143080; text-decoration: line-through; }\n</style>",
+    "react": "export function HumanInTheLoop({\n  stepLabel = \"{{stepLabel}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n  showNote = {{showNote}},\n}) {\n  const isWaiting = status === \"waiting\";\n  const marker = { waiting: accent, reviewed: \"#2f8f5b\", skipped: \"#24143030\" }[status] ?? \"#24143030\";\n  const badge = {\n    waiting: { color: \"#241430\", background: `color-mix(in srgb, ${accent} 40%, #FAF7F2)` },\n    reviewed: { color: \"#1c5c3a\", background: \"#A8E6C140\" },\n    skipped: { color: \"#24143080\", background: \"#24143012\", textDecoration: \"line-through\" },\n  }[status] ?? { color: \"#241430\", background: \"#24143012\" };\n  const liveProps = isWaiting ? { role: \"status\", \"aria-live\": \"polite\" } : {};\n  return (\n    <div {...liveProps} style={{ maxWidth: 420, padding: \"14px 16px\", borderRadius: 12, background: \"#FAF7F2\", color: \"#241430\", border: \"1px solid #24143020\", boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span aria-hidden=\"true\" style={{ width: 10, height: 10, borderRadius: \"50%\", flex: \"none\", background: marker, boxShadow: isWaiting ? `0 0 0 4px color-mix(in srgb, ${accent} 30%, transparent)` : \"none\" }} />\n        <span style={{ flex: 1, fontWeight: 600 }}>{stepLabel}</span>\n        <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"capitalize\", padding: \"3px 9px\", borderRadius: 999, ...badge }}>{status}</span>\n      </div>\n      {showNote && (\n        <p style={{ margin: \"10px 0 0\", fontSize: 13, color: \"#24143099\", paddingLeft: 20 }}>A person must review this step before the workflow continues.</p>\n      )}\n    </div>\n  );\n}"
+  }
+}

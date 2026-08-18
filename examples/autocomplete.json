@@ -1,0 +1,57 @@
+{
+  "slug": "autocomplete",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "City"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Start typing a city…"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Typed query",
+      "default": "San"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Suggestions open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ac\" style=\"--accent:{{accent}};\">\n  <label class=\"ac__label\" for=\"ac-input\">{{label}}</label>\n  <div class=\"ac__combo{{#if open}} ac__combo--open{{/if}}\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ac-listbox\" aria-expanded=\"{{open}}\">\n    <input id=\"ac-input\" class=\"ac__input\" type=\"text\" role=\"textbox\" aria-autocomplete=\"list\" aria-controls=\"ac-listbox\" aria-activedescendant=\"ac-opt-1\" placeholder=\"{{placeholder}}\" value=\"{{query}}\" autocomplete=\"off\" style=\"border-radius:{{radius}}px;\">\n    <ul id=\"ac-listbox\" class=\"ac__listbox\" role=\"listbox\" aria-label=\"{{label}} suggestions\">\n      <li id=\"ac-opt-1\" class=\"ac__option ac__option--active\" role=\"option\" aria-selected=\"true\">{{query}} Francisco</li>\n      <li id=\"ac-opt-2\" class=\"ac__option\" role=\"option\" aria-selected=\"false\">{{query}} Antonio</li>\n      <li id=\"ac-opt-3\" class=\"ac__option\" role=\"option\" aria-selected=\"false\">{{query}} Diego</li>\n    </ul>\n  </div>\n</div>\n<style>\n.ac { display: block; font: 14px system-ui, sans-serif; color: #241430; max-width: 300px; }\n.ac__label { display: block; margin-bottom: 6px; font-weight: 500; }\n.ac__combo { position: relative; }\n.ac__input { width: 100%; box-sizing: border-box; padding: 10px 12px; font: inherit; color: #241430; background: #FAF7F2; border: 1.5px solid #24143040; }\n.ac__input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }\n.ac__listbox { list-style: none; margin: 4px 0 0; padding: 4px; border: 1.5px solid #24143020; background: #FAF7F2; box-shadow: 0 8px 20px #24143022; display: none; max-height: 180px; overflow: auto; }\n.ac__combo--open .ac__listbox { display: block; }\n.ac__option { padding: 8px 10px; border-radius: 6px; cursor: pointer; }\n.ac__option:hover, .ac__option--active { background: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"max-w-[300px] font-sans text-sm text-[#241430]\">\n  <label class=\"block mb-1.5 font-medium\" for=\"ac-input-tw\">{{label}}</label>\n  <div class=\"relative\" role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ac-listbox-tw\" aria-expanded=\"{{open}}\">\n    <input id=\"ac-input-tw\" type=\"text\" role=\"textbox\" aria-autocomplete=\"list\" aria-controls=\"ac-listbox-tw\" aria-activedescendant=\"ac-opt-tw-1\" placeholder=\"{{placeholder}}\" value=\"{{query}}\" autocomplete=\"off\"\n      class=\"w-full box-border px-3 py-2.5 text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143040] focus-visible:outline-none\"\n      style=\"border-radius:{{radius}}px;\">\n    <ul id=\"ac-listbox-tw\" role=\"listbox\" aria-label=\"{{label}} suggestions\"\n      class=\"ac-tw-list{{#if open}} block{{/if}}{{#unless open}} hidden{{/unless}} list-none m-0 mt-1 p-1 border-[1.5px] border-[#24143020] bg-[#FAF7F2] shadow-lg max-h-[180px] overflow-auto\">\n      <li id=\"ac-opt-tw-1\" role=\"option\" aria-selected=\"true\" class=\"px-2.5 py-2 rounded-md cursor-pointer\" style=\"background:{{accent}};\">{{query}} Francisco</li>\n      <li id=\"ac-opt-tw-2\" role=\"option\" aria-selected=\"false\" class=\"px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\">{{query}} Antonio</li>\n      <li id=\"ac-opt-tw-3\" role=\"option\" aria-selected=\"false\" class=\"px-2.5 py-2 rounded-md cursor-pointer hover:bg-[#24143014]\">{{query}} Diego</li>\n    </ul>\n  </div>\n</div>\n<style>\n.ac-tw-list:focus-within { outline: none; }\ninput:focus-visible { border-color: var(--tw-accent, #24143040); }\n</style>",
+    "react": "export function Autocomplete({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  query = \"{{query}}\",\n  open = {{open}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ display: \"block\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", maxWidth: 300 }}>\n      <label htmlFor=\"ac-input-r\" style={{ display: \"block\", marginBottom: 6, fontWeight: 500 }}>{label}</label>\n      <div style={{ position: \"relative\" }} role=\"combobox\" aria-haspopup=\"listbox\" aria-owns=\"ac-listbox-r\" aria-expanded={open}>\n        <input\n          id=\"ac-input-r\"\n          type=\"text\"\n          role=\"textbox\"\n          aria-autocomplete=\"list\"\n          aria-controls=\"ac-listbox-r\"\n          aria-activedescendant=\"ac-opt-r-1\"\n          placeholder={placeholder}\n          defaultValue={query}\n          autoComplete=\"off\"\n          style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"10px 12px\", font: \"inherit\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143040\", borderRadius: radius }}\n        />\n        <ul id=\"ac-listbox-r\" role=\"listbox\" aria-label={label + \" suggestions\"} style={{\n          display: open ? \"block\" : \"none\", listStyle: \"none\", margin: \"4px 0 0\", padding: 4,\n          border: \"1.5px solid #24143020\", background: \"#FAF7F2\", boxShadow: \"0 8px 20px #24143022\", maxHeight: 180, overflow: \"auto\",\n        }}>\n          <li id=\"ac-opt-r-1\" role=\"option\" aria-selected=\"true\" style={{ padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\", background: accent }}>{query} Francisco</li>\n          <li id=\"ac-opt-r-2\" role=\"option\" aria-selected=\"false\" style={{ padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\" }}>{query} Antonio</li>\n          <li id=\"ac-opt-r-3\" role=\"option\" aria-selected=\"false\" style={{ padding: \"8px 10px\", borderRadius: 6, cursor: \"pointer\" }}>{query} Diego</li>\n        </ul>\n      </div>\n    </div>\n  );\n}"
+  }
+}

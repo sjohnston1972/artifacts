@@ -1,0 +1,38 @@
+{
+  "slug": "media-embed",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Conference keynote"
+    },
+    {
+      "id": "aspect",
+      "type": "select",
+      "label": "Aspect ratio",
+      "default": "16 / 9",
+      "options": ["16 / 9", "4 / 3"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "id": "showPlayButton",
+      "type": "toggle",
+      "label": "Show play button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"media-embed\" style=\"aspect-ratio:{{aspect}};border-radius:{{radius}}px;\">\n  <svg class=\"media-embed__art\" viewBox=\"0 0 400 225\" width=\"100%\" height=\"100%\" role=\"img\" aria-label=\"{{title}} — preview thumbnail\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"225\" fill=\"#241430\"/><circle cx=\"120\" cy=\"70\" r=\"34\" fill=\"#D9C8F0\"/><rect x=\"0\" y=\"170\" width=\"400\" height=\"55\" fill=\"#24143080\"/></svg>\n  {{#if showPlayButton}}\n  <button class=\"media-embed__play\" type=\"button\" aria-label=\"Play {{title}}\">\n    <svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M8 5v14l11-7z\" fill=\"#241430\"/></svg>\n  </button>\n  {{/if}}\n  <p class=\"media-embed__title\">{{title}}</p>\n</div>\n<!-- Facade / \"lite embed\" pattern: only load the real third-party iframe once the button is\n     activated, e.g. <iframe title=\"{{title}}\" src=\"https://your-video-provider.example/embed/...\" allowfullscreen></iframe> -->\n<style>\n.media-embed { position: relative; max-width: 380px; overflow: hidden; background: #241430; display: flex; align-items: flex-end; }\n.media-embed__art { position: absolute; inset: 0; }\n.media-embed__play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 52px; height: 52px; border-radius: 50%; border: none; background: #FAF7F2; display: flex; align-items: center; justify-content: center; cursor: pointer; }\n.media-embed__play:hover, .media-embed__play:focus-visible { background: #E8A020; outline: 2px solid #FAF7F2; outline-offset: 2px; }\n.media-embed__title { position: relative; margin: 0; padding: 8px 12px; color: #FAF7F2; font: 600 13px/1.4 system-ui, sans-serif; }\n</style>",
+    "tailwind": "<div class=\"media-embed-tw relative max-w-[380px] overflow-hidden bg-[#241430] flex items-end\" style=\"aspect-ratio:{{aspect}};border-radius:{{radius}}px;\">\n  <svg class=\"absolute inset-0\" viewBox=\"0 0 400 225\" width=\"100%\" height=\"100%\" role=\"img\" aria-label=\"{{title}} — preview thumbnail\" preserveAspectRatio=\"xMidYMid slice\"><rect width=\"400\" height=\"225\" fill=\"#241430\"/><circle cx=\"120\" cy=\"70\" r=\"34\" fill=\"#D9C8F0\"/><rect x=\"0\" y=\"170\" width=\"400\" height=\"55\" fill=\"#24143080\"/></svg>\n  {{#if showPlayButton}}\n  <button class=\"media-embed-tw__play absolute top-1/2 left-1/2 w-[52px] h-[52px] rounded-full border-0 bg-[#FAF7F2] flex items-center justify-center cursor-pointer\" style=\"transform:translate(-50%,-50%);\" type=\"button\" aria-label=\"Play {{title}}\">\n    <svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M8 5v14l11-7z\" fill=\"#241430\"/></svg>\n  </button>\n  {{/if}}\n  <p class=\"relative m-0 px-3 py-2 text-[#FAF7F2] text-[13px] font-semibold\">{{title}}</p>\n</div>\n<!-- Facade / \"lite embed\" pattern: only load the real third-party iframe once the button is\n     activated, e.g. <iframe title=\"{{title}}\" src=\"https://your-video-provider.example/embed/...\" allowfullscreen></iframe> -->\n<style>\n.media-embed-tw__play:hover, .media-embed-tw__play:focus-visible { background: #E8A020; outline: 2px solid #FAF7F2; outline-offset: 2px; }\n</style>",
+    "react": "export function MediaEmbed({\n  title = \"{{title}}\",\n  aspect = \"{{aspect}}\",\n  radius = {{radius}},\n  showPlayButton = {{showPlayButton}},\n}) {\n  return (\n    <div style={{ position: \"relative\", maxWidth: 380, overflow: \"hidden\", background: \"#241430\",\n      display: \"flex\", alignItems: \"flex-end\", aspectRatio: aspect, borderRadius: radius }}>\n      <svg style={{ position: \"absolute\", inset: 0 }} viewBox=\"0 0 400 225\" width=\"100%\" height=\"100%\" role=\"img\" aria-label={`${title} — preview thumbnail`} preserveAspectRatio=\"xMidYMid slice\">\n        <rect width=\"400\" height=\"225\" fill=\"#241430\" />\n        <circle cx=\"120\" cy=\"70\" r=\"34\" fill=\"#D9C8F0\" />\n        <rect x=\"0\" y=\"170\" width=\"400\" height=\"55\" fill=\"#24143080\" />\n      </svg>\n      {/* Facade / \"lite embed\" pattern: only load the real third-party iframe once the button is\n          activated, e.g. <iframe title={title} src=\"https://your-video-provider.example/embed/...\" allowFullScreen /> */}\n      {showPlayButton && (\n        <button type=\"button\" aria-label={`Play ${title}`}\n          style={{ position: \"absolute\", top: \"50%\", left: \"50%\", transform: \"translate(-50%, -50%)\",\n            width: 52, height: 52, borderRadius: \"50%\", border: \"none\", background: \"#FAF7F2\",\n            display: \"flex\", alignItems: \"center\", justifyContent: \"center\", cursor: \"pointer\" }}>\n          <svg viewBox=\"0 0 24 24\" width={22} height={22} aria-hidden=\"true\"><path d=\"M8 5v14l11-7z\" fill=\"#241430\" /></svg>\n        </button>\n      )}\n      <p style={{ position: \"relative\", margin: 0, padding: \"8px 12px\", color: \"#FAF7F2\", font: \"600 13px/1.4 system-ui, sans-serif\" }}>{title}</p>\n    </div>\n  );\n}"
+  }
+}

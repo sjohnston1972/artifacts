@@ -1,0 +1,38 @@
+{
+  "slug": "responsive-embed",
+  "controls_schema": [
+    {
+      "id": "ratio",
+      "type": "select",
+      "label": "Ratio",
+      "default": "16 / 9",
+      "options": ["16 / 9", "4 / 3", "1 / 1"]
+    },
+    {
+      "id": "maxWidth",
+      "type": "number",
+      "label": "Max width",
+      "default": 360,
+      "min": 200,
+      "max": 480,
+      "step": 10
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Embedded segment"
+    },
+    {
+      "id": "rounded",
+      "type": "toggle",
+      "label": "Rounded corners",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"re\" style=\"max-width:{{maxWidth}}px;\">\n  <div class=\"re__frame {{#if rounded}}re__frame--rounded{{/if}}\" style=\"aspect-ratio:{{ratio}};\" role=\"img\" aria-label=\"{{title}}\">\n    <!-- Real usage: <iframe src=\"https://example.com/embed/xyz\" title=\"{{title}}\" loading=\"lazy\" allowfullscreen></iframe> -->\n    <svg viewBox=\"0 0 48 48\" width=\"40\" height=\"40\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"1.6\" aria-hidden=\"true\"><rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"3\"/><path d=\"M19 19l12 5-12 5z\" fill=\"#FAF7F2\" stroke=\"none\"/></svg>\n  </div>\n  <p class=\"re__title\">{{title}}</p>\n</div>\n<style>\n.re { width: 100%; font: 13px/1.4 system-ui, sans-serif; color: #241430; }\n.re__frame { display: flex; align-items: center; justify-content: center; width: 100%; background: linear-gradient(135deg, #241430, #4a2f5c); border-radius: 4px; }\n.re__frame--rounded { border-radius: 14px; }\n.re__title { margin: 8px 0 0; font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"re-tw w-full font-sans text-[13px] text-[#241430]\" style=\"max-width:{{maxWidth}}px;\">\n  <div class=\"re-tw__frame {{#if rounded}}re-tw__frame--rounded{{/if}} flex items-center justify-center w-full rounded\" style=\"aspect-ratio:{{ratio}};background:linear-gradient(135deg,#241430,#4a2f5c);\" role=\"img\" aria-label=\"{{title}}\">\n    <!-- Real usage: <iframe src=\"https://example.com/embed/xyz\" title=\"{{title}}\" loading=\"lazy\" allowfullscreen></iframe> -->\n    <svg viewBox=\"0 0 48 48\" width=\"40\" height=\"40\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"1.6\" aria-hidden=\"true\"><rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"3\"/><path d=\"M19 19l12 5-12 5z\" fill=\"#FAF7F2\" stroke=\"none\"/></svg>\n  </div>\n  <p class=\"mt-2 mb-0 font-semibold\">{{title}}</p>\n</div>\n<style>\n.re-tw__frame--rounded { border-radius: 14px !important; }\n</style>",
+    "react": "export function ResponsiveEmbed({\n  ratio = \"{{ratio}}\",\n  maxWidth = {{maxWidth}},\n  title = \"{{title}}\",\n  rounded = {{rounded}},\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth, font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <div\n        role=\"img\"\n        aria-label={title}\n        style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"center\", width: \"100%\",\n          aspectRatio: ratio, background: \"linear-gradient(135deg,#241430,#4a2f5c)\", borderRadius: rounded ? 14 : 4 }}\n      >\n        {/* Real usage: <iframe src=\"https://example.com/embed/xyz\" title={title} loading=\"lazy\" allowFullScreen /> */}\n        <svg viewBox=\"0 0 48 48\" width=\"40\" height=\"40\" fill=\"none\" stroke=\"#FAF7F2\" strokeWidth=\"1.6\" aria-hidden=\"true\">\n          <rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"3\" />\n          <path d=\"M19 19l12 5-12 5z\" fill=\"#FAF7F2\" stroke=\"none\" />\n        </svg>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontWeight: 600 }}>{title}</p>\n    </div>\n  );\n}"
+  }
+}

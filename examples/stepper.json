@@ -1,0 +1,46 @@
+{
+  "slug": "stepper",
+  "controls_schema": [
+    {
+      "id": "currentLabel",
+      "type": "text",
+      "label": "Current step label",
+      "default": "Shipping"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "horizontal",
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "showNumbers",
+      "type": "toggle",
+      "label": "Show step numbers",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<nav aria-label=\"Checkout steps\" class=\"stepper-nav\">\n  <ol class=\"stepper stepper--{{orientation}}\" style=\"--accent:{{accent}};\">\n    <li class=\"stepper__step is-complete\">\n      <span class=\"stepper__marker\">{{#if showNumbers}}1{{/if}}{{#unless showNumbers}}&#10003;{{/unless}}</span>\n      <span class=\"stepper__label\">Cart</span>\n    </li>\n    <li class=\"stepper__step is-current\" aria-current=\"step\">\n      <span class=\"stepper__marker\">{{#if showNumbers}}2{{/if}}</span>\n      <span class=\"stepper__label\">{{currentLabel}}</span>\n    </li>\n    <li class=\"stepper__step\">\n      <span class=\"stepper__marker\">{{#if showNumbers}}3{{/if}}</span>\n      <span class=\"stepper__label\">Payment</span>\n    </li>\n    <li class=\"stepper__step\">\n      <span class=\"stepper__marker\">{{#if showNumbers}}4{{/if}}</span>\n      <span class=\"stepper__label\">Confirm</span>\n    </li>\n  </ol>\n</nav>\n<style>\n.stepper { display: flex; list-style: none; padding: 0; margin: 0; font: 500 13px system-ui, sans-serif; color: #241430; gap: 24px; }\n.stepper--vertical { flex-direction: column; gap: 16px; }\n.stepper__step { display: flex; align-items: center; gap: 8px; opacity: .55; }\n.stepper__step.is-complete, .stepper__step.is-current { opacity: 1; }\n.stepper__marker { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; border: 2px solid currentColor; font-size: 11px; flex: none; }\n.stepper__step.is-complete .stepper__marker { background: var(--accent); border-color: var(--accent); color: #241430; }\n.stepper__step.is-current .stepper__marker { border-color: var(--accent); color: var(--accent); font-weight: 700; }\n</style>",
+    "tailwind": "<nav aria-label=\"Checkout steps\" class=\"font-sans text-[13px] text-[#241430]\">\n  <ol class=\"stepper-tw stepper-tw--{{orientation}} flex list-none p-0 m-0 gap-6\" style=\"--accent:{{accent}};\">\n    <li class=\"flex items-center gap-2\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[11px] font-bold\" style=\"background:{{accent}};border:2px solid {{accent}};color:#241430;\">{{#if showNumbers}}1{{/if}}{{#unless showNumbers}}&#10003;{{/unless}}</span>\n      <span>Cart</span>\n    </li>\n    <li class=\"flex items-center gap-2\" aria-current=\"step\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full border-2 text-[11px] font-bold\" style=\"border-color:{{accent}};color:{{accent}};\">{{#if showNumbers}}2{{/if}}</span>\n      <span class=\"font-bold\">{{currentLabel}}</span>\n    </li>\n    <li class=\"flex items-center gap-2 opacity-55\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full border-2 border-current text-[11px]\">{{#if showNumbers}}3{{/if}}</span>\n      <span>Payment</span>\n    </li>\n    <li class=\"flex items-center gap-2 opacity-55\">\n      <span class=\"inline-flex items-center justify-center w-[22px] h-[22px] rounded-full border-2 border-current text-[11px]\">{{#if showNumbers}}4{{/if}}</span>\n      <span>Confirm</span>\n    </li>\n  </ol>\n</nav>\n<style>\n.stepper-tw--vertical { flex-direction: column; gap: 16px; }\n</style>",
+    "react": "export function Stepper({\n  currentLabel = \"{{currentLabel}}\",\n  accent = \"{{accent}}\",\n  orientation = \"{{orientation}}\",\n  showNumbers = {{showNumbers}},\n}) {\n  const marker = { display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 22, height: 22, borderRadius: \"50%\", fontSize: 11, flex: \"none\" };\n  return (\n    <nav aria-label=\"Checkout steps\" style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <ol style={{ display: \"flex\", flexDirection: orientation === \"vertical\" ? \"column\" : \"row\", listStyle: \"none\", padding: 0, margin: 0, gap: orientation === \"vertical\" ? 16 : 24 }}>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 8 }}>\n          <span style={{ ...marker, background: accent, border: \"2px solid \" + accent, color: \"#241430\" }}>{showNumbers ? \"1\" : \"✓\"}</span>\n          <span>Cart</span>\n        </li>\n        <li aria-current=\"step\" style={{ display: \"flex\", alignItems: \"center\", gap: 8 }}>\n          <span style={{ ...marker, border: \"2px solid \" + accent, color: accent, fontWeight: 700 }}>{showNumbers ? \"2\" : \"\"}</span>\n          <span style={{ fontWeight: 700 }}>{currentLabel}</span>\n        </li>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 8, opacity: .55 }}>\n          <span style={{ ...marker, border: \"2px solid currentColor\" }}>{showNumbers ? \"3\" : \"\"}</span>\n          <span>Payment</span>\n        </li>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 8, opacity: .55 }}>\n          <span style={{ ...marker, border: \"2px solid currentColor\" }}>{showNumbers ? \"4\" : \"\"}</span>\n          <span>Confirm</span>\n        </li>\n      </ol>\n    </nav>\n  );\n}"
+  }
+}

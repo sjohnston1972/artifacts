@@ -2592,11 +2592,22 @@ function paint() {
   list.innerHTML = results.map((e, i) => `
     <li id="palette-opt-${i}" role="option" aria-selected="${i === active}"
         class="palette__item${i === active ? " is-active" : ""}">
-      <span class="palette__name">${e[0]}</span>
-      <span class="palette__code">${e[3]}</span>
-      <span class="palette__def">${e[4]}</span>
+      <span class="palette__name">${escapeHtml(e[0])}</span>
+      <span class="palette__code">${escapeHtml(e[3])}</span>
+      <span class="palette__def">${escapeHtml(e[4])}</span>
     </li>`).join("");
   input.setAttribute("aria-activedescendant", results.length ? `palette-opt-${active}` : "");
+}
+
+// Entry names and definitions are user-editable and editing is open, so this
+// content is untrusted. It is written with innerHTML, and unlike the example
+// iframe the palette renders in the MAIN document — an unescaped name would
+// execute on every page for every visitor.
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 let lastFocused = null;

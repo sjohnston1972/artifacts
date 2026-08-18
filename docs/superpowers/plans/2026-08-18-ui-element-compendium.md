@@ -51,7 +51,7 @@ Any task asserting these numbers can rely on them; they were measured, not estim
 **Worker (`src/`)**
 - `worker.js` — `fetch` and `scheduled` handlers; wires router to handlers. Nothing else.
 - `router.js` — path pattern matching. No knowledge of the domain.
-- `db.js` — every D1 query. One exported function per operation. The only file containing SQL.
+- `db.js` — every D1 query on the request path. One exported function per operation, and the only file containing SQL that serves a request. The one-time seeder (`seed/run.js`) owns its own bulk INSERTs: it is a 2,000-statement batch built from parsed markdown, not an operation, and folding it into `db.js` would obscure both.
 - `auth.js` — `requireWrite()`, the single seam for a future edit key.
 - `seed/parse.js` — pure markdown → structured data. No D1, no I/O, so it is trivially testable.
 - `seed/tables.js` — the hand-maintained data: 45 category codes, the alias map, the core-tier name list.

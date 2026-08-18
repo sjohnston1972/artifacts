@@ -136,18 +136,19 @@ enabled = true
 
 - [ ] **Step 3: Create `vitest.config.js`**
 
-```js
-import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
+`@cloudflare/vitest-pool-workers` 0.21.3 has **no `./config` subpath** — the old `defineWorkersConfig` helper was removed when Vitest 4 support landed, and replaced by a `cloudflareTest()` Vite plugin. Confirmed against the installed package's `exports` map; the package also ships a `vitest-v3-to-v4` codemod that rewrites to this shape.
 
-export default defineWorkersConfig({
-  test: {
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: "./wrangler.toml" },
-        miniflare: { compatibilityDate: "2026-08-01" },
-      },
-    },
-  },
+```js
+import { cloudflareTest } from "@cloudflare/vitest-pool-workers";
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  plugins: [
+    cloudflareTest({
+      wrangler: { configPath: "./wrangler.toml" },
+      miniflare: { compatibilityDate: "2026-08-01" },
+    }),
+  ],
 });
 ```
 
@@ -279,10 +280,12 @@ export default {
 };
 ```
 
-- [ ] **Step 9: Verify the Worker boots**
+- [ ] **Step 9: Verify the Worker parses**
 
-Run: `npx wrangler dev --port 8787` in one shell, then `curl -s http://127.0.0.1:8787/healthz`
-Expected: `ok`. Stop the dev server.
+`wrangler dev` cannot start yet: `wrangler.toml` carries an empty `database_id`, which wrangler rejects as falsy. Task 2 creates the database and fills it in, and Task 2 step 6 is where the dev server is first booted.
+
+Run: `node --check src/worker.js && node --check src/router.js`
+Expected: no output, exit 0. The vitest run in step 7 is this task's load-bearing verification.
 
 - [ ] **Step 10: Commit and push**
 
@@ -407,10 +410,13 @@ export async function applySchema(db) {
 Run: `npx vitest run tests/schema.test.js`
 Expected: FAIL — `schema.sql` missing or tables absent.
 
-- [ ] **Step 6: Apply the schema locally and re-run**
+- [ ] **Step 6: Apply the schema locally, re-run, and boot the Worker**
 
 Run: `npm run db:local && npx vitest run tests/schema.test.js`
 Expected: PASS, 4 tests.
+
+Now that `database_id` is populated, the dev server can start for the first time. Run `npx wrangler dev --port 8787` in one shell, then `curl -s http://127.0.0.1:8787/healthz`
+Expected: `ok`. Stop the dev server.
 
 - [ ] **Step 7: Commit and push**
 

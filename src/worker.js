@@ -48,11 +48,15 @@ async function browse(request, env, ctx, params) {
     tiers: TIERS[filters.tier] ?? TIERS.default,
     definitionOnly: filters.examples === "none",
     q: filters.q || undefined,
-    limit: 500,
+    // Above the corpus size on purpose. A bare cap silently hid 418 of 918
+    // specimens at tier=all, and `examples=some` filters in JS AFTER the
+    // query, so a cap would under-report entries-with-examples too.
+    limit: 2000,
   });
   const filtered = filters.examples === "some" ? entries.filter((e) => e.has_example) : entries;
   return htmlResponse(renderBrowse({
     categories, entries: filtered, filters, activeCategory: params.slug,
+    total: categories.reduce((n, c) => n + c.entry_count, 0),
   }));
 }
 

@@ -1,7 +1,7 @@
 import { html, raw, layout } from "./layout.js";
 import { entryCard } from "./components.js";
 
-export function renderBrowse({ categories, entries, filters, activeCategory }) {
+export function renderBrowse({ categories, entries, filters, activeCategory, total }) {
   const body = html`
     <header class="masthead">
       <h1 class="masthead__title">UI Element Compendium</h1>
@@ -22,10 +22,10 @@ export function renderBrowse({ categories, entries, filters, activeCategory }) {
         </ul>
       </nav>
       <main id="main" class="browse__main">
-        <form class="searchbar" action="/" method="get" role="search">
+        <form class="searchbar" action="${activeCategory ? `/c/${activeCategory}` : "/"}" method="get" role="search">
           <label for="q" class="visually-hidden">Search the compendium</label>
           <input id="q" name="q" type="search" value="${filters.q ?? ""}"
-                 placeholder="Search 918 elements…" autocomplete="off">
+                 placeholder="Search ${total} elements…" autocomplete="off">
           <select name="tier" aria-label="Tier">
             <option value="default"${sel(filters.tier, "default")}>Core &amp; useful</option>
             <option value="core"${sel(filters.tier, "core")}>Core only</option>

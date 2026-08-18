@@ -3,6 +3,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { applySchema } from "./helpers/db.js";
 import { seed } from "../src/seed/run.js";
 import source from "../web-development-ui-glossary-complete.md?raw";
+import { saveEntry } from "../src/db.js";
 
 beforeAll(async () => {
   await applySchema(env.DB);
@@ -20,6 +21,7 @@ describe("GET /", () => {
     const body = await (await SELF.fetch("https://example.com/")).text();
     expect(body).toContain("UI Fundamentals");
     expect(body).toContain("Internationalisation &amp; Localisation");
+    expect((body.match(/class="cat__code"/g) ?? []).length).toBe(45);
   });
 
   it("defaults to core and useful tiers only", async () => {
@@ -47,6 +49,35 @@ describe("GET /", () => {
   it("shows a charming empty state when nothing matches", async () => {
     const body = await (await SELF.fetch("https://example.com/?q=zzzznotathing")).text();
     expect(body).toMatch(/Nothing in the catalogue/i);
+  });
+
+  it("shows every entry at tier=all rather than silently truncating", async () => {
+    const body = await (await SELF.fetch("https://example.com/?tier=all")).text();
+    expect((body.match(/class="card"/g) ?? []).length).toBe(918);
+  });
+
+  it("keeps the category scope when the no-JS form is submitted", async () => {
+    const home = await (await SELF.fetch("https://example.com/")).text();
+    expect(home).toContain('action="/"');
+    const category = await (await SELF.fetch("https://example.com/c/navigation")).text();
+    expect(category).toContain('action="/c/navigation"');
+  });
+
+  it("filters to entries that have an example", async () => {
+    // The seeded corpus has has_example=0 for all 918 entries (authored
+    // examples are a later task's job, not seed's). saveEntry is the only
+    // sanctioned way to write an entry, so give one real entry an example
+    // through it, then confirm the examples=some branch picks it up and
+    // examples=none no longer shows it as "Definition only".
+    const row = await env.DB.prepare("SELECT slug FROM entries WHERE name = 'Button'").first();
+    await saveEntry(env.DB, row.slug, { templates: { html: "<button>Click me</button>" } });
+
+    const some = await (await SELF.fetch("https://example.com/?tier=all&examples=some")).text();
+    expect(some).toContain(">Button<");
+    expect((some.match(/class="card"/g) ?? []).length).toBe(1);
+
+    const none = await (await SELF.fetch("https://example.com/?tier=all&examples=none")).text();
+    expect(none).not.toContain(">Button<");
   });
 });
 

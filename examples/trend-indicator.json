@@ -1,0 +1,50 @@
+{
+  "controls_schema": [
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "up",
+      "options": [
+        "up",
+        "down",
+        "flat"
+      ]
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "+4.2%"
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Size (px)",
+      "default": 20,
+      "min": 14,
+      "max": 32,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"trend-indicator trend-indicator--{{direction}}\" style=\"--accent:{{accent}};--size:{{size}}px;\">\n    <span class=\"trend-indicator__variant trend-indicator__variant--up\">\n      <svg class=\"trend-indicator__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,17 L11,6 L18,17 M11,6 L11,20\"></path>\n      </svg>\n      <span class=\"trend-indicator__word\">Increase</span>\n    </span>\n    <span class=\"trend-indicator__variant trend-indicator__variant--down\">\n      <svg class=\"trend-indicator__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,7 L11,18 L18,7 M11,4 L11,18\"></path>\n      </svg>\n      <span class=\"trend-indicator__word\">Decrease</span>\n    </span>\n    <span class=\"trend-indicator__variant trend-indicator__variant--flat\">\n      <svg class=\"trend-indicator__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,12 L18,12 M13,7 L18,12 L13,17\"></path>\n      </svg>\n      <span class=\"trend-indicator__word\">No change</span>\n    </span>\n  <span class=\"trend-indicator__value\">{{value}}</span>\n</div>\n<style>\n.trend-indicator { display: inline-flex; align-items: center; gap: 8px; font: 600 calc(var(--size) * 0.7px) system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 8px 12px; border-radius: 8px; box-sizing: border-box; }\n.trend-indicator__variant { display: none; align-items: center; gap: 6px; }\n.trend-indicator--up .trend-indicator__variant--up { display: inline-flex; }\n.trend-indicator--down .trend-indicator__variant--down { display: inline-flex; }\n.trend-indicator--flat .trend-indicator__variant--flat { display: inline-flex; }\n.trend-indicator__icon { width: var(--size); height: var(--size); flex: none; }\n.trend-indicator__icon path { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }\n.trend-indicator__word { color: #241430; }\n.trend-indicator__value { font-weight: 700; color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"trend-indicator-tw trend-indicator-tw--{{direction}}\" style=\"--accent:{{accent}};--size:{{size}}px;\">\n    <span class=\"trend-indicator-tw__variant trend-indicator-tw__variant--up\">\n      <svg class=\"trend-indicator-tw__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,17 L11,6 L18,17 M11,6 L11,20\"></path>\n      </svg>\n      <span class=\"trend-indicator-tw__word\">Increase</span>\n    </span>\n    <span class=\"trend-indicator-tw__variant trend-indicator-tw__variant--down\">\n      <svg class=\"trend-indicator-tw__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,7 L11,18 L18,7 M11,4 L11,18\"></path>\n      </svg>\n      <span class=\"trend-indicator-tw__word\">Decrease</span>\n    </span>\n    <span class=\"trend-indicator-tw__variant trend-indicator-tw__variant--flat\">\n      <svg class=\"trend-indicator-tw__icon\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <path d=\"M4,12 L18,12 M13,7 L18,12 L13,17\"></path>\n      </svg>\n      <span class=\"trend-indicator-tw__word\">No change</span>\n    </span>\n  <span class=\"trend-indicator-tw__value\">{{value}}</span>\n</div>\n<style>\n.trend-indicator-tw { display: inline-flex; align-items: center; gap: 8px; font: 600 calc(var(--size) * 0.7px) system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 8px 12px; border-radius: 8px; box-sizing: border-box; }\n.trend-indicator-tw__variant { display: none; align-items: center; gap: 6px; }\n.trend-indicator-tw--up .trend-indicator-tw__variant--up { display: inline-flex; }\n.trend-indicator-tw--down .trend-indicator-tw__variant--down { display: inline-flex; }\n.trend-indicator-tw--flat .trend-indicator-tw__variant--flat { display: inline-flex; }\n.trend-indicator-tw__icon { width: var(--size); height: var(--size); flex: none; }\n.trend-indicator-tw__icon path { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }\n.trend-indicator-tw__word { color: #241430; }\n.trend-indicator-tw__value { font-weight: 700; color: var(--accent); }\n</style>",
+    "react": "export function TrendIndicator({\n  direction = \"{{direction}}\",\n  value = \"{{value}}\",\n  size = {{size}},\n  accent = \"{{accent}}\",\n}) {\n  const variants = {\n    up: { path: \"M4,17 L11,6 L18,17 M11,6 L11,20\", word: \"Increase\" },\n    down: { path: \"M4,7 L11,18 L18,7 M11,4 L11,18\", word: \"Decrease\" },\n    flat: { path: \"M4,12 L18,12 M13,7 L18,12 L13,17\", word: \"No change\" },\n  };\n  const active = variants[direction] ?? variants.flat;\n  return (\n    <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, fontWeight: 600, fontSize: size * 0.7,\n      fontFamily: \"system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"8px 12px\", borderRadius: 8, boxSizing: \"border-box\" }}>\n      <span style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6 }}>\n        <svg viewBox=\"0 0 22 22\" aria-hidden=\"true\" style={{ width: size, height: size, flex: \"none\" }}>\n          <path d={active.path} fill=\"none\" stroke={accent} strokeWidth={2.2} strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n        </svg>\n        <span>{active.word}</span>\n      </span>\n      <span style={{ fontWeight: 700, color: accent }}>{value}</span>\n    </div>\n  );\n}"
+  },
+  "slug": "trend-indicator"
+}

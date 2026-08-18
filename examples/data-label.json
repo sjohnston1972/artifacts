@@ -1,0 +1,64 @@
+{
+  "slug": "data-label",
+  "controls_schema": [
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Value",
+      "default": 42,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Label position",
+      "default": "outside",
+      "options": [
+        "inside",
+        "outside",
+        "above"
+      ]
+    },
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Format",
+      "default": "number",
+      "options": [
+        "number",
+        "percent",
+        "currency"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Label font size",
+      "default": 13,
+      "min": 10,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"data-label-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"data-label-demo__track\">\n    <div class=\"data-label-demo__bar\" style=\"height:70%;\">\n      <span class=\"data-label-demo__label data-label-demo__label--{{position}} data-label-demo__label--fmt-{{format}}\" style=\"font-size:{{size}}px;\">\n        <span class=\"data-label-demo__fmt data-label-demo__fmt--number\">{{value}}</span>\n        <span class=\"data-label-demo__fmt data-label-demo__fmt--percent\">{{value}}%</span>\n        <span class=\"data-label-demo__fmt data-label-demo__fmt--currency\">${{value}}</span>\n      </span>\n    </div>\n  </div>\n  <span class=\"data-label-demo__axis\">Q3</span>\n</div>\n<style>\n.data-label-demo { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font: 12px system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 24px 20px 14px; border: 1.5px solid #24143022; border-radius: 12px; box-sizing: border-box; width: 120px; }\n.data-label-demo__track { position: relative; width: 40px; height: 130px; background: #24143010; border-radius: 6px; display: flex; align-items: flex-end; overflow: visible; }\n.data-label-demo__bar { position: relative; width: 100%; background: var(--accent); border-radius: 6px 6px 0 0; }\n.data-label-demo__label { position: absolute; font-weight: 700; white-space: nowrap; }\n.data-label-demo__fmt { display: none; }\n.data-label-demo__label--fmt-number .data-label-demo__fmt--number,\n.data-label-demo__label--fmt-percent .data-label-demo__fmt--percent,\n.data-label-demo__label--fmt-currency .data-label-demo__fmt--currency { display: inline; }\n.data-label-demo__label--inside { top: 8px; left: 50%; transform: translateX(-50%); color: #241430; }\n.data-label-demo__label--outside { top: 50%; left: calc(100% + 8px); transform: translateY(-50%); color: #241430; }\n.data-label-demo__label--above { top: -22px; left: 50%; transform: translateX(-50%); color: #241430; }\n.data-label-demo__axis { font-size: 11px; color: #24143099; font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"data-label-tw relative flex flex-col items-center gap-1.5 font-sans text-xs text-[#241430] bg-[#FAF7F2] px-5 pt-6 pb-3.5 border-[1.5px] border-[#24143022] rounded-xl box-border\" style=\"width:120px;--accent:{{accent}};\">\n  <div class=\"relative w-10 bg-[#24143010] rounded-md flex items-end\" style=\"height:130px;overflow:visible;\">\n    <div class=\"data-label-tw__bar relative w-full rounded-t-md\" style=\"height:70%;background:{{accent}};\">\n      <span class=\"data-label-tw__label data-label-tw__label--{{position}} data-label-tw__label--fmt-{{format}} absolute font-bold whitespace-nowrap text-[#241430]\" style=\"font-size:{{size}}px;\">\n        <span class=\"data-label-tw__fmt data-label-tw__fmt--number\">{{value}}</span>\n        <span class=\"data-label-tw__fmt data-label-tw__fmt--percent\">{{value}}%</span>\n        <span class=\"data-label-tw__fmt data-label-tw__fmt--currency\">${{value}}</span>\n      </span>\n    </div>\n  </div>\n  <span class=\"text-[11px] text-[#241430]/60 font-semibold\">Q3</span>\n</div>\n<style>\n.data-label-tw__fmt { display: none; }\n.data-label-tw__label--fmt-number .data-label-tw__fmt--number,\n.data-label-tw__label--fmt-percent .data-label-tw__fmt--percent,\n.data-label-tw__label--fmt-currency .data-label-tw__fmt--currency { display: inline; }\n.data-label-tw__label--inside { top: 8px; left: 50%; transform: translateX(-50%); }\n.data-label-tw__label--outside { top: 50%; left: calc(100% + 8px); transform: translateY(-50%); }\n.data-label-tw__label--above { top: -22px; left: 50%; transform: translateX(-50%); }\n</style>",
+    "react": "export function DataLabel({\n  value = {{value}},\n  position = \"{{position}}\",\n  format = \"{{format}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n}) {\n  const text = { number: String(value), percent: value + \"%\", currency: \"$\" + value }[format];\n  const posStyle = {\n    inside: { top: 8, left: \"50%\", transform: \"translateX(-50%)\" },\n    outside: { top: \"50%\", left: \"calc(100% + 8px)\", transform: \"translateY(-50%)\" },\n    above: { top: -22, left: \"50%\", transform: \"translateX(-50%)\" },\n  }[position];\n  return (\n    <div style={{ position: \"relative\", display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 6, font: \"12px system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"24px 20px 14px\", border: \"1.5px solid #24143022\", borderRadius: 12, boxSizing: \"border-box\", width: 120 }}>\n      <div style={{ position: \"relative\", width: 40, height: 130, background: \"#24143010\", borderRadius: 6, display: \"flex\", alignItems: \"flex-end\", overflow: \"visible\" }}>\n        <div style={{ position: \"relative\", width: \"100%\", height: \"70%\", background: accent, borderRadius: \"6px 6px 0 0\" }}>\n          <span style={{ position: \"absolute\", fontWeight: 700, whiteSpace: \"nowrap\", color: \"#241430\", fontSize: size, ...posStyle }}>{text}</span>\n        </div>\n      </div>\n      <span style={{ fontSize: 11, color: \"#24143099\", fontWeight: 600 }}>Q3</span>\n    </div>\n  );\n}"
+  }
+}

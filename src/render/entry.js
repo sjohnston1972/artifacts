@@ -73,10 +73,13 @@ function exampleSection(entry, formats, values) {
         <div class="code__tabs" role="tablist">
           ${formats.map((f, i) => raw(html`
             <button type="button" role="tab" class="code__tab" data-format="${f}"
-                    aria-selected="${i === 0 ? "true" : "false"}">${FORMAT_LABELS[f]}</button>`))}
+                    id="tab-${entry.slug}-${f}" aria-controls="panel-${entry.slug}-${f}"
+                    aria-selected="${i === 0 ? "true" : "false"}"
+                    tabindex="${i === 0 ? "0" : "-1"}">${FORMAT_LABELS[f]}</button>`))}
         </div>
         ${formats.map((f, i) => raw(html`
-          <div class="code__panel" role="tabpanel" data-format="${f}"${i === 0 ? "" : " hidden"}>
+          <div class="code__panel" role="tabpanel" data-format="${f}"
+               id="panel-${entry.slug}-${f}" aria-labelledby="tab-${entry.slug}-${f}"${i === 0 ? "" : " hidden"}>
             <pre><code></code></pre>
             <button type="button" class="copy" data-copy>Copy</button>
           </div>`))}

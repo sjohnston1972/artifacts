@@ -695,6 +695,17 @@ kbd {
   .chip { transition: border-color 160ms ease, background 160ms ease; }
   .code__tab { transition: color 160ms ease, border-color 160ms ease; }
   .copy, .tweaks__reset { transition: background 160ms ease, border-color 160ms ease; }
+  .plate__stage.is-fresh { animation: shimmer 220ms ease-out; }
+  @keyframes shimmer {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+  }
+  .copy.is-copied { animation: stamp 200ms ease-out; }
+  @keyframes stamp {
+    from { transform: scale(0.94); }
+    to   { transform: scale(1); }
+  }
 }
+.copy.is-copied { background: var(--gold); color: var(--ink); }
 
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }

@@ -1195,8 +1195,17 @@ describe("getEntryBySlug", () => {
   });
   it("includes categories with the primary flagged", async () => {
     const e = await db.getEntryBySlug(env.DB, "state");
-    expect(e.categories).toHaveLength(5);
+    // State is defined in four sections. The "State" row in the Interaction
+    // States table is that table's HEADER and yields no entry, so there is no
+    // fifth category here.
+    expect(e.categories.map((c) => c.name)).toEqual([
+      "Workflow UI",
+      "Design System Terminology",
+      "Component Architecture",
+      "Application State Terminology",
+    ]);
     expect(e.categories.filter((c) => c.is_primary)).toHaveLength(1);
+    expect(e.categories[0].name).toBe("Workflow UI");
   });
   it("returns null for an unknown slug", async () => {
     expect(await db.getEntryBySlug(env.DB, "no-such-thing")).toBeNull();

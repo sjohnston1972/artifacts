@@ -1,0 +1,54 @@
+{
+  "slug": "progressive-onboarding",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "New: Quick actions"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Press Cmd+K anytime to jump to any page."
+    },
+    {
+      "id": "feature",
+      "type": "select",
+      "label": "Feature spotlighted",
+      "default": "search",
+      "options": ["search", "shortcuts", "reactions"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "stepIndex",
+      "type": "number",
+      "label": "Step",
+      "default": 1,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "stepTotal",
+      "type": "number",
+      "label": "Total steps",
+      "default": 3,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pon\" style=\"--accent:{{accent}};\" data-feature=\"{{feature}}\">\n  <div class=\"pon__toolbar\" role=\"toolbar\" aria-label=\"Quick actions\">\n    <button type=\"button\" class=\"pon__icon pon__icon--search\" aria-label=\"Search\">🔍</button>\n    <button type=\"button\" class=\"pon__icon pon__icon--shortcuts\" aria-label=\"Keyboard shortcuts\">⌨️</button>\n    <button type=\"button\" class=\"pon__icon pon__icon--reactions\" aria-label=\"Reactions\">😊</button>\n  </div>\n  <div class=\"pon__coach\" role=\"status\">\n    <p class=\"pon__step\">Step {{stepIndex}} of {{stepTotal}}</p>\n    <h4 class=\"pon__heading\">{{heading}}</h4>\n    <p class=\"pon__body\">{{body}}</p>\n    <div class=\"pon__actions\">\n      <button type=\"button\" class=\"pon__next\">Next</button>\n      <button type=\"button\" class=\"pon__dismiss\">Dismiss</button>\n    </div>\n  </div>\n</div>\n<style>\n.pon { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.pon__toolbar { display: flex; gap: 8px; margin-bottom: 14px; }\n.pon__icon { width: 34px; height: 34px; border-radius: 8px; border: 1px solid #24143020; background: #fff; font-size: 15px; cursor: pointer; }\n.pon[data-feature=\"search\"] .pon__icon--search,\n.pon[data-feature=\"shortcuts\"] .pon__icon--shortcuts,\n.pon[data-feature=\"reactions\"] .pon__icon--reactions { box-shadow: 0 0 0 3px var(--accent); border-color: transparent; }\n.pon__coach { background: #fff; border-radius: 10px; padding: 12px 14px; position: relative; }\n.pon__coach::before { content: \"\"; position: absolute; top: -6px; left: 20px; width: 12px; height: 12px; background: #fff; transform: rotate(45deg); }\n.pon__step { margin: 0 0 4px; font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }\n.pon__heading { margin: 0 0 4px; font-size: 14px; font-weight: 700; }\n.pon__body { margin: 0 0 10px; color: #241430b3; }\n.pon__actions { display: flex; gap: 8px; }\n.pon__next { background: var(--accent); border: none; border-radius: 6px; padding: 6px 12px; font: inherit; font-weight: 700; cursor: pointer; }\n.pon__dismiss { background: transparent; border: none; color: #241430a0; font: inherit; cursor: pointer; text-decoration: underline; }\n</style>",
+    "tailwind": "<div class=\"pon-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\" data-feature=\"{{feature}}\">\n  <div role=\"toolbar\" aria-label=\"Quick actions\" class=\"flex gap-2 mb-3.5\">\n    <button type=\"button\" aria-label=\"Search\" class=\"pon-tw__icon pon-tw__icon--search w-[34px] h-[34px] rounded-lg border border-[#24143020] bg-white text-[15px] cursor-pointer\">🔍</button>\n    <button type=\"button\" aria-label=\"Keyboard shortcuts\" class=\"pon-tw__icon pon-tw__icon--shortcuts w-[34px] h-[34px] rounded-lg border border-[#24143020] bg-white text-[15px] cursor-pointer\">⌨️</button>\n    <button type=\"button\" aria-label=\"Reactions\" class=\"pon-tw__icon pon-tw__icon--reactions w-[34px] h-[34px] rounded-lg border border-[#24143020] bg-white text-[15px] cursor-pointer\">😊</button>\n  </div>\n  <div role=\"status\" class=\"bg-white rounded-[10px] py-3 px-3.5\">\n    <p class=\"m-0 mb-1 text-[11px] font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">Step {{stepIndex}} of {{stepTotal}}</p>\n    <h4 class=\"m-0 mb-1 text-sm font-bold\">{{heading}}</h4>\n    <p class=\"m-0 mb-2.5 text-[#241430b3]\">{{body}}</p>\n    <div class=\"flex gap-2\">\n      <button type=\"button\" class=\"rounded-md py-1.5 px-3 font-bold border-0 cursor-pointer\" style=\"background:{{accent}}\">Next</button>\n      <button type=\"button\" class=\"bg-transparent border-0 text-[#241430a0] underline cursor-pointer\">Dismiss</button>\n    </div>\n  </div>\n</div>\n<style>\n.pon-tw[data-feature=\"search\"] .pon-tw__icon--search,\n.pon-tw[data-feature=\"shortcuts\"] .pon-tw__icon--shortcuts,\n.pon-tw[data-feature=\"reactions\"] .pon-tw__icon--reactions { box-shadow: 0 0 0 3px {{accent}}; border-color: transparent; }\n</style>",
+    "react": "export function ProgressiveOnboarding({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  feature = \"{{feature}}\",\n  accent = \"{{accent}}\",\n  stepIndex = {{stepIndex}},\n  stepTotal = {{stepTotal}},\n}) {\n  const iconStyle = (id) => ({ width: 34, height: 34, borderRadius: 8, border: \"1px solid #24143020\", background: \"#fff\", fontSize: 15, cursor: \"pointer\", boxShadow: feature === id ? `0 0 0 3px ${accent}` : \"none\", borderColor: feature === id ? \"transparent\" : \"#24143020\" });\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <div role=\"toolbar\" aria-label=\"Quick actions\" style={{ display: \"flex\", gap: 8, marginBottom: 14 }}>\n        <button type=\"button\" aria-label=\"Search\" style={iconStyle(\"search\")}>🔍</button>\n        <button type=\"button\" aria-label=\"Keyboard shortcuts\" style={iconStyle(\"shortcuts\")}>⌨️</button>\n        <button type=\"button\" aria-label=\"Reactions\" style={iconStyle(\"reactions\")}>😊</button>\n      </div>\n      <div role=\"status\" style={{ background: \"#fff\", borderRadius: 10, padding: \"12px 14px\" }}>\n        <p style={{ margin: \"0 0 4px\", fontSize: 11, fontWeight: 700, color: accent, textTransform: \"uppercase\", letterSpacing: \".04em\" }}>Step {stepIndex} of {stepTotal}</p>\n        <h4 style={{ margin: \"0 0 4px\", fontSize: 14, fontWeight: 700 }}>{heading}</h4>\n        <p style={{ margin: \"0 0 10px\", color: \"#241430b3\" }}>{body}</p>\n        <div style={{ display: \"flex\", gap: 8 }}>\n          <button type=\"button\" style={{ background: accent, border: \"none\", borderRadius: 6, padding: \"6px 12px\", font: \"inherit\", fontWeight: 700, cursor: \"pointer\" }}>Next</button>\n          <button type=\"button\" style={{ background: \"transparent\", border: \"none\", color: \"#241430a0\", font: \"inherit\", cursor: \"pointer\", textDecoration: \"underline\" }}>Dismiss</button>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

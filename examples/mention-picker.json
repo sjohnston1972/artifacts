@@ -1,0 +1,42 @@
+{
+  "slug": "mention-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Field label",
+      "default": "Mention someone"
+    },
+    {
+      "id": "query",
+      "type": "text",
+      "label": "Typed text",
+      "default": "sam"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "expanded",
+      "type": "toggle",
+      "label": "Picker open",
+      "default": true
+    },
+    {
+      "id": "displayStyle",
+      "type": "select",
+      "label": "Show in options",
+      "default": "both",
+      "options": ["name", "handle", "both"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mp\" style=\"--accent:{{accent}};\" data-style=\"{{displayStyle}}\">\n  <label class=\"mp__label\" for=\"mp-input\">{{label}}</label>\n  <input id=\"mp-input\" type=\"text\" class=\"mp__input\" role=\"combobox\" aria-expanded=\"{{expanded}}\" aria-controls=\"mp-listbox\" aria-autocomplete=\"list\" value=\"@{{query}}\" autocomplete=\"off\">\n  {{#if expanded}}\n  <ul id=\"mp-listbox\" class=\"mp__listbox\" role=\"listbox\" aria-label=\"Matching people\">\n    <li role=\"option\" aria-selected=\"true\" class=\"mp__option\">\n      <span class=\"mp__avatar\" aria-hidden=\"true\">SK</span>\n      <span class=\"mp__name\">Samira Khan</span>\n      <span class=\"mp__handle\">@samira</span>\n    </li>\n    <li role=\"option\" aria-selected=\"false\" class=\"mp__option\">\n      <span class=\"mp__avatar\" aria-hidden=\"true\">SC</span>\n      <span class=\"mp__name\">Sam Chen</span>\n      <span class=\"mp__handle\">@samc</span>\n    </li>\n    <li role=\"option\" aria-selected=\"false\" class=\"mp__option\">\n      <span class=\"mp__avatar\" aria-hidden=\"true\">SP</span>\n      <span class=\"mp__name\">Samuel Park</span>\n      <span class=\"mp__handle\">@spark</span>\n    </li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.mp { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 260px; width: 260px; padding: 14px; border-radius: 12px; box-sizing: border-box; }\n.mp__label { display: block; font-size: 11px; font-weight: 700; color: #241430a0; margin-bottom: 5px; }\n.mp__input { display: block; width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1.5px solid var(--accent); border-radius: 8px; font: inherit; color: #241430; background: #fff; }\n.mp__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.mp__listbox { list-style: none; margin: 6px 0 0; padding: 4px; background: #fff; border-radius: 10px; box-shadow: 0 4px 14px rgba(36,20,48,.14); }\n.mp__option { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; }\n.mp__option[aria-selected=\"true\"] { background: var(--accent); }\n.mp__avatar { width: 22px; height: 22px; border-radius: 50%; background: #241430; color: #FAF7F2; font-size: 9px; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; }\n.mp__name { font-weight: 600; }\n.mp__handle { font-size: 11px; color: #241430a0; }\n.mp[data-style=\"name\"] .mp__handle { display: none; }\n.mp[data-style=\"handle\"] .mp__name { display: none; }\n</style>",
+    "tailwind": "<div class=\"mp-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[260px] w-[260px] p-3.5 rounded-xl box-border\" style=\"--accent:{{accent}}\" data-style=\"{{displayStyle}}\">\n  <label for=\"mpt-input\" class=\"block text-[11px] font-bold text-[#241430a0] mb-1\">{{label}}</label>\n  <input id=\"mpt-input\" type=\"text\" role=\"combobox\" aria-expanded=\"{{expanded}}\" aria-controls=\"mpt-listbox\" aria-autocomplete=\"list\" value=\"@{{query}}\" autocomplete=\"off\" class=\"block w-full box-border py-1.5 px-2.5 rounded-lg font-sans text-[#241430] bg-white\" style=\"border:1.5px solid {{accent}}\">\n  {{#if expanded}}\n  <ul id=\"mpt-listbox\" role=\"listbox\" aria-label=\"Matching people\" class=\"mp-tw__listbox list-none mt-1.5 mb-0 p-1 bg-white rounded-[10px] shadow-lg\">\n    <li role=\"option\" aria-selected=\"true\" class=\"mp-tw__option flex items-center gap-2 py-1.5 px-2 rounded-md\" style=\"background:{{accent}}\">\n      <span aria-hidden=\"true\" class=\"w-[22px] h-[22px] rounded-full bg-[#241430] text-[#FAF7F2] text-[9px] font-bold grid place-items-center flex-shrink-0\">SK</span>\n      <span class=\"mp-tw__name font-semibold\">Samira Khan</span>\n      <span class=\"mp-tw__handle text-[11px] text-[#241430a0]\">@samira</span>\n    </li>\n    <li role=\"option\" aria-selected=\"false\" class=\"mp-tw__option flex items-center gap-2 py-1.5 px-2 rounded-md\">\n      <span aria-hidden=\"true\" class=\"w-[22px] h-[22px] rounded-full bg-[#241430] text-[#FAF7F2] text-[9px] font-bold grid place-items-center flex-shrink-0\">SC</span>\n      <span class=\"mp-tw__name font-semibold\">Sam Chen</span>\n      <span class=\"mp-tw__handle text-[11px] text-[#241430a0]\">@samc</span>\n    </li>\n    <li role=\"option\" aria-selected=\"false\" class=\"mp-tw__option flex items-center gap-2 py-1.5 px-2 rounded-md\">\n      <span aria-hidden=\"true\" class=\"w-[22px] h-[22px] rounded-full bg-[#241430] text-[#FAF7F2] text-[9px] font-bold grid place-items-center flex-shrink-0\">SP</span>\n      <span class=\"mp-tw__name font-semibold\">Samuel Park</span>\n      <span class=\"mp-tw__handle text-[11px] text-[#241430a0]\">@spark</span>\n    </li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.mp-tw[data-style=\"name\"] .mp-tw__handle { display: none; }\n.mp-tw[data-style=\"handle\"] .mp-tw__name { display: none; }\n</style>",
+    "react": "export function MentionPicker({\n  label = \"{{label}}\",\n  query = \"{{query}}\",\n  accent = \"{{accent}}\",\n  expanded = {{expanded}},\n  displayStyle = \"{{displayStyle}}\",\n}) {\n  const people = [\n    { initials: \"SK\", name: \"Samira Khan\", handle: \"@samira\", selected: true },\n    { initials: \"SC\", name: \"Sam Chen\", handle: \"@samc\", selected: false },\n    { initials: \"SP\", name: \"Samuel Park\", handle: \"@spark\", selected: false },\n  ];\n  const showName = displayStyle !== \"handle\";\n  const showHandle = displayStyle !== \"name\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 260, width: 260, padding: 14, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <label htmlFor=\"mpr-input\" style={{ display: \"block\", fontSize: 11, fontWeight: 700, color: \"#241430a0\", marginBottom: 5 }}>{label}</label>\n      <input id=\"mpr-input\" type=\"text\" role=\"combobox\" aria-expanded={expanded} aria-controls=\"mpr-listbox\" aria-autocomplete=\"list\" defaultValue={`@${query}`} autoComplete=\"off\" style={{ display: \"block\", width: \"100%\", boxSizing: \"border-box\", padding: \"7px 10px\", border: `1.5px solid ${accent}`, borderRadius: 8, font: \"inherit\", color: \"#241430\", background: \"#fff\" }} />\n      {expanded && (\n        <ul id=\"mpr-listbox\" role=\"listbox\" aria-label=\"Matching people\" style={{ listStyle: \"none\", margin: \"6px 0 0\", padding: 4, background: \"#fff\", borderRadius: 10, boxShadow: \"0 4px 14px rgba(36,20,48,.14)\" }}>\n          {people.map((p) => (\n            <li key={p.handle} role=\"option\" aria-selected={p.selected} style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 8px\", borderRadius: 6, background: p.selected ? accent : \"transparent\" }}>\n              <span aria-hidden=\"true\" style={{ width: 22, height: 22, borderRadius: \"50%\", background: \"#241430\", color: \"#FAF7F2\", fontSize: 9, fontWeight: 700, display: \"grid\", placeItems: \"center\", flexShrink: 0 }}>{p.initials}</span>\n              {showName && <span style={{ fontWeight: 600 }}>{p.name}</span>}\n              {showHandle && <span style={{ fontSize: 11, color: \"#241430a0\" }}>{p.handle}</span>}\n            </li>\n          ))}\n        </ul>\n      )}\n    </div>\n  );\n}"
+  }
+}

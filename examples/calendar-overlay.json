@@ -1,0 +1,54 @@
+{
+  "slug": "calendar-overlay",
+  "controls_schema": [
+    {
+      "id": "primaryLabel",
+      "type": "text",
+      "label": "Primary calendar",
+      "default": "My calendar"
+    },
+    {
+      "id": "secondaryLabel",
+      "type": "text",
+      "label": "Secondary calendar",
+      "default": "Team calendar"
+    },
+    {
+      "id": "mode",
+      "type": "select",
+      "label": "Layout",
+      "default": "Overlay",
+      "options": [
+        "Overlay",
+        "Side by side"
+      ]
+    },
+    {
+      "id": "primaryAccent",
+      "type": "color",
+      "label": "Primary colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2"
+      ]
+    },
+    {
+      "id": "secondaryAccent",
+      "type": "color",
+      "label": "Secondary colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"overlay\" data-mode=\"{{mode}}\">\n  <div class=\"overlay__legend\">\n    <span class=\"overlay__chip\"><span class=\"overlay__dot\" style=\"background:{{primaryAccent}};\"></span>{{primaryLabel}}</span>\n    <span class=\"overlay__chip\"><span class=\"overlay__dot\" style=\"background:{{secondaryAccent}};\"></span>{{secondaryLabel}}</span>\n  </div>\n  <div class=\"overlay__track\">\n    <div class=\"overlay__event overlay__event--a\" style=\"background:{{primaryAccent}};\">9&ndash;10am Standup</div>\n    <div class=\"overlay__event overlay__event--b\" style=\"background:{{secondaryAccent}};\">9:30&ndash;11am Planning</div>\n  </div>\n</div>\n<style>\n.overlay { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 420px; padding: 18px; border-radius: 12px; box-sizing: border-box; }\n.overlay__legend { display: flex; gap: 16px; margin-bottom: 14px; }\n.overlay__chip { display: flex; align-items: center; gap: 6px; font-weight: 600; }\n.overlay__dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }\n.overlay__track { position: relative; height: 64px; background: #24143010; border-radius: 8px; }\n.overlay__event { position: absolute; top: 8px; height: 24px; border-radius: 6px; padding: 3px 8px; font-weight: 600; color: #14351f; box-sizing: border-box; white-space: nowrap; overflow: hidden; }\n.overlay__event--a { left: 4%; width: 44%; }\n.overlay__event--b { left: 24%; width: 44%; top: 34px; }\n.overlay[data-mode=\"Side by side\"] .overlay__event--a { left: 2%; width: 46%; top: 8px; }\n.overlay[data-mode=\"Side by side\"] .overlay__event--b { left: 52%; width: 46%; top: 8px; }\n</style>",
+    "tailwind": "<div class=\"w-[420px] p-[18px] rounded-xl box-border font-sans text-[13px] text-[#241430] bg-[#FAF7F2] overlay-tw\" data-mode=\"{{mode}}\">\n  <div class=\"flex gap-4 mb-3.5\">\n    <span class=\"flex items-center gap-1.5 font-semibold\"><span class=\"w-[9px] h-[9px] rounded-full inline-block\" style=\"background:{{primaryAccent}}\"></span>{{primaryLabel}}</span>\n    <span class=\"flex items-center gap-1.5 font-semibold\"><span class=\"w-[9px] h-[9px] rounded-full inline-block\" style=\"background:{{secondaryAccent}}\"></span>{{secondaryLabel}}</span>\n  </div>\n  <div class=\"relative h-16 bg-[#24143010] rounded-lg\">\n    <div class=\"overlay-tw-a absolute top-2 h-6 left-[4%] w-[44%] rounded-md px-2 py-0.5 font-semibold text-[#14351f] box-border whitespace-nowrap overflow-hidden\" style=\"background:{{primaryAccent}}\">9&ndash;10am Standup</div>\n    <div class=\"overlay-tw-b absolute top-[34px] h-6 left-[24%] w-[44%] rounded-md px-2 py-0.5 font-semibold text-[#14351f] box-border whitespace-nowrap overflow-hidden\" style=\"background:{{secondaryAccent}}\">9:30&ndash;11am Planning</div>\n  </div>\n</div>\n<style>\n.overlay-tw[data-mode=\"Side by side\"] .overlay-tw-a { left: 2%; width: 46%; top: 8px; }\n.overlay-tw[data-mode=\"Side by side\"] .overlay-tw-b { left: 52%; width: 46%; top: 8px; }\n</style>",
+    "react": "export function CalendarOverlay({\n  primaryLabel = \"{{primaryLabel}}\",\n  secondaryLabel = \"{{secondaryLabel}}\",\n  mode = \"{{mode}}\",\n  primaryAccent = \"{{primaryAccent}}\",\n  secondaryAccent = \"{{secondaryAccent}}\",\n}) {\n  const side = mode === \"Side by side\";\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 420, padding: 18, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", gap: 16, marginBottom: 14 }}>\n        <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, fontWeight: 600 }}><span style={{ width: 9, height: 9, borderRadius: 999, display: \"inline-block\", background: primaryAccent }} />{primaryLabel}</span>\n        <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, fontWeight: 600 }}><span style={{ width: 9, height: 9, borderRadius: 999, display: \"inline-block\", background: secondaryAccent }} />{secondaryLabel}</span>\n      </div>\n      <div style={{ position: \"relative\", height: 64, background: \"#24143010\", borderRadius: 8 }}>\n        <div style={{ position: \"absolute\", top: 8, height: 24, left: side ? \"2%\" : \"4%\", width: side ? \"46%\" : \"44%\", borderRadius: 6, padding: \"3px 8px\", fontWeight: 600, color: \"#14351f\", boxSizing: \"border-box\", whiteSpace: \"nowrap\", overflow: \"hidden\", background: primaryAccent }}>9&ndash;10am Standup</div>\n        <div style={{ position: \"absolute\", top: side ? 8 : 34, height: 24, left: side ? \"52%\" : \"24%\", width: side ? \"46%\" : \"44%\", borderRadius: 6, padding: \"3px 8px\", fontWeight: 600, color: \"#14351f\", boxSizing: \"border-box\", whiteSpace: \"nowrap\", overflow: \"hidden\", background: secondaryAccent }}>9:30&ndash;11am Planning</div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

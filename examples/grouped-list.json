@@ -1,0 +1,45 @@
+{
+  "slug": "grouped-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Tasks"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Group style",
+      "default": "bordered",
+      "options": ["plain", "bordered", "card"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showCounts",
+      "type": "toggle",
+      "label": "Show group counts",
+      "default": true
+    },
+    {
+      "id": "itemGap",
+      "type": "number",
+      "label": "Group spacing",
+      "default": 14,
+      "min": 8,
+      "max": 28,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"grouped-list grouped-list--{{style}}\" style=\"--accent:{{accent}};--gap:{{itemGap}}px;\">\n  <h3 class=\"grouped-list__heading\">{{heading}}</h3>\n  <div class=\"grouped-list__group\">\n    <h4 id=\"gl-todo\" class=\"grouped-list__group-heading\">To do{{#if showCounts}} <span class=\"grouped-list__count\">2</span>{{/if}}</h4>\n    <ul aria-labelledby=\"gl-todo\" class=\"grouped-list__items\">\n      <li>Draft the proposal</li>\n      <li>Review budget</li>\n    </ul>\n  </div>\n  <div class=\"grouped-list__group\">\n    <h4 id=\"gl-done\" class=\"grouped-list__group-heading\">Done{{#if showCounts}} <span class=\"grouped-list__count\">1</span>{{/if}}</h4>\n    <ul aria-labelledby=\"gl-done\" class=\"grouped-list__items\">\n      <li>Kickoff call</li>\n    </ul>\n  </div>\n</section>\n<style>\n.grouped-list { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.grouped-list__heading { margin: 0 0 12px; font-size: 15px; font-weight: 700; }\n.grouped-list__group + .grouped-list__group { margin-top: var(--gap); }\n.grouped-list__group-heading { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; }\n.grouped-list__count { background: var(--accent); color: #241430; border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 700; }\n.grouped-list__items { list-style: none; margin: 0; padding: 0; }\n.grouped-list__items li { padding: 7px 2px; }\n.grouped-list--bordered .grouped-list__group { border: 1px solid #24143020; border-radius: 10px; padding: 10px 12px; }\n.grouped-list--card .grouped-list__group { background: #fff; border-radius: 10px; padding: 10px 12px; box-shadow: 0 2px 8px rgba(36,20,48,.08); }\n</style>",
+    "tailwind": "<section class=\"grouped-list-tw grouped-list-tw--{{style}} font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};--gap:{{itemGap}}px;\">\n  <h3 class=\"m-0 mb-3 text-[15px] font-bold\">{{heading}}</h3>\n  <div class=\"grouped-list-tw__group\">\n    <h4 id=\"glt-todo\" class=\"m-0 mb-1.5 text-xs font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">To do{{#if showCounts}} <span class=\"rounded-full px-1.5 text-[11px] font-bold\" style=\"background:{{accent}}\">2</span>{{/if}}</h4>\n    <ul aria-labelledby=\"glt-todo\" class=\"list-none m-0 p-0\">\n      <li class=\"py-1.5 px-0.5\">Draft the proposal</li>\n      <li class=\"py-1.5 px-0.5\">Review budget</li>\n    </ul>\n  </div>\n  <div class=\"grouped-list-tw__group\">\n    <h4 id=\"glt-done\" class=\"m-0 mb-1.5 text-xs font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">Done{{#if showCounts}} <span class=\"rounded-full px-1.5 text-[11px] font-bold\" style=\"background:{{accent}}\">1</span>{{/if}}</h4>\n    <ul aria-labelledby=\"glt-done\" class=\"list-none m-0 p-0\">\n      <li class=\"py-1.5 px-0.5\">Kickoff call</li>\n    </ul>\n  </div>\n</section>\n<style>\n.grouped-list-tw__group + .grouped-list-tw__group { margin-top: var(--gap); }\n.grouped-list-tw--bordered .grouped-list-tw__group { border: 1px solid #24143020; border-radius: 10px; padding: 10px 12px; }\n.grouped-list-tw--card .grouped-list-tw__group { background: #fff; border-radius: 10px; padding: 10px 12px; box-shadow: 0 2px 8px rgba(36,20,48,.08); }\n</style>",
+    "react": "export function GroupedList({\n  heading = \"{{heading}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n  showCounts = {{showCounts}},\n  itemGap = {{itemGap}},\n}) {\n  const groupStyle = {\n    ...(style === \"bordered\" ? { border: \"1px solid #24143020\", borderRadius: 10, padding: \"10px 12px\" } : {}),\n    ...(style === \"card\" ? { background: \"#fff\", borderRadius: 10, padding: \"10px 12px\", boxShadow: \"0 2px 8px rgba(36,20,48,.08)\" } : {}),\n  };\n  const groups = [\n    { id: \"todo\", label: \"To do\", count: 2, items: [\"Draft the proposal\", \"Review budget\"] },\n    { id: \"done\", label: \"Done\", count: 1, items: [\"Kickoff call\"] },\n  ];\n  return (\n    <section style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      {groups.map((g, i) => (\n        <div key={g.id} style={{ ...groupStyle, marginTop: i === 0 ? 0 : itemGap }}>\n          <h4 id={`rgl-${g.id}`} style={{ margin: \"0 0 6px\", fontSize: 12, fontWeight: 700, color: accent, textTransform: \"uppercase\", letterSpacing: \".03em\" }}>\n            {g.label}{showCounts && <span style={{ marginLeft: 6, background: accent, color: \"#241430\", borderRadius: 10, padding: \"1px 7px\", fontSize: 11, fontWeight: 700 }}>{g.count}</span>}\n          </h4>\n          <ul aria-labelledby={`rgl-${g.id}`} style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n            {g.items.map((item) => <li key={item} style={{ padding: \"7px 2px\" }}>{item}</li>)}\n          </ul>\n        </div>\n      ))}\n    </section>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "list-divider",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Divider label",
+      "default": "Yesterday"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "labelled",
+      "options": ["labelled", "line", "spaced"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showSecondLabel",
+      "type": "toggle",
+      "label": "Show a second divider",
+      "default": true
+    },
+    {
+      "id": "spacing",
+      "type": "number",
+      "label": "Divider spacing",
+      "default": 10,
+      "min": 4,
+      "max": 24,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ld ld--{{style}}\" style=\"--accent:{{accent}};--spacing:{{spacing}}px;\">\n  <ul class=\"ld__list\">\n    <li>Stand-up notes</li>\n    <li>Design review</li>\n    <li role=\"separator\" aria-orientation=\"horizontal\" class=\"ld__divider\"><span class=\"ld__divider-label\">{{label}}</span></li>\n    <li>Sprint planning</li>\n    <li>Retro summary</li>\n    {{#if showSecondLabel}}\n    <li role=\"separator\" aria-orientation=\"horizontal\" class=\"ld__divider\"><span class=\"ld__divider-label\">Last week</span></li>\n    <li>Kickoff notes</li>\n    {{/if}}\n  </ul>\n</div>\n<style>\n.ld { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; width: 300px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.ld__list { list-style: none; margin: 0; padding: 0; }\n.ld__list li:not(.ld__divider) { padding: 8px 4px; }\n.ld__divider { display: flex; align-items: center; margin: var(--spacing) 0; color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }\n.ld--line .ld__divider-label { display: none; }\n.ld__divider::before, .ld__divider::after { content: \"\"; flex: 1; height: 1px; background: color-mix(in srgb, var(--accent) 35%, transparent); }\n.ld--labelled .ld__divider-label { padding: 0 8px; }\n.ld--spaced .ld__divider { margin: calc(var(--spacing) * 2) 0; }\n</style>",
+    "tailwind": "<div class=\"ld-tw ld-tw--{{style}} font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[300px] w-[300px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};--spacing:{{spacing}}px;\">\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"py-2 px-1\">Stand-up notes</li>\n    <li class=\"py-2 px-1\">Design review</li>\n    <li role=\"separator\" aria-orientation=\"horizontal\" class=\"ld-tw__divider flex items-center text-xs font-bold uppercase tracking-wide\" style=\"margin:{{spacing}}px 0;color:{{accent}}\"><span class=\"ld-tw__divider-label px-2\">{{label}}</span></li>\n    <li class=\"py-2 px-1\">Sprint planning</li>\n    <li class=\"py-2 px-1\">Retro summary</li>\n    {{#if showSecondLabel}}\n    <li role=\"separator\" aria-orientation=\"horizontal\" class=\"ld-tw__divider flex items-center text-xs font-bold uppercase tracking-wide\" style=\"margin:{{spacing}}px 0;color:{{accent}}\"><span class=\"ld-tw__divider-label px-2\">Last week</span></li>\n    <li class=\"py-2 px-1\">Kickoff notes</li>\n    {{/if}}\n  </ul>\n</div>\n<style>\n.ld-tw--line .ld-tw__divider-label { display: none; }\n.ld-tw__divider::before, .ld-tw__divider::after { content: \"\"; flex: 1; height: 1px; background: color-mix(in srgb, currentColor 35%, transparent); }\n.ld-tw--spaced .ld-tw__divider { margin-top: calc(var(--spacing) * 2) !important; margin-bottom: calc(var(--spacing) * 2) !important; }\n</style>",
+    "react": "export function ListDivider({\n  label = \"{{label}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n  showSecondLabel = {{showSecondLabel}},\n  spacing = {{spacing}},\n}) {\n  const gap = style === \"spaced\" ? spacing * 2 : spacing;\n  const Divider = ({ text }) => (\n    <li role=\"separator\" aria-orientation=\"horizontal\" style={{ display: \"flex\", alignItems: \"center\", margin: `${gap}px 0`, color: accent, fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\" }}>\n      <span style={{ flex: 1, height: 1, background: accent, opacity: 0.35 }} />\n      {style !== \"line\" && <span style={{ padding: \"0 8px\" }}>{text}</span>}\n      <span style={{ flex: 1, height: 1, background: accent, opacity: 0.35 }} />\n    </li>\n  );\n  const itemStyle = { padding: \"8px 4px\" };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, width: 300, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li style={itemStyle}>Stand-up notes</li>\n        <li style={itemStyle}>Design review</li>\n        <Divider text={label} />\n        <li style={itemStyle}>Sprint planning</li>\n        <li style={itemStyle}>Retro summary</li>\n        {showSecondLabel && (\n          <>\n            <Divider text=\"Last week\" />\n            <li style={itemStyle}>Kickoff notes</li>\n          </>\n        )}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

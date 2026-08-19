@@ -1,0 +1,50 @@
+{
+  "slug": "mfa",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Verify it’s you"
+    },
+    {
+      "id": "method",
+      "type": "select",
+      "label": "Method",
+      "default": "Authenticator app",
+      "options": [
+        "Authenticator app",
+        "SMS",
+        "Security key"
+      ]
+    },
+    {
+      "id": "maskedContact",
+      "type": "text",
+      "label": "Masked destination",
+      "default": "app on your phone"
+    },
+    {
+      "id": "rememberDevice",
+      "type": "toggle",
+      "label": "Remember this device",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"mfa\" style=\"--accent:{{accent}};\">\n  <h3 class=\"mfa__heading\">{{heading}}</h3>\n  <p class=\"mfa__method\" data-method=\"{{method}}\">Using <strong>{{method}}</strong> &middot; {{maskedContact}}</p>\n  <label class=\"mfa__field\">\n    <span class=\"mfa__label\">6-digit code</span>\n    <input type=\"text\" inputmode=\"numeric\" autocomplete=\"one-time-code\" pattern=\"[0-9]*\" maxlength=\"6\" />\n  </label>\n  {{#if rememberDevice}}<label class=\"mfa__remember\"><input type=\"checkbox\" checked />Remember this device for 30 days</label>{{/if}}\n  <button type=\"submit\" class=\"mfa__submit\">Verify</button>\n</form>\n<style>\n.mfa { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 20px; border-radius: 14px; box-sizing: border-box; border: 1px solid #24143018; }\n.mfa__heading { margin: 0 0 8px; font-size: 16px; }\n.mfa__method { margin: 0 0 16px; font-size: 13px; color: #24143099; }\n.mfa__field { display: block; margin-bottom: 12px; }\n.mfa__label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; }\n.mfa input[type=\"text\"] { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1.5px solid #24143030; font: 18px/1 system-ui, sans-serif; letter-spacing: .3em; }\n.mfa__remember { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 14px; }\n.mfa__submit { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #14351f; font-weight: 700; cursor: pointer; }\n.mfa__submit:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<form class=\"w-[300px] p-5 rounded-2xl box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2]\">\n  <h3 class=\"m-0 mb-2 text-base\">{{heading}}</h3>\n  <p class=\"m-0 mb-4 text-[13px] text-[#241430]/60\" data-method=\"{{method}}\">Using <strong>{{method}}</strong> &middot; {{maskedContact}}</p>\n  <label class=\"block mb-3\">\n    <span class=\"block mb-1 font-semibold text-[13px]\">6-digit code</span>\n    <input type=\"text\" inputmode=\"numeric\" autocomplete=\"one-time-code\" pattern=\"[0-9]*\" maxlength=\"6\" class=\"w-full box-border p-2.5 rounded-lg border-[1.5px] border-[#24143030] text-lg tracking-[.3em]\" />\n  </label>\n  {{#if rememberDevice}}<label class=\"flex items-center gap-2 text-[13px] mb-3.5\"><input type=\"checkbox\" checked />Remember this device for 30 days</label>{{/if}}\n  <button type=\"submit\" class=\"w-full py-2.5 rounded-lg border-none font-bold cursor-pointer text-[#14351f]\" style=\"background:{{accent}}\">Verify</button>\n</form>",
+    "react": "export function Mfa({\n  heading = \"{{heading}}\",\n  method = \"{{method}}\",\n  maskedContact = \"{{maskedContact}}\",\n  rememberDevice = {{rememberDevice}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <form style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, padding: 20, borderRadius: 14, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 16 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 16px\", fontSize: 13, color: \"#24143099\" }}>Using <strong>{method}</strong> &middot; {maskedContact}</p>\n      <label style={{ display: \"block\", marginBottom: 12 }}>\n        <span style={{ display: \"block\", marginBottom: 5, fontWeight: 600, fontSize: 13 }}>6-digit code</span>\n        <input type=\"text\" inputMode=\"numeric\" autoComplete=\"one-time-code\" pattern=\"[0-9]*\" maxLength={6}\n          style={{ width: \"100%\", boxSizing: \"border-box\", padding: 10, borderRadius: 8, border: \"1.5px solid #24143030\", font: \"18px/1 system-ui, sans-serif\", letterSpacing: \".3em\" }} />\n      </label>\n      {rememberDevice && <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 13, marginBottom: 14 }}><input type=\"checkbox\" defaultChecked />Remember this device for 30 days</label>}\n      <button type=\"submit\" style={{ width: \"100%\", padding: 10, borderRadius: 8, border: \"none\", background: accent, color: \"#14351f\", fontWeight: 700, cursor: \"pointer\" }}>Verify</button>\n    </form>\n  );\n}"
+  }
+}

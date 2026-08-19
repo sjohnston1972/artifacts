@@ -1,0 +1,49 @@
+{
+  "slug": "logout",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Sign out?"
+    },
+    {
+      "id": "accountName",
+      "type": "text",
+      "label": "Account",
+      "default": "jamie@example.com"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "Dialog",
+      "options": [
+        "Dialog",
+        "Inline banner"
+      ]
+    },
+    {
+      "id": "allDevices",
+      "type": "toggle",
+      "label": "Offer ‘all devices’ option",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#D64545",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"logout\" data-style=\"{{style}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"logout__heading\">{{heading}}</h3>\n  <p class=\"logout__account\">Signed in as <strong>{{accountName}}</strong></p>\n  {{#if allDevices}}<label class=\"logout__all\"><input type=\"checkbox\" />Sign out of all devices</label>{{/if}}\n  <div class=\"logout__actions\">\n    <button type=\"button\" class=\"logout__cancel\">Cancel</button>\n    <button type=\"button\" class=\"logout__confirm\">Sign out</button>\n  </div>\n</div>\n<style>\n.logout { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 20px; border-radius: 14px; box-sizing: border-box; }\n.logout[data-style=\"Dialog\"] { border: 1px solid #24143018; box-shadow: 0 10px 30px rgba(36,20,48,.18); }\n.logout[data-style=\"Inline banner\"] { border-left: 4px solid var(--accent); border-radius: 8px; background: #24143008; box-shadow: none; }\n.logout__heading { margin: 0 0 6px; font-size: 16px; }\n.logout__account { margin: 0 0 14px; font-size: 13px; color: #24143099; }\n.logout__all { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 14px; }\n.logout__actions { display: flex; gap: 10px; }\n.logout__cancel, .logout__confirm { flex: 1; padding: 9px; border-radius: 8px; font-weight: 700; cursor: pointer; font: inherit; }\n.logout__cancel { background: transparent; border: 1.5px solid #24143030; color: #241430; }\n.logout__confirm { background: var(--accent); border: none; color: #FAF7F2; }\n.logout__confirm:focus-visible, .logout__cancel:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-5 rounded-2xl box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] logout-tw\" data-style=\"{{style}}\">\n  <h3 class=\"m-0 mb-1.5 text-base\">{{heading}}</h3>\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/60\">Signed in as <strong>{{accountName}}</strong></p>\n  {{#if allDevices}}<label class=\"flex items-center gap-2 text-[13px] mb-3.5\"><input type=\"checkbox\" />Sign out of all devices</label>{{/if}}\n  <div class=\"flex gap-2.5\">\n    <button type=\"button\" class=\"flex-1 py-2.5 rounded-lg font-bold cursor-pointer bg-transparent border-[1.5px] border-[#24143030] text-[#241430]\">Cancel</button>\n    <button type=\"button\" class=\"flex-1 py-2.5 rounded-lg font-bold cursor-pointer border-none text-[#FAF7F2]\" style=\"background:{{accent}}\">Sign out</button>\n  </div>\n</div>\n<style>\n.logout-tw[data-style=\"Dialog\"] { border: 1px solid #24143018; box-shadow: 0 10px 30px rgba(36,20,48,.18); }\n.logout-tw[data-style=\"Inline banner\"] { border-left: 4px solid {{accent}}; border-radius: 8px; background: #24143008; box-shadow: none; }\n</style>",
+    "react": "export function Logout({\n  heading = \"{{heading}}\",\n  accountName = \"{{accountName}}\",\n  style = \"{{style}}\",\n  allDevices = {{allDevices}},\n  accent = \"{{accent}}\",\n}) {\n  const dialog = style === \"Dialog\";\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: dialog ? \"#FAF7F2\" : \"#24143008\", width: 300, padding: 20, borderRadius: dialog ? 14 : 8, boxSizing: \"border-box\",\n      border: dialog ? \"1px solid #24143018\" : \"none\", borderLeft: dialog ? undefined : `4px solid ${accent}`, boxShadow: dialog ? \"0 10px 30px rgba(36,20,48,.18)\" : \"none\" }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 16 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#24143099\" }}>Signed in as <strong>{accountName}</strong></p>\n      {allDevices && <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 13, marginBottom: 14 }}><input type=\"checkbox\" />Sign out of all devices</label>}\n      <div style={{ display: \"flex\", gap: 10 }}>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: \"transparent\", border: \"1.5px solid #24143030\", color: \"#241430\" }}>Cancel</button>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: accent, border: \"none\", color: \"#FAF7F2\" }}>Sign out</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "inspector-pattern",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Layers"
+    },
+    {
+      "id": "itemName",
+      "type": "text",
+      "label": "Selected item",
+      "default": "Header banner"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showInspector",
+      "type": "toggle",
+      "label": "Show inspector panel",
+      "default": true
+    },
+    {
+      "id": "panelWidth",
+      "type": "number",
+      "label": "Inspector width",
+      "default": 160,
+      "min": 120,
+      "max": 240,
+      "step": 20
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"insp\">\n  <main class=\"insp__main\" aria-label=\"{{heading}}\" style=\"--accent:{{accent}};\">\n    <h3 class=\"insp__heading\">{{heading}}</h3>\n    <ul class=\"insp__layers\">\n      <li aria-current=\"true\">{{itemName}}</li>\n      <li>Hero image</li>\n      <li>Footer</li>\n    </ul>\n  </main>\n  {{#if showInspector}}\n  <aside class=\"insp__aside\" aria-label=\"Inspector\" style=\"--w:{{panelWidth}}px;\">\n    <h4 class=\"insp__aside-heading\">Properties</h4>\n    <dl class=\"insp__props\">\n      <div><dt>Name</dt><dd>{{itemName}}</dd></div>\n      <div><dt>Opacity</dt><dd>100%</dd></div>\n      <div><dt>Locked</dt><dd>No</dd></div>\n    </dl>\n  </aside>\n  {{/if}}\n</div>\n<style>\n.insp { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; display: flex; max-width: 420px; width: 420px; border: 1px solid #24143020; border-radius: 12px; overflow: hidden; box-sizing: border-box; }\n.insp__main { flex: 1; padding: 14px; background: #fff; min-width: 0; }\n.insp__heading { margin: 0 0 10px; font-size: 14px; font-weight: 700; }\n.insp__layers { list-style: none; margin: 0; padding: 0; }\n.insp__layers li { padding: 6px 8px; border-radius: 6px; }\n.insp__layers li[aria-current=\"true\"] { background: var(--accent); font-weight: 700; }\n.insp__aside { width: var(--w); flex-shrink: 0; background: #FAF7F2; border-left: 1px solid #24143020; padding: 14px; box-sizing: border-box; }\n.insp__aside-heading { margin: 0 0 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: #241430a0; }\n.insp__props { margin: 0; }\n.insp__props div { padding: 4px 0; border-bottom: 1px solid #24143014; }\n.insp__props dt { font-size: 11px; color: #241430a0; margin: 0; }\n.insp__props dd { margin: 1px 0 0; font-weight: 600; }\n</style>",
+    "tailwind": "<div class=\"insp-tw flex max-w-[420px] w-[420px] border border-[#24143020] rounded-xl overflow-hidden box-border font-sans text-[13.5px] text-[#241430]\">\n  <main aria-label=\"{{heading}}\" class=\"flex-1 p-3.5 bg-white min-w-0\" style=\"--accent:{{accent}}\">\n    <h3 class=\"m-0 mb-2.5 text-sm font-bold\">{{heading}}</h3>\n    <ul class=\"insp-tw__layers list-none m-0 p-0\">\n      <li aria-current=\"true\" class=\"insp-tw__current py-1.5 px-2 rounded-md font-bold\" style=\"background:{{accent}}\">{{itemName}}</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Hero image</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Footer</li>\n    </ul>\n  </main>\n  {{#if showInspector}}\n  <aside aria-label=\"Inspector\" class=\"flex-shrink-0 bg-[#FAF7F2] border-l border-[#24143020] p-3.5 box-border\" style=\"width:{{panelWidth}}px\">\n    <h4 class=\"m-0 mb-2 text-xs font-bold uppercase tracking-wide text-[#241430a0]\">Properties</h4>\n    <dl class=\"m-0\">\n      <div class=\"py-1 border-b border-[#24143014]\"><dt class=\"text-[11px] text-[#241430a0] m-0\">Name</dt><dd class=\"mt-0.5 mb-0 font-semibold\">{{itemName}}</dd></div>\n      <div class=\"py-1 border-b border-[#24143014]\"><dt class=\"text-[11px] text-[#241430a0] m-0\">Opacity</dt><dd class=\"mt-0.5 mb-0 font-semibold\">100%</dd></div>\n      <div class=\"py-1\"><dt class=\"text-[11px] text-[#241430a0] m-0\">Locked</dt><dd class=\"mt-0.5 mb-0 font-semibold\">No</dd></div>\n    </dl>\n  </aside>\n  {{/if}}\n</div>",
+    "react": "export function InspectorPattern({\n  heading = \"{{heading}}\",\n  itemName = \"{{itemName}}\",\n  accent = \"{{accent}}\",\n  showInspector = {{showInspector}},\n  panelWidth = {{panelWidth}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", display: \"flex\", maxWidth: 420, width: 420, border: \"1px solid #24143020\", borderRadius: 12, overflow: \"hidden\", boxSizing: \"border-box\" }}>\n      <main aria-label={heading} style={{ flex: 1, padding: 14, background: \"#fff\", minWidth: 0 }}>\n        <h3 style={{ margin: \"0 0 10px\", fontSize: 14, fontWeight: 700 }}>{heading}</h3>\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          <li aria-current=\"true\" style={{ padding: \"6px 8px\", borderRadius: 6, background: accent, fontWeight: 700 }}>{itemName}</li>\n          <li style={{ padding: \"6px 8px\", borderRadius: 6 }}>Hero image</li>\n          <li style={{ padding: \"6px 8px\", borderRadius: 6 }}>Footer</li>\n        </ul>\n      </main>\n      {showInspector && (\n        <aside aria-label=\"Inspector\" style={{ width: panelWidth, flexShrink: 0, background: \"#FAF7F2\", borderLeft: \"1px solid #24143020\", padding: 14, boxSizing: \"border-box\" }}>\n          <h4 style={{ margin: \"0 0 8px\", fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#241430a0\" }}>Properties</h4>\n          <dl style={{ margin: 0 }}>\n            {[[\"Name\", itemName], [\"Opacity\", \"100%\"], [\"Locked\", \"No\"]].map(([k, v]) => (\n              <div key={k} style={{ padding: \"4px 0\", borderBottom: \"1px solid #24143014\" }}>\n                <dt style={{ fontSize: 11, color: \"#241430a0\", margin: 0 }}>{k}</dt>\n                <dd style={{ margin: \"1px 0 0\", fontWeight: 600 }}>{v}</dd>\n              </div>\n            ))}\n          </dl>\n        </aside>\n      )}\n    </div>\n  );\n}"
+  }
+}

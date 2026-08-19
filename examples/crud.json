@@ -1,0 +1,42 @@
+{
+  "slug": "crud",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Customers"
+    },
+    {
+      "id": "mode",
+      "type": "select",
+      "label": "Mode",
+      "default": "edit",
+      "options": ["list", "create", "edit"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showDelete",
+      "type": "toggle",
+      "label": "Show delete action",
+      "default": true
+    },
+    {
+      "id": "recordName",
+      "type": "text",
+      "label": "Record name",
+      "default": "Jordan Blake"
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"crud\" data-mode=\"{{mode}}\" style=\"--accent:{{accent}};\" aria-label=\"{{heading}}\">\n  <h3 class=\"crud__heading\">{{heading}}</h3>\n  <div class=\"crud__layout\">\n    <ul class=\"crud__list\" aria-label=\"Records\">\n      <li aria-current=\"true\">{{recordName}}</li>\n      <li>Priya Nair</li>\n      <li>Sam Okoro</li>\n    </ul>\n    <form class=\"crud__form\" aria-label=\"Record details\">\n      <label class=\"crud__field\">Name<input type=\"text\" value=\"{{recordName}}\"></label>\n      <label class=\"crud__field\">Email<input type=\"text\" value=\"jordan@example.com\"></label>\n      <div class=\"crud__actions\">\n        <button type=\"submit\" class=\"crud__save\">Save</button>\n        {{#if showDelete}}<button type=\"button\" class=\"crud__delete\">Delete</button>{{/if}}\n      </div>\n    </form>\n  </div>\n</section>\n<style>\n.crud { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 420px; width: 420px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.crud__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.crud__layout { display: flex; gap: 12px; }\n.crud__list { list-style: none; margin: 0; padding: 0; flex: 0 0 120px; }\n.crud__list li { padding: 7px 8px; border-radius: 6px; }\n.crud__list li[aria-current=\"true\"] { background: var(--accent); font-weight: 700; }\n.crud__form { flex: 1; background: #fff; border-radius: 8px; padding: 12px; }\n.crud__field { display: block; font-size: 11px; font-weight: 600; color: #241430a0; margin-bottom: 8px; }\n.crud__field input { display: block; width: 100%; box-sizing: border-box; margin-top: 3px; padding: 6px 8px; border: 1px solid #24143030; border-radius: 6px; font: inherit; color: #241430; }\n.crud__actions { display: flex; gap: 8px; margin-top: 6px; }\n.crud__save { background: var(--accent); border: none; border-radius: 6px; padding: 6px 12px; font: inherit; font-weight: 700; cursor: pointer; }\n.crud__delete { background: transparent; border: 1.5px solid #B3261E; color: #B3261E; border-radius: 6px; padding: 6px 12px; font: inherit; font-weight: 700; cursor: pointer; }\n.crud[data-mode=\"list\"] .crud__form { display: none; }\n.crud[data-mode=\"create\"] .crud__delete { display: none; }\n.crud[data-mode=\"create\"] .crud__list li[aria-current] { background: transparent; font-weight: 400; }\n</style>",
+    "tailwind": "<section class=\"crud-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[420px] w-[420px] p-4 rounded-xl box-border\" data-mode=\"{{mode}}\" style=\"--accent:{{accent}}\" aria-label=\"{{heading}}\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <div class=\"flex gap-3\">\n    <ul aria-label=\"Records\" class=\"crud-tw__list list-none m-0 p-0 flex-none w-[120px]\">\n      <li aria-current=\"true\" class=\"crud-tw__current py-1.5 px-2 rounded-md font-bold\" style=\"background:{{accent}}\">{{recordName}}</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Priya Nair</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Sam Okoro</li>\n    </ul>\n    <form aria-label=\"Record details\" class=\"crud-tw__form flex-1 bg-white rounded-lg p-3\">\n      <label class=\"block text-[11px] font-semibold text-[#241430a0] mb-2\">Name<input type=\"text\" value=\"{{recordName}}\" class=\"block w-full box-border mt-1 py-1.5 px-2 rounded-md border border-[#24143030] text-[#241430] font-sans\"></label>\n      <label class=\"block text-[11px] font-semibold text-[#241430a0] mb-2\">Email<input type=\"text\" value=\"jordan@example.com\" class=\"block w-full box-border mt-1 py-1.5 px-2 rounded-md border border-[#24143030] text-[#241430] font-sans\"></label>\n      <div class=\"flex gap-2 mt-1.5\">\n        <button type=\"submit\" class=\"rounded-md py-1.5 px-3 font-bold border-0 cursor-pointer\" style=\"background:{{accent}}\">Save</button>\n        {{#if showDelete}}<button type=\"button\" class=\"crud-tw__delete rounded-md py-1.5 px-3 font-bold cursor-pointer bg-transparent border-[1.5px] border-[#B3261E] text-[#B3261E]\">Delete</button>{{/if}}\n      </div>\n    </form>\n  </div>\n</section>\n<style>\n.crud-tw[data-mode=\"list\"] .crud-tw__form { display: none; }\n.crud-tw[data-mode=\"create\"] .crud-tw__delete { display: none; }\n.crud-tw[data-mode=\"create\"] .crud-tw__current { background: transparent !important; font-weight: 400; }\n</style>",
+    "react": "export function Crud({\n  heading = \"{{heading}}\",\n  mode = \"{{mode}}\",\n  accent = \"{{accent}}\",\n  showDelete = {{showDelete}},\n  recordName = \"{{recordName}}\",\n}) {\n  const current = mode !== \"create\";\n  return (\n    <section aria-label={heading} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 420, width: 420, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <div style={{ display: \"flex\", gap: 12 }}>\n        <ul aria-label=\"Records\" style={{ listStyle: \"none\", margin: 0, padding: 0, flex: \"0 0 120px\" }}>\n          <li aria-current={current ? \"true\" : undefined} style={{ padding: \"7px 8px\", borderRadius: 6, background: current ? accent : \"transparent\", fontWeight: current ? 700 : 400 }}>{recordName}</li>\n          <li style={{ padding: \"7px 8px\", borderRadius: 6 }}>Priya Nair</li>\n          <li style={{ padding: \"7px 8px\", borderRadius: 6 }}>Sam Okoro</li>\n        </ul>\n        {mode !== \"list\" && (\n          <form aria-label=\"Record details\" style={{ flex: 1, background: \"#fff\", borderRadius: 8, padding: 12 }}>\n            <label style={{ display: \"block\", fontSize: 11, fontWeight: 600, color: \"#241430a0\", marginBottom: 8 }}>Name\n              <input type=\"text\" defaultValue={recordName} style={{ display: \"block\", width: \"100%\", boxSizing: \"border-box\", marginTop: 3, padding: \"6px 8px\", border: \"1px solid #24143030\", borderRadius: 6, font: \"inherit\", color: \"#241430\" }} />\n            </label>\n            <label style={{ display: \"block\", fontSize: 11, fontWeight: 600, color: \"#241430a0\", marginBottom: 8 }}>Email\n              <input type=\"text\" defaultValue=\"jordan@example.com\" style={{ display: \"block\", width: \"100%\", boxSizing: \"border-box\", marginTop: 3, padding: \"6px 8px\", border: \"1px solid #24143030\", borderRadius: 6, font: \"inherit\", color: \"#241430\" }} />\n            </label>\n            <div style={{ display: \"flex\", gap: 8, marginTop: 6 }}>\n              <button type=\"submit\" style={{ background: accent, border: \"none\", borderRadius: 6, padding: \"6px 12px\", font: \"inherit\", fontWeight: 700, cursor: \"pointer\" }}>Save</button>\n              {showDelete && mode !== \"create\" && (\n                <button type=\"button\" style={{ background: \"transparent\", border: \"1.5px solid #B3261E\", color: \"#B3261E\", borderRadius: 6, padding: \"6px 12px\", font: \"inherit\", fontWeight: 700, cursor: \"pointer\" }}>Delete</button>\n              )}\n            </div>\n          </form>\n        )}\n      </div>\n    </section>\n  );\n}"
+  }
+}

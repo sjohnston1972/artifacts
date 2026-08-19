@@ -1,0 +1,56 @@
+{
+  "slug": "busy-block",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Out of office"
+    },
+    {
+      "id": "start",
+      "type": "text",
+      "label": "Start time",
+      "default": "13:00"
+    },
+    {
+      "id": "end",
+      "type": "text",
+      "label": "End time",
+      "default": "14:30"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "reason",
+      "type": "select",
+      "label": "Reason",
+      "default": "Meeting",
+      "options": [
+        "Meeting",
+        "Focus time",
+        "Travel"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#D9C8F0",
+        "#F5C2E0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"busy\" style=\"--accent:{{accent}};\">\n  <p class=\"busy__label\">{{label}} <span class=\"busy__reason\" data-reason=\"{{reason}}\">{{reason}}</span></p>\n  <p class=\"busy__range\">\n    <time datetime=\"{{date}}T{{start}}\">{{start}}</time>&ndash;<time datetime=\"{{date}}T{{end}}\">{{end}}</time>\n  </p>\n</div>\n<style>\n.busy { font: 14px/1.4 system-ui, sans-serif; color: #FAF7F2; width: 300px; padding: 16px 18px; border-radius: 10px; box-sizing: border-box; background: var(--accent); background-image: repeating-linear-gradient(135deg, rgba(250,247,242,.08) 0 6px, transparent 6px 12px); }\n.busy__label { margin: 0 0 6px; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.busy__reason { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; background: rgba(250,247,242,.18); padding: 2px 8px; border-radius: 999px; }\n.busy__range { margin: 0; font-variant-numeric: tabular-nums; opacity: .85; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-4 rounded-[10px] box-border font-sans text-sm text-[#FAF7F2]\" style=\"background:{{accent}};background-image:repeating-linear-gradient(135deg, rgba(250,247,242,.08) 0 6px, transparent 6px 12px)\">\n  <p class=\"m-0 mb-1.5 font-bold flex items-center gap-2 flex-wrap\">{{label}} <span class=\"text-[11px] font-bold uppercase tracking-wide bg-[rgba(250,247,242,.18)] px-2 py-0.5 rounded-full\" data-reason=\"{{reason}}\">{{reason}}</span></p>\n  <p class=\"m-0 tabular-nums opacity-85\">\n    <time datetime=\"{{date}}T{{start}}\">{{start}}</time>&ndash;<time datetime=\"{{date}}T{{end}}\">{{end}}</time>\n  </p>\n</div>",
+    "react": "export function BusyBlock({\n  label = \"{{label}}\",\n  start = \"{{start}}\",\n  end = \"{{end}}\",\n  date = \"{{date}}\",\n  reason = \"{{reason}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#FAF7F2\", width: 300, padding: \"16px 18px\", borderRadius: 10, boxSizing: \"border-box\", background: accent, backgroundImage: \"repeating-linear-gradient(135deg, rgba(250,247,242,.08) 0 6px, transparent 6px 12px)\" }}>\n      <p style={{ margin: \"0 0 6px\", fontWeight: 700, display: \"flex\", alignItems: \"center\", gap: 8, flexWrap: \"wrap\" }}>\n        {label} <span style={{ fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".04em\", background: \"rgba(250,247,242,.18)\", padding: \"2px 8px\", borderRadius: 999 }}>{reason}</span>\n      </p>\n      <p style={{ margin: 0, fontVariantNumeric: \"tabular-nums\", opacity: .85 }}>\n        <time dateTime={`${date}T${start}`}>{start}</time>&ndash;<time dateTime={`${date}T${end}`}>{end}</time>\n      </p>\n    </div>\n  );\n}"
+  }
+}

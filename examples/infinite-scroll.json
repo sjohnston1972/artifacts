@@ -1,0 +1,45 @@
+{
+  "slug": "infinite-scroll",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Team feed"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "Scroll state",
+      "default": "loading",
+      "options": ["idle", "loading", "end"]
+    },
+    {
+      "id": "postCount",
+      "type": "number",
+      "label": "Posts loaded",
+      "default": 24,
+      "min": 2,
+      "max": 200,
+      "step": 2
+    },
+    {
+      "id": "showAvatar",
+      "type": "toggle",
+      "label": "Show avatars",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"is\" aria-label=\"{{heading}}\" style=\"--accent:{{accent}};\" data-state=\"{{state}}\">\n  <h3 class=\"is__heading\">{{heading}}</h3>\n  <ul class=\"is__feed\">\n    <li class=\"is__post\">{{#if showAvatar}}<span class=\"is__avatar\" aria-hidden=\"true\">NO</span>{{/if}}<div><p class=\"is__author\">Nina Osei</p><p class=\"is__text\">Shipped the new checkout flow today.</p></div></li>\n    <li class=\"is__post\">{{#if showAvatar}}<span class=\"is__avatar\" aria-hidden=\"true\">TN</span>{{/if}}<div><p class=\"is__author\">Tomas Novak</p><p class=\"is__text\">Design review moved to Thursday.</p></div></li>\n  </ul>\n  <p class=\"is__sentinel is__sentinel--idle\" role=\"status\">Scroll for more posts.</p>\n  <p class=\"is__sentinel is__sentinel--loading\" role=\"status\">Loading more posts…</p>\n  <p class=\"is__sentinel is__sentinel--end\" role=\"status\">You're all caught up — {{postCount}} posts loaded.</p>\n</section>\n<style>\n.is { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.is__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.is__feed { list-style: none; margin: 0; padding: 0; }\n.is__post { display: flex; gap: 8px; padding: 10px; background: #fff; border-radius: 8px; margin-bottom: 8px; }\n.is__avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); flex-shrink: 0; display: grid; place-items: center; font-size: 10px; font-weight: 700; }\n.is__author { margin: 0; font-weight: 700; font-size: 12.5px; }\n.is__text { margin: 2px 0 0; color: #241430b3; }\n.is__sentinel { display: none; margin: 10px 0 0; font-size: 12px; color: #241430a0; text-align: center; }\n.is[data-state=\"idle\"] .is__sentinel--idle,\n.is[data-state=\"loading\"] .is__sentinel--loading,\n.is[data-state=\"end\"] .is__sentinel--end { display: block; }\n</style>",
+    "tailwind": "<section class=\"is-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" aria-label=\"{{heading}}\" style=\"--accent:{{accent}}\" data-state=\"{{state}}\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"flex gap-2 p-2.5 bg-white rounded-lg mb-2\">{{#if showAvatar}}<span aria-hidden=\"true\" class=\"w-[26px] h-[26px] rounded-full flex-shrink-0 grid place-items-center text-[10px] font-bold\" style=\"background:{{accent}}\">NO</span>{{/if}}<div><p class=\"m-0 font-bold text-[12.5px]\">Nina Osei</p><p class=\"mt-0.5 mb-0 text-[#241430b3]\">Shipped the new checkout flow today.</p></div></li>\n    <li class=\"flex gap-2 p-2.5 bg-white rounded-lg\">{{#if showAvatar}}<span aria-hidden=\"true\" class=\"w-[26px] h-[26px] rounded-full flex-shrink-0 grid place-items-center text-[10px] font-bold\" style=\"background:{{accent}}\">TN</span>{{/if}}<div><p class=\"m-0 font-bold text-[12.5px]\">Tomas Novak</p><p class=\"mt-0.5 mb-0 text-[#241430b3]\">Design review moved to Thursday.</p></div></li>\n  </ul>\n  <p role=\"status\" class=\"is-tw__sentinel is-tw__sentinel--idle mt-2.5 mb-0 text-xs text-[#241430a0] text-center\">Scroll for more posts.</p>\n  <p role=\"status\" class=\"is-tw__sentinel is-tw__sentinel--loading mt-2.5 mb-0 text-xs text-[#241430a0] text-center\">Loading more posts…</p>\n  <p role=\"status\" class=\"is-tw__sentinel is-tw__sentinel--end mt-2.5 mb-0 text-xs text-[#241430a0] text-center\">You're all caught up — {{postCount}} posts loaded.</p>\n</section>\n<style>\n.is-tw__sentinel { display: none; }\n.is-tw[data-state=\"idle\"] .is-tw__sentinel--idle,\n.is-tw[data-state=\"loading\"] .is-tw__sentinel--loading,\n.is-tw[data-state=\"end\"] .is-tw__sentinel--end { display: block; }\n</style>",
+    "react": "export function InfiniteScroll({\n  heading = \"{{heading}}\",\n  accent = \"{{accent}}\",\n  state = \"{{state}}\",\n  postCount = {{postCount}},\n  showAvatar = {{showAvatar}},\n}) {\n  const sentinelText = { idle: \"Scroll for more posts.\", loading: \"Loading more posts…\", end: `You're all caught up — ${postCount} posts loaded.` }[state];\n  const posts = [[\"NO\", \"Nina Osei\", \"Shipped the new checkout flow today.\"], [\"TN\", \"Tomas Novak\", \"Design review moved to Thursday.\"]];\n  return (\n    <section aria-label={heading} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {posts.map(([initials, author, text], i) => (\n          <li key={author} style={{ display: \"flex\", gap: 8, padding: 10, background: \"#fff\", borderRadius: 8, marginBottom: i === posts.length - 1 ? 0 : 8 }}>\n            {showAvatar && <span aria-hidden=\"true\" style={{ width: 26, height: 26, borderRadius: \"50%\", background: accent, flexShrink: 0, display: \"grid\", placeItems: \"center\", fontSize: 10, fontWeight: 700 }}>{initials}</span>}\n            <div><p style={{ margin: 0, fontWeight: 700, fontSize: 12.5 }}>{author}</p><p style={{ margin: \"2px 0 0\", color: \"#241430b3\" }}>{text}</p></div>\n          </li>\n        ))}\n      </ul>\n      <p role=\"status\" style={{ margin: \"10px 0 0\", fontSize: 12, color: \"#241430a0\", textAlign: \"center\" }}>{sentinelText}</p>\n    </section>\n  );\n}"
+  }
+}

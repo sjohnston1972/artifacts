@@ -1,0 +1,45 @@
+{
+  "slug": "calendar-filter",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Panel title",
+      "default": "Calendars"
+    },
+    {
+      "id": "workVisible",
+      "type": "toggle",
+      "label": "Work visible",
+      "default": true
+    },
+    {
+      "id": "personalVisible",
+      "type": "toggle",
+      "label": "Personal visible",
+      "default": true
+    },
+    {
+      "id": "holidaysVisible",
+      "type": "toggle",
+      "label": "Holidays visible",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Work colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"calfilter\">\n  <legend class=\"calfilter__title\">{{title}}</legend>\n  <label class=\"calfilter__row\">\n    <input type=\"checkbox\" {{#if workVisible}}checked{{/if}} />\n    <span class=\"calfilter__dot\" style=\"background:{{accent}};\"></span>\n    Work\n  </label>\n  <label class=\"calfilter__row\">\n    <input type=\"checkbox\" {{#if personalVisible}}checked{{/if}} />\n    <span class=\"calfilter__dot\" style=\"background:#F5C2E0;\"></span>\n    Personal\n  </label>\n  <label class=\"calfilter__row\">\n    <input type=\"checkbox\" {{#if holidaysVisible}}checked{{/if}} />\n    <span class=\"calfilter__dot\" style=\"background:#E8A020;\"></span>\n    Holidays\n  </label>\n</fieldset>\n<style>\n.calfilter { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 240px; padding: 16px 18px; border-radius: 12px; border: 1px solid #24143020; box-sizing: border-box; }\n.calfilter__title { font-weight: 700; padding: 0 4px; }\n.calfilter__row { display: flex; align-items: center; gap: 10px; padding: 6px 0; cursor: pointer; }\n.calfilter__dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }\n.calfilter__row input:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<fieldset class=\"w-[240px] p-4 rounded-xl border border-[#24143020] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2]\">\n  <legend class=\"font-bold px-1\">{{title}}</legend>\n  <label class=\"flex items-center gap-2.5 py-1.5 cursor-pointer\">\n    <input type=\"checkbox\" class=\"focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430]\" {{#if workVisible}}checked{{/if}} />\n    <span class=\"w-2.5 h-2.5 rounded-full inline-block\" style=\"background:{{accent}}\"></span>\n    Work\n  </label>\n  <label class=\"flex items-center gap-2.5 py-1.5 cursor-pointer\">\n    <input type=\"checkbox\" class=\"focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430]\" {{#if personalVisible}}checked{{/if}} />\n    <span class=\"w-2.5 h-2.5 rounded-full inline-block bg-[#F5C2E0]\"></span>\n    Personal\n  </label>\n  <label class=\"flex items-center gap-2.5 py-1.5 cursor-pointer\">\n    <input type=\"checkbox\" class=\"focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#241430]\" {{#if holidaysVisible}}checked{{/if}} />\n    <span class=\"w-2.5 h-2.5 rounded-full inline-block bg-[#E8A020]\"></span>\n    Holidays\n  </label>\n</fieldset>",
+    "react": "export function CalendarFilter({\n  title = \"{{title}}\",\n  workVisible = {{workVisible}},\n  personalVisible = {{personalVisible}},\n  holidaysVisible = {{holidaysVisible}},\n  accent = \"{{accent}}\",\n}) {\n  const row = { display: \"flex\", alignItems: \"center\", gap: 10, padding: \"6px 0\", cursor: \"pointer\" };\n  const dot = (c) => ({ width: 10, height: 10, borderRadius: 999, display: \"inline-block\", background: c });\n  return (\n    <fieldset style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 240, padding: \"16px 18px\", borderRadius: 12, border: \"1px solid #24143020\", boxSizing: \"border-box\" }}>\n      <legend style={{ fontWeight: 700, padding: \"0 4px\" }}>{title}</legend>\n      <label style={row}><input type=\"checkbox\" defaultChecked={workVisible} /><span style={dot(accent)} />Work</label>\n      <label style={row}><input type=\"checkbox\" defaultChecked={personalVisible} /><span style={dot(\"#F5C2E0\")} />Personal</label>\n      <label style={row}><input type=\"checkbox\" defaultChecked={holidaysVisible} /><span style={dot(\"#E8A020\")} />Holidays</label>\n    </fieldset>\n  );\n}"
+  }
+}

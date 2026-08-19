@@ -1,0 +1,49 @@
+{
+  "slug": "day-view",
+  "controls_schema": [
+    {
+      "id": "dateLabel",
+      "type": "text",
+      "label": "Date label",
+      "default": "Tuesday 18 August"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "eventTitle",
+      "type": "text",
+      "label": "Event title",
+      "default": "Design review"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "Comfortable",
+      "options": [
+        "Comfortable",
+        "Compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<table class=\"dayview\" data-density=\"{{density}}\">\n  <caption class=\"dayview__caption\"><time datetime=\"{{date}}\">{{dateLabel}}</time></caption>\n  <thead>\n    <tr><th scope=\"col\">Time</th><th scope=\"col\">Event</th></tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\">9:00</th><td></td></tr>\n    <tr><th scope=\"row\">10:00</th><td class=\"dayview__busy\" style=\"background:{{accent}};\">{{eventTitle}}</td></tr>\n    <tr><th scope=\"row\">11:00</th><td></td></tr>\n    <tr><th scope=\"row\">12:00</th><td></td></tr>\n  </tbody>\n</table>\n<style>\n.dayview { border-collapse: collapse; width: 340px; font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; }\n.dayview__caption { text-align: left; font-weight: 700; padding-bottom: 10px; }\n.dayview th, .dayview td { border-bottom: 1px solid #24143020; padding: 10px 12px; text-align: left; }\n.dayview th[scope=\"row\"] { font-weight: 500; color: #24143099; width: 70px; font-variant-numeric: tabular-nums; }\n.dayview__busy { border-radius: 6px; font-weight: 600; color: #14351f; }\n.dayview[data-density=\"Compact\"] th, .dayview[data-density=\"Compact\"] td { padding: 5px 12px; }\n</style>",
+    "tailwind": "<table class=\"border-collapse w-[340px] font-sans text-sm text-[#241430] bg-[#FAF7F2] dayview-tw\" data-density=\"{{density}}\">\n  <caption class=\"text-left font-bold pb-2.5\"><time datetime=\"{{date}}\">{{dateLabel}}</time></caption>\n  <thead>\n    <tr><th scope=\"col\" class=\"text-left border-b border-[#24143020] p-3\">Time</th><th scope=\"col\" class=\"text-left border-b border-[#24143020] p-3\">Event</th></tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\" class=\"text-left font-normal text-[#241430]/60 w-[70px] tabular-nums border-b border-[#24143020] p-3\">9:00</th><td class=\"border-b border-[#24143020] p-3\"></td></tr>\n    <tr><th scope=\"row\" class=\"text-left font-normal text-[#241430]/60 w-[70px] tabular-nums border-b border-[#24143020] p-3\">10:00</th><td class=\"border-b border-[#24143020] p-3\"><span class=\"rounded-md font-semibold text-[#14351f] px-2 py-1\" style=\"background:{{accent}}\">{{eventTitle}}</span></td></tr>\n    <tr><th scope=\"row\" class=\"text-left font-normal text-[#241430]/60 w-[70px] tabular-nums border-b border-[#24143020] p-3\">11:00</th><td class=\"border-b border-[#24143020] p-3\"></td></tr>\n    <tr><th scope=\"row\" class=\"text-left font-normal text-[#241430]/60 w-[70px] tabular-nums p-3\">12:00</th><td class=\"p-3\"></td></tr>\n  </tbody>\n</table>\n<style>\n.dayview-tw[data-density=\"Compact\"] th, .dayview-tw[data-density=\"Compact\"] td { padding-top: 5px; padding-bottom: 5px; }\n</style>",
+    "react": "export function DayView({\n  dateLabel = \"{{dateLabel}}\",\n  date = \"{{date}}\",\n  eventTitle = \"{{eventTitle}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const pad = density === \"Compact\" ? \"5px 12px\" : \"10px 12px\";\n  const rows = [\n    { hour: \"9:00\", event: null },\n    { hour: \"10:00\", event: eventTitle },\n    { hour: \"11:00\", event: null },\n    { hour: \"12:00\", event: null },\n  ];\n  return (\n    <table style={{ borderCollapse: \"collapse\", width: 340, font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <caption style={{ textAlign: \"left\", fontWeight: 700, paddingBottom: 10 }}><time dateTime={date}>{dateLabel}</time></caption>\n      <thead>\n        <tr><th scope=\"col\" style={{ textAlign: \"left\", padding: pad, borderBottom: \"1px solid #24143020\" }}>Time</th><th scope=\"col\" style={{ textAlign: \"left\", padding: pad, borderBottom: \"1px solid #24143020\" }}>Event</th></tr>\n      </thead>\n      <tbody>\n        {rows.map((r) => (\n          <tr key={r.hour}>\n            <th scope=\"row\" style={{ fontWeight: 500, color: \"#24143099\", width: 70, fontVariantNumeric: \"tabular-nums\", textAlign: \"left\", padding: pad, borderBottom: \"1px solid #24143020\" }}>{r.hour}</th>\n            <td style={{ padding: pad, borderBottom: \"1px solid #24143020\" }}>\n              {r.event && <span style={{ borderRadius: 6, fontWeight: 600, color: \"#14351f\", background: accent, padding: \"2px 8px\" }}>{r.event}</span>}\n            </td>\n          </tr>\n        ))}\n      </tbody>\n    </table>\n  );\n}"
+  }
+}

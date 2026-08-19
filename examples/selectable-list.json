@@ -1,0 +1,42 @@
+{
+  "slug": "selectable-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Select recipients"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Row style",
+      "default": "card",
+      "options": ["plain", "card", "divided"]
+    },
+    {
+      "id": "secondChecked",
+      "type": "toggle",
+      "label": "Pre-select second row",
+      "default": true
+    },
+    {
+      "id": "showCount",
+      "type": "toggle",
+      "label": "Show selected count",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sel sel--{{style}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"sel__heading\">{{heading}}</h3>\n  {{#if showCount}}<p class=\"sel__count\" role=\"status\">{{#if secondChecked}}1 selected{{/if}}{{#unless secondChecked}}0 selected{{/unless}}</p>{{/if}}\n  <ul class=\"sel__list\">\n    <li class=\"sel__row\"><input type=\"checkbox\" id=\"sel-a\" class=\"sel__checkbox\"><label for=\"sel-a\">Alicia Ferreira</label></li>\n    <li class=\"sel__row\"><input type=\"checkbox\" id=\"sel-b\" class=\"sel__checkbox\" {{#if secondChecked}}checked{{/if}}><label for=\"sel-b\">Ben Sato</label></li>\n    <li class=\"sel__row\"><input type=\"checkbox\" id=\"sel-c\" class=\"sel__checkbox\"><label for=\"sel-c\">Charu Deshpande</label></li>\n  </ul>\n</div>\n<style>\n.sel { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; width: 300px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.sel__heading { margin: 0 0 6px; font-size: 15px; font-weight: 700; }\n.sel__count { margin: 0 0 10px; font-size: 12px; color: #241430a0; }\n.sel__list { list-style: none; margin: 0; padding: 0; }\n.sel__row { display: flex; align-items: center; gap: 10px; padding: 9px 8px; }\n.sel__row label { cursor: pointer; }\n.sel__checkbox { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }\n.sel--card .sel__row { background: #fff; border-radius: 8px; margin-bottom: 6px; box-shadow: 0 1px 4px rgba(36,20,48,.08); }\n.sel--card .sel__row:last-child { margin-bottom: 0; }\n.sel--divided .sel__row { border-bottom: 1px solid #24143020; }\n.sel--divided .sel__row:last-child { border-bottom: none; }\n.sel__checkbox:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"sel-tw sel-tw--{{style}} font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[300px] w-[300px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-1.5 text-[15px] font-bold\">{{heading}}</h3>\n  {{#if showCount}}<p role=\"status\" class=\"m-0 mb-2.5 text-xs text-[#241430a0]\">{{#if secondChecked}}1 selected{{/if}}{{#unless secondChecked}}0 selected{{/unless}}</p>{{/if}}\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"sel-tw__row flex items-center gap-2.5 py-2 px-2\"><input type=\"checkbox\" id=\"selt-a\" class=\"w-[17px] h-[17px] cursor-pointer\" style=\"accent-color:{{accent}}\"><label for=\"selt-a\" class=\"cursor-pointer\">Alicia Ferreira</label></li>\n    <li class=\"sel-tw__row flex items-center gap-2.5 py-2 px-2\"><input type=\"checkbox\" id=\"selt-b\" class=\"w-[17px] h-[17px] cursor-pointer\" style=\"accent-color:{{accent}}\" {{#if secondChecked}}checked{{/if}}><label for=\"selt-b\" class=\"cursor-pointer\">Ben Sato</label></li>\n    <li class=\"sel-tw__row flex items-center gap-2.5 py-2 px-2\"><input type=\"checkbox\" id=\"selt-c\" class=\"w-[17px] h-[17px] cursor-pointer\" style=\"accent-color:{{accent}}\"><label for=\"selt-c\" class=\"cursor-pointer\">Charu Deshpande</label></li>\n  </ul>\n</div>\n<style>\n.sel-tw--card .sel-tw__row { background: #fff; border-radius: 8px; margin-bottom: 6px; box-shadow: 0 1px 4px rgba(36,20,48,.08); }\n.sel-tw--card .sel-tw__row:last-child { margin-bottom: 0; }\n.sel-tw--divided .sel-tw__row { border-bottom: 1px solid #24143020; }\n.sel-tw--divided .sel-tw__row:last-child { border-bottom: none; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function SelectableList({\n  heading = \"{{heading}}\",\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n  secondChecked = {{secondChecked}},\n  showCount = {{showCount}},\n}) {\n  const [checked, setChecked] = useState({ a: false, b: secondChecked, c: false });\n  const count = Object.values(checked).filter(Boolean).length;\n  const rowStyle = {\n    display: \"flex\", alignItems: \"center\", gap: 10, padding: \"9px 8px\",\n    background: style === \"card\" ? \"#fff\" : \"transparent\",\n    borderRadius: style === \"card\" ? 8 : 0,\n    marginBottom: style === \"card\" ? 6 : 0,\n    boxShadow: style === \"card\" ? \"0 1px 4px rgba(36,20,48,.08)\" : \"none\",\n    borderBottom: style === \"divided\" ? \"1px solid #24143020\" : \"none\",\n  };\n  const people = [[\"a\", \"Alicia Ferreira\"], [\"b\", \"Ben Sato\"], [\"c\", \"Charu Deshpande\"]];\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, width: 300, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      {showCount && <p role=\"status\" style={{ margin: \"0 0 10px\", fontSize: 12, color: \"#241430a0\" }}>{count} selected</p>}\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {people.map(([id, name]) => (\n          <li key={id} style={rowStyle}>\n            <input type=\"checkbox\" id={`rsel-${id}`} checked={checked[id]} onChange={() => setChecked((c) => ({ ...c, [id]: !c[id] }))} style={{ width: 17, height: 17, accentColor: accent, cursor: \"pointer\" }} />\n            <label htmlFor={`rsel-${id}`} style={{ cursor: \"pointer\" }}>{name}</label>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

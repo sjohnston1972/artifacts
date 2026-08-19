@@ -1,0 +1,42 @@
+{
+  "slug": "wizard",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Wizard title",
+      "default": "Create project"
+    },
+    {
+      "id": "currentLabel",
+      "type": "text",
+      "label": "Current step label",
+      "default": "Team & permissions"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showBack",
+      "type": "toggle",
+      "label": "Show back button",
+      "default": true
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Step layout",
+      "default": "horizontal",
+      "options": ["horizontal", "vertical"]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"wiz\" aria-label=\"{{title}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"wiz__title\">{{title}}</h3>\n  <p class=\"wiz__progress\">Step 2 of 4</p>\n  <ol class=\"wiz__steps wiz__steps--{{layout}}\">\n    <li class=\"wiz__step is-complete\"><span class=\"wiz__marker\">&#10003;</span><span class=\"wiz__label\">Basics</span></li>\n    <li class=\"wiz__step is-current\" aria-current=\"step\"><span class=\"wiz__marker\">2</span><span class=\"wiz__label\">{{currentLabel}}</span></li>\n    <li class=\"wiz__step\"><span class=\"wiz__marker\">3</span><span class=\"wiz__label\">Design</span></li>\n    <li class=\"wiz__step\"><span class=\"wiz__marker\">4</span><span class=\"wiz__label\">Review</span></li>\n  </ol>\n  <div class=\"wiz__actions\">\n    {{#if showBack}}<button type=\"button\" class=\"wiz__back\">Back</button>{{/if}}\n    <button type=\"button\" class=\"wiz__next\">Continue</button>\n  </div>\n</section>\n<style>\n.wiz { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 380px; width: 380px; padding: 18px; border-radius: 14px; box-sizing: border-box; }\n.wiz__title { margin: 0 0 2px; font-size: 16px; font-weight: 700; }\n.wiz__progress { margin: 0 0 12px; font-size: 12px; color: #241430a0; }\n.wiz__steps { display: flex; list-style: none; margin: 0 0 16px; padding: 0; gap: 16px; }\n.wiz__steps--vertical { flex-direction: column; gap: 10px; }\n.wiz__step { display: flex; align-items: center; gap: 6px; opacity: .5; }\n.wiz__step.is-complete, .wiz__step.is-current { opacity: 1; }\n.wiz__marker { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; border: 2px solid currentColor; font-size: 10px; flex: none; }\n.wiz__step.is-complete .wiz__marker { background: var(--accent); border-color: var(--accent); color: #241430; }\n.wiz__step.is-current .wiz__marker { border-color: var(--accent); color: var(--accent); font-weight: 700; }\n.wiz__step.is-current .wiz__label { font-weight: 700; }\n.wiz__actions { display: flex; gap: 8px; }\n.wiz__back { background: transparent; border: 1.5px solid #24143030; border-radius: 8px; padding: 8px 16px; font: inherit; font-weight: 600; cursor: pointer; }\n.wiz__next { background: var(--accent); border: none; border-radius: 8px; padding: 8px 16px; font: inherit; font-weight: 700; cursor: pointer; }\n</style>",
+    "tailwind": "<section aria-label=\"{{title}}\" class=\"wiz-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[380px] w-[380px] p-[18px] rounded-2xl box-border\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-0.5 text-base font-bold\">{{title}}</h3>\n  <p class=\"m-0 mb-3 text-xs text-[#241430a0]\">Step 2 of 4</p>\n  <ol class=\"wiz-tw__steps wiz-tw__steps--{{layout}} flex list-none m-0 mb-4 p-0 gap-4\">\n    <li class=\"flex items-center gap-1.5\">\n      <span class=\"inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold\" style=\"background:{{accent}};border:2px solid {{accent}};color:#241430\">&#10003;</span>\n      <span>Basics</span>\n    </li>\n    <li aria-current=\"step\" class=\"flex items-center gap-1.5\">\n      <span class=\"inline-flex items-center justify-center w-5 h-5 rounded-full border-2 text-[10px] font-bold\" style=\"border-color:{{accent}};color:{{accent}}\">2</span>\n      <span class=\"font-bold\">{{currentLabel}}</span>\n    </li>\n    <li class=\"flex items-center gap-1.5 opacity-50\">\n      <span class=\"inline-flex items-center justify-center w-5 h-5 rounded-full border-2 border-current text-[10px]\">3</span>\n      <span>Design</span>\n    </li>\n    <li class=\"flex items-center gap-1.5 opacity-50\">\n      <span class=\"inline-flex items-center justify-center w-5 h-5 rounded-full border-2 border-current text-[10px]\">4</span>\n      <span>Review</span>\n    </li>\n  </ol>\n  <div class=\"flex gap-2\">\n    {{#if showBack}}<button type=\"button\" class=\"bg-transparent border-[1.5px] border-[#24143030] rounded-lg py-2 px-4 font-semibold cursor-pointer\">Back</button>{{/if}}\n    <button type=\"button\" class=\"rounded-lg py-2 px-4 font-bold border-0 cursor-pointer\" style=\"background:{{accent}}\">Continue</button>\n  </div>\n</section>\n<style>\n.wiz-tw__steps--vertical { flex-direction: column; gap: 10px; }\n</style>",
+    "react": "export function Wizard({\n  title = \"{{title}}\",\n  currentLabel = \"{{currentLabel}}\",\n  accent = \"{{accent}}\",\n  showBack = {{showBack}},\n  layout = \"{{layout}}\",\n}) {\n  const marker = { display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", width: 20, height: 20, borderRadius: \"50%\", fontSize: 10, flex: \"none\" };\n  return (\n    <section aria-label={title} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 380, width: 380, padding: 18, borderRadius: 14, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 2px\", fontSize: 16, fontWeight: 700 }}>{title}</h3>\n      <p style={{ margin: \"0 0 12px\", fontSize: 12, color: \"#241430a0\" }}>Step 2 of 4</p>\n      <ol style={{ display: \"flex\", flexDirection: layout === \"vertical\" ? \"column\" : \"row\", listStyle: \"none\", margin: \"0 0 16px\", padding: 0, gap: layout === \"vertical\" ? 10 : 16 }}>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 6 }}>\n          <span style={{ ...marker, background: accent, border: \"2px solid \" + accent, color: \"#241430\" }}>&#10003;</span>\n          <span>Basics</span>\n        </li>\n        <li aria-current=\"step\" style={{ display: \"flex\", alignItems: \"center\", gap: 6 }}>\n          <span style={{ ...marker, border: \"2px solid \" + accent, color: accent, fontWeight: 700 }}>2</span>\n          <span style={{ fontWeight: 700 }}>{currentLabel}</span>\n        </li>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 6, opacity: .5 }}>\n          <span style={{ ...marker, border: \"2px solid currentColor\" }}>3</span>\n          <span>Design</span>\n        </li>\n        <li style={{ display: \"flex\", alignItems: \"center\", gap: 6, opacity: .5 }}>\n          <span style={{ ...marker, border: \"2px solid currentColor\" }}>4</span>\n          <span>Review</span>\n        </li>\n      </ol>\n      <div style={{ display: \"flex\", gap: 8 }}>\n        {showBack && <button type=\"button\" style={{ background: \"transparent\", border: \"1.5px solid #24143030\", borderRadius: 8, padding: \"8px 16px\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\" }}>Back</button>}\n        <button type=\"button\" style={{ background: accent, border: \"none\", borderRadius: 8, padding: \"8px 16px\", font: \"inherit\", fontWeight: 700, cursor: \"pointer\" }}>Continue</button>\n      </div>\n    </section>\n  );\n}"
+  }
+}

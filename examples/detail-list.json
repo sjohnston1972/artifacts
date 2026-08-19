@@ -1,0 +1,45 @@
+{
+  "slug": "detail-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Order details"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "stacked",
+      "options": ["stacked", "inline", "grid"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Label colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showNote",
+      "type": "toggle",
+      "label": "Show note row",
+      "default": true
+    },
+    {
+      "id": "labelWidth",
+      "type": "number",
+      "label": "Label width (inline)",
+      "default": 96,
+      "min": 60,
+      "max": 140,
+      "step": 4
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"detail-list detail-list--{{layout}}\" style=\"--accent:{{accent}};--label-w:{{labelWidth}}px;\">\n  <h3 class=\"detail-list__heading\">{{heading}}</h3>\n  <dl class=\"detail-list__dl\">\n    <div class=\"detail-list__row\"><dt>Order</dt><dd>#1042</dd></div>\n    <div class=\"detail-list__row\"><dt>Customer</dt><dd>A. Whitfield</dd></div>\n    <div class=\"detail-list__row\"><dt>Status</dt><dd>Shipped</dd></div>\n    {{#if showNote}}\n    <div class=\"detail-list__row\"><dt>Note</dt><dd>Left at the front desk</dd></div>\n    {{/if}}\n  </dl>\n</div>\n<style>\n.detail-list { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 340px; width: 340px; padding: 18px; border-radius: 12px; box-sizing: border-box; }\n.detail-list__heading { margin: 0 0 12px; font-size: 15px; font-weight: 700; }\n.detail-list__dl { margin: 0; }\n.detail-list__row { padding: 8px 0; border-bottom: 1px solid #24143014; }\n.detail-list__row:last-child { border-bottom: none; }\n.detail-list__row dt { color: var(--accent); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; margin: 0; }\n.detail-list__row dd { margin: 2px 0 0; }\n.detail-list--inline .detail-list__row { display: flex; gap: 12px; align-items: baseline; }\n.detail-list--inline .detail-list__row dt { flex: 0 0 var(--label-w); text-transform: none; font-size: 13px; }\n.detail-list--inline .detail-list__row dd { margin: 0; }\n.detail-list--grid .detail-list__dl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }\n.detail-list--grid .detail-list__row { border-bottom: none; padding: 0; }\n</style>",
+    "tailwind": "<div class=\"detail-list-tw detail-list-tw--{{layout}} font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[340px] w-[340px] p-[18px] rounded-xl box-border\" style=\"--accent:{{accent}};--label-w:{{labelWidth}}px;\">\n  <h3 class=\"m-0 mb-3 text-[15px] font-bold\">{{heading}}</h3>\n  <dl class=\"detail-list-tw__dl m-0\">\n    <div class=\"detail-list-tw__row py-2 border-b border-[#24143014]\"><dt class=\"m-0 text-xs font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">Order</dt><dd class=\"mt-0.5 mb-0\">#1042</dd></div>\n    <div class=\"detail-list-tw__row py-2 border-b border-[#24143014]\"><dt class=\"m-0 text-xs font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">Customer</dt><dd class=\"mt-0.5 mb-0\">A. Whitfield</dd></div>\n    <div class=\"detail-list-tw__row py-2 border-b border-[#24143014]\"><dt class=\"m-0 text-xs font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">Status</dt><dd class=\"mt-0.5 mb-0\">Shipped</dd></div>\n    {{#if showNote}}\n    <div class=\"detail-list-tw__row py-2\"><dt class=\"m-0 text-xs font-semibold uppercase tracking-wide\" style=\"color:{{accent}}\">Note</dt><dd class=\"mt-0.5 mb-0\">Left at the front desk</dd></div>\n    {{/if}}\n  </dl>\n</div>\n<style>\n.detail-list-tw--inline .detail-list-tw__row { display:flex; gap:12px; align-items:baseline; }\n.detail-list-tw--inline .detail-list-tw__row dt { flex:0 0 var(--label-w); text-transform:none; font-size:13px; }\n.detail-list-tw--grid .detail-list-tw__dl { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }\n.detail-list-tw--grid .detail-list-tw__row { border-bottom:none; padding:0; }\n</style>",
+    "react": "export function DetailList({\n  heading = \"{{heading}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  showNote = {{showNote}},\n  labelWidth = {{labelWidth}},\n}) {\n  const rows = [[\"Order\", \"#1042\"], [\"Customer\", \"A. Whitfield\"], [\"Status\", \"Shipped\"]];\n  if (showNote) rows.push([\"Note\", \"Left at the front desk\"]);\n  const inline = layout === \"inline\";\n  const grid = layout === \"grid\";\n  const dlStyle = grid ? { margin: 0, display: \"grid\", gridTemplateColumns: \"1fr 1fr\", gap: \"10px 16px\" } : { margin: 0 };\n  const rowStyle = inline\n    ? { display: \"flex\", gap: 12, alignItems: \"baseline\", padding: \"8px 0\", borderBottom: \"1px solid #24143014\" }\n    : grid\n    ? { padding: 0 }\n    : { padding: \"8px 0\", borderBottom: \"1px solid #24143014\" };\n  const dtStyle = { color: accent, fontWeight: 600, fontSize: inline ? 13 : 12, textTransform: inline ? \"none\" : \"uppercase\", letterSpacing: \".03em\", margin: 0, flex: inline ? `0 0 ${labelWidth}px` : undefined };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 340, width: 340, padding: 18, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 12px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <dl style={dlStyle}>\n        {rows.map(([label, value]) => (\n          <div key={label} style={rowStyle}>\n            <dt style={dtStyle}>{label}</dt>\n            <dd style={{ margin: inline ? 0 : \"2px 0 0\" }}>{value}</dd>\n          </div>\n        ))}\n      </dl>\n    </div>\n  );\n}"
+  }
+}

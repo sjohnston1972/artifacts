@@ -1,0 +1,45 @@
+{
+  "slug": "infinite-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Activity feed"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "visibleCount",
+      "type": "select",
+      "label": "Items shown",
+      "default": "4",
+      "options": ["4", "6", "8"]
+    },
+    {
+      "id": "loading",
+      "type": "toggle",
+      "label": "Loading more",
+      "default": false
+    },
+    {
+      "id": "total",
+      "type": "number",
+      "label": "Total items",
+      "default": 48,
+      "min": 10,
+      "max": 500,
+      "step": 10
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"infinite-list\" style=\"--accent:{{accent}};\">\n  <h3 class=\"infinite-list__heading\">{{heading}}</h3>\n  <ul class=\"infinite-list__items\" data-count=\"{{visibleCount}}\">\n    <li>Priya updated the roadmap</li>\n    <li>New comment on Q3 plan</li>\n    <li>Marcus joined the workspace</li>\n    <li>Budget approved</li>\n    <li>Release 4.2 shipped</li>\n    <li>Weekly digest sent</li>\n    <li>Priya updated the roadmap</li>\n    <li>New comment on Q3 plan</li>\n  </ul>\n  {{#if loading}}\n  <p class=\"infinite-list__status\" role=\"status\">Loading more items…</p>\n  {{/if}}\n  {{#unless loading}}\n  <p class=\"infinite-list__status\" role=\"status\">Showing {{visibleCount}} of {{total}} items — scroll to load more.</p>\n  {{/unless}}\n</div>\n<style>\n.infinite-list { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.infinite-list__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.infinite-list__items { list-style: none; margin: 0; padding: 0; max-height: 220px; overflow: auto; }\n.infinite-list__items li { padding: 8px 10px; border-bottom: 1px solid #24143014; border-left: 3px solid var(--accent); margin-bottom: 4px; background: #fff; border-radius: 0 6px 6px 0; }\nul[data-count=\"4\"] li:nth-child(n+5) { display: none; }\nul[data-count=\"6\"] li:nth-child(n+7) { display: none; }\nul[data-count=\"8\"] li:nth-child(n+9) { display: none; }\n.infinite-list__status { margin: 10px 0 0; font-size: 12px; color: #241430a0; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"infinite-list-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <ul class=\"infinite-list-tw__items list-none m-0 p-0 max-h-[220px] overflow-auto\" data-count=\"{{visibleCount}}\">\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Priya updated the roadmap</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">New comment on Q3 plan</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Marcus joined the workspace</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Budget approved</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Release 4.2 shipped</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Weekly digest sent</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">Priya updated the roadmap</li>\n    <li class=\"py-2 px-2.5 border-b border-[#24143014] mb-1 bg-white rounded-r-md\" style=\"border-left:3px solid {{accent}}\">New comment on Q3 plan</li>\n  </ul>\n  {{#if loading}}\n  <p role=\"status\" class=\"mt-2.5 mb-0 text-xs text-[#241430a0] text-center\">Loading more items…</p>\n  {{/if}}\n  {{#unless loading}}\n  <p role=\"status\" class=\"mt-2.5 mb-0 text-xs text-[#241430a0] text-center\">Showing {{visibleCount}} of {{total}} items — scroll to load more.</p>\n  {{/unless}}\n</div>\n<style>\nul[data-count=\"4\"] li:nth-child(n+5) { display: none; }\nul[data-count=\"6\"] li:nth-child(n+7) { display: none; }\nul[data-count=\"8\"] li:nth-child(n+9) { display: none; }\n</style>",
+    "react": "export function InfiniteList({\n  heading = \"{{heading}}\",\n  accent = \"{{accent}}\",\n  visibleCount = \"{{visibleCount}}\",\n  loading = {{loading}},\n  total = {{total}},\n}) {\n  const items = [\n    \"Priya updated the roadmap\", \"New comment on Q3 plan\", \"Marcus joined the workspace\",\n    \"Budget approved\", \"Release 4.2 shipped\", \"Weekly digest sent\",\n    \"Priya updated the roadmap\", \"New comment on Q3 plan\",\n  ].slice(0, Number(visibleCount));\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, maxHeight: 220, overflow: \"auto\" }}>\n        {items.map((item, i) => (\n          <li key={i} style={{ padding: \"8px 10px\", borderBottom: \"1px solid #24143014\", borderLeft: `3px solid ${accent}`, marginBottom: 4, background: \"#fff\", borderRadius: \"0 6px 6px 0\" }}>{item}</li>\n        ))}\n      </ul>\n      <p role=\"status\" style={{ margin: \"10px 0 0\", fontSize: 12, color: \"#241430a0\", textAlign: \"center\" }}>\n        {loading ? \"Loading more items…\" : `Showing ${visibleCount} of ${total} items — scroll to load more.`}\n      </p>\n    </div>\n  );\n}"
+  }
+}

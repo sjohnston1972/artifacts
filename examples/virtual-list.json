@@ -1,0 +1,48 @@
+{
+  "slug": "virtual-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Contacts (2,400 rows)"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "windowSize",
+      "type": "select",
+      "label": "Rows in window",
+      "default": "5",
+      "options": ["3", "5", "7"]
+    },
+    {
+      "id": "rowHeight",
+      "type": "number",
+      "label": "Row height (px)",
+      "default": 34,
+      "min": 26,
+      "max": 48,
+      "step": 2
+    },
+    {
+      "id": "rendered",
+      "type": "number",
+      "label": "DOM rows rendered",
+      "default": 9,
+      "min": 5,
+      "max": 30,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"vl\" style=\"--accent:{{accent}};\">\n  <h3 class=\"vl__heading\">{{heading}}</h3>\n  <p class=\"vl__explain\">Only the rows in view are kept in the DOM; the scrollbar tracks the full list.</p>\n  <div class=\"vl__viewport\">\n    <ul class=\"vl__list\" data-window=\"{{windowSize}}\">\n      <li style=\"height:{{rowHeight}}px;\">Alicia Ferreira</li>\n      <li style=\"height:{{rowHeight}}px;\">Ben Sato</li>\n      <li style=\"height:{{rowHeight}}px;\">Charu Deshpande</li>\n      <li style=\"height:{{rowHeight}}px;\">Diego Morales</li>\n      <li style=\"height:{{rowHeight}}px;\">Erin Walsh</li>\n      <li style=\"height:{{rowHeight}}px;\">Femi Adeyemi</li>\n      <li style=\"height:{{rowHeight}}px;\">Grace Kim</li>\n    </ul>\n    <div class=\"vl__spacer\" aria-hidden=\"true\"></div>\n  </div>\n  <p class=\"vl__status\" role=\"status\">{{rendered}} of 2,400 rows exist in the DOM right now.</p>\n</div>\n<style>\n.vl { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; width: 300px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.vl__heading { margin: 0 0 4px; font-size: 15px; font-weight: 700; }\n.vl__explain { margin: 0 0 10px; font-size: 12px; color: #241430a0; }\n.vl__viewport { max-height: 176px; overflow: auto; position: relative; border: 1px solid #24143020; border-radius: 8px; }\n.vl__list { list-style: none; margin: 0; padding: 0; }\n.vl__list li { display: flex; align-items: center; padding: 0 10px; border-bottom: 1px solid #24143014; border-left: 3px solid var(--accent); background: #fff; }\nul[data-window=\"3\"] li:nth-child(n+4) { display: none; }\nul[data-window=\"5\"] li:nth-child(n+6) { display: none; }\nul[data-window=\"7\"] li:nth-child(n+8) { display: none; }\n.vl__spacer { height: 900px; background: repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 34px); }\n.vl__status { margin: 10px 0 0; font-size: 12px; color: #241430a0; }\n</style>",
+    "tailwind": "<div class=\"vl-tw font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[300px] w-[300px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-1 text-[15px] font-bold\">{{heading}}</h3>\n  <p class=\"m-0 mb-2.5 text-xs text-[#241430a0]\">Only the rows in view are kept in the DOM; the scrollbar tracks the full list.</p>\n  <div class=\"vl-tw__viewport max-h-[176px] overflow-auto relative border border-[#24143020] rounded-lg\">\n    <ul class=\"vl-tw__list list-none m-0 p-0\" data-window=\"{{windowSize}}\">\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Alicia Ferreira</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Ben Sato</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Charu Deshpande</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Diego Morales</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Erin Walsh</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Femi Adeyemi</li>\n      <li class=\"flex items-center px-2.5 border-b border-[#24143014] bg-white\" style=\"height:{{rowHeight}}px;border-left:3px solid {{accent}}\">Grace Kim</li>\n    </ul>\n    <div aria-hidden=\"true\" class=\"h-[900px]\" style=\"background:repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 34px);\"></div>\n  </div>\n  <p role=\"status\" class=\"mt-2.5 mb-0 text-xs text-[#241430a0]\">{{rendered}} of 2,400 rows exist in the DOM right now.</p>\n</div>\n<style>\nul[data-window=\"3\"] li:nth-child(n+4) { display: none; }\nul[data-window=\"5\"] li:nth-child(n+6) { display: none; }\nul[data-window=\"7\"] li:nth-child(n+8) { display: none; }\n</style>",
+    "react": "export function VirtualList({\n  heading = \"{{heading}}\",\n  accent = \"{{accent}}\",\n  windowSize = \"{{windowSize}}\",\n  rowHeight = {{rowHeight}},\n  rendered = {{rendered}},\n}) {\n  const names = [\"Alicia Ferreira\", \"Ben Sato\", \"Charu Deshpande\", \"Diego Morales\", \"Erin Walsh\", \"Femi Adeyemi\", \"Grace Kim\"].slice(0, Number(windowSize));\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, width: 300, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 4px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 10px\", fontSize: 12, color: \"#241430a0\" }}>Only the rows in view are kept in the DOM; the scrollbar tracks the full list.</p>\n      <div style={{ maxHeight: 176, overflow: \"auto\", position: \"relative\", border: \"1px solid #24143020\", borderRadius: 8 }}>\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          {names.map((name) => (\n            <li key={name} style={{ display: \"flex\", alignItems: \"center\", height: rowHeight, padding: \"0 10px\", borderBottom: \"1px solid #24143014\", borderLeft: `3px solid ${accent}`, background: \"#fff\" }}>{name}</li>\n          ))}\n        </ul>\n        <div aria-hidden=\"true\" style={{ height: 900, background: \"repeating-linear-gradient(180deg, #24143008 0 1px, transparent 1px 34px)\" }} />\n      </div>\n      <p role=\"status\" style={{ margin: \"10px 0 0\", fontSize: 12, color: \"#241430a0\" }}>{rendered} of 2,400 rows exist in the DOM right now.</p>\n    </div>\n  );\n}"
+  }
+}

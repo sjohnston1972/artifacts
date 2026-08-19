@@ -1,0 +1,42 @@
+{
+  "slug": "progressive-disclosure",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Share settings"
+    },
+    {
+      "id": "summaryText",
+      "type": "text",
+      "label": "Summary text",
+      "default": "Sharing options"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "defaultOpen",
+      "type": "toggle",
+      "label": "Open by default",
+      "default": true
+    },
+    {
+      "id": "detailLevel",
+      "type": "select",
+      "label": "Detail level",
+      "default": "basic",
+      "options": ["basic", "advanced", "expert"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pd\" style=\"--accent:{{accent}};\">\n  <h3 class=\"pd__heading\">{{heading}}</h3>\n  <details class=\"pd__details\" {{#if defaultOpen}}open{{/if}}>\n    <summary class=\"pd__summary\">{{summaryText}}</summary>\n    <div class=\"pd__content\" data-level=\"{{detailLevel}}\">\n      <p class=\"pd__basic\">Standard sharing: view or edit access.</p>\n      <p class=\"pd__advanced\">Advanced: set link expiry and domain restrictions.</p>\n      <p class=\"pd__expert\">Expert: enforce SSO and audit every access event.</p>\n    </div>\n  </details>\n</div>\n<style>\n.pd { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.pd__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.pd__details { background: #fff; border-radius: 10px; padding: 10px 12px; border: 1px solid #24143020; }\n.pd__summary { cursor: pointer; font-weight: 700; color: var(--accent); }\n.pd__summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.pd__content p { display: none; margin: 8px 0 0; }\n.pd__content .pd__basic { display: block; }\n.pd__content[data-level=\"advanced\"] .pd__advanced,\n.pd__content[data-level=\"expert\"] .pd__advanced,\n.pd__content[data-level=\"expert\"] .pd__expert { display: block; }\n</style>",
+    "tailwind": "<div class=\"pd-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <details class=\"bg-white rounded-[10px] py-2.5 px-3 border border-[#24143020]\" {{#if defaultOpen}}open{{/if}}>\n    <summary class=\"cursor-pointer font-bold\" style=\"color:{{accent}}\">{{summaryText}}</summary>\n    <div class=\"pd-tw__content\" data-level=\"{{detailLevel}}\">\n      <p class=\"pd-tw__basic mt-2 mb-0\">Standard sharing: view or edit access.</p>\n      <p class=\"pd-tw__advanced mt-2 mb-0\">Advanced: set link expiry and domain restrictions.</p>\n      <p class=\"pd-tw__expert mt-2 mb-0\">Expert: enforce SSO and audit every access event.</p>\n    </div>\n  </details>\n</div>\n<style>\n.pd-tw__advanced, .pd-tw__expert { display: none; }\n.pd-tw__content[data-level=\"advanced\"] .pd-tw__advanced,\n.pd-tw__content[data-level=\"expert\"] .pd-tw__advanced,\n.pd-tw__content[data-level=\"expert\"] .pd-tw__expert { display: block; }\n</style>",
+    "react": "export function ProgressiveDisclosure({\n  heading = \"{{heading}}\",\n  summaryText = \"{{summaryText}}\",\n  accent = \"{{accent}}\",\n  defaultOpen = {{defaultOpen}},\n  detailLevel = \"{{detailLevel}}\",\n}) {\n  const showAdvanced = detailLevel === \"advanced\" || detailLevel === \"expert\";\n  const showExpert = detailLevel === \"expert\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <details open={defaultOpen} style={{ background: \"#fff\", borderRadius: 10, padding: \"10px 12px\", border: \"1px solid #24143020\" }}>\n        <summary style={{ cursor: \"pointer\", fontWeight: 700, color: accent }}>{summaryText}</summary>\n        <p style={{ margin: \"8px 0 0\" }}>Standard sharing: view or edit access.</p>\n        {showAdvanced && <p style={{ margin: \"8px 0 0\" }}>Advanced: set link expiry and domain restrictions.</p>}\n        {showExpert && <p style={{ margin: \"8px 0 0\" }}>Expert: enforce SSO and audit every access event.</p>}\n      </details>\n    </div>\n  );\n}"
+  }
+}

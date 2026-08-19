@@ -1,0 +1,50 @@
+{
+  "slug": "resize-to-change-duration",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Focus block"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "start",
+      "type": "text",
+      "label": "Start time",
+      "default": "2:00 pm"
+    },
+    {
+      "id": "duration",
+      "type": "select",
+      "label": "Duration",
+      "default": "60 min",
+      "options": [
+        "30 min",
+        "60 min",
+        "90 min"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"resz\" data-duration=\"{{duration}}\" style=\"background:{{accent}};\">\n  <div class=\"resz__body\">\n    <p class=\"resz__title\">{{title}}</p>\n    <p class=\"resz__meta\"><time datetime=\"{{date}}T{{start}}\">{{start}}</time> &middot; <span class=\"resz__dur\">{{duration}}</span></p>\n  </div>\n  <div class=\"resz__keys\" role=\"group\" aria-label=\"Change duration of {{title}} with keyboard\">\n    <button type=\"button\" class=\"resz__btn\" aria-label=\"Decrease duration of {{title}}\">&minus;</button>\n    <button type=\"button\" class=\"resz__btn\" aria-label=\"Increase duration of {{title}}\">&plus;</button>\n  </div>\n  <span class=\"resz__handle\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M2 12L12 2M6 12h6V6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n</div>\n<style>\n.resz { position: relative; font: 14px/1.4 system-ui, sans-serif; color: #14351f; width: 320px; padding: 12px 40px 12px 14px; border-radius: 10px; box-sizing: border-box; }\n.resz[data-duration=\"30 min\"] { padding-top: 8px; padding-bottom: 8px; }\n.resz[data-duration=\"90 min\"] { padding-top: 18px; padding-bottom: 18px; }\n.resz__title { margin: 0; font-weight: 700; }\n.resz__meta { margin: 4px 0 0; font-size: 12px; opacity: .8; }\n.resz__dur { font-weight: 700; }\n.resz__keys { display: flex; gap: 6px; margin-top: 8px; }\n.resz__btn { width: 26px; height: 26px; border-radius: 6px; border: 1.5px solid #14351f55; background: #FAF7F2; cursor: pointer; }\n.resz__btn:focus-visible { outline: 2px solid #14351f; outline-offset: 2px; }\n.resz__handle { position: absolute; right: 10px; bottom: 8px; color: #14351f88; }\n</style>",
+    "tailwind": "<div class=\"resz-tw relative w-[320px] p-[12px_40px_12px_14px] rounded-[10px] box-border font-sans text-sm text-[#14351f]\" data-duration=\"{{duration}}\" style=\"background:{{accent}}\">\n  <div>\n    <p class=\"m-0 font-bold\">{{title}}</p>\n    <p class=\"mt-1 mb-0 text-xs opacity-80\"><time datetime=\"{{date}}T{{start}}\">{{start}}</time> &middot; <span class=\"font-bold\">{{duration}}</span></p>\n  </div>\n  <div class=\"flex gap-1.5 mt-2\" role=\"group\" aria-label=\"Change duration of {{title}} with keyboard\">\n    <button type=\"button\" class=\"w-[26px] h-[26px] rounded-md border-[1.5px] border-[#14351f55] bg-[#FAF7F2] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#14351f]\" aria-label=\"Decrease duration of {{title}}\">&minus;</button>\n    <button type=\"button\" class=\"w-[26px] h-[26px] rounded-md border-[1.5px] border-[#14351f55] bg-[#FAF7F2] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#14351f]\" aria-label=\"Increase duration of {{title}}\">&plus;</button>\n  </div>\n  <span class=\"absolute right-2.5 bottom-2 text-[#14351f88]\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" aria-hidden=\"true\"><path d=\"M2 12L12 2M6 12h6V6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>\n</div>\n<style>\n.resz-tw[data-duration=\"30 min\"] { padding-top: 8px; padding-bottom: 8px; }\n.resz-tw[data-duration=\"90 min\"] { padding-top: 18px; padding-bottom: 18px; }\n</style>",
+    "react": "export function ResizeToChangeDuration({\n  title = \"{{title}}\",\n  date = \"{{date}}\",\n  start = \"{{start}}\",\n  duration = \"{{duration}}\",\n  accent = \"{{accent}}\",\n}) {\n  const vPad = { \"30 min\": 8, \"60 min\": 12, \"90 min\": 18 }[duration] ?? 12;\n  const btn = { width: 26, height: 26, borderRadius: 6, border: \"1.5px solid #14351f55\", background: \"#FAF7F2\", cursor: \"pointer\" };\n  return (\n    <div style={{ position: \"relative\", font: \"14px/1.4 system-ui, sans-serif\", color: \"#14351f\", width: 320, padding: `${vPad}px 40px ${vPad}px 14px`, borderRadius: 10, boxSizing: \"border-box\", background: accent }}>\n      <div>\n        <p style={{ margin: 0, fontWeight: 700 }}>{title}</p>\n        <p style={{ margin: \"4px 0 0\", fontSize: 12, opacity: .8 }}><time dateTime={`${date}T${start}`}>{start}</time> &middot; <span style={{ fontWeight: 700 }}>{duration}</span></p>\n      </div>\n      <div role=\"group\" aria-label={`Change duration of ${title} with keyboard`} style={{ display: \"flex\", gap: 6, marginTop: 8 }}>\n        <button type=\"button\" style={btn} aria-label={`Decrease duration of ${title}`}>&minus;</button>\n        <button type=\"button\" style={btn} aria-label={`Increase duration of ${title}`}>&plus;</button>\n      </div>\n      <span aria-hidden=\"true\" style={{ position: \"absolute\", right: 10, bottom: 8, color: \"#14351f88\" }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\"><path d=\"M2 12L12 2M6 12h6V6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n      </span>\n    </div>\n  );\n}"
+  }
+}

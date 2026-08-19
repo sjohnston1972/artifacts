@@ -1,0 +1,45 @@
+{
+  "slug": "notification-badge",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Icon label",
+      "default": "Notifications"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Unread count",
+      "default": 3,
+      "min": 0,
+      "max": 99,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Badge colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Badge style",
+      "default": "number",
+      "options": ["dot", "number", "outline"]
+    },
+    {
+      "id": "pulse",
+      "type": "toggle",
+      "label": "Pulse to draw attention",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<button type=\"button\" class=\"nb\" style=\"--accent:{{accent}};\">\n  <span class=\"nb__icon\" aria-hidden=\"true\">&#128276;</span>\n  <span class=\"nb__badge nb__badge--{{style}}{{#if pulse}} nb__badge--pulse{{/if}}\" aria-hidden=\"true\">{{count}}</span>\n  <span class=\"nb__sr\">{{label}}, {{count}} unread</span>\n</button>\n<style>\n.nb { position: relative; width: 46px; height: 46px; border-radius: 12px; border: none; background: #FAF7F2; display: grid; place-items: center; cursor: pointer; font: 13px system-ui, sans-serif; }\n.nb:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.nb__icon { font-size: 20px; }\n.nb__badge { position: absolute; top: 2px; right: 2px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: var(--accent); color: #241430; font-size: 10px; font-weight: 700; display: grid; place-items: center; box-sizing: border-box; }\n.nb__badge--dot { color: transparent; font-size: 0; min-width: 10px; width: 10px; height: 10px; padding: 0; top: 4px; right: 4px; }\n.nb__badge--outline { background: #FAF7F2; border: 2px solid var(--accent); color: var(--accent); }\n.nb__badge--pulse { animation: nb-pulse 1.4s ease-in-out infinite; }\n@keyframes nb-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); } 50% { box-shadow: 0 0 0 5px transparent; } }\n.nb__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n</style>",
+    "tailwind": "<button type=\"button\" class=\"nb-tw relative w-[46px] h-[46px] rounded-xl border-0 bg-[#FAF7F2] grid place-items-center cursor-pointer font-sans text-[13px]\" style=\"--accent:{{accent}}\">\n  <span aria-hidden=\"true\" class=\"text-xl\">&#128276;</span>\n  <span aria-hidden=\"true\" class=\"nb-tw__badge nb-tw__badge--{{style}}{{#if pulse}} nb-tw__badge--pulse{{/if}} absolute top-0.5 right-0.5 min-w-[18px] h-[18px] px-1 rounded-full font-bold text-[10px] grid place-items-center box-border\" style=\"background:{{accent}};color:#241430\">{{count}}</span>\n  <span class=\"sr-only\">{{label}}, {{count}} unread</span>\n</button>\n<style>\n.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n.nb-tw__badge--dot { color: transparent; font-size: 0; min-width: 10px; width: 10px; height: 10px; padding: 0; top: 4px; right: 4px; }\n.nb-tw__badge--outline { background: #FAF7F2 !important; border: 2px solid {{accent}}; color: {{accent}} !important; }\n.nb-tw__badge--pulse { animation: nb-tw-pulse 1.4s ease-in-out infinite; }\n@keyframes nb-tw-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, {{accent}} 55%, transparent); } 50% { box-shadow: 0 0 0 5px transparent; } }\n</style>",
+    "react": "export function NotificationBadge({\n  label = \"{{label}}\",\n  count = {{count}},\n  accent = \"{{accent}}\",\n  style = \"{{style}}\",\n  pulse = {{pulse}},\n}) {\n  const badgeStyle = {\n    position: \"absolute\", top: style === \"dot\" ? 4 : 2, right: style === \"dot\" ? 4 : 2,\n    minWidth: style === \"dot\" ? 10 : 18, width: style === \"dot\" ? 10 : undefined, height: style === \"dot\" ? 10 : 18,\n    padding: style === \"dot\" ? 0 : \"0 4px\", borderRadius: 999,\n    background: style === \"outline\" ? \"#FAF7F2\" : accent,\n    border: style === \"outline\" ? `2px solid ${accent}` : \"none\",\n    color: style === \"dot\" ? \"transparent\" : style === \"outline\" ? accent : \"#241430\",\n    fontSize: style === \"dot\" ? 0 : 10, fontWeight: 700, display: \"grid\", placeItems: \"center\", boxSizing: \"border-box\",\n    animation: pulse ? \"nb-pulse 1.4s ease-in-out infinite\" : \"none\",\n  };\n  return (\n    <button type=\"button\" style={{ position: \"relative\", width: 46, height: 46, borderRadius: 12, border: \"none\", background: \"#FAF7F2\", display: \"grid\", placeItems: \"center\", cursor: \"pointer\", font: \"13px system-ui, sans-serif\" }}>\n      <span aria-hidden=\"true\" style={{ fontSize: 20 }}>🔔</span>\n      <span aria-hidden=\"true\" style={badgeStyle}>{count}</span>\n      <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\", whiteSpace: \"nowrap\" }}>{label}, {count} unread</span>\n    </button>\n  );\n}"
+  }
+}

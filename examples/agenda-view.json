@@ -1,0 +1,56 @@
+{
+  "slug": "agenda-view",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "List title",
+      "default": "Today’s schedule"
+    },
+    {
+      "id": "rows",
+      "type": "select",
+      "label": "Events shown",
+      "default": "4",
+      "options": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "Comfortable",
+      "options": [
+        "Comfortable",
+        "Compact"
+      ]
+    },
+    {
+      "id": "showTime",
+      "type": "toggle",
+      "label": "Show times",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"agenda\" data-density=\"{{density}}\" style=\"--accent:{{accent}};\">\n  <h2 class=\"agenda__title\">{{title}}</h2>\n  <ol class=\"agenda__list\" data-rows=\"{{rows}}\">\n    <li class=\"agenda__item\">\n      {{#if showTime}}<time class=\"agenda__time\" datetime=\"2026-08-18T09:00\">9:00 am</time>{{/if}}\n      <span class=\"agenda__label\">Team standup</span>\n    </li>\n    <li class=\"agenda__item\">\n      {{#if showTime}}<time class=\"agenda__time\" datetime=\"2026-08-18T11:30\">11:30 am</time>{{/if}}\n      <span class=\"agenda__label\">Design review</span>\n    </li>\n    <li class=\"agenda__item\">\n      {{#if showTime}}<time class=\"agenda__time\" datetime=\"2026-08-18T14:00\">2:00 pm</time>{{/if}}\n      <span class=\"agenda__label\">Client call</span>\n    </li>\n    <li class=\"agenda__item\">\n      {{#if showTime}}<time class=\"agenda__time\" datetime=\"2026-08-18T16:30\">4:30 pm</time>{{/if}}\n      <span class=\"agenda__label\">Wrap-up notes</span>\n    </li>\n  </ol>\n</section>\n<style>\n.agenda { font: 15px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 420px; padding: 20px; border-radius: 14px; box-sizing: border-box; }\n.agenda__title { margin: 0 0 12px; font-size: 17px; font-weight: 700; }\n.agenda__list { list-style: none; margin: 0; padding: 0; }\n.agenda__item { display: flex; align-items: baseline; gap: 14px; padding: 10px 0; border-left: 3px solid var(--accent); padding-left: 12px; margin-bottom: 6px; }\n.agenda[data-density=\"Compact\"] .agenda__item { padding-top: 4px; padding-bottom: 4px; margin-bottom: 2px; }\n.agenda__time { flex: 0 0 auto; font-variant-numeric: tabular-nums; color: #24143099; font-size: 13px; width: 62px; }\n.agenda__label { font-weight: 600; }\n.agenda__list[data-rows=\"3\"] .agenda__item:nth-child(n+4) { display: none; }\n</style>",
+    "tailwind": "<section class=\"font-sans text-[15px] text-[#241430] bg-[#FAF7F2] w-[420px] p-5 rounded-2xl box-border\" data-density=\"{{density}}\" style=\"--accent:{{accent}}\">\n  <h2 class=\"m-0 mb-3 text-[17px] font-bold\">{{title}}</h2>\n  <ol class=\"list-none m-0 p-0\" data-rows=\"{{rows}}\">\n    <li class=\"agenda-tw-item flex items-baseline gap-3.5 py-2.5 pl-3 mb-1.5 border-l-[3px]\" style=\"border-color:{{accent}}\">\n      {{#if showTime}}<time class=\"flex-none tabular-nums text-[#241430]/60 text-[13px] w-[62px]\" datetime=\"2026-08-18T09:00\">9:00 am</time>{{/if}}\n      <span class=\"font-semibold\">Team standup</span>\n    </li>\n    <li class=\"agenda-tw-item flex items-baseline gap-3.5 py-2.5 pl-3 mb-1.5 border-l-[3px]\" style=\"border-color:{{accent}}\">\n      {{#if showTime}}<time class=\"flex-none tabular-nums text-[#241430]/60 text-[13px] w-[62px]\" datetime=\"2026-08-18T11:30\">11:30 am</time>{{/if}}\n      <span class=\"font-semibold\">Design review</span>\n    </li>\n    <li class=\"agenda-tw-item flex items-baseline gap-3.5 py-2.5 pl-3 mb-1.5 border-l-[3px]\" style=\"border-color:{{accent}}\">\n      {{#if showTime}}<time class=\"flex-none tabular-nums text-[#241430]/60 text-[13px] w-[62px]\" datetime=\"2026-08-18T14:00\">2:00 pm</time>{{/if}}\n      <span class=\"font-semibold\">Client call</span>\n    </li>\n    <li class=\"agenda-tw-item flex items-baseline gap-3.5 py-2.5 pl-3 mb-1.5 border-l-[3px]\" style=\"border-color:{{accent}}\">\n      {{#if showTime}}<time class=\"flex-none tabular-nums text-[#241430]/60 text-[13px] w-[62px]\" datetime=\"2026-08-18T16:30\">4:30 pm</time>{{/if}}\n      <span class=\"font-semibold\">Wrap-up notes</span>\n    </li>\n  </ol>\n</section>\n<style>\nsection[data-density=\"Compact\"] .agenda-tw-item { padding-top: 4px; padding-bottom: 4px; margin-bottom: 2px; }\nol[data-rows=\"3\"] .agenda-tw-item:nth-child(n+4) { display: none; }\n</style>",
+    "react": "export function AgendaView({\n  title = \"{{title}}\",\n  rows = \"{{rows}}\",\n  density = \"{{density}}\",\n  showTime = {{showTime}},\n  accent = \"{{accent}}\",\n}) {\n  const events = [\n    { time: \"9:00 am\", iso: \"2026-08-18T09:00\", label: \"Team standup\" },\n    { time: \"11:30 am\", iso: \"2026-08-18T11:30\", label: \"Design review\" },\n    { time: \"2:00 pm\", iso: \"2026-08-18T14:00\", label: \"Client call\" },\n    { time: \"4:30 pm\", iso: \"2026-08-18T16:30\", label: \"Wrap-up notes\" },\n  ].slice(0, Number(rows));\n  const pad = density === \"Compact\" ? \"4px 0\" : \"10px 0\";\n  return (\n    <section style={{ font: \"15px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 420, padding: 20, borderRadius: 14, boxSizing: \"border-box\" }}>\n      <h2 style={{ margin: \"0 0 12px\", fontSize: 17, fontWeight: 700 }}>{title}</h2>\n      <ol style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {events.map((e) => (\n          <li key={e.label} style={{ display: \"flex\", alignItems: \"baseline\", gap: 14, padding: pad, borderLeft: `3px solid ${accent}`, paddingLeft: 12, marginBottom: density === \"Compact\" ? 2 : 6 }}>\n            {showTime && <time dateTime={e.iso} style={{ flex: \"0 0 auto\", fontVariantNumeric: \"tabular-nums\", color: \"#24143099\", fontSize: 13, width: 62 }}>{e.time}</time>}\n            <span style={{ fontWeight: 600 }}>{e.label}</span>\n          </li>\n        ))}\n      </ol>\n    </section>\n  );\n}"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "appointment",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Dentist checkup"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-20"
+    },
+    {
+      "id": "time",
+      "type": "text",
+      "label": "Time",
+      "default": "10:30 am"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "Confirmed",
+      "options": [
+        "Confirmed",
+        "Tentative",
+        "Cancelled"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"appt\" style=\"border-left-color:{{accent}};\">\n  <div class=\"appt__head\">\n    <h3 class=\"appt__title\">{{title}}</h3>\n    <span class=\"appt__status\" data-status=\"{{status}}\">{{status}}</span>\n  </div>\n  <p class=\"appt__when\"><time datetime=\"{{date}}\">{{date}}</time> &middot; {{time}}</p>\n</article>\n<style>\n.appt { font: 15px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 360px; padding: 18px 20px; border-radius: 12px; border-left: 4px solid; box-sizing: border-box; box-shadow: 0 6px 18px rgba(36,20,48,.10); }\n.appt__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }\n.appt__title { margin: 0; font-size: 16px; font-weight: 700; }\n.appt__status { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }\n.appt__status[data-status=\"Confirmed\"] { background: #A8E6C1; color: #14351f; }\n.appt__status[data-status=\"Tentative\"] { background: #E8A020; color: #241430; }\n.appt__status[data-status=\"Cancelled\"] { background: #D64545; color: #FAF7F2; }\n.appt__when { margin: 10px 0 0; font-size: 14px; color: #24143099; }\n</style>",
+    "tailwind": "<article class=\"w-[360px] p-[18px_20px] rounded-xl border-l-4 box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] shadow-[0_6px_18px_rgba(36,20,48,.10)]\" style=\"border-left-color:{{accent}}\">\n  <div class=\"flex items-center justify-between gap-2.5\">\n    <h3 class=\"m-0 text-base font-bold\">{{title}}</h3>\n    <span class=\"appt-tw-status text-xs font-bold px-2.5 py-1 rounded-full\" data-status=\"{{status}}\">{{status}}</span>\n  </div>\n  <p class=\"mt-2.5 mb-0 text-sm text-[#241430]/60\"><time datetime=\"{{date}}\">{{date}}</time> &middot; {{time}}</p>\n</article>\n<style>\n.appt-tw-status[data-status=\"Confirmed\"] { background: #A8E6C1; color: #14351f; }\n.appt-tw-status[data-status=\"Tentative\"] { background: #E8A020; color: #241430; }\n.appt-tw-status[data-status=\"Cancelled\"] { background: #D64545; color: #FAF7F2; }\n</style>",
+    "react": "export function Appointment({\n  title = \"{{title}}\",\n  date = \"{{date}}\",\n  time = \"{{time}}\",\n  status = \"{{status}}\",\n  accent = \"{{accent}}\",\n}) {\n  const statusColor = { Confirmed: [\"#A8E6C1\", \"#14351f\"], Tentative: [\"#E8A020\", \"#241430\"], Cancelled: [\"#D64545\", \"#FAF7F2\"] }[status] ?? [\"#A8E6C1\", \"#14351f\"];\n  return (\n    <article style={{ font: \"15px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 360, padding: \"18px 20px\", borderRadius: 12, borderLeft: `4px solid ${accent}`, boxSizing: \"border-box\", boxShadow: \"0 6px 18px rgba(36,20,48,.10)\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 10 }}>\n        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{title}</h3>\n        <span style={{ fontSize: 12, fontWeight: 700, padding: \"4px 10px\", borderRadius: 999, background: statusColor[0], color: statusColor[1] }}>{status}</span>\n      </div>\n      <p style={{ margin: \"10px 0 0\", fontSize: 14, color: \"#24143099\" }}>\n        <time dateTime={date}>{date}</time> &middot; {time}\n      </p>\n    </article>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "split-view",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "List heading",
+      "default": "Inbox"
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Split orientation",
+      "default": "horizontal",
+      "options": ["horizontal", "vertical"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "ratio",
+      "type": "number",
+      "label": "List pane size (%)",
+      "default": 40,
+      "min": 25,
+      "max": 60,
+      "step": 5
+    },
+    {
+      "id": "showSecondary",
+      "type": "toggle",
+      "label": "Show selected message",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sv sv--{{orientation}}\" style=\"--accent:{{accent}};--ratio:{{ratio}}%;\">\n  <nav class=\"sv__list\" aria-label=\"{{heading}}\">\n    <h3 class=\"sv__heading\">{{heading}}</h3>\n    <ul class=\"sv__items\">\n      <li aria-current=\"true\">Q3 budget review</li>\n      <li>Design crit notes</li>\n      <li>Release checklist</li>\n    </ul>\n  </nav>\n  {{#if showSecondary}}\n  <section class=\"sv__detail\" aria-label=\"Message\">\n    <h4 class=\"sv__detail-heading\">Q3 budget review</h4>\n    <p class=\"sv__detail-body\">Attaching the updated numbers for review before Friday's sync.</p>\n  </section>\n  {{/if}}\n  {{#unless showSecondary}}\n  <section class=\"sv__detail sv__detail--empty\" aria-label=\"Message\">\n    <p class=\"sv__detail-body\">Select an item to preview it here.</p>\n  </section>\n  {{/unless}}\n</div>\n<style>\n.sv { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; display: flex; max-width: 440px; width: 440px; border: 1px solid #24143020; border-radius: 12px; overflow: hidden; box-sizing: border-box; }\n.sv--horizontal { flex-direction: row; }\n.sv--vertical { flex-direction: column; height: 320px; }\n.sv__list { flex: 0 0 var(--ratio); background: #fff; padding: 12px; box-sizing: border-box; overflow: auto; }\n.sv--horizontal .sv__list { border-right: 1px solid #24143020; }\n.sv--vertical .sv__list { border-bottom: 1px solid #24143020; }\n.sv__heading { margin: 0 0 8px; font-size: 13px; font-weight: 700; }\n.sv__items { list-style: none; margin: 0; padding: 0; }\n.sv__items li { padding: 6px 8px; border-radius: 6px; }\n.sv__items li[aria-current=\"true\"] { background: var(--accent); font-weight: 700; }\n.sv__detail { flex: 1; padding: 14px; box-sizing: border-box; background: #FAF7F2; min-width: 0; }\n.sv__detail-heading { margin: 0 0 6px; font-size: 14px; font-weight: 700; }\n.sv__detail-body { margin: 0; color: #241430b3; }\n.sv__detail--empty { display: grid; place-items: center; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"sv-tw sv-tw--{{orientation}} flex max-w-[440px] w-[440px] border border-[#24143020] rounded-xl overflow-hidden box-border font-sans text-[13.5px] text-[#241430]\" style=\"--accent:{{accent}}\">\n  <nav aria-label=\"{{heading}}\" class=\"sv-tw__list bg-white p-3 box-border overflow-auto\" style=\"flex:0 0 {{ratio}}%\">\n    <h3 class=\"m-0 mb-2 text-[13px] font-bold\">{{heading}}</h3>\n    <ul class=\"list-none m-0 p-0\">\n      <li aria-current=\"true\" class=\"py-1.5 px-2 rounded-md font-bold\" style=\"background:{{accent}}\">Q3 budget review</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Design crit notes</li>\n      <li class=\"py-1.5 px-2 rounded-md\">Release checklist</li>\n    </ul>\n  </nav>\n  {{#if showSecondary}}\n  <section aria-label=\"Message\" class=\"flex-1 p-3.5 box-border bg-[#FAF7F2] min-w-0\">\n    <h4 class=\"m-0 mb-1.5 text-sm font-bold\">Q3 budget review</h4>\n    <p class=\"m-0 text-[#241430b3]\">Attaching the updated numbers for review before Friday's sync.</p>\n  </section>\n  {{/if}}\n  {{#unless showSecondary}}\n  <section aria-label=\"Message\" class=\"flex-1 p-3.5 box-border bg-[#FAF7F2] min-w-0 grid place-items-center text-center\">\n    <p class=\"m-0 text-[#241430b3]\">Select an item to preview it here.</p>\n  </section>\n  {{/unless}}\n</div>\n<style>\n.sv-tw--horizontal { flex-direction: row; }\n.sv-tw--horizontal .sv-tw__list { border-right: 1px solid #24143020; }\n.sv-tw--vertical { flex-direction: column; height: 320px; }\n.sv-tw--vertical .sv-tw__list { border-bottom: 1px solid #24143020; }\n</style>",
+    "react": "export function SplitView({\n  heading = \"{{heading}}\",\n  orientation = \"{{orientation}}\",\n  accent = \"{{accent}}\",\n  ratio = {{ratio}},\n  showSecondary = {{showSecondary}},\n}) {\n  const vertical = orientation === \"vertical\";\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", display: \"flex\", flexDirection: vertical ? \"column\" : \"row\", height: vertical ? 320 : undefined, maxWidth: 440, width: 440, border: \"1px solid #24143020\", borderRadius: 12, overflow: \"hidden\", boxSizing: \"border-box\" }}>\n      <nav aria-label={heading} style={{ flex: `0 0 ${ratio}%`, background: \"#fff\", padding: 12, boxSizing: \"border-box\", overflow: \"auto\", borderRight: vertical ? \"none\" : \"1px solid #24143020\", borderBottom: vertical ? \"1px solid #24143020\" : \"none\" }}>\n        <h3 style={{ margin: \"0 0 8px\", fontSize: 13, fontWeight: 700 }}>{heading}</h3>\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          <li aria-current=\"true\" style={{ padding: \"6px 8px\", borderRadius: 6, background: accent, fontWeight: 700 }}>Q3 budget review</li>\n          <li style={{ padding: \"6px 8px\", borderRadius: 6 }}>Design crit notes</li>\n          <li style={{ padding: \"6px 8px\", borderRadius: 6 }}>Release checklist</li>\n        </ul>\n      </nav>\n      <section aria-label=\"Message\" style={{ flex: 1, padding: 14, boxSizing: \"border-box\", background: \"#FAF7F2\", minWidth: 0, display: showSecondary ? \"block\" : \"grid\", placeItems: showSecondary ? undefined : \"center\", textAlign: showSecondary ? \"left\" : \"center\" }}>\n        {showSecondary ? (\n          <>\n            <h4 style={{ margin: \"0 0 6px\", fontSize: 14, fontWeight: 700 }}>Q3 budget review</h4>\n            <p style={{ margin: 0, color: \"#241430b3\" }}>Attaching the updated numbers for review before Friday's sync.</p>\n          </>\n        ) : (\n          <p style={{ margin: 0, color: \"#241430b3\" }}>Select an item to preview it here.</p>\n        )}\n      </section>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "slug": "availability-block",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Open for meetings"
+    },
+    {
+      "id": "start",
+      "type": "text",
+      "label": "Start time",
+      "default": "09:00"
+    },
+    {
+      "id": "end",
+      "type": "text",
+      "label": "End time",
+      "default": "12:00"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "pattern",
+      "type": "select",
+      "label": "Fill",
+      "default": "Solid",
+      "options": [
+        "Solid",
+        "Striped"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"avail\" data-pattern=\"{{pattern}}\" style=\"--accent:{{accent}};\">\n  <p class=\"avail__label\">{{label}}</p>\n  <p class=\"avail__range\">\n    <time datetime=\"{{date}}T{{start}}\">{{start}}</time>&ndash;<time datetime=\"{{date}}T{{end}}\">{{end}}</time>\n  </p>\n</div>\n<style>\n.avail { font: 14px/1.4 system-ui, sans-serif; color: #14351f; width: 300px; padding: 16px 18px; border-radius: 10px; box-sizing: border-box; background: var(--accent); border: 1.5px solid #24143020; }\n.avail[data-pattern=\"Striped\"] { background-image: repeating-linear-gradient(135deg, var(--accent), var(--accent) 8px, #FAF7F2 8px, #FAF7F2 14px); }\n.avail__label { margin: 0 0 6px; font-weight: 700; }\n.avail__range { margin: 0; font-variant-numeric: tabular-nums; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-4 rounded-[10px] box-border font-sans text-sm text-[#14351f] border-[1.5px] border-[#24143020]\" data-pattern=\"{{pattern}}\" style=\"background:{{accent}}\">\n  <p class=\"m-0 mb-1.5 font-bold\">{{label}}</p>\n  <p class=\"m-0 tabular-nums\">\n    <time datetime=\"{{date}}T{{start}}\">{{start}}</time>&ndash;<time datetime=\"{{date}}T{{end}}\">{{end}}</time>\n  </p>\n</div>\n<style>\ndiv[data-pattern=\"Striped\"] { background-image: repeating-linear-gradient(135deg, {{accent}}, {{accent}} 8px, #FAF7F2 8px, #FAF7F2 14px); }\n</style>",
+    "react": "export function AvailabilityBlock({\n  label = \"{{label}}\",\n  start = \"{{start}}\",\n  end = \"{{end}}\",\n  date = \"{{date}}\",\n  pattern = \"{{pattern}}\",\n  accent = \"{{accent}}\",\n}) {\n  const bg = pattern === \"Striped\"\n    ? `repeating-linear-gradient(135deg, ${accent}, ${accent} 8px, #FAF7F2 8px, #FAF7F2 14px)`\n    : accent;\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#14351f\", width: 300, padding: \"16px 18px\", borderRadius: 10, boxSizing: \"border-box\", background: bg, border: \"1.5px solid #24143020\" }}>\n      <p style={{ margin: \"0 0 6px\", fontWeight: 700 }}>{label}</p>\n      <p style={{ margin: 0, fontVariantNumeric: \"tabular-nums\" }}>\n        <time dateTime={`${date}T${start}`}>{start}</time>&ndash;<time dateTime={`${date}T${end}`}>{end}</time>\n      </p>\n    </div>\n  );\n}"
+  }
+}

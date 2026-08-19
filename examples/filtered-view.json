@@ -1,0 +1,45 @@
+{
+  "slug": "filtered-view",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Projects"
+    },
+    {
+      "id": "filterLabel",
+      "type": "text",
+      "label": "Filter group label",
+      "default": "Status"
+    },
+    {
+      "id": "activeFilter",
+      "type": "select",
+      "label": "Active filter",
+      "default": "active",
+      "options": ["all", "active", "archived"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "resultCount",
+      "type": "number",
+      "label": "Result count",
+      "default": 2,
+      "min": 0,
+      "max": 3,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"fv\" style=\"--accent:{{accent}};\" aria-label=\"{{heading}}\" data-filter=\"{{activeFilter}}\">\n  <h3 class=\"fv__heading\">{{heading}}</h3>\n  <div class=\"fv__bar\" role=\"group\" aria-label=\"{{filterLabel}}\">\n    <button type=\"button\" class=\"fv__chip fv__chip--all\">All</button>\n    <button type=\"button\" class=\"fv__chip fv__chip--active\">Active</button>\n    <button type=\"button\" class=\"fv__chip fv__chip--archived\">Archived</button>\n  </div>\n  <p class=\"fv__status\" role=\"status\">Showing {{activeFilter}} — {{resultCount}} results</p>\n  <ul class=\"fv__list\">\n    <li>Homepage redesign</li>\n    <li>Q3 roadmap</li>\n    <li>Support backlog</li>\n  </ul>\n</section>\n<style>\n.fv { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.fv__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.fv__bar { display: flex; gap: 6px; margin-bottom: 8px; }\n.fv__chip { background: #fff; border: 1px solid #24143020; border-radius: 999px; padding: 5px 12px; font: inherit; font-weight: 600; cursor: pointer; }\n.fv__chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.fv[data-filter=\"all\"] .fv__chip--all,\n.fv[data-filter=\"active\"] .fv__chip--active,\n.fv[data-filter=\"archived\"] .fv__chip--archived { background: var(--accent); border-color: transparent; }\n.fv__status { margin: 0 0 8px; font-size: 12px; color: #241430a0; }\n.fv__list { list-style: none; margin: 0; padding: 0; }\n.fv__list li { padding: 8px 10px; background: #fff; border-radius: 8px; margin-bottom: 6px; }\n.fv__list li:last-child { margin-bottom: 0; }\n</style>",
+    "tailwind": "<section class=\"fv-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\" aria-label=\"{{heading}}\" data-filter=\"{{activeFilter}}\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <div role=\"group\" aria-label=\"{{filterLabel}}\" class=\"flex gap-1.5 mb-2\">\n    <button type=\"button\" class=\"fv-tw__chip fv-tw__chip--all bg-white border border-[#24143020] rounded-full py-1 px-3 font-semibold cursor-pointer\">All</button>\n    <button type=\"button\" class=\"fv-tw__chip fv-tw__chip--active bg-white border border-[#24143020] rounded-full py-1 px-3 font-semibold cursor-pointer\">Active</button>\n    <button type=\"button\" class=\"fv-tw__chip fv-tw__chip--archived bg-white border border-[#24143020] rounded-full py-1 px-3 font-semibold cursor-pointer\">Archived</button>\n  </div>\n  <p role=\"status\" class=\"m-0 mb-2 text-xs text-[#241430a0]\">Showing {{activeFilter}} — {{resultCount}} results</p>\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"py-2 px-2.5 bg-white rounded-lg mb-1.5\">Homepage redesign</li>\n    <li class=\"py-2 px-2.5 bg-white rounded-lg mb-1.5\">Q3 roadmap</li>\n    <li class=\"py-2 px-2.5 bg-white rounded-lg\">Support backlog</li>\n  </ul>\n</section>\n<style>\n.fv-tw[data-filter=\"all\"] .fv-tw__chip--all,\n.fv-tw[data-filter=\"active\"] .fv-tw__chip--active,\n.fv-tw[data-filter=\"archived\"] .fv-tw__chip--archived { background: {{accent}}; border-color: transparent; }\n</style>",
+    "react": "export function FilteredView({\n  heading = \"{{heading}}\",\n  filterLabel = \"{{filterLabel}}\",\n  activeFilter = \"{{activeFilter}}\",\n  accent = \"{{accent}}\",\n  resultCount = {{resultCount}},\n}) {\n  const chip = (value, label) => (\n    <button type=\"button\" key={value} style={{ background: activeFilter === value ? accent : \"#fff\", borderColor: activeFilter === value ? \"transparent\" : \"#24143020\", border: \"1px solid\", borderRadius: 999, padding: \"5px 12px\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\" }}>{label}</button>\n  );\n  return (\n    <section aria-label={heading} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <div role=\"group\" aria-label={filterLabel} style={{ display: \"flex\", gap: 6, marginBottom: 8 }}>\n        {chip(\"all\", \"All\")}\n        {chip(\"active\", \"Active\")}\n        {chip(\"archived\", \"Archived\")}\n      </div>\n      <p role=\"status\" style={{ margin: \"0 0 8px\", fontSize: 12, color: \"#241430a0\" }}>Showing {activeFilter} — {resultCount} results</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li style={{ padding: \"8px 10px\", background: \"#fff\", borderRadius: 8, marginBottom: 6 }}>Homepage redesign</li>\n        <li style={{ padding: \"8px 10px\", background: \"#fff\", borderRadius: 8, marginBottom: 6 }}>Q3 roadmap</li>\n        <li style={{ padding: \"8px 10px\", background: \"#fff\", borderRadius: 8 }}>Support backlog</li>\n      </ul>\n    </section>\n  );\n}"
+  }
+}

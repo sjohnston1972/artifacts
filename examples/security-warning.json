@@ -1,0 +1,39 @@
+{
+  "slug": "security-warning",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "New sign-in detected"
+    },
+    {
+      "id": "detail",
+      "type": "text",
+      "label": "Detail",
+      "default": "From Chrome on Windows • London, UK"
+    },
+    {
+      "id": "severity",
+      "type": "select",
+      "label": "Severity",
+      "default": "Warning",
+      "options": [
+        "Info",
+        "Warning",
+        "Critical"
+      ]
+    },
+    {
+      "id": "showAction",
+      "type": "toggle",
+      "label": "Show action button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"secwarn\" data-severity=\"{{severity}}\" role=\"alert\">\n  <span class=\"secwarn__icon\" aria-hidden=\"true\">!</span>\n  <div class=\"secwarn__body\">\n    <p class=\"secwarn__heading\">{{heading}}</p>\n    <p class=\"secwarn__detail\">{{detail}}</p>\n    {{#if showAction}}<button type=\"button\" class=\"secwarn__action\">This wasn’t me</button>{{/if}}\n  </div>\n</div>\n<style>\n.secwarn { font: 14px/1.4 system-ui, sans-serif; color: #241430; width: 360px; padding: 14px 16px; border-radius: 10px; box-sizing: border-box; display: flex; gap: 12px; border: 1.5px solid; }\n.secwarn__icon { flex: none; width: 22px; height: 22px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }\n.secwarn__heading { margin: 0; font-weight: 700; }\n.secwarn__detail { margin: 4px 0 0; font-size: 12px; opacity: .8; }\n.secwarn__action { margin-top: 10px; padding: 6px 12px; border-radius: 7px; border: 1.5px solid currentColor; background: none; font-weight: 700; font-size: 12px; cursor: pointer; color: inherit; }\n.secwarn[data-severity=\"Info\"] { background: #EAF3FB; border-color: #BFD9F2; }\n.secwarn[data-severity=\"Info\"] .secwarn__icon { background: #BFD9F2; color: #14263a; }\n.secwarn[data-severity=\"Warning\"] { background: #FDF3E2; border-color: #E8A020; }\n.secwarn[data-severity=\"Warning\"] .secwarn__icon { background: #E8A020; color: #241430; }\n.secwarn[data-severity=\"Critical\"] { background: #FBEAEA; border-color: #D64545; }\n.secwarn[data-severity=\"Critical\"] .secwarn__icon { background: #D64545; color: #FAF7F2; }\n.secwarn__action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"flex gap-3 w-[360px] p-[14px_16px] rounded-[10px] box-border border-[1.5px] font-sans text-sm text-[#241430] secwarn-tw\" data-severity=\"{{severity}}\" role=\"alert\">\n  <span class=\"secwarn-tw-icon flex-none w-[22px] h-[22px] rounded-full flex items-center justify-center font-extrabold text-[13px]\" aria-hidden=\"true\">!</span>\n  <div>\n    <p class=\"m-0 font-bold\">{{heading}}</p>\n    <p class=\"mt-1 mb-0 text-xs opacity-80\">{{detail}}</p>\n    {{#if showAction}}<button type=\"button\" class=\"mt-2.5 px-3 py-1.5 rounded-md border-[1.5px] border-current bg-none font-bold text-xs cursor-pointer text-inherit\">This wasn’t me</button>{{/if}}\n  </div>\n</div>\n<style>\n.secwarn-tw[data-severity=\"Info\"] { background: #EAF3FB; border-color: #BFD9F2; }\n.secwarn-tw[data-severity=\"Info\"] .secwarn-tw-icon { background: #BFD9F2; color: #14263a; }\n.secwarn-tw[data-severity=\"Warning\"] { background: #FDF3E2; border-color: #E8A020; }\n.secwarn-tw[data-severity=\"Warning\"] .secwarn-tw-icon { background: #E8A020; color: #241430; }\n.secwarn-tw[data-severity=\"Critical\"] { background: #FBEAEA; border-color: #D64545; }\n.secwarn-tw[data-severity=\"Critical\"] .secwarn-tw-icon { background: #D64545; color: #FAF7F2; }\n</style>",
+    "react": "export function SecurityWarning({\n  heading = \"{{heading}}\",\n  detail = \"{{detail}}\",\n  severity = \"{{severity}}\",\n  showAction = {{showAction}},\n}) {\n  const theme = {\n    Info: { bg: \"#EAF3FB\", border: \"#BFD9F2\", iconBg: \"#BFD9F2\", iconColor: \"#14263a\" },\n    Warning: { bg: \"#FDF3E2\", border: \"#E8A020\", iconBg: \"#E8A020\", iconColor: \"#241430\" },\n    Critical: { bg: \"#FBEAEA\", border: \"#D64545\", iconBg: \"#D64545\", iconColor: \"#FAF7F2\" },\n  }[severity] ?? {};\n  return (\n    <div role=\"alert\" style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", width: 360, padding: \"14px 16px\", borderRadius: 10, boxSizing: \"border-box\", display: \"flex\", gap: 12, border: `1.5px solid ${theme.border}`, background: theme.bg }}>\n      <span aria-hidden=\"true\" style={{ flex: \"none\", width: 22, height: 22, borderRadius: 999, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontWeight: 800, fontSize: 13, background: theme.iconBg, color: theme.iconColor }}>!</span>\n      <div>\n        <p style={{ margin: 0, fontWeight: 700 }}>{heading}</p>\n        <p style={{ margin: \"4px 0 0\", fontSize: 12, opacity: .8 }}>{detail}</p>\n        {showAction && <button type=\"button\" style={{ marginTop: 10, padding: \"6px 12px\", borderRadius: 7, border: \"1.5px solid currentColor\", background: \"none\", fontWeight: 700, fontSize: 12, cursor: \"pointer\", color: \"inherit\" }}>This wasn’t me</button>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

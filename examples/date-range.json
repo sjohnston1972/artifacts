@@ -1,0 +1,49 @@
+{
+  "slug": "date-range",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Trip dates"
+    },
+    {
+      "id": "start",
+      "type": "text",
+      "label": "Start date (ISO)",
+      "default": "2026-09-02"
+    },
+    {
+      "id": "end",
+      "type": "text",
+      "label": "End date (ISO)",
+      "default": "2026-09-09"
+    },
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Style",
+      "default": "Full",
+      "options": [
+        "Full",
+        "Compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"drange\" data-format=\"{{format}}\">\n  <p class=\"drange__label\">{{label}}</p>\n  <p class=\"drange__value\">\n    <time datetime=\"{{start}}\">{{start}}</time>\n    <span class=\"drange__arrow\" style=\"color:{{accent}};\">&rarr;</span>\n    <time datetime=\"{{end}}\">{{end}}</time>\n  </p>\n</div>\n<style>\n.drange { font: 15px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 320px; padding: 16px 18px; border-radius: 12px; border: 1.5px solid #24143020; box-sizing: border-box; }\n.drange__label { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #24143099; font-weight: 700; }\n.drange__value { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }\n.drange__arrow { margin: 0 6px; font-weight: 700; }\n.drange[data-format=\"Compact\"] { padding: 10px 14px; }\n.drange[data-format=\"Compact\"] .drange__value { font-size: 14px; }\n</style>",
+    "tailwind": "<div class=\"w-[320px] p-[16px_18px] rounded-xl border-[1.5px] border-[#24143020] box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] drange-tw\" data-format=\"{{format}}\">\n  <p class=\"m-0 mb-1.5 text-xs uppercase tracking-wide text-[#241430]/60 font-bold\">{{label}}</p>\n  <p class=\"m-0 font-semibold tabular-nums\">\n    <time datetime=\"{{start}}\">{{start}}</time>\n    <span class=\"mx-1.5 font-bold\" style=\"color:{{accent}}\">&rarr;</span>\n    <time datetime=\"{{end}}\">{{end}}</time>\n  </p>\n</div>\n<style>\n.drange-tw[data-format=\"Compact\"] { padding: 10px 14px; }\n.drange-tw[data-format=\"Compact\"] p:last-child { font-size: 14px; }\n</style>",
+    "react": "export function DateRange({\n  label = \"{{label}}\",\n  start = \"{{start}}\",\n  end = \"{{end}}\",\n  format = \"{{format}}\",\n  accent = \"{{accent}}\",\n}) {\n  const compact = format === \"Compact\";\n  return (\n    <div style={{ font: \"15px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 320, padding: compact ? \"10px 14px\" : \"16px 18px\", borderRadius: 12, border: \"1.5px solid #24143020\", boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 6px\", fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".05em\", color: \"#24143099\", fontWeight: 700 }}>{label}</p>\n      <p style={{ margin: 0, fontWeight: 600, fontVariantNumeric: \"tabular-nums\", fontSize: compact ? 14 : 16 }}>\n        <time dateTime={start}>{start}</time>\n        <span style={{ margin: \"0 6px\", fontWeight: 700, color: accent }}>&rarr;</span>\n        <time dateTime={end}>{end}</time>\n      </p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "resource-calendar",
+  "controls_schema": [
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "resource1",
+      "type": "text",
+      "label": "Resource 1",
+      "default": "Room A"
+    },
+    {
+      "id": "resource2",
+      "type": "text",
+      "label": "Resource 2",
+      "default": "Room B"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "Comfortable",
+      "options": [
+        "Comfortable",
+        "Compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Booked colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<table class=\"rc\" data-density=\"{{density}}\">\n  <caption class=\"rc__caption\"><time datetime=\"{{date}}\">{{date}}</time></caption>\n  <thead>\n    <tr><th scope=\"col\">Time</th><th scope=\"col\">{{resource1}}</th><th scope=\"col\">{{resource2}}</th><th scope=\"col\">Room C</th></tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\">9:00</th><td class=\"rc__booked\" style=\"background:{{accent}};\">Booked</td><td>Free</td><td>Free</td></tr>\n    <tr><th scope=\"row\">10:00</th><td>Free</td><td class=\"rc__booked\" style=\"background:{{accent}};\">Booked</td><td>Free</td></tr>\n    <tr><th scope=\"row\">11:00</th><td>Free</td><td>Free</td><td class=\"rc__booked\" style=\"background:{{accent}};\">Booked</td></tr>\n  </tbody>\n</table>\n<style>\n.rc { border-collapse: collapse; width: 460px; font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; }\n.rc__caption { text-align: left; font-weight: 700; padding-bottom: 10px; }\n.rc th, .rc td { border: 1px solid #24143018; padding: 9px 10px; text-align: left; }\n.rc th[scope=\"col\"] { background: #24143008; font-weight: 700; }\n.rc th[scope=\"row\"] { font-weight: 500; color: #24143099; font-variant-numeric: tabular-nums; }\n.rc__booked { font-weight: 700; color: #241430; }\n.rc[data-density=\"Compact\"] th, .rc[data-density=\"Compact\"] td { padding: 4px 10px; }\n</style>",
+    "tailwind": "<table class=\"border-collapse w-[460px] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] rc-tw\" data-density=\"{{density}}\">\n  <caption class=\"text-left font-bold pb-2.5\"><time datetime=\"{{date}}\">{{date}}</time></caption>\n  <thead>\n    <tr>\n      <th scope=\"col\" class=\"bg-[#24143008] font-bold border border-[#24143018] p-2.5 text-left\">Time</th>\n      <th scope=\"col\" class=\"bg-[#24143008] font-bold border border-[#24143018] p-2.5 text-left\">{{resource1}}</th>\n      <th scope=\"col\" class=\"bg-[#24143008] font-bold border border-[#24143018] p-2.5 text-left\">{{resource2}}</th>\n      <th scope=\"col\" class=\"bg-[#24143008] font-bold border border-[#24143018] p-2.5 text-left\">Room C</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><th scope=\"row\" class=\"font-normal text-[#241430]/60 tabular-nums border border-[#24143018] p-2.5 text-left\">9:00</th><td class=\"font-bold border border-[#24143018] p-2.5\" style=\"background:{{accent}}\">Booked</td><td class=\"border border-[#24143018] p-2.5\">Free</td><td class=\"border border-[#24143018] p-2.5\">Free</td></tr>\n    <tr><th scope=\"row\" class=\"font-normal text-[#241430]/60 tabular-nums border border-[#24143018] p-2.5 text-left\">10:00</th><td class=\"border border-[#24143018] p-2.5\">Free</td><td class=\"font-bold border border-[#24143018] p-2.5\" style=\"background:{{accent}}\">Booked</td><td class=\"border border-[#24143018] p-2.5\">Free</td></tr>\n    <tr><th scope=\"row\" class=\"font-normal text-[#241430]/60 tabular-nums border border-[#24143018] p-2.5 text-left\">11:00</th><td class=\"border border-[#24143018] p-2.5\">Free</td><td class=\"border border-[#24143018] p-2.5\">Free</td><td class=\"font-bold border border-[#24143018] p-2.5\" style=\"background:{{accent}}\">Booked</td></tr>\n  </tbody>\n</table>\n<style>\n.rc-tw[data-density=\"Compact\"] th, .rc-tw[data-density=\"Compact\"] td { padding-top: 4px; padding-bottom: 4px; }\n</style>",
+    "react": "export function ResourceCalendar({\n  date = \"{{date}}\",\n  resource1 = \"{{resource1}}\",\n  resource2 = \"{{resource2}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const pad = density === \"Compact\" ? \"4px 10px\" : \"9px 10px\";\n  const cellStyle = { border: \"1px solid #24143018\", padding: pad, textAlign: \"left\" };\n  const rows = [\n    { time: \"9:00\", booked: 0 },\n    { time: \"10:00\", booked: 1 },\n    { time: \"11:00\", booked: 2 },\n  ];\n  const resources = [resource1, resource2, \"Room C\"];\n  return (\n    <table style={{ borderCollapse: \"collapse\", width: 460, font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <caption style={{ textAlign: \"left\", fontWeight: 700, paddingBottom: 10 }}><time dateTime={date}>{date}</time></caption>\n      <thead>\n        <tr>\n          <th scope=\"col\" style={{ ...cellStyle, background: \"#24143008\", fontWeight: 700 }}>Time</th>\n          {resources.map((r) => <th key={r} scope=\"col\" style={{ ...cellStyle, background: \"#24143008\", fontWeight: 700 }}>{r}</th>)}\n        </tr>\n      </thead>\n      <tbody>\n        {rows.map((row) => (\n          <tr key={row.time}>\n            <th scope=\"row\" style={{ ...cellStyle, fontWeight: 500, color: \"#24143099\", fontVariantNumeric: \"tabular-nums\" }}>{row.time}</th>\n            {resources.map((r, i) => (\n              <td key={r} style={i === row.booked ? { ...cellStyle, fontWeight: 700, background: accent } : cellStyle}>\n                {i === row.booked ? \"Booked\" : \"Free\"}\n              </td>\n            ))}\n          </tr>\n        ))}\n      </tbody>\n    </table>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "bulk-editing",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Invoices"
+    },
+    {
+      "id": "selectedCount",
+      "type": "number",
+      "label": "Rows selected",
+      "default": 2,
+      "min": 0,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "action",
+      "type": "select",
+      "label": "Bulk action offered",
+      "default": "status",
+      "options": ["status", "archive", "export"]
+    },
+    {
+      "id": "showToolbar",
+      "type": "toggle",
+      "label": "Show bulk toolbar",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"bed\" style=\"--accent:{{accent}};\" aria-label=\"{{heading}} bulk editing\">\n  <h3 class=\"bed__heading\">{{heading}}</h3>\n  {{#if showToolbar}}\n  <div class=\"bed__toolbar\" role=\"toolbar\" aria-label=\"Bulk actions\">\n    <span class=\"bed__count\" role=\"status\">{{selectedCount}} selected</span>\n    <button type=\"button\" class=\"bed__action bed__action--{{action}}\">Set status</button>\n    <button type=\"button\" class=\"bed__action bed__action--{{action}}\">Archive</button>\n    <button type=\"button\" class=\"bed__action bed__action--{{action}}\">Export</button>\n  </div>\n  {{/if}}\n  <table class=\"bed__table\">\n    <thead><tr><th scope=\"col\"><span class=\"bed__sr\">Select</span></th><th scope=\"col\">Invoice</th><th scope=\"col\">Status</th></tr></thead>\n    <tbody>\n      <tr><td><input type=\"checkbox\" checked aria-label=\"Select INV-1042\"></td><td>INV-1042</td><td>Draft</td></tr>\n      <tr><td><input type=\"checkbox\" checked aria-label=\"Select INV-1041\"></td><td>INV-1041</td><td>Draft</td></tr>\n      <tr><td><input type=\"checkbox\" aria-label=\"Select INV-1040\"></td><td>INV-1040</td><td>Sent</td></tr>\n    </tbody>\n  </table>\n</section>\n<style>\n.bed { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 380px; width: 380px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.bed__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.bed__toolbar { display: flex; align-items: center; gap: 8px; background: #fff; border: 1.5px solid var(--accent); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; flex-wrap: wrap; }\n.bed__count { font-weight: 700; margin-right: 4px; }\n.bed__action { background: var(--accent); border: none; border-radius: 6px; padding: 5px 10px; font: inherit; font-weight: 600; cursor: pointer; color: #241430; }\n.bed__action:hover { filter: brightness(0.94); }\n.bed__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.bed__action--archive { border: 1.5px solid var(--accent); background: transparent; }\n.bed__action--export { border-radius: 999px; }\n.bed__table { border-collapse: collapse; width: 100%; }\n.bed__table th, .bed__table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #24143014; }\n.bed__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }\n</style>",
+    "tailwind": "<section class=\"bed-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[380px] w-[380px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}}\" aria-label=\"{{heading}} bulk editing\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  {{#if showToolbar}}\n  <div role=\"toolbar\" aria-label=\"Bulk actions\" class=\"flex items-center gap-2 bg-white rounded-lg py-2 px-2.5 mb-2.5 flex-wrap\" style=\"border:1.5px solid {{accent}}\">\n    <span role=\"status\" class=\"font-bold mr-1\">{{selectedCount}} selected</span>\n    <button type=\"button\" class=\"bed-tw__action bed-tw__action--{{action}} rounded-md py-1 px-2.5 font-semibold border-0 cursor-pointer text-[#241430]\" style=\"background:{{accent}}\">Set status</button>\n    <button type=\"button\" class=\"bed-tw__action bed-tw__action--{{action}} rounded-md py-1 px-2.5 font-semibold border-0 cursor-pointer text-[#241430]\" style=\"background:{{accent}}\">Archive</button>\n    <button type=\"button\" class=\"bed-tw__action bed-tw__action--{{action}} rounded-md py-1 px-2.5 font-semibold border-0 cursor-pointer text-[#241430]\" style=\"background:{{accent}}\">Export</button>\n  </div>\n  {{/if}}\n  <table class=\"border-collapse w-full\">\n    <thead><tr><th scope=\"col\" class=\"text-left p-2\"><span class=\"sr-only\">Select</span></th><th scope=\"col\" class=\"text-left p-2\">Invoice</th><th scope=\"col\" class=\"text-left p-2\">Status</th></tr></thead>\n    <tbody>\n      <tr><td class=\"p-2 border-b border-[#24143014]\"><input type=\"checkbox\" checked aria-label=\"Select INV-1042\"></td><td class=\"p-2 border-b border-[#24143014]\">INV-1042</td><td class=\"p-2 border-b border-[#24143014]\">Draft</td></tr>\n      <tr><td class=\"p-2 border-b border-[#24143014]\"><input type=\"checkbox\" checked aria-label=\"Select INV-1041\"></td><td class=\"p-2 border-b border-[#24143014]\">INV-1041</td><td class=\"p-2 border-b border-[#24143014]\">Draft</td></tr>\n      <tr><td class=\"p-2 border-b border-[#24143014]\"><input type=\"checkbox\" aria-label=\"Select INV-1040\"></td><td class=\"p-2 border-b border-[#24143014]\">INV-1040</td><td class=\"p-2 border-b border-[#24143014]\">Sent</td></tr>\n    </tbody>\n  </table>\n</section>\n<style>\n.bed-tw__action--archive { border: 1.5px solid {{accent}}; background: transparent !important; }\n.bed-tw__action--export { border-radius: 999px; }\n.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }\n</style>",
+    "react": "export function BulkEditing({\n  heading = \"{{heading}}\",\n  selectedCount = {{selectedCount}},\n  accent = \"{{accent}}\",\n  action = \"{{action}}\",\n  showToolbar = {{showToolbar}},\n}) {\n  const btnStyle = {\n    background: action === \"archive\" ? \"transparent\" : accent,\n    border: action === \"archive\" ? `1.5px solid ${accent}` : \"none\",\n    borderRadius: action === \"export\" ? 999 : 6,\n    padding: \"5px 10px\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\", color: \"#241430\",\n  };\n  return (\n    <section aria-label={`${heading} bulk editing`} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 380, width: 380, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      {showToolbar && (\n        <div role=\"toolbar\" aria-label=\"Bulk actions\" style={{ display: \"flex\", alignItems: \"center\", gap: 8, background: \"#fff\", border: `1.5px solid ${accent}`, borderRadius: 8, padding: \"8px 10px\", marginBottom: 10, flexWrap: \"wrap\" }}>\n          <span role=\"status\" style={{ fontWeight: 700, marginRight: 4 }}>{selectedCount} selected</span>\n          <button type=\"button\" style={btnStyle}>Set status</button>\n          <button type=\"button\" style={btnStyle}>Archive</button>\n          <button type=\"button\" style={btnStyle}>Export</button>\n        </div>\n      )}\n      <table style={{ borderCollapse: \"collapse\", width: \"100%\" }}>\n        <thead><tr><th scope=\"col\" style={{ textAlign: \"left\", padding: 8 }}><span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\" }}>Select</span></th><th scope=\"col\" style={{ textAlign: \"left\", padding: 8 }}>Invoice</th><th scope=\"col\" style={{ textAlign: \"left\", padding: 8 }}>Status</th></tr></thead>\n        <tbody>\n          <tr><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}><input type=\"checkbox\" defaultChecked aria-label=\"Select INV-1042\" /></td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>INV-1042</td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>Draft</td></tr>\n          <tr><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}><input type=\"checkbox\" defaultChecked aria-label=\"Select INV-1041\" /></td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>INV-1041</td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>Draft</td></tr>\n          <tr><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}><input type=\"checkbox\" aria-label=\"Select INV-1040\" /></td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>INV-1040</td><td style={{ padding: 8, borderBottom: \"1px solid #24143014\" }}>Sent</td></tr>\n        </tbody>\n      </table>\n    </section>\n  );\n}"
+  }
+}

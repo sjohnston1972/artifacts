@@ -1,0 +1,50 @@
+{
+  "slug": "event",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Product sync"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "label": "Date (ISO)",
+      "default": "2026-08-18"
+    },
+    {
+      "id": "time",
+      "type": "text",
+      "label": "Time",
+      "default": "1:00 pm"
+    },
+    {
+      "id": "category",
+      "type": "select",
+      "label": "Category",
+      "default": "Work",
+      "options": [
+        "Work",
+        "Personal",
+        "Holiday"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"ev\" data-category=\"{{category}}\" style=\"--accent:{{accent}};\">\n  <span class=\"ev__stripe\"></span>\n  <div class=\"ev__body\">\n    <p class=\"ev__title\">{{title}}</p>\n    <p class=\"ev__meta\"><time datetime=\"{{date}}T{{time}}\">{{time}}</time> &middot; <span class=\"ev__category\">{{category}}</span></p>\n  </div>\n</article>\n<style>\n.ev { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 340px; padding: 12px 14px; border-radius: 10px; box-sizing: border-box; display: flex; gap: 10px; box-shadow: 0 4px 12px rgba(36,20,48,.08); }\n.ev__stripe { width: 4px; border-radius: 2px; background: var(--accent); flex: none; }\n.ev__title { margin: 0; font-weight: 700; }\n.ev__meta { margin: 4px 0 0; font-size: 12px; color: #24143099; }\n.ev__category { text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }\n.ev[data-category=\"Holiday\"] .ev__category { color: #b5750f; }\n.ev[data-category=\"Personal\"] .ev__category { color: #a1447e; }\n</style>",
+    "tailwind": "<article class=\"flex gap-2.5 w-[340px] p-3 rounded-[10px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] shadow-[0_4px_12px_rgba(36,20,48,.08)] ev-tw\" data-category=\"{{category}}\">\n  <span class=\"w-1 rounded-sm flex-none\" style=\"background:{{accent}}\"></span>\n  <div>\n    <p class=\"m-0 font-bold\">{{title}}</p>\n    <p class=\"mt-1 mb-0 text-xs text-[#241430]/60\"><time datetime=\"{{date}}T{{time}}\">{{time}}</time> &middot; <span class=\"ev-tw-cat uppercase tracking-wide font-bold\">{{category}}</span></p>\n  </div>\n</article>\n<style>\n.ev-tw[data-category=\"Holiday\"] .ev-tw-cat { color: #b5750f; }\n.ev-tw[data-category=\"Personal\"] .ev-tw-cat { color: #a1447e; }\n</style>",
+    "react": "export function Event({\n  title = \"{{title}}\",\n  date = \"{{date}}\",\n  time = \"{{time}}\",\n  category = \"{{category}}\",\n  accent = \"{{accent}}\",\n}) {\n  const catColor = { Work: \"#241430\", Personal: \"#a1447e\", Holiday: \"#b5750f\" }[category] ?? \"#241430\";\n  return (\n    <article style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 340, padding: \"12px 14px\", borderRadius: 10, boxSizing: \"border-box\", display: \"flex\", gap: 10, boxShadow: \"0 4px 12px rgba(36,20,48,.08)\" }}>\n      <span style={{ width: 4, borderRadius: 2, background: accent, flex: \"none\" }} />\n      <div>\n        <p style={{ margin: 0, fontWeight: 700 }}>{title}</p>\n        <p style={{ margin: \"4px 0 0\", fontSize: 12, color: \"#24143099\" }}>\n          <time dateTime={`${date}T${time}`}>{time}</time> &middot; <span style={{ textTransform: \"uppercase\", letterSpacing: \".04em\", fontWeight: 700, color: catColor }}>{category}</span>\n        </p>\n      </div>\n    </article>\n  );\n}"
+  }
+}

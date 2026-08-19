@@ -1,0 +1,49 @@
+{
+  "slug": "otp",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Enter the code"
+    },
+    {
+      "id": "destination",
+      "type": "text",
+      "label": "Sent-to text",
+      "default": "j***@example.com"
+    },
+    {
+      "id": "digits",
+      "type": "select",
+      "label": "Code length",
+      "default": "6",
+      "options": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "resendEnabled",
+      "type": "toggle",
+      "label": "Resend available",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"otp\" data-digits=\"{{digits}}\" style=\"--accent:{{accent}};\">\n  <h3 class=\"otp__heading\">{{heading}}</h3>\n  <p class=\"otp__sub\">Code sent to {{destination}}</p>\n  <div class=\"otp__boxes\" role=\"group\" aria-label=\"One-time code\">\n    <input class=\"otp__box otp__box--4up\" type=\"text\" inputmode=\"numeric\" autocomplete=\"one-time-code\" maxlength=\"1\" aria-label=\"Digit 1\" />\n    <input class=\"otp__box otp__box--4up\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 2\" />\n    <input class=\"otp__box otp__box--4up\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 3\" />\n    <input class=\"otp__box otp__box--4up\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 4\" />\n    <input class=\"otp__box otp__box--6only\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 5\" />\n    <input class=\"otp__box otp__box--6only\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 6\" />\n  </div>\n  <button type=\"submit\" class=\"otp__submit\">Verify code</button>\n  <p class=\"otp__resend\">{{#if resendEnabled}}<button type=\"button\" class=\"otp__resendbtn\">Resend code</button>{{/if}}{{#unless resendEnabled}}<span class=\"otp__wait\">Resend available in 0:28</span>{{/unless}}</p>\n</form>\n<style>\n.otp { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 320px; padding: 20px; border-radius: 14px; box-sizing: border-box; border: 1px solid #24143018; }\n.otp__heading { margin: 0 0 6px; font-size: 16px; }\n.otp__sub { margin: 0 0 16px; font-size: 13px; color: #24143099; }\n.otp__boxes { display: flex; gap: 8px; margin-bottom: 16px; }\n.otp__box { width: 40px; height: 46px; text-align: center; font-size: 20px; border-radius: 8px; border: 1.5px solid #24143030; font-variant-numeric: tabular-nums; }\n.otp__box:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.otp[data-digits=\"4\"] .otp__box--6only { display: none; }\n.otp__submit { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #14351f; font-weight: 700; cursor: pointer; }\n.otp__resend { margin: 12px 0 0; font-size: 13px; text-align: center; }\n.otp__resendbtn { background: none; border: none; color: #241430; font-weight: 700; text-decoration: underline; cursor: pointer; font-size: 13px; padding: 0; }\n.otp__wait { color: #24143099; }\n</style>",
+    "tailwind": "<form class=\"w-[320px] p-5 rounded-2xl box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2] otp-tw\" data-digits=\"{{digits}}\">\n  <h3 class=\"m-0 mb-1.5 text-base\">{{heading}}</h3>\n  <p class=\"m-0 mb-4 text-[13px] text-[#241430]/60\">Code sent to {{destination}}</p>\n  <div class=\"flex gap-2 mb-4\" role=\"group\" aria-label=\"One-time code\">\n    <input class=\"w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" autocomplete=\"one-time-code\" maxlength=\"1\" aria-label=\"Digit 1\" />\n    <input class=\"w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 2\" />\n    <input class=\"w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 3\" />\n    <input class=\"w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 4\" />\n    <input class=\"otp-tw-6only w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 5\" />\n    <input class=\"otp-tw-6only w-10 h-[46px] text-center text-xl rounded-lg border-[1.5px] border-[#24143030] tabular-nums\" type=\"text\" inputmode=\"numeric\" maxlength=\"1\" aria-label=\"Digit 6\" />\n  </div>\n  <button type=\"submit\" class=\"w-full py-2.5 rounded-lg border-none font-bold cursor-pointer text-[#14351f]\" style=\"background:{{accent}}\">Verify code</button>\n  <p class=\"mt-3 mb-0 text-[13px] text-center\">{{#if resendEnabled}}<button type=\"button\" class=\"bg-none border-none text-[#241430] font-bold underline cursor-pointer text-[13px] p-0\">Resend code</button>{{/if}}{{#unless resendEnabled}}<span class=\"text-[#241430]/60\">Resend available in 0:28</span>{{/unless}}</p>\n</form>\n<style>\n.otp-tw[data-digits=\"4\"] .otp-tw-6only { display: none; }\n</style>",
+    "react": "export function Otp({\n  heading = \"{{heading}}\",\n  destination = \"{{destination}}\",\n  digits = \"{{digits}}\",\n  resendEnabled = {{resendEnabled}},\n  accent = \"{{accent}}\",\n}) {\n  const count = Number(digits);\n  const boxStyle = { width: 40, height: 46, textAlign: \"center\", fontSize: 20, borderRadius: 8, border: \"1.5px solid #24143030\", fontVariantNumeric: \"tabular-nums\" };\n  return (\n    <form style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 320, padding: 20, borderRadius: 14, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <h3 style={{ margin: \"0 0 6px\", fontSize: 16 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 16px\", fontSize: 13, color: \"#24143099\" }}>Code sent to {destination}</p>\n      <div role=\"group\" aria-label=\"One-time code\" style={{ display: \"flex\", gap: 8, marginBottom: 16 }}>\n        {Array.from({ length: count }).map((_, i) => (\n          <input key={i} type=\"text\" inputMode=\"numeric\" autoComplete={i === 0 ? \"one-time-code\" : undefined} maxLength={1} aria-label={`Digit ${i + 1}`} style={boxStyle} />\n        ))}\n      </div>\n      <button type=\"submit\" style={{ width: \"100%\", padding: 10, borderRadius: 8, border: \"none\", background: accent, color: \"#14351f\", fontWeight: 700, cursor: \"pointer\" }}>Verify code</button>\n      <p style={{ margin: \"12px 0 0\", fontSize: 13, textAlign: \"center\" }}>\n        {resendEnabled\n          ? <button type=\"button\" style={{ background: \"none\", border: \"none\", color: \"#241430\", fontWeight: 700, textDecoration: \"underline\", cursor: \"pointer\", fontSize: 13, padding: 0 }}>Resend code</button>\n          : <span style={{ color: \"#24143099\" }}>Resend available in 0:28</span>}\n      </p>\n    </form>\n  );\n}"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "onboarding",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Welcome to Basecamp"
+    },
+    {
+      "id": "subheading",
+      "type": "text",
+      "label": "Subheading",
+      "default": "Let's get your workspace ready."
+    },
+    {
+      "id": "stage",
+      "type": "select",
+      "label": "Current stage",
+      "default": "profile",
+      "options": ["profile", "team", "done"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showSkip",
+      "type": "toggle",
+      "label": "Show skip option",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"ob\" aria-label=\"{{heading}}\" style=\"--accent:{{accent}};\" data-stage=\"{{stage}}\">\n  <h2 class=\"ob__heading\">{{heading}}</h2>\n  <p class=\"ob__sub\">{{subheading}}</p>\n  <ol class=\"ob__steps\">\n    <li class=\"ob__step ob__step--profile\">Set up profile</li>\n    <li class=\"ob__step ob__step--team\">Invite your team</li>\n    <li class=\"ob__step ob__step--done\">Start exploring</li>\n  </ol>\n  <div class=\"ob__actions\">\n    <button type=\"button\" class=\"ob__primary\">Continue</button>\n    {{#if showSkip}}<button type=\"button\" class=\"ob__skip\">Skip for now</button>{{/if}}\n  </div>\n</section>\n<style>\n.ob { font: 13.5px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 340px; width: 340px; padding: 20px; border-radius: 14px; box-sizing: border-box; }\n.ob__heading { margin: 0 0 6px; font-size: 18px; font-weight: 700; }\n.ob__sub { margin: 0 0 14px; color: #241430b3; }\n.ob__steps { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.ob__step { padding: 8px 10px; border-radius: 8px; background: #fff; }\n.ob[data-stage=\"profile\"] .ob__step--profile,\n.ob[data-stage=\"team\"] .ob__step--team,\n.ob[data-stage=\"done\"] .ob__step--done { background: var(--accent); font-weight: 700; }\n.ob__actions { display: flex; gap: 10px; align-items: center; }\n.ob__primary { background: #241430; color: #FAF7F2; border: none; border-radius: 8px; padding: 9px 18px; font: inherit; font-weight: 700; cursor: pointer; }\n.ob__primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.ob__skip { background: transparent; border: none; color: #241430a0; font: inherit; text-decoration: underline; cursor: pointer; }\n</style>",
+    "tailwind": "<section class=\"ob-tw font-sans text-[13.5px] text-[#241430] bg-[#FAF7F2] max-w-[340px] w-[340px] p-5 rounded-2xl box-border\" aria-label=\"{{heading}}\" style=\"--accent:{{accent}}\" data-stage=\"{{stage}}\">\n  <h2 class=\"m-0 mb-1.5 text-lg font-bold\">{{heading}}</h2>\n  <p class=\"m-0 mb-3.5 text-[#241430b3]\">{{subheading}}</p>\n  <ol class=\"list-none m-0 mb-4 p-0 flex flex-col gap-1.5\">\n    <li class=\"ob-tw__step ob-tw__step--profile py-2 px-2.5 rounded-lg bg-white\">Set up profile</li>\n    <li class=\"ob-tw__step ob-tw__step--team py-2 px-2.5 rounded-lg bg-white\">Invite your team</li>\n    <li class=\"ob-tw__step ob-tw__step--done py-2 px-2.5 rounded-lg bg-white\">Start exploring</li>\n  </ol>\n  <div class=\"flex gap-2.5 items-center\">\n    <button type=\"button\" class=\"bg-[#241430] text-[#FAF7F2] rounded-lg py-2 px-4.5 font-bold border-0 cursor-pointer\">Continue</button>\n    {{#if showSkip}}<button type=\"button\" class=\"bg-transparent border-0 text-[#241430a0] underline cursor-pointer\">Skip for now</button>{{/if}}\n  </div>\n</section>\n<style>\n.ob-tw[data-stage=\"profile\"] .ob-tw__step--profile,\n.ob-tw[data-stage=\"team\"] .ob-tw__step--team,\n.ob-tw[data-stage=\"done\"] .ob-tw__step--done { background: {{accent}}; font-weight: 700; }\n</style>",
+    "react": "export function Onboarding({\n  heading = \"{{heading}}\",\n  subheading = \"{{subheading}}\",\n  stage = \"{{stage}}\",\n  accent = \"{{accent}}\",\n  showSkip = {{showSkip}},\n}) {\n  const steps = [[\"profile\", \"Set up profile\"], [\"team\", \"Invite your team\"], [\"done\", \"Start exploring\"]];\n  return (\n    <section aria-label={heading} style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 13.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 340, width: 340, padding: 20, borderRadius: 14, boxSizing: \"border-box\" }}>\n      <h2 style={{ margin: \"0 0 6px\", fontSize: 18, fontWeight: 700 }}>{heading}</h2>\n      <p style={{ margin: \"0 0 14px\", color: \"#241430b3\" }}>{subheading}</p>\n      <ol style={{ listStyle: \"none\", margin: \"0 0 16px\", padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {steps.map(([id, label]) => (\n          <li key={id} style={{ padding: \"8px 10px\", borderRadius: 8, background: stage === id ? accent : \"#fff\", fontWeight: stage === id ? 700 : 400 }}>{label}</li>\n        ))}\n      </ol>\n      <div style={{ display: \"flex\", gap: 10, alignItems: \"center\" }}>\n        <button type=\"button\" style={{ background: \"#241430\", color: \"#FAF7F2\", border: \"none\", borderRadius: 8, padding: \"9px 18px\", font: \"inherit\", fontWeight: 700, cursor: \"pointer\" }}>Continue</button>\n        {showSkip && <button type=\"button\" style={{ background: \"transparent\", border: \"none\", color: \"#241430a0\", font: \"inherit\", textDecoration: \"underline\", cursor: \"pointer\" }}>Skip for now</button>}\n      </div>\n    </section>\n  );\n}"
+  }
+}

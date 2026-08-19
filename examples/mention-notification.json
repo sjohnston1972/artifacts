@@ -1,0 +1,41 @@
+{
+  "slug": "mention-notification",
+  "controls_schema": [
+    {
+      "id": "author",
+      "type": "text",
+      "label": "Who mentioned you",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "context",
+      "type": "text",
+      "label": "What they mentioned you in",
+      "default": "the Q3 roadmap doc"
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "When (ISO)",
+      "default": "2026-08-18T14:32:00"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "unread",
+      "type": "toggle",
+      "label": "Unread",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"mn{{#if unread}} mn--unread{{/if}}\" style=\"--accent:{{accent}};\" role=\"article\">\n  <span class=\"mn__avatar\" aria-hidden=\"true\">@</span>\n  <div class=\"mn__body\">\n    <p class=\"mn__line\"><strong>{{author}}</strong> mentioned you in {{context}}</p>\n    <time class=\"mn__time\" datetime=\"{{timestamp}}\">Today at 2:32 PM</time>\n  </div>\n  {{#if unread}}<span class=\"mn__dot\" aria-label=\"Unread\"></span>{{/if}}\n</article>\n<style>\n.mn { display: flex; align-items: flex-start; gap: 10px; width: 300px; box-sizing: border-box; padding: 12px 14px; border-radius: 10px; background: #FAF7F2; border: 1px solid #24143014; font: 13.5px/1.4 system-ui, sans-serif; color: #241430; }\n.mn--unread { background: #fff; box-shadow: 0 2px 10px rgba(36,20,48,.08); }\n.mn__avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; background: var(--accent); font-weight: 700; }\n.mn__body { flex: 1; min-width: 0; }\n.mn__line { margin: 0; }\n.mn__time { display: block; margin-top: 4px; font-size: 11px; color: #24143080; }\n.mn__dot { width: 8px; height: 8px; border-radius: 50%; background: #B3261E; flex-shrink: 0; margin-top: 5px; }\n</style>",
+    "tailwind": "<article role=\"article\" class=\"mn-tw{{#if unread}} mn-tw--unread{{/if}} flex items-start gap-2.5 w-[300px] box-border px-3.5 py-3 rounded-lg bg-[#FAF7F2] border border-[#24143014] font-sans text-[13.5px] text-[#241430]\" style=\"--accent:{{accent}}\">\n  <span aria-hidden=\"true\" class=\"w-7 h-7 rounded-full flex-shrink-0 grid place-items-center font-bold\" style=\"background:{{accent}}\">@</span>\n  <div class=\"flex-1 min-w-0\">\n    <p class=\"m-0\"><strong>{{author}}</strong> mentioned you in {{context}}</p>\n    <time class=\"block mt-1 text-[11px] text-[#24143080]\" datetime=\"{{timestamp}}\">Today at 2:32 PM</time>\n  </div>\n  {{#if unread}}<span aria-label=\"Unread\" class=\"w-2 h-2 rounded-full bg-[#B3261E] flex-shrink-0 mt-1.5\"></span>{{/if}}\n</article>\n<style>\n.mn-tw--unread { background: #fff; box-shadow: 0 2px 10px rgba(36,20,48,.08); }\n</style>",
+    "react": "export function MentionNotification({\n  author = \"{{author}}\",\n  context = \"{{context}}\",\n  timestamp = \"{{timestamp}}\",\n  accent = \"{{accent}}\",\n  unread = {{unread}},\n}) {\n  return (\n    <article role=\"article\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 10, width: 300, boxSizing: \"border-box\", padding: \"12px 14px\", borderRadius: 10, background: unread ? \"#fff\" : \"#FAF7F2\", boxShadow: unread ? \"0 2px 10px rgba(36,20,48,.08)\" : \"none\", border: \"1px solid #24143014\", font: \"13.5px/1.4 system-ui, sans-serif\", color: \"#241430\" }}>\n      <span aria-hidden=\"true\" style={{ width: 28, height: 28, borderRadius: \"50%\", flexShrink: 0, display: \"grid\", placeItems: \"center\", background: accent, fontWeight: 700 }}>@</span>\n      <div style={{ flex: 1, minWidth: 0 }}>\n        <p style={{ margin: 0 }}><strong>{author}</strong> mentioned you in {context}</p>\n        <time style={{ display: \"block\", marginTop: 4, fontSize: 11, color: \"#24143080\" }} dateTime={timestamp}>Today at 2:32 PM</time>\n      </div>\n      {unread && <span aria-label=\"Unread\" style={{ width: 8, height: 8, borderRadius: \"50%\", background: \"#B3261E\", flexShrink: 0, marginTop: 5 }} />}\n    </article>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "nested-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Project files"
+    },
+    {
+      "id": "connector",
+      "type": "select",
+      "label": "Nesting style",
+      "default": "indent",
+      "options": ["indent", "guides", "boxed"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showDepthThree",
+      "type": "toggle",
+      "label": "Show third level",
+      "default": true
+    },
+    {
+      "id": "indentSize",
+      "type": "number",
+      "label": "Indent size",
+      "default": 18,
+      "min": 10,
+      "max": 32,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"nl nl--{{connector}}\" style=\"--accent:{{accent}};--indent:{{indentSize}}px;\">\n  <h3 class=\"nl__heading\">{{heading}}</h3>\n  <ul class=\"nl__list\">\n    <li>Design\n      <ul class=\"nl__list\">\n        <li>Wireframes\n          {{#if showDepthThree}}\n          <ul class=\"nl__list\"><li>v1-draft.fig</li><li>v2-review.fig</li></ul>\n          {{/if}}\n        </li>\n        <li>Illustrations</li>\n      </ul>\n    </li>\n    <li>Engineering\n      <ul class=\"nl__list\">\n        <li>API spec</li>\n      </ul>\n    </li>\n  </ul>\n</div>\n<style>\n.nl { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; width: 300px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.nl__heading { margin: 0 0 10px; font-size: 15px; font-weight: 700; }\n.nl__list { list-style: none; margin: 0; padding: 0 0 0 var(--indent); }\n.nl > .nl__list { padding-left: 0; }\n.nl__list li { padding: 4px 0; position: relative; }\n.nl--guides .nl__list { border-left: 1.5px solid color-mix(in srgb, var(--accent) 60%, transparent); }\n.nl--guides .nl__list li::before { content: \"\"; position: absolute; left: calc(var(--indent) * -1 + 6px); top: 13px; width: 8px; height: 1.5px; background: var(--accent); }\n.nl--boxed .nl__list { border: 1px solid #24143020; border-radius: 8px; padding: 6px 6px 6px var(--indent); margin-top: 4px; }\n</style>",
+    "tailwind": "<div class=\"nl-tw nl-tw--{{connector}} font-sans text-sm leading-relaxed text-[#241430] bg-[#FAF7F2] max-w-[300px] w-[300px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};--indent:{{indentSize}}px;\">\n  <h3 class=\"m-0 mb-2.5 text-[15px] font-bold\">{{heading}}</h3>\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"py-1\">Design\n      <ul class=\"nl-tw__list list-none m-0\" style=\"padding-left:{{indentSize}}px\">\n        <li class=\"py-1\">Wireframes\n          {{#if showDepthThree}}\n          <ul class=\"nl-tw__list list-none m-0\" style=\"padding-left:{{indentSize}}px\"><li class=\"py-1\">v1-draft.fig</li><li class=\"py-1\">v2-review.fig</li></ul>\n          {{/if}}\n        </li>\n        <li class=\"py-1\">Illustrations</li>\n      </ul>\n    </li>\n    <li class=\"py-1\">Engineering\n      <ul class=\"nl-tw__list list-none m-0\" style=\"padding-left:{{indentSize}}px\">\n        <li class=\"py-1\">API spec</li>\n      </ul>\n    </li>\n  </ul>\n</div>\n<style>\n.nl-tw--guides .nl-tw__list { border-left: 1.5px solid color-mix(in srgb, var(--accent) 60%, transparent); }\n.nl-tw--boxed .nl-tw__list { border: 1px solid #24143020; border-radius: 8px; padding-top: 6px; padding-bottom: 6px; margin-top: 4px; }\n</style>",
+    "react": "export function NestedList({\n  heading = \"{{heading}}\",\n  connector = \"{{connector}}\",\n  accent = \"{{accent}}\",\n  showDepthThree = {{showDepthThree}},\n  indentSize = {{indentSize}},\n}) {\n  const nestedStyle = {\n    listStyle: \"none\", margin: 0, paddingLeft: indentSize,\n    borderLeft: connector === \"guides\" ? `1.5px solid ${accent}` : \"none\",\n    border: connector === \"boxed\" ? \"1px solid #24143020\" : undefined,\n    borderRadius: connector === \"boxed\" ? 8 : undefined,\n    padding: connector === \"boxed\" ? `6px 6px 6px ${indentSize}px` : undefined,\n    marginTop: connector === \"boxed\" ? 4 : undefined,\n  };\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, width: 300, padding: 16, borderRadius: 12, boxSizing: \"border-box\" }}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 15, fontWeight: 700 }}>{heading}</h3>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li style={{ padding: \"4px 0\" }}>Design\n          <ul style={nestedStyle}>\n            <li style={{ padding: \"4px 0\" }}>Wireframes\n              {showDepthThree && (\n                <ul style={nestedStyle}>\n                  <li style={{ padding: \"4px 0\" }}>v1-draft.fig</li>\n                  <li style={{ padding: \"4px 0\" }}>v2-review.fig</li>\n                </ul>\n              )}\n            </li>\n            <li style={{ padding: \"4px 0\" }}>Illustrations</li>\n          </ul>\n        </li>\n        <li style={{ padding: \"4px 0\" }}>Engineering\n          <ul style={nestedStyle}>\n            <li style={{ padding: \"4px 0\" }}>API spec</li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  );\n}"
+  }
+}

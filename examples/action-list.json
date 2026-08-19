@@ -1,0 +1,45 @@
+{
+  "slug": "action-list",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Message actions"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "inline",
+      "options": ["inline", "stacked", "menu"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "destructive",
+      "type": "toggle",
+      "label": "Show delete action",
+      "default": true
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap between actions",
+      "default": 8,
+      "min": 4,
+      "max": 20,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"action-list action-list--{{layout}}\" style=\"--accent:{{accent}};--gap:{{gap}}px;\">\n  <h3 class=\"action-list__heading\">{{heading}}</h3>\n  <ul class=\"action-list__items\" role=\"list\">\n    <li><button type=\"button\" class=\"action-list__btn\">Reply</button></li>\n    <li><button type=\"button\" class=\"action-list__btn\">Forward</button></li>\n    <li><button type=\"button\" class=\"action-list__btn\">Archive</button></li>\n    {{#if destructive}}\n    <li><button type=\"button\" class=\"action-list__btn action-list__btn--destructive\">Delete</button></li>\n    {{/if}}\n  </ul>\n</div>\n<style>\n.action-list { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 320px; width: 320px; padding: 16px; border-radius: 12px; box-sizing: border-box; }\n.action-list__heading { margin: 0 0 10px; font-size: 14px; font-weight: 700; }\n.action-list__items { list-style: none; margin: 0; padding: 0; }\n.action-list--inline .action-list__items { display: flex; flex-wrap: wrap; gap: var(--gap); }\n.action-list--stacked .action-list__items { display: flex; flex-direction: column; gap: var(--gap); }\n.action-list--menu .action-list__items { display: flex; flex-direction: column; border: 1px solid #24143020; border-radius: 8px; overflow: hidden; }\n.action-list__btn { background: var(--accent); color: #241430; border: none; border-radius: 8px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; }\n.action-list--menu .action-list__btn { background: transparent; border-radius: 0; text-align: left; width: 100%; padding: 10px 14px; border-bottom: 1px solid #24143020; }\n.action-list--menu li:last-child .action-list__btn { border-bottom: none; }\n.action-list__btn:hover { filter: brightness(0.94); }\n.action-list__btn:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.action-list__btn--destructive { background: #F5C2E0; color: #7A1030; }\n</style>",
+    "tailwind": "<div class=\"action-list-tw action-list-tw--{{layout}} font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[320px] w-[320px] p-4 rounded-xl box-border\" style=\"--accent:{{accent}};--gap:{{gap}}px;\">\n  <h3 class=\"m-0 mb-2.5 text-sm font-bold\">{{heading}}</h3>\n  <ul role=\"list\" class=\"action-list-tw__items list-none m-0 p-0\">\n    <li><button type=\"button\" class=\"action-list-tw__btn rounded-lg px-3.5 py-2 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}};color:#241430\">Reply</button></li>\n    <li><button type=\"button\" class=\"action-list-tw__btn rounded-lg px-3.5 py-2 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}};color:#241430\">Forward</button></li>\n    <li><button type=\"button\" class=\"action-list-tw__btn rounded-lg px-3.5 py-2 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}};color:#241430\">Archive</button></li>\n    {{#if destructive}}\n    <li><button type=\"button\" class=\"action-list-tw__btn rounded-lg px-3.5 py-2 font-semibold border-0 cursor-pointer bg-[#F5C2E0] text-[#7A1030]\">Delete</button></li>\n    {{/if}}\n  </ul>\n</div>\n<style>\n.action-list-tw--inline .action-list-tw__items { display:flex; flex-wrap:wrap; gap:var(--gap); }\n.action-list-tw--stacked .action-list-tw__items { display:flex; flex-direction:column; gap:var(--gap); }\n.action-list-tw--menu .action-list-tw__items { display:flex; flex-direction:column; border:1px solid #24143020; border-radius:8px; overflow:hidden; }\n.action-list-tw--menu .action-list-tw__btn { border-radius:0; text-align:left; width:100%; border-bottom:1px solid #24143020; }\n.action-list-tw--menu li:last-child .action-list-tw__btn { border-bottom:none; }\n.action-list-tw__btn:focus-visible { outline:2px solid #241430; outline-offset:2px; }\n</style>",
+    "react": "export function ActionList({\n  heading = \"{{heading}}\",\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  destructive = {{destructive}},\n  gap = {{gap}},\n}) {\n  const wrapStyle = { fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 320, width: 320, padding: 16, borderRadius: 12, boxSizing: \"border-box\" };\n  const menu = layout === \"menu\";\n  const listStyle = layout === \"inline\"\n    ? { display: \"flex\", flexWrap: \"wrap\", gap, listStyle: \"none\", margin: 0, padding: 0 }\n    : layout === \"stacked\"\n    ? { display: \"flex\", flexDirection: \"column\", gap, listStyle: \"none\", margin: 0, padding: 0 }\n    : { display: \"flex\", flexDirection: \"column\", border: \"1px solid #24143020\", borderRadius: 8, overflow: \"hidden\", listStyle: \"none\", margin: 0, padding: 0 };\n  const btnStyle = { background: menu ? \"transparent\" : accent, color: \"#241430\", border: \"none\", borderBottom: menu ? \"1px solid #24143020\" : \"none\", borderRadius: menu ? 0 : 8, textAlign: menu ? \"left\" : \"center\", width: menu ? \"100%\" : \"auto\", padding: menu ? \"10px 14px\" : \"8px 14px\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\" };\n  return (\n    <div style={wrapStyle}>\n      <h3 style={{ margin: \"0 0 10px\", fontSize: 14, fontWeight: 700 }}>{heading}</h3>\n      <ul role=\"list\" style={listStyle}>\n        <li><button type=\"button\" style={btnStyle}>Reply</button></li>\n        <li><button type=\"button\" style={btnStyle}>Forward</button></li>\n        <li><button type=\"button\" style={btnStyle}>Archive</button></li>\n        {destructive && (\n          <li><button type=\"button\" style={{ ...btnStyle, background: menu ? \"transparent\" : \"#F5C2E0\", color: \"#7A1030\" }}>Delete</button></li>\n        )}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

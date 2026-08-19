@@ -1,0 +1,45 @@
+{
+  "slug": "list-header",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Team members"
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Item count",
+      "default": 12,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "with-action",
+      "options": ["plain", "with-count", "with-action"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "sticky",
+      "type": "toggle",
+      "label": "Sticky header",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lh-demo\">\n  <div class=\"lh lh--{{layout}}{{#if sticky}} lh--sticky{{/if}}\" style=\"--accent:{{accent}};\">\n    <h3 class=\"lh__title\">{{title}}{{#if sticky}} <span class=\"lh__pin\" aria-label=\"Sticky\">📌</span>{{/if}}</h3>\n    <span class=\"lh__count\">{{count}} items</span>\n    <button type=\"button\" class=\"lh__action\">Add</button>\n  </div>\n  <ul class=\"lh-demo__items\">\n    <li>Alicia Ferreira</li>\n    <li>Ben Sato</li>\n    <li>Charu Deshpande</li>\n  </ul>\n</div>\n<style>\n.lh-demo { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; max-width: 300px; width: 300px; border-radius: 12px; box-sizing: border-box; overflow: hidden; border: 1px solid #24143014; }\n.lh { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 2px solid var(--accent); }\n.lh--sticky { position: sticky; top: 0; background: #FAF7F2; }\n.lh__title { margin: 0; font-size: 14px; font-weight: 700; flex: 1; }\n.lh__count { display: none; font-size: 12px; color: #241430a0; }\n.lh__action { display: none; background: var(--accent); color: #241430; border: none; border-radius: 6px; padding: 5px 10px; font: inherit; font-weight: 600; cursor: pointer; }\n.lh--with-count .lh__count { display: inline; }\n.lh--with-action .lh__action { display: inline-block; }\n.lh-demo__items { list-style: none; margin: 0; padding: 8px 14px; }\n.lh-demo__items li { padding: 6px 0; }\n</style>",
+    "tailwind": "<div class=\"lh-tw-demo font-sans text-sm text-[#241430] bg-[#FAF7F2] max-w-[300px] w-[300px] rounded-xl box-border overflow-hidden border border-[#24143014]\">\n  <div class=\"lh-tw lh-tw--{{layout}}{{#if sticky}} lh-tw--sticky{{/if}} flex items-center gap-2 py-3 px-3.5\" style=\"--accent:{{accent}};border-bottom:2px solid {{accent}}\">\n    <h3 class=\"m-0 text-sm font-bold flex-1\">{{title}}{{#if sticky}} <span aria-label=\"Sticky\">📌</span>{{/if}}</h3>\n    <span class=\"lh-tw__count text-xs text-[#241430a0]\">{{count}} items</span>\n    <button type=\"button\" class=\"lh-tw__action rounded-md py-1 px-2.5 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}};color:#241430\">Add</button>\n  </div>\n  <ul class=\"list-none m-0 py-2 px-3.5\">\n    <li class=\"py-1.5\">Alicia Ferreira</li>\n    <li class=\"py-1.5\">Ben Sato</li>\n    <li class=\"py-1.5\">Charu Deshpande</li>\n  </ul>\n</div>\n<style>\n.lh-tw--sticky { position: sticky; top: 0; background: #FAF7F2; }\n.lh-tw__count { display: none; }\n.lh-tw__action { display: none; }\n.lh-tw--with-count .lh-tw__count { display: inline; }\n.lh-tw--with-action .lh-tw__action { display: inline-block; }\n</style>",
+    "react": "export function ListHeader({\n  title = \"{{title}}\",\n  count = {{count}},\n  layout = \"{{layout}}\",\n  accent = \"{{accent}}\",\n  sticky = {{sticky}},\n}) {\n  return (\n    <div style={{ fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", maxWidth: 300, width: 300, borderRadius: 12, boxSizing: \"border-box\", overflow: \"hidden\", border: \"1px solid #24143014\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"12px 14px\", borderBottom: `2px solid ${accent}`, position: sticky ? \"sticky\" : \"static\", top: sticky ? 0 : undefined, background: sticky ? \"#FAF7F2\" : \"transparent\" }}>\n        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, flex: 1 }}>{title}{sticky && <span aria-label=\"Sticky\"> 📌</span>}</h3>\n        {layout === \"with-count\" && <span style={{ fontSize: 12, color: \"#241430a0\" }}>{count} items</span>}\n        {layout === \"with-action\" && <button type=\"button\" style={{ background: accent, color: \"#241430\", border: \"none\", borderRadius: 6, padding: \"5px 10px\", font: \"inherit\", fontWeight: 600, cursor: \"pointer\" }}>Add</button>}\n      </div>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: \"8px 14px\" }}>\n        <li style={{ padding: \"6px 0\" }}>Alicia Ferreira</li>\n        <li style={{ padding: \"6px 0\" }}>Ben Sato</li>\n        <li style={{ padding: \"6px 0\" }}>Charu Deshpande</li>\n      </ul>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "permission-prompt",
+  "controls_schema": [
+    {
+      "id": "appName",
+      "type": "text",
+      "label": "App name",
+      "default": "Acme Calendar"
+    },
+    {
+      "id": "permission",
+      "type": "select",
+      "label": "Permission",
+      "default": "location",
+      "options": [
+        "location",
+        "camera",
+        "notifications"
+      ]
+    },
+    {
+      "id": "rememberChoice",
+      "type": "toggle",
+      "label": "Offer ‘remember my choice’",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"perm\" style=\"--accent:{{accent}};\">\n  <span class=\"perm__icon\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg></span>\n  <p class=\"perm__ask\">Allow <strong>{{appName}}</strong> to access your {{permission}}?</p>\n  {{#if rememberChoice}}<label class=\"perm__remember\"><input type=\"checkbox\" />Remember my choice</label>{{/if}}\n  <div class=\"perm__actions\">\n    <button type=\"button\" class=\"perm__deny\">Block</button>\n    <button type=\"button\" class=\"perm__allow\">Allow</button>\n  </div>\n</div>\n<style>\n.perm { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 18px; border-radius: 12px; box-sizing: border-box; border: 1px solid #24143018; box-shadow: 0 10px 24px rgba(36,20,48,.14); }\n.perm__icon { color: var(--accent); display: inline-flex; margin-bottom: 8px; }\n.perm__ask { margin: 0 0 12px; }\n.perm__remember { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 14px; color: #24143099; }\n.perm__actions { display: flex; gap: 10px; }\n.perm__deny, .perm__allow { flex: 1; padding: 9px; border-radius: 8px; font-weight: 700; cursor: pointer; font: inherit; }\n.perm__deny { background: transparent; border: 1.5px solid #24143030; color: #241430; }\n.perm__allow { background: var(--accent); border: none; color: #14351f; }\n.perm__deny:focus-visible, .perm__allow:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-[18px] rounded-xl box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2] shadow-[0_10px_24px_rgba(36,20,48,.14)]\">\n  <span class=\"inline-flex mb-2\" style=\"color:{{accent}}\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg></span>\n  <p class=\"m-0 mb-3\">Allow <strong>{{appName}}</strong> to access your {{permission}}?</p>\n  {{#if rememberChoice}}<label class=\"flex items-center gap-2 text-[13px] mb-3.5 text-[#241430]/60\"><input type=\"checkbox\" />Remember my choice</label>{{/if}}\n  <div class=\"flex gap-2.5\">\n    <button type=\"button\" class=\"flex-1 py-2.5 rounded-lg font-bold cursor-pointer bg-transparent border-[1.5px] border-[#24143030] text-[#241430]\">Block</button>\n    <button type=\"button\" class=\"flex-1 py-2.5 rounded-lg font-bold cursor-pointer border-none text-[#14351f]\" style=\"background:{{accent}}\">Allow</button>\n  </div>\n</div>",
+    "react": "export function PermissionPrompt({\n  appName = \"{{appName}}\",\n  permission = \"{{permission}}\",\n  rememberChoice = {{rememberChoice}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, padding: 18, borderRadius: 12, boxSizing: \"border-box\", border: \"1px solid #24143018\", boxShadow: \"0 10px 24px rgba(36,20,48,.14)\" }}>\n      <span style={{ display: \"inline-flex\", color: accent, marginBottom: 8 }}>\n        <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" /></svg>\n      </span>\n      <p style={{ margin: \"0 0 12px\" }}>Allow <strong>{appName}</strong> to access your {permission}?</p>\n      {rememberChoice && <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontSize: 13, marginBottom: 14, color: \"#24143099\" }}><input type=\"checkbox\" />Remember my choice</label>}\n      <div style={{ display: \"flex\", gap: 10 }}>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: \"transparent\", border: \"1.5px solid #24143030\", color: \"#241430\" }}>Block</button>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: accent, border: \"none\", color: \"#14351f\" }}>Allow</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

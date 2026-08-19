@@ -12,7 +12,14 @@
       "type": "color",
       "label": "Accent",
       "default": "#BFD9F2",
-      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
     },
     {
       "id": "force",
@@ -31,8 +38,8 @@
     }
   ],
   "templates": {
-    "html": "<button class=\"ld-btn\" type=\"button\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" aria-busy=\"{{force}}\"{{#if force}} disabled{{/if}}>\n  {{#if force}}<span class=\"ld-btn__spinner\" aria-hidden=\"true\"></span>{{/if}}\n  <span>{{#if force}}Saving…{{/if}}{{#unless force}}{{label}}{{/unless}}</span>\n</button>\n<style>\n.ld-btn { display: inline-flex; align-items: center; gap: 9px; font: 700 15px system-ui, sans-serif; padding: 11px 22px; border: 2px solid var(--accent); background: var(--accent); color: #241430; cursor: pointer; }\n.ld-btn:disabled { cursor: not-allowed; opacity: .8; }\n.ld-btn__spinner { width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #24143040; border-top-color: #241430; animation: ld-spin .7s linear infinite; }\n@keyframes ld-spin { to { transform: rotate(360deg); } }\n</style>",
-    "tailwind": "<button type=\"button\" aria-busy=\"{{force}}\" class=\"inline-flex items-center gap-2.5 font-bold text-[15px] px-[22px] py-[11px] border-2 text-[#241430] cursor-pointer disabled:cursor-not-allowed disabled:opacity-80\" style=\"border-color:{{accent}};background:{{accent}};border-radius:{{radius}}px;\"{{#if force}} disabled{{/if}}>\n  {{#if force}}<span class=\"w-3.5 h-3.5 rounded-full border-[2.5px] border-[#24143040] animate-spin\" style=\"border-top-color:#241430\" aria-hidden=\"true\"></span>{{/if}}\n  <span>{{#if force}}Saving…{{/if}}{{#unless force}}{{label}}{{/unless}}</span>\n</button>",
-    "react": "export function LoadingState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <>\n      <button type=\"button\" disabled={force} aria-busy={force}\n        style={{ display: \"inline-flex\", alignItems: \"center\", gap: 9, font: \"700 15px system-ui, sans-serif\", padding: \"11px 22px\", borderRadius: radius, border: `2px solid ${accent}`, background: accent, color: \"#241430\", cursor: force ? \"not-allowed\" : \"pointer\", opacity: force ? 0.8 : 1 }}>\n        {force && (\n          <span aria-hidden=\"true\" style={{ width: 14, height: 14, borderRadius: \"50%\", border: \"2.5px solid #24143040\", borderTopColor: \"#241430\", animation: \"ld-spin .7s linear infinite\" }} />\n        )}\n        <span>{force ? \"Saving…\" : label}</span>\n      </button>\n      <style>{\"@keyframes ld-spin { to { transform: rotate(360deg); } }\"}</style>\n    </>\n  );\n}"
+    "html": "<button class=\"ld-btn\" type=\"button\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" aria-busy=\"{{force}}\"{{#if force}} disabled{{/if}}>\n  {{#if force}}<span class=\"ld-btn__spinner\" aria-hidden=\"true\"></span>{{/if}}\n  <span>{{#if force}}Saving\u2026{{/if}}{{#unless force}}{{label}}{{/unless}}</span>\n</button>\n<style>\n.ld-btn { display: inline-flex; align-items: center; gap: 9px; font: 700 15px system-ui, sans-serif; padding: 11px 22px; border: 2px solid var(--accent); background: var(--accent); color: #241430; cursor: pointer; }\n.ld-btn:disabled { cursor: not-allowed; opacity: .8; }\n.ld-btn__spinner { width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #24143040; border-top-color: #241430; animation: ld-spin .7s linear infinite; }\n@keyframes ld-spin { to { transform: rotate(360deg); } }\n</style>",
+    "tailwind": "<button type=\"button\" aria-busy=\"{{force}}\" class=\"inline-flex items-center gap-2.5 font-bold text-[15px] px-[22px] py-[11px] border-2 text-[#241430] cursor-pointer disabled:cursor-not-allowed disabled:opacity-80\" style=\"border-color:{{accent}};background:{{accent}};border-radius:{{radius}}px;\"{{#if force}} disabled{{/if}}>\n  {{#if force}}<span class=\"w-3.5 h-3.5 rounded-full border-[2.5px] border-[#24143040] animate-spin\" style=\"border-top-color:#241430\" aria-hidden=\"true\"></span>{{/if}}\n  <span>{{#if force}}Saving\u2026{{/if}}{{#unless force}}{{label}}{{/unless}}</span>\n</button>",
+    "react": "export function LoadingState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <>\n      <button type=\"button\" disabled={force} aria-busy={force}\n        style={{ display: \"inline-flex\", alignItems: \"center\", gap: 9, font: \"700 15px system-ui, sans-serif\", padding: \"11px 22px\", borderRadius: radius, border: `2px solid ${accent}`, background: accent, color: \"#241430\", cursor: force ? \"not-allowed\" : \"pointer\", opacity: force ? 0.8 : 1 }}>\n        {force && (\n          <span aria-hidden=\"true\" className=\"loading-spinner\" style={{ width: 14, height: 14, borderRadius: \"50%\", border: \"2.5px solid #24143040\", borderTopColor: \"#241430\" }} />\n        )}\n        <span>{force ? \"Saving\u2026\" : label}</span>\n      </button>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .loading-spinner { animation: ld-spin .7s linear infinite; }\n          @keyframes ld-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </>\n  );\n}"
   }
 }

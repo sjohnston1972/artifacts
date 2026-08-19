@@ -1,0 +1,53 @@
+{
+  "slug": "derived-state",
+  "controls_schema": [
+    {
+      "id": "a",
+      "type": "number",
+      "label": "price",
+      "default": 12,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "b",
+      "type": "number",
+      "label": "quantity",
+      "default": 3,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "operation",
+      "type": "select",
+      "label": "Derived as",
+      "default": "product",
+      "options": [
+        "product",
+        "sum",
+        "difference"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"derv\" data-a=\"{{a}}\" data-b=\"{{b}}\" data-op=\"{{operation}}\">\n  <p class=\"derv__source\">price = {{a}} &nbsp; quantity = {{b}} <span class=\"derv__tag\">source state</span></p>\n  <p class=\"derv__eq\">total = f(price, {{operation}}, quantity)</p>\n  <p class=\"derv__result\" style=\"color:{{accent}};\">&nbsp;</p>\n  <p class=\"derv__note\">total is never stored &mdash; it's recomputed from price and quantity every render.</p>\n</div>\n<script>(function () {\n  var el = document.querySelector(\".derv\");\n  if (!el) return;\n  var a = Number(el.dataset.a), b = Number(el.dataset.b), op = el.dataset.op;\n  var result = op === \"sum\" ? a + b : op === \"difference\" ? a - b : a * b;\n  el.querySelector(\".derv__result\").textContent = \"total = \" + result;\n})();</script>\n<style>\n.derv { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 300px; box-sizing: border-box; }\n.derv__source { margin: 0 0 8px; font-size: 12px; }\n.derv__tag { display: block; font-size: 10px; color: #24143099; }\n.derv__eq { margin: 0 0 8px; font: 11px ui-monospace, monospace; color: #24143099; }\n.derv__result { margin: 0 0 10px; font-size: 22px; font-weight: 800; }\n.derv__note { margin: 0; font-size: 10px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"dervtw font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[300px] box-border\" data-a=\"{{a}}\" data-b=\"{{b}}\" data-op=\"{{operation}}\">\n  <p class=\"m-0 mb-2 text-xs\">price = {{a}} &nbsp; quantity = {{b}} <span class=\"block text-[10px] text-[#24143099]\">source state</span></p>\n  <p class=\"m-0 mb-2 font-mono text-[11px] text-[#24143099]\">total = f(price, {{operation}}, quantity)</p>\n  <p class=\"dervtw__result m-0 mb-2.5 text-2xl font-extrabold\" style=\"color:{{accent}};\">&nbsp;</p>\n  <p class=\"m-0 text-[10px] text-[#24143099]\">total is never stored &mdash; it's recomputed from price and quantity every render.</p>\n</div>\n<script>(function () {\n  var el = document.querySelector(\".dervtw\");\n  if (!el) return;\n  var a = Number(el.dataset.a), b = Number(el.dataset.b), op = el.dataset.op;\n  var result = op === \"sum\" ? a + b : op === \"difference\" ? a - b : a * b;\n  el.querySelector(\".dervtw__result\").textContent = \"total = \" + result;\n})();</script>",
+    "react": "import { useMemo } from \"react\";\n\nexport function DerivedState({\n  a = {{a}},\n  b = {{b}},\n  operation = \"{{operation}}\",\n  accent = \"{{accent}}\",\n}) {\n  const total = useMemo(() => (operation === \"sum\" ? a + b : operation === \"difference\" ? a - b : a * b), [a, b, operation]);\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 300, boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12 }}>price = {a} &nbsp; quantity = {b}</p>\n      <p style={{ margin: \"0 0 8px\", fontFamily: \"ui-monospace, monospace\", fontSize: 11, color: \"#24143099\" }}>total = f(price, {operation}, quantity)</p>\n      <p style={{ margin: \"0 0 10px\", fontSize: 22, fontWeight: 800, color: accent }}>total = {total}</p>\n      <p style={{ margin: 0, fontSize: 10, color: \"#24143099\" }}>total is never stored &mdash; it's recomputed from price and quantity every render.</p>\n    </div>\n  );\n}"
+  }
+}

@@ -21,19 +21,29 @@
       "type": "color",
       "label": "Colour",
       "default": "#8A6FBF",
-      "presets": ["#8A6FBF", "#2F6FA8", "#2F8F5B", "#B4790A", "#241430"]
+      "presets": [
+        "#8A6FBF",
+        "#2F6FA8",
+        "#2F8F5B",
+        "#B4790A",
+        "#241430"
+      ]
     },
     {
       "id": "speed",
       "type": "select",
       "label": "Speed",
       "default": "normal",
-      "options": ["slow", "normal", "fast"]
+      "options": [
+        "slow",
+        "normal",
+        "fast"
+      ]
     }
   ],
   "templates": {
     "html": "<div class=\"spinner-wrap\" role=\"status\" aria-live=\"polite\">\n  <span class=\"spinner spinner--{{speed}}\" style=\"width:{{size}}px;height:{{size}}px;border-top-color:{{color}};\" aria-hidden=\"true\"></span>\n  <span class=\"spinner-wrap__srtext\">{{label}}</span>\n</div>\n<style>\n.spinner-wrap { display: inline-block; }\n.spinner-wrap__srtext { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }\n.spinner { display: inline-block; border-radius: 50%; border: 3px solid #24143022; border-top-color: currentColor; }\n.spinner--slow { animation: spinner-spin 1.6s linear infinite; }\n.spinner--normal { animation: spinner-spin .9s linear infinite; }\n.spinner--fast { animation: spinner-spin .5s linear infinite; }\n@keyframes spinner-spin { to { transform: rotate(360deg); } }\n</style>",
     "tailwind": "<div role=\"status\" aria-live=\"polite\" class=\"inline-block\">\n  <span aria-hidden=\"true\" class=\"spinner-tw spinner-tw--{{speed}} inline-block rounded-full border-[3px] border-[#24143022]\" style=\"width:{{size}}px;height:{{size}}px;border-top-color:{{color}};\"></span>\n  <span class=\"sr-only\">{{label}}</span>\n</div>\n<style>\n.spinner-tw--slow { animation: spinner-tw-spin 1.6s linear infinite; }\n.spinner-tw--normal { animation: spinner-tw-spin .9s linear infinite; }\n.spinner-tw--fast { animation: spinner-tw-spin .5s linear infinite; }\n@keyframes spinner-tw-spin { to { transform: rotate(360deg); } }\n</style>",
-    "react": "export function Spinner({\n  label = \"{{label}}\",\n  size = {{size}},\n  color = \"{{color}}\",\n  speed = \"{{speed}}\",\n}) {\n  const duration = { slow: \"1.6s\", normal: \"0.9s\", fast: \"0.5s\" }[speed] ?? \"0.9s\";\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ display: \"inline-block\" }}>\n      <span aria-hidden=\"true\" style={{ display: \"inline-block\", width: size, height: size, borderRadius: \"50%\",\n        border: \"3px solid #24143022\", borderTopColor: color, animation: `spinner-react-spin ${duration} linear infinite` }} />\n      <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\" }}>{label}</span>\n      <style>{`@keyframes spinner-react-spin { to { transform: rotate(360deg); } }`}</style>\n    </div>\n  );\n}"
+    "react": "export function Spinner({\n  label = \"{{label}}\",\n  size = {{size}},\n  color = \"{{color}}\",\n  speed = \"{{speed}}\",\n}) {\n  const duration = { slow: \"1.6s\", normal: \"0.9s\", fast: \"0.5s\" }[speed] ?? \"0.9s\";\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ display: \"inline-block\" }}>\n      <span aria-hidden=\"true\" className=\"spinner-ring\" style={{ display: \"inline-block\", width: size, height: size, borderRadius: \"50%\",\n        border: \"3px solid #24143022\", borderTopColor: color }} />\n      <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\" }}>{label}</span>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spinner-ring { animation: spinner-react-spin ${duration} linear infinite; }\n          @keyframes spinner-react-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
   }
 }

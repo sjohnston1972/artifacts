@@ -1,0 +1,56 @@
+{
+  "slug": "notification-preferences",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Notification settings"
+    },
+    {
+      "id": "channel",
+      "type": "select",
+      "label": "Channel emphasised",
+      "default": "email",
+      "options": [
+        "email",
+        "push",
+        "sms"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "digestOn",
+      "type": "toggle",
+      "label": "Daily digest enabled",
+      "default": true
+    },
+    {
+      "id": "rowGap",
+      "type": "number",
+      "label": "Row spacing",
+      "default": 14,
+      "min": 8,
+      "max": 24,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"prefs\" aria-labelledby=\"prefs-h\" style=\"--gap:{{rowGap}}px;\">\n  <h2 id=\"prefs-h\" class=\"prefs__title\">{{heading}}</h2>\n  <p class=\"prefs__channel\">Primary channel: <strong>{{channel}}</strong></p>\n  <div class=\"prefs__row\">\n    <label for=\"pf-mentions\">Mentions</label>\n    <input id=\"pf-mentions\" type=\"checkbox\" checked style=\"accent-color:{{accent}};\" />\n  </div>\n  <div class=\"prefs__row\">\n    <label for=\"pf-approvals\">Approvals</label>\n    <input id=\"pf-approvals\" type=\"checkbox\" checked style=\"accent-color:{{accent}};\" />\n  </div>\n  <div class=\"prefs__row\">\n    <label for=\"pf-digest\">Daily digest</label>\n    <input id=\"pf-digest\" type=\"checkbox\" {{#if digestOn}}checked{{/if}} style=\"accent-color:{{accent}};\" />\n  </div>\n</form>\n<style>\n.prefs { font: 14px/1.5 system-ui, sans-serif; width: 300px; background: #FAF7F2; color: #241430; padding: 18px 20px; border-radius: 12px; box-shadow: 0 8px 24px rgba(36,20,48,.14); }\n.prefs__title { margin: 0 0 4px; font-size: 16px; font-weight: 600; }\n.prefs__channel { margin: 0 0 12px; font-size: 13px; color: #24143099; }\n.prefs__row { display: flex; align-items: center; justify-content: space-between; padding: var(--gap) 0; border-top: 1px solid #24143015; }\n.prefs__row:first-of-type { border-top: none; }\n.prefs__row input:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<form aria-labelledby=\"prefs-tw-h\" class=\"w-72 bg-[#FAF7F2] text-[#241430] px-5 py-4.5 rounded-xl shadow-md font-sans text-sm\">\n  <h2 id=\"prefs-tw-h\" class=\"m-0 mb-1 text-base font-semibold\">{{heading}}</h2>\n  <p class=\"m-0 mb-3 text-[13px] text-[#241430]/60\">Primary channel: <strong>{{channel}}</strong></p>\n  <div class=\"flex items-center justify-between border-t border-[#24143015] first:border-t-0\" style=\"padding-top:{{rowGap}}px;padding-bottom:{{rowGap}}px\">\n    <label for=\"pftw-mentions\">Mentions</label>\n    <input id=\"pftw-mentions\" type=\"checkbox\" checked style=\"accent-color:{{accent}}\" />\n  </div>\n  <div class=\"flex items-center justify-between border-t border-[#24143015]\" style=\"padding-top:{{rowGap}}px;padding-bottom:{{rowGap}}px\">\n    <label for=\"pftw-approvals\">Approvals</label>\n    <input id=\"pftw-approvals\" type=\"checkbox\" checked style=\"accent-color:{{accent}}\" />\n  </div>\n  <div class=\"flex items-center justify-between border-t border-[#24143015]\" style=\"padding-top:{{rowGap}}px;padding-bottom:{{rowGap}}px\">\n    <label for=\"pftw-digest\">Daily digest</label>\n    <input id=\"pftw-digest\" type=\"checkbox\" {{#if digestOn}}checked{{/if}} style=\"accent-color:{{accent}}\" />\n  </div>\n</form>",
+    "react": "export function NotificationPreferences({\n  heading = \"{{heading}}\",\n  channel = \"{{channel}}\",\n  accent = \"{{accent}}\",\n  digestOn = {{digestOn}},\n  rowGap = {{rowGap}},\n}) {\n  const row = { display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: `${rowGap}px 0`, borderTop: \"1px solid #24143015\" };\n  return (\n    <form aria-labelledby=\"prefs-react-h\" style={{ width: 300, background: \"#FAF7F2\", color: \"#241430\", padding: \"18px 20px\", borderRadius: 12, boxShadow: \"0 8px 24px rgba(36,20,48,.14)\", fontFamily: \"system-ui, sans-serif\", fontSize: 14 }}>\n      <h2 id=\"prefs-react-h\" style={{ margin: \"0 0 4px\", fontSize: 16, fontWeight: 600 }}>{heading}</h2>\n      <p style={{ margin: \"0 0 12px\", fontSize: 13, color: \"#24143099\" }}>Primary channel: <strong>{channel}</strong></p>\n      <div style={{ ...row, borderTop: \"none\" }}>\n        <label htmlFor=\"pfr-mentions\">Mentions</label>\n        <input id=\"pfr-mentions\" type=\"checkbox\" defaultChecked style={{ accentColor: accent }} />\n      </div>\n      <div style={row}>\n        <label htmlFor=\"pfr-approvals\">Approvals</label>\n        <input id=\"pfr-approvals\" type=\"checkbox\" defaultChecked style={{ accentColor: accent }} />\n      </div>\n      <div style={row}>\n        <label htmlFor=\"pfr-digest\">Daily digest</label>\n        <input id=\"pfr-digest\" type=\"checkbox\" checked={digestOn} onChange={() => {}} style={{ accentColor: accent }} />\n      </div>\n    </form>\n  );\n}"
+  }
+}

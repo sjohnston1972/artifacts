@@ -1,0 +1,52 @@
+{
+  "slug": "chat-bubble",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Meeting moved to 3pm — does that still work for you?"
+    },
+    {
+      "id": "sender",
+      "type": "select",
+      "label": "Sender",
+      "default": "them",
+      "options": [
+        "me",
+        "them"
+      ]
+    },
+    {
+      "id": "initials",
+      "type": "text",
+      "label": "Initials",
+      "default": "PS"
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Timestamp",
+      "default": "10:42 AM"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"chat-bubble chat-bubble--{{sender}}\" style=\"--accent:{{accent}};\">\n  <span class=\"chat-bubble__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\">{{initials}}</span>\n  <div class=\"chat-bubble__content\">\n    <p class=\"chat-bubble__text\">{{message}}</p>\n    <time class=\"chat-bubble__time\" datetime=\"2026-08-18T10:42\">{{timestamp}}</time>\n  </div>\n</div>\n<style>\n.chat-bubble { display: flex; gap: 10px; max-width: 320px; font: 14px/1.4 system-ui, sans-serif; color: #241430; align-items: flex-end; }\n.chat-bubble--me { flex-direction: row-reverse; margin-left: auto; }\n.chat-bubble__avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; color: #FAF7F2; font: 700 12px/1 system-ui, sans-serif; }\n.chat-bubble__content { background: #FAF7F2; border: 1px solid #24143020; border-radius: 14px; padding: 10px 14px; }\n.chat-bubble--me .chat-bubble__content { background: var(--accent); border-color: transparent; }\n.chat-bubble__text { margin: 0 0 4px; }\n.chat-bubble__time { display: block; font-size: 11px; color: #24143080; }\n.chat-bubble--me .chat-bubble__time { color: #241430b0; }\n</style>",
+    "tailwind": "<div class=\"chat-bubble-tw chat-bubble-tw--{{sender}} flex gap-2.5 max-w-xs items-end font-sans text-sm text-[#241430]\">\n  <span class=\"w-8 h-8 rounded-full flex-shrink-0 grid place-items-center text-[#FAF7F2] text-xs font-bold\" style=\"background:{{accent}}\" aria-hidden=\"true\">{{initials}}</span>\n  <div class=\"chat-bubble-tw__content bg-[#FAF7F2] border border-[#24143020] rounded-2xl px-3.5 py-2.5\" style=\"--accent:{{accent}}\">\n    <p class=\"m-0 mb-1\">{{message}}</p>\n    <time class=\"block text-[11px] text-[#241430]/50\" datetime=\"2026-08-18T10:42\">{{timestamp}}</time>\n  </div>\n</div>\n<style>\n.chat-bubble-tw--me { flex-direction: row-reverse; margin-left: auto; }\n.chat-bubble-tw--me .chat-bubble-tw__content { background: var(--accent); border-color: transparent; }\n</style>",
+    "react": "export function ChatBubble({\n  message = \"{{message}}\",\n  sender = \"{{sender}}\",\n  initials = \"{{initials}}\",\n  timestamp = \"{{timestamp}}\",\n  accent = \"{{accent}}\",\n}) {\n  const mine = sender === \"me\";\n  return (\n    <div style={{ display: \"flex\", gap: 10, maxWidth: 320, alignItems: \"flex-end\", fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\",\n      flexDirection: mine ? \"row-reverse\" : \"row\", marginLeft: mine ? \"auto\" : 0 }}>\n      <span style={{ width: 32, height: 32, borderRadius: \"50%\", flexShrink: 0, display: \"grid\", placeItems: \"center\", background: accent, color: \"#FAF7F2\", fontSize: 12, fontWeight: 700 }} aria-hidden=\"true\">{initials}</span>\n      <div style={{ background: mine ? accent : \"#FAF7F2\", border: mine ? \"1px solid transparent\" : \"1px solid #24143020\", borderRadius: 14, padding: \"10px 14px\" }}>\n        <p style={{ margin: \"0 0 4px\" }}>{message}</p>\n        <time style={{ display: \"block\", fontSize: 11, color: mine ? \"#241430b0\" : \"#24143080\" }} dateTime=\"2026-08-18T10:42\">{timestamp}</time>\n      </div>\n    </div>\n  );\n}"
+  }
+}

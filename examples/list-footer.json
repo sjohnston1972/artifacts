@@ -1,0 +1,42 @@
+{
+  "slug": "list-footer",
+  "controls_schema": [
+    {
+      "id": "summary",
+      "type": "text",
+      "label": "Summary text",
+      "default": "Showing 5 of 128 items"
+    },
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Action label",
+      "default": "Load more"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Footer style",
+      "default": "bar",
+      "options": ["bar", "minimal", "bordered"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showAction",
+      "type": "toggle",
+      "label": "Show action button",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lf-wrap\">\n  <ul class=\"lf-list\">\n    <li>Quarterly report.pdf</li>\n    <li>Design specs.fig</li>\n    <li>Roadmap notes.docx</li>\n  </ul>\n  <footer class=\"lf-footer lf-footer--{{style}}\" style=\"--accent:{{accent}};\">\n    <p class=\"lf-footer__summary\">{{summary}}</p>\n    {{#if showAction}}<button type=\"button\" class=\"lf-footer__action\">{{actionLabel}}</button>{{/if}}\n  </footer>\n</div>\n<style>\n.lf-wrap { font: 14px/1.5 system-ui, sans-serif; color: #241430; max-width: 360px; background: #FAF7F2; border-radius: 12px; overflow: hidden; border: 1px solid #24143020; }\n.lf-list { list-style: none; margin: 0; padding: 0; }\n.lf-list li { padding: 10px 16px; border-bottom: 1px solid #24143014; }\n.lf-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }\n.lf-footer--bar { background: var(--accent); }\n.lf-footer--minimal { background: transparent; }\n.lf-footer--bordered { background: transparent; border-top: 2px solid var(--accent); }\n.lf-footer__summary { margin: 0; font-size: 12px; color: #24143099; }\n.lf-footer--bar .lf-footer__summary { color: #241430cc; }\n.lf-footer__action { border: 1.5px solid var(--accent); background: #FAF7F2; color: #241430; padding: 6px 12px; border-radius: 8px; font: 600 12px system-ui, sans-serif; cursor: pointer; }\n.lf-footer__action:hover { background: var(--accent); }\n.lf-footer__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"max-w-[360px] font-sans text-sm text-[#241430] bg-[#FAF7F2] rounded-xl overflow-hidden border border-[#24143020]\">\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"px-4 py-2.5 border-b border-[#24143014]\">Quarterly report.pdf</li>\n    <li class=\"px-4 py-2.5 border-b border-[#24143014]\">Design specs.fig</li>\n    <li class=\"px-4 py-2.5 border-b border-[#24143014]\">Roadmap notes.docx</li>\n  </ul>\n  <footer class=\"lf-tw lf-tw--{{style}} flex items-center justify-between gap-3 px-4 py-3\" style=\"--accent:{{accent}}\">\n    <p class=\"m-0 text-xs text-[#24143099]\">{{summary}}</p>\n    {{#if showAction}}<button type=\"button\" class=\"border-[1.5px] bg-[#FAF7F2] text-[#241430] px-3 py-1.5 rounded-lg text-xs font-semibold\" style=\"border-color:{{accent}}\">{{actionLabel}}</button>{{/if}}\n  </footer>\n</div>\n<style>\n.lf-tw--bar { background: var(--accent); }\n.lf-tw--bordered { border-top: 2px solid var(--accent); }\n</style>",
+    "react": "export function ListFooter({\n  summary = \"{{summary}}\",\n  actionLabel = \"{{actionLabel}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n  showAction = {{showAction}},\n}) {\n  const footerStyle = {\n    bar: { background: accent },\n    minimal: { background: \"transparent\" },\n    bordered: { background: \"transparent\", borderTop: `2px solid ${accent}` },\n  }[style] ?? {};\n  return (\n    <div style={{ maxWidth: 360, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", background: \"#FAF7F2\", borderRadius: 12, overflow: \"hidden\", border: \"1px solid #24143020\" }}>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li style={{ padding: \"10px 16px\", borderBottom: \"1px solid #24143014\" }}>Quarterly report.pdf</li>\n        <li style={{ padding: \"10px 16px\", borderBottom: \"1px solid #24143014\" }}>Design specs.fig</li>\n        <li style={{ padding: \"10px 16px\", borderBottom: \"1px solid #24143014\" }}>Roadmap notes.docx</li>\n      </ul>\n      <footer style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 12, padding: \"12px 16px\", ...footerStyle }}>\n        <p style={{ margin: 0, fontSize: 12, color: \"#24143099\" }}>{summary}</p>\n        {showAction && (\n          <button type=\"button\" style={{ border: `1.5px solid ${accent}`, background: \"#FAF7F2\", color: \"#241430\", padding: \"6px 12px\", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>\n            {actionLabel}\n          </button>\n        )}\n      </footer>\n    </div>\n  );\n}"
+  }
+}

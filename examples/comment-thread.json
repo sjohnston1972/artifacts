@@ -1,0 +1,51 @@
+{
+  "slug": "comment-thread",
+  "controls_schema": [
+    {
+      "id": "author",
+      "type": "text",
+      "label": "Author",
+      "default": "Dana Wu"
+    },
+    {
+      "id": "topic",
+      "type": "text",
+      "label": "Comment",
+      "default": "The onboarding checklist skips the payment step."
+    },
+    {
+      "id": "replyCount",
+      "type": "number",
+      "label": "Reply count",
+      "default": 3,
+      "min": 0,
+      "max": 9,
+      "step": 1
+    },
+    {
+      "id": "resolved",
+      "type": "toggle",
+      "label": "Resolved",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"comment-thread\" data-resolved=\"{{resolved}}\" style=\"--accent:{{accent}};\">\n  <article class=\"comment-thread__root\">\n    <span class=\"comment-thread__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\">{{author}}</span>\n    <div>\n      <p class=\"comment-thread__author\">{{author}}</p>\n      <p class=\"comment-thread__text\">{{topic}}</p>\n    </div>\n    {{#if resolved}}<span class=\"comment-thread__badge\">Resolved</span>{{/if}}\n  </article>\n  <p class=\"comment-thread__count\">{{replyCount}} replies</p>\n  <button class=\"comment-thread__reply\" type=\"button\">Reply</button>\n</div>\n<style>\n.comment-thread { max-width: 380px; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1px solid #24143020; border-radius: 12px; padding: 14px 16px; box-sizing: border-box; }\n.comment-thread__root { display: flex; align-items: flex-start; gap: 10px; }\n.comment-thread__avatar { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; color: #FAF7F2; font: 700 11px/1 system-ui, sans-serif; }\n.comment-thread__author { margin: 0; font-weight: 600; }\n.comment-thread__text { margin: 2px 0 0; }\n.comment-thread__badge { margin-left: auto; background: var(--accent); color: #241430; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }\n.comment-thread[data-resolved=\"true\"] .comment-thread__root { opacity: .6; }\n.comment-thread__count { margin: 10px 0 8px; font-size: 12px; color: #24143080; padding-left: 40px; }\n.comment-thread__reply { margin-left: 40px; background: transparent; border: 1.5px solid var(--accent); color: #241430; padding: 6px 12px; border-radius: 8px; font: 500 13px system-ui, sans-serif; cursor: pointer; }\n.comment-thread__reply:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.comment-thread__reply:hover { background: #24143010; }\n</style>",
+    "tailwind": "<div data-resolved=\"{{resolved}}\" class=\"comment-thread-tw max-w-[380px] font-sans text-sm text-[#241430] bg-[#FAF7F2] border border-[#24143020] rounded-xl p-4 box-border\">\n  <article class=\"comment-thread-tw__root flex items-start gap-2.5\">\n    <span class=\"w-[30px] h-[30px] rounded-full flex-shrink-0 grid place-items-center text-[#FAF7F2] text-[11px] font-bold\" style=\"background:{{accent}}\" aria-hidden=\"true\">{{author}}</span>\n    <div>\n      <p class=\"m-0 font-semibold\">{{author}}</p>\n      <p class=\"mt-0.5 mb-0\">{{topic}}</p>\n    </div>\n    {{#if resolved}}<span class=\"ml-auto text-[#241430] text-[11px] font-semibold px-2 py-1 rounded-full whitespace-nowrap\" style=\"background:{{accent}}\">Resolved</span>{{/if}}\n  </article>\n  <p class=\"mt-2.5 mb-2 text-xs text-[#241430]/50 pl-10\">{{replyCount}} replies</p>\n  <button type=\"button\" class=\"ml-10 bg-transparent border-[1.5px] text-[#241430] px-3 py-1.5 rounded-lg text-[13px] font-medium cursor-pointer hover:bg-[#24143010]\" style=\"border-color:{{accent}}\">Reply</button>\n</div>\n<style>\n.comment-thread-tw[data-resolved=\"true\"] .comment-thread-tw__root { opacity: .6; }\n</style>",
+    "react": "export function CommentThread({\n  author = \"{{author}}\",\n  topic = \"{{topic}}\",\n  replyCount = {{replyCount}},\n  resolved = {{resolved}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ maxWidth: 380, fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\", background: \"#FAF7F2\", border: \"1px solid #24143020\", borderRadius: 12, padding: \"14px 16px\", boxSizing: \"border-box\" }}>\n      <article style={{ display: \"flex\", alignItems: \"flex-start\", gap: 10, opacity: resolved ? 0.6 : 1 }}>\n        <span style={{ width: 30, height: 30, borderRadius: \"50%\", flexShrink: 0, display: \"grid\", placeItems: \"center\", background: accent, color: \"#FAF7F2\", fontSize: 11, fontWeight: 700 }} aria-hidden=\"true\">{author}</span>\n        <div>\n          <p style={{ margin: 0, fontWeight: 600 }}>{author}</p>\n          <p style={{ margin: \"2px 0 0\" }}>{topic}</p>\n        </div>\n        {resolved && (\n          <span style={{ marginLeft: \"auto\", background: accent, color: \"#241430\", fontSize: 11, fontWeight: 600, padding: \"3px 8px\", borderRadius: 999, whiteSpace: \"nowrap\" }}>Resolved</span>\n        )}\n      </article>\n      <p style={{ margin: \"10px 0 8px\", fontSize: 12, color: \"#24143080\", paddingLeft: 40 }}>{replyCount} replies</p>\n      <button type=\"button\" style={{ marginLeft: 40, background: \"transparent\", border: `1.5px solid ${accent}`, color: \"#241430\", padding: \"6px 12px\", borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: \"pointer\" }}>Reply</button>\n    </div>\n  );\n}"
+  }
+}

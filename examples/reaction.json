@@ -1,0 +1,56 @@
+{
+  "slug": "reaction",
+  "controls_schema": [
+    {
+      "id": "emoji",
+      "type": "select",
+      "label": "Emoji",
+      "default": "👍",
+      "options": [
+        "👍",
+        "🎉",
+        "❤️",
+        "😂"
+      ]
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Reaction count",
+      "default": 12,
+      "min": 0,
+      "max": 999,
+      "step": 1
+    },
+    {
+      "id": "reacted",
+      "type": "toggle",
+      "label": "Current user reacted",
+      "default": true
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Accessible label",
+      "default": "React"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Active colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<button type=\"button\" class=\"reaction{{#if reacted}} reaction--active{{/if}}\" style=\"--accent:{{accent}};\" aria-pressed=\"{{reacted}}\" aria-label=\"{{label}}: {{count}} people reacted with {{emoji}}\">\n  <span class=\"reaction__emoji\" aria-hidden=\"true\">{{emoji}}</span>\n  <span class=\"reaction__count\">{{count}}</span>\n</button>\n<style>\n.reaction { display: inline-flex; align-items: center; gap: 6px; font: 600 13px system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143026; border-radius: 999px; padding: 6px 12px; cursor: pointer; }\n.reaction--active { background: var(--accent); border-color: var(--accent); }\n.reaction:hover { border-color: var(--accent); }\n.reaction:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.reaction__emoji { font-size: 15px; line-height: 1; }\n.reaction__count { min-width: 1ch; }\n</style>",
+    "tailwind": "<button type=\"button\" aria-pressed=\"{{reacted}}\" aria-label=\"{{label}}: {{count}} people reacted with {{emoji}}\" class=\"reaction-tw{{#if reacted}} reaction-tw--active{{/if}} inline-flex items-center gap-1.5 font-semibold text-[13px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143026] rounded-full px-3 py-1.5 cursor-pointer\" style=\"--accent:{{accent}}\">\n  <span aria-hidden=\"true\" class=\"text-[15px] leading-none\">{{emoji}}</span>\n  <span class=\"min-w-[1ch]\">{{count}}</span>\n</button>\n<style>\n.reaction-tw--active { background: var(--accent) !important; border-color: var(--accent) !important; }\n.reaction-tw:hover { border-color: var(--accent); }\n.reaction-tw:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "react": "export function Reaction({\n  emoji = \"{{emoji}}\",\n  count = {{count}},\n  reacted = {{reacted}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <button type=\"button\" aria-pressed={reacted} aria-label={`${label}: ${count} people reacted with ${emoji}`}\n      style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, fontSize: 13, fontWeight: 600, color: \"#241430\",\n        background: reacted ? accent : \"#FAF7F2\", border: `1.5px solid ${reacted ? accent : \"#24143026\"}`,\n        borderRadius: 999, padding: \"6px 12px\", cursor: \"pointer\" }}>\n      <span aria-hidden=\"true\" style={{ fontSize: 15, lineHeight: 1 }}>{emoji}</span>\n      <span style={{ minWidth: \"1ch\" }}>{count}</span>\n    </button>\n  );\n}"
+  }
+}

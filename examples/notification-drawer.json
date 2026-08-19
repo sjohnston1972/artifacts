@@ -1,0 +1,55 @@
+{
+  "slug": "notification-drawer",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Notifications"
+    },
+    {
+      "id": "unreadCount",
+      "type": "number",
+      "label": "Unread count",
+      "default": 3,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "grouping",
+      "type": "select",
+      "label": "Grouping",
+      "default": "grouped",
+      "options": [
+        "grouped",
+        "flat"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showFooter",
+      "type": "toggle",
+      "label": "Show 'mark all read'",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<section class=\"drawer\" aria-label=\"{{heading}}\">\n  <header class=\"drawer__head\">\n    <h2 class=\"drawer__title\">{{heading}}</h2>\n    <span class=\"drawer__badge\" style=\"background:{{accent}};\">{{unreadCount}}<span class=\"sr-only\">{{unreadCount}} unread</span></span>\n  </header>\n  <div class=\"drawer__body\" data-grouping=\"{{grouping}}\">\n    <h3 class=\"drawer__group-heading\">Today</h3>\n    <ul class=\"drawer__list\">\n      <li class=\"drawer__item\"><p class=\"drawer__text\"><strong>Priya Shah</strong> approved your request</p><time class=\"drawer__time\" datetime=\"2026-08-18T09:14\">9:14 am</time></li>\n      <li class=\"drawer__item\"><p class=\"drawer__text\"><strong>Marcus Lee</strong> mentioned you in Roadmap</p><time class=\"drawer__time\" datetime=\"2026-08-18T08:02\">8:02 am</time></li>\n    </ul>\n    <h3 class=\"drawer__group-heading\">Yesterday</h3>\n    <ul class=\"drawer__list\">\n      <li class=\"drawer__item\"><p class=\"drawer__text\">Backup completed successfully</p><time class=\"drawer__time\" datetime=\"2026-08-17T22:40\">Yesterday, 10:40 pm</time></li>\n    </ul>\n  </div>\n  {{#if showFooter}}<footer class=\"drawer__footer\"><button class=\"drawer__mark\" type=\"button\" style=\"color:{{accent}};\">Mark all as read</button></footer>{{/if}}\n</section>\n<style>\n.drawer { font: 14px/1.5 system-ui, sans-serif; width: 320px; background: #FAF7F2; color: #241430; border-radius: 12px; box-shadow: 0 10px 28px rgba(36,20,48,.18); overflow: hidden; }\n.drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #24143020; }\n.drawer__title { margin: 0; font-size: 16px; font-weight: 600; }\n.drawer__badge { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; font: 700 12px system-ui, sans-serif; color: #241430; }\n.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.drawer__body { padding: 8px 0; max-height: 260px; overflow-y: auto; }\n.drawer__group-heading { margin: 8px 16px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #24143099; }\n.drawer__list { list-style: none; margin: 0; padding: 0; }\n.drawer__item { display: flex; justify-content: space-between; gap: 10px; padding: 8px 16px; }\n.drawer__text { margin: 0; }\n.drawer__time { flex-shrink: 0; color: #24143080; font-size: 12px; }\n.drawer__footer { padding: 10px 16px; border-top: 1px solid #24143020; }\n.drawer__mark { border: none; background: transparent; font: 600 13px system-ui, sans-serif; cursor: pointer; padding: 0; }\n.drawer__mark:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.drawer__body[data-grouping=\"flat\"] .drawer__group-heading { display: none; }\n</style>",
+    "tailwind": "<section aria-label=\"{{heading}}\" class=\"w-80 bg-[#FAF7F2] text-[#241430] rounded-xl shadow-lg overflow-hidden font-sans text-sm\">\n  <header class=\"flex items-center justify-between px-4 py-3.5 border-b border-[#24143020]\">\n    <h2 class=\"m-0 text-base font-semibold\">{{heading}}</h2>\n    <span class=\"min-w-[22px] h-[22px] px-1.5 rounded-full inline-flex items-center justify-center text-xs font-bold\" style=\"background:{{accent}}\">{{unreadCount}}<span class=\"sr-only\">{{unreadCount}} unread</span></span>\n  </header>\n  <div class=\"drawer-tw-body py-2 max-h-64 overflow-y-auto\" data-grouping=\"{{grouping}}\">\n    <h3 class=\"drawer-tw-heading mx-4 mt-2 mb-1 text-[11px] uppercase tracking-wide text-[#241430]/60\">Today</h3>\n    <ul class=\"list-none m-0 p-0\">\n      <li class=\"flex justify-between gap-2.5 px-4 py-2\"><p class=\"m-0\"><strong>Priya Shah</strong> approved your request</p><time class=\"shrink-0 text-[#241430]/50 text-xs\" datetime=\"2026-08-18T09:14\">9:14 am</time></li>\n      <li class=\"flex justify-between gap-2.5 px-4 py-2\"><p class=\"m-0\"><strong>Marcus Lee</strong> mentioned you in Roadmap</p><time class=\"shrink-0 text-[#241430]/50 text-xs\" datetime=\"2026-08-18T08:02\">8:02 am</time></li>\n    </ul>\n    <h3 class=\"drawer-tw-heading mx-4 mt-2 mb-1 text-[11px] uppercase tracking-wide text-[#241430]/60\">Yesterday</h3>\n    <ul class=\"list-none m-0 p-0\">\n      <li class=\"flex justify-between gap-2.5 px-4 py-2\"><p class=\"m-0\">Backup completed successfully</p><time class=\"shrink-0 text-[#241430]/50 text-xs\" datetime=\"2026-08-17T22:40\">Yesterday, 10:40 pm</time></li>\n    </ul>\n  </div>\n  {{#if showFooter}}<footer class=\"px-4 py-2.5 border-t border-[#24143020]\"><button type=\"button\" class=\"border-0 bg-transparent font-semibold text-[13px] cursor-pointer p-0\" style=\"color:{{accent}}\">Mark all as read</button></footer>{{/if}}\n</section>\n<style>\n.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.drawer-tw-body[data-grouping=\"flat\"] .drawer-tw-heading { display: none; }\n</style>",
+    "react": "export function NotificationDrawer({\n  heading = \"{{heading}}\",\n  unreadCount = {{unreadCount}},\n  grouping = \"{{grouping}}\",\n  accent = \"{{accent}}\",\n  showFooter = {{showFooter}},\n}) {\n  const groups = grouping === \"grouped\"\n    ? [\"Today\", \"Yesterday\"]\n    : [null, null];\n  return (\n    <section aria-label={heading} style={{ width: 320, background: \"#FAF7F2\", color: \"#241430\", borderRadius: 12,\n      boxShadow: \"0 10px 28px rgba(36,20,48,.18)\", overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 14 }}>\n      <header style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"14px 16px\", borderBottom: \"1px solid #24143020\" }}>\n        <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>{heading}</h2>\n        <span style={{ minWidth: 22, height: 22, padding: \"0 6px\", borderRadius: 11, background: accent,\n          display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 12, fontWeight: 700 }}>\n          {unreadCount}\n          <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0,0,0,0)\" }}>{unreadCount} unread</span>\n        </span>\n      </header>\n      <div style={{ padding: \"8px 0\", maxHeight: 260, overflowY: \"auto\" }}>\n        {groups[0] && <h3 style={{ margin: \"8px 16px 4px\", fontSize: 11, textTransform: \"uppercase\", letterSpacing: .04, color: \"#24143099\" }}>{groups[0]}</h3>}\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          <li style={{ display: \"flex\", justifyContent: \"space-between\", gap: 10, padding: \"8px 16px\" }}>\n            <p style={{ margin: 0 }}><strong>Priya Shah</strong> approved your request</p>\n            <time style={{ flexShrink: 0, color: \"#24143080\", fontSize: 12 }} dateTime=\"2026-08-18T09:14\">9:14 am</time>\n          </li>\n          <li style={{ display: \"flex\", justifyContent: \"space-between\", gap: 10, padding: \"8px 16px\" }}>\n            <p style={{ margin: 0 }}><strong>Marcus Lee</strong> mentioned you in Roadmap</p>\n            <time style={{ flexShrink: 0, color: \"#24143080\", fontSize: 12 }} dateTime=\"2026-08-18T08:02\">8:02 am</time>\n          </li>\n        </ul>\n        {groups[1] && <h3 style={{ margin: \"8px 16px 4px\", fontSize: 11, textTransform: \"uppercase\", letterSpacing: .04, color: \"#24143099\" }}>{groups[1]}</h3>}\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n          <li style={{ display: \"flex\", justifyContent: \"space-between\", gap: 10, padding: \"8px 16px\" }}>\n            <p style={{ margin: 0 }}>Backup completed successfully</p>\n            <time style={{ flexShrink: 0, color: \"#24143080\", fontSize: 12 }} dateTime=\"2026-08-17T22:40\">Yesterday, 10:40 pm</time>\n          </li>\n        </ul>\n      </div>\n      {showFooter && (\n        <footer style={{ padding: \"10px 16px\", borderTop: \"1px solid #24143020\" }}>\n          <button type=\"button\" style={{ border: \"none\", background: \"transparent\", color: accent, fontWeight: 600, fontSize: 13, cursor: \"pointer\", padding: 0 }}>Mark all as read</button>\n        </footer>\n      )}\n    </section>\n  );\n}"
+  }
+}

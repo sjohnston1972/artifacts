@@ -1,0 +1,52 @@
+{
+  "slug": "mention",
+  "controls_schema": [
+    {
+      "id": "fullName",
+      "type": "text",
+      "label": "Full name",
+      "default": "Alex Rivera"
+    },
+    {
+      "id": "handle",
+      "type": "text",
+      "label": "Handle",
+      "default": "alexr"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "pill",
+      "options": [
+        "pill",
+        "underline"
+      ]
+    },
+    {
+      "id": "isCurrentUser",
+      "type": "toggle",
+      "label": "This is the current user",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<span class=\"mention mention--{{style}}\" data-me=\"{{isCurrentUser}}\" style=\"--accent:{{accent}};\">\n  <span class=\"mention__name\">{{fullName}}</span>\n  <span class=\"mention__handle\" aria-hidden=\"true\">@{{handle}}</span>\n  {{#if isCurrentUser}}<span class=\"mention__you\">(you)</span>{{/if}}\n</span>\n<style>\n.mention { display: inline-flex; align-items: baseline; gap: 4px; font: 14px system-ui, sans-serif; color: #241430; }\n.mention--pill { background: var(--accent); padding: 2px 10px; border-radius: 999px; }\n.mention--underline { border-bottom: 2px solid var(--accent); padding-bottom: 1px; }\n.mention__name { font-weight: 600; }\n.mention__handle { font-size: 12px; color: #24143080; }\n.mention[data-me=\"true\"] .mention__name { text-decoration: underline; }\n.mention__you { font-size: 12px; color: #24143080; font-style: italic; }\n</style>",
+    "tailwind": "<span data-me=\"{{isCurrentUser}}\" class=\"mention-tw mention-tw--{{style}} inline-flex items-baseline gap-1 font-sans text-sm text-[#241430]\" style=\"--accent:{{accent}}\">\n  <span class=\"font-semibold\">{{fullName}}</span>\n  <span class=\"text-xs text-[#241430]/50\" aria-hidden=\"true\">@{{handle}}</span>\n  {{#if isCurrentUser}}<span class=\"text-xs text-[#241430]/50 italic\">(you)</span>{{/if}}\n</span>\n<style>\n.mention-tw--pill { background: var(--accent); padding: 2px 10px; border-radius: 999px; }\n.mention-tw--underline { border-bottom: 2px solid var(--accent); padding-bottom: 1px; }\n.mention-tw[data-me=\"true\"] span:first-child { text-decoration: underline; }\n</style>",
+    "react": "export function Mention({\n  fullName = \"{{fullName}}\",\n  handle = \"{{handle}}\",\n  style = \"{{style}}\",\n  isCurrentUser = {{isCurrentUser}},\n  accent = \"{{accent}}\",\n}) {\n  const wrap = style === \"pill\"\n    ? { background: accent, padding: \"2px 10px\", borderRadius: 999 }\n    : { borderBottom: `2px solid ${accent}`, paddingBottom: 1 };\n  return (\n    <span style={{ display: \"inline-flex\", alignItems: \"baseline\", gap: 4, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", ...wrap }}>\n      <span style={{ fontWeight: 600, textDecoration: isCurrentUser ? \"underline\" : \"none\" }}>{fullName}</span>\n      <span style={{ fontSize: 12, color: \"#24143080\" }} aria-hidden=\"true\">@{handle}</span>\n      {isCurrentUser && <span style={{ fontSize: 12, color: \"#24143080\", fontStyle: \"italic\" }}>(you)</span>}\n    </span>\n  );\n}"
+  }
+}

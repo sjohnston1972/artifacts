@@ -1,0 +1,39 @@
+{
+  "slug": "identity-provider",
+  "controls_schema": [
+    {
+      "id": "provider",
+      "type": "select",
+      "label": "Provider",
+      "default": "google",
+      "options": ["google", "microsoft", "github", "saml"]
+    },
+    {
+      "id": "connected",
+      "type": "toggle",
+      "label": "Connected",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"idp\" data-provider=\"{{provider}}\" style=\"border-radius:{{radius}}px;\">\n  <span class=\"idp__mark\" style=\"background:{{accent}};\">\n    <span class=\"idp__mark-label idp__mark-label--google\">G</span>\n    <span class=\"idp__mark-label idp__mark-label--microsoft\">M</span>\n    <span class=\"idp__mark-label idp__mark-label--github\">H</span>\n    <span class=\"idp__mark-label idp__mark-label--saml\">S</span>\n  </span>\n  <span class=\"idp__body\">\n    <span class=\"idp__name idp__name--google\">Google Workspace</span>\n    <span class=\"idp__name idp__name--microsoft\">Microsoft Entra ID</span>\n    <span class=\"idp__name idp__name--github\">GitHub</span>\n    <span class=\"idp__name idp__name--saml\">SAML provider</span>\n    <span class=\"idp__status\">{{#if connected}}Connected{{/if}}{{#unless connected}}Not connected{{/unless}}</span>\n  </span>\n  <button type=\"button\" class=\"idp__action\" style=\"border-color:{{accent}};\">{{#if connected}}Disconnect{{/if}}{{#unless connected}}Connect{{/unless}}</button>\n</div>\n<style>\n.idp { font: 15px system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143020; padding: 14px 16px; display: flex; align-items: center; gap: 12px; max-width: 360px; }\n.idp__mark { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #241430; flex: none; }\n.idp__mark-label { display: none; }\n.idp[data-provider=\"google\"] .idp__mark-label--google,\n.idp[data-provider=\"microsoft\"] .idp__mark-label--microsoft,\n.idp[data-provider=\"github\"] .idp__mark-label--github,\n.idp[data-provider=\"saml\"] .idp__mark-label--saml { display: inline; }\n.idp__body { flex: 1; display: flex; flex-direction: column; }\n.idp__name { display: none; font-weight: 600; }\n.idp[data-provider=\"google\"] .idp__name--google,\n.idp[data-provider=\"microsoft\"] .idp__name--microsoft,\n.idp[data-provider=\"github\"] .idp__name--github,\n.idp[data-provider=\"saml\"] .idp__name--saml { display: block; }\n.idp__status { font-size: 12px; color: #24143099; }\n.idp__action { background: transparent; border: 1.5px solid; padding: 7px 12px; border-radius: 7px; font: 600 13px system-ui, sans-serif; cursor: pointer; color: #241430; flex: none; }\n.idp__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"idp-tw flex items-center gap-3 max-w-[360px] p-4 bg-[#FAF7F2] text-[#241430] font-sans border-[1.5px] border-[#24143020]\" data-provider=\"{{provider}}\" style=\"border-radius:{{radius}}px\">\n  <span class=\"flex items-center justify-center w-9 h-9 rounded-lg font-bold flex-none\" style=\"background:{{accent}}\">\n    <span class=\"idp-tw__mark idp-tw__mark--google\">G</span>\n    <span class=\"idp-tw__mark idp-tw__mark--microsoft\">M</span>\n    <span class=\"idp-tw__mark idp-tw__mark--github\">H</span>\n    <span class=\"idp-tw__mark idp-tw__mark--saml\">S</span>\n  </span>\n  <span class=\"flex-1 flex flex-col\">\n    <span class=\"idp-tw__name idp-tw__name--google font-semibold\">Google Workspace</span>\n    <span class=\"idp-tw__name idp-tw__name--microsoft font-semibold\">Microsoft Entra ID</span>\n    <span class=\"idp-tw__name idp-tw__name--github font-semibold\">GitHub</span>\n    <span class=\"idp-tw__name idp-tw__name--saml font-semibold\">SAML provider</span>\n    <span class=\"text-xs text-[#241430]/60\">{{#if connected}}Connected{{/if}}{{#unless connected}}Not connected{{/unless}}</span>\n  </span>\n  <button type=\"button\" class=\"flex-none bg-transparent border-[1.5px] rounded-md px-3 py-1.5 text-[13px] font-semibold text-[#241430] cursor-pointer\" style=\"border-color:{{accent}}\">{{#if connected}}Disconnect{{/if}}{{#unless connected}}Connect{{/unless}}</button>\n</div>\n<style>\n.idp-tw__mark, .idp-tw__name { display: none; }\n.idp-tw[data-provider=\"google\"] .idp-tw__mark--google, .idp-tw[data-provider=\"google\"] .idp-tw__name--google,\n.idp-tw[data-provider=\"microsoft\"] .idp-tw__mark--microsoft, .idp-tw[data-provider=\"microsoft\"] .idp-tw__name--microsoft,\n.idp-tw[data-provider=\"github\"] .idp-tw__mark--github, .idp-tw[data-provider=\"github\"] .idp-tw__name--github,\n.idp-tw[data-provider=\"saml\"] .idp-tw__mark--saml, .idp-tw[data-provider=\"saml\"] .idp-tw__name--saml { display: inline; }\n.idp-tw__name { display: none; font-weight: 600; }\n</style>",
+    "react": "export function IdentityProvider({\n  provider = \"{{provider}}\",\n  connected = {{connected}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const info = {\n    google: { mark: \"G\", name: \"Google Workspace\" },\n    microsoft: { mark: \"M\", name: \"Microsoft Entra ID\" },\n    github: { mark: \"H\", name: \"GitHub\" },\n    saml: { mark: \"S\", name: \"SAML provider\" },\n  }[provider];\n  return (\n    <div style={{ display: \"flex\", alignItems: \"center\", gap: 12, maxWidth: 360, padding: \"14px 16px\",\n      background: \"#FAF7F2\", color: \"#241430\", fontFamily: \"system-ui, sans-serif\", fontSize: 15,\n      border: \"1.5px solid #24143020\", borderRadius: radius }}>\n      <span style={{ width: 36, height: 36, borderRadius: 8, background: accent, display: \"flex\",\n        alignItems: \"center\", justifyContent: \"center\", fontWeight: 700, flex: \"none\" }}>{info.mark}</span>\n      <span style={{ flex: 1, display: \"flex\", flexDirection: \"column\" }}>\n        <span style={{ fontWeight: 600 }}>{info.name}</span>\n        <span style={{ fontSize: 12, color: \"#24143099\" }}>{connected ? \"Connected\" : \"Not connected\"}</span>\n      </span>\n      <button type=\"button\" style={{ flex: \"none\", background: \"transparent\", border: `1.5px solid ${accent}`,\n        borderRadius: 7, padding: \"7px 12px\", fontSize: 13, fontWeight: 600, color: \"#241430\", cursor: \"pointer\" }}>\n        {connected ? \"Disconnect\" : \"Connect\"}\n      </button>\n    </div>\n  );\n}"
+  }
+}

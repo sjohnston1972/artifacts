@@ -1,0 +1,59 @@
+{
+  "slug": "collaborative-cursor",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name",
+      "default": "Jordan Blake"
+    },
+    {
+      "id": "color",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "x",
+      "type": "number",
+      "label": "Horizontal position",
+      "default": 140,
+      "min": 0,
+      "max": 340,
+      "step": 10
+    },
+    {
+      "id": "y",
+      "type": "number",
+      "label": "Vertical position",
+      "default": 60,
+      "min": 0,
+      "max": 180,
+      "step": 10
+    },
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "idle",
+      "options": [
+        "idle",
+        "typing",
+        "selecting"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"cursor-field\">\n  <div class=\"cursor-field__cursor\" data-state=\"{{state}}\" style=\"left:{{x}}px; top:{{y}}px;\">\n    <svg class=\"cursor-field__arrow\" width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" aria-hidden=\"true\"><path d=\"M2 1 L16 8 L9 10 L7 17 Z\" fill=\"{{color}}\" stroke=\"#FAF7F2\" stroke-width=\"1\"></path></svg>\n    <span class=\"cursor-field__tag\" style=\"background:{{color}};\">{{name}}</span>\n  </div>\n</div>\n<style>\n.cursor-field { position: relative; width: 400px; max-width: 100%; height: 220px; background: #FAF7F2; border: 1px solid #24143020; border-radius: 12px; overflow: hidden; font: 13px system-ui, sans-serif; color: #241430; box-sizing: border-box; }\n.cursor-field__cursor { position: absolute; display: flex; align-items: center; gap: 6px; }\n.cursor-field__tag { color: #FAF7F2; padding: 3px 8px; border-radius: 6px; font-weight: 600; white-space: nowrap; position: relative; }\n.cursor-field__cursor[data-state=\"typing\"] .cursor-field__tag::after { content: \" · typing\"; font-weight: 400; }\n.cursor-field__cursor[data-state=\"selecting\"] .cursor-field__tag::after { content: \" · selecting\"; font-weight: 400; }\n</style>",
+    "tailwind": "<div class=\"relative w-[400px] max-w-full h-[220px] bg-[#FAF7F2] border border-[#24143020] rounded-xl overflow-hidden font-sans text-[13px] text-[#241430] box-border\">\n  <div class=\"cursor-field-tw__cursor absolute flex items-center gap-1.5\" data-state=\"{{state}}\" style=\"left:{{x}}px; top:{{y}}px\">\n    <svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" aria-hidden=\"true\"><path d=\"M2 1 L16 8 L9 10 L7 17 Z\" fill=\"{{color}}\" stroke=\"#FAF7F2\" stroke-width=\"1\"></path></svg>\n    <span class=\"cursor-field-tw__tag text-[#FAF7F2] px-2 py-0.5 rounded-md font-semibold whitespace-nowrap relative\" style=\"background:{{color}}\">{{name}}</span>\n  </div>\n</div>\n<style>\n.cursor-field-tw__cursor[data-state=\"typing\"] .cursor-field-tw__tag::after { content: \" · typing\"; font-weight: 400; }\n.cursor-field-tw__cursor[data-state=\"selecting\"] .cursor-field-tw__tag::after { content: \" · selecting\"; font-weight: 400; }\n</style>",
+    "react": "export function CollaborativeCursor({\n  name = \"{{name}}\",\n  color = \"{{color}}\",\n  x = {{x}},\n  y = {{y}},\n  state = \"{{state}}\",\n}) {\n  const suffix = { idle: \"\", typing: \" · typing\", selecting: \" · selecting\" }[state] ?? \"\";\n  return (\n    <div style={{ position: \"relative\", width: 400, maxWidth: \"100%\", height: 220, background: \"#FAF7F2\", border: \"1px solid #24143020\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", boxSizing: \"border-box\" }}>\n      <div style={{ position: \"absolute\", left: x, top: y, display: \"flex\", alignItems: \"center\", gap: 6 }}>\n        <svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" aria-hidden=\"true\"><path d=\"M2 1 L16 8 L9 10 L7 17 Z\" fill={color} stroke=\"#FAF7F2\" strokeWidth=\"1\" /></svg>\n        <span style={{ background: color, color: \"#FAF7F2\", padding: \"3px 8px\", borderRadius: 6, fontWeight: 600, whiteSpace: \"nowrap\" }}>{name}{suffix}</span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

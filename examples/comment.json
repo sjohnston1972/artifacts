@@ -1,0 +1,54 @@
+{
+  "slug": "comment",
+  "controls_schema": [
+    {
+      "id": "author",
+      "type": "text",
+      "label": "Author",
+      "default": "Morgan Lee"
+    },
+    {
+      "id": "initials",
+      "type": "text",
+      "label": "Initials",
+      "default": "ML"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Comment",
+      "default": "Thanks for looking into this — the timeline now makes sense."
+    },
+    {
+      "id": "timestamp",
+      "type": "text",
+      "label": "Timestamp",
+      "default": "2 hours ago"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "edited",
+      "type": "toggle",
+      "label": "Mark as edited",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"comment\">\n  <span class=\"comment__avatar\" style=\"background:{{accent}};\" aria-hidden=\"true\">{{initials}}</span>\n  <div class=\"comment__body\">\n    <header class=\"comment__header\">\n      <span class=\"comment__author\">{{author}}</span>\n      <time class=\"comment__time\" datetime=\"2026-08-18T09:00\">{{timestamp}}</time>\n      {{#if edited}}<span class=\"comment__edited\">(edited)</span>{{/if}}\n    </header>\n    <p class=\"comment__text\">{{body}}</p>\n  </div>\n</article>\n<style>\n.comment { display: flex; gap: 12px; max-width: 420px; font: 14px/1.5 system-ui, sans-serif; color: #241430; }\n.comment__avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; color: #FAF7F2; font: 700 12px/1 system-ui, sans-serif; }\n.comment__body { flex: 1; min-width: 0; }\n.comment__header { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }\n.comment__author { font-weight: 600; }\n.comment__time { font-size: 12px; color: #24143080; }\n.comment__edited { font-size: 12px; color: #24143080; font-style: italic; }\n.comment__text { margin: 6px 0 0; }\n</style>",
+    "tailwind": "<article class=\"flex gap-3 max-w-[420px] font-sans text-sm text-[#241430]\">\n  <span class=\"w-9 h-9 rounded-full flex-shrink-0 grid place-items-center text-[#FAF7F2] text-xs font-bold\" style=\"background:{{accent}}\" aria-hidden=\"true\">{{initials}}</span>\n  <div class=\"flex-1 min-w-0\">\n    <header class=\"flex items-baseline gap-2 flex-wrap\">\n      <span class=\"font-semibold\">{{author}}</span>\n      <time class=\"text-xs text-[#241430]/50\" datetime=\"2026-08-18T09:00\">{{timestamp}}</time>\n      {{#if edited}}<span class=\"text-xs text-[#241430]/50 italic\">(edited)</span>{{/if}}\n    </header>\n    <p class=\"mt-1.5 mb-0\">{{body}}</p>\n  </div>\n</article>",
+    "react": "export function Comment({\n  author = \"{{author}}\",\n  initials = \"{{initials}}\",\n  body = \"{{body}}\",\n  timestamp = \"{{timestamp}}\",\n  accent = \"{{accent}}\",\n  edited = {{edited}},\n}) {\n  return (\n    <article style={{ display: \"flex\", gap: 12, maxWidth: 420, fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\" }}>\n      <span style={{ width: 36, height: 36, borderRadius: \"50%\", flexShrink: 0, display: \"grid\", placeItems: \"center\", background: accent, color: \"#FAF7F2\", fontSize: 12, fontWeight: 700 }} aria-hidden=\"true\">{initials}</span>\n      <div style={{ flex: 1, minWidth: 0 }}>\n        <header style={{ display: \"flex\", alignItems: \"baseline\", gap: 8, flexWrap: \"wrap\" }}>\n          <span style={{ fontWeight: 600 }}>{author}</span>\n          <time style={{ fontSize: 12, color: \"#24143080\" }} dateTime=\"2026-08-18T09:00\">{timestamp}</time>\n          {edited && <span style={{ fontSize: 12, color: \"#24143080\", fontStyle: \"italic\" }}>(edited)</span>}\n        </header>\n        <p style={{ margin: \"6px 0 0\" }}>{body}</p>\n      </div>\n    </article>\n  );\n}"
+  }
+}

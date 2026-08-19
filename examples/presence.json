@@ -1,0 +1,63 @@
+{
+  "slug": "presence",
+  "controls_schema": [
+    {
+      "id": "shown",
+      "type": "select",
+      "label": "Avatars shown",
+      "default": "3",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "primaryStatus",
+      "type": "select",
+      "label": "Primary status",
+      "default": "online",
+      "options": [
+        "online",
+        "away",
+        "busy",
+        "offline"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Avatar size",
+      "default": 36,
+      "min": 28,
+      "max": 48,
+      "step": 4
+    },
+    {
+      "id": "showLabel",
+      "type": "toggle",
+      "label": "Show summary label",
+      "default": true
+    },
+    {
+      "id": "ringColor",
+      "type": "color",
+      "label": "Ring colour",
+      "default": "#FAF7F2",
+      "presets": [
+        "#FAF7F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"presence\" data-shown=\"{{shown}}\" role=\"status\" aria-live=\"polite\">\n  <div class=\"presence__avatars\">\n    <span class=\"presence__avatar\" style=\"width:{{size}}px;height:{{size}}px;background:#A8E6C1;border-color:{{ringColor}};\">AW\n      <span class=\"presence__dot presence__dot--{{primaryStatus}}\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Ana W is {{primaryStatus}}</span>\n    </span>\n    <span class=\"presence__avatar\" style=\"width:{{size}}px;height:{{size}}px;background:#F5C2E0;border-color:{{ringColor}};\">MT<span class=\"sr-only\">Marcus T</span></span>\n    <span class=\"presence__avatar\" style=\"width:{{size}}px;height:{{size}}px;background:#BFD9F2;border-color:{{ringColor}};\">PK<span class=\"sr-only\">Priya K</span></span>\n    <span class=\"presence__avatar\" style=\"width:{{size}}px;height:{{size}}px;background:#D9C8F0;border-color:{{ringColor}};\">DR<span class=\"sr-only\">Dev R</span></span>\n    <span class=\"presence__avatar\" style=\"width:{{size}}px;height:{{size}}px;background:#E8A020;border-color:{{ringColor}};\">SO<span class=\"sr-only\">Sam O</span></span>\n    <span class=\"presence__overflow presence__overflow--o2\" style=\"height:{{size}}px;\">+3</span>\n    <span class=\"presence__overflow presence__overflow--o3\" style=\"height:{{size}}px;\">+2</span>\n    <span class=\"presence__overflow presence__overflow--o4\" style=\"height:{{size}}px;\">+1</span>\n  </div>\n  {{#if showLabel}}<p class=\"presence__label\">5 team members active now</p>{{/if}}\n</div>\n<style>\n.presence { font: 13px/1.4 system-ui, sans-serif; color: #241430; max-width: 420px; }\n.presence__avatars { display: flex; align-items: center; }\n.presence__avatar { position: relative; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid; font: 600 12px system-ui, sans-serif; color: #241430; margin-left: -8px; }\n.presence__avatar:first-child { margin-left: 0; }\n.presence__dot { position: absolute; right: -1px; bottom: -1px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #FAF7F2; }\n.presence__dot--online { background: #34a853; }\n.presence__dot--away { background: #E8A020; }\n.presence__dot--busy { background: #d93025; }\n.presence__dot--offline { background: #24143055; }\n.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.presence__overflow { display: none; align-items: center; justify-content: center; border-radius: 50%; background: #24143014; color: #241430; font: 600 11px system-ui, sans-serif; margin-left: -8px; width: 36px; padding: 0 4px; box-sizing: border-box; }\n[data-shown=\"2\"] .presence__avatar:nth-child(n+3) { display: none; }\n[data-shown=\"2\"] .presence__overflow--o2 { display: inline-flex; }\n[data-shown=\"3\"] .presence__avatar:nth-child(n+4) { display: none; }\n[data-shown=\"3\"] .presence__overflow--o3 { display: inline-flex; }\n[data-shown=\"4\"] .presence__avatar:nth-child(n+5) { display: none; }\n[data-shown=\"4\"] .presence__overflow--o4 { display: inline-flex; }\n.presence__label { margin: 8px 0 0; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"presence-tw\" data-shown=\"{{shown}}\" role=\"status\" aria-live=\"polite\">\n  <div class=\"flex items-center\">\n    <span class=\"presence-tw__avatar relative inline-flex items-center justify-center rounded-full border-2 font-semibold text-xs text-[#241430]\" style=\"width:{{size}}px;height:{{size}}px;background:#A8E6C1;border-color:{{ringColor}};margin-left:0;\">AW\n      <span class=\"presence-tw__dot presence-tw__dot--{{primaryStatus}} absolute right-[-1px] bottom-[-1px] w-2.5 h-2.5 rounded-full border-2 border-[#FAF7F2]\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Ana W is {{primaryStatus}}</span>\n    </span>\n    <span class=\"presence-tw__avatar relative inline-flex items-center justify-center rounded-full border-2 font-semibold text-xs -ml-2\" style=\"width:{{size}}px;height:{{size}}px;background:#F5C2E0;border-color:{{ringColor}};\">MT<span class=\"sr-only\">Marcus T</span></span>\n    <span class=\"presence-tw__avatar relative inline-flex items-center justify-center rounded-full border-2 font-semibold text-xs -ml-2\" style=\"width:{{size}}px;height:{{size}}px;background:#BFD9F2;border-color:{{ringColor}};\">PK<span class=\"sr-only\">Priya K</span></span>\n    <span class=\"presence-tw__avatar relative inline-flex items-center justify-center rounded-full border-2 font-semibold text-xs -ml-2\" style=\"width:{{size}}px;height:{{size}}px;background:#D9C8F0;border-color:{{ringColor}};\">DR<span class=\"sr-only\">Dev R</span></span>\n    <span class=\"presence-tw__avatar relative inline-flex items-center justify-center rounded-full border-2 font-semibold text-xs -ml-2\" style=\"width:{{size}}px;height:{{size}}px;background:#E8A020;border-color:{{ringColor}};\">SO<span class=\"sr-only\">Sam O</span></span>\n    <span class=\"presence-tw__overflow presence-tw__overflow--o2 -ml-2 items-center justify-center rounded-full bg-[#24143014] text-[#241430] text-[11px] font-semibold w-9 box-border\" style=\"height:{{size}}px;\">+3</span>\n    <span class=\"presence-tw__overflow presence-tw__overflow--o3 -ml-2 items-center justify-center rounded-full bg-[#24143014] text-[#241430] text-[11px] font-semibold w-9 box-border\" style=\"height:{{size}}px;\">+2</span>\n    <span class=\"presence-tw__overflow presence-tw__overflow--o4 -ml-2 items-center justify-center rounded-full bg-[#24143014] text-[#241430] text-[11px] font-semibold w-9 box-border\" style=\"height:{{size}}px;\">+1</span>\n  </div>\n  {{#if showLabel}}<p class=\"mt-2 text-[#24143099] text-xs\">5 team members active now</p>{{/if}}\n</div>\n<style>\n.presence-tw__dot--online { background: #34a853; }\n.presence-tw__dot--away { background: #E8A020; }\n.presence-tw__dot--busy { background: #d93025; }\n.presence-tw__dot--offline { background: #24143055; }\n.presence-tw__overflow { display: none; }\n[data-shown=\"2\"] .presence-tw__avatar:nth-child(n+3) { display: none; }\n[data-shown=\"2\"] .presence-tw__overflow--o2 { display: inline-flex; }\n[data-shown=\"3\"] .presence-tw__avatar:nth-child(n+4) { display: none; }\n[data-shown=\"3\"] .presence-tw__overflow--o3 { display: inline-flex; }\n[data-shown=\"4\"] .presence-tw__avatar:nth-child(n+5) { display: none; }\n[data-shown=\"4\"] .presence-tw__overflow--o4 { display: inline-flex; }\n</style>",
+    "react": "export function Presence({\n  shown = \"{{shown}}\",\n  primaryStatus = \"{{primaryStatus}}\",\n  size = {{size}},\n  showLabel = {{showLabel}},\n  ringColor = \"{{ringColor}}\",\n}) {\n  const people = [\n    { initials: \"AW\", name: \"Ana W\", bg: \"#A8E6C1\" },\n    { initials: \"MT\", name: \"Marcus T\", bg: \"#F5C2E0\" },\n    { initials: \"PK\", name: \"Priya K\", bg: \"#BFD9F2\" },\n    { initials: \"DR\", name: \"Dev R\", bg: \"#D9C8F0\" },\n    { initials: \"SO\", name: \"Sam O\", bg: \"#E8A020\" },\n  ];\n  const n = Number(shown);\n  const visible = people.slice(0, n);\n  const overflow = people.length - n;\n  const statusColor = { online: \"#34a853\", away: \"#E8A020\", busy: \"#d93025\", offline: \"#24143055\" }[primaryStatus];\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", maxWidth: 420 }}>\n      <div style={{ display: \"flex\", alignItems: \"center\" }}>\n        {visible.map((p, i) => (\n          <span key={p.initials} style={{ position: \"relative\", display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\",\n            borderRadius: \"50%\", border: `2px solid ${ringColor}`, width: size, height: size, background: p.bg,\n            fontSize: 12, fontWeight: 600, marginLeft: i === 0 ? 0 : -8 }}>\n            {p.initials}\n            {i === 0 && <span aria-hidden=\"true\" style={{ position: \"absolute\", right: -1, bottom: -1, width: 10, height: 10, borderRadius: \"50%\", border: \"2px solid #FAF7F2\", background: statusColor }} />}\n          </span>\n        ))}\n        {overflow > 0 && (\n          <span style={{ marginLeft: -8, display: \"inline-flex\", alignItems: \"center\", justifyContent: \"center\", borderRadius: \"50%\",\n            background: \"#24143014\", color: \"#241430\", fontSize: 11, fontWeight: 600, width: size, height: size, boxSizing: \"border-box\" }}>\n            +{overflow}\n          </span>\n        )}\n      </div>\n      {showLabel && <p style={{ margin: \"8px 0 0\", color: \"#24143099\" }}>5 team members active now</p>}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "slug": "push-notification",
+  "controls_schema": [
+    {
+      "id": "appName",
+      "type": "text",
+      "label": "App name",
+      "default": "Clydeford"
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Your export finished and is ready to download."
+    },
+    {
+      "id": "platform",
+      "type": "select",
+      "label": "Platform style",
+      "default": "desktop",
+      "options": [
+        "desktop",
+        "mobile"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "showActions",
+      "type": "toggle",
+      "label": "Show quick actions",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"push push--{{platform}}\" role=\"status\">\n  <span class=\"push__icon\" style=\"background:{{accent}};\" aria-hidden=\"true\"></span>\n  <div class=\"push__body\">\n    <p class=\"push__app\">{{appName}} <time class=\"push__time\" datetime=\"2026-08-18T09:14\">now</time></p>\n    <p class=\"push__message\">{{message}}</p>\n    {{#if showActions}}<div class=\"push__actions\"><button class=\"push__action\" type=\"button\">Open</button><button class=\"push__action\" type=\"button\">Dismiss</button></div>{{/if}}\n  </div>\n</div>\n<style>\n.push { display: flex; gap: 10px; width: 320px; box-sizing: border-box; padding: 12px; background: #FAF7F2; color: #241430; box-shadow: 0 6px 20px rgba(36,20,48,.22); font: 13px/1.4 system-ui, sans-serif; }\n.push--desktop { border-radius: 10px; }\n.push--mobile { border-radius: 18px; padding: 14px; }\n.push__icon { width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0; }\n.push--mobile .push__icon { border-radius: 50%; }\n.push__app { margin: 0 0 2px; display: flex; justify-content: space-between; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #24143099; }\n.push__time { text-transform: none; letter-spacing: normal; font-weight: 400; }\n.push__message { margin: 0; }\n.push__actions { display: flex; gap: 8px; margin-top: 8px; }\n.push__action { border: 1px solid #24143030; background: transparent; border-radius: 6px; padding: 4px 10px; font: 600 12px system-ui, sans-serif; cursor: pointer; }\n.push__action:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div role=\"status\" class=\"push-tw push-tw--{{platform}} flex gap-2.5 w-80 box-border p-3 bg-[#FAF7F2] text-[#241430] shadow-lg text-[13px]\">\n  <span aria-hidden=\"true\" class=\"push-tw__icon w-[30px] h-[30px] flex-shrink-0\" style=\"background:{{accent}}\"></span>\n  <div class=\"flex-1\">\n    <p class=\"m-0 mb-0.5 flex justify-between font-semibold text-xs uppercase tracking-wide text-[#241430]/60\">{{appName}} <time class=\"normal-case tracking-normal font-normal\" datetime=\"2026-08-18T09:14\">now</time></p>\n    <p class=\"m-0\">{{message}}</p>\n    {{#if showActions}}<div class=\"flex gap-2 mt-2\"><button type=\"button\" class=\"border border-[#24143030] bg-transparent rounded-md px-2.5 py-1 text-xs font-semibold cursor-pointer\">Open</button><button type=\"button\" class=\"border border-[#24143030] bg-transparent rounded-md px-2.5 py-1 text-xs font-semibold cursor-pointer\">Dismiss</button></div>{{/if}}\n  </div>\n</div>\n<style>\n.push-tw--desktop { border-radius: 10px; }\n.push-tw--desktop .push-tw__icon { border-radius: 8px; }\n.push-tw--mobile { border-radius: 18px; padding: 14px; }\n.push-tw--mobile .push-tw__icon { border-radius: 50%; }\n</style>",
+    "react": "export function PushNotification({\n  appName = \"{{appName}}\",\n  message = \"{{message}}\",\n  platform = \"{{platform}}\",\n  accent = \"{{accent}}\",\n  showActions = {{showActions}},\n}) {\n  const mobile = platform === \"mobile\";\n  return (\n    <div role=\"status\" style={{ display: \"flex\", gap: 10, width: 320, boxSizing: \"border-box\",\n      padding: mobile ? 14 : 12, background: \"#FAF7F2\", color: \"#241430\",\n      borderRadius: mobile ? 18 : 10, boxShadow: \"0 6px 20px rgba(36,20,48,.22)\", fontSize: 13 }}>\n      <span aria-hidden=\"true\" style={{ width: 30, height: 30, borderRadius: mobile ? \"50%\" : 8, background: accent, flexShrink: 0 }} />\n      <div style={{ flex: 1 }}>\n        <p style={{ margin: \"0 0 2px\", display: \"flex\", justifyContent: \"space-between\", fontWeight: 600, fontSize: 12, textTransform: \"uppercase\", letterSpacing: .03, color: \"#24143099\" }}>\n          {appName} <time style={{ textTransform: \"none\", fontWeight: 400 }} dateTime=\"2026-08-18T09:14\">now</time>\n        </p>\n        <p style={{ margin: 0 }}>{message}</p>\n        {showActions && (\n          <div style={{ display: \"flex\", gap: 8, marginTop: 8 }}>\n            <button type=\"button\" style={{ border: \"1px solid #24143030\", background: \"transparent\", borderRadius: 6, padding: \"4px 10px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>Open</button>\n            <button type=\"button\" style={{ border: \"1px solid #24143030\", background: \"transparent\", borderRadius: 6, padding: \"4px 10px\", fontSize: 12, fontWeight: 600, cursor: \"pointer\" }}>Dismiss</button>\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

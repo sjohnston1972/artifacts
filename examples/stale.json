@@ -1,0 +1,35 @@
+{
+  "slug": "stale",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Data label",
+      "default": "Exchange rate"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "1 GBP = 1.27 USD"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Mark stale",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"stl\" data-stale=\"{{force}}\" style=\"--accent:{{accent}};\">\n  <p class=\"stl__label\">{{label}}</p>\n  <p class=\"stl__value\">{{value}}</p>\n  <p class=\"stl__meta\">Updated <time datetime=\"2026-08-11T09:00:00Z\">7 days ago</time>{{#if force}}<span class=\"stl__badge\">stale</span>{{/if}}</p>\n</div>\n<style>\n.stl { width: 260px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px 18px; border-radius: 12px; border-left: 4px solid transparent; }\n.stl[data-stale=\"true\"] { border-left-color: var(--accent); }\n.stl__label { margin: 0 0 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #241430888; }\n.stl__value { margin: 0 0 6px; font-size: 18px; font-weight: 700; }\n.stl[data-stale=\"true\"] .stl__value { opacity: .6; }\n.stl__meta { margin: 0; font-size: 11px; color: #241430888; display: flex; align-items: center; gap: 6px; }\n.stl__badge { background: var(--accent); color: #241430; font-weight: 700; padding: 1px 7px; border-radius: 999px; font-size: 10px; text-transform: uppercase; }\n</style>",
+    "tailwind": "<div class=\"stl-tw w-[260px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl border-l-4 border-transparent\" data-stale=\"{{force}}\">\n  <p class=\"m-0 mb-1 text-[11px] font-bold uppercase tracking-wide text-[#241430]/55\">{{label}}</p>\n  <p class=\"stl-tw__value m-0 mb-1.5 text-lg font-bold\">{{value}}</p>\n  <p class=\"m-0 text-[11px] text-[#241430]/55 flex items-center gap-1.5\">Updated <time datetime=\"2026-08-11T09:00:00Z\">7 days ago</time>{{#if force}}<span class=\"font-bold px-1.5 rounded-full text-[10px] uppercase\" style=\"background:{{accent}}\">stale</span>{{/if}}</p>\n</div>\n<style>\n.stl-tw[data-stale=\"true\"] { border-left-color: {{accent}}; }\n.stl-tw[data-stale=\"true\"] .stl-tw__value { opacity: .6; }\n</style>",
+    "react": "export function StaleState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  return (\n    <div style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"16px 18px\", borderRadius: 12, borderLeft: `4px solid ${force ? accent : \"transparent\"}` }}>\n      <p style={{ margin: \"0 0 4px\", fontSize: 11, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: \"#241430888\" }}>{label}</p>\n      <p style={{ margin: \"0 0 6px\", fontSize: 18, fontWeight: 700, opacity: force ? 0.6 : 1 }}>{value}</p>\n      <p style={{ margin: 0, fontSize: 11, color: \"#241430888\", display: \"flex\", alignItems: \"center\", gap: 6 }}>\n        Updated <time dateTime=\"2026-08-11T09:00:00Z\">7 days ago</time>\n        {force && <span style={{ background: accent, color: \"#241430\", fontWeight: 700, padding: \"1px 7px\", borderRadius: 999, fontSize: 10, textTransform: \"uppercase\" }}>stale</span>}\n      </p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "warning",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Warning message",
+      "default": "Your plan expires in 3 days — renew to keep access."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Show warning",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wrn-demo\">\n  <button class=\"wrn-btn\" type=\"button\">Account settings</button>\n  {{#if force}}\n  <div class=\"wrn-banner\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" role=\"status\">\n    <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 2 20h20L12 3Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/><path d=\"M12 10v4M12 17h.01\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>\n    <span>{{message}}</span>\n  </div>\n  {{/if}}\n</div>\n<style>\n.wrn-demo { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.wrn-btn { font: 700 14px system-ui, sans-serif; padding: 10px 20px; border-radius: 8px; border: none; background: #241430; color: #FAF7F2; cursor: pointer; margin-bottom: 10px; }\n.wrn-banner { display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px; background: color-mix(in srgb, var(--accent) 18%, #FAF7F2); border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent); color: color-mix(in srgb, var(--accent) 70%, #241430); font-weight: 600; font-size: 13px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\">\n  <button type=\"button\" class=\"font-bold text-sm px-5 py-2.5 rounded-lg border-0 bg-[#241430] text-[#FAF7F2] cursor-pointer mb-2.5\">Account settings</button>\n  {{#if force}}\n  <div role=\"status\" class=\"flex items-start gap-2 px-3.5 py-3 font-semibold text-[13px]\" style=\"background:color-mix(in srgb, {{accent}} 18%, #FAF7F2);border:1.5px solid color-mix(in srgb, {{accent}} 55%, transparent);color:color-mix(in srgb, {{accent}} 70%, #241430);border-radius:{{radius}}px;\">\n    <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 2 20h20L12 3Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/><path d=\"M12 10v4M12 17h.01\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>\n    <span>{{message}}</span>\n  </div>\n  {{/if}}\n</div>",
+    "react": "export function WarningState({\n  message = \"{{message}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      <button type=\"button\" style={{ font: \"700 14px system-ui, sans-serif\", padding: \"10px 20px\", borderRadius: 8, border: \"none\", background: \"#241430\", color: \"#FAF7F2\", cursor: \"pointer\", marginBottom: 10 }}>Account settings</button>\n      {force && (\n        <div role=\"status\" style={{ display: \"flex\", alignItems: \"flex-start\", gap: 8, padding: \"12px 14px\", borderRadius: radius, background: `color-mix(in srgb, ${accent} 18%, #FAF7F2)`, border: `1.5px solid color-mix(in srgb, ${accent} 55%, transparent)`, color: `color-mix(in srgb, ${accent} 70%, #241430)`, fontWeight: 600, fontSize: 13 }}>\n          <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 2 20h20L12 3Z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinejoin=\"round\" /><path d=\"M12 10v4M12 17h.01\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" /></svg>\n          <span>{message}</span>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

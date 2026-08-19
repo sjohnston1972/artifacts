@@ -1,0 +1,35 @@
+{
+  "slug": "empty",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Empty heading",
+      "default": "No projects yet"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Empty body",
+      "default": "Create your first project to see it listed here."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force empty",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"emp\" data-empty=\"{{force}}\" style=\"--accent:{{accent}};\">\n  <ul class=\"emp__list\">\n    <li>Marketing site redesign</li>\n    <li>Q3 roadmap</li>\n    <li>Onboarding revamp</li>\n  </ul>\n  <div class=\"emp__state\">\n    <svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"7\" width=\"16\" height=\"13\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M4 10h16M9 4h6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <h3 class=\"emp__heading\">{{heading}}</h3>\n    <p class=\"emp__body\">{{body}}</p>\n  </div>\n</div>\n<style>\n.emp { width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; text-align: center; }\n.emp__list { display: none; list-style: none; margin: 0; padding: 0; text-align: left; }\n.emp__list li { padding: 9px 10px; border-bottom: 1px solid #24143014; font-weight: 600; font-size: 13px; }\n.emp__state { display: none; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px; color: var(--accent); }\n.emp[data-empty=\"false\"] .emp__list { display: block; }\n.emp[data-empty=\"true\"] .emp__state { display: flex; }\n.emp__heading { margin: 0; font-size: 15px; font-weight: 700; color: #241430; }\n.emp__body { margin: 0; font-size: 12px; color: #241430aa; max-width: 200px; }\n</style>",
+    "tailwind": "<div class=\"emp-tw w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl text-center\" data-empty=\"{{force}}\">\n  <ul class=\"emp-tw__list hidden list-none m-0 p-0 text-left\">\n    <li class=\"px-2.5 py-2.5 border-b border-[#24143014] font-semibold text-[13px]\">Marketing site redesign</li>\n    <li class=\"px-2.5 py-2.5 border-b border-[#24143014] font-semibold text-[13px]\">Q3 roadmap</li>\n    <li class=\"px-2.5 py-2.5 border-b border-[#24143014] font-semibold text-[13px]\">Onboarding revamp</li>\n  </ul>\n  <div class=\"emp-tw__state hidden flex-col items-center gap-2 px-2 py-3.5\" style=\"color:{{accent}}\">\n    <svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"7\" width=\"16\" height=\"13\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M4 10h16M9 4h6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>\n    <h3 class=\"m-0 text-[15px] font-bold text-[#241430]\">{{heading}}</h3>\n    <p class=\"m-0 text-xs text-[#241430]/70 max-w-[200px]\">{{body}}</p>\n  </div>\n</div>\n<style>\n.emp-tw[data-empty=\"false\"] .emp-tw__list { display: block; }\n.emp-tw[data-empty=\"true\"] .emp-tw__state { display: flex; }\n</style>",
+    "react": "export function EmptyState({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  const items = [\"Marketing site redesign\", \"Q3 roadmap\", \"Onboarding revamp\"];\n  return (\n    <div style={{ width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, textAlign: \"center\" }}>\n      {force ? (\n        <div style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 8, padding: \"14px 8px\", color: accent }}>\n          <svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"7\" width=\"16\" height=\"13\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M4 10h16M9 4h6\" stroke=\"currentColor\" strokeWidth=\"1.6\" strokeLinecap=\"round\" /></svg>\n          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: \"#241430\" }}>{heading}</h3>\n          <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\", maxWidth: 200 }}>{body}</p>\n        </div>\n      ) : (\n        <ul style={{ listStyle: \"none\", margin: 0, padding: 0, textAlign: \"left\" }}>\n          {items.map((item) => (\n            <li key={item} style={{ padding: \"9px 10px\", borderBottom: \"1px solid #24143014\", fontWeight: 600, fontSize: 13 }}>{item}</li>\n          ))}\n        </ul>\n      )}\n    </div>\n  );\n}"
+  }
+}

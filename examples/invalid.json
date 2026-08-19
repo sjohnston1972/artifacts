@@ -1,0 +1,35 @@
+{
+  "slug": "invalid",
+  "controls_schema": [
+    {
+      "id": "fieldLabel",
+      "type": "text",
+      "label": "Field label",
+      "default": "Email address"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "not-an-email"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#C0392B",
+      "presets": ["#C0392B", "#E8A020", "#241430", "#BFD9F2", "#D9C8F0", "#A8E6C1"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force error styling",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"inv\" style=\"--accent:{{accent}};\">\n  <span class=\"inv__label\">{{fieldLabel}}</span>\n  <input class=\"inv__input{{#if force}} inv__input--forced{{/if}}\" type=\"email\" value=\"{{value}}\" required>\n  <span class=\"inv__msg\">Real <code>:invalid</code> pseudo-class — the browser applies it because <code>type=\"email\"</code> plus <code>required</code> rejects this value natively.</span>\n</label>\n<style>\n.inv { display: block; width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px 18px; border-radius: 12px; }\n.inv__label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.inv__input { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 9px 11px; border-radius: 8px; border: 1.5px solid #24143030; }\n.inv__input:invalid, .inv__input--forced { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, #FAF7F2); }\n.inv__msg { display: block; margin-top: 7px; font-size: 11px; color: #241430888; }\n.inv__msg code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<label class=\"block w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl\">\n  <span class=\"block mb-1.5 text-xs font-semibold text-[#241430]/65\">{{fieldLabel}}</span>\n  <input type=\"email\" value=\"{{value}}\" required class=\"inv-tw-input{{#if force}} inv-tw-input--forced{{/if}} w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030]\">\n  <span class=\"block mt-1.5 text-[11px] text-[#241430]/55\">Real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">:invalid</code> pseudo-class — the browser applies it because <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">type=\"email\"</code> plus <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">required</code> rejects this value natively.</span>\n</label>\n<style>\n.inv-tw-input:invalid, .inv-tw-input--forced { border-color: {{accent}}; background: color-mix(in srgb, {{accent}} 8%, #FAF7F2); }\n</style>",
+    "react": "export function InvalidState({\n  fieldLabel = \"{{fieldLabel}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  return (\n    <label style={{ display: \"block\", width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"16px 18px\", borderRadius: 12 }}>\n      <span style={{ display: \"block\", marginBottom: 7, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>{fieldLabel}</span>\n      <input type=\"email\" defaultValue={value} required\n        style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"9px 11px\", borderRadius: 8, border: `1.5px solid ${force ? accent : \"#24143030\"}`, background: force ? `color-mix(in srgb, ${accent} 8%, #FAF7F2)` : \"transparent\" }} />\n      <span style={{ display: \"block\", marginTop: 7, fontSize: 11, color: \"#241430888\" }}>Real <code>:invalid</code> pseudo-class — the browser applies it natively because this value fails <code>type=\"email\"</code> validation.</span>\n    </label>\n  );\n}"
+  }
+}

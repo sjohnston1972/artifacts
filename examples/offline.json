@@ -1,0 +1,38 @@
+{
+  "slug": "offline",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Banner message",
+      "default": "You're offline — changes will sync when you reconnect."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Offline",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"off-demo\">\n  <div class=\"off-dot{{#if force}} off-dot--offline{{/if}}\" style=\"--accent:{{accent}};\"><span class=\"off-dot__mark\"></span>{{#if force}}Offline{{/if}}{{#unless force}}Online{{/unless}}</div>\n  {{#if force}}\n  <div class=\"off-banner\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" role=\"status\">\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m3 3 18 18M8.5 8.5A9 9 0 0 0 3.6 11M12 19h.01M16.5 13a9 9 0 0 1 2 1.4M20.4 11a9 9 0 0 0-2-1.6M6 15a9 9 0 0 1 3.3-2.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <span>{{message}}</span>\n  </div>\n  {{/if}}\n</div>\n<style>\n.off-demo { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; }\n.off-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #241430888; margin-bottom: 10px; }\n.off-dot__mark { width: 8px; height: 8px; border-radius: 50%; background: #A8E6C1; }\n.off-dot--offline { color: var(--accent); }\n.off-dot--offline .off-dot__mark { background: var(--accent); }\n.off-banner { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: color-mix(in srgb, var(--accent) 12%, #FAF7F2); color: var(--accent); font-weight: 600; font-size: 12px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl\">\n  <div class=\"inline-flex items-center gap-1.5 text-xs font-bold mb-2.5\" style=\"color:{{#if force}}{{accent}}{{/if}}\">\n    <span class=\"w-2 h-2 rounded-full\" style=\"background:{{#if force}}{{accent}}{{/if}}\"></span>{{#if force}}Offline{{/if}}{{#unless force}}Online{{/unless}}\n  </div>\n  {{#if force}}\n  <div role=\"status\" class=\"flex items-center gap-2 px-3 py-2.5 font-semibold text-xs\" style=\"background:color-mix(in srgb, {{accent}} 12%, #FAF7F2);color:{{accent}};border-radius:{{radius}}px;\">\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m3 3 18 18M8.5 8.5A9 9 0 0 0 3.6 11M12 19h.01M16.5 13a9 9 0 0 1 2 1.4M20.4 11a9 9 0 0 0-2-1.6M6 15a9 9 0 0 1 3.3-2.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n    <span>{{message}}</span>\n  </div>\n  {{/if}}\n</div>",
+    "react": "export function OfflineState({\n  message = \"{{message}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12 }}>\n      <div style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, fontSize: 12, fontWeight: 700, color: force ? accent : \"#241430888\", marginBottom: 10 }}>\n        <span style={{ width: 8, height: 8, borderRadius: \"50%\", background: force ? accent : \"#A8E6C1\" }} />\n        {force ? \"Offline\" : \"Online\"}\n      </div>\n      {force && (\n        <div role=\"status\" style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"10px 12px\", borderRadius: radius, background: `color-mix(in srgb, ${accent} 12%, #FAF7F2)`, color: accent, fontWeight: 600, fontSize: 12 }}>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m3 3 18 18M8.5 8.5A9 9 0 0 0 3.6 11M12 19h.01M16.5 13a9 9 0 0 1 2 1.4M20.4 11a9 9 0 0 0-2-1.6M6 15a9 9 0 0 1 3.3-2.1\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.8\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n          <span>{message}</span>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "selected",
+  "controls_schema": [
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Option 1",
+      "default": "Small"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Option 2",
+      "default": "Medium"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Option 3",
+      "default": "Large"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Select option 2",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sel-demo\" style=\"--accent:{{accent}};\">\n  <label class=\"sel-chip\"><input class=\"sel-chip__input\" type=\"radio\" name=\"sel-demo\"> {{item1}}</label>\n  <label class=\"sel-chip\"><input class=\"sel-chip__input\" type=\"radio\" name=\"sel-demo\"{{#if force}} checked{{/if}}> {{item2}}</label>\n  <label class=\"sel-chip\"><input class=\"sel-chip__input\" type=\"radio\" name=\"sel-demo\"> {{item3}}</label>\n</div>\n<p class=\"sel-demo__hint\">Real radio inputs styled as chips — <code>:checked</code> is the selected look; click any chip to select it.</p>\n<style>\n.sel-demo { display: flex; gap: 8px; width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; }\n.sel-chip { flex: 1; text-align: center; padding: 10px 6px; border-radius: 8px; border: 1.5px solid #24143025; font-weight: 600; font-size: 13px; cursor: pointer; position: relative; }\n.sel-chip__input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }\n.sel-chip:has(.sel-chip__input:checked) { border-color: var(--accent); background: var(--accent); }\n.sel-demo__hint { width: 300px; box-sizing: border-box; margin: 8px 0 0; font-size: 11px; color: #241430888; }\n.sel-demo__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"flex gap-2 w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl\">\n  <label class=\"sel-tw-chip flex-1 text-center px-1.5 py-2.5 rounded-lg border-[1.5px] border-[#24143025] font-semibold text-[13px] cursor-pointer relative has-[:checked]:text-[#241430]\" style=\"--accent:{{accent}}\"><input type=\"radio\" name=\"sel-tw-demo\" class=\"absolute opacity-0 inset-0 m-0 cursor-pointer\"> {{item1}}</label>\n  <label class=\"sel-tw-chip flex-1 text-center px-1.5 py-2.5 rounded-lg border-[1.5px] border-[#24143025] font-semibold text-[13px] cursor-pointer relative has-[:checked]:text-[#241430]\" style=\"--accent:{{accent}}\"><input type=\"radio\" name=\"sel-tw-demo\" class=\"absolute opacity-0 inset-0 m-0 cursor-pointer\"{{#if force}} checked{{/if}}> {{item2}}</label>\n  <label class=\"sel-tw-chip flex-1 text-center px-1.5 py-2.5 rounded-lg border-[1.5px] border-[#24143025] font-semibold text-[13px] cursor-pointer relative has-[:checked]:text-[#241430]\" style=\"--accent:{{accent}}\"><input type=\"radio\" name=\"sel-tw-demo\" class=\"absolute opacity-0 inset-0 m-0 cursor-pointer\"> {{item3}}</label>\n</div>\n<p class=\"w-[300px] box-border mt-2 text-[11px] text-[#241430]/55\">Real radio inputs styled as chips — <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">:checked</code> is the selected look; click any chip to select it.</p>\n<style>\n.sel-tw-chip:has(:checked) { border-color: var(--accent); background: var(--accent); }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function SelectedState({\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  const [selected, setSelected] = useState(force ? 1 : -1);\n  const items = [item1, item2, item3];\n  return (\n    <div>\n      <div style={{ display: \"flex\", gap: 8, width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12 }}>\n        {items.map((item, i) => (\n          <label key={item} style={{ flex: 1, textAlign: \"center\", padding: \"10px 6px\", borderRadius: 8, border: `1.5px solid ${selected === i ? accent : \"#24143025\"}`, background: selected === i ? accent : \"transparent\", fontWeight: 600, fontSize: 13, cursor: \"pointer\", position: \"relative\" }}>\n            <input type=\"radio\" checked={selected === i} onChange={() => setSelected(i)} style={{ position: \"absolute\", opacity: 0, inset: 0, margin: 0, cursor: \"pointer\" }} />\n            {item}\n          </label>\n        ))}\n      </div>\n      <p style={{ width: 300, margin: \"8px 0 0\", fontSize: 11, color: \"#241430888\" }}>Real radio inputs styled as chips — click any chip to select it.</p>\n    </div>\n  );\n}"
+  }
+}

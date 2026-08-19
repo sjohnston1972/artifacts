@@ -1,0 +1,41 @@
+{
+  "slug": "li-element",
+  "controls_schema": [
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Item 1",
+      "default": "Design the flow"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Item 2",
+      "default": "Build the prototype"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Item 3",
+      "default": "Ship it"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "markStatus",
+      "type": "toggle",
+      "label": "Mark item 3 done",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<ol class=\"li-list\" style=\"--accent:{{accent}};\">\n  <li class=\"li-item\">{{item1}}</li>\n  <li class=\"li-item\">{{item2}}</li>\n  <li class=\"li-item{{#if markStatus}} li-item--done{{/if}}\">{{item3}}</li>\n</ol>\n<style>\n.li-list { width: 260px; box-sizing: border-box; font: 14px/1.7 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px 16px 16px 34px; border-radius: 12px; margin: 0; }\n.li-item::marker { color: var(--accent); font-weight: 700; }\n.li-item--done { text-decoration: line-through; color: #241430888; }\n.li-item--done::marker { content: \"✓ \"; }\n</style>",
+    "tailwind": "<ol class=\"w-[260px] box-border font-sans text-sm leading-loose text-[#241430] bg-[#FAF7F2] pl-[34px] pr-4 py-4 rounded-xl m-0 marker:font-bold\">\n  <li class=\"marker:text-[{{accent}}]\">{{item1}}</li>\n  <li class=\"marker:text-[{{accent}}]\">{{item2}}</li>\n  <li class=\"marker:text-[{{accent}}]{{#if markStatus}} line-through text-[#241430]/55{{/if}}\">{{item3}}</li>\n</ol>",
+    "react": "export function LiElement({\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  accent = \"{{accent}}\",\n  markStatus = {{markStatus}},\n}) {\n  const itemStyle = { \"::marker\": { color: accent } };\n  return (\n    <ol style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.7 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"16px 16px 16px 34px\", borderRadius: 12, margin: 0 }}>\n      <li>{item1}</li>\n      <li>{item2}</li>\n      <li style={markStatus ? { textDecoration: \"line-through\", color: \"#241430888\" } : undefined}>{item3}</li>\n    </ol>\n  );\n}"
+  }
+}

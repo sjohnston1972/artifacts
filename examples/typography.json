@@ -1,0 +1,14 @@
+{
+  "slug": "typography",
+  "controls_schema": [
+    { "id": "headingSize", "type": "number", "label": "Heading size", "default": 24, "min": 18, "max": 40, "step": 2 },
+    { "id": "bodySize", "type": "number", "label": "Body size", "default": 14, "min": 11, "max": 20, "step": 1 },
+    { "id": "family", "type": "select", "label": "Typeface", "default": "system-ui, sans-serif", "options": ["system-ui, sans-serif", "Georgia, 'Times New Roman', serif"] },
+    { "id": "headingWeight", "type": "select", "label": "Heading weight", "default": "800", "options": ["600", "800"] }
+  ],
+  "templates": {
+    "html": "<div class=\"ty-wrap\" style=\"font-family:{{family}};\">\n  <h3 class=\"ty-h\" style=\"font-size:{{headingSize}}px;font-weight:{{headingWeight}};\">A coordinated system</h3>\n  <p class=\"ty-p\" style=\"font-size:{{bodySize}}px;\">Heading and body share one typeface and scale together, so the page reads as one voice rather than a pile of unrelated sizes.</p>\n  <p class=\"ty-caption\">heading {{headingSize}}px/{{headingWeight}} &middot; body {{bodySize}}px</p>\n</div>\n<style>\n.ty-wrap { color: #241430; width: 300px; }\n.ty-h { margin: 0 0 8px; }\n.ty-p { margin: 0 0 12px; line-height: 1.6; }\n.ty-caption { margin: 0; font: 12px/1.4 system-ui, sans-serif; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"text-[#241430] w-[300px]\" style=\"font-family:{{family}};\">\n  <h3 class=\"m-0 mb-2\" style=\"font-size:{{headingSize}}px;font-weight:{{headingWeight}};\">A coordinated system</h3>\n  <p class=\"m-0 mb-3 leading-relaxed\" style=\"font-size:{{bodySize}}px;\">Heading and body share one typeface and scale together, so the page reads as one voice rather than a pile of unrelated sizes.</p>\n  <p class=\"m-0 font-sans text-xs text-[#241430]/80\">heading {{headingSize}}px/{{headingWeight}} &middot; body {{bodySize}}px</p>\n</div>",
+    "react": "export function Typography({\n  headingSize = {{headingSize}},\n  bodySize = {{bodySize}},\n  family = \"{{family}}\",\n  headingWeight = \"{{headingWeight}}\",\n}) {\n  return (\n    <div style={{ color: \"#241430\", width: 300, fontFamily: family }}>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: headingSize, fontWeight: Number(headingWeight) }}>A coordinated system</h3>\n      <p style={{ margin: \"0 0 12px\", lineHeight: 1.6, fontSize: bodySize }}>\n        Heading and body share one typeface and scale together, so the page reads as one voice rather than a pile of unrelated sizes.\n      </p>\n      <p style={{ margin: 0, font: \"12px/1.4 system-ui, sans-serif\", color: \"#241430cc\" }}>\n        heading {headingSize}px/{headingWeight} &middot; body {bodySize}px\n      </p>\n    </div>\n  );\n}"
+  }
+}

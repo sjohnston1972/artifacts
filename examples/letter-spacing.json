@@ -1,0 +1,14 @@
+{
+  "slug": "letter-spacing",
+  "controls_schema": [
+    { "id": "spacing", "type": "number", "label": "Letter spacing (px)", "default": 2, "min": -1, "max": 8, "step": 1 },
+    { "id": "text", "type": "text", "label": "Sample text", "default": "Spaced out label" },
+    { "id": "uppercase", "type": "toggle", "label": "Uppercase", "default": true },
+    { "id": "size", "type": "number", "label": "Font size", "default": 14, "min": 10, "max": 24, "step": 1 }
+  ],
+  "templates": {
+    "html": "<div class=\"ls-wrap\">\n  <p class=\"ls-text {{#if uppercase}}ls-text--upper{{/if}}\" style=\"letter-spacing:{{spacing}}px;font-size:{{size}}px;\">{{text}}</p>\n  <p class=\"ls-caption\">letter-spacing: {{spacing}}px</p>\n</div>\n<style>\n.ls-wrap { font: 14px/1.5 system-ui, sans-serif; color: #241430; width: 300px; }\n.ls-text { margin: 0; font-weight: 700; }\n.ls-text--upper { text-transform: uppercase; }\n.ls-caption { margin: 12px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] w-[300px]\">\n  <p class=\"m-0 font-bold {{#if uppercase}}uppercase{{/if}}\" style=\"letter-spacing:{{spacing}}px;font-size:{{size}}px;\">{{text}}</p>\n  <p class=\"mt-3 text-xs text-[#241430]/80\">letter-spacing: {{spacing}}px</p>\n</div>",
+    "react": "export function LetterSpacing({\n  spacing = {{spacing}},\n  text = \"{{text}}\",\n  uppercase = {{uppercase}},\n  size = {{size}},\n}) {\n  return (\n    <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", width: 300 }}>\n      <p style={{ margin: 0, fontWeight: 700, letterSpacing: spacing, fontSize: size, textTransform: uppercase ? \"uppercase\" : \"none\" }}>{text}</p>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430cc\" }}>letter-spacing: {spacing}px</p>\n    </div>\n  );\n}"
+  }
+}

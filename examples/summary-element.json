@@ -1,0 +1,36 @@
+{
+  "slug": "summary-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Summary text",
+      "default": "Order #4471 — 3 items"
+    },
+    {
+      "id": "markerStyle",
+      "type": "select",
+      "label": "Marker style",
+      "default": "arrow",
+      "options": ["arrow", "plusminus", "triangle"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"sum-el sum-el--{{markerStyle}}\" style=\"--accent:{{accent}};\"{{#if open}} open{{/if}}>\n  <summary class=\"sum-el__summary\">{{text}}</summary>\n  <p class=\"sum-el__body\">2× Ceramic mug, 1× Saucer set. The <code>&lt;summary&gt;</code> is the only part that is always visible and clickable.</p>\n</details>\n<style>\n.sum-el { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143025; border-radius: 10px; padding: 4px 16px; }\n.sum-el__summary { list-style: none; cursor: pointer; padding: 13px 0; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }\n.sum-el__summary::-webkit-details-marker { display: none; }\n.sum-el--arrow .sum-el__summary::after { content: \"\"; width: 8px; height: 8px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s; }\n.sum-el--arrow[open] .sum-el__summary::after { transform: rotate(45deg); }\n.sum-el--plusminus .sum-el__summary::after { content: \"+\"; color: var(--accent); font-size: 18px; }\n.sum-el--plusminus[open] .sum-el__summary::after { content: \"–\"; }\n.sum-el--triangle .sum-el__summary::after { content: \"▸\"; color: var(--accent); transition: transform .15s; }\n.sum-el--triangle[open] .sum-el__summary::after { transform: rotate(90deg); display: inline-block; }\n.sum-el__body { margin: 0 0 14px; font-size: 13px; color: #241430cc; }\n.sum-el__body code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<details{{#if open}} open{{/if}} class=\"sum-tw sum-tw--{{markerStyle}} w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143025] rounded-[10px] px-4 py-1 [&_summary::-webkit-details-marker]:hidden\">\n  <summary class=\"list-none cursor-pointer py-3.5 font-bold flex justify-between items-center\">{{text}}</summary>\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/80\">2× Ceramic mug, 1× Saucer set. The <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;summary&gt;</code> is the only part that is always visible and clickable.</p>\n</details>\n<style>\n.sum-tw--arrow summary::after { content: \"▸\"; float: right; color: {{accent}}; }\n.sum-tw--plusminus summary::after { content: \"+\"; float: right; color: {{accent}}; }\n.sum-tw--triangle summary::after { content: \"▾\"; float: right; color: {{accent}}; }\n</style>",
+    "react": "export function SummaryElement({\n  text = \"{{text}}\",\n  markerStyle = \"{{markerStyle}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  const markers = { arrow: \"▸\", plusminus: \"+\", triangle: \"▾\" };\n  return (\n    <details open={open} style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143025\", borderRadius: 10, padding: \"4px 16px\" }}>\n      <summary style={{ listStyle: \"none\", cursor: \"pointer\", padding: \"13px 0\", fontWeight: 700, display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\" }}>\n        {text}\n        <span aria-hidden=\"true\" style={{ color: accent }}>{markers[markerStyle] ?? \"▸\"}</span>\n      </summary>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#241430cc\" }}>2× Ceramic mug, 1× Saucer set. The <code>&lt;summary&gt;</code> is the only part that is always visible and clickable.</p>\n    </details>\n  );\n}"
+  }
+}

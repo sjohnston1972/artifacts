@@ -1,0 +1,38 @@
+{
+  "slug": "dragging",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Card label",
+      "default": "Task card"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force dragging look",
+      "default": false
+    },
+    {
+      "id": "tilt",
+      "type": "number",
+      "label": "Drag tilt (deg)",
+      "default": -2,
+      "min": -10,
+      "max": 10,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"drg-demo\">\n  <div class=\"drg-card{{#if force}} drg-card--forced{{/if}}\" style=\"--accent:{{accent}};--tilt:{{tilt}}deg;\" draggable=\"true\" ondragstart=\"this.classList.add('drg-card--live')\" ondragend=\"this.classList.remove('drg-card--live')\">\n    <svg class=\"drg-card__handle\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"6\" r=\"2\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"12\" r=\"2\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"18\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"6\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"12\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"18\" r=\"2\" fill=\"currentColor\"/></svg>\n    {{label}}\n  </div>\n  <p class=\"drg-demo__hint\">No CSS <code>:dragging</code> pseudo-class exists — drag the card to fire the real <code>dragstart</code> listener, or force the look above.</p>\n</div>\n<style>\n.drg-demo { width: 260px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.drg-card { display: flex; align-items: center; gap: 8px; font-weight: 600; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1.5px solid #24143020; cursor: grab; }\n.drg-card__handle { color: var(--accent); flex-shrink: 0; }\n.drg-card--live, .drg-card--forced { opacity: .5; transform: rotate(var(--tilt)) scale(1.03); box-shadow: 0 10px 20px rgba(36,20,48,.2); cursor: grabbing; }\n.drg-demo__hint { margin: 12px 0 0; font-size: 11px; color: #241430888; }\n.drg-demo__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"w-[260px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\">\n  <div class=\"drg-tw-card{{#if force}} drg-tw-card--forced{{/if}} flex items-center gap-2 font-semibold px-4 py-3.5 rounded-[10px] bg-white border-[1.5px] border-[#24143020] cursor-grab\" style=\"--tilt:{{tilt}}deg;\" draggable=\"true\" ondragstart=\"this.classList.add('drg-tw-card--live')\" ondragend=\"this.classList.remove('drg-tw-card--live')\">\n    <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" style=\"color:{{accent}}\"><circle cx=\"8\" cy=\"6\" r=\"2\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"12\" r=\"2\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"18\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"6\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"12\" r=\"2\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"18\" r=\"2\" fill=\"currentColor\"/></svg>\n    {{label}}\n  </div>\n  <p class=\"m-0 mt-3 text-[11px] text-[#241430]/55\">No CSS <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">:dragging</code> pseudo-class exists — drag the card to fire the real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">dragstart</code> listener, or force the look above.</p>\n</div>\n<style>\n.drg-tw-card--live, .drg-tw-card--forced { opacity: .5; transform: rotate(var(--tilt)) scale(1.03); box-shadow: 0 10px 20px rgba(36,20,48,.2); cursor: grabbing; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function DraggingState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  tilt = {{tilt}},\n}) {\n  const [live, setLive] = useState(false);\n  const dragging = force || live;\n  return (\n    <div style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      <div\n        draggable\n        onDragStart={() => setLive(true)}\n        onDragEnd={() => setLive(false)}\n        style={{\n          display: \"flex\", alignItems: \"center\", gap: 8, fontWeight: 600, padding: \"14px 16px\", borderRadius: 10,\n          background: \"#fff\", border: \"1.5px solid #24143020\", cursor: dragging ? \"grabbing\" : \"grab\",\n          opacity: dragging ? 0.5 : 1, transform: dragging ? `rotate(${tilt}deg) scale(1.03)` : \"none\",\n          boxShadow: dragging ? \"0 10px 20px rgba(36,20,48,.2)\" : \"none\",\n        }}\n      >\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" style={{ color: accent, flexShrink: 0 }}>\n          <circle cx=\"8\" cy=\"6\" r=\"2\" fill=\"currentColor\" /><circle cx=\"8\" cy=\"12\" r=\"2\" fill=\"currentColor\" /><circle cx=\"8\" cy=\"18\" r=\"2\" fill=\"currentColor\" />\n          <circle cx=\"16\" cy=\"6\" r=\"2\" fill=\"currentColor\" /><circle cx=\"16\" cy=\"12\" r=\"2\" fill=\"currentColor\" /><circle cx=\"16\" cy=\"18\" r=\"2\" fill=\"currentColor\" />\n        </svg>\n        {label}\n      </div>\n      <p style={{ margin: \"12px 0 0\", fontSize: 11, color: \"#241430888\" }}>No CSS <code>:dragging</code> pseudo-class exists — drag the card to fire real drag events, or force the look with the <code>force</code> prop.</p>\n    </div>\n  );\n}"
+  }
+}

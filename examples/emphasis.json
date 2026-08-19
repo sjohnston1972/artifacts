@@ -1,0 +1,14 @@
+{
+  "slug": "emphasis",
+  "controls_schema": [
+    { "id": "level", "type": "select", "label": "Emphasis level", "default": "strong", "options": ["none", "medium", "strong"] },
+    { "id": "text", "type": "text", "label": "Text", "default": "Save changes before you leave" },
+    { "id": "accent", "type": "color", "label": "Emphasis colour", "default": "#E8A020", "presets": ["#E8A020", "#241430", "#A8E6C1"] },
+    { "id": "fontSize", "type": "number", "label": "Font size", "default": 16, "min": 12, "max": 24, "step": 1 }
+  ],
+  "templates": {
+    "html": "<div class=\"em-wrap\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <p class=\"em-text\" style=\"font-size:{{fontSize}}px;\">{{text}}</p>\n  <p class=\"em-caption\">emphasis: {{level}}</p>\n</div>\n<style>\n.em-wrap { font: system-ui, sans-serif; color: #241430; width: 300px; }\n.em-text { margin: 0; }\n[data-level=\"none\"] .em-text { font-weight: 400; color: #24143099; }\n[data-level=\"medium\"] .em-text { font-weight: 600; color: #241430; }\n[data-level=\"strong\"] .em-text { font-weight: 800; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }\n.em-caption { margin: 12px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"em-tw font-sans text-[#241430] w-[300px]\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <p class=\"em-tw-text m-0\" style=\"font-size:{{fontSize}}px;\">{{text}}</p>\n  <p class=\"mt-3 text-xs text-[#241430]/80\">emphasis: {{level}}</p>\n</div>\n<style>\n.em-tw[data-level=\"none\"] .em-tw-text { font-weight: 400; color: #24143099; }\n.em-tw[data-level=\"medium\"] .em-tw-text { font-weight: 600; color: #241430; }\n.em-tw[data-level=\"strong\"] .em-tw-text { font-weight: 800; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }\n</style>",
+    "react": "export function Emphasis({\n  level = \"{{level}}\",\n  text = \"{{text}}\",\n  accent = \"{{accent}}\",\n  fontSize = {{fontSize}},\n}) {\n  const styles = {\n    none: { fontWeight: 400, color: \"#24143099\" },\n    medium: { fontWeight: 600, color: \"#241430\" },\n    strong: { fontWeight: 800, color: accent, textDecoration: \"underline\", textUnderlineOffset: 4 },\n  }[level];\n  return (\n    <div style={{ font: \"system-ui, sans-serif\", color: \"#241430\", width: 300 }}>\n      <p style={{ margin: 0, fontSize, ...styles }}>{text}</p>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430cc\" }}>emphasis: {level}</p>\n    </div>\n  );\n}"
+  }
+}

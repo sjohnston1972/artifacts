@@ -1,0 +1,36 @@
+{
+  "slug": "p-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Paragraph text",
+      "default": "A paragraph is the basic unit of prose — one idea, set off by margin above and below, nothing more."
+    },
+    {
+      "id": "size",
+      "type": "select",
+      "label": "Size",
+      "default": "body",
+      "options": ["lead", "body", "small"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "measure",
+      "type": "toggle",
+      "label": "Constrain line length",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"p-demo\">\n  <p class=\"p-el p-el--{{size}}{{#if measure}} p-el--measure{{/if}}\" style=\"color:{{accent}};\">{{text}}</p>\n</div>\n<style>\n.p-demo { width: 380px; box-sizing: border-box; font-family: system-ui, sans-serif; background: #FAF7F2; padding: 20px; border-radius: 12px; }\n.p-el { margin: 0; }\n.p-el--measure { max-width: 34ch; }\n.p-el--lead { font-size: 19px; line-height: 1.5; font-weight: 500; }\n.p-el--body { font-size: 15px; line-height: 1.65; }\n.p-el--small { font-size: 13px; line-height: 1.55; opacity: .75; }\n</style>",
+    "tailwind": "<div class=\"w-[380px] box-border font-sans bg-[#FAF7F2] p-5 rounded-xl\">\n  <p class=\"p-tw-el p-tw-el--{{size}} m-0{{#if measure}} max-w-[34ch]{{/if}}\" style=\"color:{{accent}}\">{{text}}</p>\n</div>\n<style>\n.p-tw-el--lead { font-size: 19px; line-height: 1.5; font-weight: 500; }\n.p-tw-el--body { font-size: 15px; line-height: 1.65; }\n.p-tw-el--small { font-size: 13px; line-height: 1.55; opacity: .75; }\n</style>",
+    "react": "export function PElement({\n  text = \"{{text}}\",\n  size = \"{{size}}\",\n  accent = \"{{accent}}\",\n  measure = {{measure}},\n}) {\n  const sizes = {\n    lead: { fontSize: 19, lineHeight: 1.5, fontWeight: 500 },\n    body: { fontSize: 15, lineHeight: 1.65 },\n    small: { fontSize: 13, lineHeight: 1.55, opacity: 0.75 },\n  };\n  return (\n    <div style={{ width: 380, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\", background: \"#FAF7F2\", padding: 20, borderRadius: 12 }}>\n      <p style={{ margin: 0, color: accent, maxWidth: measure ? \"34ch\" : \"none\", ...(sizes[size] ?? sizes.body) }}>{text}</p>\n    </div>\n  );\n}"
+  }
+}

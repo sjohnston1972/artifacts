@@ -1,0 +1,36 @@
+{
+  "slug": "select-element",
+  "controls_schema": [
+    {
+      "id": "labelText",
+      "type": "text",
+      "label": "Label",
+      "default": "Shipping country"
+    },
+    {
+      "id": "defaultOption",
+      "type": "select",
+      "label": "Selected by default",
+      "default": "uk",
+      "options": ["uk", "us", "de"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"sel-wrap\" style=\"--accent:{{accent}};\">\n  <span class=\"sel-wrap__label\">{{labelText}}</span>\n  <select class=\"sel-el\" data-default=\"{{defaultOption}}\"{{#if disabled}} disabled{{/if}}>\n    <option value=\"uk\" class=\"sel-el__opt--uk\">United Kingdom</option>\n    <option value=\"us\" class=\"sel-el__opt--us\">United States</option>\n    <option value=\"de\" class=\"sel-el__opt--de\">Germany</option>\n  </select>\n</label>\n<script>(function () { document.querySelectorAll(\"select[data-default]\").forEach(function (s) { s.value = s.dataset.default; }); })();</script>\n<style>\n.sel-wrap { display: block; width: 240px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; }\n.sel-wrap__label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.sel-el { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 9px 10px; border-radius: 8px; border: 1.5px solid var(--accent); background: #FAF7F2; color: #241430; }\n.sel-el:disabled { opacity: .5; }\n</style>",
+    "tailwind": "<label class=\"block w-[240px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl\">\n  <span class=\"block mb-1.5 text-xs font-semibold text-[#241430]/65\">{{labelText}}</span>\n  <select data-default=\"{{defaultOption}}\" class=\"w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] bg-[#FAF7F2] text-[#241430] disabled:opacity-50\" style=\"border-color:{{accent}}\"{{#if disabled}} disabled{{/if}}>\n    <option value=\"uk\">United Kingdom</option>\n    <option value=\"us\">United States</option>\n    <option value=\"de\">Germany</option>\n  </select>\n</label>\n<script>(function () { document.querySelectorAll(\"select[data-default]\").forEach(function (s) { s.value = s.dataset.default; }); })();</script>",
+    "react": "export function SelectElement({\n  labelText = \"{{labelText}}\",\n  defaultOption = \"{{defaultOption}}\",\n  accent = \"{{accent}}\",\n  disabled = {{disabled}},\n}) {\n  return (\n    <label style={{ display: \"block\", width: 240, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12 }}>\n      <span style={{ display: \"block\", marginBottom: 7, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>{labelText}</span>\n      <select defaultValue={defaultOption} disabled={disabled}\n        style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"9px 10px\", borderRadius: 8, border: `1.5px solid ${accent}`, background: \"#FAF7F2\", color: \"#241430\", opacity: disabled ? 0.5 : 1 }}>\n        <option value=\"uk\">United Kingdom</option>\n        <option value=\"us\">United States</option>\n        <option value=\"de\">Germany</option>\n      </select>\n    </label>\n  );\n}"
+  }
+}

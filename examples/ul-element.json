@@ -1,0 +1,42 @@
+{
+  "slug": "ul-element",
+  "controls_schema": [
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Item 1",
+      "default": "Unlimited projects"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Item 2",
+      "default": "Priority support"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Item 3",
+      "default": "Custom domains"
+    },
+    {
+      "id": "marker",
+      "type": "select",
+      "label": "Marker",
+      "default": "check",
+      "options": ["check", "disc", "none"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<ul class=\"ul-el ul-el--{{marker}}\" style=\"--accent:{{accent}};\">\n  <li>{{item1}}</li>\n  <li>{{item2}}</li>\n  <li>{{item3}}</li>\n</ul>\n<style>\n.ul-el { width: 260px; box-sizing: border-box; font: 14px/1.7 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 14px 16px 14px 20px; border-radius: 12px; margin: 0; list-style: none; }\n.ul-el--disc { list-style: disc; padding-left: 34px; }\n.ul-el--disc li::marker { color: var(--accent); }\n.ul-el--none li { padding-left: 0; }\n.ul-el--check li { padding-left: 26px; position: relative; }\n.ul-el--check li::before { content: \"✓\"; position: absolute; left: 0; color: var(--accent); font-weight: 800; }\n</style>",
+    "tailwind": "<ul class=\"ul-tw ul-tw--{{marker}} w-[260px] box-border font-sans text-sm leading-loose text-[#241430] bg-[#FAF7F2] py-3.5 pr-4 pl-5 rounded-xl m-0 list-none\">\n  <li>{{item1}}</li>\n  <li>{{item2}}</li>\n  <li>{{item3}}</li>\n</ul>\n<style>\n.ul-tw--disc { list-style: disc; padding-left: 34px; }\n.ul-tw--disc li::marker { color: {{accent}}; }\n.ul-tw--none li { padding-left: 0; }\n.ul-tw--check li { padding-left: 26px; position: relative; }\n.ul-tw--check li::before { content: \"✓\"; position: absolute; left: 0; color: {{accent}}; font-weight: 800; }\n</style>",
+    "react": "export function UlElement({\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  marker = \"{{marker}}\",\n  accent = \"{{accent}}\",\n}) {\n  const itemStyle = marker === \"check\"\n    ? { paddingLeft: 26, position: \"relative\", listStyle: \"none\" }\n    : marker === \"disc\"\n    ? { listStyle: \"disc\" }\n    : { listStyle: \"none\", paddingLeft: 0 };\n  const items = [item1, item2, item3];\n  return (\n    <ul style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.7 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"14px 16px 14px 20px\", borderRadius: 12, margin: 0, listStyle: \"none\" }}>\n      {items.map((item) => (\n        <li key={item} style={itemStyle}>\n          {marker === \"check\" && <span style={{ position: \"absolute\", left: 0, color: accent, fontWeight: 800 }}>✓</span>}\n          {item}\n        </li>\n      ))}\n    </ul>\n  );\n}"
+  }
+}

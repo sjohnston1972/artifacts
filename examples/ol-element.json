@@ -1,0 +1,48 @@
+{
+  "slug": "ol-element",
+  "controls_schema": [
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Item 1",
+      "default": "Preheat the oven"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Item 2",
+      "default": "Mix the batter"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Item 3",
+      "default": "Bake for 25 minutes"
+    },
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Numbering style",
+      "default": "1",
+      "options": ["1", "A", "i"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Marker colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "reversed",
+      "type": "toggle",
+      "label": "Reversed order",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<ol class=\"ol-el\" type=\"{{type}}\" style=\"--accent:{{accent}};\"{{#if reversed}} reversed{{/if}}>\n  <li>{{item1}}</li>\n  <li>{{item2}}</li>\n  <li>{{item3}}</li>\n</ol>\n<style>\n.ol-el { width: 260px; box-sizing: border-box; font: 14px/1.8 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 14px 16px 14px 36px; border-radius: 12px; margin: 0; }\n.ol-el::marker { color: var(--accent); }\n.ol-el li::marker { color: var(--accent); font-weight: 700; }\n</style>",
+    "tailwind": "<ol type=\"{{type}}\" class=\"w-[260px] box-border font-sans text-sm leading-loose text-[#241430] bg-[#FAF7F2] pl-9 pr-4 py-3.5 rounded-xl m-0 marker:text-[{{accent}}] marker:font-bold\"{{#if reversed}} reversed{{/if}}>\n  <li>{{item1}}</li>\n  <li>{{item2}}</li>\n  <li>{{item3}}</li>\n</ol>",
+    "react": "export function OlElement({\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  type = \"{{type}}\",\n  accent = \"{{accent}}\",\n  reversed = {{reversed}},\n}) {\n  return (\n    <ol type={type} reversed={reversed}\n      style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.8 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"14px 16px 14px 36px\", borderRadius: 12, margin: 0 }}>\n      <li style={{ color: accent, fontWeight: 700 }}>{item1}</li>\n      <li>{item2}</li>\n      <li>{item3}</li>\n    </ol>\n  );\n}"
+  }
+}

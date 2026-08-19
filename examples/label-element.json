@@ -1,0 +1,36 @@
+{
+  "slug": "label-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Label text",
+      "default": "Email address"
+    },
+    {
+      "id": "control",
+      "type": "select",
+      "label": "Paired control",
+      "default": "input",
+      "options": ["input", "checkbox"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showHint",
+      "type": "toggle",
+      "label": "Show click hint",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lbl-demo\" data-control=\"{{control}}\" style=\"--accent:{{accent}};\">\n  <div class=\"lbl-demo__row lbl-demo__row--input\">\n    <label class=\"lbl\" for=\"lbl-el-input\">{{text}}</label>\n    <input class=\"lbl-input\" id=\"lbl-el-input\" type=\"text\">\n  </div>\n  <div class=\"lbl-demo__row lbl-demo__row--checkbox\">\n    <label class=\"lbl lbl--check\"><input class=\"lbl-check\" type=\"checkbox\"> {{text}}</label>\n  </div>\n  {{#if showHint}}<p class=\"lbl-demo__hint\">Click the label text itself — it focuses the paired control, no JavaScript required.</p>{{/if}}\n</div>\n<style>\n.lbl-demo { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.lbl-demo__row { display: none; }\n.lbl-demo[data-control=\"input\"] .lbl-demo__row--input { display: block; }\n.lbl-demo[data-control=\"checkbox\"] .lbl-demo__row--checkbox { display: block; }\n.lbl { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; cursor: pointer; }\n.lbl--check { display: flex; align-items: center; gap: 8px; margin: 0; }\n.lbl-input { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 9px 11px; border-radius: 7px; border: 1.5px solid #24143035; }\n.lbl-input:focus-visible { outline: 2px solid var(--accent); }\n.lbl-check { width: 17px; height: 17px; accent-color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"lbl-tw-demo w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\" data-control=\"{{control}}\">\n  <div class=\"lbl-tw-row lbl-tw-row--input\">\n    <label for=\"lbl-tw-input\" class=\"block font-semibold text-[13px] mb-1.5 cursor-pointer\">{{text}}</label>\n    <input id=\"lbl-tw-input\" type=\"text\" class=\"w-full box-border text-sm px-2.5 py-2 rounded-md border-[1.5px] border-[#24143035] focus-visible:outline focus-visible:outline-2\" style=\"outline-color:{{accent}}\">\n  </div>\n  <div class=\"lbl-tw-row lbl-tw-row--checkbox\">\n    <label class=\"flex items-center gap-2 font-semibold text-[13px] cursor-pointer\"><input type=\"checkbox\" class=\"w-[17px] h-[17px]\" style=\"accent-color:{{accent}}\"> {{text}}</label>\n  </div>\n  {{#if showHint}}<p class=\"m-0 mt-2 text-xs text-[#241430]/60\">Click the label text itself — it focuses the paired control, no JavaScript required.</p>{{/if}}\n</div>\n<style>\n.lbl-tw-row { display: none; }\n.lbl-tw-demo[data-control=\"input\"] .lbl-tw-row--input { display: block; }\n.lbl-tw-demo[data-control=\"checkbox\"] .lbl-tw-row--checkbox { display: block; }\n</style>",
+    "react": "export function LabelElement({\n  text = \"{{text}}\",\n  control = \"{{control}}\",\n  accent = \"{{accent}}\",\n  showHint = {{showHint}},\n}) {\n  return (\n    <div style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      {control === \"checkbox\" ? (\n        <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontWeight: 600, fontSize: 13, cursor: \"pointer\" }}>\n          <input type=\"checkbox\" style={{ width: 17, height: 17, accentColor: accent }} /> {text}\n        </label>\n      ) : (\n        <div>\n          <label htmlFor=\"lbl-r-input\" style={{ display: \"block\", fontWeight: 600, fontSize: 13, marginBottom: 6, cursor: \"pointer\" }}>{text}</label>\n          <input id=\"lbl-r-input\" type=\"text\" style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"9px 11px\", borderRadius: 7, border: \"1.5px solid #24143035\" }} />\n        </div>\n      )}\n      {showHint && <p style={{ margin: \"8px 0 0\", fontSize: 12, color: \"#24143099\" }}>Click the label text itself — it focuses the paired control, no JavaScript required.</p>}\n    </div>\n  );\n}"
+  }
+}

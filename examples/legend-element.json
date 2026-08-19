@@ -1,0 +1,36 @@
+{
+  "slug": "legend-element",
+  "controls_schema": [
+    {
+      "id": "legendText",
+      "type": "text",
+      "label": "Legend text",
+      "default": "Notification preferences"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Style",
+      "default": "inline",
+      "options": ["inline", "block"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "bold",
+      "type": "toggle",
+      "label": "Bold weight",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"lg\" style=\"--accent:{{accent}};\">\n  <legend class=\"lg__legend lg__legend--{{position}}{{#if bold}} lg__legend--bold{{/if}}\">{{legendText}}</legend>\n  <label class=\"lg__opt\"><input type=\"checkbox\" checked> Email</label>\n  <label class=\"lg__opt\"><input type=\"checkbox\"> SMS</label>\n</fieldset>\n<style>\n.lg { width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143025; border-radius: 10px; padding: 8px 18px 16px; }\n.lg__legend { color: var(--accent); font-weight: 500; }\n.lg__legend--inline { padding: 0 6px; font-size: 13px; }\n.lg__legend--block { display: block; width: 100%; padding: 6px 0 10px; font-size: 15px; border-bottom: 1px solid #24143020; margin-bottom: 6px; }\n.lg__legend--bold { font-weight: 800; }\n.lg__opt { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 14px; }\n.lg__opt input { accent-color: var(--accent); width: 16px; height: 16px; }\n</style>",
+    "tailwind": "<fieldset class=\"w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143025] rounded-[10px] px-[18px] pt-2 pb-4\">\n  <legend class=\"lg-tw-legend lg-tw-legend--{{position}} font-medium{{#if bold}} font-extrabold{{/if}}\" style=\"color:{{accent}}\">{{legendText}}</legend>\n  <label class=\"flex items-center gap-2 py-1.5 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" checked> Email</label>\n  <label class=\"flex items-center gap-2 py-1.5 text-sm\"><input type=\"checkbox\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\"> SMS</label>\n</fieldset>\n<style>\n.lg-tw-legend--inline { padding: 0 6px; font-size: 13px; }\n.lg-tw-legend--block { display: block; width: 100%; padding: 6px 0 10px; font-size: 15px; border-bottom: 1px solid #24143020; margin-bottom: 6px; }\n</style>",
+    "react": "export function LegendElement({\n  legendText = \"{{legendText}}\",\n  position = \"{{position}}\",\n  accent = \"{{accent}}\",\n  bold = {{bold}},\n}) {\n  const style = position === \"block\"\n    ? { display: \"block\", width: \"100%\", padding: \"6px 0 10px\", fontSize: 15, borderBottom: \"1px solid #24143020\", marginBottom: 6 }\n    : { padding: \"0 6px\", fontSize: 13 };\n  return (\n    <fieldset style={{ width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143025\", borderRadius: 10, padding: \"8px 18px 16px\" }}>\n      <legend style={{ color: accent, fontWeight: bold ? 800 : 500, ...style }}>{legendText}</legend>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 0\", fontSize: 14 }}><input type=\"checkbox\" style={{ accentColor: accent, width: 16, height: 16 }} defaultChecked /> Email</label>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 0\", fontSize: 14 }}><input type=\"checkbox\" style={{ accentColor: accent, width: 16, height: 16 }} /> SMS</label>\n    </fieldset>\n  );\n}"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "shadow",
+  "controls_schema": [
+    { "id": "offsetX", "type": "number", "label": "Offset X", "default": 4, "min": -20, "max": 20, "step": 2 },
+    { "id": "offsetY", "type": "number", "label": "Offset Y", "default": 12, "min": 0, "max": 30, "step": 2 },
+    { "id": "blur", "type": "number", "label": "Blur", "default": 20, "min": 0, "max": 44, "step": 2 },
+    { "id": "color", "type": "color", "label": "Shadow colour", "default": "#241430", "presets": ["#241430", "#E8A020", "#241430"] }
+  ],
+  "templates": {
+    "html": "<div class=\"sh-wrap\">\n  <div class=\"sh-floor\">\n    <div class=\"sh-box\" style=\"box-shadow:{{offsetX}}px {{offsetY}}px {{blur}}px {{color}}55;\">card</div>\n  </div>\n  <p class=\"sh-caption\">box-shadow: {{offsetX}}px {{offsetY}}px {{blur}}px {{color}}</p>\n</div>\n<style>\n.sh-wrap { font: 13px/1.4 system-ui, sans-serif; color: #241430; width: 280px; }\n.sh-floor { background: #FAF7F2; border-radius: 10px; padding: 34px 20px; }\n.sh-box { width: 120px; height: 80px; margin: 0 auto; background: #A8E6C1; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; }\n.sh-caption { margin: 14px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] w-[280px]\">\n  <div class=\"bg-[#FAF7F2] rounded-[10px] py-[34px] px-5\">\n    <div class=\"w-[120px] h-20 mx-auto bg-[#A8E6C1] rounded-xl flex items-center justify-center font-bold\" style=\"box-shadow:{{offsetX}}px {{offsetY}}px {{blur}}px {{color}}55;\">card</div>\n  </div>\n  <p class=\"mt-3.5 text-xs text-[#241430]/80\">box-shadow: {{offsetX}}px {{offsetY}}px {{blur}}px {{color}}</p>\n</div>",
+    "react": "export function Shadow({\n  offsetX = {{offsetX}},\n  offsetY = {{offsetY}},\n  blur = {{blur}},\n  color = \"{{color}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", width: 280 }}>\n      <div style={{ background: \"#FAF7F2\", borderRadius: 10, padding: \"34px 20px\" }}>\n        <div style={{ width: 120, height: 80, margin: \"0 auto\", background: \"#A8E6C1\", borderRadius: 12, display: \"flex\",\n          alignItems: \"center\", justifyContent: \"center\", fontWeight: 700, boxShadow: `${offsetX}px ${offsetY}px ${blur}px ${color}55` }}>\n          card\n        </div>\n      </div>\n      <p style={{ marginTop: 14, fontSize: 12, color: \"#241430cc\" }}>box-shadow: {offsetX}px {offsetY}px {blur}px {color}</p>\n    </div>\n  );\n}"
+  }
+}

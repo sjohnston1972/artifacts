@@ -1,0 +1,36 @@
+{
+  "slug": "h1-h6-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Heading text",
+      "default": "Section heading"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Level",
+      "default": "h2",
+      "options": ["h1", "h2", "h3", "h4", "h5", "h6"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showRank",
+      "type": "toggle",
+      "label": "Show rank badge",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"hd hd--{{level}}\" style=\"--accent:{{accent}};\">\n  {{#if showRank}}<span class=\"hd__rank\">{{level}}</span>{{/if}}\n  <h1 class=\"hd__lvl hd__lvl--h1\">{{text}}</h1>\n  <h2 class=\"hd__lvl hd__lvl--h2\">{{text}}</h2>\n  <h3 class=\"hd__lvl hd__lvl--h3\">{{text}}</h3>\n  <h4 class=\"hd__lvl hd__lvl--h4\">{{text}}</h4>\n  <h5 class=\"hd__lvl hd__lvl--h5\">{{text}}</h5>\n  <h6 class=\"hd__lvl hd__lvl--h6\">{{text}}</h6>\n</div>\n<style>\n.hd { width: 360px; box-sizing: border-box; font-family: system-ui, sans-serif; color: var(--accent); background: #FAF7F2; padding: 24px; border-radius: 12px; position: relative; display: flex; align-items: center; gap: 12px; }\n.hd__rank { font: 700 11px ui-monospace, monospace; color: #FAF7F2; background: var(--accent); padding: 3px 8px; border-radius: 999px; text-transform: uppercase; }\n.hd__lvl { display: none; margin: 0; }\n.hd--h1 .hd__lvl--h1, .hd--h2 .hd__lvl--h2, .hd--h3 .hd__lvl--h3, .hd--h4 .hd__lvl--h4, .hd--h5 .hd__lvl--h5, .hd--h6 .hd__lvl--h6 { display: block; }\n.hd__lvl--h1 { font-size: 34px; font-weight: 800; }\n.hd__lvl--h2 { font-size: 27px; font-weight: 700; }\n.hd__lvl--h3 { font-size: 22px; font-weight: 700; }\n.hd__lvl--h4 { font-size: 18px; font-weight: 700; }\n.hd__lvl--h5 { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }\n.hd__lvl--h6 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"hd-tw hd-tw--{{level}} w-[360px] box-border font-sans p-6 rounded-xl flex items-center gap-3\" style=\"color:{{accent}};background:#FAF7F2;\">\n  {{#if showRank}}<span class=\"font-mono text-[11px] font-bold text-[#FAF7F2] px-2 py-0.5 rounded-full uppercase\" style=\"background:{{accent}}\">{{level}}</span>{{/if}}\n  <h1 class=\"hd-tw__lvl hd-tw__lvl--h1 m-0 hidden text-[34px] font-extrabold\">{{text}}</h1>\n  <h2 class=\"hd-tw__lvl hd-tw__lvl--h2 m-0 hidden text-3xl font-bold\">{{text}}</h2>\n  <h3 class=\"hd-tw__lvl hd-tw__lvl--h3 m-0 hidden text-2xl font-bold\">{{text}}</h3>\n  <h4 class=\"hd-tw__lvl hd-tw__lvl--h4 m-0 hidden text-lg font-bold\">{{text}}</h4>\n  <h5 class=\"hd-tw__lvl hd-tw__lvl--h5 m-0 hidden text-sm font-bold uppercase tracking-wide\">{{text}}</h5>\n  <h6 class=\"hd-tw__lvl hd-tw__lvl--h6 m-0 hidden text-xs font-bold uppercase tracking-widest text-[#241430]/65\">{{text}}</h6>\n</div>\n<style>\n.hd-tw--h1 .hd-tw__lvl--h1, .hd-tw--h2 .hd-tw__lvl--h2, .hd-tw--h3 .hd-tw__lvl--h3, .hd-tw--h4 .hd-tw__lvl--h4, .hd-tw--h5 .hd-tw__lvl--h5, .hd-tw--h6 .hd-tw__lvl--h6 { display: block !important; }\n</style>",
+    "react": "export function Hd({\n  text = \"{{text}}\",\n  level = \"{{level}}\",\n  accent = \"{{accent}}\",\n  showRank = {{showRank}},\n}) {\n  const sizes = { h1: [34, 800], h2: [27, 700], h3: [22, 700], h4: [18, 700], h5: [15, 700], h6: [13, 700] };\n  const [fontSize, fontWeight] = sizes[level] ?? sizes.h2;\n  const Tag = level;\n  return (\n    <div style={{ width: 360, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\", color: accent, background: \"#FAF7F2\", padding: 24, borderRadius: 12, display: \"flex\", alignItems: \"center\", gap: 12 }}>\n      {showRank && (\n        <span style={{ font: \"700 11px ui-monospace, monospace\", color: \"#FAF7F2\", background: accent, padding: \"3px 8px\", borderRadius: 999, textTransform: \"uppercase\" }}>{level}</span>\n      )}\n      <Tag style={{ margin: 0, fontSize, fontWeight, textTransform: level === \"h5\" || level === \"h6\" ? \"uppercase\" : \"none\" }}>{text}</Tag>\n    </div>\n  );\n}"
+  }
+}

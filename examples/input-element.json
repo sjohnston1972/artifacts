@@ -1,0 +1,36 @@
+{
+  "slug": "input-element",
+  "controls_schema": [
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Type attribute",
+      "default": "text",
+      "options": ["text", "email", "password", "number", "date"]
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Type something…"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "required",
+      "type": "toggle",
+      "label": "Required",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"in-wrap\" style=\"--accent:{{accent}};\">\n  <span class=\"in-wrap__label\">Real <code>&lt;input type=\"{{type}}\"&gt;</code></span>\n  <input class=\"in-el\" type=\"{{type}}\" placeholder=\"{{placeholder}}\"{{#if required}} required{{/if}}>\n</label>\n<style>\n.in-wrap { display: block; width: 260px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.in-wrap__label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.in-wrap__label code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n.in-el { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143035; }\n.in-el:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }\n.in-el:required { border-left: 3px solid var(--accent); }\n</style>",
+    "tailwind": "<label class=\"block w-[260px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\">\n  <span class=\"block mb-2 text-xs font-semibold text-[#241430]/65\">Real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;input type=\"{{type}}\"&gt;</code></span>\n  <input type=\"{{type}}\" placeholder=\"{{placeholder}}\" class=\"w-full box-border text-sm px-3 py-2.5 rounded-lg border-[1.5px] border-[#24143035] focus-visible:outline focus-visible:outline-2\" style=\"outline-color:{{accent}}\"{{#if required}} required{{/if}}>\n</label>",
+    "react": "export function InputElement({\n  type = \"{{type}}\",\n  placeholder = \"{{placeholder}}\",\n  accent = \"{{accent}}\",\n  required = {{required}},\n}) {\n  return (\n    <label style={{ display: \"block\", width: 260, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      <span style={{ display: \"block\", marginBottom: 8, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>\n        Real <code style={{ background: \"#24143012\", padding: \"1px 5px\", borderRadius: 4 }}>{`<input type=\"${type}\">`}</code>\n      </span>\n      <input type={type} placeholder={placeholder} required={required}\n        style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"10px 12px\", borderRadius: 8, border: \"1.5px solid #24143035\", borderLeft: required ? `3px solid ${accent}` : \"1.5px solid #24143035\" }} />\n    </label>\n  );\n}"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "figcaption-element",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption text",
+      "default": "Fig. 1 — Monthly active users, last twelve months"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "below",
+      "options": ["below", "above"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "muted",
+      "type": "toggle",
+      "label": "Mute caption text",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"fig fig--{{position}}\">\n  <svg class=\"fig__chart\" width=\"280\" height=\"110\" viewBox=\"0 0 280 110\" role=\"img\" aria-label=\"Bar chart\">\n    <rect x=\"10\" y=\"40\" width=\"28\" height=\"60\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"50\" y=\"20\" width=\"28\" height=\"80\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"90\" y=\"55\" width=\"28\" height=\"45\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"130\" y=\"10\" width=\"28\" height=\"90\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"170\" y=\"34\" width=\"28\" height=\"66\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"210\" y=\"4\" width=\"28\" height=\"96\" rx=\"3\" fill=\"{{accent}}\"/>\n  </svg>\n  <figcaption class=\"fig__cap{{#if muted}} fig__cap--muted{{/if}}\">{{caption}}</figcaption>\n</figure>\n<style>\n.fig { width: 300px; box-sizing: border-box; margin: 0; font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; }\n.fig--above { flex-direction: column-reverse; }\n.fig__chart { display: block; }\n.fig__cap { margin: 0; font-weight: 600; text-align: center; }\n.fig__cap--muted { font-weight: 400; color: #241430888; }\n</style>",
+    "tailwind": "<figure class=\"fig-tw fig-tw--{{position}} w-[300px] box-border m-0 font-sans text-[13px] text-[#241430] bg-[#FAF7F2] p-4 rounded-xl flex flex-col items-center gap-2.5\">\n  <svg class=\"block\" width=\"280\" height=\"110\" viewBox=\"0 0 280 110\" role=\"img\" aria-label=\"Bar chart\">\n    <rect x=\"10\" y=\"40\" width=\"28\" height=\"60\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"50\" y=\"20\" width=\"28\" height=\"80\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"90\" y=\"55\" width=\"28\" height=\"45\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"130\" y=\"10\" width=\"28\" height=\"90\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"170\" y=\"34\" width=\"28\" height=\"66\" rx=\"3\" fill=\"{{accent}}\"/>\n    <rect x=\"210\" y=\"4\" width=\"28\" height=\"96\" rx=\"3\" fill=\"{{accent}}\"/>\n  </svg>\n  <figcaption class=\"m-0 text-center{{#if muted}} font-normal text-[#241430]/55{{/if}}{{#unless muted}} font-semibold{{/unless}}\">{{caption}}</figcaption>\n</figure>\n<style>\n.fig-tw--above { flex-direction: column-reverse; }\n</style>",
+    "react": "export function FigcaptionElement({\n  caption = \"{{caption}}\",\n  position = \"{{position}}\",\n  accent = \"{{accent}}\",\n  muted = {{muted}},\n}) {\n  return (\n    <figure style={{ width: 300, boxSizing: \"border-box\", margin: 0, font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12, display: \"flex\", flexDirection: position === \"above\" ? \"column-reverse\" : \"column\", alignItems: \"center\", gap: 10 }}>\n      <svg width=\"280\" height=\"110\" viewBox=\"0 0 280 110\" role=\"img\" aria-label=\"Bar chart\" style={{ display: \"block\" }}>\n        {[10, 50, 90, 130, 170, 210].map((x, i) => (\n          <rect key={x} x={x} y={[40, 20, 55, 10, 34, 4][i]} width=\"28\" height={[60, 80, 45, 90, 66, 96][i]} rx=\"3\" fill={accent} />\n        ))}\n      </svg>\n      <figcaption style={{ margin: 0, textAlign: \"center\", fontWeight: muted ? 400 : 600, color: muted ? \"#241430888\" : \"#241430\" }}>{caption}</figcaption>\n    </figure>\n  );\n}"
+  }
+}

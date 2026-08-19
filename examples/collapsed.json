@@ -1,0 +1,35 @@
+{
+  "slug": "collapsed",
+  "controls_schema": [
+    {
+      "id": "summaryText",
+      "type": "text",
+      "label": "Summary",
+      "default": "Advanced settings"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Hidden content",
+      "default": "Rate limits, webhooks, and the danger zone live here."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#D9C8F0",
+      "presets": ["#D9C8F0", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force open (compare)",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<details class=\"col-el\" style=\"--accent:{{accent}};\"{{#if force}} open{{/if}}>\n  <summary class=\"col-el__summary\">{{summaryText}}</summary>\n  <p class=\"col-el__body\">{{body}}</p>\n</details>\n<p class=\"col-el__hint\">Closed is the real collapsed state — click the summary to expand it yourself, or force it open above.</p>\n<style>\n.col-el { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143025; border-radius: 10px; padding: 4px 16px; }\n.col-el__summary { list-style: none; cursor: pointer; padding: 13px 0; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }\n.col-el__summary::-webkit-details-marker { display: none; }\n.col-el__summary::after { content: \"▸\"; color: var(--accent); transition: transform .15s; }\n.col-el[open] .col-el__summary::after { transform: rotate(90deg); display: inline-block; }\n.col-el__body { margin: 0 0 14px; font-size: 13px; color: #241430cc; }\n.col-el__hint { width: 300px; box-sizing: border-box; margin: 8px 0 0; font-size: 11px; color: #241430888; }\n</style>",
+    "tailwind": "<details{{#if force}} open{{/if}} class=\"w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143025] rounded-[10px] px-4 py-1 [&_summary::-webkit-details-marker]:hidden\">\n  <summary class=\"list-none cursor-pointer py-3.5 font-bold flex justify-between items-center\">\n    {{summaryText}}\n    <span aria-hidden=\"true\" style=\"color:{{accent}}\">▸</span>\n  </summary>\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/80\">{{body}}</p>\n</details>\n<p class=\"w-[300px] box-border mt-2 text-[11px] text-[#241430]/55\">Closed is the real collapsed state — click the summary to expand it yourself, or force it open above.</p>",
+    "react": "import { useState } from \"react\";\n\nexport function CollapsedState({\n  summaryText = \"{{summaryText}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  const [open, setOpen] = useState(force);\n  return (\n    <div>\n      <details open={open} onToggle={(e) => setOpen(e.target.open)}\n        style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143025\", borderRadius: 10, padding: \"4px 16px\" }}>\n        <summary style={{ listStyle: \"none\", cursor: \"pointer\", padding: \"13px 0\", fontWeight: 700, display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\" }}>\n          {summaryText}\n          <span aria-hidden=\"true\" style={{ color: accent, display: \"inline-block\", transform: open ? \"rotate(90deg)\" : \"none\" }}>▸</span>\n        </summary>\n        <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#241430cc\" }}>{body}</p>\n      </details>\n      <p style={{ width: 300, margin: \"8px 0 0\", fontSize: 11, color: \"#241430888\" }}>Closed is the real collapsed state — click the summary to expand it yourself, or force it open with the <code>force</code> prop.</p>\n    </div>\n  );\n}"
+  }
+}

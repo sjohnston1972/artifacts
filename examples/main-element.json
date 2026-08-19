@@ -1,0 +1,35 @@
+{
+  "slug": "main-element",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Dashboard"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "The primary content of the page — there is exactly one of this element per page."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showChrome",
+      "type": "toggle",
+      "label": "Show surrounding chrome",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"main-demo\">\n  {{#if showChrome}}<div class=\"main-demo__chrome main-demo__chrome--top\">header</div>{{/if}}\n  <main class=\"main-el\" style=\"--accent:{{accent}};\">\n    <p class=\"main-el__tag\">&lt;main&gt;</p>\n    <h2 class=\"main-el__heading\">{{heading}}</h2>\n    <p class=\"main-el__body\">{{body}}</p>\n  </main>\n  {{#if showChrome}}<div class=\"main-demo__chrome main-demo__chrome--bottom\">footer</div>{{/if}}\n</div>\n<style>\n.main-demo { width: 340px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; }\n.main-demo__chrome { background: #24143012; color: #24143070; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; text-align: center; padding: 8px; }\n.main-demo__chrome--top { border-radius: 10px 10px 0 0; }\n.main-demo__chrome--bottom { border-radius: 0 0 10px 10px; }\n.main-el { background: #FAF7F2; border-left: 4px solid var(--accent); padding: 20px 22px; }\n.main-el__tag { margin: 0 0 8px; font: 700 11px ui-monospace, monospace; color: var(--accent); }\n.main-el__heading { margin: 0 0 8px; font-size: 20px; font-weight: 700; color: #241430; }\n.main-el__body { margin: 0; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"w-[340px] box-border font-sans text-sm\">\n  {{#if showChrome}}<div class=\"bg-[#24143012] text-[#24143070] text-[11px] uppercase tracking-wide text-center py-2 rounded-t-[10px]\">header</div>{{/if}}\n  <main class=\"bg-[#FAF7F2] border-l-4 px-[22px] py-5\" style=\"border-color:{{accent}}\">\n    <p class=\"m-0 mb-2 font-mono text-[11px] font-bold\" style=\"color:{{accent}}\">&lt;main&gt;</p>\n    <h2 class=\"m-0 mb-2 text-xl font-bold text-[#241430]\">{{heading}}</h2>\n    <p class=\"m-0 text-[#241430]/80\">{{body}}</p>\n  </main>\n  {{#if showChrome}}<div class=\"bg-[#24143012] text-[#24143070] text-[11px] uppercase tracking-wide text-center py-2 rounded-b-[10px]\">footer</div>{{/if}}\n</div>",
+    "react": "export function MainElement({\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n  showChrome = {{showChrome}},\n}) {\n  const chrome = { background: \"#24143012\", color: \"#24143070\", fontSize: 11, textTransform: \"uppercase\", letterSpacing: \"0.06em\", textAlign: \"center\", padding: 8 };\n  return (\n    <div style={{ width: 340, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\" }}>\n      {showChrome && <div style={{ ...chrome, borderRadius: \"10px 10px 0 0\" }}>header</div>}\n      <main style={{ background: \"#FAF7F2\", borderLeft: `4px solid ${accent}`, padding: \"20px 22px\" }}>\n        <p style={{ margin: \"0 0 8px\", font: \"700 11px ui-monospace, monospace\", color: accent }}>&lt;main&gt;</p>\n        <h2 style={{ margin: \"0 0 8px\", fontSize: 20, fontWeight: 700, color: \"#241430\" }}>{heading}</h2>\n        <p style={{ margin: 0, color: \"#241430cc\" }}>{body}</p>\n      </main>\n      {showChrome && <div style={{ ...chrome, borderRadius: \"0 0 10px 10px\" }}>footer</div>}\n    </div>\n  );\n}"
+  }
+}

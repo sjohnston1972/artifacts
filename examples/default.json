@@ -1,0 +1,35 @@
+{
+  "slug": "default",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Field label",
+      "default": "Display name"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showOthers",
+      "type": "toggle",
+      "label": "Show other states for contrast",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"def-demo\" style=\"--accent:{{accent}};\">\n  <label class=\"def-field\">\n    <span class=\"def-field__label\">{{label}}</span>\n    <input class=\"def-field__input\" type=\"text\" value=\"{{value}}\">\n    <span class=\"def-field__tag\">Default — resting, untouched, no state applied</span>\n  </label>\n  {{#if showOthers}}\n  <div class=\"def-demo__row\">\n    <input class=\"def-field__input def-field__input--focus\" type=\"text\" value=\"Focused\" readonly>\n    <input class=\"def-field__input\" type=\"text\" value=\"Disabled\" disabled>\n  </div>\n  {{/if}}\n</div>\n<style>\n.def-demo { width: 300px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.def-field { display: block; }\n.def-field__label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.def-field__input { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 9px 11px; border-radius: 8px; border: 1.5px solid #24143030; background: #fff; color: #241430; margin-bottom: 6px; }\n.def-field__tag { display: block; font-size: 10px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }\n.def-demo__row { display: flex; gap: 8px; margin-top: 10px; }\n.def-field__input--focus { outline: 2px solid var(--accent); outline-offset: 1px; }\n.def-field__input:disabled { opacity: .5; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\">\n  <label class=\"block\">\n    <span class=\"block mb-1.5 text-xs font-semibold text-[#241430]/65\">{{label}}</span>\n    <input type=\"text\" value=\"{{value}}\" class=\"w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] bg-white text-[#241430] mb-1.5\">\n    <span class=\"block text-[10px] font-bold uppercase tracking-wide\" style=\"color:{{accent}}\">Default — resting, untouched, no state applied</span>\n  </label>\n  {{#if showOthers}}\n  <div class=\"flex gap-2 mt-2.5\">\n    <input type=\"text\" value=\"Focused\" readonly class=\"w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] outline outline-2 outline-offset-1\" style=\"outline-color:{{accent}}\">\n    <input type=\"text\" value=\"Disabled\" disabled class=\"w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] opacity-50\">\n  </div>\n  {{/if}}\n</div>",
+    "react": "export function DefaultState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  showOthers = {{showOthers}},\n}) {\n  const input = { width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"9px 11px\", borderRadius: 8, border: \"1.5px solid #24143030\", background: \"#fff\", color: \"#241430\", marginBottom: 6 };\n  return (\n    <div style={{ width: 300, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      <label style={{ display: \"block\" }}>\n        <span style={{ display: \"block\", marginBottom: 6, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>{label}</span>\n        <input type=\"text\" defaultValue={value} style={input} />\n        <span style={{ display: \"block\", fontSize: 10, color: accent, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \"0.04em\" }}>Default — resting, untouched, no state applied</span>\n      </label>\n      {showOthers && (\n        <div style={{ display: \"flex\", gap: 8, marginTop: 10 }}>\n          <input readOnly defaultValue=\"Focused\" style={{ ...input, outline: `2px solid ${accent}`, marginBottom: 0 }} />\n          <input disabled defaultValue=\"Disabled\" style={{ ...input, opacity: 0.5, marginBottom: 0 }} />\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

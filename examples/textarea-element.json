@@ -1,0 +1,38 @@
+{
+  "slug": "textarea-element",
+  "controls_schema": [
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Tell us what happened…"
+    },
+    {
+      "id": "rows",
+      "type": "number",
+      "label": "Rows",
+      "default": 4,
+      "min": 2,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Focus colour",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "readonly",
+      "type": "toggle",
+      "label": "Read only",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"ta-wrap\" style=\"--accent:{{accent}};\">\n  <span class=\"ta-wrap__label\">Message</span>\n  <textarea class=\"ta-el\" rows=\"{{rows}}\" placeholder=\"{{placeholder}}\"{{#if readonly}} readonly{{/if}}></textarea>\n</label>\n<style>\n.ta-wrap { display: block; width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px; border-radius: 12px; }\n.ta-wrap__label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.ta-el { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143035; resize: vertical; }\n.ta-el:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }\n.ta-el:read-only { background: #24143008; color: #241430aa; }\n</style>",
+    "tailwind": "<label class=\"block w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-4 rounded-xl\">\n  <span class=\"block mb-1.5 text-xs font-semibold text-[#241430]/65\">Message</span>\n  <textarea rows=\"{{rows}}\" placeholder=\"{{placeholder}}\" class=\"w-full box-border text-sm px-3 py-2.5 rounded-lg border-[1.5px] border-[#24143035] resize-y read-only:bg-[#24143008] read-only:text-[#241430]/65 focus-visible:outline focus-visible:outline-2\" style=\"outline-color:{{accent}}\"{{#if readonly}} readonly{{/if}}></textarea>\n</label>",
+    "react": "export function TextareaElement({\n  placeholder = \"{{placeholder}}\",\n  rows = {{rows}},\n  accent = \"{{accent}}\",\n  readOnly = {{readonly}},\n}) {\n  return (\n    <label style={{ display: \"block\", width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 16, borderRadius: 12 }}>\n      <span style={{ display: \"block\", marginBottom: 7, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>Message</span>\n      <textarea rows={rows} placeholder={placeholder} readOnly={readOnly}\n        style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"10px 12px\", borderRadius: 8, border: \"1.5px solid #24143035\", resize: \"vertical\", background: readOnly ? \"#24143008\" : \"transparent\", color: readOnly ? \"#241430aa\" : \"#241430\", accentColor: accent }} />\n    </label>\n  );\n}"
+  }
+}

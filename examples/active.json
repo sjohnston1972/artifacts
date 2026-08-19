@@ -1,0 +1,38 @@
+{
+  "slug": "active",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Press and hold"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#F5C2E0",
+      "presets": ["#F5C2E0", "#A8E6C1", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force preview",
+      "default": false
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"act-demo\">\n  <button class=\"act-btn{{#if force}} act-btn--forced{{/if}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" type=\"button\">{{label}}</button>\n  <p class=\"act-demo__hint\"><span class=\"act-demo__tag act-demo__tag--live\">real :active</span> click and hold the button · <span class=\"act-demo__tag act-demo__tag--forced\">forced</span> the toggle above</p>\n</div>\n<style>\n.act-demo { width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; text-align: center; }\n.act-btn { font: 700 15px system-ui, sans-serif; padding: 12px 24px; border: 2px solid var(--accent); background: var(--accent); color: #241430; cursor: pointer; transform: translateY(0); box-shadow: 0 4px 0 color-mix(in srgb, var(--accent) 60%, #241430); transition: transform .08s, box-shadow .08s; }\n.act-btn:active, .act-btn--forced { transform: translateY(4px); box-shadow: 0 0 0 transparent; }\n.act-demo__hint { margin: 14px 0 0; font-size: 11px; color: #241430888; }\n.act-demo__tag { font-weight: 700; }\n.act-demo__tag--live { color: #241430; }\n.act-demo__tag--forced { color: #241430; }\n</style>",
+    "tailwind": "<div class=\"w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-5 rounded-xl text-center\">\n  <button type=\"button\" class=\"act-tw-btn{{#if force}} act-tw-btn--forced{{/if}} font-bold text-[15px] px-6 py-3 border-2 cursor-pointer text-[#241430] transition-transform active:translate-y-1\" style=\"border-color:{{accent}};background:{{accent}};border-radius:{{radius}}px;\">{{label}}</button>\n  <p class=\"m-0 mt-3.5 text-[11px] text-[#241430]/55\"><strong>real :active</strong> click and hold the button · <strong>forced</strong> the toggle above</p>\n</div>\n<style>\n.act-tw-btn--forced { transform: translateY(4px); }\n</style>",
+    "react": "export function ActiveState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12, textAlign: \"center\" }}>\n      <button\n        type=\"button\"\n        style={{\n          font: \"700 15px system-ui, sans-serif\", padding: \"12px 24px\", borderRadius: radius,\n          border: `2px solid ${accent}`, background: accent, color: \"#241430\", cursor: \"pointer\",\n          transform: force ? \"translateY(4px)\" : \"translateY(0)\",\n          boxShadow: force ? \"none\" : `0 4px 0 color-mix(in srgb, ${accent} 60%, #241430)`,\n        }}\n      >\n        {label}\n      </button>\n      <p style={{ margin: \"14px 0 0\", fontSize: 11, color: \"#241430888\" }}><strong>real :active</strong> click and hold the button · <strong>forced</strong> the toggle prop</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "slug": "span-element",
+  "controls_schema": [
+    {
+      "id": "before",
+      "type": "text",
+      "label": "Text before",
+      "default": "Your invoice is "
+    },
+    {
+      "id": "highlighted",
+      "type": "text",
+      "label": "Highlighted text",
+      "default": "overdue"
+    },
+    {
+      "id": "after",
+      "type": "text",
+      "label": "Text after",
+      "default": " by 4 days."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Highlight colour",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<p class=\"span-demo\">{{before}}<span class=\"span-el\" style=\"color:{{accent}};\">{{highlighted}}</span>{{after}} A <code>&lt;span&gt;</code> carries no meaning — it exists purely to style a run of inline text.</p>\n<style>\n.span-demo { width: 340px; box-sizing: border-box; font: 15px/1.6 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px 20px; border-radius: 12px; margin: 0; }\n.span-demo code { background: #24143012; padding: 1px 5px; border-radius: 4px; font-size: 13px; }\n.span-el { font-weight: 700; }\n</style>",
+    "tailwind": "<p class=\"w-[340px] box-border font-sans text-[15px] leading-relaxed text-[#241430] bg-[#FAF7F2] px-5 py-[18px] rounded-xl m-0\">{{before}}<span class=\"font-bold\" style=\"color:{{accent}}\">{{highlighted}}</span>{{after}} A <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded text-[13px]\">&lt;span&gt;</code> carries no meaning — it exists purely to style a run of inline text.</p>",
+    "react": "export function SpanElement({\n  before = \"{{before}}\",\n  highlighted = \"{{highlighted}}\",\n  after = \"{{after}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <p style={{ width: 340, boxSizing: \"border-box\", font: \"15px/1.6 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"18px 20px\", borderRadius: 12, margin: 0 }}>\n      {before}\n      <span style={{ fontWeight: 700, color: accent }}>{highlighted}</span>\n      {after} A <code style={{ background: \"#24143012\", padding: \"1px 5px\", borderRadius: 4, fontSize: 13 }}>&lt;span&gt;</code> carries no meaning — it exists purely to style a run of inline text.\n    </p>\n  );\n}"
+  }
+}

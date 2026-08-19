@@ -1,0 +1,36 @@
+{
+  "slug": "figure-element",
+  "controls_schema": [
+    {
+      "id": "code",
+      "type": "text",
+      "label": "Code line",
+      "default": "const total = items.reduce((a, b) => a + b);"
+    },
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Summing a list without a loop"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "code",
+      "options": ["code", "quote"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"figu figu--{{variant}}\" style=\"--accent:{{accent}};\">\n  <pre class=\"figu__code\"><code>{{code}}</code></pre>\n  <blockquote class=\"figu__quote\">{{code}}</blockquote>\n  <figcaption class=\"figu__cap\">{{caption}} — a self-contained unit, referenceable from anywhere in the text.</figcaption>\n</figure>\n<style>\n.figu { width: 320px; box-sizing: border-box; margin: 0; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #241430; padding: 18px; border-radius: 12px; border-left: 4px solid var(--accent); }\n.figu__code { display: none; margin: 0 0 10px; overflow-x: auto; }\n.figu__code code { font: 13px/1.5 ui-monospace, monospace; color: #A8E6C1; }\n.figu__quote { display: none; margin: 0 0 10px; font: italic 16px/1.5 Georgia, serif; color: #FAF7F2; padding-left: 14px; border-left: 2px solid var(--accent); }\n.figu--code .figu__code { display: block; }\n.figu--quote .figu__quote { display: block; }\n.figu__cap { margin: 0; font-size: 12px; color: #FAF7F299; }\n</style>",
+    "tailwind": "<figure class=\"figu-tw figu-tw--{{variant}} w-[320px] box-border m-0 font-sans text-sm bg-[#241430] p-[18px] rounded-xl border-l-4\" style=\"border-color:{{accent}}\">\n  <pre class=\"figu-tw__code hidden m-0 mb-2.5 overflow-x-auto\"><code class=\"font-mono text-[13px] text-[#A8E6C1]\">{{code}}</code></pre>\n  <blockquote class=\"figu-tw__quote hidden m-0 mb-2.5 italic text-base text-[#FAF7F2] pl-3.5 border-l-2\" style=\"border-color:{{accent}}\">{{code}}</blockquote>\n  <figcaption class=\"m-0 text-xs text-[#FAF7F2]/60\">{{caption}} — a self-contained unit, referenceable from anywhere in the text.</figcaption>\n</figure>\n<style>\n.figu-tw--code .figu-tw__code { display: block; }\n.figu-tw--quote .figu-tw__quote { display: block; }\n</style>",
+    "react": "export function FigureElement({\n  code = \"{{code}}\",\n  caption = \"{{caption}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <figure style={{ width: 320, boxSizing: \"border-box\", margin: 0, font: \"14px/1.5 system-ui, sans-serif\", background: \"#241430\", padding: 18, borderRadius: 12, borderLeft: `4px solid ${accent}` }}>\n      {variant === \"code\" ? (\n        <pre style={{ margin: \"0 0 10px\", overflowX: \"auto\" }}><code style={{ font: \"13px/1.5 ui-monospace, monospace\", color: \"#A8E6C1\" }}>{code}</code></pre>\n      ) : (\n        <blockquote style={{ margin: \"0 0 10px\", font: \"italic 16px/1.5 Georgia, serif\", color: \"#FAF7F2\", paddingLeft: 14, borderLeft: `2px solid ${accent}` }}>{code}</blockquote>\n      )}\n      <figcaption style={{ margin: 0, fontSize: 12, color: \"#FAF7F299\" }}>{caption} — a self-contained unit, referenceable from anywhere in the text.</figcaption>\n    </figure>\n  );\n}"
+  }
+}

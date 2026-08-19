@@ -1,0 +1,38 @@
+{
+  "slug": "disabled",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Continue"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Disabled (real attribute)",
+      "default": true
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 9,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dis-demo\">\n  <button class=\"dis-btn\" type=\"button\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\"{{#if force}} disabled{{/if}}>{{label}}</button>\n  <p class=\"dis-demo__hint\">Real <code>disabled</code> attribute — the browser blocks clicks and focus on its own; <code>:disabled</code> supplies the look.</p>\n</div>\n<style>\n.dis-demo { width: 260px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; text-align: center; }\n.dis-btn { font: 700 15px system-ui, sans-serif; padding: 11px 22px; border: 2px solid var(--accent); background: var(--accent); color: #FAF7F2; cursor: pointer; }\n.dis-btn:disabled { opacity: .4; cursor: not-allowed; filter: grayscale(.3); }\n.dis-demo__hint { margin: 12px 0 0; font-size: 11px; color: #241430888; text-align: left; }\n.dis-demo__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"w-[260px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl text-center\">\n  <button type=\"button\" class=\"font-bold text-[15px] px-[22px] py-[11px] border-2 text-[#FAF7F2] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:grayscale-[.3]\" style=\"border-color:{{accent}};background:{{accent}};border-radius:{{radius}}px;\"{{#if force}} disabled{{/if}}>{{label}}</button>\n  <p class=\"m-0 mt-3 text-[11px] text-[#241430]/55 text-left\">Real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">disabled</code> attribute — the browser blocks clicks and focus on its own; <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">:disabled</code> supplies the look.</p>\n</div>",
+    "react": "export function DisabledState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 260, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, textAlign: \"center\" }}>\n      <button type=\"button\" disabled={force}\n        style={{ font: \"700 15px system-ui, sans-serif\", padding: \"11px 22px\", borderRadius: radius, border: `2px solid ${accent}`, background: accent, color: \"#FAF7F2\", cursor: force ? \"not-allowed\" : \"pointer\", opacity: force ? 0.4 : 1, filter: force ? \"grayscale(.3)\" : \"none\" }}>\n        {label}\n      </button>\n      <p style={{ margin: \"12px 0 0\", fontSize: 11, color: \"#241430888\", textAlign: \"left\" }}>Real <code>disabled</code> attribute — the browser blocks clicks and focus on its own; <code>:disabled</code> supplies the look.</p>\n    </div>\n  );\n}"
+  }
+}

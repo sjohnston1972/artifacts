@@ -1,0 +1,36 @@
+{
+  "slug": "checked",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Option label",
+      "default": "Email me about updates"
+    },
+    {
+      "id": "kind",
+      "type": "select",
+      "label": "Control kind",
+      "default": "checkbox",
+      "options": ["checkbox", "radio"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force checked (real state)",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"chk-demo\" style=\"--accent:{{accent}};\">\n  <input class=\"chk-input\" type=\"{{kind}}\" name=\"chk-demo\"{{#if force}} checked{{/if}}>\n  <span class=\"chk-demo__label\">{{label}}</span>\n</label>\n<p class=\"chk-demo__hint\">Click to toggle the real <code>:checked</code> state, or force it with the control above.</p>\n<style>\n.chk-demo { display: flex; align-items: center; gap: 10px; width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px 18px; border-radius: 12px; cursor: pointer; }\n.chk-input { width: 19px; height: 19px; accent-color: var(--accent); }\n.chk-input:checked + .chk-demo__label { font-weight: 700; color: color-mix(in srgb, var(--accent) 70%, #241430); }\n.chk-demo__hint { width: 280px; box-sizing: border-box; margin: 8px 0 0; font-size: 11px; color: #241430888; }\n.chk-demo__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<label class=\"flex items-center gap-2.5 w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl cursor-pointer has-[:checked]:font-bold\">\n  <input type=\"{{kind}}\" name=\"chk-tw-demo\" class=\"w-[19px] h-[19px]\" style=\"accent-color:{{accent}}\"{{#if force}} checked{{/if}}>\n  <span>{{label}}</span>\n</label>\n<p class=\"w-[280px] box-border mt-2 text-[11px] text-[#241430]/55\">Click to toggle the real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">:checked</code> state, or force it with the control above.</p>",
+    "react": "import { useState } from \"react\";\n\nexport function CheckedState({\n  label = \"{{label}}\",\n  kind = \"{{kind}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  const [checked, setChecked] = useState(force);\n  return (\n    <div>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 10, width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"16px 18px\", borderRadius: 12, cursor: \"pointer\" }}>\n        <input type={kind} checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ width: 19, height: 19, accentColor: accent }} />\n        <span style={{ fontWeight: checked ? 700 : 400 }}>{label}</span>\n      </label>\n      <p style={{ width: 280, margin: \"8px 0 0\", fontSize: 11, color: \"#241430888\" }}>Click to toggle the real <code>:checked</code> state, or force it with the <code>force</code> prop.</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "output-element",
+  "controls_schema": [
+    {
+      "id": "a",
+      "type": "number",
+      "label": "Value A",
+      "default": 12,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "b",
+      "type": "number",
+      "label": "Value B",
+      "default": 8,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showFormula",
+      "type": "toggle",
+      "label": "Show formula",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"out-form\" oninput=\"this.querySelector('output').value = Number(this.a.value) + Number(this.b.value)\" style=\"--accent:{{accent}};\">\n  <div class=\"out-form__row\"><input class=\"out-form__num\" name=\"a\" type=\"number\" value=\"{{a}}\"> + <input class=\"out-form__num\" name=\"b\" type=\"number\" value=\"{{b}}\"> =\n    <output class=\"out-el\" name=\"result\" for=\"a b\">{{a}}{{b}}</output>\n  </div>\n  {{#if showFormula}}<p class=\"out-form__hint\">The real <code>&lt;output&gt;</code> recalculates live as you edit the inputs.</p>{{/if}}\n</form>\n<script>(function () { var f = document.querySelector(\".out-form\"); if (f) f.querySelector(\"output\").value = Number(f.a.value) + Number(f.b.value); })();</script>\n<style>\n.out-form { width: 320px; box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; }\n.out-form__row { display: flex; align-items: center; gap: 8px; font-weight: 600; }\n.out-form__num { width: 54px; font: 14px system-ui, sans-serif; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #24143030; }\n.out-el { font-weight: 800; color: var(--accent); font-size: 18px; }\n.out-form__hint { margin: 12px 0 0; font-size: 12px; color: #24143088; }\n.out-form__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<form oninput=\"this.querySelector('output').value = Number(this.a.value) + Number(this.b.value)\" class=\"w-[320px] box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] p-[18px] rounded-xl\">\n  <div class=\"flex items-center gap-2 font-semibold\">\n    <input name=\"a\" type=\"number\" value=\"{{a}}\" class=\"w-[54px] text-sm px-2 py-1.5 rounded-md border-[1.5px] border-[#24143030]\"> +\n    <input name=\"b\" type=\"number\" value=\"{{b}}\" class=\"w-[54px] text-sm px-2 py-1.5 rounded-md border-[1.5px] border-[#24143030]\"> =\n    <output name=\"result\" for=\"a b\" class=\"font-extrabold text-lg\" style=\"color:{{accent}}\">{{a}}{{b}}</output>\n  </div>\n  {{#if showFormula}}<p class=\"m-0 mt-3 text-xs text-[#241430]/55\">The real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;output&gt;</code> recalculates live as you edit the inputs.</p>{{/if}}\n</form>\n<script>(function () { var f = document.querySelector(\"form\"); if (f) f.querySelector(\"output\").value = Number(f.a.value) + Number(f.b.value); })();</script>",
+    "react": "import { useState } from \"react\";\n\nexport function OutputElement({\n  a: initialA = {{a}},\n  b: initialB = {{b}},\n  accent = \"{{accent}}\",\n  showFormula = {{showFormula}},\n}) {\n  const [a, setA] = useState(initialA);\n  const [b, setB] = useState(initialB);\n  return (\n    <form style={{ width: 320, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12 }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, fontWeight: 600 }}>\n        <input type=\"number\" value={a} onChange={(e) => setA(Number(e.target.value))}\n          style={{ width: 54, font: \"14px system-ui, sans-serif\", padding: \"6px 8px\", borderRadius: 6, border: \"1.5px solid #24143030\" }} /> +\n        <input type=\"number\" value={b} onChange={(e) => setB(Number(e.target.value))}\n          style={{ width: 54, font: \"14px system-ui, sans-serif\", padding: \"6px 8px\", borderRadius: 6, border: \"1.5px solid #24143030\" }} /> =\n        <output htmlFor=\"a b\" style={{ fontWeight: 800, color: accent, fontSize: 18 }}>{a + b}</output>\n      </div>\n      {showFormula && <p style={{ margin: \"12px 0 0\", fontSize: 12, color: \"#24143088\" }}>The real <code>&lt;output&gt;</code> recalculates live as you edit the inputs.</p>}\n    </form>\n  );\n}"
+  }
+}

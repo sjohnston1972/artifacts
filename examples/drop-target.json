@@ -1,0 +1,38 @@
+{
+  "slug": "drop-target",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Zone label",
+      "default": "Drop files here"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force valid drop-target look",
+      "default": false
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 14,
+      "min": 0,
+      "max": 28,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dz{{#if force}} dz--forced{{/if}}\" style=\"--accent:{{accent}};border-radius:{{radius}}px;\" ondragover=\"event.preventDefault();this.classList.add('dz--live')\" ondragleave=\"this.classList.remove('dz--live')\" ondrop=\"event.preventDefault();this.classList.remove('dz--live')\">\n  <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v11m0-11 4 4m-4-4-4 4M5 16v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n  <span>{{label}}</span>\n</div>\n<p class=\"dz-hint\">No CSS pseudo-class exists for this either — drag something over the zone to fire real <code>dragover</code>, or force the accepting look above.</p>\n<style>\n.dz { width: 260px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 8px; font: 14px/1.5 system-ui, sans-serif; color: #24143099; background: #FAF7F2; border: 2.5px dashed #24143035; padding: 30px 16px; text-align: center; }\n.dz--live, .dz--forced { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, #FAF7F2); color: #241430; }\n.dz-hint { width: 260px; box-sizing: border-box; margin: 8px 0 0; font-size: 11px; color: #241430888; }\n.dz-hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n</style>",
+    "tailwind": "<div class=\"dz-tw{{#if force}} dz-tw--forced{{/if}} w-[260px] box-border flex flex-col items-center gap-2 font-sans text-sm text-[#24143099] bg-[#FAF7F2] border-[2.5px] border-dashed border-[#24143035] px-4 py-[30px] text-center\" style=\"border-radius:{{radius}}px;\" ondragover=\"event.preventDefault();this.classList.add('dz-tw--live')\" ondragleave=\"this.classList.remove('dz-tw--live')\" ondrop=\"event.preventDefault();this.classList.remove('dz-tw--live')\">\n  <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v11m0-11 4 4m-4-4-4 4M5 16v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>\n  <span>{{label}}</span>\n</div>\n<p class=\"w-[260px] box-border mt-2 text-[11px] text-[#241430]/55\">No CSS pseudo-class exists for this either — drag something over the zone to fire real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">dragover</code>, or force the accepting look above.</p>\n<style>\n.dz-tw--live, .dz-tw--forced { border-color: {{accent}}; background: color-mix(in srgb, {{accent}} 14%, #FAF7F2); color: #241430; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function DropTargetState({\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n  radius = {{radius}},\n}) {\n  const [live, setLive] = useState(false);\n  const active = force || live;\n  return (\n    <div>\n      <div\n        onDragOver={(e) => { e.preventDefault(); setLive(true); }}\n        onDragLeave={() => setLive(false)}\n        onDrop={(e) => { e.preventDefault(); setLive(false); }}\n        style={{\n          width: 260, boxSizing: \"border-box\", display: \"flex\", flexDirection: \"column\", alignItems: \"center\", gap: 8,\n          font: \"14px/1.5 system-ui, sans-serif\", background: active ? `color-mix(in srgb, ${accent} 14%, #FAF7F2)` : \"#FAF7F2\",\n          color: active ? \"#241430\" : \"#24143099\", border: `2.5px dashed ${active ? accent : \"#24143035\"}`,\n          borderRadius: radius, padding: \"30px 16px\", textAlign: \"center\",\n        }}\n      >\n        <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v11m0-11 4 4m-4-4-4 4M5 16v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" /></svg>\n        <span>{label}</span>\n      </div>\n      <p style={{ width: 260, margin: \"8px 0 0\", fontSize: 11, color: \"#241430888\" }}>No CSS pseudo-class exists for this either — drag something over the zone to fire real drag events, or force the accepting look with the <code>force</code> prop.</p>\n    </div>\n  );\n}"
+  }
+}

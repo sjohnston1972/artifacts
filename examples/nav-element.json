@@ -1,0 +1,42 @@
+{
+  "slug": "nav-element",
+  "controls_schema": [
+    {
+      "id": "item1",
+      "type": "text",
+      "label": "Item 1",
+      "default": "Home"
+    },
+    {
+      "id": "item2",
+      "type": "text",
+      "label": "Item 2",
+      "default": "Work"
+    },
+    {
+      "id": "item3",
+      "type": "text",
+      "label": "Item 3",
+      "default": "Contact"
+    },
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "horizontal",
+      "options": ["horizontal", "vertical"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<nav class=\"nav-el nav-el--{{orientation}}\" aria-label=\"Primary\" style=\"--accent:{{accent}};\">\n  <a class=\"nav-el__link nav-el__link--active\" href=\"#\">{{item1}}</a>\n  <a class=\"nav-el__link\" href=\"#\">{{item2}}</a>\n  <a class=\"nav-el__link\" href=\"#\">{{item3}}</a>\n</nav>\n<style>\n.nav-el { display: flex; gap: 4px; width: 300px; box-sizing: border-box; font: 14px system-ui, sans-serif; background: #FAF7F2; padding: 8px; border-radius: 10px; }\n.nav-el--vertical { flex-direction: column; width: 160px; }\n.nav-el__link { color: #241430; text-decoration: none; font-weight: 600; padding: 8px 14px; border-radius: 7px; }\n.nav-el__link:hover { background: #24143010; }\n.nav-el__link--active { background: var(--accent); color: #241430; }\n</style>",
+    "tailwind": "<nav aria-label=\"Primary\" class=\"nav-tw nav-tw--{{orientation}} flex gap-1 w-[300px] box-border font-sans text-sm bg-[#FAF7F2] p-2 rounded-xl\">\n  <a href=\"#\" class=\"font-semibold no-underline px-3.5 py-2 rounded-md text-[#241430]\" style=\"background:{{accent}}\">{{item1}}</a>\n  <a href=\"#\" class=\"font-semibold no-underline px-3.5 py-2 rounded-md text-[#241430] hover:bg-[#24143010]\">{{item2}}</a>\n  <a href=\"#\" class=\"font-semibold no-underline px-3.5 py-2 rounded-md text-[#241430] hover:bg-[#24143010]\">{{item3}}</a>\n</nav>\n<style>\n.nav-tw--vertical { flex-direction: column; width: 160px; }\n</style>",
+    "react": "export function NavElement({\n  item1 = \"{{item1}}\",\n  item2 = \"{{item2}}\",\n  item3 = \"{{item3}}\",\n  orientation = \"{{orientation}}\",\n  accent = \"{{accent}}\",\n}) {\n  const vertical = orientation === \"vertical\";\n  const link = { color: \"#241430\", textDecoration: \"none\", fontWeight: 600, padding: \"8px 14px\", borderRadius: 7 };\n  return (\n    <nav aria-label=\"Primary\" style={{ display: \"flex\", flexDirection: vertical ? \"column\" : \"row\", gap: 4, width: vertical ? 160 : 300, boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", background: \"#FAF7F2\", padding: 8, borderRadius: 10 }}>\n      <a href=\"#\" style={{ ...link, background: accent }}>{item1}</a>\n      <a href=\"#\" style={link}>{item2}</a>\n      <a href=\"#\" style={link}>{item3}</a>\n    </nav>\n  );\n}"
+  }
+}

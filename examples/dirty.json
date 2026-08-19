@@ -1,0 +1,35 @@
+{
+  "slug": "dirty",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Field label",
+      "default": "Project name"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Initial value",
+      "default": "Untitled"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "force",
+      "type": "toggle",
+      "label": "Force dirty",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<label class=\"dty\" data-dirty=\"{{force}}\" style=\"--accent:{{accent}};\">\n  <span class=\"dty__label\">{{label}}{{#if force}}<span class=\"dty__dot\" aria-hidden=\"true\"></span>{{/if}}</span>\n  <input class=\"dty__input\" type=\"text\" value=\"{{value}}\" oninput=\"this.closest('.dty').dataset.dirty = String(this.value !== this.defaultValue)\">\n</label>\n<p class=\"dty__hint\">Type to change the value — a dot marks unsaved changes. The toggle forces it for inspection.</p>\n<style>\n.dty { display: block; width: 280px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 16px 18px; border-radius: 12px; }\n.dty__label { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.dty__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }\n.dty__input { width: 100%; box-sizing: border-box; font: 14px system-ui, sans-serif; padding: 9px 11px; border-radius: 8px; border: 1.5px solid #24143030; }\n.dty[data-dirty=\"true\"] .dty__input { border-color: var(--accent); }\n.dty__hint { width: 280px; box-sizing: border-box; margin: 8px 0 0; font-size: 11px; color: #241430888; }\n</style>",
+    "tailwind": "<label class=\"dty-tw block w-[280px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] px-[18px] py-4 rounded-xl\" data-dirty=\"{{force}}\">\n  <span class=\"flex items-center gap-1.5 mb-1.5 text-xs font-semibold text-[#241430]/65\">\n    {{label}}\n    {{#if force}}<span aria-hidden=\"true\" class=\"w-[7px] h-[7px] rounded-full inline-block\" style=\"background:{{accent}}\"></span>{{/if}}\n  </span>\n  <input type=\"text\" value=\"{{value}}\" class=\"w-full box-border text-sm px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030]\" oninput=\"this.closest('.dty-tw').dataset.dirty = String(this.value !== this.defaultValue)\">\n</label>\n<p class=\"w-[280px] box-border mt-2 text-[11px] text-[#241430]/55\">Type to change the value — a dot marks unsaved changes. The toggle forces it for inspection.</p>\n<style>\n.dty-tw[data-dirty=\"true\"] input { border-color: {{accent}}; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function DirtyState({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  accent = \"{{accent}}\",\n  force = {{force}},\n}) {\n  const [current, setCurrent] = useState(value);\n  const dirty = force || current !== value;\n  return (\n    <div>\n      <label style={{ display: \"block\", width: 280, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"16px 18px\", borderRadius: 12 }}>\n        <span style={{ display: \"flex\", alignItems: \"center\", gap: 6, marginBottom: 7, fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>\n          {label}\n          {dirty && <span aria-hidden=\"true\" style={{ width: 7, height: 7, borderRadius: \"50%\", background: accent, display: \"inline-block\" }} />}\n        </span>\n        <input type=\"text\" value={current} onChange={(e) => setCurrent(e.target.value)}\n          style={{ width: \"100%\", boxSizing: \"border-box\", font: \"14px system-ui, sans-serif\", padding: \"9px 11px\", borderRadius: 8, border: `1.5px solid ${dirty ? accent : \"#24143030\"}` }} />\n      </label>\n      <p style={{ width: 280, margin: \"8px 0 0\", fontSize: 11, color: \"#241430888\" }}>Type to change the value — a dot marks unsaved changes. The <code>force</code> prop forces it for inspection.</p>\n    </div>\n  );\n}"
+  }
+}

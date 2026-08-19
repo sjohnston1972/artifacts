@@ -1,0 +1,14 @@
+{
+  "slug": "font-size",
+  "controls_schema": [
+    { "id": "size", "type": "number", "label": "Font size", "default": 22, "min": 12, "max": 48, "step": 2 },
+    { "id": "text", "type": "text", "label": "Sample text", "default": "Resize me" },
+    { "id": "weight", "type": "select", "label": "Weight", "default": "700", "options": ["400", "700"] },
+    { "id": "color", "type": "color", "label": "Colour", "default": "#241430", "presets": ["#241430", "#E8A020", "#BFD9F2"] }
+  ],
+  "templates": {
+    "html": "<div class=\"fs-wrap\">\n  <p class=\"fs-text\" style=\"font-size:{{size}}px;font-weight:{{weight}};color:{{color}};\">{{text}}</p>\n  <p class=\"fs-caption\">font-size: {{size}}px</p>\n</div>\n<style>\n.fs-wrap { font: 14px/1.5 system-ui, sans-serif; color: #241430; width: 300px; }\n.fs-text { margin: 0; }\n.fs-caption { margin: 12px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] w-[300px]\">\n  <p class=\"m-0\" style=\"font-size:{{size}}px;font-weight:{{weight}};color:{{color}};\">{{text}}</p>\n  <p class=\"mt-3 text-xs text-[#241430]/80\">font-size: {{size}}px</p>\n</div>",
+    "react": "export function FontSize({\n  size = {{size}},\n  text = \"{{text}}\",\n  weight = \"{{weight}}\",\n  color = \"{{color}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", width: 300 }}>\n      <p style={{ margin: 0, fontSize: size, fontWeight: Number(weight), color }}>{text}</p>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430cc\" }}>font-size: {size}px</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "padding",
+  "controls_schema": [
+    { "id": "top", "type": "number", "label": "Padding top", "default": 24, "min": 0, "max": 48, "step": 4 },
+    { "id": "right", "type": "number", "label": "Padding right", "default": 24, "min": 0, "max": 48, "step": 4 },
+    { "id": "bottom", "type": "number", "label": "Padding bottom", "default": 24, "min": 0, "max": 48, "step": 4 },
+    { "id": "left", "type": "number", "label": "Padding left", "default": 24, "min": 0, "max": 48, "step": 4 }
+  ],
+  "templates": {
+    "html": "<div class=\"pd-wrap\" role=\"img\" aria-label=\"A blush padding layer between an element's border and its content, sized independently on each side\">\n  <div class=\"pd-outer\" style=\"padding:{{top}}px {{right}}px {{bottom}}px {{left}}px;\">\n    <div class=\"pd-content\">content</div>\n  </div>\n  <p class=\"pd-caption\">padding: {{top}}px {{right}}px {{bottom}}px {{left}}px (top right bottom left)</p>\n</div>\n<style>\n.pd-wrap { font: 13px/1.4 system-ui, sans-serif; color: #241430; width: 300px; }\n.pd-outer { background: #F5C2E0; border-radius: 8px; box-sizing: border-box; }\n.pd-content { background: #A8E6C1; border-radius: 6px; padding: 10px; font-weight: 700; text-align: center; }\n.pd-caption { margin: 10px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] w-[300px]\" role=\"img\" aria-label=\"A blush padding layer between an element's border and its content, sized independently on each side\">\n  <div class=\"bg-[#F5C2E0] rounded-lg box-border\" style=\"padding:{{top}}px {{right}}px {{bottom}}px {{left}}px;\">\n    <div class=\"bg-[#A8E6C1] rounded-md p-2.5 font-bold text-center\">content</div>\n  </div>\n  <p class=\"mt-2.5 text-xs text-[#241430]/80\">padding: {{top}}px {{right}}px {{bottom}}px {{left}}px (top right bottom left)</p>\n</div>",
+    "react": "export function Padding({\n  top = {{top}},\n  right = {{right}},\n  bottom = {{bottom}},\n  left = {{left}},\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", width: 300 }}\n      role=\"img\" aria-label=\"A blush padding layer between an element's border and its content, sized independently on each side\">\n      <div style={{ background: \"#F5C2E0\", borderRadius: 8, boxSizing: \"border-box\", padding: `${top}px ${right}px ${bottom}px ${left}px` }}>\n        <div style={{ background: \"#A8E6C1\", borderRadius: 6, padding: 10, fontWeight: 700, textAlign: \"center\" }}>content</div>\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430cc\" }}>padding: {top}px {right}px {bottom}px {left}px (top right bottom left)</p>\n    </div>\n  );\n}"
+  }
+}

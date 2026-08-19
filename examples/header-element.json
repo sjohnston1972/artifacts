@@ -1,0 +1,36 @@
+{
+  "slug": "header-element",
+  "controls_schema": [
+    {
+      "id": "brand",
+      "type": "text",
+      "label": "Brand text",
+      "default": "Studio"
+    },
+    {
+      "id": "scope",
+      "type": "select",
+      "label": "Scope",
+      "default": "page",
+      "options": ["page", "article"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showNav",
+      "type": "toggle",
+      "label": "Show navigation",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"head-demo\">\n  <p class=\"head-demo__scope\">Scope: <strong>&lt;{{scope}}&gt;</strong> header</p>\n  <header class=\"hdr\" style=\"--accent:{{accent}};\">\n    <span class=\"hdr__brand\">{{brand}}</span>\n    {{#if showNav}}\n    <nav class=\"hdr__nav\"><a href=\"#\">Work</a><a href=\"#\">About</a><a href=\"#\">Contact</a></nav>\n    {{/if}}\n  </header>\n</div>\n<style>\n.head-demo { width: 380px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; }\n.head-demo__scope { margin: 0 0 8px; font-size: 12px; color: #241430888; }\n.hdr { display: flex; align-items: center; justify-content: space-between; background: #FAF7F2; padding: 14px 18px; border-bottom: 3px solid var(--accent); border-radius: 10px 10px 0 0; }\n.hdr__brand { font-weight: 800; font-size: 16px; color: var(--accent); }\n.hdr__nav { display: flex; gap: 16px; }\n.hdr__nav a { color: #241430; text-decoration: none; font-weight: 600; font-size: 13px; }\n.hdr__nav a:hover { color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"w-[380px] box-border font-sans text-sm\">\n  <p class=\"m-0 mb-2 text-xs text-[#241430]/55\">Scope: <strong>&lt;{{scope}}&gt;</strong> header</p>\n  <header class=\"flex items-center justify-between bg-[#FAF7F2] px-[18px] py-3.5 border-b-[3px] rounded-t-[10px]\" style=\"border-color:{{accent}}\">\n    <span class=\"font-extrabold text-base\" style=\"color:{{accent}}\">{{brand}}</span>\n    {{#if showNav}}\n    <nav class=\"flex gap-4\"><a href=\"#\" class=\"text-[#241430] no-underline font-semibold text-[13px] hover:opacity-70\">Work</a><a href=\"#\" class=\"text-[#241430] no-underline font-semibold text-[13px] hover:opacity-70\">About</a><a href=\"#\" class=\"text-[#241430] no-underline font-semibold text-[13px] hover:opacity-70\">Contact</a></nav>\n    {{/if}}\n  </header>\n</div>",
+    "react": "export function HeaderElement({\n  brand = \"{{brand}}\",\n  scope = \"{{scope}}\",\n  accent = \"{{accent}}\",\n  showNav = {{showNav}},\n}) {\n  return (\n    <div style={{ width: 380, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\" }}>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12, color: \"#241430888\" }}>Scope: <strong>{`<${scope}>`}</strong> header</p>\n      <header style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", background: \"#FAF7F2\", padding: \"14px 18px\", borderBottom: `3px solid ${accent}`, borderRadius: \"10px 10px 0 0\" }}>\n        <span style={{ fontWeight: 800, fontSize: 16, color: accent }}>{brand}</span>\n        {showNav && (\n          <nav style={{ display: \"flex\", gap: 16 }}>\n            <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", fontWeight: 600, fontSize: 13 }}>Work</a>\n            <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", fontWeight: 600, fontSize: 13 }}>About</a>\n            <a href=\"#\" style={{ color: \"#241430\", textDecoration: \"none\", fontWeight: 600, fontSize: 13 }}>Contact</a>\n          </nav>\n        )}\n      </header>\n    </div>\n  );\n}"
+  }
+}

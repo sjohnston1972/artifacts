@@ -1,0 +1,36 @@
+{
+  "slug": "footer-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Copyright text",
+      "default": "© 2026 Studio Ltd. All rights reserved."
+    },
+    {
+      "id": "scope",
+      "type": "select",
+      "label": "Scope",
+      "default": "page",
+      "options": ["page", "article"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showLinks",
+      "type": "toggle",
+      "label": "Show links",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"foot-demo foot-demo--{{scope}}\">\n  <p class=\"foot-demo__scope\">Scope: <strong>&lt;{{scope}}&gt;</strong> footer</p>\n  <footer class=\"foot\" style=\"--accent:{{accent}};\">\n    {{#if showLinks}}\n    <nav class=\"foot__links\"><a href=\"#\">Privacy</a><a href=\"#\">Terms</a><a href=\"#\">Contact</a></nav>\n    {{/if}}\n    <p class=\"foot__copy\">{{text}}</p>\n  </footer>\n</div>\n<style>\n.foot-demo { width: 340px; box-sizing: border-box; font: 13px/1.5 system-ui, sans-serif; }\n.foot-demo__scope { margin: 0 0 8px; font-size: 12px; color: #241430888; }\n.foot { background: #FAF7F2; border-top: 3px solid var(--accent); padding: 16px 18px; border-radius: 0 0 10px 10px; }\n.foot__links { display: flex; gap: 14px; margin: 0 0 10px; }\n.foot__links a { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 13px; }\n.foot__links a:hover { text-decoration: underline; }\n.foot__copy { margin: 0; color: #241430aa; font-size: 12px; }\n</style>",
+    "tailwind": "<div class=\"w-[340px] box-border font-sans text-[13px]\">\n  <p class=\"m-0 mb-2 text-xs text-[#241430]/55\">Scope: <strong>&lt;{{scope}}&gt;</strong> footer</p>\n  <footer class=\"foot-tw foot-tw--{{scope}} bg-[#FAF7F2] border-t-[3px] px-[18px] py-4 rounded-b-[10px]\" style=\"border-color:{{accent}}\">\n    {{#if showLinks}}\n    <nav class=\"flex gap-3.5 mb-2.5\"><a href=\"#\" class=\"font-semibold text-[13px] no-underline hover:underline\" style=\"color:{{accent}}\">Privacy</a><a href=\"#\" class=\"font-semibold text-[13px] no-underline hover:underline\" style=\"color:{{accent}}\">Terms</a><a href=\"#\" class=\"font-semibold text-[13px] no-underline hover:underline\" style=\"color:{{accent}}\">Contact</a></nav>\n    {{/if}}\n    <p class=\"m-0 text-[#241430]/65 text-xs\">{{text}}</p>\n  </footer>\n</div>",
+    "react": "export function FooterElement({\n  text = \"{{text}}\",\n  scope = \"{{scope}}\",\n  accent = \"{{accent}}\",\n  showLinks = {{showLinks}},\n}) {\n  return (\n    <div style={{ width: 340, boxSizing: \"border-box\", font: \"13px/1.5 system-ui, sans-serif\" }}>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12, color: \"#241430888\" }}>Scope: <strong>{`<${scope}>`}</strong> footer</p>\n      <footer style={{ background: \"#FAF7F2\", borderTop: `3px solid ${accent}`, padding: \"16px 18px\", borderRadius: scope === \"article\" ? 10 : \"0 0 10px 10px\" }}>\n        {showLinks && (\n          <nav style={{ display: \"flex\", gap: 14, marginBottom: 10 }}>\n            <a href=\"#\" style={{ color: accent, fontWeight: 600, fontSize: 13, textDecoration: \"none\" }}>Privacy</a>\n            <a href=\"#\" style={{ color: accent, fontWeight: 600, fontSize: 13, textDecoration: \"none\" }}>Terms</a>\n            <a href=\"#\" style={{ color: accent, fontWeight: 600, fontSize: 13, textDecoration: \"none\" }}>Contact</a>\n          </nav>\n        )}\n        <p style={{ margin: 0, color: \"#241430aa\", fontSize: 12 }}>{text}</p>\n      </footer>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "version-history",
+  "controls_schema": [
+    {
+      "id": "fileName",
+      "type": "text",
+      "label": "File name",
+      "default": "roadmap.pdf"
+    },
+    {
+      "id": "rows",
+      "type": "select",
+      "label": "Versions shown",
+      "default": "3",
+      "options": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "showAuthor",
+      "type": "toggle",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"vhist\">\n  <p class=\"vhist__title\">Version history &middot; {{fileName}}</p>\n  <ul class=\"vhist__list\" data-rows=\"{{rows}}\">\n    <li class=\"vhist__item vhist__item--current\"><span class=\"vhist__dot\" style=\"background:{{accent}};\"></span><div><p class=\"vhist__label\">Current version{{#if showAuthor}} &middot; Priya Shah{{/if}}</p><p class=\"vhist__time\"><time datetime=\"2026-08-14T10:20\">Today, 10:20am</time></p></div></li>\n    <li class=\"vhist__item\"><span class=\"vhist__dot\"></span><div><p class=\"vhist__label\">Version 2{{#if showAuthor}} &middot; Sam Ortiz{{/if}}</p><p class=\"vhist__time\"><time datetime=\"2026-08-12T15:00\">12 Aug, 3:00pm</time></p></div><button type=\"button\" class=\"vhist__restore\">Restore</button></li>\n    <li class=\"vhist__item\"><span class=\"vhist__dot\"></span><div><p class=\"vhist__label\">Version 1{{#if showAuthor}} &middot; Priya Shah{{/if}}</p><p class=\"vhist__time\"><time datetime=\"2026-08-09T09:15\">9 Aug, 9:15am</time></p></div><button type=\"button\" class=\"vhist__restore\">Restore</button></li>\n  </ul>\n</div>\n<style>\n.vhist { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 320px; padding: 16px 18px; border-radius: 12px; box-sizing: border-box; border: 1px solid #24143018; }\n.vhist__title { margin: 0 0 10px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #24143099; }\n.vhist__list { list-style: none; margin: 0; padding: 0; }\n.vhist__item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #24143012; }\n.vhist__item:last-child { border-bottom: none; }\n.vhist__dot { flex: none; width: 9px; height: 9px; border-radius: 999px; background: #24143030; }\n.vhist__label { margin: 0; font-weight: 600; }\n.vhist__time { margin: 1px 0 0; font-size: 11px; color: #24143088; }\n.vhist__restore { margin-left: auto; flex: none; border: 1.5px solid #24143030; background: none; border-radius: 7px; padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer; }\n.vhist__restore:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n.vhist__list[data-rows=\"2\"] .vhist__item:nth-child(n+3) { display: none; }\n</style>",
+    "tailwind": "<div class=\"w-[320px] p-[16px_18px] rounded-xl box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\">\n  <p class=\"m-0 mb-2.5 font-bold text-xs uppercase tracking-wide text-[#241430]/60\">Version history &middot; {{fileName}}</p>\n  <ul class=\"list-none m-0 p-0\" data-rows=\"{{rows}}\">\n    <li class=\"vhist-tw-item flex items-center gap-2.5 py-2 border-b border-[#24143012]\"><span class=\"flex-none w-[9px] h-[9px] rounded-full\" style=\"background:{{accent}}\"></span><div><p class=\"m-0 font-semibold\">Current version{{#if showAuthor}} &middot; Priya Shah{{/if}}</p><p class=\"mt-0.5 mb-0 text-[11px] text-[#241430]/50\"><time datetime=\"2026-08-14T10:20\">Today, 10:20am</time></p></div></li>\n    <li class=\"vhist-tw-item flex items-center gap-2.5 py-2 border-b border-[#24143012]\"><span class=\"flex-none w-[9px] h-[9px] rounded-full bg-[#24143030]\"></span><div><p class=\"m-0 font-semibold\">Version 2{{#if showAuthor}} &middot; Sam Ortiz{{/if}}</p><p class=\"mt-0.5 mb-0 text-[11px] text-[#241430]/50\"><time datetime=\"2026-08-12T15:00\">12 Aug, 3:00pm</time></p></div><button type=\"button\" class=\"ml-auto flex-none border-[1.5px] border-[#24143030] bg-none rounded-md px-2.5 py-1.5 text-[11px] font-bold cursor-pointer\">Restore</button></li>\n    <li class=\"vhist-tw-item flex items-center gap-2.5 py-2\"><span class=\"flex-none w-[9px] h-[9px] rounded-full bg-[#24143030]\"></span><div><p class=\"m-0 font-semibold\">Version 1{{#if showAuthor}} &middot; Priya Shah{{/if}}</p><p class=\"mt-0.5 mb-0 text-[11px] text-[#241430]/50\"><time datetime=\"2026-08-09T09:15\">9 Aug, 9:15am</time></p></div><button type=\"button\" class=\"ml-auto flex-none border-[1.5px] border-[#24143030] bg-none rounded-md px-2.5 py-1.5 text-[11px] font-bold cursor-pointer\">Restore</button></li>\n  </ul>\n</div>\n<style>\nul[data-rows=\"2\"] .vhist-tw-item:nth-child(n+3) { display: none; }\n</style>",
+    "react": "export function VersionHistory({\n  fileName = \"{{fileName}}\",\n  rows = \"{{rows}}\",\n  showAuthor = {{showAuthor}},\n  accent = \"{{accent}}\",\n}) {\n  const versions = [\n    { label: \"Current version\", author: \"Priya Shah\", time: \"2026-08-14T10:20\", display: \"Today, 10:20am\", current: true },\n    { label: \"Version 2\", author: \"Sam Ortiz\", time: \"2026-08-12T15:00\", display: \"12 Aug, 3:00pm\", current: false },\n    { label: \"Version 1\", author: \"Priya Shah\", time: \"2026-08-09T09:15\", display: \"9 Aug, 9:15am\", current: false },\n  ].slice(0, Number(rows));\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 320, padding: \"16px 18px\", borderRadius: 12, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <p style={{ margin: \"0 0 10px\", fontWeight: 700, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#24143099\" }}>Version history &middot; {fileName}</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {versions.map((v, i) => (\n          <li key={v.label} style={{ display: \"flex\", alignItems: \"center\", gap: 10, padding: \"8px 0\", borderBottom: i < versions.length - 1 ? \"1px solid #24143012\" : \"none\" }}>\n            <span style={{ flex: \"none\", width: 9, height: 9, borderRadius: 999, background: v.current ? accent : \"#24143030\" }} />\n            <div>\n              <p style={{ margin: 0, fontWeight: 600 }}>{v.label}{showAuthor ? ` · ${v.author}` : \"\"}</p>\n              <p style={{ margin: \"1px 0 0\", fontSize: 11, color: \"#24143088\" }}><time dateTime={v.time}>{v.display}</time></p>\n            </div>\n            {!v.current && <button type=\"button\" style={{ marginLeft: \"auto\", flex: \"none\", border: \"1.5px solid #24143030\", background: \"none\", borderRadius: 7, padding: \"5px 10px\", fontSize: 11, fontWeight: 700, cursor: \"pointer\" }}>Restore</button>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

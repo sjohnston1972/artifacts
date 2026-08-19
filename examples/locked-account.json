@@ -1,0 +1,39 @@
+{
+  "slug": "locked-account",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Your account is locked"
+    },
+    {
+      "id": "reason",
+      "type": "select",
+      "label": "Reason",
+      "default": "Too many attempts",
+      "options": [
+        "Too many attempts",
+        "Suspicious activity",
+        "Manual lock"
+      ]
+    },
+    {
+      "id": "retryTime",
+      "type": "text",
+      "label": "Retry time",
+      "default": "25 minutes"
+    },
+    {
+      "id": "showResetLink",
+      "type": "toggle",
+      "label": "Show reset link",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"locked\" role=\"alert\">\n  <span class=\"locked__icon\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>\n  <h3 class=\"locked__heading\">{{heading}}</h3>\n  <p class=\"locked__reason\" data-reason=\"{{reason}}\">Reason: {{reason}}</p>\n  <p class=\"locked__next\">Try again in <strong>{{retryTime}}</strong>, or reset your password to regain access now.</p>\n  {{#if showResetLink}}<button type=\"button\" class=\"locked__reset\">Reset password</button>{{/if}}\n</div>\n<style>\n.locked { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FBEAEA; width: 300px; padding: 20px; border-radius: 14px; box-sizing: border-box; border: 1.5px solid #D64545; text-align: center; }\n.locked__icon { display: inline-flex; color: #D64545; margin-bottom: 8px; }\n.locked__heading { margin: 0 0 8px; font-size: 16px; }\n.locked__reason { margin: 0 0 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: #a32020; }\n.locked__next { margin: 0 0 16px; font-size: 13px; color: #241430cc; }\n.locked__reset { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #D64545; color: #FAF7F2; font-weight: 700; cursor: pointer; }\n.locked__reset:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-5 rounded-2xl box-border border-[1.5px] border-[#D64545] font-sans text-sm text-[#241430] bg-[#FBEAEA] text-center\" role=\"alert\">\n  <span class=\"inline-flex text-[#D64545] mb-2\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg></span>\n  <h3 class=\"m-0 mb-2 text-base\">{{heading}}</h3>\n  <p class=\"m-0 mb-2.5 text-xs font-bold uppercase tracking-wide text-[#a32020]\" data-reason=\"{{reason}}\">Reason: {{reason}}</p>\n  <p class=\"m-0 mb-4 text-[13px] text-[#241430]/80\">Try again in <strong>{{retryTime}}</strong>, or reset your password to regain access now.</p>\n  {{#if showResetLink}}<button type=\"button\" class=\"w-full py-2.5 rounded-lg border-none bg-[#D64545] text-[#FAF7F2] font-bold cursor-pointer\">Reset password</button>{{/if}}\n</div>",
+    "react": "export function LockedAccount({\n  heading = \"{{heading}}\",\n  reason = \"{{reason}}\",\n  retryTime = \"{{retryTime}}\",\n  showResetLink = {{showResetLink}},\n}) {\n  return (\n    <div role=\"alert\" style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FBEAEA\", width: 300, padding: 20, borderRadius: 14, boxSizing: \"border-box\", border: \"1.5px solid #D64545\", textAlign: \"center\" }}>\n      <span aria-hidden=\"true\" style={{ display: \"inline-flex\", color: \"#D64545\", marginBottom: 8 }}>\n        <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /><path d=\"M8 11V8a4 4 0 0 1 8 0v3\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" /></svg>\n      </span>\n      <h3 style={{ margin: \"0 0 8px\", fontSize: 16 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 10px\", fontSize: 12, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".03em\", color: \"#a32020\" }}>Reason: {reason}</p>\n      <p style={{ margin: \"0 0 16px\", fontSize: 13, color: \"#241430cc\" }}>Try again in <strong>{retryTime}</strong>, or reset your password to regain access now.</p>\n      {showResetLink && <button type=\"button\" style={{ width: \"100%\", padding: 10, borderRadius: 8, border: \"none\", background: \"#D64545\", color: \"#FAF7F2\", fontWeight: 700, cursor: \"pointer\" }}>Reset password</button>}\n    </div>\n  );\n}"
+  }
+}

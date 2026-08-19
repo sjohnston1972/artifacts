@@ -1,0 +1,47 @@
+{
+  "slug": "document-viewer",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Document title",
+      "default": "Annual-report.docx"
+    },
+    {
+      "id": "page",
+      "type": "select",
+      "label": "Current page",
+      "default": "2",
+      "options": [
+        "2",
+        "5"
+      ]
+    },
+    {
+      "id": "zoom",
+      "type": "select",
+      "label": "Zoom",
+      "default": "100%",
+      "options": [
+        "100%",
+        "150%"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"docv\">\n  <div class=\"docv__toolbar\" style=\"background:{{accent}};\">\n    <span class=\"docv__title\">{{title}}</span>\n    <span class=\"docv__zoom\">{{zoom}}</span>\n  </div>\n  <div class=\"docv__page\" data-zoom=\"{{zoom}}\">\n    <span class=\"docv__line\"></span><span class=\"docv__line\"></span><span class=\"docv__line docv__line--short\"></span>\n  </div>\n  <p class=\"docv__status\">Page {{page}} of 8</p>\n</div>\n<style>\n.docv { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; border-radius: 10px; overflow: hidden; box-sizing: border-box; border: 1px solid #24143018; }\n.docv__toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; font-weight: 700; color: #14351f; }\n.docv__page { background: #24143008; padding: 20px 18px; min-height: 90px; }\n.docv__page[data-zoom=\"150%\"] { padding: 30px 18px; }\n.docv__line { display: block; height: 8px; background: #24143022; border-radius: 4px; margin-bottom: 8px; }\n.docv__line--short { width: 60%; }\n.docv__status { margin: 0; padding: 8px 12px; font-size: 12px; color: #24143099; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] rounded-[10px] overflow-hidden box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] docv-tw\">\n  <div class=\"flex items-center justify-between px-3 py-2 font-bold text-[#14351f]\" style=\"background:{{accent}}\">\n    <span>{{title}}</span>\n    <span>{{zoom}}</span>\n  </div>\n  <div class=\"bg-[#24143008] px-[18px] py-5 min-h-[90px] docv-tw-page\" data-zoom=\"{{zoom}}\">\n    <span class=\"block h-2 bg-[#24143022] rounded mb-2\"></span><span class=\"block h-2 bg-[#24143022] rounded mb-2\"></span><span class=\"block h-2 bg-[#24143022] rounded mb-2 w-3/5\"></span>\n  </div>\n  <p class=\"m-0 px-3 py-2 text-xs text-[#241430]/60 text-center\">Page {{page}} of 8</p>\n</div>\n<style>\n.docv-tw-page[data-zoom=\"150%\"] { padding-top: 30px; padding-bottom: 30px; }\n</style>",
+    "react": "export function DocumentViewer({\n  title = \"{{title}}\",\n  page = \"{{page}}\",\n  zoom = \"{{zoom}}\",\n  accent = \"{{accent}}\",\n}) {\n  const pagePad = zoom === \"150%\" ? \"30px 18px\" : \"20px 18px\";\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, borderRadius: 10, overflow: \"hidden\", boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"8px 12px\", fontWeight: 700, color: \"#14351f\", background: accent }}>\n        <span>{title}</span>\n        <span>{zoom}</span>\n      </div>\n      <div style={{ background: \"#24143008\", padding: pagePad, minHeight: 90 }}>\n        <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8 }} />\n        <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8 }} />\n        <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8, width: \"60%\" }} />\n      </div>\n      <p style={{ margin: 0, padding: \"8px 12px\", fontSize: 12, color: \"#24143099\", textAlign: \"center\" }}>Page {page} of 8</p>\n    </div>\n  );\n}"
+  }
+}

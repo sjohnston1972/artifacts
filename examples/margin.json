@@ -1,0 +1,14 @@
+{
+  "slug": "margin",
+  "controls_schema": [
+    { "id": "top", "type": "number", "label": "Margin top", "default": 12, "min": 0, "max": 40, "step": 4 },
+    { "id": "right", "type": "number", "label": "Margin right", "default": 12, "min": 0, "max": 40, "step": 4 },
+    { "id": "bottom", "type": "number", "label": "Margin bottom", "default": 12, "min": 0, "max": 40, "step": 4 },
+    { "id": "left", "type": "number", "label": "Margin left", "default": 12, "min": 0, "max": 40, "step": 4 }
+  ],
+  "templates": {
+    "html": "<div class=\"mg-wrap\" role=\"img\" aria-label=\"A box pushed away from its container edges by margin on each side, shown in sky blue\">\n  <div class=\"mg-container\">\n    <div class=\"mg-box\" style=\"margin:{{top}}px {{right}}px {{bottom}}px {{left}}px;\">content</div>\n  </div>\n  <p class=\"mg-caption\">margin: {{top}}px {{right}}px {{bottom}}px {{left}}px (top right bottom left)</p>\n</div>\n<style>\n.mg-wrap { font: 13px/1.4 system-ui, sans-serif; color: #241430; width: 300px; }\n.mg-container { background: #BFD9F2; border-radius: 8px; padding: 2px; }\n.mg-box { background: #A8E6C1; border-radius: 6px; padding: 14px; font-weight: 700; text-align: center; box-sizing: border-box; }\n.mg-caption { margin: 10px 0 0; font-size: 12px; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] w-[300px]\" role=\"img\" aria-label=\"A box pushed away from its container edges by margin on each side, shown in sky blue\">\n  <div class=\"bg-[#BFD9F2] rounded-lg p-0.5\">\n    <div class=\"bg-[#A8E6C1] rounded-md p-3.5 font-bold text-center box-border\" style=\"margin:{{top}}px {{right}}px {{bottom}}px {{left}}px;\">content</div>\n  </div>\n  <p class=\"mt-2.5 text-xs text-[#241430]/80\">margin: {{top}}px {{right}}px {{bottom}}px {{left}}px (top right bottom left)</p>\n</div>",
+    "react": "export function Margin({\n  top = {{top}},\n  right = {{right}},\n  bottom = {{bottom}},\n  left = {{left}},\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", width: 300 }}\n      role=\"img\" aria-label=\"A box pushed away from its container edges by margin on each side, shown in sky blue\">\n      <div style={{ background: \"#BFD9F2\", borderRadius: 8, padding: 2 }}>\n        <div style={{ background: \"#A8E6C1\", borderRadius: 6, padding: 14, fontWeight: 700, textAlign: \"center\", boxSizing: \"border-box\",\n          margin: `${top}px ${right}px ${bottom}px ${left}px` }}>\n          content\n        </div>\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430cc\" }}>margin: {top}px {right}px {bottom}px {left}px (top right bottom left)</p>\n    </div>\n  );\n}"
+  }
+}

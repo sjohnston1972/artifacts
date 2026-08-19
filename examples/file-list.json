@@ -1,0 +1,53 @@
+{
+  "slug": "file-list",
+  "controls_schema": [
+    {
+      "id": "caption",
+      "type": "text",
+      "label": "Caption",
+      "default": "Shared with you"
+    },
+    {
+      "id": "rows",
+      "type": "select",
+      "label": "Files shown",
+      "default": "4",
+      "options": [
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "showDate",
+      "type": "toggle",
+      "label": "Show modified date",
+      "default": true
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "Comfortable",
+      "options": [
+        "Comfortable",
+        "Compact"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<table class=\"flist\" data-density=\"{{density}}\">\n  <caption class=\"flist__caption\">{{caption}}</caption>\n  <thead><tr><th scope=\"col\">Name</th><th scope=\"col\">Size</th>{{#if showDate}}<th scope=\"col\">Modified</th>{{/if}}</tr></thead>\n  <tbody data-rows=\"{{rows}}\">\n    <tr><td><span class=\"flist__dot\" style=\"background:{{accent}};\"></span>brief.docx</td><td>240 KB</td>{{#if showDate}}<td><time datetime=\"2026-08-14\">14 Aug</time></td>{{/if}}</tr>\n    <tr><td><span class=\"flist__dot\" style=\"background:{{accent}};\"></span>budget.xlsx</td><td>88 KB</td>{{#if showDate}}<td><time datetime=\"2026-08-12\">12 Aug</time></td>{{/if}}</tr>\n    <tr><td><span class=\"flist__dot\" style=\"background:{{accent}};\"></span>roadmap.pdf</td><td>640 KB</td>{{#if showDate}}<td><time datetime=\"2026-08-09\">9 Aug</time></td>{{/if}}</tr>\n    <tr><td><span class=\"flist__dot\" style=\"background:{{accent}};\"></span>photo.jpg</td><td>1.1 MB</td>{{#if showDate}}<td><time datetime=\"2026-08-02\">2 Aug</time></td>{{/if}}</tr>\n  </tbody>\n</table>\n<style>\n.flist { border-collapse: collapse; width: 360px; font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; }\n.flist__caption { text-align: left; font-weight: 700; padding-bottom: 8px; }\n.flist th, .flist td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #24143014; }\n.flist th { color: #24143099; font-weight: 600; font-size: 12px; }\n.flist__dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 8px; }\n.flist[data-density=\"Compact\"] td, .flist[data-density=\"Compact\"] th { padding: 4px 10px; }\ntbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\n</style>",
+    "tailwind": "<table class=\"border-collapse w-[360px] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] flist-tw\" data-density=\"{{density}}\">\n  <caption class=\"text-left font-bold pb-2\">{{caption}}</caption>\n  <thead><tr><th scope=\"col\" class=\"text-left p-2.5 border-b border-[#24143014] text-[#241430]/60 font-semibold text-xs\">Name</th><th scope=\"col\" class=\"text-left p-2.5 border-b border-[#24143014] text-[#241430]/60 font-semibold text-xs\">Size</th>{{#if showDate}}<th scope=\"col\" class=\"text-left p-2.5 border-b border-[#24143014] text-[#241430]/60 font-semibold text-xs\">Modified</th>{{/if}}</tr></thead>\n  <tbody data-rows=\"{{rows}}\">\n    <tr><td class=\"p-2.5 border-b border-[#24143014]\"><span class=\"inline-block w-2 h-2 rounded-full mr-2\" style=\"background:{{accent}}\"></span>brief.docx</td><td class=\"p-2.5 border-b border-[#24143014]\">240 KB</td>{{#if showDate}}<td class=\"p-2.5 border-b border-[#24143014]\"><time datetime=\"2026-08-14\">14 Aug</time></td>{{/if}}</tr>\n    <tr><td class=\"p-2.5 border-b border-[#24143014]\"><span class=\"inline-block w-2 h-2 rounded-full mr-2\" style=\"background:{{accent}}\"></span>budget.xlsx</td><td class=\"p-2.5 border-b border-[#24143014]\">88 KB</td>{{#if showDate}}<td class=\"p-2.5 border-b border-[#24143014]\"><time datetime=\"2026-08-12\">12 Aug</time></td>{{/if}}</tr>\n    <tr><td class=\"p-2.5 border-b border-[#24143014]\"><span class=\"inline-block w-2 h-2 rounded-full mr-2\" style=\"background:{{accent}}\"></span>roadmap.pdf</td><td class=\"p-2.5 border-b border-[#24143014]\">640 KB</td>{{#if showDate}}<td class=\"p-2.5 border-b border-[#24143014]\"><time datetime=\"2026-08-09\">9 Aug</time></td>{{/if}}</tr>\n    <tr><td class=\"p-2.5\"><span class=\"inline-block w-2 h-2 rounded-full mr-2\" style=\"background:{{accent}}\"></span>photo.jpg</td><td class=\"p-2.5\">1.1 MB</td>{{#if showDate}}<td class=\"p-2.5\"><time datetime=\"2026-08-02\">2 Aug</time></td>{{/if}}</tr>\n  </tbody>\n</table>\n<style>\n.flist-tw[data-density=\"Compact\"] td, .flist-tw[data-density=\"Compact\"] th { padding-top: 4px; padding-bottom: 4px; }\ntbody[data-rows=\"3\"] tr:nth-child(n+4) { display: none; }\n</style>",
+    "react": "export function FileList({\n  caption = \"{{caption}}\",\n  rows = \"{{rows}}\",\n  showDate = {{showDate}},\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const pad = density === \"Compact\" ? \"4px 10px\" : \"8px 10px\";\n  const files = [\n    { name: \"brief.docx\", size: \"240 KB\", date: \"2026-08-14\", label: \"14 Aug\" },\n    { name: \"budget.xlsx\", size: \"88 KB\", date: \"2026-08-12\", label: \"12 Aug\" },\n    { name: \"roadmap.pdf\", size: \"640 KB\", date: \"2026-08-09\", label: \"9 Aug\" },\n    { name: \"photo.jpg\", size: \"1.1 MB\", date: \"2026-08-02\", label: \"2 Aug\" },\n  ].slice(0, Number(rows));\n  const cell = { textAlign: \"left\", padding: pad, borderBottom: \"1px solid #24143014\" };\n  return (\n    <table style={{ borderCollapse: \"collapse\", width: 360, font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\" }}>\n      <caption style={{ textAlign: \"left\", fontWeight: 700, paddingBottom: 8 }}>{caption}</caption>\n      <thead>\n        <tr>\n          <th scope=\"col\" style={{ ...cell, color: \"#24143099\", fontWeight: 600, fontSize: 12 }}>Name</th>\n          <th scope=\"col\" style={{ ...cell, color: \"#24143099\", fontWeight: 600, fontSize: 12 }}>Size</th>\n          {showDate && <th scope=\"col\" style={{ ...cell, color: \"#24143099\", fontWeight: 600, fontSize: 12 }}>Modified</th>}\n        </tr>\n      </thead>\n      <tbody>\n        {files.map((f) => (\n          <tr key={f.name}>\n            <td style={cell}><span style={{ display: \"inline-block\", width: 8, height: 8, borderRadius: 999, marginRight: 8, background: accent }} />{f.name}</td>\n            <td style={cell}>{f.size}</td>\n            {showDate && <td style={cell}><time dateTime={f.date}>{f.label}</time></td>}\n          </tr>\n        ))}\n      </tbody>\n    </table>\n  );\n}"
+  }
+}

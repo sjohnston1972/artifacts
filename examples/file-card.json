@@ -1,0 +1,51 @@
+{
+  "slug": "file-card",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "File name",
+      "default": "Q3-report.pdf"
+    },
+    {
+      "id": "size",
+      "type": "text",
+      "label": "File size",
+      "default": "2.4 MB"
+    },
+    {
+      "id": "kind",
+      "type": "select",
+      "label": "Type",
+      "default": "Document",
+      "options": [
+        "Document",
+        "Image",
+        "Spreadsheet"
+      ]
+    },
+    {
+      "id": "showActions",
+      "type": "toggle",
+      "label": "Show actions",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fcard\" data-kind=\"{{kind}}\">\n  <span class=\"fcard__icon\" style=\"background:{{accent}};\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M5 2h7l4 4v12H5V2Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M12 2v4h4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg></span>\n  <div class=\"fcard__body\">\n    <p class=\"fcard__name\">{{name}}</p>\n    <p class=\"fcard__meta\">{{kind}} &middot; {{size}}</p>\n  </div>\n  {{#if showActions}}<button type=\"button\" class=\"fcard__more\" aria-label=\"More actions for {{name}}\">&#8942;</button>{{/if}}\n</div>\n<style>\n.fcard { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 12px 14px; border-radius: 10px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; border: 1px solid #24143018; }\n.fcard__icon { flex: none; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #14351f; }\n.fcard__body { flex: 1 1 auto; min-width: 0; }\n.fcard__name { margin: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.fcard__meta { margin: 2px 0 0; font-size: 12px; color: #24143099; }\n.fcard__more { flex: none; border: none; background: none; cursor: pointer; font-size: 16px; color: #24143099; padding: 4px 8px; border-radius: 6px; }\n.fcard__more:focus-visible, .fcard__more:hover { background: #24143010; }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-3 w-[300px] p-[12px_14px] rounded-[10px] box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2]\" data-kind=\"{{kind}}\">\n  <span class=\"flex-none w-9 h-9 rounded-lg flex items-center justify-center text-[#14351f]\" style=\"background:{{accent}}\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M5 2h7l4 4v12H5V2Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M12 2v4h4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg></span>\n  <div class=\"flex-1 min-w-0\">\n    <p class=\"m-0 font-bold overflow-hidden text-ellipsis whitespace-nowrap\">{{name}}</p>\n    <p class=\"mt-0.5 mb-0 text-xs text-[#241430]/60\">{{kind}} &middot; {{size}}</p>\n  </div>\n  {{#if showActions}}<button type=\"button\" class=\"flex-none border-none bg-none cursor-pointer text-base text-[#241430]/60 px-2 py-1 rounded-md hover:bg-[#24143010]\" aria-label=\"More actions for {{name}}\">&#8942;</button>{{/if}}\n</div>",
+    "react": "export function FileCard({\n  name = \"{{name}}\",\n  size = \"{{size}}\",\n  kind = \"{{kind}}\",\n  showActions = {{showActions}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, padding: \"12px 14px\", borderRadius: 10, boxSizing: \"border-box\", display: \"flex\", alignItems: \"center\", gap: 12, border: \"1px solid #24143018\" }}>\n      <span style={{ flex: \"none\", width: 36, height: 36, borderRadius: 8, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#14351f\", background: accent }}>\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M5 2h7l4 4v12H5V2Z\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinejoin=\"round\" /><path d=\"M12 2v4h4\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinejoin=\"round\" /></svg>\n      </span>\n      <div style={{ flex: \"1 1 auto\", minWidth: 0 }}>\n        <p style={{ margin: 0, fontWeight: 700, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{name}</p>\n        <p style={{ margin: \"2px 0 0\", fontSize: 12, color: \"#24143099\" }}>{kind} &middot; {size}</p>\n      </div>\n      {showActions && <button type=\"button\" aria-label={`More actions for ${name}`} style={{ flex: \"none\", border: \"none\", background: \"none\", cursor: \"pointer\", fontSize: 16, color: \"#24143099\", padding: \"4px 8px\", borderRadius: 6 }}>&#8942;</button>}\n    </div>\n  );\n}"
+  }
+}

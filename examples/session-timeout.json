@@ -1,0 +1,49 @@
+{
+  "slug": "session-timeout",
+  "controls_schema": [
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "You’re about to be signed out"
+    },
+    {
+      "id": "reason",
+      "type": "text",
+      "label": "Reason",
+      "default": "for your security after 15 minutes of inactivity"
+    },
+    {
+      "id": "secondsLeft",
+      "type": "select",
+      "label": "Seconds left",
+      "default": "60",
+      "options": [
+        "30",
+        "60"
+      ]
+    },
+    {
+      "id": "urgent",
+      "type": "toggle",
+      "label": "Urgent styling",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#D64545",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"timeout\" data-seconds=\"{{secondsLeft}}\" data-urgent=\"{{urgent}}\" style=\"--accent:{{accent}};\" role=\"alertdialog\" aria-label=\"{{heading}}\">\n  <p class=\"timeout__heading\">{{heading}}</p>\n  <p class=\"timeout__reason\">You’ll be signed out {{reason}}.</p>\n  <p class=\"timeout__count\"><span class=\"timeout__30\">Signing out in <strong>0:30</strong></span><span class=\"timeout__60\">Signing out in <strong>1:00</strong></span></p>\n  <div class=\"timeout__actions\">\n    <button type=\"button\" class=\"timeout__extend\">Stay signed in</button>\n    <button type=\"button\" class=\"timeout__out\">Sign out now</button>\n  </div>\n</div>\n<style>\n.timeout { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 320px; padding: 20px; border-radius: 14px; box-sizing: border-box; border: 1.5px solid var(--accent); }\n.timeout[data-urgent=\"true\"] { border-color: #D64545; background: #FBEAEA; }\n.timeout__heading { margin: 0 0 6px; font-weight: 700; }\n.timeout__reason { margin: 0 0 12px; font-size: 13px; color: #24143099; }\n.timeout__count { margin: 0 0 16px; font-size: 13px; }\n.timeout__30, .timeout__60 { display: none; }\n.timeout[data-seconds=\"30\"] .timeout__30 { display: inline; }\n.timeout[data-seconds=\"60\"] .timeout__60 { display: inline; }\n.timeout__actions { display: flex; gap: 10px; }\n.timeout__extend, .timeout__out { flex: 1; padding: 9px; border-radius: 8px; font-weight: 700; cursor: pointer; font: inherit; }\n.timeout__extend { background: var(--accent); border: none; color: #241430; }\n.timeout[data-urgent=\"true\"] .timeout__extend { background: #D64545; color: #FAF7F2; }\n.timeout__out { background: transparent; border: 1.5px solid #24143030; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"w-[320px] p-5 rounded-2xl box-border border-[1.5px] font-sans text-sm text-[#241430] bg-[#FAF7F2] timeout-tw\" data-seconds=\"{{secondsLeft}}\" data-urgent=\"{{urgent}}\" style=\"border-color:{{accent}}\" role=\"alertdialog\" aria-label=\"{{heading}}\">\n  <p class=\"m-0 mb-1.5 font-bold\">{{heading}}</p>\n  <p class=\"m-0 mb-3 text-[13px] text-[#241430]/60\">You’ll be signed out {{reason}}.</p>\n  <p class=\"m-0 mb-4 text-[13px]\"><span class=\"timeout-tw-30\">Signing out in <strong>0:30</strong></span><span class=\"timeout-tw-60\">Signing out in <strong>1:00</strong></span></p>\n  <div class=\"flex gap-2.5\">\n    <button type=\"button\" class=\"timeout-tw-extend flex-1 py-2.5 rounded-lg font-bold cursor-pointer border-none text-[#241430]\" style=\"background:{{accent}}\">Stay signed in</button>\n    <button type=\"button\" class=\"flex-1 py-2.5 rounded-lg font-bold cursor-pointer bg-transparent border-[1.5px] border-[#24143030] text-[#241430]\">Sign out now</button>\n  </div>\n</div>\n<style>\n.timeout-tw-30, .timeout-tw-60 { display: none; }\n.timeout-tw[data-seconds=\"30\"] .timeout-tw-30 { display: inline; }\n.timeout-tw[data-seconds=\"60\"] .timeout-tw-60 { display: inline; }\n.timeout-tw[data-urgent=\"true\"] { border-color: #D64545 !important; background: #FBEAEA; }\n.timeout-tw[data-urgent=\"true\"] .timeout-tw-extend { background: #D64545 !important; color: #FAF7F2; }\n</style>",
+    "react": "export function SessionTimeout({\n  heading = \"{{heading}}\",\n  reason = \"{{reason}}\",\n  secondsLeft = \"{{secondsLeft}}\",\n  urgent = {{urgent}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div role=\"alertdialog\" aria-label={heading}\n      style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 320, padding: 20, borderRadius: 14, boxSizing: \"border-box\", border: `1.5px solid ${urgent ? \"#D64545\" : accent}` }}>\n      <p style={{ margin: \"0 0 6px\", fontWeight: 700 }}>{heading}</p>\n      <p style={{ margin: \"0 0 12px\", fontSize: 13, color: \"#24143099\" }}>You’ll be signed out {reason}.</p>\n      <p style={{ margin: \"0 0 16px\", fontSize: 13 }}>Signing out in <strong>{secondsLeft === \"30\" ? \"0:30\" : \"1:00\"}</strong></p>\n      <div style={{ display: \"flex\", gap: 10 }}>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: accent, border: \"none\", color: \"#241430\" }}>Stay signed in</button>\n        <button type=\"button\" style={{ flex: 1, padding: 9, borderRadius: 8, fontWeight: 700, cursor: \"pointer\", font: \"inherit\", background: \"transparent\", border: \"1.5px solid #24143030\", color: \"#241430\" }}>Sign out now</button>\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "slug": "dialog-element",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Discard changes?"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body",
+      "default": "Anything you've typed since the last save will be lost."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Open",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dlg-demo\">\n  <dialog class=\"dlg\" style=\"--accent:{{accent}};\"{{#if open}} open{{/if}}>\n    <h3 class=\"dlg__title\">{{title}}</h3>\n    <p class=\"dlg__body\">{{body}}</p>\n    <div class=\"dlg__actions\">\n      <button class=\"dlg__btn dlg__btn--ghost\" type=\"button\">Cancel</button>\n      <button class=\"dlg__btn\" type=\"button\">Discard</button>\n    </div>\n  </dialog>\n</div>\n<style>\n.dlg-demo { width: 360px; min-height: 200px; box-sizing: border-box; background: #FAF7F215; padding: 4px; }\n.dlg { width: 320px; box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: none; border-radius: 14px; box-shadow: 0 20px 44px rgba(36,20,48,.22); padding: 22px; position: static; margin: 0; }\n.dlg::backdrop { background: #24143055; }\n.dlg__title { margin: 0 0 10px; font-size: 18px; font-weight: 700; }\n.dlg__body { margin: 0 0 20px; color: #241430cc; }\n.dlg__actions { display: flex; justify-content: flex-end; gap: 10px; }\n.dlg__btn { font: 600 14px system-ui, sans-serif; padding: 9px 16px; border-radius: 8px; border: 2px solid var(--accent); background: var(--accent); color: #FAF7F2; cursor: pointer; }\n.dlg__btn--ghost { background: transparent; color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"w-[360px] min-h-[200px] box-border p-1\">\n  <dialog{{#if open}} open{{/if}} class=\"w-80 box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] border-0 rounded-2xl p-[22px] static m-0 shadow-[0_20px_44px_rgba(36,20,48,0.22)] backdrop:bg-[#24143055]\">\n    <h3 class=\"m-0 mb-2.5 text-lg font-bold\">{{title}}</h3>\n    <p class=\"m-0 mb-5 text-[#241430]/80\">{{body}}</p>\n    <div class=\"flex justify-end gap-2.5\">\n      <button type=\"button\" class=\"font-semibold text-sm px-4 py-2.5 rounded-lg border-2 bg-transparent\" style=\"border-color:{{accent}};color:{{accent}};\">Cancel</button>\n      <button type=\"button\" class=\"font-semibold text-sm px-4 py-2.5 rounded-lg border-2 text-[#FAF7F2]\" style=\"border-color:{{accent}};background:{{accent}};\">Discard</button>\n    </div>\n  </dialog>\n</div>",
+    "react": "export function DialogElement({\n  title = \"{{title}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n  open = {{open}},\n}) {\n  return (\n    <div style={{ width: 360, minHeight: 200, boxSizing: \"border-box\", padding: 4 }}>\n      <dialog\n        open={open}\n        style={{ width: 320, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\", color: \"#241430\",\n          background: \"#FAF7F2\", border: \"none\", borderRadius: 14, boxShadow: \"0 20px 44px rgba(36,20,48,.22)\",\n          padding: 22, position: \"static\", margin: 0 }}\n      >\n        <h3 style={{ margin: \"0 0 10px\", fontSize: 18, fontWeight: 700 }}>{title}</h3>\n        <p style={{ margin: \"0 0 20px\", color: \"#241430cc\" }}>{body}</p>\n        <div style={{ display: \"flex\", justifyContent: \"flex-end\", gap: 10 }}>\n          <button type=\"button\" style={{ font: \"600 14px system-ui, sans-serif\", padding: \"9px 16px\", borderRadius: 8, border: `2px solid ${accent}`, background: \"transparent\", color: accent, cursor: \"pointer\" }}>Cancel</button>\n          <button type=\"button\" style={{ font: \"600 14px system-ui, sans-serif\", padding: \"9px 16px\", borderRadius: 8, border: `2px solid ${accent}`, background: accent, color: \"#FAF7F2\", cursor: \"pointer\" }}>Discard</button>\n        </div>\n      </dialog>\n    </div>\n  );\n}"
+  }
+}

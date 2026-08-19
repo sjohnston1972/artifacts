@@ -1,0 +1,42 @@
+{
+  "slug": "article-element",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Why static sites still win"
+    },
+    {
+      "id": "excerpt",
+      "type": "text",
+      "label": "Excerpt",
+      "default": "No server to babysit, no runtime to patch, and a deploy that finishes before your coffee does."
+    },
+    {
+      "id": "author",
+      "type": "text",
+      "label": "Author",
+      "default": "Priya Nair"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "card",
+      "options": ["card", "flush"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<article class=\"art art--{{variant}}\" style=\"--accent:{{accent}};\">\n  <p class=\"art__kicker\">Article</p>\n  <h2 class=\"art__title\">{{title}}</h2>\n  <p class=\"art__excerpt\">{{excerpt}}</p>\n  <footer class=\"art__byline\">By {{author}} · self-contained, syndicatable on its own</footer>\n</article>\n<style>\n.art { width: 360px; box-sizing: border-box; font: 16px/1.55 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 22px 24px; border-radius: 12px; }\n.art--card { border: 1.5px solid #24143022; box-shadow: 0 10px 24px rgba(36,20,48,.08); }\n.art--flush { padding: 0; }\n.art__kicker { margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }\n.art__title { margin: 0 0 10px; font-size: 22px; font-weight: 700; }\n.art__excerpt { margin: 0 0 14px; color: #241430cc; }\n.art__byline { margin: 0; font-size: 13px; color: #241430aa; border-top: 1px solid #24143018; padding-top: 12px; }\n</style>",
+    "tailwind": "<article class=\"art-tw art-tw--{{variant}} w-[360px] box-border font-sans text-base leading-relaxed text-[#241430] bg-[#FAF7F2] p-6 rounded-xl\">\n  <p class=\"m-0 mb-1.5 text-[11px] font-bold tracking-widest uppercase\" style=\"color:{{accent}};\">Article</p>\n  <h2 class=\"m-0 mb-2.5 text-[22px] font-bold\">{{title}}</h2>\n  <p class=\"m-0 mb-3.5 text-[#241430]/80\">{{excerpt}}</p>\n  <footer class=\"m-0 text-sm text-[#241430]/65 border-t border-[#24143018] pt-3\">By {{author}} · self-contained, syndicatable on its own</footer>\n</article>\n<style>\n.art-tw--card { border: 1.5px solid #24143022; box-shadow: 0 10px 24px rgba(36,20,48,.08); }\n.art-tw--flush { padding: 0; }\n</style>",
+    "react": "export function ArticleElement({\n  title = \"{{title}}\",\n  excerpt = \"{{excerpt}}\",\n  author = \"{{author}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  const wrap = variant === \"card\"\n    ? { border: \"1.5px solid #24143022\", boxShadow: \"0 10px 24px rgba(36,20,48,.08)\" }\n    : { padding: 0 };\n  return (\n    <article style={{ width: 360, boxSizing: \"border-box\", font: \"16px/1.55 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"22px 24px\", borderRadius: 12, ...wrap }}>\n      <p style={{ margin: \"0 0 6px\", fontSize: 11, fontWeight: 700, letterSpacing: \"0.08em\", textTransform: \"uppercase\", color: accent }}>Article</p>\n      <h2 style={{ margin: \"0 0 10px\", fontSize: 22, fontWeight: 700 }}>{title}</h2>\n      <p style={{ margin: \"0 0 14px\", color: \"#241430cc\" }}>{excerpt}</p>\n      <footer style={{ margin: 0, fontSize: 13, color: \"#241430aa\", borderTop: \"1px solid #24143018\", paddingTop: 12 }}>\n        By {author} · self-contained, syndicatable on its own\n      </footer>\n    </article>\n  );\n}"
+  }
+}

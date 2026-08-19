@@ -1,0 +1,50 @@
+{
+  "slug": "import-action",
+  "controls_schema": [
+    {
+      "id": "fileName",
+      "type": "text",
+      "label": "File name",
+      "default": "contacts.csv"
+    },
+    {
+      "id": "rowCount",
+      "type": "text",
+      "label": "Row count",
+      "default": "342 rows"
+    },
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "Ready",
+      "options": [
+        "Ready",
+        "Validating",
+        "Error"
+      ]
+    },
+    {
+      "id": "skipDuplicates",
+      "type": "toggle",
+      "label": "Skip duplicates",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"imp\" data-status=\"{{status}}\" style=\"--accent:{{accent}};\">\n  <p class=\"imp__file\">{{fileName}} <span class=\"imp__rows\">&middot; {{rowCount}}</span></p>\n  <p class=\"imp__status\">\n    <span class=\"imp__ready\">Ready to import</span>\n    <span class=\"imp__validating\">Validating rows&hellip;</span>\n    <span class=\"imp__error\">3 rows have missing emails</span>\n  </p>\n  {{#if skipDuplicates}}<p class=\"imp__hint\">Duplicate contacts will be skipped.</p>{{/if}}\n  <button type=\"button\" class=\"imp__btn\">Import {{rowCount}}</button>\n</div>\n<style>\n.imp { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 16px 18px; border-radius: 12px; box-sizing: border-box; border: 1px solid #24143018; }\n.imp__file { margin: 0 0 8px; font-weight: 700; }\n.imp__rows { font-weight: 400; color: #24143099; }\n.imp__status { margin: 0 0 8px; font-size: 12px; font-weight: 700; }\n.imp__ready, .imp__validating, .imp__error { display: none; }\n.imp[data-status=\"Ready\"] .imp__ready { display: inline; color: #14351f; }\n.imp[data-status=\"Validating\"] .imp__validating { display: inline; color: #7a5a10; }\n.imp[data-status=\"Error\"] .imp__error { display: inline; color: #a32020; }\n.imp__hint { margin: 0 0 12px; font-size: 11px; color: #24143088; }\n.imp__btn { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #14351f; font-weight: 700; cursor: pointer; }\n.imp__btn:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-[16px_18px] rounded-xl box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] imp-tw\" data-status=\"{{status}}\">\n  <p class=\"m-0 mb-2 font-bold\">{{fileName}} <span class=\"font-normal text-[#241430]/60\">&middot; {{rowCount}}</span></p>\n  <p class=\"m-0 mb-2 text-xs font-bold\">\n    <span class=\"imp-tw-ready hidden\">Ready to import</span>\n    <span class=\"imp-tw-validating hidden\">Validating rows&hellip;</span>\n    <span class=\"imp-tw-error hidden\">3 rows have missing emails</span>\n  </p>\n  {{#if skipDuplicates}}<p class=\"m-0 mb-3 text-[11px] text-[#241430]/50\">Duplicate contacts will be skipped.</p>{{/if}}\n  <button type=\"button\" class=\"w-full py-2.5 rounded-lg border-none font-bold cursor-pointer text-[#14351f]\" style=\"background:{{accent}}\">Import {{rowCount}}</button>\n</div>\n<style>\n.imp-tw[data-status=\"Ready\"] .imp-tw-ready { display: inline; color: #14351f; }\n.imp-tw[data-status=\"Validating\"] .imp-tw-validating { display: inline; color: #7a5a10; }\n.imp-tw[data-status=\"Error\"] .imp-tw-error { display: inline; color: #a32020; }\n</style>",
+    "react": "export function ImportAction({\n  fileName = \"{{fileName}}\",\n  rowCount = \"{{rowCount}}\",\n  status = \"{{status}}\",\n  skipDuplicates = {{skipDuplicates}},\n  accent = \"{{accent}}\",\n}) {\n  const statusText = {\n    Ready: [\"Ready to import\", \"#14351f\"],\n    Validating: [\"Validating rows…\", \"#7a5a10\"],\n    Error: [\"3 rows have missing emails\", \"#a32020\"],\n  }[status];\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, padding: \"16px 18px\", borderRadius: 12, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 700 }}>{fileName} <span style={{ fontWeight: 400, color: \"#24143099\" }}>&middot; {rowCount}</span></p>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12, fontWeight: 700, color: statusText[1] }}>{statusText[0]}</p>\n      {skipDuplicates && <p style={{ margin: \"0 0 12px\", fontSize: 11, color: \"#24143088\" }}>Duplicate contacts will be skipped.</p>}\n      <button type=\"button\" style={{ width: \"100%\", padding: 10, borderRadius: 8, border: \"none\", background: accent, color: \"#14351f\", fontWeight: 700, cursor: \"pointer\" }}>Import {rowCount}</button>\n    </div>\n  );\n}"
+  }
+}

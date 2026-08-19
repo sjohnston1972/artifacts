@@ -1,0 +1,36 @@
+{
+  "slug": "fieldset-element",
+  "controls_schema": [
+    {
+      "id": "legendText",
+      "type": "text",
+      "label": "Legend text",
+      "default": "Delivery speed"
+    },
+    {
+      "id": "inputType",
+      "type": "select",
+      "label": "Input type",
+      "default": "radio",
+      "options": ["radio", "checkbox"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disable whole group",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<fieldset class=\"fs\" style=\"--accent:{{accent}};\"{{#if disabled}} disabled{{/if}}>\n  <legend class=\"fs__legend\">{{legendText}}</legend>\n  <label class=\"fs__opt\"><input type=\"{{inputType}}\" name=\"speed\" checked> Standard (3–5 days)</label>\n  <label class=\"fs__opt\"><input type=\"{{inputType}}\" name=\"speed\"> Express (next day)</label>\n</fieldset>\n<style>\n.fs { width: 300px; box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border: 1.5px solid #24143025; border-radius: 10px; padding: 16px 20px 18px; }\n.fs:disabled, .fs[disabled] { opacity: .5; }\n.fs__legend { padding: 0 6px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }\n.fs__opt { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 14px; }\n.fs__opt input { accent-color: var(--accent); width: 16px; height: 16px; }\n</style>",
+    "tailwind": "<fieldset{{#if disabled}} disabled{{/if}} class=\"w-[300px] box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] border-[1.5px] border-[#24143025] rounded-[10px] px-5 pt-4 pb-[18px] disabled:opacity-50\">\n  <legend class=\"px-1.5 font-bold text-[13px] uppercase tracking-wide\" style=\"color:{{accent}}\">{{legendText}}</legend>\n  <label class=\"flex items-center gap-2 py-1.5 text-sm\"><input type=\"{{inputType}}\" name=\"speed\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\" checked> Standard (3–5 days)</label>\n  <label class=\"flex items-center gap-2 py-1.5 text-sm\"><input type=\"{{inputType}}\" name=\"speed\" class=\"w-4 h-4\" style=\"accent-color:{{accent}}\"> Express (next day)</label>\n</fieldset>",
+    "react": "export function FieldsetElement({\n  legendText = \"{{legendText}}\",\n  inputType = \"{{inputType}}\",\n  accent = \"{{accent}}\",\n  disabled = {{disabled}},\n}) {\n  return (\n    <fieldset disabled={disabled} style={{ width: 300, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", border: \"1.5px solid #24143025\", borderRadius: 10, padding: \"16px 20px 18px\", opacity: disabled ? 0.5 : 1 }}>\n      <legend style={{ padding: \"0 6px\", fontWeight: 700, fontSize: 13, textTransform: \"uppercase\", letterSpacing: \"0.04em\", color: accent }}>{legendText}</legend>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 0\", fontSize: 14 }}>\n        <input type={inputType} name=\"speed\" style={{ accentColor: accent, width: 16, height: 16 }} defaultChecked /> Standard (3–5 days)\n      </label>\n      <label style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 0\", fontSize: 14 }}>\n        <input type={inputType} name=\"speed\" style={{ accentColor: accent, width: 16, height: 16 }} /> Express (next day)\n      </label>\n    </fieldset>\n  );\n}"
+  }
+}

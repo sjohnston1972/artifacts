@@ -1,0 +1,50 @@
+{
+  "slug": "file-preview",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "File name",
+      "default": "cover-image.png"
+    },
+    {
+      "id": "kind",
+      "type": "select",
+      "label": "Type",
+      "default": "Image",
+      "options": [
+        "Image",
+        "PDF",
+        "Text"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "text",
+      "label": "Size",
+      "default": "860 KB"
+    },
+    {
+      "id": "showRemove",
+      "type": "toggle",
+      "label": "Show remove button",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fprev\" data-kind=\"{{kind}}\">\n  <div class=\"fprev__thumb\" style=\"background:{{accent}};\">{{kind}}</div>\n  <div class=\"fprev__body\">\n    <p class=\"fprev__name\">{{name}}</p>\n    <p class=\"fprev__size\">{{size}}</p>\n  </div>\n  {{#if showRemove}}<button type=\"button\" class=\"fprev__remove\" aria-label=\"Remove {{name}}\">&times;</button>{{/if}}\n</div>\n<style>\n.fprev { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 280px; padding: 10px; border-radius: 10px; box-sizing: border-box; border: 1px solid #24143018; display: flex; align-items: center; gap: 10px; }\n.fprev__thumb { flex: none; width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; text-transform: uppercase; color: #14351f; }\n.fprev__body { flex: 1 1 auto; min-width: 0; }\n.fprev__name { margin: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.fprev__size { margin: 2px 0 0; font-size: 11px; color: #24143099; }\n.fprev__remove { flex: none; border: none; background: none; cursor: pointer; color: #24143099; font-size: 16px; padding: 4px 8px; border-radius: 6px; }\n.fprev__remove:hover, .fprev__remove:focus-visible { background: #24143010; }\n</style>",
+    "tailwind": "<div class=\"flex items-center gap-2.5 w-[280px] p-2.5 rounded-[10px] box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\" data-kind=\"{{kind}}\">\n  <div class=\"flex-none w-[42px] h-[42px] rounded-lg flex items-center justify-center text-[9px] font-extrabold uppercase text-[#14351f]\" style=\"background:{{accent}}\">{{kind}}</div>\n  <div class=\"flex-1 min-w-0\">\n    <p class=\"m-0 font-bold overflow-hidden text-ellipsis whitespace-nowrap\">{{name}}</p>\n    <p class=\"mt-0.5 mb-0 text-[11px] text-[#241430]/60\">{{size}}</p>\n  </div>\n  {{#if showRemove}}<button type=\"button\" class=\"flex-none border-none bg-none cursor-pointer text-[#241430]/60 text-base px-2 py-1 rounded-md hover:bg-[#24143010]\" aria-label=\"Remove {{name}}\">&times;</button>{{/if}}\n</div>",
+    "react": "export function FilePreview({\n  name = \"{{name}}\",\n  kind = \"{{kind}}\",\n  size = \"{{size}}\",\n  showRemove = {{showRemove}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 280, padding: 10, borderRadius: 10, boxSizing: \"border-box\", border: \"1px solid #24143018\", display: \"flex\", alignItems: \"center\", gap: 10 }}>\n      <div style={{ flex: \"none\", width: 42, height: 42, borderRadius: 8, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", fontSize: 9, fontWeight: 800, textTransform: \"uppercase\", color: \"#14351f\", background: accent }}>{kind}</div>\n      <div style={{ flex: \"1 1 auto\", minWidth: 0 }}>\n        <p style={{ margin: 0, fontWeight: 700, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{name}</p>\n        <p style={{ margin: \"2px 0 0\", fontSize: 11, color: \"#24143099\" }}>{size}</p>\n      </div>\n      {showRemove && <button type=\"button\" aria-label={`Remove ${name}`} style={{ flex: \"none\", border: \"none\", background: \"none\", cursor: \"pointer\", color: \"#24143099\", fontSize: 16, padding: \"4px 8px\", borderRadius: 6 }}>&times;</button>}\n    </div>\n  );\n}"
+  }
+}

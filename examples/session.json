@@ -1,0 +1,45 @@
+{
+  "slug": "session",
+  "controls_schema": [
+    {
+      "id": "device",
+      "type": "text",
+      "label": "Device",
+      "default": "MacBook Pro"
+    },
+    {
+      "id": "location",
+      "type": "text",
+      "label": "Location",
+      "default": "London, UK"
+    },
+    {
+      "id": "lastActive",
+      "type": "text",
+      "label": "Last active",
+      "default": "Active now"
+    },
+    {
+      "id": "current",
+      "type": "toggle",
+      "label": "This device",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sess\">\n  <div class=\"sess__body\">\n    <p class=\"sess__device\">{{device}} {{#if current}}<span class=\"sess__badge\" style=\"background:{{accent}};\">This device</span>{{/if}}</p>\n    <p class=\"sess__meta\">{{location}} &middot; {{lastActive}}</p>\n  </div>\n  <button type=\"button\" class=\"sess__revoke\">{{#if current}}Sign out{{/if}}{{#unless current}}Revoke{{/unless}}</button>\n</div>\n<style>\n.sess { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 360px; padding: 14px 16px; border-radius: 10px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid #24143018; }\n.sess__device { margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.sess__badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; color: #14351f; }\n.sess__meta { margin: 4px 0 0; font-size: 12px; color: #24143099; }\n.sess__revoke { flex: none; padding: 7px 12px; border-radius: 7px; border: 1.5px solid #24143030; background: none; font-weight: 700; font-size: 12px; cursor: pointer; }\n.sess__revoke:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"flex items-center justify-between gap-2.5 w-[360px] p-[14px_16px] rounded-[10px] box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2]\">\n  <div>\n    <p class=\"m-0 font-bold flex items-center gap-2 flex-wrap\">{{device}} {{#if current}}<span class=\"text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full text-[#14351f]\" style=\"background:{{accent}}\">This device</span>{{/if}}</p>\n    <p class=\"mt-1 mb-0 text-xs text-[#241430]/60\">{{location}} &middot; {{lastActive}}</p>\n  </div>\n  <button type=\"button\" class=\"flex-none px-3 py-1.5 rounded-md border-[1.5px] border-[#24143030] bg-none font-bold text-xs cursor-pointer\">{{#if current}}Sign out{{/if}}{{#unless current}}Revoke{{/unless}}</button>\n</div>",
+    "react": "export function Session({\n  device = \"{{device}}\",\n  location = \"{{location}}\",\n  lastActive = \"{{lastActive}}\",\n  current = {{current}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 360, padding: \"14px 16px\", borderRadius: 10, boxSizing: \"border-box\", display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", gap: 10, border: \"1px solid #24143018\" }}>\n      <div>\n        <p style={{ margin: 0, fontWeight: 700, display: \"flex\", alignItems: \"center\", gap: 8, flexWrap: \"wrap\" }}>\n          {device} {current && <span style={{ fontSize: 10, fontWeight: 700, textTransform: \"uppercase\", letterSpacing: \".03em\", padding: \"2px 8px\", borderRadius: 999, color: \"#14351f\", background: accent }}>This device</span>}\n        </p>\n        <p style={{ margin: \"4px 0 0\", fontSize: 12, color: \"#24143099\" }}>{location} &middot; {lastActive}</p>\n      </div>\n      <button type=\"button\" style={{ flex: \"none\", padding: \"7px 12px\", borderRadius: 7, border: \"1.5px solid #24143030\", background: \"none\", fontWeight: 700, fontSize: 12, cursor: \"pointer\" }}>{current ? \"Sign out\" : \"Revoke\"}</button>\n    </div>\n  );\n}"
+  }
+}

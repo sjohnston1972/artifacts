@@ -1,0 +1,35 @@
+{
+  "slug": "head-element",
+  "controls_schema": [
+    {
+      "id": "pageTitle",
+      "type": "text",
+      "label": "Title text",
+      "default": "Studio — Work"
+    },
+    {
+      "id": "description",
+      "type": "text",
+      "label": "Meta description",
+      "default": "Selected projects from a small design studio."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Highlight",
+      "default": "#BFD9F2",
+      "presets": ["#BFD9F2", "#A8E6C1", "#F5C2E0", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showChildren",
+      "type": "toggle",
+      "label": "Show contents",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"diagram\">\n  <p class=\"diagram__caption\">Document outline — <code>&lt;head&gt;</code> carries metadata; none of it renders as page content</p>\n  <div class=\"diagram__box diagram__box--dim\">\n    <span class=\"diagram__tag diagram__tag--dim\">&lt;html&gt;</span>\n    <div class=\"diagram__row\">\n      <div class=\"diagram__box diagram__box--root\" style=\"--accent:{{accent}};\">\n        <span class=\"diagram__tag\">&lt;head&gt;</span>\n        {{#if showChildren}}\n        <ul class=\"diagram__list\">\n          <li>&lt;title&gt;{{pageTitle}}&lt;/title&gt;</li>\n          <li>&lt;meta name=\"description\" content=\"{{description}}\"&gt;</li>\n          <li>&lt;link rel=\"stylesheet\"&gt;</li>\n          <li>&lt;script defer&gt;</li>\n        </ul>\n        {{/if}}\n      </div>\n      <div class=\"diagram__box diagram__box--dim diagram__box--flex\"><span class=\"diagram__tag diagram__tag--dim\">&lt;body&gt;</span><span class=\"diagram__note\">visible page content</span></div>\n    </div>\n  </div>\n</div>\n<style>\n.diagram { width: 460px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; }\n.diagram__caption { margin: 0 0 14px; font-size: 13px; color: #241430aa; }\n.diagram__caption code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n.diagram__box { border-radius: 8px; padding: 12px; box-sizing: border-box; }\n.diagram__box--root { border: 2.5px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, #FAF7F2); flex: 1.4; }\n.diagram__box--dim { border: 1.5px dashed #24143035; }\n.diagram__box--flex { flex: 1; }\n.diagram__row { display: flex; gap: 10px; margin-top: 10px; }\n.diagram__tag { display: block; font: 700 12px/1 ui-monospace, monospace; color: var(--accent); margin-bottom: 6px; }\n.diagram__tag--dim { color: #24143070; }\n.diagram__note { display: block; font-size: 11px; color: #241430aa; }\n.diagram__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font: 11px/1.4 ui-monospace, monospace; color: #241430cc; }\n</style>",
+    "tailwind": "<div class=\"w-[460px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-5 rounded-xl\">\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/65\">Document outline — <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;head&gt;</code> carries metadata; none of it renders as page content</p>\n  <div class=\"rounded-lg p-3 box-border border-[1.5px] border-dashed border-[#24143035]\">\n    <span class=\"block font-mono text-xs font-bold mb-1.5 text-[#24143070]\">&lt;html&gt;</span>\n    <div class=\"flex gap-2.5 mt-2.5\">\n      <div class=\"rounded-lg p-3 box-border border-[2.5px]\" style=\"border-color:{{accent}};background:color-mix(in srgb, {{accent}} 10%, #FAF7F2);flex:1.4;\">\n        <span class=\"block font-mono text-xs font-bold mb-1.5\" style=\"color:{{accent}}\">&lt;head&gt;</span>\n        {{#if showChildren}}\n        <ul class=\"list-none m-0 p-0 grid gap-1 font-mono text-[11px] text-[#241430]/80\">\n          <li>&lt;title&gt;{{pageTitle}}&lt;/title&gt;</li>\n          <li>&lt;meta name=\"description\" content=\"{{description}}\"&gt;</li>\n          <li>&lt;link rel=\"stylesheet\"&gt;</li>\n          <li>&lt;script defer&gt;</li>\n        </ul>\n        {{/if}}\n      </div>\n      <div class=\"flex-1 rounded-lg p-3 box-border border-[1.5px] border-dashed border-[#24143035]\"><span class=\"block font-mono text-xs font-bold mb-1.5 text-[#24143070]\">&lt;body&gt;</span><span class=\"block text-[11px] text-[#241430]/65\">visible page content</span></div>\n    </div>\n  </div>\n</div>",
+    "react": "export function HeadElement({\n  pageTitle = \"{{pageTitle}}\",\n  description = \"{{description}}\",\n  accent = \"{{accent}}\",\n  showChildren = {{showChildren}},\n}) {\n  return (\n    <div style={{ width: 460, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12 }}>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#241430aa\" }}>\n        Document outline — <code style={{ background: \"#24143012\", padding: \"1px 5px\", borderRadius: 4 }}>&lt;head&gt;</code> carries metadata; none of it renders as page content\n      </p>\n      <div style={{ border: \"1.5px dashed #24143035\", borderRadius: 8, padding: 12 }}>\n        <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: \"#24143070\", marginBottom: 6 }}>&lt;html&gt;</span>\n        <div style={{ display: \"flex\", gap: 10, marginTop: 10 }}>\n          <div style={{ flex: 1.4, border: `2.5px solid ${accent}`, borderRadius: 8, padding: 12, background: `color-mix(in srgb, ${accent} 10%, #FAF7F2)` }}>\n            <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: accent, marginBottom: 6 }}>&lt;head&gt;</span>\n            {showChildren && (\n              <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"grid\", gap: 4, font: \"11px/1.4 ui-monospace, monospace\", color: \"#241430cc\" }}>\n                <li>{`<title>${pageTitle}</title>`}</li>\n                <li>{`<meta name=\"description\" content=\"${description}\">`}</li>\n                <li>&lt;link rel=\"stylesheet\"&gt;</li>\n                <li>&lt;script defer&gt;</li>\n              </ul>\n            )}\n          </div>\n          <div style={{ flex: 1, border: \"1.5px dashed #24143035\", borderRadius: 8, padding: 12 }}>\n            <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: \"#24143070\", marginBottom: 6 }}>&lt;body&gt;</span>\n            <span style={{ display: \"block\", fontSize: 11, color: \"#241430aa\" }}>visible page content</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+}

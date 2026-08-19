@@ -1,0 +1,49 @@
+{
+  "slug": "attachment-list",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Attachments"
+    },
+    {
+      "id": "count",
+      "type": "select",
+      "label": "Files shown",
+      "default": "3",
+      "options": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "showSize",
+      "type": "toggle",
+      "label": "Show file size",
+      "default": true
+    },
+    {
+      "id": "removable",
+      "type": "toggle",
+      "label": "Removable",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"attlist\">\n  <p class=\"attlist__label\">{{label}}</p>\n  <ul class=\"attlist__items\" data-count=\"{{count}}\">\n    <li class=\"attlist__item\"><span class=\"attlist__icon\" style=\"color:{{accent}};\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"attlist__name\">brief.docx</span>{{#if showSize}}<span class=\"attlist__size\">240 KB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"attlist__remove\" aria-label=\"Remove brief.docx\">&times;</button>{{/if}}</li>\n    <li class=\"attlist__item\"><span class=\"attlist__icon\" style=\"color:{{accent}};\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"attlist__name\">budget.xlsx</span>{{#if showSize}}<span class=\"attlist__size\">88 KB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"attlist__remove\" aria-label=\"Remove budget.xlsx\">&times;</button>{{/if}}</li>\n    <li class=\"attlist__item\"><span class=\"attlist__icon\" style=\"color:{{accent}};\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"attlist__name\">photo.jpg</span>{{#if showSize}}<span class=\"attlist__size\">1.1 MB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"attlist__remove\" aria-label=\"Remove photo.jpg\">&times;</button>{{/if}}</li>\n  </ul>\n</div>\n<style>\n.attlist { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 300px; padding: 14px 16px; border-radius: 10px; box-sizing: border-box; border: 1px solid #24143018; }\n.attlist__label { margin: 0 0 8px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #24143099; }\n.attlist__items { list-style: none; margin: 0; padding: 0; }\n.attlist__item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #24143012; }\n.attlist__item:last-child { border-bottom: none; }\n.attlist__name { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.attlist__size { color: #24143088; font-size: 11px; }\n.attlist__remove { border: none; background: none; cursor: pointer; color: #24143099; font-size: 15px; padding: 2px 6px; border-radius: 5px; }\n.attlist__remove:hover, .attlist__remove:focus-visible { background: #24143010; }\n.attlist__items[data-count=\"2\"] .attlist__item:nth-child(n+3) { display: none; }\n</style>",
+    "tailwind": "<div class=\"w-[300px] p-[14px_16px] rounded-[10px] box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\">\n  <p class=\"m-0 mb-2 font-bold text-xs uppercase tracking-wide text-[#241430]/60\">{{label}}</p>\n  <ul class=\"list-none m-0 p-0\" data-count=\"{{count}}\">\n    <li class=\"attlist-tw-item flex items-center gap-2 py-1.5 border-b border-[#24143012]\"><span style=\"color:{{accent}}\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"flex-1 overflow-hidden text-ellipsis whitespace-nowrap\">brief.docx</span>{{#if showSize}}<span class=\"text-[#241430]/50 text-[11px]\">240 KB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"border-none bg-none cursor-pointer text-[#241430]/60 text-[15px] px-1.5 py-0.5 rounded\" aria-label=\"Remove brief.docx\">&times;</button>{{/if}}</li>\n    <li class=\"attlist-tw-item flex items-center gap-2 py-1.5 border-b border-[#24143012]\"><span style=\"color:{{accent}}\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"flex-1 overflow-hidden text-ellipsis whitespace-nowrap\">budget.xlsx</span>{{#if showSize}}<span class=\"text-[#241430]/50 text-[11px]\">88 KB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"border-none bg-none cursor-pointer text-[#241430]/60 text-[15px] px-1.5 py-0.5 rounded\" aria-label=\"Remove budget.xlsx\">&times;</button>{{/if}}</li>\n    <li class=\"attlist-tw-item flex items-center gap-2 py-1.5\"><span style=\"color:{{accent}}\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg></span><span class=\"flex-1 overflow-hidden text-ellipsis whitespace-nowrap\">photo.jpg</span>{{#if showSize}}<span class=\"text-[#241430]/50 text-[11px]\">1.1 MB</span>{{/if}}{{#if removable}}<button type=\"button\" class=\"border-none bg-none cursor-pointer text-[#241430]/60 text-[15px] px-1.5 py-0.5 rounded\" aria-label=\"Remove photo.jpg\">&times;</button>{{/if}}</li>\n  </ul>\n</div>\n<style>\nul[data-count=\"2\"] .attlist-tw-item:nth-child(n+3) { display: none; }\n</style>",
+    "react": "export function AttachmentList({\n  label = \"{{label}}\",\n  count = \"{{count}}\",\n  showSize = {{showSize}},\n  removable = {{removable}},\n  accent = \"{{accent}}\",\n}) {\n  const files = [\n    { name: \"brief.docx\", size: \"240 KB\" },\n    { name: \"budget.xlsx\", size: \"88 KB\" },\n    { name: \"photo.jpg\", size: \"1.1 MB\" },\n  ].slice(0, Number(count));\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 300, padding: \"14px 16px\", borderRadius: 10, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 700, fontSize: 12, textTransform: \"uppercase\", letterSpacing: \".04em\", color: \"#24143099\" }}>{label}</p>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        {files.map((f, i) => (\n          <li key={f.name} style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"6px 0\", borderBottom: i < files.length - 1 ? \"1px solid #24143012\" : \"none\" }}>\n            <span style={{ color: accent, display: \"flex\" }}>\n              <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 8V4a3 3 0 0 1 6 0v6a2 2 0 1 1-4 0V5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.4\" strokeLinecap=\"round\" /></svg>\n            </span>\n            <span style={{ flex: \"1 1 auto\", overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{f.name}</span>\n            {showSize && <span style={{ color: \"#24143088\", fontSize: 11 }}>{f.size}</span>}\n            {removable && <button type=\"button\" aria-label={`Remove ${f.name}`} style={{ border: \"none\", background: \"none\", cursor: \"pointer\", color: \"#24143099\", fontSize: 15, padding: \"2px 6px\", borderRadius: 5 }}>&times;</button>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

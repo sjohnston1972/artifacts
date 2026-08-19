@@ -1,0 +1,50 @@
+{
+  "slug": "export-action",
+  "controls_schema": [
+    {
+      "id": "format",
+      "type": "select",
+      "label": "Format",
+      "default": "CSV",
+      "options": [
+        "CSV",
+        "JSON",
+        "PDF"
+      ]
+    },
+    {
+      "id": "fileName",
+      "type": "text",
+      "label": "File name",
+      "default": "customers-export"
+    },
+    {
+      "id": "rowCount",
+      "type": "text",
+      "label": "Row count",
+      "default": "128 rows"
+    },
+    {
+      "id": "includeHeaders",
+      "type": "toggle",
+      "label": "Include headers",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"exp\">\n  <p class=\"exp__title\">Export {{rowCount}}</p>\n  <p class=\"exp__file\">{{fileName}}.<span data-format=\"{{format}}\">{{format}}</span></p>\n  {{#if includeHeaders}}<p class=\"exp__hint\">Column headers included on row 1.</p>{{/if}}\n  <button type=\"button\" class=\"exp__btn\" style=\"background:{{accent}};\">Export as {{format}}</button>\n</div>\n<style>\n.exp { font: 14px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 280px; padding: 16px 18px; border-radius: 12px; box-sizing: border-box; border: 1px solid #24143018; }\n.exp__title { margin: 0 0 4px; font-weight: 700; }\n.exp__file { margin: 0 0 8px; font-size: 12px; color: #24143099; font-variant-numeric: tabular-nums; }\n.exp__file span { text-transform: uppercase; font-weight: 700; }\n.exp__hint { margin: 0 0 12px; font-size: 11px; color: #24143088; }\n.exp__btn { width: 100%; padding: 10px; border-radius: 8px; border: none; color: #14351f; font-weight: 700; cursor: pointer; margin-top: 6px; }\n.exp__btn:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<div class=\"w-[280px] p-[16px_18px] rounded-xl box-border border border-[#24143018] font-sans text-sm text-[#241430] bg-[#FAF7F2]\">\n  <p class=\"m-0 mb-1 font-bold\">Export {{rowCount}}</p>\n  <p class=\"m-0 mb-2 text-xs text-[#241430]/60 tabular-nums\">{{fileName}}.<span class=\"uppercase font-bold\" data-format=\"{{format}}\">{{format}}</span></p>\n  {{#if includeHeaders}}<p class=\"m-0 mb-3 text-[11px] text-[#241430]/50\">Column headers included on row 1.</p>{{/if}}\n  <button type=\"button\" class=\"w-full py-2.5 rounded-lg border-none text-[#14351f] font-bold cursor-pointer mt-1.5\" style=\"background:{{accent}}\">Export as {{format}}</button>\n</div>",
+    "react": "export function ExportAction({\n  format = \"{{format}}\",\n  fileName = \"{{fileName}}\",\n  rowCount = \"{{rowCount}}\",\n  includeHeaders = {{includeHeaders}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"14px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 280, padding: \"16px 18px\", borderRadius: 12, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <p style={{ margin: \"0 0 4px\", fontWeight: 700 }}>Export {rowCount}</p>\n      <p style={{ margin: \"0 0 8px\", fontSize: 12, color: \"#24143099\", fontVariantNumeric: \"tabular-nums\" }}>{fileName}.<span style={{ textTransform: \"uppercase\", fontWeight: 700 }}>{format}</span></p>\n      {includeHeaders && <p style={{ margin: \"0 0 12px\", fontSize: 11, color: \"#24143088\" }}>Column headers included on row 1.</p>}\n      <button type=\"button\" style={{ width: \"100%\", padding: 10, borderRadius: 8, border: \"none\", background: accent, color: \"#14351f\", fontWeight: 700, cursor: \"pointer\", marginTop: 6 }}>Export as {format}</button>\n    </div>\n  );\n}"
+  }
+}

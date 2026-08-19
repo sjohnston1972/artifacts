@@ -1,0 +1,43 @@
+{
+  "slug": "image-viewer",
+  "controls_schema": [
+    {
+      "id": "altText",
+      "type": "text",
+      "label": "Alt text",
+      "default": "Team offsite photo"
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position",
+      "default": "2",
+      "options": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "zoomedIn",
+      "type": "toggle",
+      "label": "Zoomed in",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Toolbar colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<figure class=\"iview\">\n  <div class=\"iview__frame\" data-zoom=\"{{zoomedIn}}\">\n    <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 200 120\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><rect width=\"200\" height=\"120\" fill=\"#D9C8F0\"/><circle cx=\"164\" cy=\"26\" r=\"14\" fill=\"#E8A020\"/><path d=\"M0 100l50-50 40 34 30-26 80 42Z\" fill=\"#A8E6C1\"/></svg>\n  </div>\n  <figcaption class=\"iview__bar\" style=\"background:{{accent}};\">\n    <span class=\"iview__pos\">Image {{position}} of 5</span>\n    <span class=\"iview__alt\">{{altText}}</span>\n  </figcaption>\n</figure>\n<style>\n.iview { font: 12px/1.4 system-ui, sans-serif; color: #FAF7F2; width: 320px; margin: 0; border-radius: 10px; overflow: hidden; box-sizing: border-box; background: #24143008; }\n.iview__frame { width: 100%; height: 160px; overflow: hidden; }\n.iview__frame[data-zoom=\"true\"] svg { transform: scale(1.4); }\n.iview__frame svg { display: block; transition: transform .15s; }\n.iview__bar { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; }\n.iview__pos { font-weight: 700; }\n.iview__alt { opacity: .8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n</style>",
+    "tailwind": "<figure class=\"w-[320px] m-0 rounded-[10px] overflow-hidden box-border bg-[#24143008] font-sans text-xs text-[#FAF7F2] iview-tw\">\n  <div class=\"w-full h-40 overflow-hidden iview-tw-frame\" data-zoom=\"{{zoomedIn}}\">\n    <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 200 120\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><rect width=\"200\" height=\"120\" fill=\"#D9C8F0\"/><circle cx=\"164\" cy=\"26\" r=\"14\" fill=\"#E8A020\"/><path d=\"M0 100l50-50 40 34 30-26 80 42Z\" fill=\"#A8E6C1\"/></svg>\n  </div>\n  <figcaption class=\"flex justify-between gap-2.5 px-3 py-2\" style=\"background:{{accent}}\">\n    <span class=\"font-bold\">Image {{position}} of 5</span>\n    <span class=\"opacity-80 overflow-hidden text-ellipsis whitespace-nowrap\">{{altText}}</span>\n  </figcaption>\n</figure>\n<style>\n.iview-tw-frame svg { display: block; transition: transform .15s; }\n.iview-tw-frame[data-zoom=\"true\"] svg { transform: scale(1.4); }\n</style>",
+    "react": "export function ImageViewer({\n  altText = \"{{altText}}\",\n  position = \"{{position}}\",\n  zoomedIn = {{zoomedIn}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <figure style={{ font: \"12px/1.4 system-ui, sans-serif\", color: \"#FAF7F2\", width: 320, margin: 0, borderRadius: 10, overflow: \"hidden\", boxSizing: \"border-box\", background: \"#24143008\" }}>\n      <div style={{ width: \"100%\", height: 160, overflow: \"hidden\" }}>\n        <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 200 120\" preserveAspectRatio=\"none\" aria-hidden=\"true\" style={{ display: \"block\", transition: \"transform .15s\", transform: zoomedIn ? \"scale(1.4)\" : \"none\" }}>\n          <rect width=\"200\" height=\"120\" fill=\"#D9C8F0\" /><circle cx=\"164\" cy=\"26\" r=\"14\" fill=\"#E8A020\" /><path d=\"M0 100l50-50 40 34 30-26 80 42Z\" fill=\"#A8E6C1\" />\n        </svg>\n      </div>\n      <figcaption style={{ display: \"flex\", justifyContent: \"space-between\", gap: 10, padding: \"8px 12px\", background: accent }}>\n        <span style={{ fontWeight: 700 }}>Image {position} of 5</span>\n        <span style={{ opacity: .8, overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\" }}>{altText}</span>\n      </figcaption>\n    </figure>\n  );\n}"
+  }
+}

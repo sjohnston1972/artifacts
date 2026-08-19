@@ -1,0 +1,45 @@
+{
+  "slug": "file-metadata",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "File name",
+      "default": "Q3-report.pdf"
+    },
+    {
+      "id": "size",
+      "type": "text",
+      "label": "Size",
+      "default": "2.4 MB"
+    },
+    {
+      "id": "modified",
+      "type": "text",
+      "label": "Modified",
+      "default": "14 Aug 2026"
+    },
+    {
+      "id": "owner",
+      "type": "text",
+      "label": "Owner",
+      "default": "Priya Shah"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<dl class=\"fmeta\" style=\"border-top-color:{{accent}};\">\n  <div class=\"fmeta__row\"><dt>Name</dt><dd>{{name}}</dd></div>\n  <div class=\"fmeta__row\"><dt>Size</dt><dd>{{size}}</dd></div>\n  <div class=\"fmeta__row\"><dt>Modified</dt><dd><time datetime=\"2026-08-14\">{{modified}}</time></dd></div>\n  <div class=\"fmeta__row\"><dt>Owner</dt><dd>{{owner}}</dd></div>\n</dl>\n<style>\n.fmeta { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 280px; padding: 16px 18px; border-radius: 10px; box-sizing: border-box; border: 1px solid #24143018; border-top: 3px solid; margin: 0; }\n.fmeta__row { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid #24143012; }\n.fmeta__row:last-child { border-bottom: none; }\n.fmeta dt { color: #24143099; font-weight: 600; }\n.fmeta dd { margin: 0; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }\n</style>",
+    "tailwind": "<dl class=\"w-[280px] p-[16px_18px] rounded-[10px] box-border border border-[#24143018] border-t-[3px] m-0 font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\" style=\"border-top-color:{{accent}}\">\n  <div class=\"flex justify-between gap-2.5 py-1.5 border-b border-[#24143012]\"><dt class=\"text-[#241430]/60 font-semibold\">Name</dt><dd class=\"m-0 text-right overflow-hidden text-ellipsis whitespace-nowrap max-w-[160px]\">{{name}}</dd></div>\n  <div class=\"flex justify-between gap-2.5 py-1.5 border-b border-[#24143012]\"><dt class=\"text-[#241430]/60 font-semibold\">Size</dt><dd class=\"m-0 text-right\">{{size}}</dd></div>\n  <div class=\"flex justify-between gap-2.5 py-1.5 border-b border-[#24143012]\"><dt class=\"text-[#241430]/60 font-semibold\">Modified</dt><dd class=\"m-0 text-right\"><time datetime=\"2026-08-14\">{{modified}}</time></dd></div>\n  <div class=\"flex justify-between gap-2.5 py-1.5\"><dt class=\"text-[#241430]/60 font-semibold\">Owner</dt><dd class=\"m-0 text-right\">{{owner}}</dd></div>\n</dl>",
+    "react": "export function FileMetadata({\n  name = \"{{name}}\",\n  size = \"{{size}}\",\n  modified = \"{{modified}}\",\n  owner = \"{{owner}}\",\n  accent = \"{{accent}}\",\n}) {\n  const row = { display: \"flex\", justifyContent: \"space-between\", gap: 10, padding: \"6px 0\", borderBottom: \"1px solid #24143012\" };\n  const label = { color: \"#24143099\", fontWeight: 600 };\n  const value = { margin: 0, textAlign: \"right\", overflow: \"hidden\", textOverflow: \"ellipsis\", whiteSpace: \"nowrap\", maxWidth: 160 };\n  return (\n    <dl style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 280, padding: \"16px 18px\", borderRadius: 10, boxSizing: \"border-box\", border: \"1px solid #24143018\", borderTop: `3px solid ${accent}`, margin: 0 }}>\n      <div style={row}><dt style={label}>Name</dt><dd style={value}>{name}</dd></div>\n      <div style={row}><dt style={label}>Size</dt><dd style={value}>{size}</dd></div>\n      <div style={row}><dt style={label}>Modified</dt><dd style={value}><time dateTime=\"2026-08-14\">{modified}</time></dd></div>\n      <div style={{ ...row, borderBottom: \"none\" }}><dt style={label}>Owner</dt><dd style={value}>{owner}</dd></div>\n    </dl>\n  );\n}"
+  }
+}

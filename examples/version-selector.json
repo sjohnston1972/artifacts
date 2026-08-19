@@ -1,0 +1,44 @@
+{
+  "slug": "version-selector",
+  "controls_schema": [
+    {
+      "id": "fileName",
+      "type": "text",
+      "label": "File name",
+      "default": "roadmap.pdf"
+    },
+    {
+      "id": "selectedVersion",
+      "type": "select",
+      "label": "Selected version",
+      "default": "v3 (latest)",
+      "options": [
+        "v3 (latest)",
+        "v2",
+        "v1"
+      ]
+    },
+    {
+      "id": "showTimestamps",
+      "type": "toggle",
+      "label": "Show timestamps",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"vsel\" data-selected=\"{{selectedVersion}}\">\n  <label class=\"vsel__label\" for=\"vsel-select-v3\">Version of {{fileName}}</label>\n  <select id=\"vsel-select-v3\" class=\"vsel__select vsel__select--v3\" style=\"--accent:{{accent}};\">\n    <option selected>v3 (latest)</option><option>v2</option><option>v1</option>\n  </select>\n  <select id=\"vsel-select-v2\" class=\"vsel__select vsel__select--v2\" style=\"--accent:{{accent}};\">\n    <option>v3 (latest)</option><option selected>v2</option><option>v1</option>\n  </select>\n  <select id=\"vsel-select-v1\" class=\"vsel__select vsel__select--v1\" style=\"--accent:{{accent}};\">\n    <option>v3 (latest)</option><option>v2</option><option selected>v1</option>\n  </select>\n  <p class=\"vsel__current\">Viewing <strong>{{selectedVersion}}</strong>{{#if showTimestamps}} &middot; saved <time datetime=\"2026-08-14T10:20\">14 Aug, 10:20am</time>{{/if}}</p>\n</div>\n<style>\n.vsel { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 280px; padding: 14px 16px; border-radius: 10px; box-sizing: border-box; border: 1px solid #24143018; }\n.vsel__label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 12px; color: #24143099; }\n.vsel__select { display: none; width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #24143030; font: inherit; background: #FAF7F2; margin-bottom: 10px; }\n.vsel[data-selected=\"v3 (latest)\"] .vsel__select--v3 { display: block; }\n.vsel[data-selected=\"v2\"] .vsel__select--v2 { display: block; }\n.vsel[data-selected=\"v1\"] .vsel__select--v1 { display: block; }\n.vsel__select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n.vsel__current { margin: 0; font-size: 12px; color: #24143099; }\n.vsel__current strong { color: #241430; }\n</style>",
+    "tailwind": "<div class=\"w-[280px] p-[14px_16px] rounded-[10px] box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] vsel-tw\" data-selected=\"{{selectedVersion}}\" style=\"--accent:{{accent}}\">\n  <label class=\"block mb-1.5 font-bold text-xs text-[#241430]/60\" for=\"vsel-tw-select-v3\">Version of {{fileName}}</label>\n  <select id=\"vsel-tw-select-v3\" class=\"vsel-tw-select vsel-tw-select--v3 hidden w-full box-border px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] font-[inherit] bg-[#FAF7F2] mb-2.5\">\n    <option selected>v3 (latest)</option><option>v2</option><option>v1</option>\n  </select>\n  <select id=\"vsel-tw-select-v2\" class=\"vsel-tw-select vsel-tw-select--v2 hidden w-full box-border px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] font-[inherit] bg-[#FAF7F2] mb-2.5\">\n    <option>v3 (latest)</option><option selected>v2</option><option>v1</option>\n  </select>\n  <select id=\"vsel-tw-select-v1\" class=\"vsel-tw-select vsel-tw-select--v1 hidden w-full box-border px-2.5 py-2 rounded-lg border-[1.5px] border-[#24143030] font-[inherit] bg-[#FAF7F2] mb-2.5\">\n    <option>v3 (latest)</option><option>v2</option><option selected>v1</option>\n  </select>\n  <p class=\"m-0 text-xs text-[#241430]/60\">Viewing <strong class=\"text-[#241430]\">{{selectedVersion}}</strong>{{#if showTimestamps}} &middot; saved <time datetime=\"2026-08-14T10:20\">14 Aug, 10:20am</time>{{/if}}</p>\n</div>\n<style>\n.vsel-tw[data-selected=\"v3 (latest)\"] .vsel-tw-select--v3 { display: block; }\n.vsel-tw[data-selected=\"v2\"] .vsel-tw-select--v2 { display: block; }\n.vsel-tw[data-selected=\"v1\"] .vsel-tw-select--v1 { display: block; }\n.vsel-tw-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }\n</style>",
+    "react": "export function VersionSelector({\n  fileName = \"{{fileName}}\",\n  selectedVersion = \"{{selectedVersion}}\",\n  showTimestamps = {{showTimestamps}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 280, padding: \"14px 16px\", borderRadius: 10, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <label htmlFor=\"vsel-react-select\" style={{ display: \"block\", marginBottom: 6, fontWeight: 700, fontSize: 12, color: \"#24143099\" }}>Version of {fileName}</label>\n      <select id=\"vsel-react-select\" defaultValue={selectedVersion} style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", borderRadius: 8, border: `1.5px solid #24143030`, font: \"inherit\", background: \"#FAF7F2\", marginBottom: 10 }}>\n        <option>v3 (latest)</option>\n        <option>v2</option>\n        <option>v1</option>\n      </select>\n      <p style={{ margin: 0, fontSize: 12, color: \"#24143099\" }}>Viewing <strong style={{ color: \"#241430\" }}>{selectedVersion}</strong>{showTimestamps && <> &middot; saved <time dateTime=\"2026-08-14T10:20\">14 Aug, 10:20am</time></>}</p>\n    </div>\n  );\n}"
+  }
+}

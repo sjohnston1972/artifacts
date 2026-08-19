@@ -1,0 +1,42 @@
+{
+  "slug": "a-element",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Link text",
+      "default": "Read the documentation"
+    },
+    {
+      "id": "href",
+      "type": "text",
+      "label": "Href",
+      "default": "https://example.com/docs"
+    },
+    {
+      "id": "target",
+      "type": "select",
+      "label": "Target",
+      "default": "_self",
+      "options": ["_self", "_blank"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "underline",
+      "type": "toggle",
+      "label": "Underline",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<p class=\"a-demo\">This is a real <a class=\"a-link{{#if underline}} a-link--underline{{/if}}\" href=\"{{href}}\" target=\"{{target}}\" rel=\"noopener noreferrer\" data-target=\"{{target}}\" style=\"color:{{accent}};\">{{text}}<svg class=\"a-link__ext\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14 5h5v5M19 5 10 14M7 5H5v14h14v-2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a> anchor, taking you somewhere when clicked or tapped.</p>\n<style>\n.a-demo { max-width: 420px; font: 16px/1.6 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px 22px; border-radius: 10px; margin: 0; }\n.a-link { font-weight: 600; text-decoration: none; }\n.a-link--underline { text-decoration: underline; text-underline-offset: 3px; }\n.a-link:hover { opacity: .75; }\n.a-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }\n.a-link__ext { display: none; margin-left: 3px; vertical-align: -1px; }\n.a-link[data-target=\"_blank\"] .a-link__ext { display: inline; }\n</style>",
+    "tailwind": "<p class=\"max-w-[420px] font-sans text-base leading-relaxed text-[#241430] bg-[#FAF7F2] px-[22px] py-5 rounded-[10px] m-0\">This is a real <a class=\"a-link-tw font-semibold hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:rounded-sm{{#if underline}} underline underline-offset-[3px]{{/if}}\" href=\"{{href}}\" target=\"{{target}}\" rel=\"noopener noreferrer\" data-target=\"{{target}}\" style=\"color:{{accent}};\">{{text}}<svg class=\"a-link-tw__ext hidden ml-[3px] -mb-px\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14 5h5v5M19 5 10 14M7 5H5v14h14v-2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a> anchor, taking you somewhere when clicked or tapped.</p>\n<style>\n.a-link-tw[data-target=\"_blank\"] .a-link-tw__ext { display: inline-block; }\n</style>",
+    "react": "export function AElement({\n  text = \"{{text}}\",\n  href = \"{{href}}\",\n  target = \"{{target}}\",\n  accent = \"{{accent}}\",\n  underline = {{underline}},\n}) {\n  return (\n    <p style={{ maxWidth: 420, font: \"16px/1.6 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: \"20px 22px\", borderRadius: 10, margin: 0 }}>\n      This is a real{\" \"}\n      <a\n        href={href}\n        target={target}\n        rel=\"noopener noreferrer\"\n        style={{ color: accent, fontWeight: 600, textDecoration: underline ? \"underline\" : \"none\", textUnderlineOffset: 3 }}\n      >\n        {text}\n        {target === \"_blank\" && (\n          <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" style={{ marginLeft: 3, verticalAlign: -1 }}>\n            <path d=\"M14 5h5v5M19 5 10 14M7 5H5v14h14v-2\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n          </svg>\n        )}\n      </a>{\" \"}\n      anchor, taking you somewhere when clicked or tapped.\n    </p>\n  );\n}"
+  }
+}

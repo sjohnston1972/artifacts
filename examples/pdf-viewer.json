@@ -1,0 +1,53 @@
+{
+  "slug": "pdf-viewer",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Document title",
+      "default": "contract-final.pdf"
+    },
+    {
+      "id": "page",
+      "type": "select",
+      "label": "Current page",
+      "default": "2",
+      "options": [
+        "2",
+        "6"
+      ]
+    },
+    {
+      "id": "zoom",
+      "type": "select",
+      "label": "Zoom",
+      "default": "100%",
+      "options": [
+        "100%",
+        "150%"
+      ]
+    },
+    {
+      "id": "showThumbnails",
+      "type": "toggle",
+      "label": "Show thumbnail rail",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pdfv\">\n  <div class=\"pdfv__toolbar\" style=\"background:{{accent}};\">\n    <span class=\"pdfv__title\">{{title}}</span>\n    <span class=\"pdfv__zoom\">{{zoom}}</span>\n  </div>\n  <div class=\"pdfv__body\">\n    {{#if showThumbnails}}<div class=\"pdfv__rail\"><span class=\"pdfv__thumb\"></span><span class=\"pdfv__thumb\"></span><span class=\"pdfv__thumb\"></span></div>{{/if}}\n    <div class=\"pdfv__page\" data-zoom=\"{{zoom}}\">\n      <span class=\"pdfv__line\"></span><span class=\"pdfv__line\"></span><span class=\"pdfv__line pdfv__line--short\"></span>\n    </div>\n  </div>\n  <p class=\"pdfv__status\">Page {{page}} of 8</p>\n</div>\n<style>\n.pdfv { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 340px; border-radius: 10px; overflow: hidden; box-sizing: border-box; border: 1px solid #24143018; }\n.pdfv__toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; font-weight: 700; color: #FAF7F2; }\n.pdfv__body { display: flex; background: #24143008; }\n.pdfv__rail { flex: none; width: 40px; padding: 10px 6px; display: flex; flex-direction: column; gap: 6px; }\n.pdfv__thumb { display: block; height: 24px; background: #24143022; border-radius: 3px; }\n.pdfv__page { flex: 1 1 auto; padding: 20px 18px; min-height: 90px; }\n.pdfv__page[data-zoom=\"150%\"] { padding: 30px 18px; }\n.pdfv__line { display: block; height: 8px; background: #24143022; border-radius: 4px; margin-bottom: 8px; }\n.pdfv__line--short { width: 60%; }\n.pdfv__status { margin: 0; padding: 8px 12px; font-size: 12px; color: #24143099; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"w-[340px] rounded-[10px] overflow-hidden box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2] pdfv-tw\">\n  <div class=\"flex items-center justify-between px-3 py-2 font-bold text-[#FAF7F2]\" style=\"background:{{accent}}\">\n    <span>{{title}}</span>\n    <span>{{zoom}}</span>\n  </div>\n  <div class=\"flex bg-[#24143008]\">\n    {{#if showThumbnails}}<div class=\"flex-none w-10 px-1.5 py-2.5 flex flex-col gap-1.5\"><span class=\"block h-6 bg-[#24143022] rounded-sm\"></span><span class=\"block h-6 bg-[#24143022] rounded-sm\"></span><span class=\"block h-6 bg-[#24143022] rounded-sm\"></span></div>{{/if}}\n    <div class=\"flex-1 px-[18px] py-5 min-h-[90px] pdfv-tw-page\" data-zoom=\"{{zoom}}\">\n      <span class=\"block h-2 bg-[#24143022] rounded mb-2\"></span><span class=\"block h-2 bg-[#24143022] rounded mb-2\"></span><span class=\"block h-2 bg-[#24143022] rounded mb-2 w-3/5\"></span>\n    </div>\n  </div>\n  <p class=\"m-0 px-3 py-2 text-xs text-[#241430]/60 text-center\">Page {{page}} of 8</p>\n</div>\n<style>\n.pdfv-tw-page[data-zoom=\"150%\"] { padding-top: 30px; padding-bottom: 30px; }\n</style>",
+    "react": "export function PdfViewer({\n  title = \"{{title}}\",\n  page = \"{{page}}\",\n  zoom = \"{{zoom}}\",\n  showThumbnails = {{showThumbnails}},\n  accent = \"{{accent}}\",\n}) {\n  const pagePad = zoom === \"150%\" ? \"30px 18px\" : \"20px 18px\";\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 340, borderRadius: 10, overflow: \"hidden\", boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"8px 12px\", fontWeight: 700, color: \"#FAF7F2\", background: accent }}>\n        <span>{title}</span>\n        <span>{zoom}</span>\n      </div>\n      <div style={{ display: \"flex\", background: \"#24143008\" }}>\n        {showThumbnails && (\n          <div style={{ flex: \"none\", width: 40, padding: \"10px 6px\", display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n            <span style={{ display: \"block\", height: 24, background: \"#24143022\", borderRadius: 3 }} />\n            <span style={{ display: \"block\", height: 24, background: \"#24143022\", borderRadius: 3 }} />\n            <span style={{ display: \"block\", height: 24, background: \"#24143022\", borderRadius: 3 }} />\n          </div>\n        )}\n        <div style={{ flex: \"1 1 auto\", padding: pagePad, minHeight: 90 }}>\n          <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8 }} />\n          <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8 }} />\n          <span style={{ display: \"block\", height: 8, background: \"#24143022\", borderRadius: 4, marginBottom: 8, width: \"60%\" }} />\n        </div>\n      </div>\n      <p style={{ margin: 0, padding: \"8px 12px\", fontSize: 12, color: \"#24143099\", textAlign: \"center\" }}>Page {page} of 8</p>\n    </div>\n  );\n}"
+  }
+}

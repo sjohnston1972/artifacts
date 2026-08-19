@@ -1,0 +1,50 @@
+{
+  "slug": "file-picker",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Choose file"
+    },
+    {
+      "id": "chosenFile",
+      "type": "text",
+      "label": "Chosen file",
+      "default": "resume.pdf"
+    },
+    {
+      "id": "accept",
+      "type": "select",
+      "label": "Accepted types",
+      "default": "Any file",
+      "options": [
+        "Any file",
+        "Images only",
+        "PDF only"
+      ]
+    },
+    {
+      "id": "multiple",
+      "type": "toggle",
+      "label": "Allow multiple",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fpick\">\n  <label class=\"fpick__btn\" style=\"background:{{accent}};\">\n    {{label}}\n    <input type=\"file\" class=\"fpick__input\" {{#if multiple}}multiple{{/if}} />\n  </label>\n  <p class=\"fpick__chosen\">{{chosenFile}}</p>\n  <p class=\"fpick__hint\">Accepted: <span data-accept=\"{{accept}}\">{{accept}}</span></p>\n</div>\n<style>\n.fpick { font: 13px/1.4 system-ui, sans-serif; color: #241430; background: #FAF7F2; width: 280px; padding: 16px; border-radius: 10px; box-sizing: border-box; border: 1px solid #24143018; }\n.fpick__btn { position: relative; display: inline-block; padding: 8px 16px; border-radius: 8px; font-weight: 700; color: #14351f; cursor: pointer; }\n.fpick__btn:focus-within { outline: 2px solid #241430; outline-offset: 2px; }\n.fpick__input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }\n.fpick__chosen { margin: 10px 0 2px; font-weight: 600; }\n.fpick__hint { margin: 0; font-size: 11px; color: #24143088; }\n.fpick__hint span { font-weight: 700; text-transform: capitalize; }\n</style>",
+    "tailwind": "<div class=\"w-[280px] p-4 rounded-[10px] box-border border border-[#24143018] font-sans text-[13px] text-[#241430] bg-[#FAF7F2]\">\n  <label class=\"relative inline-block px-4 py-2 rounded-lg font-bold text-[#14351f] cursor-pointer focus-within:outline focus-within:outline-2\" style=\"background:{{accent}}\">\n    {{label}}\n    <input type=\"file\" class=\"absolute w-px h-px overflow-hidden\" style=\"clip:rect(0 0 0 0)\" {{#if multiple}}multiple{{/if}} />\n  </label>\n  <p class=\"mt-2.5 mb-0.5 font-semibold\">{{chosenFile}}</p>\n  <p class=\"m-0 text-[11px] text-[#241430]/50\">Accepted: <span class=\"font-bold capitalize\" data-accept=\"{{accept}}\">{{accept}}</span></p>\n</div>",
+    "react": "export function FilePicker({\n  label = \"{{label}}\",\n  chosenFile = \"{{chosenFile}}\",\n  accept = \"{{accept}}\",\n  multiple = {{multiple}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.4 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", width: 280, padding: 16, borderRadius: 10, boxSizing: \"border-box\", border: \"1px solid #24143018\" }}>\n      <label style={{ position: \"relative\", display: \"inline-block\", padding: \"8px 16px\", borderRadius: 8, fontWeight: 700, color: \"#14351f\", cursor: \"pointer\", background: accent }}>\n        {label}\n        <input type=\"file\" multiple={multiple} style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", clip: \"rect(0 0 0 0)\", whiteSpace: \"nowrap\" }} />\n      </label>\n      <p style={{ margin: \"10px 0 2px\", fontWeight: 600 }}>{chosenFile}</p>\n      <p style={{ margin: 0, fontSize: 11, color: \"#24143088\" }}>Accepted: <span style={{ fontWeight: 700, textTransform: \"capitalize\" }}>{accept}</span></p>\n    </div>\n  );\n}"
+  }
+}

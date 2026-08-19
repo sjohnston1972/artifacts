@@ -1,0 +1,36 @@
+{
+  "slug": "button-element",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Submit order"
+    },
+    {
+      "id": "type",
+      "type": "select",
+      "label": "Type attribute",
+      "default": "submit",
+      "options": ["submit", "reset", "button"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "disabled",
+      "type": "toggle",
+      "label": "Disabled",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<form class=\"btn-demo\" onsubmit=\"return false\">\n  <p class=\"btn-demo__hint\">A real <code>&lt;button type=\"{{type}}\"&gt;</code> inside a form — its type decides what it does when pressed.</p>\n  <button class=\"btn-el\" type=\"{{type}}\" style=\"--accent:{{accent}};\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n</form>\n<style>\n.btn-demo { width: 320px; box-sizing: border-box; font: 15px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; }\n.btn-demo__hint { margin: 0 0 14px; font-size: 13px; color: #241430aa; }\n.btn-demo__hint code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n.btn-el { font: 600 15px system-ui, sans-serif; padding: 11px 22px; border-radius: 8px; border: 2px solid var(--accent); background: var(--accent); color: #FAF7F2; cursor: pointer; }\n.btn-el:hover:not(:disabled) { opacity: .85; }\n.btn-el:disabled { opacity: .4; cursor: not-allowed; }\n</style>",
+    "tailwind": "<form class=\"w-[320px] box-border font-sans text-[15px] text-[#241430] bg-[#FAF7F2] p-5 rounded-xl\" onsubmit=\"return false\">\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/65\">A real <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;button type=\"{{type}}\"&gt;</code> inside a form — its type decides what it does when pressed.</p>\n  <button type=\"{{type}}\" class=\"font-semibold text-[15px] px-[22px] py-[11px] rounded-lg border-2 text-[#FAF7F2] cursor-pointer hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed\" style=\"border-color:{{accent}};background:{{accent}};\"{{#if disabled}} disabled{{/if}}>{{label}}</button>\n</form>",
+    "react": "export function ButtonElement({\n  label = \"{{label}}\",\n  type = \"{{type}}\",\n  accent = \"{{accent}}\",\n  disabled = {{disabled}},\n}) {\n  return (\n    <form style={{ width: 320, boxSizing: \"border-box\", font: \"15px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12 }} onSubmit={(e) => e.preventDefault()}>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#241430aa\" }}>\n        A real <code style={{ background: \"#24143012\", padding: \"1px 5px\", borderRadius: 4 }}>{`<button type=\"${type}\">`}</code> inside a form — its type decides what it does when pressed.\n      </p>\n      <button\n        type={type}\n        disabled={disabled}\n        style={{ font: \"600 15px system-ui, sans-serif\", padding: \"11px 22px\", borderRadius: 8, border: `2px solid ${accent}`, background: accent, color: \"#FAF7F2\", cursor: disabled ? \"not-allowed\" : \"pointer\", opacity: disabled ? 0.4 : 1 }}\n      >\n        {label}\n      </button>\n    </form>\n  );\n}"
+  }
+}

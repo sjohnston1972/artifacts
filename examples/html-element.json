@@ -1,0 +1,35 @@
+{
+  "slug": "html-element",
+  "controls_schema": [
+    {
+      "id": "pageTitle",
+      "type": "text",
+      "label": "Page title",
+      "default": "Studio — Work"
+    },
+    {
+      "id": "lang",
+      "type": "text",
+      "label": "Lang attribute",
+      "default": "en"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Highlight",
+      "default": "#E8A020",
+      "presets": ["#E8A020", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#241430"]
+    },
+    {
+      "id": "showChildren",
+      "type": "toggle",
+      "label": "Show children",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"diagram\">\n  <p class=\"diagram__caption\">Document outline — <code>&lt;html lang=\"{{lang}}\"&gt;</code> is the root, wrapping everything else</p>\n  <div class=\"diagram__box diagram__box--root\" style=\"--accent:{{accent}};\">\n    <span class=\"diagram__tag\">&lt;html lang=\"{{lang}}\"&gt;</span>\n    {{#if showChildren}}\n    <div class=\"diagram__row\">\n      <div class=\"diagram__box diagram__box--dim\"><span class=\"diagram__tag diagram__tag--dim\">&lt;head&gt;</span><span class=\"diagram__note\">{{pageTitle}}</span></div>\n      <div class=\"diagram__box diagram__box--dim\"><span class=\"diagram__tag diagram__tag--dim\">&lt;body&gt;</span><span class=\"diagram__note\">visible page content</span></div>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.diagram { width: 460px; box-sizing: border-box; font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; }\n.diagram__caption { margin: 0 0 14px; font-size: 13px; color: #241430aa; }\n.diagram__caption code { background: #24143012; padding: 1px 5px; border-radius: 4px; }\n.diagram__box { border-radius: 8px; padding: 12px; box-sizing: border-box; }\n.diagram__box--root { border: 2.5px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, #FAF7F2); }\n.diagram__box--dim { flex: 1; border: 1.5px dashed #24143035; background: #FAF7F200; }\n.diagram__row { display: flex; gap: 10px; margin-top: 10px; }\n.diagram__tag { display: block; font: 700 12px/1 ui-monospace, monospace; color: var(--accent); margin-bottom: 4px; }\n.diagram__tag--dim { color: #24143070; }\n.diagram__note { display: block; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-[460px] box-border font-sans text-sm text-[#241430] bg-[#FAF7F2] p-5 rounded-xl\">\n  <p class=\"m-0 mb-3.5 text-[13px] text-[#241430]/65\">Document outline — <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded\">&lt;html lang=\"{{lang}}\"&gt;</code> is the root, wrapping everything else</p>\n  <div class=\"rounded-lg p-3 box-border border-[2.5px]\" style=\"border-color:{{accent}};background:color-mix(in srgb, {{accent}} 10%, #FAF7F2);\">\n    <span class=\"block font-mono text-xs font-bold mb-1\" style=\"color:{{accent}}\">&lt;html lang=\"{{lang}}\"&gt;</span>\n    {{#if showChildren}}\n    <div class=\"flex gap-2.5 mt-2.5\">\n      <div class=\"flex-1 rounded-lg border-[1.5px] border-dashed border-[#24143035] p-3\"><span class=\"block font-mono text-xs font-bold mb-1 text-[#24143070]\">&lt;head&gt;</span><span class=\"block text-[11px] text-[#241430]/65\">{{pageTitle}}</span></div>\n      <div class=\"flex-1 rounded-lg border-[1.5px] border-dashed border-[#24143035] p-3\"><span class=\"block font-mono text-xs font-bold mb-1 text-[#24143070]\">&lt;body&gt;</span><span class=\"block text-[11px] text-[#241430]/65\">visible page content</span></div>\n    </div>\n    {{/if}}\n  </div>\n</div>",
+    "react": "export function HtmlElement({\n  pageTitle = \"{{pageTitle}}\",\n  lang = \"{{lang}}\",\n  accent = \"{{accent}}\",\n  showChildren = {{showChildren}},\n}) {\n  return (\n    <div style={{ width: 460, boxSizing: \"border-box\", font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12 }}>\n      <p style={{ margin: \"0 0 14px\", fontSize: 13, color: \"#241430aa\" }}>\n        Document outline — <code style={{ background: \"#24143012\", padding: \"1px 5px\", borderRadius: 4 }}>{`<html lang=\"${lang}\">`}</code> is the root, wrapping everything else\n      </p>\n      <div style={{ borderRadius: 8, padding: 12, boxSizing: \"border-box\", border: `2.5px solid ${accent}`, background: `color-mix(in srgb, ${accent} 10%, #FAF7F2)` }}>\n        <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: accent, marginBottom: 4 }}>{`<html lang=\"${lang}\">`}</span>\n        {showChildren && (\n          <div style={{ display: \"flex\", gap: 10, marginTop: 10 }}>\n            <div style={{ flex: 1, border: \"1.5px dashed #24143035\", borderRadius: 8, padding: 12 }}>\n              <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: \"#24143070\", marginBottom: 4 }}>&lt;head&gt;</span>\n              <span style={{ display: \"block\", fontSize: 11, color: \"#241430aa\" }}>{pageTitle}</span>\n            </div>\n            <div style={{ flex: 1, border: \"1.5px dashed #24143035\", borderRadius: 8, padding: 12 }}>\n              <span style={{ display: \"block\", font: \"700 12px/1 ui-monospace, monospace\", color: \"#24143070\", marginBottom: 4 }}>&lt;body&gt;</span>\n              <span style={{ display: \"block\", fontSize: 11, color: \"#241430aa\" }}>visible page content</span>\n            </div>\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

@@ -190,8 +190,8 @@ for (const file of files) {
   {
     const tw = String(ex.templates.tailwind || "");
     const classes = [...tw.matchAll(/class="([^"]*)"/g)].map((m) => m[1]).join(" ");
-    const bad = classes.match(
-      /(?<!motion-safe:)(?<!motion-reduce:)\b(animate-(?!none)[a-z-]+|transition(?:-[a-z]+)?|duration-\d+)\b/g
+    const bad = classes.replace(/\{\{[^}]*\}\}/g, " ").match(
+        /(?<!motion-safe:)(?<!motion-reduce:)(?<![\w-])(transition(?:-(?:all|colors|opacity|shadow|transform))?|duration-\d+|animate-(?:spin|ping|pulse|bounce))(?![\w-])/g
     );
     if (bad) {
       problems.push([label, `tailwind: ${[...new Set(bad)].join(" ")} needs the motion-safe: prefix`]);

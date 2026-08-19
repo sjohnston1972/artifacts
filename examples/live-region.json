@@ -1,0 +1,47 @@
+{
+  "slug": "live-region",
+  "controls_schema": [
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "3 items added to your cart"
+    },
+    {
+      "id": "politeness",
+      "type": "select",
+      "label": "aria-live",
+      "default": "polite",
+      "options": [
+        "polite",
+        "assertive",
+        "off"
+      ]
+    },
+    {
+      "id": "visible",
+      "type": "toggle",
+      "label": "Message present",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lr-demo\" data-politeness=\"{{politeness}}\" style=\"--accent:{{accent}};\">\n  <div class=\"lr-demo__region\" aria-live=\"{{politeness}}\" role=\"status\">\n    {{#if visible}}<p class=\"lr-demo__msg\">{{message}}</p>{{/if}}\n  </div>\n  <p class=\"lr-demo__caption\"></p>\n</div>\n<style>\n.lr-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; }\n.lr-demo__region { min-height: 40px; border-radius: 8px; border: 1.5px dashed var(--accent); padding: 10px 12px; }\n.lr-demo__msg { margin: 0; font-weight: 600; }\n.lr-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n.lr-demo[data-politeness=\"polite\"] .lr-demo__caption::after { content: \"announced after the screen reader finishes its current sentence\"; }\n.lr-demo[data-politeness=\"assertive\"] .lr-demo__caption::after { content: \"announced immediately, interrupting whatever is being read\"; }\n.lr-demo[data-politeness=\"off\"] .lr-demo__caption::after { content: \"not announced at all\"; }\n</style>",
+    "tailwind": "<div class=\"lr-tw lr-tw--{{politeness}}\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <div aria-live=\"{{politeness}}\" role=\"status\" class=\"min-h-[40px] rounded-lg border-[1.5px] border-dashed px-3 py-2.5\" style=\"border-color:{{accent}}\">\n    {{#if visible}}<p class=\"m-0 font-semibold\">{{message}}</p>{{/if}}\n  </div>\n  <p class=\"lr-tw__caption mt-2.5 text-xs text-[#241430aa]\"></p>\n</div>\n<style>\n.lr-tw--polite .lr-tw__caption::after { content: \"announced after the screen reader finishes its current sentence\"; }\n.lr-tw--assertive .lr-tw__caption::after { content: \"announced immediately, interrupting whatever is being read\"; }\n.lr-tw--off .lr-tw__caption::after { content: \"not announced at all\"; }\n</style>",
+    "react": "export function LiveRegion({\n  message = \"{{message}}\",\n  politeness = \"{{politeness}}\",\n  visible = {{visible}},\n  accent = \"{{accent}}\",\n}) {\n  const captions = {\n    polite: \"announced after the screen reader finishes its current sentence\",\n    assertive: \"announced immediately, interrupting whatever is being read\",\n    off: \"not announced at all\",\n  };\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div aria-live={politeness} role=\"status\" style={{ minHeight: 40, borderRadius: 8, border: \"1.5px dashed \" + accent, padding: \"10px 12px\" }}>\n        {visible && <p style={{ margin: 0, fontWeight: 600 }}>{message}</p>}\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{captions[politeness]}</p>\n    </div>\n  );\n}"
+  }
+}

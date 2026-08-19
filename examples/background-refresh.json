@@ -1,0 +1,38 @@
+{
+  "slug": "background-refresh",
+  "controls_schema": [
+    {
+      "id": "refreshing",
+      "type": "toggle",
+      "label": "Refreshing now",
+      "default": true
+    },
+    {
+      "id": "lastUpdated",
+      "type": "text",
+      "label": "Last updated label",
+      "default": "Updated just now"
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Spinner cycle (ms)",
+      "default": 900,
+      "min": 400,
+      "max": 2000,
+      "step": 100
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-bgr-stage\">\n  <div class=\"lod-bgr-header\">\n    <strong>Live prices</strong>\n    {{#if refreshing}}<span class=\"lod-bgr-spin\" style=\"border-top-color:{{accent}};\" role=\"status\" aria-live=\"polite\"><span class=\"lod-bgr-sr\">Refreshing&hellip;</span></span>{{/if}}\n  </div>\n  <div class=\"lod-bgr-row\"><span>BTC</span><span>&pound;41,204</span></div>\n  <div class=\"lod-bgr-row\"><span>ETH</span><span>&pound;2,318</span></div>\n  <p class=\"lod-bgr-caption\">{{lastUpdated}} &mdash; the list stays interactive while data updates underneath</p>\n</div>\n<style>\n.lod-bgr-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430; }\n.lod-bgr-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }\n.lod-bgr-spin { width: 14px; height: 14px; border: 2px solid #24143022; border-radius: 999px; display: inline-block; }\n.lod-bgr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }\n.lod-bgr-row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #24143014; font-size: 13px; }\n.lod-bgr-caption { margin: 10px 0 0; font-size: 12px; color: #241430aa; }\n@media (prefers-reduced-motion: no-preference) {\n  .lod-bgr-spin { animation: lod-bgr-spin {{duration}}ms linear infinite; }\n  @keyframes lod-bgr-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]\">\n  <div class=\"flex items-center justify-between mb-2\">\n    <strong>Live prices</strong>\n    {{#if refreshing}}<span role=\"status\" aria-live=\"polite\" class=\"tw-bgr-spin w-3.5 h-3.5 border-2 border-[#24143022] rounded-full inline-block\" style=\"border-top-color:{{accent}};\"><span class=\"sr-only\">Refreshing&hellip;</span></span>{{/if}}\n  </div>\n  <div class=\"flex justify-between py-1.5 border-t border-[#24143014] text-sm\"><span>BTC</span><span>&pound;41,204</span></div>\n  <div class=\"flex justify-between py-1.5 border-t border-[#24143014] text-sm\"><span>ETH</span><span>&pound;2,318</span></div>\n  <p class=\"mt-2.5 text-xs text-[#241430]/70\">{{lastUpdated}} &mdash; the list stays interactive while data updates underneath</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  .tw-bgr-spin { animation: lod-bgr-tw-spin {{duration}}ms linear infinite; }\n  @keyframes lod-bgr-tw-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "react": "export function BackgroundRefresh({\n  refreshing = {{refreshing}},\n  lastUpdated = \"{{lastUpdated}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", marginBottom: 8 }}>\n        <strong>Live prices</strong>\n        {refreshing && (\n          <span role=\"status\" aria-live=\"polite\" className=\"spin\" style={{ width: 14, height: 14, border: \"2px solid #24143022\", borderTopColor: accent, borderRadius: 999, display: \"inline-block\" }}>\n            <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\" }}>Refreshing&hellip;</span>\n          </span>\n        )}\n      </div>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", padding: \"6px 0\", borderTop: \"1px solid #24143014\", fontSize: 13 }}><span>BTC</span><span>&pound;41,204</span></div>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", padding: \"6px 0\", borderTop: \"1px solid #24143014\", fontSize: 13 }}><span>ETH</span><span>&pound;2,318</span></div>\n      <p style={{ margin: \"10px 0 0\", fontSize: 12, color: \"#241430aa\" }}>{lastUpdated} &mdash; the list stays interactive while data updates underneath</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spin { animation: lod-bgr-spin ${duration}ms linear infinite; }\n          @keyframes lod-bgr-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

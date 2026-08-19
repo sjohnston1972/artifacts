@@ -1,0 +1,46 @@
+{
+  "slug": "drop",
+  "controls_schema": [
+    {
+      "id": "zoneLabel",
+      "type": "text",
+      "label": "Zone label",
+      "default": "Drop files here"
+    },
+    {
+      "id": "dragOver",
+      "type": "toggle",
+      "label": "Item hovering over zone",
+      "default": true
+    },
+    {
+      "id": "acceptance",
+      "type": "select",
+      "label": "Acceptance",
+      "default": "accept",
+      "options": [
+        "accept",
+        "reject"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"drop-demo\" data-acceptance=\"{{acceptance}}\" style=\"--accent:{{accent}};\">\n  <div class=\"drop-demo__zone{{#if dragOver}} is-over{{/if}}\">\n    <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M4 21h16\" /></svg>\n    <p>{{zoneLabel}}</p>\n  </div>\n  <p class=\"drop-demo__caption\">{{#if dragOver}}drop target active{{/if}}{{unless dragOver}}rest state &mdash; drag a file over the dashed zone{{/unless}}</p>\n</div>\n<style>\n.drop-demo { width: 280px; font: 14px system-ui, sans-serif; color: #241430; }\n.drop-demo__zone { border: 2px dashed #24143033; border-radius: 12px; padding: 26px 16px; text-align: center; color: #241430aa; }\n.drop-demo__zone p { margin: 8px 0 0; font-size: 13px; }\n.drop-demo__zone.is-over { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, #FAF7F2); color: #241430; }\n.drop-demo[data-acceptance=\"reject\"] .drop-demo__zone.is-over { border-color: #b3261e; background: #b3261e14; color: #b3261e; }\n.drop-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"drop-tw drop-tw--{{acceptance}}\" style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"drop-tw__zone{{#if dragOver}} is-over{{/if}} rounded-xl border-2 border-dashed text-center px-4 py-6.5\" style=\"border-color:#24143033;color:#241430aa\">\n    <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M4 21h16\" /></svg>\n    <p class=\"mt-2 mb-0 text-[13px]\">{{zoneLabel}}</p>\n  </div>\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if dragOver}}drop target active{{/if}}{{unless dragOver}}rest state &mdash; drag a file over the dashed zone{{/unless}}</p>\n</div>\n<style>\n.drop-tw__zone.is-over { border-color: {{accent}}; background: color-mix(in srgb, {{accent}} 16%, #FAF7F2); color: #241430; }\n.drop-tw--reject .drop-tw__zone.is-over { border-color: #b3261e; background: #b3261e14; color: #b3261e; }\n</style>",
+    "react": "export function DropZone({\n  zoneLabel = \"{{zoneLabel}}\",\n  dragOver = {{dragOver}},\n  acceptance = \"{{acceptance}}\",\n  accent = \"{{accent}}\",\n}) {\n  const overStyle = dragOver\n    ? (acceptance === \"reject\"\n        ? { borderColor: \"#b3261e\", background: \"#b3261e14\", color: \"#b3261e\" }\n        : { borderColor: accent, background: \"color-mix(in srgb, \" + accent + \" 16%, #FAF7F2)\", color: \"#241430\" })\n    : {};\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ border: \"2px dashed #24143033\", borderRadius: 12, padding: \"26px 16px\", textAlign: \"center\", color: \"#241430aa\", ...overStyle }}>\n        <svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M4 21h16\" /></svg>\n        <p style={{ margin: \"8px 0 0\", fontSize: 13 }}>{zoneLabel}</p>\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{dragOver ? \"drop target active\" : \"rest state \\u2014 drag a file over the dashed zone\"}</p>\n    </div>\n  );\n}"
+  }
+}

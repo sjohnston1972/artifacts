@@ -1,0 +1,50 @@
+{
+  "slug": "keyboard-shortcut",
+  "controls_schema": [
+    {
+      "id": "action",
+      "type": "text",
+      "label": "Action",
+      "default": "Save"
+    },
+    {
+      "id": "os",
+      "type": "select",
+      "label": "Operating system",
+      "default": "mac",
+      "options": [
+        "mac",
+        "windows",
+        "linux"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Key size (px)",
+      "default": 26,
+      "min": 20,
+      "max": 36,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kbs-demo\" data-os=\"{{os}}\" style=\"--accent:{{accent}};--size:{{size}}px;\">\n  <div class=\"kbs-demo__row\">\n    <span class=\"kbs-demo__action\">{{action}}</span>\n    <span class=\"kbs-demo__combo\">\n      <kbd class=\"kbs-demo__key kbs-demo__key--mac\">&#8984;</kbd>\n      <kbd class=\"kbs-demo__key kbs-demo__key--windows\">Ctrl</kbd>\n      <kbd class=\"kbs-demo__key kbs-demo__key--linux\">Super</kbd>\n      <span class=\"kbs-demo__plus\">+</span>\n      <kbd class=\"kbs-demo__key kbs-demo__key--letter\">S</kbd>\n    </span>\n  </div>\n</div>\n<style>\n.kbs-demo { width: 260px; font: 14px system-ui, sans-serif; color: #241430; }\n.kbs-demo__row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; background: #24143010; }\n.kbs-demo__combo { display: flex; align-items: center; gap: 4px; }\n.kbs-demo__key { display: none; min-width: var(--size); height: var(--size); padding: 0 6px; border-radius: 6px; background: var(--accent); color: #FAF7F2; font: 700 12px ui-monospace, monospace; display: none; align-items: center; justify-content: center; }\n.kbs-demo[data-os=\"mac\"] .kbs-demo__key--mac { display: flex; }\n.kbs-demo[data-os=\"windows\"] .kbs-demo__key--windows { display: flex; }\n.kbs-demo[data-os=\"linux\"] .kbs-demo__key--linux { display: flex; }\n.kbs-demo__key--letter { display: flex; }\n.kbs-demo__plus { color: #241430aa; font-size: 12px; }\n</style>",
+    "tailwind": "<div class=\"kbs-tw kbs-tw--{{os}}\" style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#24143010]\">\n    <span>{{action}}</span>\n    <span class=\"flex items-center gap-1\">\n      <kbd class=\"kbs-tw__key kbs-tw__key--mac hidden items-center justify-center rounded-md font-mono font-bold text-xs\" style=\"min-width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">&#8984;</kbd>\n      <kbd class=\"kbs-tw__key kbs-tw__key--windows hidden items-center justify-center rounded-md font-mono font-bold text-xs\" style=\"min-width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">Ctrl</kbd>\n      <kbd class=\"kbs-tw__key kbs-tw__key--linux hidden items-center justify-center rounded-md font-mono font-bold text-xs\" style=\"min-width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">Super</kbd>\n      <span class=\"text-xs text-[#241430aa]\">+</span>\n      <kbd class=\"flex items-center justify-center rounded-md font-mono font-bold text-xs\" style=\"min-width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">S</kbd>\n    </span>\n  </div>\n</div>\n<style>\n.kbs-tw--mac .kbs-tw__key--mac { display: flex; }\n.kbs-tw--windows .kbs-tw__key--windows { display: flex; }\n.kbs-tw--linux .kbs-tw__key--linux { display: flex; }\n</style>",
+    "react": "export function KeyboardShortcut({\n  action = \"{{action}}\",\n  os = \"{{os}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n}) {\n  const modKey = { mac: \"\\u2318\", windows: \"Ctrl\", linux: \"Super\" }[os];\n  const keyStyle = { minWidth: size, height: size, padding: \"0 6px\", borderRadius: 6, background: accent, color: \"#FAF7F2\", fontFamily: \"ui-monospace, monospace\", fontWeight: 700, fontSize: 12, display: \"flex\", alignItems: \"center\", justifyContent: \"center\" };\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\" }}>\n        <span>{action}</span>\n        <span style={{ display: \"flex\", alignItems: \"center\", gap: 4 }}>\n          <kbd style={keyStyle}>{modKey}</kbd>\n          <span style={{ color: \"#241430aa\", fontSize: 12 }}>+</span>\n          <kbd style={keyStyle}>S</kbd>\n        </span>\n      </div>\n    </div>\n  );\n}"
+  }
+}

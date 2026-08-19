@@ -1,0 +1,37 @@
+{
+  "slug": "alt-text",
+  "controls_schema": [
+    {
+      "id": "altText",
+      "type": "text",
+      "label": "Alt text",
+      "default": "Golden retriever catching a frisbee mid-air"
+    },
+    {
+      "id": "decorative",
+      "type": "toggle",
+      "label": "Decorative (empty alt)",
+      "default": false
+    },
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Image width (px)",
+      "default": 220,
+      "min": 140,
+      "max": 320,
+      "step": 10
+    },
+    {
+      "id": "showCaption",
+      "type": "toggle",
+      "label": "Show alt readout",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"alt-demo\">\n  <div class=\"alt-demo__frame\" style=\"width:{{width}}px;\">\n    <img class=\"alt-demo__img\" src=\"does-not-exist.jpg\" style=\"width:{{width}}px;\"{{#if decorative}} alt=\"\" role=\"presentation\"{{/if}}{{unless decorative}} alt=\"{{altText}}\"{{/unless}} />\n  </div>\n  {{#if showCaption}}<p class=\"alt-demo__caption\">{{#if decorative}}alt=\"\" &mdash; image ignored by screen readers{{/if}}{{unless decorative}}alt=\"{{altText}}\"{{/unless}}</p>{{/if}}\n</div>\n<style>\n.alt-demo { width: 340px; font: 13px/1.5 system-ui, sans-serif; color: #241430; }\n.alt-demo__frame { min-height: 90px; border: 2px dashed #24143033; border-radius: 10px; background: #FAF7F2; display: grid; place-items: center; padding: 10px; box-sizing: content-box; }\n.alt-demo__img { display: block; }\n.alt-demo__caption { margin-top: 10px; font: 12px/1.4 ui-monospace, monospace; color: #241430aa; word-break: break-word; }\n</style>",
+    "tailwind": "<div style=\"width:340px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"border-2 border-dashed rounded-lg grid place-items-center p-2.5 box-content\" style=\"min-height:90px;border-color:#24143033;background:#FAF7F2;width:{{width}}px\">\n    <img src=\"does-not-exist.jpg\" class=\"block\" style=\"width:{{width}}px\"{{#if decorative}} alt=\"\" role=\"presentation\"{{/if}}{{unless decorative}} alt=\"{{altText}}\"{{/unless}} />\n  </div>\n  {{#if showCaption}}<p class=\"mt-2.5 text-xs font-mono text-[#241430aa] break-words\">{{#if decorative}}alt=\"\" &mdash; image ignored by screen readers{{/if}}{{unless decorative}}alt=\"{{altText}}\"{{/unless}}</p>{{/if}}\n</div>",
+    "react": "export function AltText({\n  altText = \"{{altText}}\",\n  decorative = {{decorative}},\n  width = {{width}},\n  showCaption = {{showCaption}},\n}) {\n  return (\n    <div style={{ width: 340, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <div style={{ minHeight: 90, border: \"2px dashed #24143033\", borderRadius: 10, background: \"#FAF7F2\", display: \"grid\", placeItems: \"center\", padding: 10, boxSizing: \"content-box\", width }}>\n        <img src=\"does-not-exist.jpg\" alt={decorative ? \"\" : altText} role={decorative ? \"presentation\" : undefined} style={{ display: \"block\", width }} />\n      </div>\n      {showCaption && <p style={{ marginTop: 10, fontSize: 12, fontFamily: \"ui-monospace, monospace\", color: \"#241430aa\", wordBreak: \"break-word\" }}>\n        {decorative ? 'alt=\"\" \\u2014 image ignored by screen readers' : 'alt=\"' + altText + '\"'}\n      </p>}\n    </div>\n  );\n}"
+  }
+}

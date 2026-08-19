@@ -1,0 +1,30 @@
+{
+  "slug": "partial-loading",
+  "controls_schema": [
+    {
+      "id": "loadedPortion",
+      "type": "select",
+      "label": "Loaded so far",
+      "default": "half",
+      "options": ["header-only", "half", "most"]
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Label each block",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-par-stage\" data-loaded=\"{{loadedPortion}}\">\n  <div class=\"lod-par-block lod-par-block--header\" style=\"background:{{accent}};\">{{#if showLabels}}header{{/if}}</div>\n  <div class=\"lod-par-block lod-par-block--body\" aria-hidden=\"true\">{{#if showLabels}}pending{{/if}}</div>\n  <div class=\"lod-par-block lod-par-block--footer\" aria-hidden=\"true\">{{#if showLabels}}pending{{/if}}</div>\n  <p role=\"status\" aria-live=\"polite\" class=\"lod-par-caption\">{{loadedPortion}} loaded &mdash; the rest streams in as it becomes ready</p>\n</div>\n<style>\n.lod-par-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.lod-par-block { height: 34px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #24143010 0 8px, transparent 8px 16px); color: #241430; font-weight: 600; }\n[data-loaded=\"header-only\"] .lod-par-block--header,\n[data-loaded=\"half\"] .lod-par-block--header,\n[data-loaded=\"half\"] .lod-par-block--body,\n[data-loaded=\"most\"] .lod-par-block--header,\n[data-loaded=\"most\"] .lod-par-block--body,\n[data-loaded=\"most\"] .lod-par-block--footer { background: none; }\n[data-loaded=\"half\"] .lod-par-block--footer { background: repeating-linear-gradient(45deg, #24143010 0 8px, transparent 8px 16px); }\n.lod-par-caption { margin: 6px 0 0; text-transform: capitalize; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-loaded=\"{{loadedPortion}}\">\n  <div class=\"tw-par-header h-[34px] rounded-lg mb-2 flex items-center justify-center font-semibold text-[#241430]\" style=\"background:{{accent}};\">{{#if showLabels}}header{{/if}}</div>\n  <div aria-hidden=\"true\" class=\"tw-par-body h-[34px] rounded-lg mb-2 flex items-center justify-center font-semibold text-[#241430]\" style=\"background:repeating-linear-gradient(45deg,#24143010 0 8px,transparent 8px 16px);\">{{#if showLabels}}pending{{/if}}</div>\n  <div aria-hidden=\"true\" class=\"tw-par-footer h-[34px] rounded-lg mb-2 flex items-center justify-center font-semibold text-[#241430]\" style=\"background:repeating-linear-gradient(45deg,#24143010 0 8px,transparent 8px 16px);\">{{#if showLabels}}pending{{/if}}</div>\n  <p role=\"status\" aria-live=\"polite\" class=\"mt-1.5 capitalize\">{{loadedPortion}} loaded &mdash; the rest streams in as it becomes ready</p>\n</div>\n<style>\n[data-loaded=\"half\"] .tw-par-body,\n[data-loaded=\"most\"] .tw-par-body,\n[data-loaded=\"most\"] .tw-par-footer { background: none !important; }\n</style>",
+    "react": "export function PartialLoading({\n  loadedPortion = \"{{loadedPortion}}\",\n  showLabels = {{showLabels}},\n  accent = \"{{accent}}\",\n}) {\n  const loadedBody = loadedPortion === \"half\" || loadedPortion === \"most\";\n  const loadedFooter = loadedPortion === \"most\";\n  const pending = { background: \"repeating-linear-gradient(45deg, #24143010 0 8px, transparent 8px 16px)\" };\n  const block = { height: 34, borderRadius: 8, marginBottom: 8, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", color: \"#241430\", fontWeight: 600 };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ ...block, background: accent }}>{showLabels && \"header\"}</div>\n      <div aria-hidden={!loadedBody} style={{ ...block, ...(loadedBody ? {} : pending) }}>{showLabels && !loadedBody && \"pending\"}</div>\n      <div aria-hidden={!loadedFooter} style={{ ...block, ...(loadedFooter ? {} : pending) }}>{showLabels && !loadedFooter && \"pending\"}</div>\n      <p role=\"status\" aria-live=\"polite\" style={{ margin: \"6px 0 0\", textTransform: \"capitalize\" }}>{loadedPortion} loaded &mdash; the rest streams in as it becomes ready</p>\n    </div>\n  );\n}"
+  }
+}

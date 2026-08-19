@@ -1,0 +1,36 @@
+{
+  "slug": "initial-loading",
+  "controls_schema": [
+    {
+      "id": "loaded",
+      "type": "toggle",
+      "label": "Content loaded",
+      "default": false
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Loading style",
+      "default": "skeleton",
+      "options": ["skeleton", "spinner"]
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Loaded title",
+      "default": "Welcome back, Priya"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-init-stage\" data-style=\"{{style}}\">\n  {{#unless loaded}}\n  <div class=\"lod-init-skeleton\" aria-hidden=\"true\">\n    <span class=\"lod-init-bar lod-init-bar--w\"></span>\n    <span class=\"lod-init-bar lod-init-bar--m\"></span>\n    <span class=\"lod-init-spinner\" style=\"border-top-color:{{accent}};\"></span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\">Loading your dashboard&hellip;</p>\n  {{/unless}}\n  {{#if loaded}}\n  <h3 class=\"lod-init-title\">{{title}}</h3>\n  <p class=\"lod-init-body\">Your dashboard is ready.</p>\n  {{/if}}\n</div>\n<style>\n.lod-init-stage { width: 100%; max-width: 320px; padding: 18px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-init-bar { display: block; height: 12px; background: #24143014; border-radius: 6px; margin-bottom: 8px; }\n.lod-init-bar--w { width: 100%; } .lod-init-bar--m { width: 60%; }\n.lod-init-skeleton { display: none; }\n[data-style=\"skeleton\"] .lod-init-skeleton { display: block; }\n.lod-init-spinner { display: none; width: 26px; height: 26px; border: 3px solid #24143022; border-radius: 999px; }\n[data-style=\"spinner\"] .lod-init-spinner { display: inline-block; }\n[data-style=\"spinner\"] .lod-init-bar { display: none; }\n.lod-init-title { margin: 0 0 6px; color: #241430; }\n.lod-init-body { margin: 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"spinner\"] .lod-init-spinner { animation: lod-init-spin 900ms linear infinite; }\n  @keyframes lod-init-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-[18px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-style=\"{{style}}\">\n  {{#unless loaded}}\n  <div class=\"tw-init-skeleton\" aria-hidden=\"true\">\n    <span class=\"tw-init-bar block h-3 bg-[#24143014] rounded-md mb-2 w-full\"></span>\n    <span class=\"tw-init-bar block h-3 bg-[#24143014] rounded-md mb-2 w-3/5\"></span>\n    <span class=\"tw-init-spinner hidden w-[26px] h-[26px] border-[3px] border-[#24143022] rounded-full\" style=\"border-top-color:{{accent}};\"></span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\">Loading your dashboard&hellip;</p>\n  {{/unless}}\n  {{#if loaded}}\n  <h3 class=\"m-0 mb-1.5 text-[#241430]\">{{title}}</h3>\n  <p class=\"m-0\">Your dashboard is ready.</p>\n  {{/if}}\n</div>\n<style>\n[data-style=\"spinner\"] .tw-init-spinner { display: inline-block; }\n[data-style=\"spinner\"] .tw-init-bar { display: none; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"spinner\"] .tw-init-spinner { animation: lod-init-tw-spin 900ms linear infinite; }\n  @keyframes lod-init-tw-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "react": "export function InitialLoading({\n  loaded = {{loaded}},\n  style = \"{{style}}\",\n  title = \"{{title}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 18, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      {!loaded && (\n        <>\n          <div aria-hidden=\"true\">\n            {style === \"skeleton\" ? (\n              <>\n                <span style={{ display: \"block\", height: 12, background: \"#24143014\", borderRadius: 6, marginBottom: 8, width: \"100%\" }} />\n                <span style={{ display: \"block\", height: 12, background: \"#24143014\", borderRadius: 6, marginBottom: 8, width: \"60%\" }} />\n              </>\n            ) : (\n              <span className=\"spinner\" style={{ display: \"inline-block\", width: 26, height: 26, border: \"3px solid #24143022\", borderTopColor: accent, borderRadius: 999 }} />\n            )}\n          </div>\n          <p role=\"status\" aria-live=\"polite\">Loading your dashboard&hellip;</p>\n        </>\n      )}\n      {loaded && (\n        <>\n          <h3 style={{ margin: \"0 0 6px\", color: \"#241430\" }}>{title}</h3>\n          <p style={{ margin: 0 }}>Your dashboard is ready.</p>\n        </>\n      )}\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spinner { animation: lod-init-spin 900ms linear infinite; }\n          @keyframes lod-init-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

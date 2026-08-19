@@ -1,0 +1,39 @@
+{
+  "slug": "keyframes",
+  "controls_schema": [
+    {
+      "id": "preset",
+      "type": "select",
+      "label": "Keyframe preset",
+      "default": "bounce",
+      "options": ["bounce", "colour-cycle", "scale-pulse"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 1400,
+      "min": 400,
+      "max": 3000,
+      "step": 100
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-kf-stage\" data-preset=\"{{preset}}\">\n  <div class=\"mot-kf-timeline\">\n    <span>0%</span><span>33%</span><span>66%</span><span>100%</span>\n  </div>\n  <div class=\"mot-kf-box{{#if loop}} mot-kf-box--loop{{/if}}\" style=\"background:{{accent}};\"></div>\n  <p class=\"mot-kf-caption\">@keyframes {{preset}} &middot; {{duration}}ms</p>\n</div>\n<style>\n.mot-kf-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-kf-timeline { display: flex; justify-content: space-between; margin-bottom: 8px; }\n.mot-kf-box { width: 36px; height: 36px; border-radius: 8px; margin: 0 auto; }\n.mot-kf-caption { margin: 10px 0 0; text-align: center; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-preset=\"bounce\"] .mot-kf-box { animation-name: mot-kf-bounce; }\n  [data-preset=\"colour-cycle\"] .mot-kf-box { animation-name: mot-kf-colour; }\n  [data-preset=\"scale-pulse\"] .mot-kf-box { animation-name: mot-kf-scale; }\n  .mot-kf-box { animation-duration: {{duration}}ms; animation-timing-function: ease-in-out; }\n  .mot-kf-box--loop { animation-iteration-count: infinite; }\n  @keyframes mot-kf-bounce { 0% { transform: translateY(0); } 33% { transform: translateY(-24px); } 66% { transform: translateY(0); } 100% { transform: translateY(0); } }\n  @keyframes mot-kf-colour { 0% { background: #A8E6C1; } 33% { background: #F5C2E0; } 66% { background: #BFD9F2; } 100% { background: #A8E6C1; } }\n  @keyframes mot-kf-scale { 0% { transform: scale(1); } 33% { transform: scale(1.5); } 66% { transform: scale(.8); } 100% { transform: scale(1); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-preset=\"{{preset}}\">\n  <div class=\"flex justify-between mb-2\">\n    <span>0%</span><span>33%</span><span>66%</span><span>100%</span>\n  </div>\n  <div class=\"w-9 h-9 rounded-lg mx-auto{{#if loop}} tw-kf-loop{{/if}}\" style=\"background:{{accent}};\"></div>\n  <p class=\"mt-2.5 text-center\">@keyframes {{preset}} &middot; {{duration}}ms</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-preset=\"bounce\"] div.w-9 { animation-name: mot-kf-tw-bounce; }\n  [data-preset=\"colour-cycle\"] div.w-9 { animation-name: mot-kf-tw-colour; }\n  [data-preset=\"scale-pulse\"] div.w-9 { animation-name: mot-kf-tw-scale; }\n  div.w-9 { animation-duration: {{duration}}ms; animation-timing-function: ease-in-out; }\n  .tw-kf-loop { animation-iteration-count: infinite; }\n  @keyframes mot-kf-tw-bounce { 0% { transform: translateY(0); } 33% { transform: translateY(-24px); } 66% { transform: translateY(0); } 100% { transform: translateY(0); } }\n  @keyframes mot-kf-tw-colour { 0% { background: #A8E6C1; } 33% { background: #F5C2E0; } 66% { background: #BFD9F2; } 100% { background: #A8E6C1; } }\n  @keyframes mot-kf-tw-scale { 0% { transform: scale(1); } 33% { transform: scale(1.5); } 66% { transform: scale(.8); } 100% { transform: scale(1); } }\n}\n</style>",
+    "react": "export function Keyframes({\n  preset = \"{{preset}}\",\n  duration = {{duration}},\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n}) {\n  const names = { bounce: \"mot-kf-bounce\", \"colour-cycle\": \"mot-kf-colour\", \"scale-pulse\": \"mot-kf-scale\" };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ display: \"flex\", justifyContent: \"space-between\", marginBottom: 8 }}>\n        <span>0%</span><span>33%</span><span>66%</span><span>100%</span>\n      </div>\n      <div className={loop ? \"box box--loop\" : \"box\"} style={{ width: 36, height: 36, borderRadius: 8, margin: \"0 auto\", background: accent }} />\n      <p style={{ margin: \"10px 0 0\", textAlign: \"center\" }}>@keyframes {preset} &middot; {duration}ms</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .box { animation: ${names[preset]} ${duration}ms ease-in-out 1; }\n          .box--loop { animation-iteration-count: infinite; }\n          @keyframes mot-kf-bounce { 0% { transform: translateY(0); } 33% { transform: translateY(-24px); } 66% { transform: translateY(0); } 100% { transform: translateY(0); } }\n          @keyframes mot-kf-colour { 0% { background: #A8E6C1; } 33% { background: #F5C2E0; } 66% { background: #BFD9F2; } 100% { background: #A8E6C1; } }\n          @keyframes mot-kf-scale { 0% { transform: scale(1); } 33% { transform: scale(1.5); } 66% { transform: scale(.8); } 100% { transform: scale(1); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

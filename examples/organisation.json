@@ -1,0 +1,50 @@
+{
+  "slug": "organisation",
+  "controls_schema": [
+    {
+      "id": "orgName",
+      "type": "text",
+      "label": "Organisation name",
+      "default": "Northwind Traders"
+    },
+    {
+      "id": "plan",
+      "type": "select",
+      "label": "Plan",
+      "default": "pro",
+      "options": [
+        "free",
+        "pro",
+        "enterprise"
+      ]
+    },
+    {
+      "id": "memberCount",
+      "type": "number",
+      "label": "Members",
+      "default": 24,
+      "min": 1,
+      "max": 500,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#D9C8F0",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"org org--{{plan}}\">\n  <div class=\"org__head\">\n    <span class=\"org__logo\" style=\"background:{{accent}};\">{{orgName}}</span>\n    <div><strong>{{orgName}}</strong><small>{{memberCount}} members</small></div>\n  </div>\n  <p class=\"org__feature org__feature--free\">Included: shared workspace, 3 projects</p>\n  <p class=\"org__feature org__feature--pro\">Included: shared workspace, unlimited projects, roles</p>\n  <p class=\"org__feature org__feature--enterprise\">Included: everything in Pro, SSO, audit log</p>\n</div>\n<style>\n.org { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 300px; box-sizing: border-box; }\n.org__head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }\n.org__logo { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font-size: 0; position: relative; flex-shrink: 0; }\n.org__head strong { display: block; }\n.org__head small { color: #24143099; font-size: 11px; }\n.org__feature { display: none; margin: 0; font-size: 11px; background: #24143010; padding: 10px; border-radius: 8px; }\n.org--free .org__feature--free, .org--pro .org__feature--pro, .org--enterprise .org__feature--enterprise { display: block; }\n</style>",
+    "tailwind": "<div class=\"orgtw orgtw--{{plan}} font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[300px] box-border\">\n  <div class=\"flex items-center gap-2.5 mb-3\">\n    <span class=\"w-10 h-10 rounded-[10px] grid place-items-center shrink-0\" style=\"background:{{accent}};\"></span>\n    <div><strong class=\"block\">{{orgName}}</strong><small class=\"text-[#24143099] text-[11px]\">{{memberCount}} members</small></div>\n  </div>\n  <p class=\"orgtw__feature orgtw__feature--free hidden m-0 text-[11px] bg-[#24143010] p-2.5 rounded-lg\">Included: shared workspace, 3 projects</p>\n  <p class=\"orgtw__feature orgtw__feature--pro hidden m-0 text-[11px] bg-[#24143010] p-2.5 rounded-lg\">Included: shared workspace, unlimited projects, roles</p>\n  <p class=\"orgtw__feature orgtw__feature--enterprise hidden m-0 text-[11px] bg-[#24143010] p-2.5 rounded-lg\">Included: everything in Pro, SSO, audit log</p>\n</div>\n<style>\n.orgtw--free .orgtw__feature--free, .orgtw--pro .orgtw__feature--pro, .orgtw--enterprise .orgtw__feature--enterprise { display: block; }\n</style>",
+    "react": "export function Organisation({\n  orgName = \"{{orgName}}\",\n  plan = \"{{plan}}\",\n  memberCount = {{memberCount}},\n  accent = \"{{accent}}\",\n}) {\n  const features = {\n    free: \"Included: shared workspace, 3 projects\",\n    pro: \"Included: shared workspace, unlimited projects, roles\",\n    enterprise: \"Included: everything in Pro, SSO, audit log\",\n  }[plan];\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 300, boxSizing: \"border-box\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10, marginBottom: 12 }}>\n        <span style={{ width: 40, height: 40, borderRadius: 10, background: accent, flexShrink: 0, display: \"block\" }} />\n        <div><strong style={{ display: \"block\" }}>{orgName}</strong><small style={{ color: \"#24143099\", fontSize: 11 }}>{memberCount} members</small></div>\n      </div>\n      <p style={{ margin: 0, fontSize: 11, background: \"#24143010\", padding: 10, borderRadius: 8 }}>{features}</p>\n    </div>\n  );\n}"
+  }
+}

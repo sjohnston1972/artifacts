@@ -1,0 +1,42 @@
+{
+  "slug": "semantic-html",
+  "controls_schema": [
+    {
+      "id": "semantic",
+      "type": "toggle",
+      "label": "Use semantic elements",
+      "default": true
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Page title",
+      "default": "Dashboard"
+    },
+    {
+      "id": "showTagNames",
+      "type": "toggle",
+      "label": "Show tag names",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sh-demo\" style=\"--accent:{{accent}};\">\n  {{#if semantic}}\n  <header class=\"sh-demo__block\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;header&gt;</code>{{/if}}{{title}}</header>\n  <nav class=\"sh-demo__block\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;nav&gt;</code>{{/if}}Overview &middot; Reports &middot; Settings</nav>\n  <main class=\"sh-demo__block sh-demo__block--main\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;main&gt;</code>{{/if}}Page content</main>\n  {{/if}}\n  {{unless semantic}}\n  <div class=\"sh-demo__block\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;div class=\"header\"&gt;</code>{{/if}}{{title}}</div>\n  <div class=\"sh-demo__block\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;div class=\"nav\"&gt;</code>{{/if}}Overview &middot; Reports &middot; Settings</div>\n  <div class=\"sh-demo__block sh-demo__block--main\">{{#if showTagNames}}<code class=\"sh-demo__tag\">&lt;div class=\"main\"&gt;</code>{{/if}}Page content</div>\n  {{/unless}}\n</div>\n<style>\n.sh-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; display: flex; flex-direction: column; gap: 6px; }\n.sh-demo__block { padding: 10px 12px; border-radius: 8px; background: #24143010; border-left: 3px solid var(--accent); }\n.sh-demo__block--main { min-height: 40px; }\n.sh-demo__tag { display: block; font: 11px ui-monospace, monospace; color: var(--accent); margin-bottom: 3px; }\n</style>",
+    "tailwind": "<div class=\"flex flex-col gap-1.5\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  {{#if semantic}}\n  <header class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;header&gt;</code>{{/if}}{{title}}</header>\n  <nav class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;nav&gt;</code>{{/if}}Overview &middot; Reports &middot; Settings</nav>\n  <main class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px] min-h-[40px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;main&gt;</code>{{/if}}Page content</main>\n  {{/if}}\n  {{unless semantic}}\n  <div class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;div class=\"header\"&gt;</code>{{/if}}{{title}}</div>\n  <div class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;div class=\"nav\"&gt;</code>{{/if}}Overview &middot; Reports &middot; Settings</div>\n  <div class=\"px-3 py-2.5 rounded-lg bg-[#24143010] border-l-[3px] min-h-[40px]\" style=\"border-color:{{accent}}\">{{#if showTagNames}}<code class=\"block text-[11px] font-mono mb-0.5\" style=\"color:{{accent}}\">&lt;div class=\"main\"&gt;</code>{{/if}}Page content</div>\n  {{/unless}}\n</div>",
+    "react": "export function SemanticHtml({\n  semantic = {{semantic}},\n  title = \"{{title}}\",\n  showTagNames = {{showTagNames}},\n  accent = \"{{accent}}\",\n}) {\n  const block = { padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\", borderLeft: \"3px solid \" + accent };\n  const tag = { display: \"block\", fontFamily: \"ui-monospace, monospace\", fontSize: 11, color: accent, marginBottom: 3 };\n  const Header = semantic ? \"header\" : \"div\";\n  const Nav = semantic ? \"nav\" : \"div\";\n  const Main = semantic ? \"main\" : \"div\";\n  return (\n    <div style={{ width: 320, display: \"flex\", flexDirection: \"column\", gap: 6, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <Header style={block}>{showTagNames && <code style={tag}>{semantic ? \"<header>\" : '<div class=\"header\">'}</code>}{title}</Header>\n      <Nav style={block}>{showTagNames && <code style={tag}>{semantic ? \"<nav>\" : '<div class=\"nav\">'}</code>}Overview &middot; Reports &middot; Settings</Nav>\n      <Main style={{ ...block, minHeight: 40 }}>{showTagNames && <code style={tag}>{semantic ? \"<main>\" : '<div class=\"main\">'}</code>}Page content</Main>\n    </div>\n  );\n}"
+  }
+}

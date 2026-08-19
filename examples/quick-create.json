@@ -1,0 +1,42 @@
+{
+  "slug": "quick-create",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Trigger label",
+      "default": "+ New task"
+    },
+    {
+      "id": "placeholder",
+      "type": "text",
+      "label": "Placeholder",
+      "default": "Task name"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Panel open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"qc-demo\" style=\"--accent:{{accent}};\">\n  {{unless open}}<button type=\"button\" class=\"qc-demo__trigger\">{{label}}</button>{{/unless}}\n  {{#if open}}\n  <div class=\"qc-demo__panel\">\n    <input class=\"qc-demo__input\" type=\"text\" placeholder=\"{{placeholder}}\" autofocus />\n    <div class=\"qc-demo__row\">\n      <button type=\"button\" class=\"qc-demo__add\">Add</button>\n      <button type=\"button\" class=\"qc-demo__cancel\">Cancel</button>\n    </div>\n  </div>\n  {{/if}}\n</div>\n<style>\n.qc-demo { width: 260px; font: 14px system-ui, sans-serif; color: #241430; }\n.qc-demo__trigger { border: 1.5px dashed var(--accent); background: transparent; border-radius: 8px; padding: 10px 14px; font: inherit; font-weight: 600; color: #241430; cursor: pointer; width: 100%; text-align: left; }\n.qc-demo__panel { border-radius: 10px; border: 1.5px solid var(--accent); padding: 10px; background: #FAF7F2; }\n.qc-demo__input { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px; border: 1.5px solid #24143033; font: inherit; margin-bottom: 8px; }\n.qc-demo__row { display: flex; gap: 6px; }\n.qc-demo__add { background: var(--accent); border: none; border-radius: 6px; padding: 7px 14px; font-weight: 600; cursor: pointer; }\n.qc-demo__cancel { background: transparent; border: none; padding: 7px 14px; color: #241430aa; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  {{unless open}}<button type=\"button\" class=\"w-full text-left border-[1.5px] border-dashed rounded-lg px-3.5 py-2.5 font-semibold bg-transparent cursor-pointer\" style=\"border-color:{{accent}}\">{{label}}</button>{{/unless}}\n  {{#if open}}\n  <div class=\"rounded-[10px] border-[1.5px] p-2.5\" style=\"border-color:{{accent}};background:#FAF7F2\">\n    <input type=\"text\" placeholder=\"{{placeholder}}\" autofocus class=\"w-full box-border px-2.5 py-2 rounded-md border-[1.5px] mb-2\" style=\"border-color:#24143033\" />\n    <div class=\"flex gap-1.5\">\n      <button type=\"button\" class=\"rounded-md px-3.5 py-1.5 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}}\">Add</button>\n      <button type=\"button\" class=\"rounded-md px-3.5 py-1.5 border-0 bg-transparent text-[#241430aa] cursor-pointer\">Cancel</button>\n    </div>\n  </div>\n  {{/if}}\n</div>",
+    "react": "import { useState } from \"react\";\n\nexport function QuickCreate({\n  label = \"{{label}}\",\n  placeholder = \"{{placeholder}}\",\n  open: initialOpen = {{open}},\n  accent = \"{{accent}}\",\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      {!open && <button type=\"button\" onClick={() => setOpen(true)} style={{ width: \"100%\", textAlign: \"left\", border: \"1.5px dashed \" + accent, background: \"transparent\", borderRadius: 8, padding: \"10px 14px\", fontWeight: 600, color: \"#241430\", cursor: \"pointer\" }}>{label}</button>}\n      {open && (\n        <div style={{ borderRadius: 10, border: \"1.5px solid \" + accent, padding: 10, background: \"#FAF7F2\" }}>\n          <input type=\"text\" placeholder={placeholder} autoFocus style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", borderRadius: 6, border: \"1.5px solid #24143033\", marginBottom: 8, font: \"inherit\" }} />\n          <div style={{ display: \"flex\", gap: 6 }}>\n            <button type=\"button\" onClick={() => setOpen(false)} style={{ background: accent, border: \"none\", borderRadius: 6, padding: \"7px 14px\", fontWeight: 600, cursor: \"pointer\" }}>Add</button>\n            <button type=\"button\" onClick={() => setOpen(false)} style={{ background: \"transparent\", border: \"none\", padding: \"7px 14px\", color: \"#241430aa\", cursor: \"pointer\" }}>Cancel</button>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

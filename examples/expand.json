@@ -1,0 +1,45 @@
+{
+  "slug": "expand",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Text",
+      "default": "This release adds keyboard shortcuts throughout the app, a redesigned settings panel, faster search indexing, and a dozen small fixes reported by the community over the last month."
+    },
+    {
+      "id": "expanded",
+      "type": "toggle",
+      "label": "Expanded",
+      "default": false
+    },
+    {
+      "id": "lines",
+      "type": "number",
+      "label": "Collapsed lines",
+      "default": 2,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"expand-demo\" style=\"--accent:{{accent}};\">\n  <p class=\"expand-demo__text{{#unless expanded}} is-clamped{{/unless}}\" style=\"--lines:{{lines}};\">{{text}}</p>\n  <button type=\"button\" class=\"expand-demo__toggle\" aria-expanded=\"{{expanded}}\">{{#if expanded}}Show less{{/if}}{{unless expanded}}Read more{{/unless}}</button>\n</div>\n<style>\n.expand-demo { width: 320px; font: 14px/1.5 system-ui, sans-serif; color: #241430; }\n.expand-demo__text.is-clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines); overflow: hidden; }\n.expand-demo__toggle { margin-top: 8px; border: none; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; padding: 0; font-size: 13px; }\n</style>",
+    "tailwind": "<div style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <p class=\"expand-tw__text{{#unless expanded}} is-clamped{{/unless}} leading-normal\" style=\"--lines:{{lines}}\">{{text}}</p>\n  <button type=\"button\" aria-expanded=\"{{expanded}}\" class=\"mt-2 border-0 bg-transparent font-bold cursor-pointer p-0 text-[13px]\" style=\"color:{{accent}}\">{{#if expanded}}Show less{{/if}}{{unless expanded}}Read more{{/unless}}</button>\n</div>\n<style>\n.expand-tw__text.is-clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines); overflow: hidden; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function Expand({\n  text = \"{{text}}\",\n  expanded: initialExpanded = {{expanded}},\n  lines = {{lines}},\n  accent = \"{{accent}}\",\n}) {\n  const [expanded, setExpanded] = useState(initialExpanded);\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, lineHeight: 1.5, color: \"#241430\" }}>\n      <p style={expanded ? {} : { display: \"-webkit-box\", WebkitBoxOrient: \"vertical\", WebkitLineClamp: lines, overflow: \"hidden\" }}>{text}</p>\n      <button type=\"button\" aria-expanded={expanded} onClick={() => setExpanded((e) => !e)}\n        style={{ marginTop: 8, border: \"none\", background: \"transparent\", color: accent, fontWeight: 700, cursor: \"pointer\", padding: 0, fontSize: 13 }}>\n        {expanded ? \"Show less\" : \"Read more\"}\n      </button>\n    </div>\n  );\n}"
+  }
+}

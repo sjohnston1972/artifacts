@@ -1,0 +1,36 @@
+{
+  "slug": "context",
+  "controls_schema": [
+    {
+      "id": "scenario",
+      "type": "select",
+      "label": "Context",
+      "default": "morning",
+      "options": ["morning", "afternoon", "evening"]
+    },
+    {
+      "id": "aware",
+      "type": "toggle",
+      "label": "Context-aware content",
+      "default": true
+    },
+    {
+      "id": "userName",
+      "type": "text",
+      "label": "User name",
+      "default": "Priya"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-ctx-stage\" data-scenario=\"{{scenario}}\">\n  <div class=\"uif-ctx-icon\" style=\"background:{{accent}};\"></div>\n  <p class=\"uif-ctx-greeting\">{{#if aware}}<span class=\"uif-ctx-tailored\">Good <b class=\"uif-ctx-word\"></b>, {{userName}}</span>{{/if}}{{#unless aware}}Welcome, {{userName}}{{/unless}}</p>\n  <p class=\"uif-ctx-caption\">{{#if aware}}Uses context: time of day, current user{{/if}}{{#unless aware}}Same message regardless of context{{/unless}}</p>\n</div>\n<style>\n.uif-ctx-stage { width: 100%; max-width: 320px; padding: 18px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 14px system-ui, sans-serif; color: #241430; text-align: center; }\n.uif-ctx-icon { width: 30px; height: 30px; border-radius: 999px; margin: 0 auto 10px; }\n.uif-ctx-greeting { margin: 0 0 6px; font-weight: 600; }\n.uif-ctx-word::before { content: \"day\"; }\n[data-scenario=\"morning\"] .uif-ctx-word::before { content: \"morning\"; }\n[data-scenario=\"afternoon\"] .uif-ctx-word::before { content: \"afternoon\"; }\n[data-scenario=\"evening\"] .uif-ctx-word::before { content: \"evening\"; }\n.uif-ctx-caption { margin: 0; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-[18px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430] text-center\" data-scenario=\"{{scenario}}\">\n  <div class=\"w-[30px] h-[30px] rounded-full mx-auto mb-2.5\" style=\"background:{{accent}};\"></div>\n  <p class=\"m-0 mb-1.5 font-semibold\">{{#if aware}}<span>Good <b class=\"tw-ctx-word\"></b>, {{userName}}</span>{{/if}}{{#unless aware}}Welcome, {{userName}}{{/unless}}</p>\n  <p class=\"m-0 text-xs text-[#241430]/70\">{{#if aware}}Uses context: time of day, current user{{/if}}{{#unless aware}}Same message regardless of context{{/unless}}</p>\n</div>\n<style>\n.tw-ctx-word::before { content: \"day\"; }\n[data-scenario=\"morning\"] .tw-ctx-word::before { content: \"morning\"; }\n[data-scenario=\"afternoon\"] .tw-ctx-word::before { content: \"afternoon\"; }\n[data-scenario=\"evening\"] .tw-ctx-word::before { content: \"evening\"; }\n</style>",
+    "react": "export function Context({\n  scenario = \"{{scenario}}\",\n  aware = {{aware}},\n  userName = \"{{userName}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 18, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", textAlign: \"center\" }}>\n      <div style={{ width: 30, height: 30, borderRadius: 999, margin: \"0 auto 10px\", background: accent }} />\n      <p style={{ margin: \"0 0 6px\", fontWeight: 600 }}>{aware ? `Good ${scenario}, ${userName}` : `Welcome, ${userName}`}</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>{aware ? \"Uses context: time of day, current user\" : \"Same message regardless of context\"}</p>\n    </div>\n  );\n}"
+  }
+}

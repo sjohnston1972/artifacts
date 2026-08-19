@@ -1,0 +1,30 @@
+{
+  "slug": "interaction",
+  "controls_schema": [
+    {
+      "id": "actionType",
+      "type": "select",
+      "label": "User action",
+      "default": "click",
+      "options": ["click", "hover", "drag"]
+    },
+    {
+      "id": "triggered",
+      "type": "toggle",
+      "label": "Show system response",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-int-stage\" data-action=\"{{actionType}}\">\n  <div class=\"uif-int-user\">User {{actionType}}s the star</div>\n  <span class=\"uif-int-star{{#if triggered}} uif-int-star--on{{/if}}\" style=\"color:{{accent}};\">&#9733;</span>\n  <div class=\"uif-int-arrow\">&darr;</div>\n  <div class=\"uif-int-response{{#if triggered}} uif-int-response--visible{{/if}}\">System responds: saved to favourites</div>\n</div>\n<style>\n.uif-int-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.uif-int-user { margin-bottom: 6px; text-transform: capitalize; }\n.uif-int-star { font-size: 28px; color: #24143033; }\n.uif-int-star--on { color: inherit; }\n.uif-int-arrow { margin: 6px 0; opacity: .5; }\n.uif-int-response { visibility: hidden; font-weight: 600; color: #241430; }\n.uif-int-response--visible { visibility: visible; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\" data-action=\"{{actionType}}\">\n  <div class=\"mb-1.5 capitalize\">User {{actionType}}s the star</div>\n  <span class=\"text-3xl\" style=\"color:{{#if triggered}}{{accent}}{{/if}}{{#unless triggered}}#24143033{{/unless}};\">&#9733;</span>\n  <div class=\"my-1.5 opacity-50\">&darr;</div>\n  <div class=\"tw-int-response font-semibold text-[#241430]{{#if triggered}} tw-int-visible{{/if}}\">System responds: saved to favourites</div>\n</div>\n<style>\n.tw-int-response { visibility: hidden; }\n.tw-int-visible { visibility: visible; }\n</style>",
+    "react": "export function Interaction({\n  actionType = \"{{actionType}}\",\n  triggered = {{triggered}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      <div style={{ marginBottom: 6, textTransform: \"capitalize\" }}>User {actionType}s the star</div>\n      <span style={{ fontSize: 28, color: triggered ? accent : \"#24143033\" }}>&#9733;</span>\n      <div style={{ margin: \"6px 0\", opacity: .5 }}>&darr;</div>\n      <div style={{ visibility: triggered ? \"visible\" : \"hidden\", fontWeight: 600, color: \"#241430\" }}>System responds: saved to favourites</div>\n    </div>\n  );\n}"
+  }
+}

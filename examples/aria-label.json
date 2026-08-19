@@ -1,0 +1,56 @@
+{
+  "slug": "aria-label",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label text",
+      "default": "Delete item"
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "trash",
+      "options": [
+        "trash",
+        "search",
+        "close"
+      ]
+    },
+    {
+      "id": "hasLabel",
+      "type": "toggle",
+      "label": "Has aria-label",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Button size (px)",
+      "default": 44,
+      "min": 32,
+      "max": 64,
+      "step": 4
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"al-demo\" data-icon=\"{{icon}}\" style=\"--accent:{{accent}};\">\n  <button type=\"button\" class=\"al-demo__btn\" style=\"width:{{size}}px;height:{{size}}px;\"{{#if hasLabel}} aria-label=\"{{label}}\"{{/if}}>\n    <svg class=\"al-demo__icon al-demo__icon--trash\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13\" /></svg>\n    <svg class=\"al-demo__icon al-demo__icon--search\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6\"></circle><path d=\"M20 20l-4.5-4.5\" /></svg>\n    <svg class=\"al-demo__icon al-demo__icon--close\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\" /></svg>\n  </button>\n  <p class=\"al-demo__sr\">Screen reader announces: {{#if hasLabel}}&ldquo;{{label}}, button&rdquo;{{/if}}{{unless hasLabel}}&ldquo;button&rdquo; &mdash; name missing{{/unless}}</p>\n</div>\n<style>\n.al-demo { width: 340px; font: 14px/1.5 system-ui, sans-serif; color: #241430; }\n.al-demo__btn { border: none; border-radius: 10px; display: grid; place-items: center; cursor: pointer; background: var(--accent); }\n.al-demo__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.al-demo__icon { width: 22px; height: 22px; display: none; }\n.al-demo[data-icon=\"trash\"] .al-demo__icon--trash { display: block; }\n.al-demo[data-icon=\"search\"] .al-demo__icon--search { display: block; }\n.al-demo[data-icon=\"close\"] .al-demo__icon--close { display: block; }\n.al-demo__sr { margin-top: 10px; font-size: 13px; background: #A8E6C133; border-left: 3px solid var(--accent); padding: 8px 10px; }\n</style>",
+    "tailwind": "<div class=\"flex flex-col\" data-icon=\"{{icon}}\" style=\"--accent:{{accent}};width:340px;font-family:system-ui,sans-serif;color:#241430\">\n  <button type=\"button\" class=\"al-tw-btn rounded-xl grid place-items-center cursor-pointer\" style=\"width:{{size}}px;height:{{size}}px;background:{{accent}}\"{{#if hasLabel}} aria-label=\"{{label}}\"{{/if}}>\n    <svg class=\"al-tw-icon al-tw-icon--trash w-[22px] h-[22px]\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13\" /></svg>\n    <svg class=\"al-tw-icon al-tw-icon--search w-[22px] h-[22px]\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6\"></circle><path d=\"M20 20l-4.5-4.5\" /></svg>\n    <svg class=\"al-tw-icon al-tw-icon--close w-[22px] h-[22px]\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\" /></svg>\n  </button>\n  <p class=\"text-[13px] mt-2.5 p-2 border-l-[3px]\" style=\"background:#A8E6C133;border-color:{{accent}}\">Screen reader announces: {{#if hasLabel}}&ldquo;{{label}}, button&rdquo;{{/if}}{{unless hasLabel}}&ldquo;button&rdquo; &mdash; name missing{{/unless}}</p>\n</div>\n<style>\n.al-tw-icon { display: none; }\n[data-icon=\"trash\"] .al-tw-icon--trash { display: block; }\n[data-icon=\"search\"] .al-tw-icon--search { display: block; }\n[data-icon=\"close\"] .al-tw-icon--close { display: block; }\n</style>",
+    "react": "export function AriaLabelDemo({\n  label = \"{{label}}\",\n  icon = \"{{icon}}\",\n  hasLabel = {{hasLabel}},\n  accent = \"{{accent}}\",\n  size = {{size}},\n}) {\n  const paths = {\n    trash: \"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13\",\n    search: \"M11 17a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM20 20l-4.5-4.5\",\n    close: \"M5 5l14 14M19 5L5 19\",\n  };\n  return (\n    <div style={{ width: 340, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <button type=\"button\" aria-label={hasLabel ? label : undefined}\n        style={{ width: size, height: size, border: \"none\", borderRadius: 10, display: \"grid\", placeItems: \"center\", cursor: \"pointer\", background: accent }}>\n        <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FAF7F2\" strokeWidth=\"2\" aria-hidden=\"true\">\n          <path d={paths[icon]} />\n        </svg>\n      </button>\n      <p style={{ marginTop: 10, fontSize: 13, background: \"#A8E6C133\", borderLeft: \"3px solid \" + accent, padding: \"8px 10px\" }}>\n        Screen reader announces: {hasLabel ? \"\\u201c\" + label + \", button\\u201d\" : \"\\u201cbutton\\u201d \\u2014 name missing\"}\n      </p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "slug": "element",
+  "controls_schema": [
+    {
+      "id": "highlight",
+      "type": "select",
+      "label": "Highlighted element",
+      "default": "span",
+      "options": ["div", "span", "button"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "showTags",
+      "type": "toggle",
+      "label": "Show tag names",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-el-stage\" data-highlight=\"{{highlight}}\">\n  <div class=\"uif-el-node uif-el-node--div\">{{#if showTags}}<code>&lt;div&gt;</code>{{/if}}\n    <span class=\"uif-el-node uif-el-node--span\">{{#if showTags}}<code>&lt;span&gt;</code>{{/if}} Text</span>\n    <button type=\"button\" class=\"uif-el-node uif-el-node--button\">{{#if showTags}}<code>&lt;button&gt;</code>{{/if}} Go</button>\n  </div>\n  <p class=\"uif-el-caption\">Every tag in the tree is an element &mdash; the outlined one is highlighted</p>\n</div>\n<style>\n.uif-el-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.uif-el-node { border: 2px dashed transparent; border-radius: 6px; padding: 8px; display: block; }\n.uif-el-node--span, .uif-el-node--button { display: inline-block; margin: 6px 4px 0; }\n.uif-el-node code { font-size: 10px; opacity: .6; display: block; margin-bottom: 3px; }\n[data-highlight=\"div\"] .uif-el-node--div,\n[data-highlight=\"span\"] .uif-el-node--span,\n[data-highlight=\"button\"] .uif-el-node--button { border-color: {{accent}}; background: #24143008; }\n.uif-el-caption { margin: 10px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-highlight=\"{{highlight}}\">\n  <div class=\"tw-el-div block border-2 border-dashed border-transparent rounded-md p-2\">{{#if showTags}}<code class=\"block text-[10px] opacity-60 mb-1\">&lt;div&gt;</code>{{/if}}\n    <span class=\"tw-el-span inline-block border-2 border-dashed border-transparent rounded-md p-2 mt-1.5 mr-1\">{{#if showTags}}<code class=\"block text-[10px] opacity-60 mb-1\">&lt;span&gt;</code>{{/if}} Text</span>\n    <button type=\"button\" class=\"tw-el-button inline-block border-2 border-dashed border-transparent rounded-md p-2 mt-1.5\">{{#if showTags}}<code class=\"block text-[10px] opacity-60 mb-1\">&lt;button&gt;</code>{{/if}} Go</button>\n  </div>\n  <p class=\"mt-2.5\">Every tag in the tree is an element &mdash; the outlined one is highlighted</p>\n</div>\n<style>\n[data-highlight=\"div\"] .tw-el-div,\n[data-highlight=\"span\"] .tw-el-span,\n[data-highlight=\"button\"] .tw-el-button { border-color: {{accent}}; background: #24143008; }\n</style>",
+    "react": "export function Element({\n  highlight = \"{{highlight}}\",\n  accent = \"{{accent}}\",\n  showTags = {{showTags}},\n}) {\n  const box = (key) => ({ border: `2px dashed ${highlight === key ? accent : \"transparent\"}`, background: highlight === key ? \"#24143008\" : \"transparent\", borderRadius: 6, padding: 8 });\n  const tag = (name) => showTags && <code style={{ fontSize: 10, opacity: .6, display: \"block\", marginBottom: 3 }}>&lt;{name}&gt;</code>;\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ ...box(\"div\"), display: \"block\" }}>\n        {tag(\"div\")}\n        <span style={{ ...box(\"span\"), display: \"inline-block\", margin: \"6px 4px 0\" }}>{tag(\"span\")} Text</span>\n        <button type=\"button\" style={{ ...box(\"button\"), display: \"inline-block\", margin: \"6px 4px 0\" }}>{tag(\"button\")} Go</button>\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>Every tag in the tree is an element &mdash; the outlined one is highlighted</p>\n    </div>\n  );\n}"
+  }
+}

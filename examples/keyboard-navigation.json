@@ -1,0 +1,51 @@
+{
+  "slug": "keyboard-navigation",
+  "controls_schema": [
+    {
+      "id": "orientation",
+      "type": "select",
+      "label": "Orientation",
+      "default": "horizontal",
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "current",
+      "type": "select",
+      "label": "Current item",
+      "default": "item-1",
+      "options": [
+        "item-1",
+        "item-2",
+        "item-3"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "showNumbers",
+      "type": "toggle",
+      "label": "Show tab order",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"kb-demo\" data-orientation=\"{{orientation}}\" data-current=\"{{current}}\" style=\"--accent:{{accent}};\">\n  <div class=\"kb-demo__list\">\n    <a href=\"#\" class=\"kb-demo__item kb-demo__item--item-1\">{{#if showNumbers}}<span class=\"kb-demo__num\">1</span>{{/if}}Overview</a>\n    <a href=\"#\" class=\"kb-demo__item kb-demo__item--item-2\">{{#if showNumbers}}<span class=\"kb-demo__num\">2</span>{{/if}}Reports</a>\n    <a href=\"#\" class=\"kb-demo__item kb-demo__item--item-3\">{{#if showNumbers}}<span class=\"kb-demo__num\">3</span>{{/if}}Settings</a>\n  </div>\n  <p class=\"kb-demo__hint\">Arrow keys: <span class=\"kb-demo__key\"></span> &middot; current item ring shows focus</p>\n</div>\n<style>\n.kb-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; }\n.kb-demo__list { display: flex; gap: 8px; }\n.kb-demo[data-orientation=\"vertical\"] .kb-demo__list { flex-direction: column; }\n.kb-demo__item { display: flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 8px; border: 1.5px solid #24143022; text-decoration: none; color: #241430; }\n.kb-demo__num { width: 16px; height: 16px; border-radius: 50%; background: #24143014; font-size: 10px; display: grid; place-items: center; font-weight: 700; }\n.kb-demo[data-current=\"item-1\"] .kb-demo__item--item-1, .kb-demo[data-current=\"item-2\"] .kb-demo__item--item-2, .kb-demo[data-current=\"item-3\"] .kb-demo__item--item-3 { outline: 2px solid var(--accent); outline-offset: 2px; background: #FAF7F2; }\n.kb-demo__hint { margin-top: 12px; font-size: 12px; color: #241430aa; }\n.kb-demo__key::before { content: \"\\2192\"; }\n.kb-demo[data-orientation=\"vertical\"] .kb-demo__key::before { content: \"\\2193\"; }\n</style>",
+    "tailwind": "<div class=\"kb-tw kb-tw--{{orientation}} kb-tw-cur--{{current}}\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"kb-tw__list flex gap-2\">\n    <a href=\"#\" class=\"kb-tw__item kb-tw__item--item-1 flex items-center gap-1.5 px-3.5 py-2 rounded-lg border no-underline text-[#241430]\" style=\"border-color:#24143022\">{{#if showNumbers}}<span class=\"w-4 h-4 rounded-full bg-[#24143014] text-[10px] grid place-items-center font-bold\">1</span>{{/if}}Overview</a>\n    <a href=\"#\" class=\"kb-tw__item kb-tw__item--item-2 flex items-center gap-1.5 px-3.5 py-2 rounded-lg border no-underline text-[#241430]\" style=\"border-color:#24143022\">{{#if showNumbers}}<span class=\"w-4 h-4 rounded-full bg-[#24143014] text-[10px] grid place-items-center font-bold\">2</span>{{/if}}Reports</a>\n    <a href=\"#\" class=\"kb-tw__item kb-tw__item--item-3 flex items-center gap-1.5 px-3.5 py-2 rounded-lg border no-underline text-[#241430]\" style=\"border-color:#24143022\">{{#if showNumbers}}<span class=\"w-4 h-4 rounded-full bg-[#24143014] text-[10px] grid place-items-center font-bold\">3</span>{{/if}}Settings</a>\n  </div>\n  <p class=\"mt-3 text-xs text-[#241430aa]\">Arrow keys move focus &middot; current item ring shows focus</p>\n</div>\n<style>\n.kb-tw--vertical .kb-tw__list { flex-direction: column; }\n.kb-tw-cur--item-1 .kb-tw__item--item-1, .kb-tw-cur--item-2 .kb-tw__item--item-2, .kb-tw-cur--item-3 .kb-tw__item--item-3 { outline: 2px solid {{accent}}; outline-offset: 2px; background: #FAF7F2; }\n</style>",
+    "react": "export function KeyboardNavigation({\n  orientation = \"{{orientation}}\",\n  current = \"{{current}}\",\n  accent = \"{{accent}}\",\n  showNumbers = {{showNumbers}},\n}) {\n  const items = [\n    { id: \"item-1\", n: 1, label: \"Overview\" },\n    { id: \"item-2\", n: 2, label: \"Reports\" },\n    { id: \"item-3\", n: 3, label: \"Settings\" },\n  ];\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ display: \"flex\", flexDirection: orientation === \"vertical\" ? \"column\" : \"row\", gap: 8 }}>\n        {items.map((it) => (\n          <a key={it.id} href=\"#\" style={{\n            display: \"flex\", alignItems: \"center\", gap: 6, padding: \"9px 14px\", borderRadius: 8,\n            border: \"1.5px solid #24143022\", textDecoration: \"none\", color: \"#241430\",\n            ...(current === it.id ? { outline: \"2px solid \" + accent, outlineOffset: 2, background: \"#FAF7F2\" } : {}),\n          }}>\n            {showNumbers && <span style={{ width: 16, height: 16, borderRadius: \"50%\", background: \"#24143014\", fontSize: 10, display: \"grid\", placeItems: \"center\", fontWeight: 700 }}>{it.n}</span>}\n            {it.label}\n          </a>\n        ))}\n      </div>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430aa\" }}>{orientation === \"vertical\" ? \"\\u2193\" : \"\\u2192\"} arrow keys move focus &middot; current item ring shows focus</p>\n    </div>\n  );\n}"
+  }
+}

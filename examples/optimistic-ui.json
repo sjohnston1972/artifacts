@@ -1,0 +1,36 @@
+{
+  "slug": "optimistic-ui",
+  "controls_schema": [
+    {
+      "id": "outcome",
+      "type": "select",
+      "label": "Server outcome",
+      "default": "success",
+      "options": ["success", "rollback"]
+    },
+    {
+      "id": "confirmed",
+      "type": "toggle",
+      "label": "Server has responded",
+      "default": false
+    },
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item label",
+      "default": "Add to favourites"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-opt-stage\" data-outcome=\"{{outcome}}\">\n  <button type=\"button\" class=\"lod-opt-btn lod-opt-btn--on\" style=\"background:{{accent}};\">&#10003; {{itemLabel}}</button>\n  <p class=\"lod-opt-status\">UI updated instantly, before the server replied.</p>\n  {{#if confirmed}}<p class=\"lod-opt-result lod-opt-result--{{outcome}}\" role=\"status\">{{#if outcome}}Server confirmed{{/if}}</p>{{/if}}\n  <p class=\"lod-opt-caption\">Optimistic: assume success, then reconcile if the server disagrees</p>\n</div>\n<style>\n.lod-opt-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-opt-btn { font-weight: 700; border: none; border-radius: 8px; padding: 9px 14px; color: #241430; cursor: pointer; }\n.lod-opt-status { margin: 10px 0 0; font-size: 12px; }\n.lod-opt-result { margin: 6px 0 0; font-weight: 600; }\n.lod-opt-result--success { color: #241430; }\n.lod-opt-result--rollback::after { content: \" \\2014 rolled back, action failed\"; color: #241430; }\n.lod-opt-result--success::after { content: \" \\2014 no change needed\"; }\n.lod-opt-caption { margin: 10px 0 0; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-outcome=\"{{outcome}}\">\n  <button type=\"button\" class=\"font-bold border-0 rounded-lg px-3.5 py-2.5 text-[#241430] cursor-pointer\" style=\"background:{{accent}};\">&#10003; {{itemLabel}}</button>\n  <p class=\"mt-2.5 text-xs\">UI updated instantly, before the server replied.</p>\n  {{#if confirmed}}<p role=\"status\" class=\"tw-opt-result tw-opt-{{outcome}} mt-1.5 font-semibold\">{{#if outcome}}Server confirmed{{/if}}</p>{{/if}}\n  <p class=\"mt-2.5 text-[11px] text-[#241430]/70\">Optimistic: assume success, then reconcile if the server disagrees</p>\n</div>\n<style>\n.tw-opt-rollback::after { content: \" \\2014 rolled back, action failed\"; }\n.tw-opt-success::after { content: \" \\2014 no change needed\"; }\n</style>",
+    "react": "export function OptimisticUI({\n  outcome = \"{{outcome}}\",\n  confirmed = {{confirmed}},\n  itemLabel = \"{{itemLabel}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <button type=\"button\" style={{ fontWeight: 700, border: \"none\", borderRadius: 8, padding: \"9px 14px\", color: \"#241430\", cursor: \"pointer\", background: accent }}>&#10003; {itemLabel}</button>\n      <p style={{ margin: \"10px 0 0\", fontSize: 12 }}>UI updated instantly, before the server replied.</p>\n      {confirmed && (\n        <p role=\"status\" style={{ margin: \"6px 0 0\", fontWeight: 600 }}>\n          Server confirmed {outcome === \"rollback\" ? \"\\u2014 rolled back, action failed\" : \"\\u2014 no change needed\"}\n        </p>\n      )}\n      <p style={{ margin: \"10px 0 0\", fontSize: 11, color: \"#241430aa\" }}>Optimistic: assume success, then reconcile if the server disagrees</p>\n    </div>\n  );\n}"
+  }
+}

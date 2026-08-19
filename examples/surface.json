@@ -1,0 +1,39 @@
+{
+  "slug": "surface",
+  "controls_schema": [
+    {
+      "id": "elevation",
+      "type": "number",
+      "label": "Elevation",
+      "default": 12,
+      "min": 0,
+      "max": 32,
+      "step": 2
+    },
+    {
+      "id": "surfaceType",
+      "type": "select",
+      "label": "Surface",
+      "default": "card",
+      "options": ["card", "sheet", "popover"]
+    },
+    {
+      "id": "showBase",
+      "type": "toggle",
+      "label": "Show base surface",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-srf-stage{{#if showBase}} uif-srf-stage--base{{/if}}\" data-surface=\"{{surfaceType}}\">\n  <div class=\"uif-srf-panel uif-srf-panel--card\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">card surface</div>\n  <div class=\"uif-srf-panel uif-srf-panel--sheet\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">sheet surface</div>\n  <div class=\"uif-srf-panel uif-srf-panel--popover\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">popover surface</div>\n  <p class=\"uif-srf-caption\">Elevation {{elevation}} &mdash; a {{surfaceType}} surface sits above the base layer</p>\n</div>\n<style>\n.uif-srf-stage { width: 100%; max-width: 320px; padding: 26px; background: #D9C8F022; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.uif-srf-stage--base { background-image: repeating-linear-gradient(45deg, #24143008 0 6px, transparent 6px 12px); }\n.uif-srf-panel { display: none; margin: 0 auto; padding: 16px; border-radius: 10px; font-weight: 600; color: #241430; }\n.uif-srf-panel--sheet { border-radius: 14px 14px 0 0; }\n.uif-srf-panel--popover { border-radius: 8px; max-width: 140px; }\n[data-surface=\"card\"] .uif-srf-panel--card,\n[data-surface=\"sheet\"] .uif-srf-panel--sheet,\n[data-surface=\"popover\"] .uif-srf-panel--popover { display: block; }\n</style>",
+    "tailwind": "<div class=\"tw-srf-stage{{#if showBase}} tw-srf-base{{/if}} w-full max-w-[320px] p-[26px] bg-[#D9C8F022] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70 text-center\" data-surface=\"{{surfaceType}}\">\n  <div class=\"tw-srf-card hidden mx-auto p-4 rounded-[10px] font-semibold text-[#241430]\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">card surface</div>\n  <div class=\"tw-srf-sheet hidden mx-auto p-4 rounded-t-[14px] font-semibold text-[#241430]\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">sheet surface</div>\n  <div class=\"tw-srf-popover hidden mx-auto p-4 rounded-lg max-w-[140px] font-semibold text-[#241430]\" style=\"box-shadow:0 {{elevation}}px {{elevation}}px rgba(36,20,48,.22); background:{{accent}};\">popover surface</div>\n  <p class=\"mt-2\">Elevation {{elevation}} &mdash; a {{surfaceType}} surface sits above the base layer</p>\n</div>\n<style>\n.tw-srf-base { background-image: repeating-linear-gradient(45deg, #24143008 0 6px, transparent 6px 12px); }\n[data-surface=\"card\"] .tw-srf-card,\n[data-surface=\"sheet\"] .tw-srf-sheet,\n[data-surface=\"popover\"] .tw-srf-popover { display: block; }\n</style>",
+    "react": "export function Surface({\n  elevation = {{elevation}},\n  surfaceType = \"{{surfaceType}}\",\n  showBase = {{showBase}},\n  accent = \"{{accent}}\",\n}) {\n  const shadow = `0 ${elevation}px ${elevation}px rgba(36,20,48,.22)`;\n  const shapes = {\n    card: { borderRadius: 10 },\n    sheet: { borderRadius: \"14px 14px 0 0\" },\n    popover: { borderRadius: 8, maxWidth: 140 },\n  }[surfaceType];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 26, background: showBase ? \"repeating-linear-gradient(45deg, #24143008 0 6px, transparent 6px 12px), #D9C8F022\" : \"#D9C8F022\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\", textAlign: \"center\" }}>\n      <div style={{ margin: \"0 auto\", padding: 16, fontWeight: 600, color: \"#241430\", background: accent, boxShadow: shadow, ...shapes }}>{surfaceType} surface</div>\n      <p style={{ margin: \"8px 0 0\" }}>Elevation {elevation} &mdash; a surface sits above the base layer</p>\n    </div>\n  );\n}"
+  }
+}

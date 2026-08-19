@@ -1,0 +1,42 @@
+{
+  "slug": "hidden-actions",
+  "controls_schema": [
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Buried action",
+      "default": "Delete"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (action visible)",
+      "default": false
+    },
+    {
+      "id": "menuOpen",
+      "type": "toggle",
+      "label": "Overflow menu open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ha-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"ha-demo__badge{{#if fixed}} ha-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: hidden actions{{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"ha-demo__row\">\n    <span class=\"ha-demo__item\">quarterly-report.pdf</span>\n    <button type=\"button\" class=\"ha-demo__kebab\" aria-label=\"More actions\">&#8942;</button>\n  </div>\n  {{#if menuOpen}}\n  <div class=\"ha-demo__menu\">\n    <span class=\"ha-demo__menuitem\">Rename</span>\n    <span class=\"ha-demo__menuitem\">Move</span>\n    <span class=\"ha-demo__menuitem ha-demo__menuitem--buried\">{{actionLabel}}</span>\n  </div>\n  {{/if}}\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"ha-demo__row\">\n    <span class=\"ha-demo__item\">quarterly-report.pdf</span>\n    <button type=\"button\" class=\"ha-demo__visible\">{{actionLabel}}</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.ha-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.ha-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ha-demo__badge--good { background: #1a7a44; }\n.ha-demo__row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; background: #24143010; }\n.ha-demo__kebab { border: none; background: transparent; font-size: 18px; cursor: pointer; }\n.ha-demo__menu { margin-top: 6px; width: 130px; margin-left: auto; padding: 6px; border-radius: 8px; background: #FAF7F2; box-shadow: 0 10px 22px rgba(36,20,48,.18); }\n.ha-demo__menuitem { display: block; padding: 6px 10px; font-size: 12px; }\n.ha-demo__menuitem--buried { color: var(--accent); font-weight: 700; }\n.ha-demo__visible { border: none; background: var(--accent); border-radius: 7px; padding: 7px 14px; font-weight: 700; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ha-tw-badge{{#if fixed}} ha-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: hidden actions{{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#24143010]\">\n    <span>quarterly-report.pdf</span>\n    <button type=\"button\" aria-label=\"More actions\" class=\"border-0 bg-transparent text-lg cursor-pointer\">&#8942;</button>\n  </div>\n  {{#if menuOpen}}\n  <div class=\"mt-1.5 w-[130px] ml-auto p-1.5 rounded-lg\" style=\"background:#FAF7F2;box-shadow:0 10px 22px rgba(36,20,48,.18)\">\n    <span class=\"block px-2.5 py-1.5 text-xs\">Rename</span>\n    <span class=\"block px-2.5 py-1.5 text-xs\">Move</span>\n    <span class=\"block px-2.5 py-1.5 text-xs font-bold\" style=\"color:{{accent}}\">{{actionLabel}}</span>\n  </div>\n  {{/if}}\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#24143010]\">\n    <span>quarterly-report.pdf</span>\n    <button type=\"button\" class=\"border-0 rounded-md px-3.5 py-1.5 font-bold cursor-pointer\" style=\"background:{{accent}}\">{{actionLabel}}</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.ha-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ha-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function HiddenActions({\n  actionLabel = \"{{actionLabel}}\",\n  fixed = {{fixed}},\n  menuOpen = {{menuOpen}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: hidden actions\"}\n      </span>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\" }}>\n        <span>quarterly-report.pdf</span>\n        {fixed\n          ? <button type=\"button\" style={{ border: \"none\", background: accent, borderRadius: 7, padding: \"7px 14px\", fontWeight: 700, cursor: \"pointer\" }}>{actionLabel}</button>\n          : <button type=\"button\" aria-label=\"More actions\" style={{ border: \"none\", background: \"transparent\", fontSize: 18, cursor: \"pointer\" }}>&#8942;</button>}\n      </div>\n      {!fixed && menuOpen && (\n        <div style={{ marginTop: 6, width: 130, marginLeft: \"auto\", padding: 6, borderRadius: 8, background: \"#FAF7F2\", boxShadow: \"0 10px 22px rgba(36,20,48,.18)\" }}>\n          <span style={{ display: \"block\", padding: \"6px 10px\", fontSize: 12 }}>Rename</span>\n          <span style={{ display: \"block\", padding: \"6px 10px\", fontSize: 12 }}>Move</span>\n          <span style={{ display: \"block\", padding: \"6px 10px\", fontSize: 12, color: accent, fontWeight: 700 }}>{actionLabel}</span>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

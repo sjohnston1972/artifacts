@@ -1,0 +1,39 @@
+{
+  "slug": "scroll-snapping",
+  "controls_schema": [
+    {
+      "id": "strictness",
+      "type": "select",
+      "label": "Snap strictness",
+      "default": "mandatory",
+      "options": ["mandatory", "proximity"]
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap (px)",
+      "default": 12,
+      "min": 0,
+      "max": 32,
+      "step": 2
+    },
+    {
+      "id": "showGuides",
+      "type": "toggle",
+      "label": "Show snap-point guides",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-snp-wrap\">\n  <div class=\"mot-snp-track\" data-strictness=\"{{strictness}}\" style=\"gap:{{gap}}px;\">\n    <div class=\"mot-snp-card{{#if showGuides}} mot-snp-card--guide{{/if}}\" style=\"background:{{accent}};\">1</div>\n    <div class=\"mot-snp-card{{#if showGuides}} mot-snp-card--guide{{/if}}\" style=\"background:{{accent}};\">2</div>\n    <div class=\"mot-snp-card{{#if showGuides}} mot-snp-card--guide{{/if}}\" style=\"background:{{accent}};\">3</div>\n    <div class=\"mot-snp-card{{#if showGuides}} mot-snp-card--guide{{/if}}\" style=\"background:{{accent}};\">4</div>\n  </div>\n  <p class=\"mot-snp-caption\">Drag to scroll &middot; {{strictness}} snapping</p>\n</div>\n<style>\n.mot-snp-wrap { width: 100%; max-width: 320px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-snp-track { display: flex; overflow-x: auto; padding: 14px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; scroll-snap-type: x mandatory; }\n[data-strictness=\"proximity\"] { scroll-snap-type: x proximity; }\n.mot-snp-card { flex: 0 0 100px; height: 80px; border-radius: 10px; display: grid; place-items: center; font: 700 20px system-ui, sans-serif; color: #241430; scroll-snap-align: center; }\n.mot-snp-card--guide { outline: 2px dashed #241430aa; outline-offset: 3px; }\n.mot-snp-caption { margin: 8px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] font-sans text-xs text-[#241430]/70\">\n  <div class=\"tw-snp-track flex overflow-x-auto p-3.5 bg-[#FAF7F2] border border-[#24143022] rounded-xl\" data-strictness=\"{{strictness}}\" style=\"gap:{{gap}}px; scroll-snap-type: x mandatory;\">\n    <div class=\"tw-snp-card{{#if showGuides}} tw-snp-guide{{/if}} flex-none w-[100px] h-20 rounded-[10px] grid place-items-center font-bold text-xl text-[#241430]\" style=\"background:{{accent}}; scroll-snap-align:center;\">1</div>\n    <div class=\"tw-snp-card{{#if showGuides}} tw-snp-guide{{/if}} flex-none w-[100px] h-20 rounded-[10px] grid place-items-center font-bold text-xl text-[#241430]\" style=\"background:{{accent}}; scroll-snap-align:center;\">2</div>\n    <div class=\"tw-snp-card{{#if showGuides}} tw-snp-guide{{/if}} flex-none w-[100px] h-20 rounded-[10px] grid place-items-center font-bold text-xl text-[#241430]\" style=\"background:{{accent}}; scroll-snap-align:center;\">3</div>\n    <div class=\"tw-snp-card{{#if showGuides}} tw-snp-guide{{/if}} flex-none w-[100px] h-20 rounded-[10px] grid place-items-center font-bold text-xl text-[#241430]\" style=\"background:{{accent}}; scroll-snap-align:center;\">4</div>\n  </div>\n  <p class=\"mt-2\">Drag to scroll &middot; {{strictness}} snapping</p>\n</div>\n<style>\n[data-strictness=\"proximity\"] { scroll-snap-type: x proximity; }\n.tw-snp-guide { outline: 2px dashed #241430aa; outline-offset: 3px; }\n</style>",
+    "react": "export function ScrollSnapping({\n  strictness = \"{{strictness}}\",\n  gap = {{gap}},\n  showGuides = {{showGuides}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ display: \"flex\", overflowX: \"auto\", padding: 14, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, gap, scrollSnapType: `x ${strictness}` }}>\n        {[1, 2, 3, 4].map((n) => (\n          <div key={n} style={{ flex: \"0 0 100px\", height: 80, borderRadius: 10, display: \"grid\", placeItems: \"center\", fontWeight: 700, fontSize: 20, color: \"#241430\", background: accent, scrollSnapAlign: \"center\", outline: showGuides ? \"2px dashed #241430aa\" : \"none\", outlineOffset: 3 }}>\n            {n}\n          </div>\n        ))}\n      </div>\n      <p style={{ margin: \"8px 0 0\" }}>Drag to scroll &middot; {strictness} snapping</p>\n    </div>\n  );\n}"
+  }
+}

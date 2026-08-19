@@ -1,0 +1,30 @@
+{
+  "slug": "primitive",
+  "controls_schema": [
+    {
+      "id": "primitiveType",
+      "type": "select",
+      "label": "Primitive",
+      "default": "button",
+      "options": ["button", "checkbox", "input"]
+    },
+    {
+      "id": "styled",
+      "type": "toggle",
+      "label": "Styled (composed) version",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-prim-stage\" data-type=\"{{primitiveType}}\">\n  <button type=\"button\" class=\"uif-prim-el uif-prim-el--button{{#if styled}} uif-prim-el--styled{{/if}}\" style=\"--accent:{{accent}};\">Continue</button>\n  <label class=\"uif-prim-el uif-prim-el--checkbox{{#if styled}} uif-prim-el--styled{{/if}}\" style=\"--accent:{{accent}};\"><input type=\"checkbox\" checked disabled /> Remember me</label>\n  <input class=\"uif-prim-el uif-prim-el--input{{#if styled}} uif-prim-el--styled{{/if}}\" style=\"--accent:{{accent}};\" placeholder=\"Email address\" disabled />\n  <p class=\"uif-prim-caption\">{{#if styled}}Composed{{/if}}{{#unless styled}}Raw{{/unless}} &mdash; every composed component still boils down to a primitive</p>\n</div>\n<style>\n.uif-prim-stage { width: 100%; max-width: 320px; padding: 18px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.uif-prim-el { display: none; }\n[data-type=\"button\"] .uif-prim-el--button,\n[data-type=\"checkbox\"] .uif-prim-el--checkbox,\n[data-type=\"input\"] .uif-prim-el--input { display: block; }\n.uif-prim-el--styled.uif-prim-el--button { padding: 9px 16px; border-radius: 8px; border: none; background: var(--accent); color: #241430; font-weight: 600; cursor: pointer; }\n.uif-prim-el--styled.uif-prim-el--input { padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--accent); width: 100%; box-sizing: border-box; }\n.uif-prim-caption { margin: 14px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-[18px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-type=\"{{primitiveType}}\">\n  <button type=\"button\" class=\"tw-prim-button hidden\" style=\"--accent:{{accent}};\">Continue</button>\n  <label class=\"tw-prim-checkbox hidden\" style=\"--accent:{{accent}};\"><input type=\"checkbox\" checked disabled /> Remember me</label>\n  <input class=\"tw-prim-input hidden\" style=\"--accent:{{accent}};\" placeholder=\"Email address\" disabled />\n  <p class=\"mt-3.5\">{{#if styled}}Composed{{/if}}{{#unless styled}}Raw{{/unless}} &mdash; every composed component still boils down to a primitive</p>\n</div>\n<style>\n[data-type=\"button\"] .tw-prim-button,\n[data-type=\"checkbox\"] .tw-prim-checkbox,\n[data-type=\"input\"] .tw-prim-input { display: block; }\n</style>",
+    "react": "export function Primitive({\n  primitiveType = \"{{primitiveType}}\",\n  styled = {{styled}},\n  accent = \"{{accent}}\",\n}) {\n  const styledBtn = styled ? { padding: \"9px 16px\", borderRadius: 8, border: \"none\", background: accent, color: \"#241430\", fontWeight: 600, cursor: \"pointer\" } : {};\n  const styledInput = styled ? { padding: \"9px 12px\", borderRadius: 8, border: `1.5px solid ${accent}`, width: \"100%\", boxSizing: \"border-box\" } : {};\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 18, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      {primitiveType === \"button\" && <button type=\"button\" style={styledBtn}>Continue</button>}\n      {primitiveType === \"checkbox\" && <label><input type=\"checkbox\" checked readOnly disabled /> Remember me</label>}\n      {primitiveType === \"input\" && <input style={styledInput} placeholder=\"Email address\" disabled />}\n      <p style={{ margin: \"14px 0 0\" }}>{styled ? \"Composed\" : \"Raw\"} &mdash; every composed component still boils down to a primitive</p>\n    </div>\n  );\n}"
+  }
+}

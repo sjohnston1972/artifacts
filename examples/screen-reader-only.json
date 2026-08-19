@@ -1,0 +1,42 @@
+{
+  "slug": "screen-reader-only",
+  "controls_schema": [
+    {
+      "id": "buttonPurpose",
+      "type": "text",
+      "label": "Visible label",
+      "default": "Close"
+    },
+    {
+      "id": "hiddenText",
+      "type": "text",
+      "label": "Hidden text",
+      "default": "Close dialog, discard changes"
+    },
+    {
+      "id": "reveal",
+      "type": "toggle",
+      "label": "Reveal hidden text (debug)",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sro-demo\" style=\"--accent:{{accent}};\">\n  <button type=\"button\" class=\"sro-demo__btn\">\n    <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\" /></svg>\n    <span class=\"sro-demo__sronly{{#if reveal}} sro-demo__sronly--revealed{{/if}}\">{{hiddenText}}</span>\n  </button>\n  <p class=\"sro-demo__visible-label\">visible label: &ldquo;{{buttonPurpose}}&rdquo; icon only</p>\n  <p class=\"sro-demo__note\">{{#if reveal}}debug view: the .sr-only span is normally clipped to 1px &mdash; shown here so you can see what the button's accessible name actually is{{/if}}{{unless reveal}}hidden text is clipped off-screen, exactly as a sighted user would see it{{/unless}}</p>\n</div>\n<style>\n.sro-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; }\n.sro-demo__btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #241430; cursor: pointer; }\n.sro-demo__sronly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.sro-demo__sronly--revealed { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; padding: 3px 8px; background: #24143014; border-radius: 4px; outline: 1.5px dashed var(--accent); font-size: 12px; }\n.sro-demo__visible-label { margin: 10px 0 4px; font-size: 12px; color: #241430aa; }\n.sro-demo__note { margin: 0; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <button type=\"button\" class=\"inline-flex items-center gap-2 p-2.5 rounded-lg border-0 cursor-pointer\" style=\"background:{{accent}};color:#241430\">\n    <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\" /></svg>\n    <span class=\"sro-tw{{#if reveal}} sro-tw--revealed{{/if}}\">{{hiddenText}}</span>\n  </button>\n  <p class=\"mt-2.5 mb-1 text-xs text-[#241430aa]\">visible label: &ldquo;{{buttonPurpose}}&rdquo; icon only</p>\n  <p class=\"m-0 text-xs text-[#241430aa]\">{{#if reveal}}debug view: the .sr-only span is normally clipped to 1px &mdash; shown here so you can see what the button's accessible name actually is{{/if}}{{unless reveal}}hidden text is clipped off-screen, exactly as a sighted user would see it{{/unless}}</p>\n</div>\n<style>\n.sro-tw { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }\n.sro-tw--revealed { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; padding: 3px 8px; background: #24143014; border-radius: 4px; outline: 1.5px dashed {{accent}}; font-size: 12px; }\n</style>",
+    "react": "export function ScreenReaderOnly({\n  buttonPurpose = \"{{buttonPurpose}}\",\n  hiddenText = \"{{hiddenText}}\",\n  reveal = {{reveal}},\n  accent = \"{{accent}}\",\n}) {\n  const clipped = { position: \"absolute\", width: 1, height: 1, padding: 0, margin: -1, overflow: \"hidden\", clip: \"rect(0,0,0,0)\", whiteSpace: \"nowrap\", border: 0 };\n  const revealed = { position: \"static\", width: \"auto\", height: \"auto\", margin: 0, overflow: \"visible\", clip: \"auto\", whiteSpace: \"normal\", padding: \"3px 8px\", background: \"#24143014\", borderRadius: 4, outline: \"1.5px dashed \" + accent, fontSize: 12 };\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <button type=\"button\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, padding: 10, borderRadius: 8, border: \"none\", background: accent, color: \"#241430\", cursor: \"pointer\" }}>\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" aria-hidden=\"true\"><path d=\"M5 5l14 14M19 5L5 19\" /></svg>\n        <span style={reveal ? revealed : clipped}>{hiddenText}</span>\n      </button>\n      <p style={{ margin: \"10px 0 4px\", fontSize: 12, color: \"#241430aa\" }}>visible label: &ldquo;{buttonPurpose}&rdquo; icon only</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>{reveal ? \"debug view: the .sr-only span is normally clipped to 1px \\u2014 shown here so you can see what the button's accessible name actually is\" : \"hidden text is clipped off-screen, exactly as a sighted user would see it\"}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "slug": "section",
+  "controls_schema": [
+    {
+      "id": "highlighted",
+      "type": "select",
+      "label": "Highlighted section",
+      "default": "hero",
+      "options": ["nav", "hero", "content", "footer"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-sec-stage\" data-highlight=\"{{highlighted}}\">\n  <div class=\"uif-sec-region uif-sec-region--nav\">Nav</div>\n  <div class=\"uif-sec-region uif-sec-region--hero\">Hero</div>\n  <div class=\"uif-sec-region uif-sec-region--content\">Content</div>\n  <div class=\"uif-sec-region uif-sec-region--footer\">Footer</div>\n  <p class=\"uif-sec-caption\">A page is made of distinct sections &mdash; {{highlighted}} outlined</p>\n</div>\n<style>\n.uif-sec-stage { width: 100%; max-width: 320px; padding: 12px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430; }\n.uif-sec-region { padding: 12px; margin-bottom: 6px; background: #fff; border: 2px solid transparent; border-radius: 8px; text-align: center; }\n[data-highlight=\"nav\"] .uif-sec-region--nav,\n[data-highlight=\"hero\"] .uif-sec-region--hero,\n[data-highlight=\"content\"] .uif-sec-region--content,\n[data-highlight=\"footer\"] .uif-sec-region--footer { border-color: {{accent}}; background: #24143008; }\n.uif-sec-caption { margin: 8px 0 0; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-3 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]\" data-highlight=\"{{highlighted}}\">\n  <div class=\"tw-sec-nav p-3 mb-1.5 bg-white border-2 border-transparent rounded-lg text-center\">Nav</div>\n  <div class=\"tw-sec-hero p-3 mb-1.5 bg-white border-2 border-transparent rounded-lg text-center\">Hero</div>\n  <div class=\"tw-sec-content p-3 mb-1.5 bg-white border-2 border-transparent rounded-lg text-center\">Content</div>\n  <div class=\"tw-sec-footer p-3 mb-1.5 bg-white border-2 border-transparent rounded-lg text-center\">Footer</div>\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">A page is made of distinct sections &mdash; {{highlighted}} outlined</p>\n</div>\n<style>\n[data-highlight=\"nav\"] .tw-sec-nav,\n[data-highlight=\"hero\"] .tw-sec-hero,\n[data-highlight=\"content\"] .tw-sec-content,\n[data-highlight=\"footer\"] .tw-sec-footer { border-color: {{accent}}; background: #24143008; }\n</style>",
+    "react": "export function Section({\n  highlighted = \"{{highlighted}}\",\n  accent = \"{{accent}}\",\n}) {\n  const box = (key) => ({ padding: 12, marginBottom: 6, background: highlighted === key ? \"#24143008\" : \"#fff\", border: `2px solid ${highlighted === key ? accent : \"transparent\"}`, borderRadius: 8, textAlign: \"center\" });\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 12, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\" }}>\n      <div style={box(\"nav\")}>Nav</div>\n      <div style={box(\"hero\")}>Hero</div>\n      <div style={box(\"content\")}>Content</div>\n      <div style={box(\"footer\")}>Footer</div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>A page is made of distinct sections &mdash; {highlighted} outlined</p>\n    </div>\n  );\n}"
+  }
+}

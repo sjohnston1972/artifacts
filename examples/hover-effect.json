@@ -1,0 +1,45 @@
+{
+  "slug": "hover-effect",
+  "controls_schema": [
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Effect",
+      "default": "lift",
+      "options": ["lift", "glow", "underline"]
+    },
+    {
+      "id": "simulate",
+      "type": "toggle",
+      "label": "Simulate hover (try real hover too)",
+      "default": false
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 200,
+      "min": 50,
+      "max": 800,
+      "step": 50
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Link label",
+      "default": "Learn more"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-hov-stage\">\n  <a class=\"mot-hov-link mot-hov-link--{{style}}{{#if simulate}} mot-hov-link--sim{{/if}}\" href=\"#\" style=\"--accent:{{accent}};\">{{label}}</a>\n  <p class=\"mot-hov-caption\">{{style}} effect &middot; hover the link, or toggle Simulate</p>\n</div>\n<style>\n.mot-hov-stage { width: 100%; max-width: 320px; padding: 24px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.mot-hov-link { display: inline-block; color: #241430; text-decoration: none; font-weight: 600; padding: 8px 4px; border-bottom: 2px solid transparent; }\n.mot-hov-caption { margin: 14px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  .mot-hov-link { transition: transform {{duration}}ms ease-out, box-shadow {{duration}}ms ease-out, border-color {{duration}}ms ease-out; }\n}\n.mot-hov-link--lift:hover, .mot-hov-link--lift.mot-hov-link--sim { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(36,20,48,.2); }\n.mot-hov-link--glow:hover, .mot-hov-link--glow.mot-hov-link--sim { box-shadow: 0 0 0 4px var(--accent); border-radius: 6px; }\n.mot-hov-link--underline:hover, .mot-hov-link--underline.mot-hov-link--sim { border-bottom-color: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-6 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\">\n  <a href=\"#\" class=\"tw-hov tw-hov--{{style}}{{#if simulate}} tw-hov--sim{{/if}} inline-block text-[#241430] no-underline font-semibold px-1 py-2 border-b-2 border-transparent\" style=\"--accent:{{accent}};\">{{label}}</a>\n  <p class=\"mt-3.5\">{{style}} effect &middot; hover the link, or toggle Simulate</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  .tw-hov { transition: transform {{duration}}ms ease-out, box-shadow {{duration}}ms ease-out, border-color {{duration}}ms ease-out; }\n}\n.tw-hov--lift:hover, .tw-hov--lift.tw-hov--sim { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(36,20,48,.2); }\n.tw-hov--glow:hover, .tw-hov--glow.tw-hov--sim { box-shadow: 0 0 0 4px var(--accent); border-radius: 6px; }\n.tw-hov--underline:hover, .tw-hov--underline.tw-hov--sim { border-bottom-color: var(--accent); }\n</style>",
+    "react": "export function HoverEffect({\n  style = \"{{style}}\",\n  simulate = {{simulate}},\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n  label = \"{{label}}\",\n}) {\n  const active = {\n    lift: { transform: \"translateY(-4px)\", boxShadow: \"0 6px 14px rgba(36,20,48,.2)\" },\n    glow: { boxShadow: `0 0 0 4px ${accent}`, borderRadius: 6 },\n    underline: { borderBottomColor: accent },\n  }[style];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 24, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      <a href=\"#\" className=\"link\" style={{ display: \"inline-block\", color: \"#241430\", textDecoration: \"none\", fontWeight: 600, padding: \"8px 4px\", borderBottom: \"2px solid transparent\", ...(simulate ? active : {}) }}>\n        {label}\n      </a>\n      <p style={{ margin: \"14px 0 0\" }}>{style} effect &middot; hover the link, or toggle Simulate</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .link { transition: transform ${duration}ms ease-out, box-shadow ${duration}ms ease-out, border-color ${duration}ms ease-out; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

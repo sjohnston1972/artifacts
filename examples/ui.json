@@ -1,0 +1,36 @@
+{
+  "slug": "ui",
+  "controls_schema": [
+    {
+      "id": "chrome",
+      "type": "toggle",
+      "label": "Show chrome (nav + sidebar)",
+      "default": true
+    },
+    {
+      "id": "appName",
+      "type": "text",
+      "label": "App name",
+      "default": "Northwind"
+    },
+    {
+      "id": "density",
+      "type": "select",
+      "label": "Density",
+      "default": "comfortable",
+      "options": ["comfortable", "compact"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-ui-frame\" data-density=\"{{density}}\">\n  {{#if chrome}}<div class=\"uif-ui-top\" style=\"background:{{accent}};\">{{appName}}</div>{{/if}}\n  <div class=\"uif-ui-body\">\n    {{#if chrome}}<div class=\"uif-ui-nav\"><span></span><span></span><span></span></div>{{/if}}\n    <div class=\"uif-ui-content\"><div class=\"uif-ui-card\"></div><div class=\"uif-ui-card\"></div></div>\n  </div>\n  <p class=\"uif-ui-caption\">The whole visual and interactive layer &mdash; every screen and control together is the UI</p>\n</div>\n<style>\n.uif-ui-frame { width: 100%; max-width: 320px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 11px system-ui, sans-serif; color: #241430aa; }\n.uif-ui-top { padding: 8px 12px; color: #fff; font-weight: 700; }\n.uif-ui-body { display: flex; }\n.uif-ui-nav { width: 34px; background: #24143011; padding: 8px; display: flex; flex-direction: column; gap: 6px; }\n.uif-ui-nav span { width: 16px; height: 16px; border-radius: 4px; background: #24143033; }\n.uif-ui-content { flex: 1; padding: 10px; display: flex; gap: 8px; }\n.uif-ui-card { flex: 1; height: 50px; background: #fff; border: 1px solid #24143022; border-radius: 8px; }\n[data-density=\"compact\"] .uif-ui-content { padding: 5px; gap: 4px; }\n[data-density=\"compact\"] .uif-ui-card { height: 34px; }\n.uif-ui-caption { margin: 0; padding: 8px 10px; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-[11px] text-[#241430]/70\" data-density=\"{{density}}\">\n  {{#if chrome}}<div class=\"px-3 py-2 text-white font-bold\" style=\"background:{{accent}};\">{{appName}}</div>{{/if}}\n  <div class=\"flex\">\n    {{#if chrome}}<div class=\"w-[34px] bg-[#24143011] p-2 flex flex-col gap-1.5\"><span class=\"w-4 h-4 rounded bg-[#24143033]\"></span><span class=\"w-4 h-4 rounded bg-[#24143033]\"></span><span class=\"w-4 h-4 rounded bg-[#24143033]\"></span></div>{{/if}}\n    <div class=\"tw-ui-content flex-1 p-2.5 flex gap-2\"><div class=\"tw-ui-card flex-1 h-[50px] bg-white border border-[#24143022] rounded-lg\"></div><div class=\"tw-ui-card flex-1 h-[50px] bg-white border border-[#24143022] rounded-lg\"></div></div>\n  </div>\n  <p class=\"m-0 px-2.5 py-2\">The whole visual and interactive layer &mdash; every screen and control together is the UI</p>\n</div>\n<style>\n[data-density=\"compact\"] .tw-ui-content { padding: 5px; gap: 4px; }\n[data-density=\"compact\"] .tw-ui-card { height: 34px; }\n</style>",
+    "react": "export function UI({\n  chrome = {{chrome}},\n  appName = \"{{appName}}\",\n  density = \"{{density}}\",\n  accent = \"{{accent}}\",\n}) {\n  const compact = density === \"compact\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 11, color: \"#241430aa\" }}>\n      {chrome && <div style={{ padding: \"8px 12px\", color: \"#fff\", fontWeight: 700, background: accent }}>{appName}</div>}\n      <div style={{ display: \"flex\" }}>\n        {chrome && (\n          <div style={{ width: 34, background: \"#24143011\", padding: 8, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n            <span style={{ width: 16, height: 16, borderRadius: 4, background: \"#24143033\" }} />\n            <span style={{ width: 16, height: 16, borderRadius: 4, background: \"#24143033\" }} />\n            <span style={{ width: 16, height: 16, borderRadius: 4, background: \"#24143033\" }} />\n          </div>\n        )}\n        <div style={{ flex: 1, padding: compact ? 5 : 10, display: \"flex\", gap: compact ? 4 : 8 }}>\n          <div style={{ flex: 1, height: compact ? 34 : 50, background: \"#fff\", border: \"1px solid #24143022\", borderRadius: 8 }} />\n          <div style={{ flex: 1, height: compact ? 34 : 50, background: \"#fff\", border: \"1px solid #24143022\", borderRadius: 8 }} />\n        </div>\n      </div>\n      <p style={{ margin: 0, padding: \"8px 10px\" }}>The whole visual and interactive layer &mdash; every screen and control together is the UI</p>\n    </div>\n  );\n}"
+  }
+}

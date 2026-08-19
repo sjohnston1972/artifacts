@@ -1,0 +1,45 @@
+{
+  "slug": "focus-trap",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Dialog title",
+      "default": "Delete file?"
+    },
+    {
+      "id": "trapped",
+      "type": "toggle",
+      "label": "Focus trapped in dialog",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ft-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"ft-demo__page\">Background page (inert while dialog is open)</div>\n  <div class=\"ft-demo__dialog\" style=\"border-radius:{{radius}}px;\" role=\"dialog\" aria-modal=\"true\">\n    <p class=\"ft-demo__title\">{{title}}</p>\n    <div class=\"ft-demo__row\">\n      <button type=\"button\" class=\"ft-demo__btn\">Cancel</button>\n      <button type=\"button\" class=\"ft-demo__btn ft-demo__btn--primary\">Delete</button>\n    </div>\n    {{#if trapped}}<p class=\"ft-demo__loop\">&#8635; Tab from Delete wraps back to Cancel</p>{{/if}}\n    {{unless trapped}}<p class=\"ft-demo__leak\">&#8594; Tab from Delete escapes to the page behind</p>{{/unless}}\n  </div>\n</div>\n<style>\n.ft-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; position: relative; }\n.ft-demo__page { padding: 14px; border-radius: 10px; background: #24143010; color: #241430aa; font-size: 12px; margin-bottom: 12px; }\n.ft-demo__dialog { padding: 16px; background: #FAF7F2; box-shadow: 0 12px 32px rgba(36,20,48,.22); }\n.ft-demo__title { margin: 0 0 12px; font-weight: 700; }\n.ft-demo__row { display: flex; gap: 8px; }\n.ft-demo__btn { padding: 9px 16px; border-radius: 7px; border: 1.5px solid #24143033; background: transparent; font: inherit; cursor: pointer; }\n.ft-demo__btn--primary { background: var(--accent); border-color: var(--accent); font-weight: 600; }\n.ft-demo__loop { margin: 12px 0 0; font-size: 12px; color: #1a7a44; }\n.ft-demo__leak { margin: 12px 0 0; font-size: 12px; color: #b3261e; }\n</style>",
+    "tailwind": "<div style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"p-3.5 rounded-lg mb-3 text-xs\" style=\"background:#24143010;color:#241430aa\">Background page (inert while dialog is open)</div>\n  <div role=\"dialog\" aria-modal=\"true\" class=\"p-4\" style=\"border-radius:{{radius}}px;background:#FAF7F2;box-shadow:0 12px 32px rgba(36,20,48,.22)\">\n    <p class=\"m-0 mb-3 font-bold\">{{title}}</p>\n    <div class=\"flex gap-2\">\n      <button type=\"button\" class=\"px-4 py-2 rounded-md border\" style=\"border-color:#24143033\">Cancel</button>\n      <button type=\"button\" class=\"px-4 py-2 rounded-md font-semibold border\" style=\"background:{{accent}};border-color:{{accent}}\">Delete</button>\n    </div>\n    {{#if trapped}}<p class=\"mt-3 text-xs\" style=\"color:#1a7a44\">&#8635; Tab from Delete wraps back to Cancel</p>{{/if}}\n    {{unless trapped}}<p class=\"mt-3 text-xs\" style=\"color:#b3261e\">&#8594; Tab from Delete escapes to the page behind</p>{{/unless}}\n  </div>\n</div>",
+    "react": "export function FocusTrap({\n  title = \"{{title}}\",\n  trapped = {{trapped}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ padding: 14, borderRadius: 10, background: \"#24143010\", color: \"#241430aa\", fontSize: 12, marginBottom: 12 }}>Background page (inert while dialog is open)</div>\n      <div role=\"dialog\" aria-modal=\"true\" style={{ padding: 16, background: \"#FAF7F2\", boxShadow: \"0 12px 32px rgba(36,20,48,.22)\", borderRadius: radius }}>\n        <p style={{ margin: \"0 0 12px\", fontWeight: 700 }}>{title}</p>\n        <div style={{ display: \"flex\", gap: 8 }}>\n          <button type=\"button\" style={{ padding: \"9px 16px\", borderRadius: 7, border: \"1.5px solid #24143033\", background: \"transparent\", cursor: \"pointer\" }}>Cancel</button>\n          <button type=\"button\" style={{ padding: \"9px 16px\", borderRadius: 7, border: \"1.5px solid \" + accent, background: accent, fontWeight: 600, cursor: \"pointer\" }}>Delete</button>\n        </div>\n        {trapped\n          ? <p style={{ margin: \"12px 0 0\", fontSize: 12, color: \"#1a7a44\" }}>&#8635; Tab from Delete wraps back to Cancel</p>\n          : <p style={{ margin: \"12px 0 0\", fontSize: 12, color: \"#b3261e\" }}>&#8594; Tab from Delete escapes to the page behind</p>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

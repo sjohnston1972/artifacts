@@ -1,0 +1,36 @@
+{
+  "slug": "feedback",
+  "controls_schema": [
+    {
+      "id": "status",
+      "type": "select",
+      "label": "Status",
+      "default": "success",
+      "options": ["success", "error", "neutral"]
+    },
+    {
+      "id": "message",
+      "type": "text",
+      "label": "Message",
+      "default": "Changes saved"
+    },
+    {
+      "id": "showIcon",
+      "type": "toggle",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-fbk-stage\">\n  <div class=\"uif-fbk-banner uif-fbk-banner--{{status}}\" role=\"status\">\n    {{#if showIcon}}<span class=\"uif-fbk-dot\" style=\"background:{{accent}};\"></span>{{/if}}\n    <span>{{message}}</span>\n  </div>\n  <p class=\"uif-fbk-caption\">The system tells the user what happened &mdash; {{status}} feedback</p>\n</div>\n<style>\n.uif-fbk-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.uif-fbk-banner { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 8px; font-weight: 600; color: #241430; }\n.uif-fbk-banner--success { background: #A8E6C133; border: 1px solid #A8E6C1; }\n.uif-fbk-banner--error { background: #F5C2E033; border: 1px solid #F5C2E0; }\n.uif-fbk-banner--neutral { background: #24143011; border: 1px solid #24143022; }\n.uif-fbk-dot { width: 8px; height: 8px; border-radius: 999px; flex: none; }\n.uif-fbk-caption { margin: 10px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\">\n  <div role=\"status\" class=\"tw-fbk-banner tw-fbk-{{status}} flex items-center gap-2 px-3.5 py-2.5 rounded-lg font-semibold text-[#241430]\">\n    {{#if showIcon}}<span class=\"w-2 h-2 rounded-full flex-none\" style=\"background:{{accent}};\"></span>{{/if}}\n    <span>{{message}}</span>\n  </div>\n  <p class=\"mt-2.5\">The system tells the user what happened &mdash; {{status}} feedback</p>\n</div>\n<style>\n.tw-fbk-success { background: #A8E6C133; border: 1px solid #A8E6C1; }\n.tw-fbk-error { background: #F5C2E033; border: 1px solid #F5C2E0; }\n.tw-fbk-neutral { background: #24143011; border: 1px solid #24143022; }\n</style>",
+    "react": "export function Feedback({\n  status = \"{{status}}\",\n  message = \"{{message}}\",\n  showIcon = {{showIcon}},\n  accent = \"{{accent}}\",\n}) {\n  const styles = {\n    success: { background: \"#A8E6C133\", border: \"1px solid #A8E6C1\" },\n    error: { background: \"#F5C2E033\", border: \"1px solid #F5C2E0\" },\n    neutral: { background: \"#24143011\", border: \"1px solid #24143022\" },\n  }[status];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div role=\"status\" style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"10px 14px\", borderRadius: 8, fontWeight: 600, color: \"#241430\", ...styles }}>\n        {showIcon && <span style={{ width: 8, height: 8, borderRadius: 999, flex: \"none\", background: accent }} />}\n        <span>{message}</span>\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>The system tells the user what happened &mdash; {status} feedback</p>\n    </div>\n  );\n}"
+  }
+}

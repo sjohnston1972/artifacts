@@ -1,0 +1,45 @@
+{
+  "slug": "shadow-token",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Token name",
+      "default": "elevation-2"
+    },
+    {
+      "id": "blur",
+      "type": "number",
+      "label": "Blur (px)",
+      "default": 24,
+      "min": 0,
+      "max": 48,
+      "step": 4
+    },
+    {
+      "id": "yOffset",
+      "type": "number",
+      "label": "Y offset (px)",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "target",
+      "type": "select",
+      "label": "Applied to",
+      "default": "card",
+      "options": [
+        "card",
+        "button",
+        "modal"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"shtok shtok--{{target}}\">\n  <code class=\"shtok__code\">--{{name}}: 0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);</code>\n  <div class=\"shtok__stage\">\n    <div class=\"shtok__shape shtok__shape--card\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Card</div>\n    <div class=\"shtok__shape shtok__shape--button\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Button</div>\n    <div class=\"shtok__shape shtok__shape--modal\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Modal</div>\n  </div>\n</div>\n<style>\n.shtok { font: 14px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; width: 280px; box-sizing: border-box; }\n.shtok__code { display: block; margin-bottom: 20px; padding: 8px 10px; background: #24143012; border-radius: 6px; font: 11px/1.4 ui-monospace, monospace; word-break: break-all; }\n.shtok__stage { display: flex; align-items: center; justify-content: center; height: 80px; }\n.shtok__shape { display: none; background: #ffffff; border-radius: 10px; align-items: center; justify-content: center; }\n.shtok__shape--card { width: 100px; height: 60px; }\n.shtok__shape--button { padding: 12px 22px; border-radius: 8px; font-weight: 600; }\n.shtok__shape--modal { width: 130px; height: 60px; border-radius: 14px; }\n.shtok--card .shtok__shape--card, .shtok--button .shtok__shape--button, .shtok--modal .shtok__shape--modal { display: flex; }\n</style>",
+    "tailwind": "<div class=\"shtoktw shtoktw--{{target}} font-sans text-[#241430] bg-[#FAF7F2] p-5 rounded-xl w-[280px] box-border\">\n  <code class=\"block mb-5 px-2.5 py-2 bg-[#24143012] rounded-md text-[11px] font-mono break-all\">--{{name}}: 0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);</code>\n  <div class=\"flex items-center justify-center h-20\">\n    <div class=\"shtoktw__shape shtoktw__shape--card hidden bg-white rounded-[10px] items-center justify-center w-[100px] h-[60px]\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Card</div>\n    <div class=\"shtoktw__shape shtoktw__shape--button hidden bg-white rounded-lg items-center justify-center px-5.5 py-3 font-semibold\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Button</div>\n    <div class=\"shtoktw__shape shtoktw__shape--modal hidden bg-white rounded-2xl items-center justify-center w-[130px] h-[60px]\" style=\"box-shadow:0 {{yOffset}}px {{blur}}px rgba(36,20,48,.22);\">Modal</div>\n  </div>\n</div>\n<style>\n.shtoktw--card .shtoktw__shape--card, .shtoktw--button .shtoktw__shape--button, .shtoktw--modal .shtoktw__shape--modal { display: flex; }\n</style>",
+    "react": "export function ShadowToken({\n  name = \"{{name}}\",\n  blur = {{blur}},\n  yOffset = {{yOffset}},\n  target = \"{{target}}\",\n}) {\n  const shadow = `0 ${yOffset}px ${blur}px rgba(36,20,48,.22)`;\n  const base = { display: \"flex\", background: \"#ffffff\", alignItems: \"center\", justifyContent: \"center\", boxShadow: shadow };\n  let shape;\n  if (target === \"card\") shape = <div style={{ ...base, width: 100, height: 60, borderRadius: 10 }}>Card</div>;\n  else if (target === \"button\") shape = <div style={{ ...base, padding: \"12px 22px\", borderRadius: 8, fontWeight: 600 }}>Button</div>;\n  else shape = <div style={{ ...base, width: 130, height: 60, borderRadius: 14 }}>Modal</div>;\n  return (\n    <div style={{ font: \"14px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12, width: 280, boxSizing: \"border-box\" }}>\n      <code style={{ display: \"block\", marginBottom: 20, padding: \"8px 10px\", background: \"#24143012\", borderRadius: 6, font: \"11px/1.4 ui-monospace, monospace\", wordBreak: \"break-all\" }}>--{name}: {shadow};</code>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"center\", height: 80 }}>{shape}</div>\n    </div>\n  );\n}"
+  }
+}

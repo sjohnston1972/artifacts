@@ -1,0 +1,39 @@
+{
+  "slug": "component",
+  "controls_schema": [
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "Variant",
+      "default": "primary",
+      "options": ["primary", "secondary", "danger"]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Size (px)",
+      "default": 14,
+      "min": 12,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Instance label",
+      "default": "Button"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-cmp-stage\">\n  <p class=\"uif-cmp-note\">One component definition, three independent instances:</p>\n  <div class=\"uif-cmp-row\">\n    <button type=\"button\" class=\"uif-cmp-btn uif-cmp-btn--{{variant}}\" style=\"font-size:{{size}}px; --accent:{{accent}};\">{{label}} A</button>\n    <button type=\"button\" class=\"uif-cmp-btn uif-cmp-btn--{{variant}}\" style=\"font-size:{{size}}px; --accent:{{accent}};\">{{label}} B</button>\n    <button type=\"button\" class=\"uif-cmp-btn uif-cmp-btn--{{variant}}\" style=\"font-size:{{size}}px; --accent:{{accent}};\">{{label}} C</button>\n  </div>\n</div>\n<style>\n.uif-cmp-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.uif-cmp-note { margin: 0 0 12px; }\n.uif-cmp-row { display: flex; gap: 8px; flex-wrap: wrap; }\n.uif-cmp-btn { font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; border: 1.5px solid var(--accent); }\n.uif-cmp-btn--primary { background: var(--accent); color: #FAF7F2; }\n.uif-cmp-btn--secondary { background: transparent; color: var(--accent); }\n.uif-cmp-btn--danger { background: #fff; color: var(--accent); border-style: dashed; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\">\n  <p class=\"m-0 mb-3\">One component definition, three independent instances:</p>\n  <div class=\"flex gap-2 flex-wrap\">\n    <button type=\"button\" class=\"tw-cmp-btn tw-cmp-btn--{{variant}} font-semibold px-3 py-2 rounded-lg cursor-pointer border-[1.5px]\" style=\"font-size:{{size}}px; --accent:{{accent}}; border-color:{{accent}};\">{{label}} A</button>\n    <button type=\"button\" class=\"tw-cmp-btn tw-cmp-btn--{{variant}} font-semibold px-3 py-2 rounded-lg cursor-pointer border-[1.5px]\" style=\"font-size:{{size}}px; --accent:{{accent}}; border-color:{{accent}};\">{{label}} B</button>\n    <button type=\"button\" class=\"tw-cmp-btn tw-cmp-btn--{{variant}} font-semibold px-3 py-2 rounded-lg cursor-pointer border-[1.5px]\" style=\"font-size:{{size}}px; --accent:{{accent}}; border-color:{{accent}};\">{{label}} C</button>\n  </div>\n</div>\n<style>\n.tw-cmp-btn--primary { background: var(--accent); color: #FAF7F2; }\n.tw-cmp-btn--secondary { background: transparent; color: var(--accent); }\n.tw-cmp-btn--danger { background: #fff; color: var(--accent); border-style: dashed; }\n</style>",
+    "react": "export function Component({\n  variant = \"{{variant}}\",\n  size = {{size}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  const styles = {\n    primary: { background: accent, color: \"#FAF7F2\", borderStyle: \"solid\" },\n    secondary: { background: \"transparent\", color: accent, borderStyle: \"solid\" },\n    danger: { background: \"#fff\", color: accent, borderStyle: \"dashed\" },\n  }[variant];\n  const Instance = ({ suffix }) => (\n    <button type=\"button\" style={{ fontWeight: 600, padding: \"8px 12px\", borderRadius: 8, cursor: \"pointer\", border: `1.5px ${styles.borderStyle} ${accent}`, fontSize: size, background: styles.background, color: styles.color }}>\n      {label} {suffix}\n    </button>\n  );\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <p style={{ margin: \"0 0 12px\" }}>One component definition, three independent instances:</p>\n      <div style={{ display: \"flex\", gap: 8, flexWrap: \"wrap\" }}>\n        <Instance suffix=\"A\" />\n        <Instance suffix=\"B\" />\n        <Instance suffix=\"C\" />\n      </div>\n    </div>\n  );\n}"
+  }
+}

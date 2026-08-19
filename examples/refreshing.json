@@ -1,0 +1,39 @@
+{
+  "slug": "refreshing",
+  "controls_schema": [
+    {
+      "id": "isRefreshing",
+      "type": "toggle",
+      "label": "Refreshing",
+      "default": true
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "spinner",
+      "options": ["spinner", "bar"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 900,
+      "min": 400,
+      "max": 2000,
+      "step": 100
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-ref-stage\" data-style=\"{{style}}\">\n  {{#if isRefreshing}}\n  <div class=\"lod-ref-spin\" style=\"border-top-color:{{accent}};\"></div>\n  <div class=\"lod-ref-bar\"><span style=\"background:{{accent}};\"></span></div>\n  {{/if}}\n  <p role=\"status\" aria-live=\"polite\" class=\"lod-ref-caption\">{{#if isRefreshing}}Refreshing existing data&hellip;{{/if}}{{#unless isRefreshing}}Up to date{{/unless}}</p>\n</div>\n<style>\n.lod-ref-stage { width: 100%; max-width: 320px; padding: 20px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.lod-ref-spin, .lod-ref-bar { display: none; }\n[data-style=\"spinner\"] .lod-ref-spin { display: inline-block; width: 26px; height: 26px; border: 3px solid #24143022; border-radius: 999px; }\n[data-style=\"bar\"] .lod-ref-bar { display: block; height: 6px; background: #24143014; border-radius: 999px; overflow: hidden; }\n.lod-ref-bar span { display: block; height: 100%; width: 40%; border-radius: 999px; }\n.lod-ref-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"spinner\"] .lod-ref-spin { animation: lod-ref-spin {{duration}}ms linear infinite; }\n  [data-style=\"bar\"] .lod-ref-bar span { animation: lod-ref-slide {{duration}}ms ease-in-out infinite; }\n  @keyframes lod-ref-spin { to { transform: rotate(360deg); } }\n  @keyframes lod-ref-slide { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-5 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\" data-style=\"{{style}}\">\n  {{#if isRefreshing}}\n  <div class=\"tw-ref-spin hidden w-[26px] h-[26px] border-[3px] border-[#24143022] rounded-full mx-auto\" style=\"border-top-color:{{accent}};\"></div>\n  <div class=\"tw-ref-bar hidden h-1.5 bg-[#24143014] rounded-full overflow-hidden\"><span class=\"block h-full w-2/5 rounded-full\" style=\"background:{{accent}};\"></span></div>\n  {{/if}}\n  <p role=\"status\" aria-live=\"polite\" class=\"mt-2.5\">{{#if isRefreshing}}Refreshing existing data&hellip;{{/if}}{{#unless isRefreshing}}Up to date{{/unless}}</p>\n</div>\n<style>\n[data-style=\"spinner\"] .tw-ref-spin { display: inline-block; }\n[data-style=\"bar\"] .tw-ref-bar { display: block; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"spinner\"] .tw-ref-spin { animation: lod-ref-tw-spin {{duration}}ms linear infinite; }\n  [data-style=\"bar\"] .tw-ref-bar span { animation: lod-ref-tw-slide {{duration}}ms ease-in-out infinite; }\n  @keyframes lod-ref-tw-spin { to { transform: rotate(360deg); } }\n  @keyframes lod-ref-tw-slide { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }\n}\n</style>",
+    "react": "export function Refreshing({\n  isRefreshing = {{isRefreshing}},\n  style = \"{{style}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 20, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      {isRefreshing && style === \"spinner\" && (\n        <div className=\"spin\" style={{ display: \"inline-block\", width: 26, height: 26, border: \"3px solid #24143022\", borderTopColor: accent, borderRadius: 999 }} />\n      )}\n      {isRefreshing && style === \"bar\" && (\n        <div style={{ height: 6, background: \"#24143014\", borderRadius: 999, overflow: \"hidden\" }}>\n          <span className=\"bar\" style={{ display: \"block\", height: \"100%\", width: \"40%\", borderRadius: 999, background: accent }} />\n        </div>\n      )}\n      <p role=\"status\" aria-live=\"polite\" style={{ margin: \"10px 0 0\" }}>{isRefreshing ? \"Refreshing existing data\\u2026\" : \"Up to date\"}</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spin { animation: lod-ref-spin ${duration}ms linear infinite; }\n          .bar { animation: lod-ref-slide ${duration}ms ease-in-out infinite; }\n          @keyframes lod-ref-spin { to { transform: rotate(360deg); } }\n          @keyframes lod-ref-slide { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

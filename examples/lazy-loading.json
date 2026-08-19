@@ -1,0 +1,30 @@
+{
+  "slug": "lazy-loading",
+  "controls_schema": [
+    {
+      "id": "belowFoldLoaded",
+      "type": "toggle",
+      "label": "Below-the-fold loaded",
+      "default": false
+    },
+    {
+      "id": "trigger",
+      "type": "select",
+      "label": "Trigger",
+      "default": "viewport",
+      "options": ["viewport", "interaction"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-laz-stage\" data-trigger=\"{{trigger}}\">\n  <div class=\"lod-laz-item lod-laz-item--loaded\" style=\"background:{{accent}};\">Image 1 &mdash; loaded eagerly</div>\n  <div class=\"lod-laz-fold\">below the fold &darr;</div>\n  <div class=\"lod-laz-item{{#unless belowFoldLoaded}} lod-laz-item--placeholder{{/unless}}\" style=\"background:{{#if belowFoldLoaded}}{{accent}}{{/if}};\">{{#if belowFoldLoaded}}Image 2 &mdash; loaded on {{trigger}}{{/if}}{{#unless belowFoldLoaded}}not requested yet{{/unless}}</div>\n  <p class=\"lod-laz-caption\">Only what's needed loads up front &mdash; the rest waits for {{trigger}}</p>\n</div>\n<style>\n.lod-laz-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.lod-laz-item { height: 54px; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; color: #241430; font-weight: 600; margin-bottom: 8px; padding: 4px; }\n.lod-laz-item--placeholder { background: repeating-linear-gradient(45deg, #24143010 0 8px, transparent 8px 16px); color: #241430aa; font-weight: 400; }\n.lod-laz-fold { text-align: center; margin: 4px 0 8px; opacity: .5; }\n.lod-laz-caption { margin: 6px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-trigger=\"{{trigger}}\">\n  <div class=\"h-[54px] rounded-lg flex items-center justify-center text-center text-[#241430] font-semibold mb-2 p-1\" style=\"background:{{accent}};\">Image 1 &mdash; loaded eagerly</div>\n  <div class=\"text-center my-1 mb-2 opacity-50\">below the fold &darr;</div>\n  <div class=\"tw-laz-item h-[54px] rounded-lg flex items-center justify-center text-center font-semibold mb-2 p-1\" style=\"background:{{#if belowFoldLoaded}}{{accent}}{{/if}}; color:{{#if belowFoldLoaded}}#241430{{/if}}{{#unless belowFoldLoaded}}#241430aa{{/unless}};\">{{#if belowFoldLoaded}}Image 2 &mdash; loaded on {{trigger}}{{/if}}{{#unless belowFoldLoaded}}not requested yet{{/unless}}</div>\n  <p class=\"mt-1.5\">Only what's needed loads up front &mdash; the rest waits for {{trigger}}</p>\n</div>",
+    "react": "export function LazyLoading({\n  belowFoldLoaded = {{belowFoldLoaded}},\n  trigger = \"{{trigger}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ height: 54, borderRadius: 8, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", textAlign: \"center\", color: \"#241430\", fontWeight: 600, marginBottom: 8, padding: 4, background: accent }}>Image 1 &mdash; loaded eagerly</div>\n      <div style={{ textAlign: \"center\", margin: \"4px 0 8px\", opacity: .5 }}>below the fold &darr;</div>\n      <div style={{ height: 54, borderRadius: 8, display: \"flex\", alignItems: \"center\", justifyContent: \"center\", textAlign: \"center\", fontWeight: belowFoldLoaded ? 600 : 400, marginBottom: 8, padding: 4, background: belowFoldLoaded ? accent : \"repeating-linear-gradient(45deg, #24143010 0 8px, transparent 8px 16px)\", color: belowFoldLoaded ? \"#241430\" : \"#241430aa\" }}>\n        {belowFoldLoaded ? `Image 2 \\u2014 loaded on ${trigger}` : \"not requested yet\"}\n      </div>\n      <p style={{ margin: \"6px 0 0\" }}>Only what's needed loads up front &mdash; the rest waits for {trigger}</p>\n    </div>\n  );\n}"
+  }
+}

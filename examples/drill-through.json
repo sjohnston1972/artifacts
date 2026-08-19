@@ -1,0 +1,36 @@
+{
+  "slug": "drill-through",
+  "controls_schema": [
+    {
+      "id": "metric",
+      "type": "text",
+      "label": "Metric",
+      "default": "Refund spike, March"
+    },
+    {
+      "id": "navigated",
+      "type": "toggle",
+      "label": "Navigated to record",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dt-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"dt-demo__chart\">\n    <div class=\"dt-demo__bar\" style=\"height:30%;\"></div>\n    <div class=\"dt-demo__bar\" style=\"height:52%;\"></div>\n    <div class=\"dt-demo__bar dt-demo__bar--flagged{{#if navigated}} is-active{{/if}}\" style=\"height:88%;\"><span class=\"dt-demo__label\">{{metric}}</span></div>\n    <div class=\"dt-demo__bar\" style=\"height:40%;\"></div>\n  </div>\n  {{#if navigated}}\n  <div class=\"dt-demo__arrow\">&#8595;</div>\n  <div class=\"dt-demo__record\">\n    <p class=\"dt-demo__record-title\">Transaction #48213</p>\n    <p class=\"dt-demo__record-row\">Order &mdash; $412.00 refunded</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n.dt-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.dt-demo__chart { height: 90px; display: flex; align-items: flex-end; gap: 10px; }\n.dt-demo__bar { flex: 1; background: #24143018; border-radius: 4px 4px 0 0; position: relative; }\n.dt-demo__bar--flagged { background: var(--accent); cursor: pointer; }\n.dt-demo__label { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; white-space: nowrap; color: var(--accent); font-weight: 700; }\n.dt-demo__arrow { text-align: center; color: var(--accent); font-size: 16px; margin: 10px 0; }\n.dt-demo__record { padding: 12px 14px; border-radius: 8px; background: #FAF7F2; border: 1.5px solid var(--accent); }\n.dt-demo__record-title { margin: 0 0 4px; font-weight: 700; }\n.dt-demo__record-row { margin: 0; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"h-[90px] flex items-end gap-2.5\">\n    <div class=\"flex-1 rounded-t bg-[#24143018]\" style=\"height:30%\"></div>\n    <div class=\"flex-1 rounded-t bg-[#24143018]\" style=\"height:52%\"></div>\n    <div class=\"dt-tw-bar{{#if navigated}} is-active{{/if}} flex-1 rounded-t relative cursor-pointer\" style=\"height:88%;background:{{accent}}\"><span class=\"absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] whitespace-nowrap font-bold\" style=\"color:{{accent}}\">{{metric}}</span></div>\n    <div class=\"flex-1 rounded-t bg-[#24143018]\" style=\"height:40%\"></div>\n  </div>\n  {{#if navigated}}\n  <div class=\"text-center my-2.5\" style=\"color:{{accent}}\">&#8595;</div>\n  <div class=\"px-3.5 py-3 rounded-lg\" style=\"background:#FAF7F2;border:1.5px solid {{accent}}\">\n    <p class=\"m-0 mb-1 font-bold\">Transaction #48213</p>\n    <p class=\"m-0 text-[#241430aa]\">Order &mdash; $412.00 refunded</p>\n  </div>\n  {{/if}}\n</div>",
+    "react": "export function DrillThrough({\n  metric = \"{{metric}}\",\n  navigated = {{navigated}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <div style={{ height: 90, display: \"flex\", alignItems: \"flex-end\", gap: 10 }}>\n        <div style={{ flex: 1, height: \"30%\", background: \"#24143018\", borderRadius: \"4px 4px 0 0\" }} />\n        <div style={{ flex: 1, height: \"52%\", background: \"#24143018\", borderRadius: \"4px 4px 0 0\" }} />\n        <div style={{ flex: 1, height: \"88%\", background: accent, borderRadius: \"4px 4px 0 0\", position: \"relative\", cursor: \"pointer\" }}>\n          <span style={{ position: \"absolute\", top: -20, left: \"50%\", transform: \"translateX(-50%)\", fontSize: 10, whiteSpace: \"nowrap\", color: accent, fontWeight: 700 }}>{metric}</span>\n        </div>\n        <div style={{ flex: 1, height: \"40%\", background: \"#24143018\", borderRadius: \"4px 4px 0 0\" }} />\n      </div>\n      {navigated && <>\n        <div style={{ textAlign: \"center\", color: accent, fontSize: 16, margin: \"10px 0\" }}>&#8595;</div>\n        <div style={{ padding: \"12px 14px\", borderRadius: 8, background: \"#FAF7F2\", border: \"1.5px solid \" + accent }}>\n          <p style={{ margin: \"0 0 4px\", fontWeight: 700 }}>Transaction #48213</p>\n          <p style={{ margin: 0, color: \"#241430aa\" }}>Order &mdash; $412.00 refunded</p>\n        </div>\n      </>}\n    </div>\n  );\n}"
+  }
+}

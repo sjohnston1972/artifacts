@@ -1,0 +1,30 @@
+{
+  "slug": "preloading",
+  "controls_schema": [
+    {
+      "id": "resourceType",
+      "type": "select",
+      "label": "Resource",
+      "default": "hero-image",
+      "options": ["hero-image", "font", "script"]
+    },
+    {
+      "id": "earlyHint",
+      "type": "toggle",
+      "label": "Marked high priority",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-pre-stage\" data-resource=\"{{resourceType}}\">\n  <div class=\"lod-pre-row\"><span>Document</span><span class=\"lod-pre-bar\" style=\"width:20%;\"></span></div>\n  <div class=\"lod-pre-row lod-pre-row--main\"><span class=\"lod-pre-name\"></span><span class=\"lod-pre-bar{{#if earlyHint}} lod-pre-bar--priority{{/if}}\" style=\"width:{{#if earlyHint}}85{{/if}}{{#unless earlyHint}}35{{/unless}}%; background:{{accent}};\"></span></div>\n  <div class=\"lod-pre-row\"><span>Rest of page</span><span class=\"lod-pre-bar\" style=\"width:10%;\"></span></div>\n  <p class=\"lod-pre-caption\">{{#if earlyHint}}Requested early, ahead of the elements that need it{{/if}}{{#unless earlyHint}}Requested at normal priority, later in the queue{{/unless}}</p>\n</div>\n<style>\n.lod-pre-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.lod-pre-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }\n.lod-pre-row span:first-child { width: 90px; flex: none; }\n.lod-pre-bar { display: block; height: 8px; background: #24143022; border-radius: 999px; }\n.lod-pre-name::before { content: \"hero-image.jpg\"; }\n[data-resource=\"font\"] .lod-pre-name::before { content: \"display-font.woff2\"; }\n[data-resource=\"script\"] .lod-pre-name::before { content: \"app-bundle.js\"; }\n.lod-pre-caption { margin: 6px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-resource=\"{{resourceType}}\">\n  <div class=\"flex items-center gap-2 mb-2\"><span class=\"w-[90px] flex-none\">Document</span><span class=\"block h-2 bg-[#24143022] rounded-full\" style=\"width:20%;\"></span></div>\n  <div class=\"flex items-center gap-2 mb-2\"><span class=\"tw-pre-name w-[90px] flex-none\"></span><span class=\"block h-2 rounded-full\" style=\"width:{{#if earlyHint}}85{{/if}}{{#unless earlyHint}}35{{/unless}}%; background:{{accent}};\"></span></div>\n  <div class=\"flex items-center gap-2 mb-2\"><span class=\"w-[90px] flex-none\">Rest of page</span><span class=\"block h-2 bg-[#24143022] rounded-full\" style=\"width:10%;\"></span></div>\n  <p class=\"mt-1.5\">{{#if earlyHint}}Requested early, ahead of the elements that need it{{/if}}{{#unless earlyHint}}Requested at normal priority, later in the queue{{/unless}}</p>\n</div>\n<style>\n.tw-pre-name::before { content: \"hero-image.jpg\"; }\n[data-resource=\"font\"] .tw-pre-name::before { content: \"display-font.woff2\"; }\n[data-resource=\"script\"] .tw-pre-name::before { content: \"app-bundle.js\"; }\n</style>",
+    "react": "export function Preloading({\n  resourceType = \"{{resourceType}}\",\n  earlyHint = {{earlyHint}},\n  accent = \"{{accent}}\",\n}) {\n  const names = { \"hero-image\": \"hero-image.jpg\", font: \"display-font.woff2\", script: \"app-bundle.js\" };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 8 }}><span style={{ width: 90, flex: \"none\" }}>Document</span><span style={{ display: \"block\", height: 8, width: \"20%\", background: \"#24143022\", borderRadius: 999 }} /></div>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 8 }}><span style={{ width: 90, flex: \"none\" }}>{names[resourceType]}</span><span style={{ display: \"block\", height: 8, width: earlyHint ? \"85%\" : \"35%\", background: accent, borderRadius: 999 }} /></div>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, marginBottom: 8 }}><span style={{ width: 90, flex: \"none\" }}>Rest of page</span><span style={{ display: \"block\", height: 8, width: \"10%\", background: \"#24143022\", borderRadius: 999 }} /></div>\n      <p style={{ margin: \"6px 0 0\" }}>{earlyHint ? \"Requested early, ahead of the elements that need it\" : \"Requested at normal priority, later in the queue\"}</p>\n    </div>\n  );\n}"
+  }
+}

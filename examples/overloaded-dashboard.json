@@ -1,0 +1,36 @@
+{
+  "slug": "overloaded-dashboard",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Dashboard title",
+      "default": "Overview"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (focused view)",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"od-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"od-demo__badge{{#if fixed}} od-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: overloaded dashboard{{/unless}}</span>\n  <p class=\"od-demo__title\">{{title}}</p>\n  {{unless fixed}}\n  <div class=\"od-demo__grid\">\n    <div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div>\n    <div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div>\n    <div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div><div class=\"od-demo__tile\"></div>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"od-demo__focus\">\n    <div class=\"od-demo__hero\">Revenue this month<strong>$84,200</strong></div>\n    <div class=\"od-demo__pair\"><div class=\"od-demo__small\">Orders</div><div class=\"od-demo__small\">Refunds</div></div>\n    <a href=\"#\" class=\"od-demo__more\">View all metrics &rarr;</a>\n  </div>\n  {{/if}}\n</div>\n<style>\n.od-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.od-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.od-demo__badge--good { background: #1a7a44; }\n.od-demo__title { margin: 0 0 8px; font-weight: 700; }\n.od-demo__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }\n.od-demo__tile { height: 30px; border-radius: 5px; background: #24143014; }\n.od-demo__hero { padding: 16px; border-radius: 10px; background: var(--accent); display: flex; flex-direction: column; gap: 4px; font-weight: 600; }\n.od-demo__hero strong { font-size: 22px; }\n.od-demo__pair { display: flex; gap: 6px; margin-top: 6px; }\n.od-demo__small { flex: 1; height: 40px; border-radius: 8px; background: #24143010; }\n.od-demo__more { display: block; margin-top: 8px; font-size: 12px; color: var(--accent); font-weight: 700; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"od-tw-badge{{#if fixed}} od-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: overloaded dashboard{{/unless}}</span>\n  <p class=\"m-0 mb-2 font-bold\">{{title}}</p>\n  {{unless fixed}}\n  <div class=\"grid grid-cols-3 gap-1.5\">\n    <div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div>\n    <div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div>\n    <div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div><div class=\"h-[30px] rounded bg-[#24143014]\"></div>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"p-4 rounded-lg flex flex-col gap-1 font-semibold\" style=\"background:{{accent}}\">Revenue this month<strong class=\"text-[22px]\">$84,200</strong></div>\n  <div class=\"flex gap-1.5 mt-1.5\">\n    <div class=\"flex-1 h-10 rounded-lg bg-[#24143010]\"></div>\n    <div class=\"flex-1 h-10 rounded-lg bg-[#24143010]\"></div>\n  </div>\n  <a href=\"#\" class=\"block mt-2 text-xs font-bold\" style=\"color:{{accent}}\">View all metrics &rarr;</a>\n  {{/if}}\n</div>\n<style>\n.od-tw-badge { background: #b3261e; color: #FAF7F2; }\n.od-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function OverloadedDashboard({\n  title = \"{{title}}\",\n  fixed = {{fixed}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: overloaded dashboard\"}\n      </span>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 700 }}>{title}</p>\n      {!fixed && (\n        <div style={{ display: \"grid\", gridTemplateColumns: \"repeat(3, 1fr)\", gap: 5 }}>\n          {Array.from({ length: 9 }).map((_, i) => <div key={i} style={{ height: 30, borderRadius: 5, background: \"#24143014\" }} />)}\n        </div>\n      )}\n      {fixed && (\n        <>\n          <div style={{ padding: 16, borderRadius: 10, background: accent, display: \"flex\", flexDirection: \"column\", gap: 4, fontWeight: 600 }}>\n            Revenue this month<strong style={{ fontSize: 22 }}>$84,200</strong>\n          </div>\n          <div style={{ display: \"flex\", gap: 6, marginTop: 6 }}>\n            <div style={{ flex: 1, height: 40, borderRadius: 8, background: \"#24143010\" }} />\n            <div style={{ flex: 1, height: 40, borderRadius: 8, background: \"#24143010\" }} />\n          </div>\n          <a href=\"#\" style={{ display: \"block\", marginTop: 8, fontSize: 12, color: accent, fontWeight: 700 }}>View all metrics &rarr;</a>\n        </>\n      )}\n    </div>\n  );\n}"
+  }
+}

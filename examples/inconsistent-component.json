@@ -1,0 +1,50 @@
+{
+  "slug": "inconsistent-component",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button text",
+      "default": "Submit"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (consistent)",
+      "default": false
+    },
+    {
+      "id": "accentA",
+      "type": "color",
+      "label": "Style A colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "accentB",
+      "type": "color",
+      "label": "Style B colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ic-demo\">\n  <span class=\"ic-demo__badge{{#if fixed}} ic-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: inconsistent component{{/unless}}</span>\n  <p class=\"ic-demo__context\">Checkout page</p>\n  <button type=\"button\" class=\"ic-demo__btn ic-demo__btn--a\" style=\"background:{{accentA}};border-radius:4px;\">{{label}}</button>\n  <p class=\"ic-demo__context\">Settings page</p>\n  {{unless fixed}}<button type=\"button\" class=\"ic-demo__btn ic-demo__btn--b\" style=\"background:{{accentB}};border-radius:999px;\">{{label}}</button>{{/unless}}\n  {{#if fixed}}<button type=\"button\" class=\"ic-demo__btn ic-demo__btn--a\" style=\"background:{{accentA}};border-radius:4px;\">{{label}}</button>{{/if}}\n</div>\n<style>\n.ic-demo { width: 260px; font: 13px system-ui, sans-serif; color: #241430; }\n.ic-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ic-demo__badge--good { background: #1a7a44; }\n.ic-demo__context { margin: 10px 0 4px; font-size: 11px; color: #241430aa; }\n.ic-demo__btn { border: none; padding: 9px 18px; font: inherit; font-weight: 700; color: #FAF7F2; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ic-tw-badge{{#if fixed}} ic-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: inconsistent component{{/unless}}</span>\n  <p class=\"mt-2.5 mb-1 text-[11px] text-[#241430aa]\">Checkout page</p>\n  <button type=\"button\" class=\"border-0 px-4.5 py-2.5 font-bold cursor-pointer\" style=\"background:{{accentA}};border-radius:4px;color:#FAF7F2\">{{label}}</button>\n  <p class=\"mt-2.5 mb-1 text-[11px] text-[#241430aa]\">Settings page</p>\n  {{unless fixed}}<button type=\"button\" class=\"border-0 px-4.5 py-2.5 font-bold cursor-pointer\" style=\"background:{{accentB}};border-radius:999px;color:#FAF7F2\">{{label}}</button>{{/unless}}\n  {{#if fixed}}<button type=\"button\" class=\"border-0 px-4.5 py-2.5 font-bold cursor-pointer\" style=\"background:{{accentA}};border-radius:4px;color:#FAF7F2\">{{label}}</button>{{/if}}\n</div>\n<style>\n.ic-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ic-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function InconsistentComponent({\n  label = \"{{label}}\",\n  fixed = {{fixed}},\n  accentA = \"{{accentA}}\",\n  accentB = \"{{accentB}}\",\n}) {\n  const btn = { border: \"none\", padding: \"9px 18px\", fontWeight: 700, color: \"#FAF7F2\", cursor: \"pointer\" };\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: inconsistent component\"}\n      </span>\n      <p style={{ margin: \"10px 0 4px\", fontSize: 11, color: \"#241430aa\" }}>Checkout page</p>\n      <button type=\"button\" style={{ ...btn, background: accentA, borderRadius: 4 }}>{label}</button>\n      <p style={{ margin: \"10px 0 4px\", fontSize: 11, color: \"#241430aa\" }}>Settings page</p>\n      <button type=\"button\" style={{ ...btn, background: fixed ? accentA : accentB, borderRadius: fixed ? 4 : 999 }}>{label}</button>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "slug": "presentational-component",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Component",
+      "default": "PriceTag"
+    },
+    {
+      "id": "price",
+      "type": "text",
+      "label": "price prop",
+      "default": "$42"
+    },
+    {
+      "id": "variant",
+      "type": "select",
+      "label": "status prop",
+      "default": "default",
+      "options": [
+        "default",
+        "sale",
+        "sold-out"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"presc\">\n  <p class=\"presc__sig\">{{name}}(price, status) &mdash; no internal state</p>\n  <div class=\"presc__out presc__out--{{variant}}\" style=\"--accent:{{accent}};\">\n    <span class=\"presc__price\">{{price}}</span>\n    <span class=\"presc__flag presc__flag--sale\">Sale</span>\n    <span class=\"presc__flag presc__flag--sold-out\">Sold out</span>\n  </div>\n</div>\n<style>\n.presc { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; width: 280px; box-sizing: border-box; }\n.presc__sig { margin: 0 0 14px; font: 11px ui-monospace, monospace; color: #24143099; }\n.presc__out { display: flex; align-items: center; gap: 8px; padding: 14px; border-radius: 8px; background: #ffffff; border: 1.5px solid #24143018; }\n.presc__price { font-weight: 800; font-size: 18px; }\n.presc__flag { display: none; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; color: #241430; }\n.presc__out--sale .presc__flag--sale { display: inline-block; background: var(--accent); }\n.presc__out--sold-out .presc__flag--sold-out { display: inline-block; background: #24143018; }\n.presc__out--sold-out .presc__price { text-decoration: line-through; opacity: .5; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] bg-[#FAF7F2] p-5 rounded-xl w-[280px] box-border\">\n  <p class=\"m-0 mb-3.5 font-mono text-[11px] text-[#24143099]\">{{name}}(price, status) &mdash; no internal state</p>\n  <div class=\"presctw presctw--{{variant}} flex items-center gap-2 p-3.5 rounded-lg bg-white border border-[#24143018]\" style=\"--accent:{{accent}};\">\n    <span class=\"presctw__price font-extrabold text-lg\">{{price}}</span>\n    <span class=\"presctw__flag presctw__flag--sale hidden text-[11px] font-bold py-0.5 px-2 rounded\">Sale</span>\n    <span class=\"presctw__flag presctw__flag--sold-out hidden text-[11px] font-bold py-0.5 px-2 rounded bg-[#24143018]\">Sold out</span>\n  </div>\n</div>\n<style>\n.presctw--sale .presctw__flag--sale { display: inline-block; background: var(--accent); }\n.presctw--sold-out .presctw__flag--sold-out { display: inline-block; }\n.presctw--sold-out .presctw__price { text-decoration: line-through; opacity: .5; }\n</style>",
+    "react": "export function PresentationalComponent({\n  name = \"{{name}}\",\n  price = \"{{price}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12, width: 280, boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 14px\", fontFamily: \"ui-monospace, monospace\", fontSize: 11, color: \"#24143099\" }}>{name}(price, status) &mdash; no internal state</p>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: 14, borderRadius: 8, background: \"#ffffff\", border: \"1.5px solid #24143018\" }}>\n        <span style={{ fontWeight: 800, fontSize: 18, textDecoration: variant === \"sold-out\" ? \"line-through\" : \"none\", opacity: variant === \"sold-out\" ? .5 : 1 }}>{price}</span>\n        {variant === \"sale\" && <span style={{ fontSize: 11, fontWeight: 700, padding: \"3px 8px\", borderRadius: 4, background: accent }}>Sale</span>}\n        {variant === \"sold-out\" && <span style={{ fontSize: 11, fontWeight: 700, padding: \"3px 8px\", borderRadius: 4, background: \"#24143018\" }}>Sold out</span>}\n      </div>\n    </div>\n  );\n}"
+  }
+}

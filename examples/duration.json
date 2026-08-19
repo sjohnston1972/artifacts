@@ -1,0 +1,39 @@
+{
+  "slug": "duration",
+  "controls_schema": [
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 1200,
+      "min": 200,
+      "max": 4000,
+      "step": 100
+    },
+    {
+      "id": "speed",
+      "type": "select",
+      "label": "Preset",
+      "default": "normal",
+      "options": ["snappy", "normal", "slow"]
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-dur-stage\" data-speed=\"{{speed}}\">\n  <div class=\"mot-dur-track\">\n    <span class=\"mot-dur-dot{{#if loop}} mot-dur-dot--loop{{/if}}\" style=\"background:{{accent}};\"></span>\n  </div>\n  <p class=\"mot-dur-caption\">{{duration}}ms &middot; {{speed}} preset</p>\n</div>\n<style>\n.mot-dur-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.mot-dur-track { position: relative; height: 24px; background: #24143014; border-radius: 999px; }\n.mot-dur-dot { position: absolute; top: 1px; left: 1px; width: 22px; height: 22px; border-radius: 999px; }\n.mot-dur-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-speed=\"snappy\"] .mot-dur-dot { animation-timing-function: ease-in-out; }\n  [data-speed=\"normal\"] .mot-dur-dot { animation-timing-function: ease-in-out; }\n  [data-speed=\"slow\"] .mot-dur-dot { animation-timing-function: linear; }\n  .mot-dur-dot { animation-name: mot-dur-slide; animation-duration: {{duration}}ms; }\n  .mot-dur-dot--loop { animation-iteration-count: infinite; }\n  @keyframes mot-dur-slide { 0%,100% { left: 1px; } 50% { left: calc(100% - 23px); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-speed=\"{{speed}}\">\n  <div class=\"relative h-6 bg-[#24143014] rounded-full\">\n    <span class=\"absolute top-px left-px w-[22px] h-[22px] rounded-full{{#if loop}} tw-dur-loop{{/if}}\" style=\"background:{{accent}};\"></span>\n  </div>\n  <p class=\"mt-2.5\">{{duration}}ms &middot; {{speed}} preset</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-speed=\"snappy\"] span { animation-timing-function: ease-in-out; }\n  [data-speed=\"normal\"] span { animation-timing-function: ease-in-out; }\n  [data-speed=\"slow\"] span { animation-timing-function: linear; }\n  span { animation-name: mot-dur-tw-slide; animation-duration: {{duration}}ms; }\n  .tw-dur-loop { animation-iteration-count: infinite; }\n  @keyframes mot-dur-tw-slide { 0%,100% { left: 1px; } 50% { left: calc(100% - 23px); } }\n}\n</style>",
+    "react": "export function Duration({\n  duration = {{duration}},\n  speed = \"{{speed}}\",\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n}) {\n  const ease = speed === \"slow\" ? \"linear\" : \"ease-in-out\";\n  return (\n    <div data-speed={speed} style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div style={{ position: \"relative\", height: 24, background: \"#24143014\", borderRadius: 999 }}>\n        <span className={loop ? \"dot dot--loop\" : \"dot\"} style={{ position: \"absolute\", top: 1, left: 1, width: 22, height: 22, borderRadius: 999, background: accent }} />\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>{duration}ms &middot; {speed} preset</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .dot { animation: mot-dur-slide ${duration}ms ${ease} 1; }\n          .dot--loop { animation-iteration-count: infinite; }\n          @keyframes mot-dur-slide { 0%,100% { left: 1px; } 50% { left: calc(100% - 23px); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "timeout",
+  "controls_schema": [
+    {
+      "id": "timedOut",
+      "type": "toggle",
+      "label": "Timed out",
+      "default": true
+    },
+    {
+      "id": "timeoutMs",
+      "type": "number",
+      "label": "Timeout (ms)",
+      "default": 5000,
+      "min": 1000,
+      "max": 15000,
+      "step": 1000
+    },
+    {
+      "id": "action",
+      "type": "select",
+      "label": "Action",
+      "default": "request",
+      "options": ["request", "upload"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-tmo-stage\" data-action=\"{{action}}\">\n  <div class=\"lod-tmo-track\">\n    <span class=\"lod-tmo-fill{{#if timedOut}} lod-tmo-fill--full{{/if}}\" style=\"background:{{accent}};\"></span>\n    <span class=\"lod-tmo-marker\">{{timeoutMs}}ms limit</span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\" class=\"lod-tmo-msg\">{{#if timedOut}}The {{action}} exceeded {{timeoutMs}}ms and was cancelled.{{/if}}{{#unless timedOut}}Within the {{timeoutMs}}ms limit &mdash; still waiting.{{/unless}}</p>\n</div>\n<style>\n.lod-tmo-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-tmo-track { position: relative; height: 10px; background: #24143014; border-radius: 999px; overflow: visible; }\n.lod-tmo-fill { display: block; height: 100%; width: 55%; border-radius: 999px; }\n.lod-tmo-fill--full { width: 100%; background: #241430 !important; }\n.lod-tmo-marker { position: absolute; right: 0; top: -18px; font-size: 10px; opacity: .6; }\n.lod-tmo-msg { margin: 14px 0 0; font-weight: 600; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-action=\"{{action}}\">\n  <div class=\"relative h-2.5 bg-[#24143014] rounded-full\">\n    <span class=\"tw-tmo-fill{{#if timedOut}} tw-tmo-full{{/if}} block h-full w-[55%] rounded-full\" style=\"background:{{accent}};\"></span>\n    <span class=\"absolute right-0 -top-[18px] text-[10px] opacity-60\">{{timeoutMs}}ms limit</span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\" class=\"mt-3.5 font-semibold text-[#241430]\">{{#if timedOut}}The {{action}} exceeded {{timeoutMs}}ms and was cancelled.{{/if}}{{#unless timedOut}}Within the {{timeoutMs}}ms limit &mdash; still waiting.{{/unless}}</p>\n</div>\n<style>\n.tw-tmo-full { width: 100% !important; background: #241430 !important; }\n</style>",
+    "react": "export function Timeout({\n  timedOut = {{timedOut}},\n  timeoutMs = {{timeoutMs}},\n  action = \"{{action}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div style={{ position: \"relative\", height: 10, background: \"#24143014\", borderRadius: 999 }}>\n        <span style={{ display: \"block\", height: \"100%\", width: timedOut ? \"100%\" : \"55%\", borderRadius: 999, background: timedOut ? \"#241430\" : accent }} />\n        <span style={{ position: \"absolute\", right: 0, top: -18, fontSize: 10, opacity: .6 }}>{timeoutMs}ms limit</span>\n      </div>\n      <p role=\"status\" aria-live=\"polite\" style={{ margin: \"14px 0 0\", fontWeight: 600, color: \"#241430\" }}>\n        {timedOut ? `The ${action} exceeded ${timeoutMs}ms and was cancelled.` : `Within the ${timeoutMs}ms limit \\u2014 still waiting.`}\n      </p>\n    </div>\n  );\n}"
+  }
+}

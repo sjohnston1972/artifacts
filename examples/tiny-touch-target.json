@@ -1,0 +1,39 @@
+{
+  "slug": "tiny-touch-target",
+  "controls_schema": [
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (44px targets)",
+      "default": false
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Icon size (px, anti-pattern)",
+      "default": 16,
+      "min": 12,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"tt-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"tt-demo__badge{{#if fixed}} tt-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better &mdash; 44&times;44px{{/if}}{{unless fixed}}&#10007; Anti-pattern: tiny touch target ({{size}}&times;{{size}}px){{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"tt-demo__row\">\n    <button type=\"button\" class=\"tt-demo__tiny\" style=\"width:{{size}}px;height:{{size}}px;\" aria-label=\"Edit\">&#9998;</button>\n    <button type=\"button\" class=\"tt-demo__tiny\" style=\"width:{{size}}px;height:{{size}}px;\" aria-label=\"Delete\">&times;</button>\n    <button type=\"button\" class=\"tt-demo__tiny\" style=\"width:{{size}}px;height:{{size}}px;\" aria-label=\"Share\">&#8593;</button>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"tt-demo__row\">\n    <button type=\"button\" class=\"tt-demo__big\" aria-label=\"Edit\">&#9998;</button>\n    <button type=\"button\" class=\"tt-demo__big\" aria-label=\"Delete\">&times;</button>\n    <button type=\"button\" class=\"tt-demo__big\" aria-label=\"Share\">&#8593;</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.tt-demo { width: 280px; font: 13px system-ui, sans-serif; color: #241430; }\n.tt-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 14px; background: #b3261e; color: #FAF7F2; }\n.tt-demo__badge--good { background: #1a7a44; }\n.tt-demo__row { display: flex; align-items: center; gap: 14px; }\n.tt-demo__tiny { border: none; border-radius: 3px; background: var(--accent); color: #FAF7F2; font-size: 9px; cursor: pointer; padding: 0; }\n.tt-demo__big { width: 44px; height: 44px; border: none; border-radius: 10px; background: var(--accent); color: #FAF7F2; font-size: 16px; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"tt-tw-badge{{#if fixed}} tt-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-3.5\">{{#if fixed}}&#10003; Better &mdash; 44&times;44px{{/if}}{{unless fixed}}&#10007; Anti-pattern: tiny touch target ({{size}}&times;{{size}}px){{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"flex items-center gap-3.5\">\n    <button type=\"button\" aria-label=\"Edit\" class=\"border-0 rounded-sm text-[9px] cursor-pointer p-0\" style=\"width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">&#9998;</button>\n    <button type=\"button\" aria-label=\"Delete\" class=\"border-0 rounded-sm text-[9px] cursor-pointer p-0\" style=\"width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">&times;</button>\n    <button type=\"button\" aria-label=\"Share\" class=\"border-0 rounded-sm text-[9px] cursor-pointer p-0\" style=\"width:{{size}}px;height:{{size}}px;background:{{accent}};color:#FAF7F2\">&#8593;</button>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"flex items-center gap-3.5\">\n    <button type=\"button\" aria-label=\"Edit\" class=\"w-11 h-11 border-0 rounded-lg text-base cursor-pointer\" style=\"background:{{accent}};color:#FAF7F2\">&#9998;</button>\n    <button type=\"button\" aria-label=\"Delete\" class=\"w-11 h-11 border-0 rounded-lg text-base cursor-pointer\" style=\"background:{{accent}};color:#FAF7F2\">&times;</button>\n    <button type=\"button\" aria-label=\"Share\" class=\"w-11 h-11 border-0 rounded-lg text-base cursor-pointer\" style=\"background:{{accent}};color:#FAF7F2\">&#8593;</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.tt-tw-badge { background: #b3261e; color: #FAF7F2; }\n.tt-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function TinyTouchTarget({\n  fixed = {{fixed}},\n  size = {{size}},\n  accent = \"{{accent}}\",\n}) {\n  const labels = [[\"Edit\", \"\\u270e\"], [\"Delete\", \"\\u00d7\"], [\"Share\", \"\\u2191\"]];\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 14, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better \\u2014 44\\u00d744px\" : \"\\u2717 Anti-pattern: tiny touch target (\" + size + \"\\u00d7\" + size + \"px)\"}\n      </span>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 14 }}>\n        {labels.map(([label, glyph]) => (\n          <button key={label} type=\"button\" aria-label={label}\n            style={fixed\n              ? { width: 44, height: 44, border: \"none\", borderRadius: 10, background: accent, color: \"#FAF7F2\", fontSize: 16, cursor: \"pointer\" }\n              : { width: size, height: size, border: \"none\", borderRadius: 3, background: accent, color: \"#FAF7F2\", fontSize: 9, cursor: \"pointer\", padding: 0 }}>\n            {glyph}\n          </button>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  }
+}

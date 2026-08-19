@@ -1,0 +1,45 @@
+{
+  "slug": "focus-trap-bug",
+  "controls_schema": [
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Field label",
+      "default": "Coupon code"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (focus stays visible)",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ftb-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"ftb-demo__badge{{#if fixed}} ftb-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: focus trap bug{{/unless}}</span>\n  <div class=\"ftb-demo__panel\">\n    <label class=\"ftb-demo__label\">{{itemLabel}}</label>\n    <input class=\"ftb-demo__field\" type=\"text\" />\n    <button type=\"button\" class=\"ftb-demo__apply\" style=\"border-radius:{{radius}}px;\">Apply</button>\n    {{unless fixed}}<span class=\"ftb-demo__ghost\">focus is here &mdash; but this element is invisible</span>{{/unless}}\n  </div>\n  <p class=\"ftb-demo__caption\">{{#if fixed}}Tab moves through visible controls only, ring always shown{{/if}}{{unless fixed}}Tab moved focus onto a zero-size element off in the corner &mdash; keyboard users lose track of where they are{{/unless}}</p>\n</div>\n<style>\n.ftb-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; position: relative; }\n.ftb-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ftb-demo__badge--good { background: #1a7a44; }\n.ftb-demo__panel { padding: 14px; border-radius: 10px; background: #FAF7F2; border: 1.5px solid #24143022; position: relative; }\n.ftb-demo__label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 6px; }\n.ftb-demo__field { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px; border: 1.5px solid #24143033; margin-bottom: 8px; font: inherit; }\n.ftb-demo__apply { border: none; background: var(--accent); color: #FAF7F2; padding: 8px 16px; font-weight: 700; cursor: pointer; outline: 2px solid var(--accent); outline-offset: 2px; }\n.ftb-demo__ghost { position: absolute; width: 1px; height: 1px; overflow: hidden; right: 2px; bottom: 2px; outline: 2px dashed #b3261e; outline-offset: 4px; font-size: 0; }\n.ftb-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"relative\" style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ftb-tw-badge{{#if fixed}} ftb-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: focus trap bug{{/unless}}</span>\n  <div class=\"relative p-3.5 rounded-lg\" style=\"background:#FAF7F2;border:1.5px solid #24143022\">\n    <label class=\"block text-[11px] font-semibold mb-1.5\">{{itemLabel}}</label>\n    <input type=\"text\" class=\"w-full box-border px-2.5 py-2 rounded-md border-[1.5px] mb-2\" style=\"border-color:#24143033\" />\n    <button type=\"button\" class=\"border-0 px-4 py-2 font-bold cursor-pointer\" style=\"border-radius:{{radius}}px;background:{{accent}};color:#FAF7F2;outline:2px solid {{accent}};outline-offset:2px\">Apply</button>\n    {{unless fixed}}<span class=\"absolute w-px h-px overflow-hidden right-0.5 bottom-0.5 text-[0px]\" style=\"outline:2px dashed #b3261e;outline-offset:4px\">focus is here &mdash; but this element is invisible</span>{{/unless}}\n  </div>\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if fixed}}Tab moves through visible controls only, ring always shown{{/if}}{{unless fixed}}Tab moved focus onto a zero-size element off in the corner &mdash; keyboard users lose track of where they are{{/unless}}</p>\n</div>\n<style>\n.ftb-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ftb-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function FocusTrapBug({\n  itemLabel = \"{{itemLabel}}\",\n  fixed = {{fixed}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", position: \"relative\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: focus trap bug\"}\n      </span>\n      <div style={{ padding: 14, borderRadius: 10, background: \"#FAF7F2\", border: \"1.5px solid #24143022\", position: \"relative\" }}>\n        <label style={{ display: \"block\", fontSize: 11, fontWeight: 600, marginBottom: 6 }}>{itemLabel}</label>\n        <input type=\"text\" style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", borderRadius: 6, border: \"1.5px solid #24143033\", marginBottom: 8, font: \"inherit\" }} />\n        <button type=\"button\" style={{ border: \"none\", background: accent, color: \"#FAF7F2\", padding: \"8px 16px\", fontWeight: 700, cursor: \"pointer\", borderRadius: radius, outline: \"2px solid \" + accent, outlineOffset: 2 }}>Apply</button>\n        {!fixed && <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\", right: 2, bottom: 2, outline: \"2px dashed #b3261e\", outlineOffset: 4, fontSize: 0 }}>focus is here \\u2014 but this element is invisible</span>}\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{fixed ? \"Tab moves through visible controls only, ring always shown\" : \"Tab moved focus onto a zero-size element off in the corner \\u2014 keyboard users lose track of where they are\"}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "focus-indicator",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Continue"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Indicator style",
+      "default": "outline",
+      "options": [
+        "outline",
+        "glow",
+        "underline"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "thickness",
+      "type": "number",
+      "label": "Thickness (px)",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "id": "showFocus",
+      "type": "toggle",
+      "label": "Focus indicator kept",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fi-demo\">\n  <button type=\"button\" class=\"fi-demo__btn fi-demo__btn--{{style}}{{#if showFocus}} is-focused{{/if}}\" style=\"--accent:{{accent}};--thickness:{{thickness}}px;\">{{label}}</button>\n  <p class=\"fi-demo__caption\">{{#if showFocus}}shown as if keyboard-focused (Tab)&mdash;outline never removed{{/if}}{{unless showFocus}}outline: none with nothing in its place &mdash; keyboard users lose their place{{/unless}}</p>\n</div>\n<style>\n.fi-demo { width: 300px; font: 14px system-ui, sans-serif; color: #241430; }\n.fi-demo__btn { padding: 12px 22px; border-radius: 8px; border: 2px solid var(--accent); background: #FAF7F2; font: inherit; font-weight: 600; cursor: pointer; }\n.fi-demo__btn--outline.is-focused { outline: var(--thickness) solid var(--accent); outline-offset: 2px; }\n.fi-demo__btn--glow.is-focused { box-shadow: 0 0 0 var(--thickness) var(--accent), 0 0 16px var(--accent); }\n.fi-demo__btn--underline.is-focused { box-shadow: 0 var(--thickness) 0 0 var(--accent); }\n.fi-demo__btn:focus-visible { outline: var(--thickness) solid var(--accent); outline-offset: 2px; }\n.fi-demo__caption { margin-top: 12px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <button type=\"button\" class=\"fi-tw fi-tw--{{style}}{{#if showFocus}} is-focused{{/if}} px-5.5 py-3 rounded-lg border-2 font-semibold cursor-pointer\" style=\"border-color:{{accent}};background:#FAF7F2\">{{label}}</button>\n  <p class=\"mt-3 text-xs text-[#241430aa]\">{{#if showFocus}}shown as if keyboard-focused (Tab)&mdash;outline never removed{{/if}}{{unless showFocus}}outline: none with nothing in its place &mdash; keyboard users lose their place{{/unless}}</p>\n</div>\n<style>\n.fi-tw--outline.is-focused { outline: {{thickness}}px solid {{accent}}; outline-offset: 2px; }\n.fi-tw--glow.is-focused { box-shadow: 0 0 0 {{thickness}}px {{accent}}, 0 0 16px {{accent}}; }\n.fi-tw--underline.is-focused { box-shadow: 0 {{thickness}}px 0 0 {{accent}}; }\n</style>",
+    "react": "export function FocusIndicator({\n  label = \"{{label}}\",\n  style = \"{{style}}\",\n  accent = \"{{accent}}\",\n  thickness = {{thickness}},\n  showFocus = {{showFocus}},\n}) {\n  const active = {\n    outline: { outline: thickness + \"px solid \" + accent, outlineOffset: 2 },\n    glow: { boxShadow: \"0 0 0 \" + thickness + \"px \" + accent + \", 0 0 16px \" + accent },\n    underline: { boxShadow: \"0 \" + thickness + \"px 0 0 \" + accent },\n  }[style];\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <button type=\"button\" style={{ padding: \"12px 22px\", borderRadius: 8, border: \"2px solid \" + accent, background: \"#FAF7F2\", fontWeight: 600, cursor: \"pointer\", ...(showFocus ? active : {}) }}>{label}</button>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430aa\" }}>{showFocus ? \"shown as if keyboard-focused (Tab)\\u2014outline never removed\" : \"outline: none with nothing in its place \\u2014 keyboard users lose their place\"}</p>\n    </div>\n  );\n}"
+  }
+}

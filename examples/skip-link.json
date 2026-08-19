@@ -1,0 +1,51 @@
+{
+  "slug": "skip-link",
+  "controls_schema": [
+    {
+      "id": "linkText",
+      "type": "text",
+      "label": "Link text",
+      "default": "Skip to main content"
+    },
+    {
+      "id": "targetLabel",
+      "type": "text",
+      "label": "Target heading",
+      "default": "Main content"
+    },
+    {
+      "id": "reveal",
+      "type": "toggle",
+      "label": "Show focused state",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "radius",
+      "type": "number",
+      "label": "Corner radius",
+      "default": 8,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"skip-demo\" style=\"--accent:{{accent}};\">\n  <a href=\"#skip-demo-main\" class=\"skip-demo__link{{#if reveal}} is-revealed{{/if}}\" style=\"border-radius:{{radius}}px;\">{{linkText}}</a>\n  <header class=\"skip-demo__header\">\n    <span class=\"skip-demo__logo\">Brand</span>\n    <nav class=\"skip-demo__nav\">Home &middot; Products &middot; About &middot; Contact &middot; Support &middot; Careers</nav>\n  </header>\n  <main id=\"skip-demo-main\" class=\"skip-demo__main\" tabindex=\"-1\">\n    <h1 class=\"skip-demo__h1\">{{targetLabel}}</h1>\n    <p class=\"skip-demo__p\">Focus lands here, skipping the repeated header links above.</p>\n  </main>\n  {{#if reveal}}<p class=\"skip-demo__caption\">shown as if Tab-focused &mdash; normally clipped off-screen until focus arrives</p>{{/if}}\n</div>\n<style>\n.skip-demo { width: 340px; font: 13px system-ui, sans-serif; color: #241430; position: relative; }\n.skip-demo__link { position: absolute; left: -9999px; top: 0; padding: 10px 16px; background: var(--accent); color: #FAF7F2; text-decoration: none; font-weight: 600; z-index: 2; }\n.skip-demo__link:focus, .skip-demo__link.is-revealed { position: static; display: inline-block; margin-bottom: 8px; left: auto; outline: 2px solid var(--accent); outline-offset: 2px; }\n.skip-demo__header { display: flex; align-items: center; gap: 14px; padding: 10px 12px; border-radius: 8px; background: #24143010; flex-wrap: wrap; }\n.skip-demo__logo { font-weight: 800; }\n.skip-demo__nav { font-size: 12px; color: #241430aa; }\n.skip-demo__main { margin-top: 10px; padding: 14px; border-radius: 8px; border: 1.5px dashed #24143033; }\n.skip-demo__h1 { margin: 0 0 6px; font-size: 16px; }\n.skip-demo__p { margin: 0; font-size: 12px; color: #241430aa; }\n.skip-demo__caption { margin-top: 8px; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:340px;font-family:system-ui,sans-serif;color:#241430\" class=\"relative\">\n  <a href=\"#skip-demo-main-tw\" class=\"skip-tw{{#if reveal}} skip-tw--revealed{{/if}} inline-block font-semibold no-underline px-4 py-2.5\" style=\"border-radius:{{radius}}px;background:{{accent}};color:#FAF7F2\">{{linkText}}</a>\n  <header class=\"flex items-center gap-3.5 flex-wrap px-3 py-2.5 rounded-lg bg-[#24143010]\">\n    <span class=\"font-extrabold\">Brand</span>\n    <nav class=\"text-xs text-[#241430aa]\">Home &middot; Products &middot; About &middot; Contact &middot; Support &middot; Careers</nav>\n  </header>\n  <main id=\"skip-demo-main-tw\" tabindex=\"-1\" class=\"mt-2.5 p-3.5 rounded-lg border-[1.5px] border-dashed\" style=\"border-color:#24143033\">\n    <h1 class=\"m-0 mb-1.5 text-base\">{{targetLabel}}</h1>\n    <p class=\"m-0 text-xs text-[#241430aa]\">Focus lands here, skipping the repeated header links above.</p>\n  </main>\n  {{#if reveal}}<p class=\"mt-2 text-[11px] text-[#241430aa]\">shown as if Tab-focused &mdash; normally clipped off-screen until focus arrives</p>{{/if}}\n</div>\n<style>\n.skip-tw { position: absolute; left: -9999px; top: 0; z-index: 2; }\n.skip-tw:focus, .skip-tw--revealed { position: static; left: auto; display: inline-block; margin-bottom: 8px; outline: 2px solid {{accent}}; outline-offset: 2px; }\n</style>",
+    "react": "export function SkipLink({\n  linkText = \"{{linkText}}\",\n  targetLabel = \"{{targetLabel}}\",\n  reveal = {{reveal}},\n  accent = \"{{accent}}\",\n  radius = {{radius}},\n}) {\n  const hidden = { position: \"absolute\", left: -9999, top: 0, padding: \"10px 16px\", background: accent, color: \"#FAF7F2\", textDecoration: \"none\", fontWeight: 600, zIndex: 2, borderRadius: radius };\n  const shown = { ...hidden, position: \"static\", left: \"auto\", display: \"inline-block\", marginBottom: 8, outline: \"2px solid \" + accent, outlineOffset: 2 };\n  return (\n    <div style={{ width: 340, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", position: \"relative\" }}>\n      <a href=\"#skip-demo-main-r\" style={reveal ? shown : hidden}>{linkText}</a>\n      <header style={{ display: \"flex\", alignItems: \"center\", gap: 14, flexWrap: \"wrap\", padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\" }}>\n        <span style={{ fontWeight: 800 }}>Brand</span>\n        <nav style={{ fontSize: 12, color: \"#241430aa\" }}>Home &middot; Products &middot; About &middot; Contact &middot; Support &middot; Careers</nav>\n      </header>\n      <main id=\"skip-demo-main-r\" tabIndex={-1} style={{ marginTop: 10, padding: 14, borderRadius: 8, border: \"1.5px dashed #24143033\" }}>\n        <h1 style={{ margin: \"0 0 6px\", fontSize: 16 }}>{targetLabel}</h1>\n        <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>Focus lands here, skipping the repeated header links above.</p>\n      </main>\n      {reveal && <p style={{ marginTop: 8, fontSize: 11, color: \"#241430aa\" }}>shown as if Tab-focused &mdash; normally clipped off-screen until focus arrives</p>}\n    </div>\n  );\n}"
+  }
+}

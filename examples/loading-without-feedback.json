@@ -1,0 +1,42 @@
+{
+  "slug": "loading-without-feedback",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Submit order"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (shows progress)",
+      "default": false
+    },
+    {
+      "id": "loading",
+      "type": "toggle",
+      "label": "Mid-request",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lwf-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"lwf-demo__badge{{#if fixed}} lwf-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: loading without feedback{{/unless}}</span>\n  {{unless fixed}}<button type=\"button\" class=\"lwf-demo__btn\">{{label}}</button>{{/unless}}\n  {{#if fixed}}\n  <button type=\"button\" class=\"lwf-demo__btn{{#if loading}} is-loading{{/if}}\"{{#if loading}} disabled{{/if}}>\n    {{#if loading}}<span class=\"lwf-demo__spinner\"></span>Processing&hellip;{{/if}}\n    {{unless loading}}{{label}}{{/unless}}\n  </button>\n  {{/if}}\n  <p class=\"lwf-demo__caption\">{{#if fixed}}disabled + spinner + label change &mdash; the user knows it's working{{/if}}{{unless fixed}}button looks exactly the same after the click &mdash; did it work? users click again{{/unless}}</p>\n</div>\n<style>\n.lwf-demo { width: 260px; font: 13px system-ui, sans-serif; color: #241430; }\n.lwf-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.lwf-demo__badge--good { background: #1a7a44; }\n.lwf-demo__btn { border: none; border-radius: 8px; padding: 10px 20px; background: var(--accent); color: #FAF7F2; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }\n.lwf-demo__btn.is-loading { opacity: .75; cursor: not-allowed; }\n.lwf-demo__spinner { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #FAF7F255; border-top-color: #FAF7F2; animation: lwf-spin 800ms linear infinite; }\n@keyframes lwf-spin { to { transform: rotate(360deg); } }\n.lwf-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"lwf-tw-badge{{#if fixed}} lwf-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: loading without feedback{{/unless}}</span>\n  {{unless fixed}}<button type=\"button\" class=\"border-0 rounded-lg px-5 py-2.5 font-bold cursor-pointer\" style=\"background:{{accent}};color:#FAF7F2\">{{label}}</button>{{/unless}}\n  {{#if fixed}}\n  <button type=\"button\" class=\"lwf-tw-btn{{#if loading}} is-loading{{/if}} border-0 rounded-lg px-5 py-2.5 font-bold inline-flex items-center gap-2\" style=\"background:{{accent}};color:#FAF7F2\"{{#if loading}} disabled{{/if}}>\n    {{#if loading}}<span class=\"lwf-tw-spinner w-[13px] h-[13px] rounded-full border-2\" style=\"border-color:#FAF7F255;border-top-color:#FAF7F2\"></span>Processing&hellip;{{/if}}\n    {{unless loading}}{{label}}{{/unless}}\n  </button>\n  {{/if}}\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if fixed}}disabled + spinner + label change &mdash; the user knows it's working{{/if}}{{unless fixed}}button looks exactly the same after the click &mdash; did it work? users click again{{/unless}}</p>\n</div>\n<style>\n.lwf-tw-badge { background: #b3261e; color: #FAF7F2; }\n.lwf-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n.lwf-tw-btn.is-loading { opacity: .75; cursor: not-allowed; }\n.lwf-tw-spinner { animation: lwf-tw-spin 800ms linear infinite; }\n@keyframes lwf-tw-spin { to { transform: rotate(360deg); } }\n</style>",
+    "react": "export function LoadingWithoutFeedback({\n  label = \"{{label}}\",\n  fixed = {{fixed}},\n  loading = {{loading}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: loading without feedback\"}\n      </span>\n      <button type=\"button\" disabled={fixed && loading}\n        style={{ border: \"none\", borderRadius: 8, padding: \"10px 20px\", background: accent, color: \"#FAF7F2\", fontWeight: 700, cursor: fixed && loading ? \"not-allowed\" : \"pointer\", display: \"inline-flex\", alignItems: \"center\", gap: 8, opacity: fixed && loading ? .75 : 1 }}>\n        {fixed && loading && <span style={{ width: 13, height: 13, borderRadius: \"50%\", border: \"2px solid #FAF7F255\", borderTopColor: \"#FAF7F2\" }} />}\n        {fixed && loading ? \"Processing\\u2026\" : label}\n      </button>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{fixed ? \"disabled + spinner + label change \\u2014 the user knows it's working\" : \"button looks exactly the same after the click \\u2014 did it work? users click again\"}</p>\n    </div>\n  );\n}"
+  }
+}

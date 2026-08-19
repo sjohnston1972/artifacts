@@ -1,0 +1,51 @@
+{
+  "slug": "focus",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Field label",
+      "default": "Search"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Field value",
+      "default": "sneakers"
+    },
+    {
+      "id": "focused",
+      "type": "toggle",
+      "label": "Focused",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "thickness",
+      "type": "number",
+      "label": "Ring thickness (px)",
+      "default": 2,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"focus-demo\" style=\"--accent:{{accent}};--thickness:{{thickness}}px;\">\n  <label class=\"focus-demo__label\">{{label}}</label>\n  <div class=\"focus-demo__input{{#if focused}} is-focused{{/if}}\">{{value}}{{#if focused}}<span class=\"focus-demo__caret\"></span>{{/if}}</div>\n  <p class=\"focus-demo__caption\">{{#if focused}}shown with keyboard focus &mdash; the ring is the only thing outline:none should ever remove and replace{{/if}}{{unless focused}}rest state{{/unless}}</p>\n</div>\n<style>\n.focus-demo { width: 280px; font: 14px system-ui, sans-serif; color: #241430; }\n.focus-demo__label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; }\n.focus-demo__input { padding: 10px 12px; border-radius: 8px; border: 1.5px solid #24143033; background: #FAF7F2; }\n.focus-demo__input.is-focused { outline: var(--thickness) solid var(--accent); outline-offset: 2px; border-color: var(--accent); }\n.focus-demo__caret { display: inline-block; width: 1px; height: 14px; background: var(--accent); margin-left: 2px; vertical-align: -2px; animation: focus-blink 1s step-end infinite; }\n@keyframes focus-blink { 50% { opacity: 0; } }\n.focus-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <label class=\"block text-xs font-semibold mb-1.5\">{{label}}</label>\n  <div class=\"focus-tw{{#if focused}} is-focused{{/if}} px-3 py-2.5 rounded-lg border-[1.5px]\" style=\"border-color:#24143033;background:#FAF7F2;--accent:{{accent}};--thickness:{{thickness}}px\">{{value}}{{#if focused}}<span class=\"focus-tw__caret inline-block w-px h-3.5 ml-0.5 align-middle\" style=\"background:{{accent}}\"></span>{{/if}}</div>\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if focused}}shown with keyboard focus &mdash; the ring is the only thing outline:none should ever remove and replace{{/if}}{{unless focused}}rest state{{/unless}}</p>\n</div>\n<style>\n.focus-tw.is-focused { outline: var(--thickness) solid var(--accent); outline-offset: 2px; border-color: var(--accent); }\n.focus-tw__caret { animation: focus-tw-blink 1s step-end infinite; }\n@keyframes focus-tw-blink { 50% { opacity: 0; } }\n</style>",
+    "react": "export function FocusDemo({\n  label = \"{{label}}\",\n  value = \"{{value}}\",\n  focused = {{focused}},\n  accent = \"{{accent}}\",\n  thickness = {{thickness}},\n}) {\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <label style={{ display: \"block\", fontSize: 12, fontWeight: 600, marginBottom: 6 }}>{label}</label>\n      <div style={{ padding: \"10px 12px\", borderRadius: 8, border: \"1.5px solid \" + (focused ? accent : \"#24143033\"), background: \"#FAF7F2\",\n        outline: focused ? thickness + \"px solid \" + accent : \"none\", outlineOffset: 2 }}>\n        {value}{focused && <span style={{ display: \"inline-block\", width: 1, height: 14, background: accent, marginLeft: 2 }} />}\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{focused ? \"shown with keyboard focus\" : \"rest state\"}</p>\n    </div>\n  );\n}"
+  }
+}

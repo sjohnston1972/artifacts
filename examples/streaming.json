@@ -1,0 +1,30 @@
+{
+  "slug": "streaming",
+  "controls_schema": [
+    {
+      "id": "chunks",
+      "type": "select",
+      "label": "Chunks arrived",
+      "default": "two",
+      "options": ["one", "two", "three"]
+    },
+    {
+      "id": "cursor",
+      "type": "toggle",
+      "label": "Show cursor",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-str-stage\" data-chunks=\"{{chunks}}\" role=\"status\" aria-live=\"polite\">\n  <p class=\"lod-str-text\">\n    <span class=\"lod-str-c1\">The response streams in as tokens arrive.</span>\n    <span class=\"lod-str-c2\"> No need to wait for the whole reply.</span>\n    <span class=\"lod-str-c3\"> Each chunk renders the moment it lands.</span>\n    {{#if cursor}}<span class=\"lod-str-cursor\" style=\"background:{{accent}};\"></span>{{/if}}\n  </p>\n  <p class=\"lod-str-caption\">{{chunks}} chunk(s) received so far</p>\n</div>\n<style>\n.lod-str-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430; }\n.lod-str-text { margin: 0; line-height: 1.6; }\n.lod-str-c2, .lod-str-c3 { display: none; }\n[data-chunks=\"two\"] .lod-str-c2,\n[data-chunks=\"three\"] .lod-str-c2,\n[data-chunks=\"three\"] .lod-str-c3 { display: inline; }\n.lod-str-cursor { display: inline-block; width: 7px; height: 14px; vertical-align: -2px; margin-left: 2px; }\n.lod-str-caption { margin: 10px 0 0; font-size: 11px; color: #241430aa; }\n@media (prefers-reduced-motion: no-preference) {\n  .lod-str-cursor { animation: lod-str-blink 900ms steps(1) infinite; }\n  @keyframes lod-str-blink { 50% { opacity: 0; } }\n}\n</style>",
+    "tailwind": "<div role=\"status\" aria-live=\"polite\" class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]\" data-chunks=\"{{chunks}}\">\n  <p class=\"m-0 leading-relaxed\">\n    <span>The response streams in as tokens arrive.</span>\n    <span class=\"tw-str-c2 hidden\"> No need to wait for the whole reply.</span>\n    <span class=\"tw-str-c3 hidden\"> Each chunk renders the moment it lands.</span>\n    {{#if cursor}}<span class=\"tw-str-cursor inline-block w-[7px] h-3.5 ml-0.5\" style=\"background:{{accent}}; vertical-align:-2px;\"></span>{{/if}}\n  </p>\n  <p class=\"mt-2.5 text-[11px] text-[#241430]/70\">{{chunks}} chunk(s) received so far</p>\n</div>\n<style>\n[data-chunks=\"two\"] .tw-str-c2,\n[data-chunks=\"three\"] .tw-str-c2,\n[data-chunks=\"three\"] .tw-str-c3 { display: inline; }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-str-cursor { animation: lod-str-tw-blink 900ms steps(1) infinite; }\n  @keyframes lod-str-tw-blink { 50% { opacity: 0; } }\n}\n</style>",
+    "react": "export function Streaming({\n  chunks = \"{{chunks}}\",\n  cursor = {{cursor}},\n  accent = \"{{accent}}\",\n}) {\n  const showC2 = chunks === \"two\" || chunks === \"three\";\n  const showC3 = chunks === \"three\";\n  return (\n    <div role=\"status\" aria-live=\"polite\" style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <p style={{ margin: 0, lineHeight: 1.6 }}>\n        <span>The response streams in as tokens arrive.</span>\n        {showC2 && <span> No need to wait for the whole reply.</span>}\n        {showC3 && <span> Each chunk renders the moment it lands.</span>}\n        {cursor && <span className=\"cursor\" style={{ display: \"inline-block\", width: 7, height: 14, verticalAlign: -2, marginLeft: 2, background: accent }} />}\n      </p>\n      <p style={{ margin: \"10px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{chunks} chunk(s) received so far</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .cursor { animation: lod-str-blink 900ms steps(1) infinite; }\n          @keyframes lod-str-blink { 50% { opacity: 0; } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

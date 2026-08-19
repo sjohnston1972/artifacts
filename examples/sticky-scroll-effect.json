@@ -1,0 +1,39 @@
+{
+  "slug": "sticky-scroll-effect",
+  "controls_schema": [
+    {
+      "id": "sticky",
+      "type": "toggle",
+      "label": "Sticky enabled",
+      "default": true
+    },
+    {
+      "id": "offset",
+      "type": "number",
+      "label": "Top offset (px)",
+      "default": 8,
+      "min": 0,
+      "max": 40,
+      "step": 4
+    },
+    {
+      "id": "edge",
+      "type": "select",
+      "label": "Pin edge",
+      "default": "top",
+      "options": ["top", "bottom"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-stk-wrap\">\n  <div class=\"mot-stk-scroller\">\n    <div class=\"mot-stk-header{{#if sticky}} mot-stk-header--sticky{{/if}}\" data-edge=\"{{edge}}\" style=\"background:{{accent}}; {{edge}}:{{offset}}px;\">Section heading</div>\n    <p class=\"mot-stk-line\">Row one</p>\n    <p class=\"mot-stk-line\">Row two</p>\n    <p class=\"mot-stk-line\">Row three</p>\n    <p class=\"mot-stk-line\">Row four</p>\n    <p class=\"mot-stk-line\">Row five</p>\n    <p class=\"mot-stk-line\">Row six</p>\n  </div>\n  <p class=\"mot-stk-caption\">Scroll the box &middot; header {{#if sticky}}pins to the {{edge}}{{/if}}{{#unless sticky}}scrolls away normally{{/unless}}</p>\n</div>\n<style>\n.mot-stk-wrap { width: 100%; max-width: 320px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-stk-scroller { height: 130px; overflow-y: auto; border: 1px solid #24143022; border-radius: 12px; background: #FAF7F2; }\n.mot-stk-header { padding: 8px 12px; font: 700 13px system-ui, sans-serif; color: #241430; }\n.mot-stk-header--sticky { position: sticky; }\n.mot-stk-line { margin: 0; padding: 10px 12px; border-top: 1px solid #24143014; }\n.mot-stk-caption { margin: 8px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] font-sans text-xs text-[#241430]/70\">\n  <div class=\"h-[130px] overflow-y-auto border border-[#24143022] rounded-xl bg-[#FAF7F2]\">\n    <div class=\"tw-stk-header{{#if sticky}} tw-stk-sticky{{/if}} px-3 py-2 font-bold text-sm text-[#241430]\" data-edge=\"{{edge}}\" style=\"background:{{accent}}; {{edge}}:{{offset}}px;\">Section heading</div>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row one</p>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row two</p>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row three</p>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row four</p>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row five</p>\n    <p class=\"m-0 px-3 py-2.5 border-t border-[#24143014]\">Row six</p>\n  </div>\n  <p class=\"mt-2\">Scroll the box &middot; header {{#if sticky}}pins to the {{edge}}{{/if}}{{#unless sticky}}scrolls away normally{{/unless}}</p>\n</div>\n<style>\n.tw-stk-sticky { position: sticky; }\n</style>",
+    "react": "export function StickyScrollEffect({\n  sticky = {{sticky}},\n  offset = {{offset}},\n  edge = \"{{edge}}\",\n  accent = \"{{accent}}\",\n}) {\n  const rows = [\"Row one\", \"Row two\", \"Row three\", \"Row four\", \"Row five\", \"Row six\"];\n  const headerStyle = { padding: \"8px 12px\", fontWeight: 700, fontSize: 13, color: \"#241430\", background: accent, position: sticky ? \"sticky\" : \"static\", [edge]: offset };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ height: 130, overflowY: \"auto\", border: \"1px solid #24143022\", borderRadius: 12, background: \"#FAF7F2\" }}>\n        <div style={headerStyle}>Section heading</div>\n        {rows.map((r) => (\n          <p key={r} style={{ margin: 0, padding: \"10px 12px\", borderTop: \"1px solid #24143014\" }}>{r}</p>\n        ))}\n      </div>\n      <p style={{ margin: \"8px 0 0\" }}>Scroll the box &middot; header {sticky ? `pins to the ${edge}` : \"scrolls away normally\"}</p>\n    </div>\n  );\n}"
+  }
+}

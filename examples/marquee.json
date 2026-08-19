@@ -1,0 +1,45 @@
+{
+  "slug": "marquee",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Content",
+      "default": "Breaking: new release ships today • "
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (s)",
+      "default": 8,
+      "min": 2,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "left",
+      "options": ["left", "right"]
+    },
+    {
+      "id": "pauseOnHover",
+      "type": "toggle",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-marq-stage\" data-direction=\"{{direction}}\" style=\"background:{{accent}};\">\n  <div class=\"mot-marq-track{{#if pauseOnHover}} mot-marq-track--pausable{{/if}}\">\n    <span>{{text}}{{text}}{{text}}</span>\n  </div>\n</div>\n<style>\n.mot-marq-stage { width: 100%; max-width: 320px; overflow: hidden; border-radius: 10px; padding: 12px 0; }\n.mot-marq-track { white-space: nowrap; color: #FAF7F2; font: 600 14px system-ui, sans-serif; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"left\"] .mot-marq-track { animation: mot-marq-left {{duration}}s linear infinite; }\n  [data-direction=\"right\"] .mot-marq-track { animation: mot-marq-right {{duration}}s linear infinite; }\n  .mot-marq-track--pausable:hover { animation-play-state: paused; }\n  @keyframes mot-marq-left { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }\n  @keyframes mot-marq-right { from { transform: translateX(-33.33%); } to { transform: translateX(0); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] overflow-hidden rounded-[10px] py-3\" data-direction=\"{{direction}}\" style=\"background:{{accent}};\">\n  <div class=\"tw-marq-track{{#if pauseOnHover}} tw-marq-pausable{{/if}} whitespace-nowrap text-[#FAF7F2] font-semibold text-sm\">\n    <span>{{text}}{{text}}{{text}}</span>\n  </div>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"left\"] .tw-marq-track { animation: mot-marq-tw-left {{duration}}s linear infinite; }\n  [data-direction=\"right\"] .tw-marq-track { animation: mot-marq-tw-right {{duration}}s linear infinite; }\n  .tw-marq-pausable:hover { animation-play-state: paused; }\n  @keyframes mot-marq-tw-left { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }\n  @keyframes mot-marq-tw-right { from { transform: translateX(-33.33%); } to { transform: translateX(0); } }\n}\n</style>",
+    "react": "export function Marquee({\n  text = \"{{text}}\",\n  duration = {{duration}},\n  direction = \"{{direction}}\",\n  pauseOnHover = {{pauseOnHover}},\n  accent = \"{{accent}}\",\n}) {\n  const name = direction === \"left\" ? \"mot-marq-left\" : \"mot-marq-right\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, overflow: \"hidden\", borderRadius: 10, padding: \"12px 0\", background: accent }}>\n      <div className={pauseOnHover ? \"track pausable\" : \"track\"} style={{ whiteSpace: \"nowrap\", color: \"#FAF7F2\", fontWeight: 600, fontSize: 14 }}>\n        <span>{text}{text}{text}</span>\n      </div>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .track { animation: ${name} ${duration}s linear infinite; }\n          .pausable:hover { animation-play-state: paused; }\n          @keyframes mot-marq-left { from { transform: translateX(0); } to { transform: translateX(-33.33%); } }\n          @keyframes mot-marq-right { from { transform: translateX(-33.33%); } to { transform: translateX(0); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

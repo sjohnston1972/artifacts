@@ -1,0 +1,36 @@
+{
+  "slug": "affordance",
+  "controls_schema": [
+    {
+      "id": "cues",
+      "type": "toggle",
+      "label": "Show affordance cues",
+      "default": true
+    },
+    {
+      "id": "elementType",
+      "type": "select",
+      "label": "Element",
+      "default": "button",
+      "options": ["button", "toggle-switch", "link"]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Label",
+      "default": "Save changes"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-aff-stage\" data-element=\"{{elementType}}\">\n  <button type=\"button\" class=\"uif-aff-btn{{#if cues}} uif-aff-btn--cued{{/if}}\" style=\"--accent:{{accent}};\">{{label}}</button>\n  <span class=\"uif-aff-switch{{#if cues}} uif-aff-switch--cued{{/if}}\" style=\"--accent:{{accent}};\"><i></i></span>\n  <a href=\"#\" class=\"uif-aff-link{{#if cues}} uif-aff-link--cued{{/if}}\" style=\"--accent:{{accent}};\">{{label}}</a>\n  <p class=\"uif-aff-caption\">{{#if cues}}With{{/if}}{{#unless cues}}Without{{/unless}} affordance cues &mdash; same element, same behaviour, different visual hinting</p>\n</div>\n<style>\n.uif-aff-stage { width: 100%; max-width: 320px; padding: 22px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.uif-aff-btn, .uif-aff-switch, .uif-aff-link { display: none; }\n[data-element=\"button\"] .uif-aff-btn { display: inline-block; font: 600 14px system-ui, sans-serif; padding: 10px 18px; border-radius: 8px; cursor: pointer; color: #241430; background: transparent; border: none; }\n.uif-aff-btn--cued { background: var(--accent); border: 1px solid transparent; box-shadow: 0 3px 0 rgba(36,20,48,.25); }\n[data-element=\"toggle-switch\"] .uif-aff-switch { display: inline-block; width: 44px; height: 24px; border-radius: 999px; background: #24143022; position: relative; }\n.uif-aff-switch--cued { background: var(--accent); box-shadow: inset 0 1px 3px rgba(36,20,48,.3); }\n.uif-aff-switch i { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 999px; background: #fff; display: block; }\n.uif-aff-switch--cued i { left: 22px; box-shadow: 0 1px 2px rgba(36,20,48,.4); }\n[data-element=\"link\"] .uif-aff-link { display: inline-block; color: #241430; text-decoration: none; font-weight: 600; }\n.uif-aff-link--cued { color: var(--accent); text-decoration: underline; }\n.uif-aff-caption { margin: 16px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-[22px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\" data-element=\"{{elementType}}\">\n  <button type=\"button\" class=\"tw-aff-btn{{#if cues}} tw-aff-btn-cued{{/if}} hidden font-semibold px-4.5 py-2.5 rounded-lg cursor-pointer text-[#241430] bg-transparent border-0\" style=\"--accent:{{accent}};\">{{label}}</button>\n  <span class=\"tw-aff-switch{{#if cues}} tw-aff-switch-cued{{/if}} hidden w-11 h-6 rounded-full bg-[#24143022] relative\" style=\"--accent:{{accent}};\"><i class=\"absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white block\"></i></span>\n  <a href=\"#\" class=\"tw-aff-link{{#if cues}} tw-aff-link-cued{{/if}} hidden text-[#241430] no-underline font-semibold\" style=\"--accent:{{accent}};\">{{label}}</a>\n  <p class=\"mt-4\">{{#if cues}}With{{/if}}{{#unless cues}}Without{{/unless}} affordance cues &mdash; same element, same behaviour, different visual hinting</p>\n</div>\n<style>\n[data-element=\"button\"] .tw-aff-btn { display: inline-block; }\n.tw-aff-btn-cued { background: var(--accent); box-shadow: 0 3px 0 rgba(36,20,48,.25); }\n[data-element=\"toggle-switch\"] .tw-aff-switch { display: inline-block; }\n.tw-aff-switch-cued { background: var(--accent); box-shadow: inset 0 1px 3px rgba(36,20,48,.3); }\n.tw-aff-switch-cued i { margin-left: 20px; box-shadow: 0 1px 2px rgba(36,20,48,.4); }\n[data-element=\"link\"] .tw-aff-link { display: inline-block; }\n.tw-aff-link-cued { color: var(--accent); text-decoration: underline; }\n</style>",
+    "react": "export function Affordance({\n  cues = {{cues}},\n  elementType = \"{{elementType}}\",\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 22, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      {elementType === \"button\" && (\n        <button type=\"button\" style={{ font: \"600 14px system-ui, sans-serif\", padding: \"10px 18px\", borderRadius: 8, cursor: \"pointer\", color: \"#241430\", background: cues ? accent : \"transparent\", border: \"none\", boxShadow: cues ? \"0 3px 0 rgba(36,20,48,.25)\" : \"none\" }}>{label}</button>\n      )}\n      {elementType === \"toggle-switch\" && (\n        <span style={{ display: \"inline-block\", width: 44, height: 24, borderRadius: 999, background: cues ? accent : \"#24143022\", position: \"relative\", boxShadow: cues ? \"inset 0 1px 3px rgba(36,20,48,.3)\" : \"none\" }}>\n          <i style={{ position: \"absolute\", top: 2, left: cues ? 22 : 2, width: 20, height: 20, borderRadius: 999, background: \"#fff\", display: \"block\", boxShadow: cues ? \"0 1px 2px rgba(36,20,48,.4)\" : \"none\" }} />\n        </span>\n      )}\n      {elementType === \"link\" && (\n        <a href=\"#\" style={{ color: cues ? accent : \"#241430\", textDecoration: cues ? \"underline\" : \"none\", fontWeight: 600 }}>{label}</a>\n      )}\n      <p style={{ margin: \"16px 0 0\" }}>{cues ? \"With\" : \"Without\"} affordance cues &mdash; same element, same behaviour, different visual hinting</p>\n    </div>\n  );\n}"
+  }
+}

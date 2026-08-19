@@ -1,0 +1,36 @@
+{
+  "slug": "prefetching",
+  "controls_schema": [
+    {
+      "id": "trigger",
+      "type": "select",
+      "label": "Trigger",
+      "default": "hover",
+      "options": ["hover", "viewport"]
+    },
+    {
+      "id": "prefetched",
+      "type": "toggle",
+      "label": "Prefetch fired",
+      "default": true
+    },
+    {
+      "id": "linkLabel",
+      "type": "text",
+      "label": "Link label",
+      "default": "View pricing"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-pfc-stage\" data-trigger=\"{{trigger}}\">\n  <a href=\"#\" class=\"lod-pfc-link\">{{linkLabel}} {{#if prefetched}}<span class=\"lod-pfc-badge\" style=\"background:{{accent}};\">prefetched</span>{{/if}}</a>\n  <p class=\"lod-pfc-caption\">On {{trigger}}, the next page's data loads quietly in the background &mdash; so the click feels instant</p>\n</div>\n<style>\n.lod-pfc-stage { width: 100%; max-width: 320px; padding: 18px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-pfc-link { display: inline-flex; align-items: center; gap: 8px; color: #241430; font-weight: 600; text-decoration: none; border-bottom: 1.5px solid #241430; padding-bottom: 2px; }\n.lod-pfc-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #241430; padding: 2px 6px; border-radius: 999px; }\n.lod-pfc-caption { margin: 12px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-[18px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-trigger=\"{{trigger}}\">\n  <a href=\"#\" class=\"inline-flex items-center gap-2 text-[#241430] font-semibold no-underline border-b-[1.5px] border-[#241430] pb-0.5\">{{linkLabel}} {{#if prefetched}}<span class=\"text-[10px] font-bold uppercase text-[#241430] px-1.5 py-0.5 rounded-full\" style=\"background:{{accent}};\">prefetched</span>{{/if}}</a>\n  <p class=\"mt-3\">On {{trigger}}, the next page's data loads quietly in the background &mdash; so the click feels instant</p>\n</div>",
+    "react": "export function Prefetching({\n  trigger = \"{{trigger}}\",\n  prefetched = {{prefetched}},\n  linkLabel = \"{{linkLabel}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 18, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <a href=\"#\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, color: \"#241430\", fontWeight: 600, textDecoration: \"none\", borderBottom: \"1.5px solid #241430\", paddingBottom: 2 }}>\n        {linkLabel} {prefetched && <span style={{ fontSize: 10, fontWeight: 700, textTransform: \"uppercase\", color: \"#241430\", padding: \"2px 6px\", borderRadius: 999, background: accent }}>prefetched</span>}\n      </a>\n      <p style={{ margin: \"12px 0 0\" }}>On {trigger}, the next page's data loads quietly in the background &mdash; so the click feels instant</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "pending",
+  "controls_schema": [
+    {
+      "id": "isPending",
+      "type": "toggle",
+      "label": "Pending",
+      "default": true
+    },
+    {
+      "id": "action",
+      "type": "select",
+      "label": "Action",
+      "default": "submit",
+      "options": ["submit", "upload"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Spinner cycle (ms)",
+      "default": 800,
+      "min": 400,
+      "max": 2000,
+      "step": 100
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-pnd-stage\" data-action=\"{{action}}\">\n  <button type=\"button\" class=\"lod-pnd-btn{{#if isPending}} lod-pnd-btn--pending{{/if}}\" style=\"--accent:{{accent}};\">\n    {{#if isPending}}<span class=\"lod-pnd-spin\"></span>{{/if}}\n    <span class=\"lod-pnd-label lod-pnd-label--submit\">{{#if isPending}}Submitting&hellip;{{/if}}{{#unless isPending}}Submit{{/unless}}</span>\n    <span class=\"lod-pnd-label lod-pnd-label--upload\">{{#if isPending}}Uploading&hellip;{{/if}}{{#unless isPending}}Upload{{/unless}}</span>\n  </button>\n  <p role=\"status\" aria-live=\"polite\" class=\"lod-pnd-caption\">{{#if isPending}}Started, not yet finished{{/if}}{{#unless isPending}}Idle, ready to start{{/unless}}</p>\n</div>\n<style>\n.lod-pnd-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-pnd-btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; border: none; border-radius: 8px; padding: 9px 16px; background: var(--accent); color: #241430; cursor: pointer; }\n.lod-pnd-btn--pending { opacity: .8; cursor: progress; }\n.lod-pnd-spin { width: 13px; height: 13px; border: 2px solid #24143044; border-top-color: #241430; border-radius: 999px; display: inline-block; }\n.lod-pnd-label { display: none; }\n[data-action=\"submit\"] .lod-pnd-label--submit,\n[data-action=\"upload\"] .lod-pnd-label--upload { display: inline; }\n.lod-pnd-caption { margin: 10px 0 0; font-size: 12px; }\n@media (prefers-reduced-motion: no-preference) {\n  .lod-pnd-spin { animation: lod-pnd-spin {{duration}}ms linear infinite; }\n  @keyframes lod-pnd-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-action=\"{{action}}\">\n  <button type=\"button\" class=\"tw-pnd-btn{{#if isPending}} tw-pnd-pending{{/if}} inline-flex items-center gap-2 font-semibold border-0 rounded-lg px-4 py-2.5 text-[#241430] cursor-pointer\" style=\"background:{{accent}};\">\n    {{#if isPending}}<span class=\"tw-pnd-spin w-[13px] h-[13px] border-2 border-[#24143044] rounded-full inline-block\"></span>{{/if}}\n    <span class=\"tw-pnd-submit\">{{#if isPending}}Submitting&hellip;{{/if}}{{#unless isPending}}Submit{{/unless}}</span>\n    <span class=\"tw-pnd-upload\">{{#if isPending}}Uploading&hellip;{{/if}}{{#unless isPending}}Upload{{/unless}}</span>\n  </button>\n  <p role=\"status\" aria-live=\"polite\" class=\"mt-2.5 text-xs\">{{#if isPending}}Started, not yet finished{{/if}}{{#unless isPending}}Idle, ready to start{{/unless}}</p>\n</div>\n<style>\n.tw-pnd-submit, .tw-pnd-upload { display: none; }\n[data-action=\"submit\"] .tw-pnd-submit,\n[data-action=\"upload\"] .tw-pnd-upload { display: inline; }\n.tw-pnd-spin { border-top-color: #241430; }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-pnd-spin { animation: lod-pnd-tw-spin {{duration}}ms linear infinite; }\n  @keyframes lod-pnd-tw-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "react": "export function Pending({\n  isPending = {{isPending}},\n  action = \"{{action}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const verb = action === \"submit\" ? \"Submit\" : \"Upload\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <button type=\"button\" disabled={isPending} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, fontWeight: 600, border: \"none\", borderRadius: 8, padding: \"9px 16px\", background: accent, color: \"#241430\", cursor: isPending ? \"progress\" : \"pointer\", opacity: isPending ? .8 : 1 }}>\n        {isPending && <span className=\"spin\" style={{ width: 13, height: 13, border: \"2px solid #24143044\", borderTopColor: \"#241430\", borderRadius: 999, display: \"inline-block\" }} />}\n        <span>{isPending ? `${verb}ting\\u2026` : verb}</span>\n      </button>\n      <p role=\"status\" aria-live=\"polite\" style={{ margin: \"10px 0 0\", fontSize: 12 }}>{isPending ? \"Started, not yet finished\" : \"Idle, ready to start\"}</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spin { animation: lod-pnd-spin ${duration}ms linear infinite; }\n          @keyframes lod-pnd-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

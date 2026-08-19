@@ -1,0 +1,38 @@
+{
+  "slug": "microinteraction",
+  "controls_schema": [
+    {
+      "id": "checked",
+      "type": "toggle",
+      "label": "Mark complete",
+      "default": false
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 260,
+      "min": 100,
+      "max": 700,
+      "step": 20
+    },
+    {
+      "id": "task",
+      "type": "text",
+      "label": "Task label",
+      "default": "Confirm shipping address"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-mic-stage\">\n  <div class=\"uif-mic-row\">\n    <span class=\"uif-mic-check{{#if checked}} uif-mic-check--on{{/if}}\" style=\"--accent:{{accent}};\">\n      <svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path class=\"uif-mic-tick\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"M3 8l3 3 7-7\"/></svg>\n    </span>\n    <span class=\"uif-mic-label{{#if checked}} uif-mic-label--done{{/if}}\">{{task}}</span>\n  </div>\n  <p class=\"uif-mic-caption\">A microinteraction: one small task, one small acknowledgement</p>\n</div>\n<style>\n.uif-mic-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.uif-mic-row { display: flex; align-items: center; gap: 10px; }\n.uif-mic-check { width: 20px; height: 20px; border-radius: 5px; border: 2px solid #24143044; display: grid; place-items: center; flex: none; }\n.uif-mic-check--on { background: var(--accent); border-color: var(--accent); }\n.uif-mic-tick { opacity: 0; }\n.uif-mic-check--on .uif-mic-tick { opacity: 1; }\n.uif-mic-label { color: #241430; }\n.uif-mic-label--done { text-decoration: line-through; color: #241430aa; }\n.uif-mic-caption { margin: 12px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  .uif-mic-check { transition: background {{duration}}ms ease-out, border-color {{duration}}ms ease-out; }\n  .uif-mic-tick { transition: opacity {{duration}}ms ease-out; }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\">\n  <div class=\"flex items-center gap-2.5\">\n    <span class=\"tw-mic-check{{#if checked}} tw-mic-on{{/if}} w-5 h-5 rounded-[5px] border-2 border-[#24143044] grid place-items-center flex-none\" style=\"--accent:{{accent}};\">\n      <svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path class=\"tw-mic-tick\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"M3 8l3 3 7-7\"/></svg>\n    </span>\n    <span class=\"tw-mic-label{{#if checked}} tw-mic-done{{/if}} text-[#241430]\">{{task}}</span>\n  </div>\n  <p class=\"mt-3\">A microinteraction: one small task, one small acknowledgement</p>\n</div>\n<style>\n.tw-mic-on { background: var(--accent); border-color: var(--accent); }\n.tw-mic-tick { opacity: 0; }\n.tw-mic-on .tw-mic-tick { opacity: 1; }\n.tw-mic-done { text-decoration: line-through; color: #241430aa; }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-mic-check { transition: background {{duration}}ms ease-out, border-color {{duration}}ms ease-out; }\n  .tw-mic-tick { transition: opacity {{duration}}ms ease-out; }\n}\n</style>",
+    "react": "export function Microinteraction({\n  checked = {{checked}},\n  duration = {{duration}},\n  task = \"{{task}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span className=\"check\" style={{ width: 20, height: 20, borderRadius: 5, border: `2px solid ${checked ? accent : \"#24143044\"}`, background: checked ? accent : \"transparent\", display: \"grid\", placeItems: \"center\", flex: \"none\" }}>\n          <svg viewBox=\"0 0 16 16\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path style={{ opacity: checked ? 1 : 0 }} fill=\"none\" stroke=\"#fff\" strokeWidth=\"2\" d=\"M3 8l3 3 7-7\" /></svg>\n        </span>\n        <span style={{ color: \"#241430\", textDecoration: checked ? \"line-through\" : \"none\" }}>{task}</span>\n      </div>\n      <p style={{ margin: \"12px 0 0\" }}>A microinteraction: one small task, one small acknowledgement</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .check { transition: background ${duration}ms ease-out, border-color ${duration}ms ease-out; }\n          .check svg path { transition: opacity ${duration}ms ease-out; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

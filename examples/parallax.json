@@ -1,0 +1,39 @@
+{
+  "slug": "parallax",
+  "controls_schema": [
+    {
+      "id": "enabled",
+      "type": "toggle",
+      "label": "Parallax enabled",
+      "default": true
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Cycle (s)",
+      "default": 6,
+      "min": 2,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "horizontal",
+      "options": ["horizontal", "vertical"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Foreground colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-plx-stage\" data-direction=\"{{direction}}\">\n  <div class=\"mot-plx-layer mot-plx-back{{#if enabled}} mot-plx-back--on{{/if}}\"></div>\n  <div class=\"mot-plx-layer mot-plx-mid{{#if enabled}} mot-plx-mid--on{{/if}}\"></div>\n  <div class=\"mot-plx-layer mot-plx-front{{#if enabled}} mot-plx-front--on{{/if}}\" style=\"background:{{accent}};\"></div>\n  <p class=\"mot-plx-caption\">Parallax {{#if enabled}}on{{/if}}{{#unless enabled}}off{{/unless}} &middot; layers move at different speeds for depth</p>\n</div>\n<style>\n.mot-plx-stage { position: relative; width: 100%; max-width: 320px; height: 120px; background: linear-gradient(#D9C8F0, #FAF7F2); border-radius: 12px; overflow: hidden; border: 1px solid #24143022; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-plx-layer { position: absolute; border-radius: 999px; }\n.mot-plx-back { width: 40px; height: 40px; background: #BFD9F244; top: 12px; left: 20px; }\n.mot-plx-mid { width: 26px; height: 26px; background: #A8E6C199; top: 46px; left: 90px; }\n.mot-plx-front { width: 16px; height: 16px; top: 78px; left: 160px; }\n.mot-plx-caption { position: absolute; bottom: 4px; left: 8px; right: 8px; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"horizontal\"] .mot-plx-back--on { animation: mot-plx-h-slow {{duration}}s linear infinite; }\n  [data-direction=\"horizontal\"] .mot-plx-mid--on { animation: mot-plx-h-mid {{duration}}s linear infinite; }\n  [data-direction=\"horizontal\"] .mot-plx-front--on { animation: mot-plx-h-fast {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .mot-plx-back--on { animation: mot-plx-v-slow {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .mot-plx-mid--on { animation: mot-plx-v-mid {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .mot-plx-front--on { animation: mot-plx-v-fast {{duration}}s linear infinite; }\n  @keyframes mot-plx-h-slow { 0%,100% { transform: translateX(0); } 50% { transform: translateX(20px); } }\n  @keyframes mot-plx-h-mid { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-40px); } }\n  @keyframes mot-plx-h-fast { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-80px); } }\n  @keyframes mot-plx-v-slow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }\n  @keyframes mot-plx-v-mid { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }\n  @keyframes mot-plx-v-fast { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }\n}\n</style>",
+    "tailwind": "<div class=\"relative w-full max-w-[320px] h-[120px] rounded-xl overflow-hidden border border-[#24143022] font-sans text-xs text-[#241430]/70\" data-direction=\"{{direction}}\" style=\"background:linear-gradient(#D9C8F0,#FAF7F2);\">\n  <div class=\"tw-plx-back{{#if enabled}} tw-plx-back-on{{/if}} absolute rounded-full w-10 h-10 top-3 left-5 bg-[#BFD9F244]\"></div>\n  <div class=\"tw-plx-mid{{#if enabled}} tw-plx-mid-on{{/if}} absolute rounded-full w-[26px] h-[26px] top-[46px] left-[90px] bg-[#A8E6C199]\"></div>\n  <div class=\"tw-plx-front{{#if enabled}} tw-plx-front-on{{/if}} absolute rounded-full w-4 h-4 top-[78px] left-40\" style=\"background:{{accent}};\"></div>\n  <p class=\"absolute bottom-1 left-2 right-2\">Parallax {{#if enabled}}on{{/if}}{{#unless enabled}}off{{/unless}} &middot; layers move at different speeds for depth</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"horizontal\"] .tw-plx-back-on { animation: mot-plx-tw-h-slow {{duration}}s linear infinite; }\n  [data-direction=\"horizontal\"] .tw-plx-mid-on { animation: mot-plx-tw-h-mid {{duration}}s linear infinite; }\n  [data-direction=\"horizontal\"] .tw-plx-front-on { animation: mot-plx-tw-h-fast {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .tw-plx-back-on { animation: mot-plx-tw-v-slow {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .tw-plx-mid-on { animation: mot-plx-tw-v-mid {{duration}}s linear infinite; }\n  [data-direction=\"vertical\"] .tw-plx-front-on { animation: mot-plx-tw-v-fast {{duration}}s linear infinite; }\n  @keyframes mot-plx-tw-h-slow { 0%,100% { transform: translateX(0); } 50% { transform: translateX(20px); } }\n  @keyframes mot-plx-tw-h-mid { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-40px); } }\n  @keyframes mot-plx-tw-h-fast { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-80px); } }\n  @keyframes mot-plx-tw-v-slow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }\n  @keyframes mot-plx-tw-v-mid { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }\n  @keyframes mot-plx-tw-v-fast { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }\n}\n</style>",
+    "react": "export function Parallax({\n  enabled = {{enabled}},\n  duration = {{duration}},\n  direction = \"{{direction}}\",\n  accent = \"{{accent}}\",\n}) {\n  const suffix = direction === \"horizontal\" ? \"h\" : \"v\";\n  const on = enabled ? \"on\" : \"\";\n  return (\n    <div data-direction={direction} style={{ position: \"relative\", width: \"100%\", maxWidth: 320, height: 120, background: \"linear-gradient(#D9C8F0, #FAF7F2)\", borderRadius: 12, overflow: \"hidden\", border: \"1px solid #24143022\", fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div className={`back ${on}`} style={{ position: \"absolute\", borderRadius: 999, width: 40, height: 40, top: 12, left: 20, background: \"#BFD9F244\" }} />\n      <div className={`mid ${on}`} style={{ position: \"absolute\", borderRadius: 999, width: 26, height: 26, top: 46, left: 90, background: \"#A8E6C199\" }} />\n      <div className={`front ${on}`} style={{ position: \"absolute\", borderRadius: 999, width: 16, height: 16, top: 78, left: 160, background: accent }} />\n      <p style={{ position: \"absolute\", bottom: 4, left: 8, right: 8 }}>Parallax {enabled ? \"on\" : \"off\"} &middot; layers move at different speeds for depth</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .back.on { animation: mot-plx-${suffix}-slow ${duration}s linear infinite; }\n          .mid.on { animation: mot-plx-${suffix}-mid ${duration}s linear infinite; }\n          .front.on { animation: mot-plx-${suffix}-fast ${duration}s linear infinite; }\n          @keyframes mot-plx-h-slow { 0%,100% { transform: translateX(0); } 50% { transform: translateX(20px); } }\n          @keyframes mot-plx-h-mid { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-40px); } }\n          @keyframes mot-plx-h-fast { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-80px); } }\n          @keyframes mot-plx-v-slow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }\n          @keyframes mot-plx-v-mid { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }\n          @keyframes mot-plx-v-fast { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

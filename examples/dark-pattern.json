@@ -1,0 +1,36 @@
+{
+  "slug": "dark-pattern",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Dialog title",
+      "default": "Wait! Before you go..."
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (neutral choice)",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dp-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"dp-demo__badge{{#if fixed}} dp-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: dark pattern (confirmshaming){{/unless}}</span>\n  <div class=\"dp-demo__card\">\n    <p class=\"dp-demo__title\">{{title}}</p>\n    <p class=\"dp-demo__body\">Keep 20% off for life when you stay subscribed.</p>\n    {{unless fixed}}\n    <button type=\"button\" class=\"dp-demo__accept\">Yes, keep my discount</button>\n    <button type=\"button\" class=\"dp-demo__decline\">No thanks, I like paying full price</button>\n    {{/unless}}\n    {{#if fixed}}\n    <div class=\"dp-demo__row\">\n      <button type=\"button\" class=\"dp-demo__accept\">Keep discount</button>\n      <button type=\"button\" class=\"dp-demo__neutral\">No thanks</button>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.dp-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.dp-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.dp-demo__badge--good { background: #1a7a44; }\n.dp-demo__card { padding: 16px; border-radius: 12px; background: #FAF7F2; border: 1.5px solid #24143022; }\n.dp-demo__title { margin: 0 0 6px; font-weight: 700; font-size: 15px; }\n.dp-demo__body { margin: 0 0 14px; color: #241430cc; }\n.dp-demo__accept { display: block; width: 100%; box-sizing: border-box; padding: 11px; border-radius: 8px; border: none; background: var(--accent); font-weight: 700; cursor: pointer; margin-bottom: 8px; }\n.dp-demo__decline { display: block; width: 100%; box-sizing: border-box; padding: 4px; border: none; background: transparent; color: #24143055; font-size: 10px; cursor: pointer; }\n.dp-demo__row { display: flex; gap: 8px; }\n.dp-demo__row .dp-demo__accept { margin-bottom: 0; flex: 1; }\n.dp-demo__neutral { flex: 1; padding: 11px; border-radius: 8px; border: 1.5px solid var(--accent); background: transparent; color: #241430; font-weight: 600; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"dp-tw-badge{{#if fixed}} dp-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: dark pattern (confirmshaming){{/unless}}</span>\n  <div class=\"p-4 rounded-xl\" style=\"background:#FAF7F2;border:1.5px solid #24143022\">\n    <p class=\"m-0 mb-1.5 font-bold text-[15px]\">{{title}}</p>\n    <p class=\"m-0 mb-3.5 text-[#241430cc]\">Keep 20% off for life when you stay subscribed.</p>\n    {{unless fixed}}\n    <button type=\"button\" class=\"block w-full box-border p-2.5 rounded-lg border-0 font-bold cursor-pointer mb-2\" style=\"background:{{accent}}\">Yes, keep my discount</button>\n    <button type=\"button\" class=\"block w-full box-border p-1 border-0 bg-transparent text-[10px] cursor-pointer text-[#24143055]\">No thanks, I like paying full price</button>\n    {{/unless}}\n    {{#if fixed}}\n    <div class=\"flex gap-2\">\n      <button type=\"button\" class=\"flex-1 p-2.5 rounded-lg border-0 font-bold cursor-pointer\" style=\"background:{{accent}}\">Keep discount</button>\n      <button type=\"button\" class=\"flex-1 p-2.5 rounded-lg border-[1.5px] bg-transparent font-semibold cursor-pointer\" style=\"border-color:{{accent}}\">No thanks</button>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.dp-tw-badge { background: #b3261e; color: #FAF7F2; }\n.dp-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function DarkPattern({\n  title = \"{{title}}\",\n  fixed = {{fixed}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: dark pattern (confirmshaming)\"}\n      </span>\n      <div style={{ padding: 16, borderRadius: 12, background: \"#FAF7F2\", border: \"1.5px solid #24143022\" }}>\n        <p style={{ margin: \"0 0 6px\", fontWeight: 700, fontSize: 15 }}>{title}</p>\n        <p style={{ margin: \"0 0 14px\", color: \"#241430cc\" }}>Keep 20% off for life when you stay subscribed.</p>\n        {!fixed && (\n          <>\n            <button type=\"button\" style={{ display: \"block\", width: \"100%\", boxSizing: \"border-box\", padding: 11, borderRadius: 8, border: \"none\", background: accent, fontWeight: 700, cursor: \"pointer\", marginBottom: 8 }}>Yes, keep my discount</button>\n            <button type=\"button\" style={{ display: \"block\", width: \"100%\", boxSizing: \"border-box\", padding: 4, border: \"none\", background: \"transparent\", color: \"#24143055\", fontSize: 10, cursor: \"pointer\" }}>No thanks, I like paying full price</button>\n          </>\n        )}\n        {fixed && (\n          <div style={{ display: \"flex\", gap: 8 }}>\n            <button type=\"button\" style={{ flex: 1, padding: 11, borderRadius: 8, border: \"none\", background: accent, fontWeight: 700, cursor: \"pointer\" }}>Keep discount</button>\n            <button type=\"button\" style={{ flex: 1, padding: 11, borderRadius: 8, border: \"1.5px solid \" + accent, background: \"transparent\", color: \"#241430\", fontWeight: 600, cursor: \"pointer\" }}>No thanks</button>\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

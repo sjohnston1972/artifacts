@@ -1,0 +1,42 @@
+{
+  "slug": "layout-shift",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Article title",
+      "default": "Weekly digest"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (space reserved)",
+      "default": false
+    },
+    {
+      "id": "loaded",
+      "type": "toggle",
+      "label": "Ad has loaded",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ls-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"ls-demo__badge{{#if fixed}} ls-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: layout shift{{/unless}}</span>\n  <p class=\"ls-demo__title\">{{title}}</p>\n  {{unless fixed}}{{#if loaded}}<div class=\"ls-demo__ad\">Ad</div>{{/if}}{{/unless}}\n  {{#if fixed}}<div class=\"ls-demo__reserved\">{{#if loaded}}Ad{{/if}}{{unless loaded}}&nbsp;{{/unless}}</div>{{/if}}\n  <p class=\"ls-demo__body\">Read the full story below the fold.</p>\n  <p class=\"ls-demo__caption\">{{#if fixed}}reserved box never changes size &mdash; text never jumps{{/if}}{{unless fixed}}the ad inserts above the text and pushes it down after the click target has already rendered{{/unless}}</p>\n</div>\n<style>\n.ls-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.ls-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ls-demo__badge--good { background: #1a7a44; }\n.ls-demo__title { margin: 0 0 8px; font-weight: 700; }\n.ls-demo__ad { padding: 20px; margin-bottom: 8px; border-radius: 8px; background: var(--accent); text-align: center; font-weight: 700; }\n.ls-demo__reserved { height: 60px; margin-bottom: 8px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; font-weight: 700; box-sizing: border-box; }\n.ls-demo__body { margin: 0; color: #241430cc; }\n.ls-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ls-tw-badge{{#if fixed}} ls-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: layout shift{{/unless}}</span>\n  <p class=\"m-0 mb-2 font-bold\">{{title}}</p>\n  {{unless fixed}}{{#if loaded}}<div class=\"p-5 mb-2 rounded-lg text-center font-bold\" style=\"background:{{accent}}\">Ad</div>{{/if}}{{/unless}}\n  {{#if fixed}}<div class=\"h-[60px] mb-2 rounded-lg grid place-items-center font-bold box-border\" style=\"background:{{accent}}\">{{#if loaded}}Ad{{/if}}{{unless loaded}}&nbsp;{{/unless}}</div>{{/if}}\n  <p class=\"m-0 text-[#241430cc]\">Read the full story below the fold.</p>\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if fixed}}reserved box never changes size &mdash; text never jumps{{/if}}{{unless fixed}}the ad inserts above the text and pushes it down after the click target has already rendered{{/unless}}</p>\n</div>\n<style>\n.ls-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ls-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function LayoutShift({\n  title = \"{{title}}\",\n  fixed = {{fixed}},\n  loaded = {{loaded}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: layout shift\"}\n      </span>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 700 }}>{title}</p>\n      {!fixed && loaded && <div style={{ padding: 20, marginBottom: 8, borderRadius: 8, background: accent, textAlign: \"center\", fontWeight: 700 }}>Ad</div>}\n      {fixed && <div style={{ height: 60, marginBottom: 8, borderRadius: 8, background: accent, display: \"grid\", placeItems: \"center\", fontWeight: 700, boxSizing: \"border-box\" }}>{loaded ? \"Ad\" : \"\\u00a0\"}</div>}\n      <p style={{ margin: 0, color: \"#241430cc\" }}>Read the full story below the fold.</p>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{fixed ? \"reserved box never changes size \\u2014 text never jumps\" : \"the ad inserts above the text and pushes it down after the click target has already rendered\"}</p>\n    </div>\n  );\n}"
+  }
+}

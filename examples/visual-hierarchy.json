@@ -1,0 +1,35 @@
+{
+  "slug": "visual-hierarchy",
+  "controls_schema": [
+    {
+      "id": "strong",
+      "type": "toggle",
+      "label": "Strong hierarchy",
+      "default": true
+    },
+    {
+      "id": "heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Quarterly results"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "label": "Body text",
+      "default": "Revenue is up 12% on last quarter, driven by renewals."
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-vh-stage{{#if strong}} uif-vh-stage--strong{{/if}}\">\n  <h3 class=\"uif-vh-heading\" style=\"color:{{accent}};\">{{heading}}</h3>\n  <p class=\"uif-vh-body\">{{body}}</p>\n  <button type=\"button\" class=\"uif-vh-cta\" style=\"background:{{accent}};\">View report</button>\n  <p class=\"uif-vh-caption\">{{#if strong}}Strong{{/if}}{{#unless strong}}Flat{{/unless}} hierarchy &mdash; same content, different emphasis</p>\n</div>\n<style>\n.uif-vh-stage { width: 100%; max-width: 320px; padding: 18px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: system-ui, sans-serif; color: #241430; }\n.uif-vh-heading { margin: 0 0 6px; font-size: 15px; font-weight: 500; }\n.uif-vh-body { margin: 0 0 14px; font-size: 14px; color: #241430; }\n.uif-vh-cta { display: block; font: 14px system-ui, sans-serif; font-weight: 500; color: #fff; border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; opacity: .85; }\n.uif-vh-stage--strong .uif-vh-heading { font-size: 22px; font-weight: 800; }\n.uif-vh-stage--strong .uif-vh-body { font-size: 13px; color: #241430aa; }\n.uif-vh-stage--strong .uif-vh-cta { font-weight: 700; opacity: 1; box-shadow: 0 4px 10px rgba(36,20,48,.25); }\n.uif-vh-caption { margin: 14px 0 0; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"tw-vh-stage{{#if strong}} tw-vh-strong{{/if}} w-full max-w-[320px] p-[18px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-[#241430]\">\n  <h3 class=\"tw-vh-heading m-0 mb-1.5 text-[15px] font-medium\" style=\"color:{{accent}};\">{{heading}}</h3>\n  <p class=\"tw-vh-body m-0 mb-3.5 text-sm\">{{body}}</p>\n  <button type=\"button\" class=\"tw-vh-cta block font-medium text-white border-0 rounded-md px-3.5 py-2 cursor-pointer opacity-85\" style=\"background:{{accent}};\">View report</button>\n  <p class=\"mt-3.5 text-[11px] text-[#241430]/70\">{{#if strong}}Strong{{/if}}{{#unless strong}}Flat{{/unless}} hierarchy &mdash; same content, different emphasis</p>\n</div>\n<style>\n.tw-vh-strong .tw-vh-heading { font-size: 22px; font-weight: 800; }\n.tw-vh-strong .tw-vh-body { font-size: 13px; color: #241430aa; }\n.tw-vh-strong .tw-vh-cta { font-weight: 700; opacity: 1; box-shadow: 0 4px 10px rgba(36,20,48,.25); }\n</style>",
+    "react": "export function VisualHierarchy({\n  strong = {{strong}},\n  heading = \"{{heading}}\",\n  body = \"{{body}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 18, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }}>\n      <h3 style={{ margin: \"0 0 6px\", color: accent, fontSize: strong ? 22 : 15, fontWeight: strong ? 800 : 500 }}>{heading}</h3>\n      <p style={{ margin: \"0 0 14px\", fontSize: strong ? 13 : 14, color: strong ? \"#241430aa\" : \"#241430\" }}>{body}</p>\n      <button type=\"button\" style={{ display: \"block\", fontSize: 14, fontWeight: strong ? 700 : 500, color: \"#fff\", background: accent, border: \"none\", borderRadius: 6, padding: \"8px 14px\", cursor: \"pointer\", opacity: strong ? 1 : .85, boxShadow: strong ? \"0 4px 10px rgba(36,20,48,.25)\" : \"none\" }}>View report</button>\n      <p style={{ margin: \"14px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{strong ? \"Strong\" : \"Flat\"} hierarchy &mdash; same content, different emphasis</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "animation",
+  "controls_schema": [
+    {
+      "id": "property",
+      "type": "select",
+      "label": "Property animated",
+      "default": "position",
+      "options": ["position", "opacity", "colour", "scale"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 900,
+      "min": 200,
+      "max": 3000,
+      "step": 100
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop continuously",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Chip label",
+      "default": "Animated chip"
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-anim-stage\" data-property=\"{{property}}\">\n  <span class=\"mot-anim-chip{{#if loop}} mot-anim-chip--loop{{/if}}\" style=\"background:{{accent}};\">{{label}}</span>\n</div>\n<p class=\"mot-anim-caption\">Property animated: <strong>{{property}}</strong> &middot; {{duration}}ms</p>\n<style>\n.mot-anim-stage { position: relative; width: 100%; max-width: 320px; height: 110px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 14px/1.4 system-ui, sans-serif; color: #241430; }\n.mot-anim-chip { position: absolute; top: 50%; left: 16px; transform: translateY(-50%); display: inline-block; padding: 8px 14px; border-radius: 999px; font-weight: 600; color: #241430; }\n.mot-anim-caption { margin: 8px 0 0; font: 13px system-ui, sans-serif; color: #241430aa; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-property=\"position\"] .mot-anim-chip { animation: mot-anim-pos {{duration}}ms ease-in-out infinite; }\n  [data-property=\"opacity\"] .mot-anim-chip { animation: mot-anim-op {{duration}}ms ease-in-out infinite; }\n  [data-property=\"colour\"] .mot-anim-chip { animation: mot-anim-col {{duration}}ms ease-in-out infinite; }\n  [data-property=\"scale\"] .mot-anim-chip { animation: mot-anim-scale {{duration}}ms ease-in-out infinite; }\n  .mot-anim-chip:not(.mot-anim-chip--loop) { animation-iteration-count: 1; animation-fill-mode: forwards; }\n  @keyframes mot-anim-pos { 0%,100% { left: 16px; } 50% { left: 220px; } }\n  @keyframes mot-anim-op { 0%,100% { opacity: 1; } 50% { opacity: .25; } }\n  @keyframes mot-anim-col { 0%,100% { background: #A8E6C1; color: #241430; } 50% { background: #241430; color: #FAF7F2; } }\n  @keyframes mot-anim-scale { 0%,100% { transform: translateY(-50%) scale(1); } 50% { transform: translateY(-50%) scale(1.4); } }\n}\n</style>",
+    "tailwind": "<div class=\"mot-anim-tw relative w-full max-w-[320px] h-[110px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-[#241430]\" data-property=\"{{property}}\">\n  <span class=\"mot-anim-tw-chip{{#if loop}} mot-anim-tw-chip--loop{{/if}} absolute top-1/2 left-4 -translate-y-1/2 inline-block px-3.5 py-2 rounded-full font-semibold\" style=\"background:{{accent}};\">{{label}}</span>\n</div>\n<p class=\"mt-2 text-sm text-[#241430]/70\">Property animated: <strong>{{property}}</strong> &middot; {{duration}}ms</p>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-property=\"position\"] .mot-anim-tw-chip { animation: mot-anim-tw-pos {{duration}}ms ease-in-out infinite; }\n  [data-property=\"opacity\"] .mot-anim-tw-chip { animation: mot-anim-tw-op {{duration}}ms ease-in-out infinite; }\n  [data-property=\"colour\"] .mot-anim-tw-chip { animation: mot-anim-tw-col {{duration}}ms ease-in-out infinite; }\n  [data-property=\"scale\"] .mot-anim-tw-chip { animation: mot-anim-tw-scale {{duration}}ms ease-in-out infinite; }\n  .mot-anim-tw-chip:not(.mot-anim-tw-chip--loop) { animation-iteration-count: 1; animation-fill-mode: forwards; }\n  @keyframes mot-anim-tw-pos { 0%,100% { left: 16px; } 50% { left: 220px; } }\n  @keyframes mot-anim-tw-op { 0%,100% { opacity: 1; } 50% { opacity: .25; } }\n  @keyframes mot-anim-tw-col { 0%,100% { background: #A8E6C1; color: #241430; } 50% { background: #241430; color: #FAF7F2; } }\n  @keyframes mot-anim-tw-scale { 0%,100% { transform: translateY(-50%) scale(1); } 50% { transform: translateY(-50%) scale(1.4); } }\n}\n</style>",
+    "react": "export function Animation({\n  property = \"{{property}}\",\n  duration = {{duration}},\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n  label = \"{{label}}\",\n}) {\n  return (\n    <div>\n      <div data-property={property} style={{ position: \"relative\", width: \"100%\", maxWidth: 320, height: 110, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", color: \"#241430\" }}>\n        <span className={loop ? \"chip chip--loop\" : \"chip\"} style={{ position: \"absolute\", top: \"50%\", left: 16, transform: \"translateY(-50%)\", display: \"inline-block\", padding: \"8px 14px\", borderRadius: 999, fontWeight: 600, background: accent, color: \"#241430\" }}>\n          {label}\n        </span>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 13, color: \"#241430aa\" }}>Property animated: <strong>{property}</strong> &middot; {duration}ms</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          [data-property=\"position\"] .chip { animation: mot-anim-pos ${duration}ms ease-in-out infinite; }\n          [data-property=\"opacity\"] .chip { animation: mot-anim-op ${duration}ms ease-in-out infinite; }\n          [data-property=\"colour\"] .chip { animation: mot-anim-col ${duration}ms ease-in-out infinite; }\n          [data-property=\"scale\"] .chip { animation: mot-anim-scale ${duration}ms ease-in-out infinite; }\n          .chip:not(.chip--loop) { animation-iteration-count: 1; animation-fill-mode: forwards; }\n          @keyframes mot-anim-pos { 0%,100% { left: 16px; } 50% { left: 220px; } }\n          @keyframes mot-anim-op { 0%,100% { opacity: 1; } 50% { opacity: .25; } }\n          @keyframes mot-anim-col { 0%,100% { background: #A8E6C1; color: #241430; } 50% { background: #241430; color: #FAF7F2; } }\n          @keyframes mot-anim-scale { 0%,100% { transform: translateY(-50%) scale(1); } 50% { transform: translateY(-50%) scale(1.4); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

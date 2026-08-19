@@ -1,0 +1,39 @@
+{
+  "slug": "skeleton-shimmer",
+  "controls_schema": [
+    {
+      "id": "shimmer",
+      "type": "toggle",
+      "label": "Shimmer motion",
+      "default": true
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Sweep duration (ms)",
+      "default": 1400,
+      "min": 600,
+      "max": 3000,
+      "step": 100
+    },
+    {
+      "id": "shape",
+      "type": "select",
+      "label": "Placeholder shape",
+      "default": "text-lines",
+      "options": ["text-lines", "avatar-row"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Highlight colour",
+      "default": "#FAF7F2",
+      "presets": ["#FAF7F2", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-shm-stage\" data-shape=\"{{shape}}\" aria-hidden=\"true\">\n  <div class=\"mot-shm-avatar\"></div>\n  <div class=\"mot-shm-lines\">\n    <span class=\"mot-shm-bar mot-shm-bar--w\"></span>\n    <span class=\"mot-shm-bar mot-shm-bar--m\"></span>\n    <span class=\"mot-shm-bar mot-shm-bar--s\"></span>\n  </div>\n</div>\n<p role=\"status\" aria-live=\"polite\" class=\"mot-shm-status\">Loading content&hellip;</p>\n<style>\n.mot-shm-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; display: flex; gap: 12px; align-items: center; }\n.mot-shm-avatar { display: none; width: 40px; height: 40px; border-radius: 999px; background: #24143014; flex: none; }\n[data-shape=\"avatar-row\"] .mot-shm-avatar { display: block; }\n.mot-shm-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }\n.mot-shm-bar { display: block; height: 12px; border-radius: 6px; background: #24143014; background-image: linear-gradient(90deg, #24143014 0%, {{accent}} 50%, #24143014 100%); background-size: 200% 100%; }\n.mot-shm-bar--w { width: 100%; } .mot-shm-bar--m { width: 80%; } .mot-shm-bar--s { width: 55%; }\n.mot-shm-status { margin: 10px 0 0; font: 13px system-ui, sans-serif; color: #241430aa; }\n@media (prefers-reduced-motion: no-preference) {\n  .mot-shm-bar { {{#if shimmer}}animation: mot-shm-sweep {{duration}}ms linear infinite;{{/if}} }\n  @keyframes mot-shm-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl flex gap-3 items-center\" data-shape=\"{{shape}}\" aria-hidden=\"true\">\n  <div class=\"tw-shm-avatar hidden w-10 h-10 rounded-full bg-[#24143014] flex-none\"></div>\n  <div class=\"flex-1 flex flex-col gap-2\">\n    <span class=\"tw-shm-bar block h-3 rounded-md w-full\" style=\"background-image:linear-gradient(90deg,#24143014 0%,{{accent}} 50%,#24143014 100%); background-size:200% 100%;\"></span>\n    <span class=\"tw-shm-bar block h-3 rounded-md w-4/5\" style=\"background-image:linear-gradient(90deg,#24143014 0%,{{accent}} 50%,#24143014 100%); background-size:200% 100%;\"></span>\n    <span class=\"tw-shm-bar block h-3 rounded-md w-3/5\" style=\"background-image:linear-gradient(90deg,#24143014 0%,{{accent}} 50%,#24143014 100%); background-size:200% 100%;\"></span>\n  </div>\n</div>\n<p role=\"status\" aria-live=\"polite\" class=\"mt-2.5 text-sm text-[#241430]/70\">Loading content&hellip;</p>\n<style>\n[data-shape=\"avatar-row\"] .tw-shm-avatar { display: block; }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-shm-bar { {{#if shimmer}}animation: mot-shm-tw-sweep {{duration}}ms linear infinite;{{/if}} }\n  @keyframes mot-shm-tw-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }\n}\n</style>",
+    "react": "export function SkeletonShimmer({\n  shimmer = {{shimmer}},\n  duration = {{duration}},\n  shape = \"{{shape}}\",\n  accent = \"{{accent}}\",\n}) {\n  const barStyle = { display: \"block\", height: 12, borderRadius: 6, backgroundImage: `linear-gradient(90deg, #24143014 0%, ${accent} 50%, #24143014 100%)`, backgroundSize: \"200% 100%\" };\n  return (\n    <div>\n      <div aria-hidden=\"true\" style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, display: \"flex\", gap: 12, alignItems: \"center\" }}>\n        {shape === \"avatar-row\" && <div style={{ width: 40, height: 40, borderRadius: 999, background: \"#24143014\", flex: \"none\" }} />}\n        <div style={{ flex: 1, display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n          <span className=\"bar\" style={{ ...barStyle, width: \"100%\" }} />\n          <span className=\"bar\" style={{ ...barStyle, width: \"80%\" }} />\n          <span className=\"bar\" style={{ ...barStyle, width: \"55%\" }} />\n        </div>\n      </div>\n      <p role=\"status\" aria-live=\"polite\" style={{ margin: \"10px 0 0\", fontSize: 13, color: \"#241430aa\" }}>Loading content&hellip;</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          ${shimmer ? `.bar { animation: mot-shm-sweep ${duration}ms linear infinite; }` : \"\"}\n          @keyframes mot-shm-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

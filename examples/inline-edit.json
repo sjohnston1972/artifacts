@@ -1,0 +1,42 @@
+{
+  "slug": "inline-edit",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Field name",
+      "default": "Project name"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Q3 marketing site"
+    },
+    {
+      "id": "editing",
+      "type": "toggle",
+      "label": "Editing",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"inline-demo\" style=\"--accent:{{accent}};\">\n  <p class=\"inline-demo__label\">{{label}}</p>\n  {{#if editing}}\n  <div class=\"inline-demo__edit\">\n    <input class=\"inline-demo__input\" type=\"text\" value=\"{{value}}\" />\n    <button type=\"button\" class=\"inline-demo__icon-btn\" aria-label=\"Save\">&#10003;</button>\n    <button type=\"button\" class=\"inline-demo__icon-btn\" aria-label=\"Cancel\">&times;</button>\n  </div>\n  {{/if}}\n  {{unless editing}}\n  <button type=\"button\" class=\"inline-demo__display\">{{value}} <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg></button>\n  {{/unless}}\n</div>\n<style>\n.inline-demo { width: 280px; font: 14px system-ui, sans-serif; color: #241430; }\n.inline-demo__label { margin: 0 0 6px; font-size: 12px; font-weight: 600; color: #241430aa; }\n.inline-demo__edit { display: flex; align-items: center; gap: 6px; }\n.inline-demo__input { flex: 1; padding: 8px 10px; border-radius: 7px; border: 1.5px solid var(--accent); font: inherit; }\n.inline-demo__icon-btn { width: 30px; height: 30px; border-radius: 7px; border: none; background: var(--accent); cursor: pointer; }\n.inline-demo__display { display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; font: inherit; font-weight: 600; cursor: pointer; color: #241430; padding: 4px 0; }\n.inline-demo__display svg { color: var(--accent); opacity: .7; }\n</style>",
+    "tailwind": "<div style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <p class=\"m-0 mb-1.5 text-xs font-semibold text-[#241430aa]\">{{label}}</p>\n  {{#if editing}}\n  <div class=\"flex items-center gap-1.5\">\n    <input type=\"text\" value=\"{{value}}\" class=\"flex-1 px-2.5 py-2 rounded-md border-[1.5px]\" style=\"border-color:{{accent}}\" />\n    <button type=\"button\" aria-label=\"Save\" class=\"w-[30px] h-[30px] rounded-md border-0 cursor-pointer\" style=\"background:{{accent}}\">&#10003;</button>\n    <button type=\"button\" aria-label=\"Cancel\" class=\"w-[30px] h-[30px] rounded-md border-0 cursor-pointer\" style=\"background:{{accent}}\">&times;</button>\n  </div>\n  {{/if}}\n  {{unless editing}}\n  <button type=\"button\" class=\"inline-flex items-center gap-2 border-0 bg-transparent font-semibold cursor-pointer text-[#241430] py-1\">{{value}} <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{accent}}\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg></button>\n  {{/unless}}\n</div>",
+    "react": "import { useState } from \"react\";\n\nexport function InlineEdit({\n  label = \"{{label}}\",\n  value: initialValue = \"{{value}}\",\n  editing: initialEditing = {{editing}},\n  accent = \"{{accent}}\",\n}) {\n  const [editing, setEditing] = useState(initialEditing);\n  const [value, setValue] = useState(initialValue);\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <p style={{ margin: \"0 0 6px\", fontSize: 12, fontWeight: 600, color: \"#241430aa\" }}>{label}</p>\n      {editing ? (\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 6 }}>\n          <input type=\"text\" value={value} onChange={(e) => setValue(e.target.value)} style={{ flex: 1, padding: \"8px 10px\", borderRadius: 7, border: \"1.5px solid \" + accent, font: \"inherit\" }} />\n          <button type=\"button\" aria-label=\"Save\" onClick={() => setEditing(false)} style={{ width: 30, height: 30, borderRadius: 7, border: \"none\", background: accent, cursor: \"pointer\" }}>&#10003;</button>\n          <button type=\"button\" aria-label=\"Cancel\" onClick={() => setEditing(false)} style={{ width: 30, height: 30, borderRadius: 7, border: \"none\", background: accent, cursor: \"pointer\" }}>&times;</button>\n        </div>\n      ) : (\n        <button type=\"button\" onClick={() => setEditing(true)} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, border: \"none\", background: \"transparent\", fontWeight: 600, cursor: \"pointer\", color: \"#241430\", padding: \"4px 0\" }}>\n          {value} <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke={accent} strokeWidth=\"2\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg>\n        </button>\n      )}\n    </div>\n  );\n}"
+  }
+}

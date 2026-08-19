@@ -1,0 +1,39 @@
+{
+  "slug": "debounce",
+  "controls_schema": [
+    {
+      "id": "delay",
+      "type": "number",
+      "label": "Debounce delay (ms)",
+      "default": 400,
+      "min": 100,
+      "max": 1000,
+      "step": 50
+    },
+    {
+      "id": "scenario",
+      "type": "select",
+      "label": "Scenario",
+      "default": "search",
+      "options": ["search", "resize"]
+    },
+    {
+      "id": "showKeystrokes",
+      "type": "toggle",
+      "label": "Show individual events",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-dbn-stage\" data-scenario=\"{{scenario}}\">\n  <p class=\"lod-dbn-label\">{{scenario}} events</p>\n  <div class=\"lod-dbn-track\">\n    {{#if showKeystrokes}}<span class=\"lod-dbn-tick\" style=\"left:10%;\"></span><span class=\"lod-dbn-tick\" style=\"left:22%;\"></span><span class=\"lod-dbn-tick\" style=\"left:30%;\"></span><span class=\"lod-dbn-tick\" style=\"left:38%;\"></span>{{/if}}\n    <span class=\"lod-dbn-fire\" style=\"left:calc(38% + {{delay}}px / 6); background:{{accent}};\"></span>\n  </div>\n  <p class=\"lod-dbn-caption\">Each event resets the {{delay}}ms timer &mdash; the request only fires once activity settles</p>\n</div>\n<style>\n.lod-dbn-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.lod-dbn-label { margin: 0 0 8px; text-transform: capitalize; }\n.lod-dbn-track { position: relative; height: 26px; background: #24143011; border-radius: 999px; }\n.lod-dbn-tick { position: absolute; top: 4px; width: 3px; height: 18px; background: #24143044; border-radius: 2px; }\n.lod-dbn-fire { position: absolute; top: 3px; width: 20px; height: 20px; border-radius: 999px; }\n.lod-dbn-caption { margin: 8px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-scenario=\"{{scenario}}\">\n  <p class=\"m-0 mb-2 capitalize\">{{scenario}} events</p>\n  <div class=\"relative h-[26px] bg-[#24143011] rounded-full\">\n    {{#if showKeystrokes}}<span class=\"absolute top-1 w-[3px] h-[18px] bg-[#24143044] rounded-sm\" style=\"left:10%;\"></span><span class=\"absolute top-1 w-[3px] h-[18px] bg-[#24143044] rounded-sm\" style=\"left:22%;\"></span><span class=\"absolute top-1 w-[3px] h-[18px] bg-[#24143044] rounded-sm\" style=\"left:30%;\"></span><span class=\"absolute top-1 w-[3px] h-[18px] bg-[#24143044] rounded-sm\" style=\"left:38%;\"></span>{{/if}}\n    <span class=\"absolute top-[3px] w-5 h-5 rounded-full\" style=\"left:calc(38% + {{delay}}px / 6); background:{{accent}};\"></span>\n  </div>\n  <p class=\"mt-2\">Each event resets the {{delay}}ms timer &mdash; the request only fires once activity settles</p>\n</div>",
+    "react": "export function Debounce({\n  delay = {{delay}},\n  scenario = \"{{scenario}}\",\n  showKeystrokes = {{showKeystrokes}},\n  accent = \"{{accent}}\",\n}) {\n  const ticks = [10, 22, 30, 38];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <p style={{ margin: \"0 0 8px\", textTransform: \"capitalize\" }}>{scenario} events</p>\n      <div style={{ position: \"relative\", height: 26, background: \"#24143011\", borderRadius: 999 }}>\n        {showKeystrokes && ticks.map((t) => (\n          <span key={t} style={{ position: \"absolute\", top: 4, left: `${t}%`, width: 3, height: 18, background: \"#24143044\", borderRadius: 2 }} />\n        ))}\n        <span style={{ position: \"absolute\", top: 3, left: `calc(38% + ${delay}px / 6)`, width: 20, height: 20, borderRadius: 999, background: accent }} />\n      </div>\n      <p style={{ margin: \"8px 0 0\" }}>Each event resets the {delay}ms timer &mdash; the request only fires once activity settles</p>\n    </div>\n  );\n}"
+  }
+}

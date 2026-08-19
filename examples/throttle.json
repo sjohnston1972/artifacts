@@ -1,0 +1,39 @@
+{
+  "slug": "throttle",
+  "controls_schema": [
+    {
+      "id": "interval",
+      "type": "number",
+      "label": "Throttle interval (ms)",
+      "default": 200,
+      "min": 50,
+      "max": 500,
+      "step": 50
+    },
+    {
+      "id": "scenario",
+      "type": "select",
+      "label": "Scenario",
+      "default": "scroll",
+      "options": ["scroll", "resize"]
+    },
+    {
+      "id": "showBlocked",
+      "type": "toggle",
+      "label": "Show skipped events",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-thr-stage\" data-scenario=\"{{scenario}}\">\n  <p class=\"lod-thr-label\">{{scenario}} events, one handled every {{interval}}ms</p>\n  <div class=\"lod-thr-track\">\n    <span class=\"lod-thr-tick lod-thr-tick--run\" style=\"left:4%; background:{{accent}};\"></span>\n    {{#if showBlocked}}<span class=\"lod-thr-tick\" style=\"left:14%;\"></span><span class=\"lod-thr-tick\" style=\"left:20%;\"></span>{{/if}}\n    <span class=\"lod-thr-tick lod-thr-tick--run\" style=\"left:30%; background:{{accent}};\"></span>\n    {{#if showBlocked}}<span class=\"lod-thr-tick\" style=\"left:40%;\"></span>{{/if}}\n    <span class=\"lod-thr-tick lod-thr-tick--run\" style=\"left:56%; background:{{accent}};\"></span>\n  </div>\n  <p class=\"lod-thr-caption\">Solid dots run the handler &mdash; the rest are skipped until the interval passes</p>\n</div>\n<style>\n.lod-thr-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.lod-thr-label { margin: 0 0 8px; text-transform: capitalize; }\n.lod-thr-track { position: relative; height: 22px; background: #24143011; border-radius: 999px; }\n.lod-thr-tick { position: absolute; top: 5px; width: 10px; height: 10px; border-radius: 999px; background: #24143033; }\n.lod-thr-tick--run { top: 2px; width: 16px; height: 16px; }\n.lod-thr-caption { margin: 8px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-scenario=\"{{scenario}}\">\n  <p class=\"m-0 mb-2 capitalize\">{{scenario}} events, one handled every {{interval}}ms</p>\n  <div class=\"relative h-[22px] bg-[#24143011] rounded-full\">\n    <span class=\"absolute top-0.5 w-4 h-4 rounded-full\" style=\"left:4%; background:{{accent}};\"></span>\n    {{#if showBlocked}}<span class=\"absolute top-[5px] w-2.5 h-2.5 rounded-full bg-[#24143033]\" style=\"left:14%;\"></span><span class=\"absolute top-[5px] w-2.5 h-2.5 rounded-full bg-[#24143033]\" style=\"left:20%;\"></span>{{/if}}\n    <span class=\"absolute top-0.5 w-4 h-4 rounded-full\" style=\"left:30%; background:{{accent}};\"></span>\n    {{#if showBlocked}}<span class=\"absolute top-[5px] w-2.5 h-2.5 rounded-full bg-[#24143033]\" style=\"left:40%;\"></span>{{/if}}\n    <span class=\"absolute top-0.5 w-4 h-4 rounded-full\" style=\"left:56%; background:{{accent}};\"></span>\n  </div>\n  <p class=\"mt-2\">Solid dots run the handler &mdash; the rest are skipped until the interval passes</p>\n</div>",
+    "react": "export function Throttle({\n  interval = {{interval}},\n  scenario = \"{{scenario}}\",\n  showBlocked = {{showBlocked}},\n  accent = \"{{accent}}\",\n}) {\n  const run = { position: \"absolute\", top: 2, width: 16, height: 16, borderRadius: 999, background: accent };\n  const blocked = { position: \"absolute\", top: 5, width: 10, height: 10, borderRadius: 999, background: \"#24143033\" };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <p style={{ margin: \"0 0 8px\", textTransform: \"capitalize\" }}>{scenario} events, one handled every {interval}ms</p>\n      <div style={{ position: \"relative\", height: 22, background: \"#24143011\", borderRadius: 999 }}>\n        <span style={{ ...run, left: \"4%\" }} />\n        {showBlocked && <span style={{ ...blocked, left: \"14%\" }} />}\n        {showBlocked && <span style={{ ...blocked, left: \"20%\" }} />}\n        <span style={{ ...run, left: \"30%\" }} />\n        {showBlocked && <span style={{ ...blocked, left: \"40%\" }} />}\n        <span style={{ ...run, left: \"56%\" }} />\n      </div>\n      <p style={{ margin: \"8px 0 0\" }}>Solid dots run the handler &mdash; the rest are skipped until the interval passes</p>\n    </div>\n  );\n}"
+  }
+}

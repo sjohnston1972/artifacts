@@ -1,0 +1,47 @@
+{
+  "slug": "reduced-motion",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Caption",
+      "default": "Loading results"
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Motion style",
+      "default": "spinner",
+      "options": [
+        "spinner",
+        "slide-in",
+        "pulse"
+      ]
+    },
+    {
+      "id": "reduceMotion",
+      "type": "toggle",
+      "label": "Reduced motion preferred",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rm-demo\" data-style=\"{{style}}\"{{#if reduceMotion}} data-reduced=\"true\"{{/if}} style=\"--accent:{{accent}};\">\n  <div class=\"rm-demo__stage\">\n    <div class=\"rm-demo__spinner\"></div>\n    <div class=\"rm-demo__slide\"></div>\n    <div class=\"rm-demo__pulse\"></div>\n  </div>\n  <p class=\"rm-demo__label\">{{label}}</p>\n  <p class=\"rm-demo__caption\">{{#if reduceMotion}}prefers-reduced-motion: reduce &mdash; animation replaced with an instant state change{{/if}}{{unless reduceMotion}}full animation plays{{/unless}}</p>\n</div>\n<style>\n.rm-demo { width: 300px; font: 14px system-ui, sans-serif; color: #241430; }\n.rm-demo__stage { height: 48px; display: flex; align-items: center; }\n.rm-demo__spinner, .rm-demo__slide, .rm-demo__pulse { display: none; }\n.rm-demo[data-style=\"spinner\"] .rm-demo__spinner { display: block; width: 28px; height: 28px; border-radius: 50%; border: 4px solid #24143022; border-top-color: var(--accent); animation: rm-spin 900ms linear infinite; }\n.rm-demo[data-style=\"slide-in\"] .rm-demo__slide { display: block; width: 28px; height: 28px; border-radius: 8px; background: var(--accent); animation: rm-slide 1200ms ease-in-out infinite; }\n.rm-demo[data-style=\"pulse\"] .rm-demo__pulse { display: block; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); animation: rm-pulse 1000ms ease-in-out infinite; }\n.rm-demo[data-reduced=\"true\"] .rm-demo__spinner, .rm-demo[data-reduced=\"true\"] .rm-demo__slide, .rm-demo[data-reduced=\"true\"] .rm-demo__pulse { animation: none; }\n@keyframes rm-spin { to { transform: rotate(360deg); } }\n@keyframes rm-slide { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(80px); } }\n@keyframes rm-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }\n.rm-demo__label { margin: 10px 0 2px; font-weight: 600; }\n.rm-demo__caption { margin: 0; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"rm-tw rm-tw--{{style}}{{#if reduceMotion}} rm-tw--reduced{{/if}}\" style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"h-12 flex items-center\">\n    <div class=\"rm-tw__spinner hidden w-7 h-7 rounded-full border-4\" style=\"border-color:#24143022;border-top-color:{{accent}}\"></div>\n    <div class=\"rm-tw__slide hidden w-7 h-7 rounded-lg\" style=\"background:{{accent}}\"></div>\n    <div class=\"rm-tw__pulse hidden w-7 h-7 rounded-full\" style=\"background:{{accent}}\"></div>\n  </div>\n  <p class=\"mt-2.5 mb-0.5 font-semibold\">{{label}}</p>\n  <p class=\"m-0 text-xs text-[#241430aa]\">{{#if reduceMotion}}prefers-reduced-motion: reduce &mdash; animation replaced with an instant state change{{/if}}{{unless reduceMotion}}full animation plays{{/unless}}</p>\n</div>\n<style>\n.rm-tw--spinner .rm-tw__spinner { display: block; animation: rm-spin-tw 900ms linear infinite; }\n.rm-tw--slide-in .rm-tw__slide { display: block; animation: rm-slide-tw 1200ms ease-in-out infinite; }\n.rm-tw--pulse .rm-tw__pulse { display: block; animation: rm-pulse-tw 1000ms ease-in-out infinite; }\n.rm-tw--reduced .rm-tw__spinner, .rm-tw--reduced .rm-tw__slide, .rm-tw--reduced .rm-tw__pulse { animation: none; }\n@keyframes rm-spin-tw { to { transform: rotate(360deg); } }\n@keyframes rm-slide-tw { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(80px); } }\n@keyframes rm-pulse-tw { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }\n</style>",
+    "react": "export function ReducedMotion({\n  label = \"{{label}}\",\n  style = \"{{style}}\",\n  reduceMotion = {{reduceMotion}},\n  accent = \"{{accent}}\",\n}) {\n  const anim = reduceMotion ? \"none\" : {\n    spinner: \"rm-spin 900ms linear infinite\",\n    \"slide-in\": \"rm-slide 1200ms ease-in-out infinite\",\n    pulse: \"rm-pulse 1000ms ease-in-out infinite\",\n  }[style];\n  const shape = {\n    spinner: { width: 28, height: 28, borderRadius: \"50%\", border: \"4px solid #24143022\", borderTopColor: accent },\n    \"slide-in\": { width: 28, height: 28, borderRadius: 8, background: accent },\n    pulse: { width: 28, height: 28, borderRadius: \"50%\", background: accent },\n  }[style];\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ height: 48, display: \"flex\", alignItems: \"center\" }}>\n        <div style={{ ...shape, animation: anim }} />\n      </div>\n      <p style={{ margin: \"10px 0 2px\", fontWeight: 600 }}>{label}</p>\n      <p style={{ margin: 0, fontSize: 12, color: \"#241430aa\" }}>{reduceMotion ? \"prefers-reduced-motion: reduce \\u2014 animation replaced with an instant state change\" : \"full animation plays\"}</p>\n    </div>\n  );\n}"
+  }
+}

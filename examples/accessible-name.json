@@ -1,0 +1,47 @@
+{
+  "slug": "accessible-name",
+  "controls_schema": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name text",
+      "default": "Submit order"
+    },
+    {
+      "id": "source",
+      "type": "select",
+      "label": "Name source",
+      "default": "visible-text",
+      "options": [
+        "visible-text",
+        "aria-label",
+        "aria-labelledby"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "announce",
+      "type": "toggle",
+      "label": "Show computed name",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"name-demo\" data-source=\"{{source}}\" style=\"--accent:{{accent}};\">\n  <p class=\"name-demo__ref\">Confirm order <strong id=\"name-demo-ext\">{{name}}</strong></p>\n  <button type=\"button\" class=\"name-demo__btn name-demo__btn--visible-text\">{{name}}</button>\n  <button type=\"button\" class=\"name-demo__btn name-demo__btn--aria-label\" aria-label=\"{{name}}\">&#10003;</button>\n  <button type=\"button\" class=\"name-demo__btn name-demo__btn--aria-labelledby\" aria-labelledby=\"name-demo-ext\">&#10003;</button>\n  {{#if announce}}<p class=\"name-demo__sr\">Computed accessible name: &ldquo;{{name}}&rdquo; (from {{source}})</p>{{/if}}\n</div>\n<style>\n.name-demo { width: 340px; font: 14px/1.5 system-ui, sans-serif; color: #241430; }\n.name-demo__ref { font-size: 12px; color: #241430aa; margin: 0 0 10px; }\n.name-demo__btn { display: none; padding: 10px 18px; border-radius: 8px; border: none; background: var(--accent); font-weight: 600; cursor: pointer; }\n.name-demo[data-source=\"visible-text\"] .name-demo__btn--visible-text { display: inline-block; }\n.name-demo[data-source=\"aria-label\"] .name-demo__btn--aria-label { display: inline-block; }\n.name-demo[data-source=\"aria-labelledby\"] .name-demo__btn--aria-labelledby { display: inline-block; }\n.name-demo__sr { margin-top: 10px; font-size: 13px; background: #24143010; border-left: 3px solid var(--accent); padding: 8px 10px; }\n</style>",
+    "tailwind": "<div class=\"flex flex-col\" data-source=\"{{source}}\" style=\"width:340px;font-family:system-ui,sans-serif;color:#241430\">\n  <p class=\"text-xs text-[#241430aa] m-0 mb-2.5\">Confirm order <strong id=\"name-demo-ext-tw\">{{name}}</strong></p>\n  <button type=\"button\" class=\"name-tw-btn name-tw-btn--visible-text px-4.5 py-2.5 rounded-lg border-0 font-semibold cursor-pointer\" style=\"background:{{accent}}\">{{name}}</button>\n  <button type=\"button\" class=\"name-tw-btn name-tw-btn--aria-label px-4.5 py-2.5 rounded-lg border-0 font-semibold cursor-pointer\" style=\"background:{{accent}}\" aria-label=\"{{name}}\">&#10003;</button>\n  <button type=\"button\" class=\"name-tw-btn name-tw-btn--aria-labelledby px-4.5 py-2.5 rounded-lg border-0 font-semibold cursor-pointer\" style=\"background:{{accent}}\" aria-labelledby=\"name-demo-ext-tw\">&#10003;</button>\n  {{#if announce}}<p class=\"mt-2.5 text-[13px] p-2 border-l-[3px] bg-[#24143010]\" style=\"border-color:{{accent}}\">Computed accessible name: &ldquo;{{name}}&rdquo; (from {{source}})</p>{{/if}}\n</div>\n<style>\n.name-tw-btn { display: none; }\n[data-source=\"visible-text\"] .name-tw-btn--visible-text { display: inline-block; }\n[data-source=\"aria-label\"] .name-tw-btn--aria-label { display: inline-block; }\n[data-source=\"aria-labelledby\"] .name-tw-btn--aria-labelledby { display: inline-block; }\n</style>",
+    "react": "export function AccessibleName({\n  name = \"{{name}}\",\n  source = \"{{source}}\",\n  accent = \"{{accent}}\",\n  announce = {{announce}},\n}) {\n  const btnStyle = { padding: \"10px 18px\", borderRadius: 8, border: \"none\", background: accent, fontWeight: 600, cursor: \"pointer\" };\n  return (\n    <div style={{ width: 340, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <p style={{ fontSize: 12, color: \"#241430aa\", margin: \"0 0 10px\" }}>Confirm order <strong id=\"name-demo-ext-r\">{name}</strong></p>\n      {source === \"visible-text\" && <button type=\"button\" style={btnStyle}>{name}</button>}\n      {source === \"aria-label\" && <button type=\"button\" aria-label={name} style={btnStyle}>&#10003;</button>}\n      {source === \"aria-labelledby\" && <button type=\"button\" aria-labelledby=\"name-demo-ext-r\" style={btnStyle}>&#10003;</button>}\n      {announce && <p style={{ marginTop: 10, fontSize: 13, background: \"#24143010\", borderLeft: \"3px solid \" + accent, padding: \"8px 10px\" }}>Computed accessible name: &ldquo;{name}&rdquo; (from {source})</p>}\n    </div>\n  );\n}"
+  }
+}

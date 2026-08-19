@@ -1,0 +1,47 @@
+{
+  "slug": "rbac",
+  "controls_schema": [
+    {
+      "id": "userName",
+      "type": "text",
+      "label": "User",
+      "default": "Alice"
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Assigned role",
+      "default": "editor",
+      "options": [
+        "viewer",
+        "editor",
+        "admin"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#BFD9F2",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showRoleDesc",
+      "type": "toggle",
+      "label": "Show role description",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rbac rbac--{{role}}\">\n  <p class=\"rbac__assign\"><strong>{{userName}}</strong> is assigned role <span class=\"rbac__role\" style=\"background:{{accent}};\">{{role}}</span></p>\n  {{#if showRoleDesc}}\n  <p class=\"rbac__desc rbac__desc--viewer\">Viewer role grants: read-only access</p>\n  <p class=\"rbac__desc rbac__desc--editor\">Editor role grants: read + write access</p>\n  <p class=\"rbac__desc rbac__desc--admin\">Admin role grants: read + write + manage users</p>\n  {{/if}}\n  <ul class=\"rbac__perms\">\n    <li class=\"rbac__perm rbac__perm--view\"><span class=\"rbac__on\">&#10003; View content</span><span class=\"rbac__off\">&#10005; View content (not granted)</span></li>\n    <li class=\"rbac__perm rbac__perm--edit\"><span class=\"rbac__on\">&#10003; Edit content</span><span class=\"rbac__off\">&#10005; Edit content (not granted)</span></li>\n    <li class=\"rbac__perm rbac__perm--manage\"><span class=\"rbac__on\">&#10003; Manage users</span><span class=\"rbac__off\">&#10005; Manage users (not granted)</span></li>\n  </ul>\n</div>\n<style>\n.rbac { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 300px; box-sizing: border-box; }\n.rbac__assign { margin: 0 0 8px; }\n.rbac__role { font-size: 10px; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; font-weight: 700; }\n.rbac__desc { display: none; margin: 0 0 10px; font-size: 11px; color: #24143099; }\n.rbac--viewer .rbac__desc--viewer, .rbac--editor .rbac__desc--editor, .rbac--admin .rbac__desc--admin { display: block; }\n.rbac__perms { list-style: none; margin: 0; padding: 0; }\n.rbac__perm { padding: 4px 0; font-size: 12px; }\n.rbac__on { display: none; }\n.rbac__off { color: #24143099; }\n.rbac--viewer .rbac__perm--view .rbac__on, .rbac--editor .rbac__perm--view .rbac__on, .rbac--editor .rbac__perm--edit .rbac__on, .rbac--admin .rbac__perm .rbac__on { display: inline; }\n.rbac--viewer .rbac__perm--view .rbac__off, .rbac--editor .rbac__perm--view .rbac__off, .rbac--editor .rbac__perm--edit .rbac__off, .rbac--admin .rbac__perm .rbac__off { display: none; }\n</style>",
+    "tailwind": "<div class=\"rbactw rbactw--{{role}} font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[300px] box-border\">\n  <p class=\"m-0 mb-2\"><strong>{{userName}}</strong> is assigned role <span class=\"text-[10px] uppercase py-0.5 px-2 rounded-full font-bold\" style=\"background:{{accent}};\">{{role}}</span></p>\n  {{#if showRoleDesc}}\n  <p class=\"rbactw__desc rbactw__desc--viewer hidden m-0 mb-2.5 text-[11px] text-[#24143099]\">Viewer role grants: read-only access</p>\n  <p class=\"rbactw__desc rbactw__desc--editor hidden m-0 mb-2.5 text-[11px] text-[#24143099]\">Editor role grants: read + write access</p>\n  <p class=\"rbactw__desc rbactw__desc--admin hidden m-0 mb-2.5 text-[11px] text-[#24143099]\">Admin role grants: read + write + manage users</p>\n  {{/if}}\n  <ul class=\"list-none m-0 p-0\">\n    <li class=\"rbactw__perm rbactw__perm--view py-1 text-xs\"><span class=\"rbactw__on hidden\">&#10003; View content</span><span class=\"rbactw__off text-[#24143099]\">&#10005; View content (not granted)</span></li>\n    <li class=\"rbactw__perm rbactw__perm--edit py-1 text-xs\"><span class=\"rbactw__on hidden\">&#10003; Edit content</span><span class=\"rbactw__off text-[#24143099]\">&#10005; Edit content (not granted)</span></li>\n    <li class=\"rbactw__perm rbactw__perm--manage py-1 text-xs\"><span class=\"rbactw__on hidden\">&#10003; Manage users</span><span class=\"rbactw__off text-[#24143099]\">&#10005; Manage users (not granted)</span></li>\n  </ul>\n</div>\n<style>\n.rbactw--viewer .rbactw__desc--viewer, .rbactw--editor .rbactw__desc--editor, .rbactw--admin .rbactw__desc--admin { display: block; }\n.rbactw--viewer .rbactw__perm--view .rbactw__on, .rbactw--editor .rbactw__perm--view .rbactw__on, .rbactw--editor .rbactw__perm--edit .rbactw__on, .rbactw--admin .rbactw__perm .rbactw__on { display: inline; }\n.rbactw--viewer .rbactw__perm--view .rbactw__off, .rbactw--editor .rbactw__perm--view .rbactw__off, .rbactw--editor .rbactw__perm--edit .rbactw__off, .rbactw--admin .rbactw__perm .rbactw__off { display: none; }\n</style>",
+    "react": "export function Rbac({\n  userName = \"{{userName}}\",\n  role = \"{{role}}\",\n  accent = \"{{accent}}\",\n  showRoleDesc = {{showRoleDesc}},\n}) {\n  const desc = {\n    viewer: \"Viewer role grants: read-only access\",\n    editor: \"Editor role grants: read + write access\",\n    admin: \"Admin role grants: read + write + manage users\",\n  }[role];\n  const active = { view: role === \"viewer\" || role === \"editor\" || role === \"admin\", edit: role === \"editor\" || role === \"admin\", manage: role === \"admin\" };\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 300, boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 8px\" }}><strong>{userName}</strong> is assigned role <span style={{ fontSize: 10, textTransform: \"uppercase\", padding: \"2px 8px\", borderRadius: 999, fontWeight: 700, background: accent }}>{role}</span></p>\n      {showRoleDesc && <p style={{ margin: \"0 0 10px\", fontSize: 11, color: \"#24143099\" }}>{desc}</p>}\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0 }}>\n        <li style={{ padding: \"4px 0\", fontSize: 12 }}>{active.view ? \"✓ View content\" : <span style={{ color: \"#24143099\" }}>&#10005; View content (not granted)</span>}</li>\n        <li style={{ padding: \"4px 0\", fontSize: 12 }}>{active.edit ? \"✓ Edit content\" : <span style={{ color: \"#24143099\" }}>&#10005; Edit content (not granted)</span>}</li>\n        <li style={{ padding: \"4px 0\", fontSize: 12 }}>{active.manage ? \"✓ Manage users\" : <span style={{ color: \"#24143099\" }}>&#10005; Manage users (not granted)</span>}</li>\n      </ul>\n    </div>\n  );\n}"
+  }
+}

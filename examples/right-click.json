@@ -1,0 +1,36 @@
+{
+  "slug": "right-click",
+  "controls_schema": [
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item",
+      "default": "budget-2026.xlsx"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Menu open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rc-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"rc-demo__item\">&#128196; {{itemLabel}}</div>\n  {{#if open}}\n  <div class=\"rc-demo__menu\">\n    <div class=\"rc-demo__cursor\">&#8598;</div>\n    <button type=\"button\" class=\"rc-demo__item-row\">Rename</button>\n    <button type=\"button\" class=\"rc-demo__item-row\">Duplicate</button>\n    <button type=\"button\" class=\"rc-demo__item-row rc-demo__item-row--danger\">Delete</button>\n  </div>\n  {{/if}}\n  <p class=\"rc-demo__caption\">{{#if open}}right-click (or long-press on touch) opens the context menu{{/if}}{{unless open}}rest state{{/unless}}</p>\n</div>\n<style>\n.rc-demo { width: 260px; font: 14px system-ui, sans-serif; color: #241430; position: relative; }\n.rc-demo__item { padding: 10px 12px; border-radius: 8px; background: #24143010; width: fit-content; }\n.rc-demo__menu { position: relative; margin-top: 8px; width: 160px; border-radius: 10px; background: #FAF7F2; box-shadow: 0 12px 26px rgba(36,20,48,.2); border: 1.5px solid #24143014; padding: 6px; }\n.rc-demo__cursor { position: absolute; top: -14px; left: -6px; font-size: 16px; color: var(--accent); }\n.rc-demo__item-row { display: block; width: 100%; box-sizing: border-box; text-align: left; padding: 8px 10px; border: none; background: transparent; border-radius: 6px; font: inherit; cursor: pointer; }\n.rc-demo__item-row:hover { background: var(--accent); }\n.rc-demo__item-row--danger { color: #b3261e; }\n.rc-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"relative\" style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"w-fit px-3 py-2.5 rounded-lg bg-[#24143010]\">&#128196; {{itemLabel}}</div>\n  {{#if open}}\n  <div class=\"relative mt-2 w-40 rounded-[10px] p-1.5\" style=\"background:#FAF7F2;box-shadow:0 12px 26px rgba(36,20,48,.2);border:1.5px solid #24143014\">\n    <div class=\"absolute -top-3.5 -left-1.5 text-base\" style=\"color:{{accent}}\">&#8598;</div>\n    <button type=\"button\" class=\"block w-full text-left px-2.5 py-2 rounded-md border-0 bg-transparent cursor-pointer\">Rename</button>\n    <button type=\"button\" class=\"block w-full text-left px-2.5 py-2 rounded-md border-0 bg-transparent cursor-pointer\">Duplicate</button>\n    <button type=\"button\" class=\"block w-full text-left px-2.5 py-2 rounded-md border-0 bg-transparent cursor-pointer\" style=\"color:#b3261e\">Delete</button>\n  </div>\n  {{/if}}\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if open}}right-click (or long-press on touch) opens the context menu{{/if}}{{unless open}}rest state{{/unless}}</p>\n</div>",
+    "react": "import { useState } from \"react\";\n\nexport function RightClickMenu({\n  itemLabel = \"{{itemLabel}}\",\n  open: initialOpen = {{open}},\n  accent = \"{{accent}}\",\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const rowStyle = { display: \"block\", width: \"100%\", boxSizing: \"border-box\", textAlign: \"left\", padding: \"8px 10px\", border: \"none\", background: \"transparent\", borderRadius: 6, cursor: \"pointer\" };\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", position: \"relative\" }}>\n      <div onContextMenu={(e) => { e.preventDefault(); setOpen(true); }} style={{ padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\", width: \"fit-content\" }}>&#128196; {itemLabel}</div>\n      {open && (\n        <div style={{ position: \"relative\", marginTop: 8, width: 160, borderRadius: 10, background: \"#FAF7F2\", boxShadow: \"0 12px 26px rgba(36,20,48,.2)\", border: \"1.5px solid #24143014\", padding: 6 }}>\n          <div style={{ position: \"absolute\", top: -14, left: -6, fontSize: 16, color: accent }}>&#8598;</div>\n          <button type=\"button\" style={rowStyle}>Rename</button>\n          <button type=\"button\" style={rowStyle}>Duplicate</button>\n          <button type=\"button\" style={{ ...rowStyle, color: \"#b3261e\" }}>Delete</button>\n        </div>\n      )}\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{open ? \"right-click (or long-press on touch) opens the context menu\" : \"rest state\"}</p>\n    </div>\n  );\n}"
+  }
+}

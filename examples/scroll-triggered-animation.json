@@ -1,0 +1,39 @@
+{
+  "slug": "scroll-triggered-animation",
+  "controls_schema": [
+    {
+      "id": "property",
+      "type": "select",
+      "label": "Property triggered",
+      "default": "fill",
+      "options": ["fill", "colour", "counter"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 1400,
+      "min": 400,
+      "max": 3000,
+      "step": 100
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Replay continuously",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-sta-stage\" data-property=\"{{property}}\">\n  <div class=\"mot-sta-track\"><span class=\"mot-sta-fill{{#if loop}} mot-sta-fill--loop{{/if}}\" style=\"background:{{accent}};\"></span></div>\n  <p class=\"mot-sta-caption\">Progress fills as this section reaches the read position &middot; {{property}} &middot; {{duration}}ms</p>\n</div>\n<style>\n.mot-sta-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-sta-track { height: 10px; background: #24143014; border-radius: 999px; overflow: hidden; }\n.mot-sta-fill { display: block; height: 100%; width: 0%; border-radius: 999px; }\n.mot-sta-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-property=\"fill\"] .mot-sta-fill { animation-name: mot-sta-fill; }\n  [data-property=\"colour\"] .mot-sta-fill { animation-name: mot-sta-colour; }\n  [data-property=\"counter\"] .mot-sta-fill { animation-name: mot-sta-fill; }\n  .mot-sta-fill { animation-duration: {{duration}}ms; animation-timing-function: ease-out; animation-fill-mode: both; }\n  .mot-sta-fill--loop { animation-iteration-count: infinite; }\n  @keyframes mot-sta-fill { from { width: 0%; } to { width: 100%; } }\n  @keyframes mot-sta-colour { 0% { width: 100%; background: #241430; } 100% { width: 100%; background: #E8A020; } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-property=\"{{property}}\">\n  <div class=\"h-2.5 bg-[#24143014] rounded-full overflow-hidden\"><span class=\"tw-sta-fill{{#if loop}} tw-sta-loop{{/if}} block h-full w-0 rounded-full\" style=\"background:{{accent}};\"></span></div>\n  <p class=\"mt-2.5\">Progress fills as this section reaches the read position &middot; {{property}} &middot; {{duration}}ms</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-property=\"fill\"] .tw-sta-fill { animation-name: mot-sta-tw-fill; }\n  [data-property=\"colour\"] .tw-sta-fill { animation-name: mot-sta-tw-colour; }\n  [data-property=\"counter\"] .tw-sta-fill { animation-name: mot-sta-tw-fill; }\n  .tw-sta-fill { animation-duration: {{duration}}ms; animation-timing-function: ease-out; animation-fill-mode: both; }\n  .tw-sta-loop { animation-iteration-count: infinite; }\n  @keyframes mot-sta-tw-fill { from { width: 0%; } to { width: 100%; } }\n  @keyframes mot-sta-tw-colour { 0% { width: 100%; background: #241430; } 100% { width: 100%; background: #E8A020; } }\n}\n</style>",
+    "react": "export function ScrollTriggeredAnimation({\n  property = \"{{property}}\",\n  duration = {{duration}},\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n}) {\n  const name = property === \"colour\" ? \"mot-sta-colour\" : \"mot-sta-fill\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ height: 10, background: \"#24143014\", borderRadius: 999, overflow: \"hidden\" }}>\n        <span className=\"fill\" style={{ display: \"block\", height: \"100%\", width: 0, borderRadius: 999, background: accent }} />\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>Progress fills as this section reaches the read position &middot; {property} &middot; {duration}ms</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .fill { animation: ${name} ${duration}ms ease-out ${loop ? \"infinite\" : 1} both; }\n          @keyframes mot-sta-fill { from { width: 0%; } to { width: 100%; } }\n          @keyframes mot-sta-colour { 0% { width: 100%; background: #241430; } 100% { width: 100%; background: #E8A020; } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

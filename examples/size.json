@@ -1,0 +1,14 @@
+{
+  "slug": "size",
+  "controls_schema": [
+    { "id": "label", "type": "text", "label": "Button label", "default": "Continue" },
+    { "id": "size", "type": "select", "label": "Size", "default": "md", "options": ["sm", "md", "lg"] },
+    { "id": "accent", "type": "color", "label": "Accent colour", "default": "#241430", "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"] },
+    { "id": "showIcon", "type": "toggle", "label": "Show icon", "default": true }
+  ],
+  "templates": {
+    "html": "<button type=\"button\" class=\"sizedemo sizedemo--{{size}}\" style=\"background:{{accent}};\">\n  {{#if showIcon}}<span class=\"sizedemo__icon\" aria-hidden=\"true\">&rarr;</span>{{/if}}\n  {{label}}\n</button>\n<style>\n.sizedemo { display: inline-flex; align-items: center; gap: 8px; border: none; color: #FAF7F2; font: 600 14px system-ui, sans-serif; cursor: pointer; box-sizing: border-box; }\n.sizedemo--sm { padding: 6px 12px; border-radius: 6px; font-size: 12px; }\n.sizedemo--md { padding: 12px 20px; border-radius: 9px; font-size: 14px; }\n.sizedemo--lg { padding: 18px 30px; border-radius: 12px; font-size: 17px; }\n.sizedemo:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<button type=\"button\" class=\"sizedemotw sizedemotw--{{size}} inline-flex items-center gap-2 border-none text-[#FAF7F2] font-semibold cursor-pointer box-border\" style=\"background:{{accent}};\">\n  {{#if showIcon}}<span aria-hidden=\"true\">&rarr;</span>{{/if}}\n  {{label}}\n</button>\n<style>\n.sizedemotw--sm { padding: 6px 12px; border-radius: 6px; font-size: 12px; }\n.sizedemotw--md { padding: 12px 20px; border-radius: 9px; font-size: 14px; }\n.sizedemotw--lg { padding: 18px 30px; border-radius: 12px; font-size: 17px; }\n</style>",
+    "react": "export function Size({\n  label = \"{{label}}\",\n  size = \"{{size}}\",\n  accent = \"{{accent}}\",\n  showIcon = {{showIcon}},\n}) {\n  const dims = {\n    sm: { padding: \"6px 12px\", borderRadius: 6, fontSize: 12 },\n    md: { padding: \"12px 20px\", borderRadius: 9, fontSize: 14 },\n    lg: { padding: \"18px 30px\", borderRadius: 12, fontSize: 17 },\n  }[size];\n  return (\n    <button type=\"button\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 8, border: \"none\", color: \"#FAF7F2\", fontWeight: 600, cursor: \"pointer\", boxSizing: \"border-box\", background: accent, ...dims }}>\n      {showIcon && <span aria-hidden=\"true\">&rarr;</span>}\n      {label}\n    </button>\n  );\n}"
+  }
+}

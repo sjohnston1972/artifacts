@@ -1,0 +1,36 @@
+{
+  "slug": "pessimistic-ui",
+  "controls_schema": [
+    {
+      "id": "confirmed",
+      "type": "toggle",
+      "label": "Server confirmed",
+      "default": false
+    },
+    {
+      "id": "scenario",
+      "type": "select",
+      "label": "Scenario",
+      "default": "payment",
+      "options": ["payment", "delete"]
+    },
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item label",
+      "default": "Pay now"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-pes-stage\" data-scenario=\"{{scenario}}\">\n  <button type=\"button\" class=\"lod-pes-btn{{#if confirmed}} lod-pes-btn--done{{/if}}\" style=\"--accent:{{accent}};\" {{#unless confirmed}}disabled{{/unless}}>{{itemLabel}}</button>\n  {{#unless confirmed}}<span class=\"lod-pes-spin\" role=\"status\" aria-live=\"polite\">Waiting for the server before updating anything&hellip;</span>{{/unless}}\n  {{#if confirmed}}<p class=\"lod-pes-done\" role=\"status\">Confirmed &mdash; now the UI updates</p>{{/if}}\n  <p class=\"lod-pes-caption\">Pessimistic: nothing changes on screen until the server replies</p>\n</div>\n<style>\n.lod-pes-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-pes-btn { font-weight: 700; border: none; border-radius: 8px; padding: 9px 16px; background: #24143022; color: #24143066; cursor: not-allowed; }\n.lod-pes-btn--done { background: var(--accent); color: #FAF7F2; cursor: pointer; }\n.lod-pes-spin { display: block; margin-top: 10px; font-size: 12px; }\n.lod-pes-done { margin: 10px 0 0; font-weight: 600; color: #241430; }\n.lod-pes-caption { margin: 10px 0 0; font-size: 11px; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-scenario=\"{{scenario}}\">\n  <button type=\"button\" class=\"tw-pes-btn{{#if confirmed}} tw-pes-done{{/if}} font-bold border-0 rounded-lg px-4 py-2.5 cursor-not-allowed\" style=\"--accent:{{accent}};\" {{#unless confirmed}}disabled{{/unless}}>{{itemLabel}}</button>\n  {{#unless confirmed}}<span role=\"status\" aria-live=\"polite\" class=\"block mt-2.5 text-xs\">Waiting for the server before updating anything&hellip;</span>{{/unless}}\n  {{#if confirmed}}<p role=\"status\" class=\"mt-2.5 font-semibold text-[#241430]\">Confirmed &mdash; now the UI updates</p>{{/if}}\n  <p class=\"mt-2.5 text-[11px]\">Pessimistic: nothing changes on screen until the server replies</p>\n</div>\n<style>\n.tw-pes-btn { background: #24143022; color: #24143066; }\n.tw-pes-done { background: var(--accent); color: #FAF7F2; cursor: pointer; }\n</style>",
+    "react": "export function PessimisticUI({\n  confirmed = {{confirmed}},\n  scenario = \"{{scenario}}\",\n  itemLabel = \"{{itemLabel}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <button type=\"button\" disabled={!confirmed} style={{ fontWeight: 700, border: \"none\", borderRadius: 8, padding: \"9px 16px\", cursor: confirmed ? \"pointer\" : \"not-allowed\", background: confirmed ? accent : \"#24143022\", color: confirmed ? \"#FAF7F2\" : \"#24143066\" }}>{itemLabel}</button>\n      {!confirmed && <span role=\"status\" aria-live=\"polite\" style={{ display: \"block\", marginTop: 10, fontSize: 12 }}>Waiting for the server before updating anything&hellip;</span>}\n      {confirmed && <p role=\"status\" style={{ margin: \"10px 0 0\", fontWeight: 600, color: \"#241430\" }}>Confirmed &mdash; now the UI updates</p>}\n      <p style={{ margin: \"10px 0 0\", fontSize: 11 }}>Pessimistic: nothing changes on screen until the server replies</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "progress-indicator",
+  "controls_schema": [
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "bar",
+      "options": ["bar", "circular", "steps"]
+    },
+    {
+      "id": "value",
+      "type": "number",
+      "label": "Progress (%)",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-prg-stage\" data-style=\"{{style}}\">\n  <div class=\"lod-prg-bar\" role=\"progressbar\" aria-valuenow=\"{{value}}\" aria-valuemin=\"0\" aria-valuemax=\"100\"><span style=\"width:{{value}}%; background:{{accent}};\"></span></div>\n  <svg class=\"lod-prg-circle\" viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" role=\"progressbar\" aria-valuenow=\"{{value}}\"><circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke=\"#24143022\" stroke-width=\"6\"/><circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke=\"{{accent}}\" stroke-width=\"6\" stroke-dasharray=\"163.4\" style=\"stroke-dashoffset:calc(163.4px - (163.4px * {{value}} / 100)); transform:rotate(-90deg); transform-origin:50% 50%;\"/></svg>\n  <div class=\"lod-prg-steps\"><span class=\"lod-prg-step lod-prg-step--1\" style=\"background:{{accent}};\"></span><span class=\"lod-prg-step lod-prg-step--2\" style=\"background:{{accent}};\"></span><span class=\"lod-prg-step lod-prg-step--3\"></span></div>\n  <p class=\"lod-prg-caption\">{{value}}% complete</p>\n</div>\n<style>\n.lod-prg-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.lod-prg-bar, .lod-prg-circle, .lod-prg-steps { display: none; }\n[data-style=\"bar\"] .lod-prg-bar { display: block; height: 10px; background: #24143014; border-radius: 999px; overflow: hidden; }\n.lod-prg-bar span { display: block; height: 100%; border-radius: 999px; }\n[data-style=\"circular\"] .lod-prg-circle { display: inline-block; }\n[data-style=\"steps\"] .lod-prg-steps { display: flex; gap: 6px; justify-content: center; }\n.lod-prg-step { width: 40px; height: 8px; border-radius: 4px; background: #24143022; }\n.lod-prg-caption { margin: 10px 0 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\" data-style=\"{{style}}\">\n  <div role=\"progressbar\" aria-valuenow=\"{{value}}\" aria-valuemin=\"0\" aria-valuemax=\"100\" class=\"tw-prg-bar hidden h-2.5 bg-[#24143014] rounded-full overflow-hidden\"><span class=\"block h-full rounded-full\" style=\"width:{{value}}%; background:{{accent}};\"></span></div>\n  <svg class=\"tw-prg-circle hidden\" viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" role=\"progressbar\" aria-valuenow=\"{{value}}\"><circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke=\"#24143022\" stroke-width=\"6\"/><circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke=\"{{accent}}\" stroke-width=\"6\" stroke-dasharray=\"163.4\" style=\"stroke-dashoffset:calc(163.4px - (163.4px * {{value}} / 100)); transform:rotate(-90deg); transform-origin:50% 50%;\"/></svg>\n  <div class=\"tw-prg-steps hidden gap-1.5 justify-center\"><span class=\"w-10 h-2 rounded-sm\" style=\"background:{{accent}};\"></span><span class=\"w-10 h-2 rounded-sm\" style=\"background:{{accent}};\"></span><span class=\"w-10 h-2 rounded-sm bg-[#24143022]\"></span></div>\n  <p class=\"mt-2.5\">{{value}}% complete</p>\n</div>\n<style>\n[data-style=\"bar\"] .tw-prg-bar { display: block; }\n[data-style=\"circular\"] .tw-prg-circle { display: inline-block; }\n[data-style=\"steps\"] .tw-prg-steps { display: flex; }\n</style>",
+    "react": "export function ProgressIndicator({\n  style = \"{{style}}\",\n  value = {{value}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      {style === \"bar\" && (\n        <div role=\"progressbar\" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} style={{ height: 10, background: \"#24143014\", borderRadius: 999, overflow: \"hidden\" }}>\n          <span style={{ display: \"block\", height: \"100%\", width: `${value}%`, background: accent, borderRadius: 999 }} />\n        </div>\n      )}\n      {style === \"circular\" && (\n        <svg viewBox=\"0 0 60 60\" width=\"60\" height=\"60\" role=\"progressbar\" aria-valuenow={value}>\n          <circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke=\"#24143022\" strokeWidth=\"6\" />\n          <circle cx=\"30\" cy=\"30\" r=\"26\" fill=\"none\" stroke={accent} strokeWidth=\"6\" strokeDasharray=\"163.4\" style={{ strokeDashoffset: `calc(163.4px - (163.4px * ${value} / 100))`, transform: \"rotate(-90deg)\", transformOrigin: \"50% 50%\" }} />\n        </svg>\n      )}\n      {style === \"steps\" && (\n        <div style={{ display: \"flex\", gap: 6, justifyContent: \"center\" }}>\n          <span style={{ width: 40, height: 8, borderRadius: 4, background: accent }} />\n          <span style={{ width: 40, height: 8, borderRadius: 4, background: accent }} />\n          <span style={{ width: 40, height: 8, borderRadius: 4, background: \"#24143022\" }} />\n        </div>\n      )}\n      <p style={{ margin: \"10px 0 0\" }}>{value}% complete</p>\n    </div>\n  );\n}"
+  }
+}

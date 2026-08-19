@@ -1,0 +1,36 @@
+{
+  "slug": "discoverability",
+  "controls_schema": [
+    {
+      "id": "labelled",
+      "type": "toggle",
+      "label": "Show text label",
+      "default": false
+    },
+    {
+      "id": "tooltip",
+      "type": "toggle",
+      "label": "Show tooltip hint",
+      "default": false
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "filter",
+      "options": ["filter", "export", "share"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-dis-stage\" data-icon=\"{{icon}}\">\n  <button type=\"button\" class=\"uif-dis-btn\" style=\"color:{{accent}};\">\n    <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path class=\"uif-dis-icon uif-dis-icon--filter\" fill=\"currentColor\" d=\"M3 5h18v2l-7 8v5l-4-2v-3L3 7z\"/><path class=\"uif-dis-icon uif-dis-icon--export\" fill=\"currentColor\" d=\"M12 3l5 5h-3v7h-4V8H7z\"/><path class=\"uif-dis-icon uif-dis-icon--share\" fill=\"currentColor\" d=\"M18 8a3 3 0 1 0-2.8-4H15a3 3 0 0 0 .2 2.4L9 9.7A3 3 0 1 0 9 14.3l6.2 3.3A3 3 0 1 0 15 15l-6-3.2a3 3 0 0 0 0-1.6L15 7a3 3 0 0 0 3 1z\"/></svg>\n    {{#if labelled}}<span class=\"uif-dis-label\">{{icon}}</span>{{/if}}\n  </button>\n  {{#if tooltip}}<span class=\"uif-dis-tip\">{{icon}}</span>{{/if}}\n  <p class=\"uif-dis-caption\">{{#if labelled}}Labelled{{/if}}{{#unless labelled}}Icon-only{{/unless}}{{#if tooltip}} + tooltip{{/if}} &mdash; toggle to compare how easily this is found</p>\n</div>\n<style>\n.uif-dis-stage { position: relative; width: 100%; max-width: 320px; padding: 26px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.uif-dis-btn { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1.5px solid #24143022; border-radius: 8px; padding: 8px 12px; cursor: pointer; }\n.uif-dis-icon { display: none; }\n[data-icon=\"filter\"] .uif-dis-icon--filter,\n[data-icon=\"export\"] .uif-dis-icon--export,\n[data-icon=\"share\"] .uif-dis-icon--share { display: block; }\n.uif-dis-label { text-transform: capitalize; font-weight: 600; color: #241430; }\n.uif-dis-tip { display: block; margin-top: 8px; font-size: 11px; background: #241430; color: #fff; border-radius: 6px; padding: 4px 8px; text-transform: capitalize; }\n.uif-dis-caption { margin: 14px 0 0; }\n</style>",
+    "tailwind": "<div class=\"relative w-full max-w-[320px] p-[26px] bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\" data-icon=\"{{icon}}\">\n  <button type=\"button\" class=\"inline-flex items-center gap-1.5 bg-white border-[1.5px] border-[#24143022] rounded-lg px-3 py-2 cursor-pointer\" style=\"color:{{accent}};\">\n    <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path class=\"tw-dis-icon tw-dis-filter\" fill=\"currentColor\" d=\"M3 5h18v2l-7 8v5l-4-2v-3L3 7z\"/><path class=\"tw-dis-icon tw-dis-export\" fill=\"currentColor\" d=\"M12 3l5 5h-3v7h-4V8H7z\"/><path class=\"tw-dis-icon tw-dis-share\" fill=\"currentColor\" d=\"M18 8a3 3 0 1 0-2.8-4H15a3 3 0 0 0 .2 2.4L9 9.7A3 3 0 1 0 9 14.3l6.2 3.3A3 3 0 1 0 15 15l-6-3.2a3 3 0 0 0 0-1.6L15 7a3 3 0 0 0 3 1z\"/></svg>\n    {{#if labelled}}<span class=\"font-semibold capitalize text-[#241430]\">{{icon}}</span>{{/if}}\n  </button>\n  {{#if tooltip}}<span class=\"block mt-2 text-[11px] bg-[#241430] text-white rounded-md px-2 py-1 capitalize\">{{icon}}</span>{{/if}}\n  <p class=\"mt-3.5\">{{#if labelled}}Labelled{{/if}}{{#unless labelled}}Icon-only{{/unless}}{{#if tooltip}} + tooltip{{/if}} &mdash; toggle to compare how easily this is found</p>\n</div>\n<style>\n.tw-dis-icon { display: none; }\n[data-icon=\"filter\"] .tw-dis-filter,\n[data-icon=\"export\"] .tw-dis-export,\n[data-icon=\"share\"] .tw-dis-share { display: block; }\n</style>",
+    "react": "export function Discoverability({\n  labelled = {{labelled}},\n  tooltip = {{tooltip}},\n  icon = \"{{icon}}\",\n  accent = \"{{accent}}\",\n}) {\n  const paths = {\n    filter: \"M3 5h18v2l-7 8v5l-4-2v-3L3 7z\",\n    export: \"M12 3l5 5h-3v7h-4V8H7z\",\n    share: \"M18 8a3 3 0 1 0-2.8-4H15a3 3 0 0 0 .2 2.4L9 9.7A3 3 0 1 0 9 14.3l6.2 3.3A3 3 0 1 0 15 15l-6-3.2a3 3 0 0 0 0-1.6L15 7a3 3 0 0 0 3 1z\",\n  };\n  return (\n    <div style={{ position: \"relative\", width: \"100%\", maxWidth: 320, padding: 26, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      <button type=\"button\" style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, background: \"#fff\", border: \"1.5px solid #24143022\", borderRadius: 8, padding: \"8px 12px\", cursor: \"pointer\", color: accent }}>\n        <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d={paths[icon]} /></svg>\n        {labelled && <span style={{ textTransform: \"capitalize\", fontWeight: 600, color: \"#241430\" }}>{icon}</span>}\n      </button>\n      {tooltip && <span style={{ display: \"block\", marginTop: 8, fontSize: 11, background: \"#241430\", color: \"#fff\", borderRadius: 6, padding: \"4px 8px\", textTransform: \"capitalize\" }}>{icon}</span>}\n      <p style={{ margin: \"14px 0 0\" }}>{labelled ? \"Labelled\" : \"Icon-only\"}{tooltip ? \" + tooltip\" : \"\"} &mdash; toggle to compare how easily this is found</p>\n    </div>\n  );\n}"
+  }
+}

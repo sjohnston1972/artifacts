@@ -1,0 +1,56 @@
+{
+  "slug": "aria-role",
+  "controls_schema": [
+    {
+      "id": "text",
+      "type": "text",
+      "label": "Content",
+      "default": "View details"
+    },
+    {
+      "id": "role",
+      "type": "select",
+      "label": "Exposed role",
+      "default": "button",
+      "options": [
+        "button",
+        "link",
+        "heading"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#BFD9F2",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "fontSize",
+      "type": "number",
+      "label": "Font size (px)",
+      "default": 16,
+      "min": 14,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "id": "announce",
+      "type": "toggle",
+      "label": "Show announcement",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"role-demo\" data-role=\"{{role}}\" style=\"--accent:{{accent}};\">\n  <span class=\"role-demo__el\" role=\"{{role}}\" tabindex=\"0\" style=\"font-size:{{fontSize}}px;\">{{text}}</span>\n  {{#if announce}}<p class=\"role-demo__sr\">Announced as: &ldquo;{{text}}, {{role}}&rdquo;</p>{{/if}}\n</div>\n<style>\n.role-demo { width: 320px; font: 15px system-ui, sans-serif; color: #241430; }\n.role-demo__el { display: inline-block; cursor: pointer; }\n.role-demo[data-role=\"button\"] .role-demo__el { padding: 10px 18px; background: var(--accent); border-radius: 999px; font-weight: 600; }\n.role-demo[data-role=\"link\"] .role-demo__el { color: var(--accent); text-decoration: underline; font-weight: 500; }\n.role-demo[data-role=\"heading\"] .role-demo__el { font-weight: 800; font-size: 1.4em !important; border-bottom: 3px solid var(--accent); padding-bottom: 4px; }\n.role-demo__el:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.role-demo__sr { margin-top: 12px; font-size: 13px; background: #24143010; border-left: 3px solid var(--accent); padding: 8px 10px; }\n</style>",
+    "tailwind": "<div class=\"role-tw role-tw--{{role}} flex flex-col\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <span role=\"{{role}}\" tabindex=\"0\" class=\"role-tw__el inline-block cursor-pointer w-fit\" style=\"font-size:{{fontSize}}px\">{{text}}</span>\n  {{#if announce}}<p class=\"text-[13px] mt-3 p-2 border-l-[3px] bg-[#24143010]\" style=\"border-color:{{accent}}\">Announced as: &ldquo;{{text}}, {{role}}&rdquo;</p>{{/if}}\n</div>\n<style>\n.role-tw--button .role-tw__el { padding: 10px 18px; background: {{accent}}; border-radius: 999px; font-weight: 600; }\n.role-tw--link .role-tw__el { color: {{accent}}; text-decoration: underline; font-weight: 500; }\n.role-tw--heading .role-tw__el { font-weight: 800; font-size: 1.4em !important; border-bottom: 3px solid {{accent}}; padding-bottom: 4px; }\n</style>",
+    "react": "export function AriaRoleDemo({\n  text = \"{{text}}\",\n  role = \"{{role}}\",\n  accent = \"{{accent}}\",\n  fontSize = {{fontSize}},\n  announce = {{announce}},\n}) {\n  const styles = {\n    button: { padding: \"10px 18px\", background: accent, borderRadius: 999, fontWeight: 600 },\n    link: { color: accent, textDecoration: \"underline\", fontWeight: 500 },\n    heading: { fontWeight: 800, fontSize: fontSize * 1.4, borderBottom: \"3px solid \" + accent, paddingBottom: 4 },\n  }[role];\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 15, color: \"#241430\" }}>\n      <span role={role} tabIndex={0} style={{ display: \"inline-block\", cursor: \"pointer\", fontSize, ...styles }}>{text}</span>\n      {announce && <p style={{ marginTop: 12, fontSize: 13, background: \"#24143010\", borderLeft: \"3px solid \" + accent, padding: \"8px 10px\" }}>Announced as: &ldquo;{text}, {role}&rdquo;</p>}\n    </div>\n  );\n}"
+  }
+}

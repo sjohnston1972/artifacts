@@ -1,0 +1,42 @@
+{
+  "slug": "error-without-recovery",
+  "controls_schema": [
+    {
+      "id": "errorTitle",
+      "type": "text",
+      "label": "Error title",
+      "default": "Something went wrong"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (has recovery)",
+      "default": false
+    },
+    {
+      "id": "showDetails",
+      "type": "toggle",
+      "label": "Show technical detail",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ewr-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"ewr-demo__badge{{#if fixed}} ewr-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: error without recovery{{/unless}}</span>\n  <div class=\"ewr-demo__box\">\n    <p class=\"ewr-demo__title\">{{errorTitle}}</p>\n    {{unless fixed}}<p class=\"ewr-demo__dead\">That's all we know. No cause, no next step.</p>{{/unless}}\n    {{#if fixed}}\n    <p class=\"ewr-demo__cause\">The payment service didn't respond in time.</p>\n    {{#if showDetails}}<code class=\"ewr-demo__code\">Error 504 &mdash; gateway timeout at 14:02:11</code>{{/if}}\n    <div class=\"ewr-demo__actions\">\n      <button type=\"button\" class=\"ewr-demo__retry\">Try again</button>\n      <a href=\"#\" class=\"ewr-demo__help\">Contact support</a>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.ewr-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.ewr-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ewr-demo__badge--good { background: #1a7a44; }\n.ewr-demo__box { padding: 14px; border-radius: 10px; background: #b3261e0f; border-left: 4px solid #b3261e; }\n.ewr-demo__title { margin: 0 0 4px; font-weight: 700; }\n.ewr-demo__dead { margin: 0; color: #241430aa; font-size: 12px; }\n.ewr-demo__cause { margin: 0 0 8px; color: #241430cc; font-size: 12px; }\n.ewr-demo__code { display: block; margin-bottom: 10px; font: 11px ui-monospace, monospace; color: #241430aa; }\n.ewr-demo__actions { display: flex; align-items: center; gap: 12px; }\n.ewr-demo__retry { padding: 8px 16px; border-radius: 7px; border: none; background: var(--accent); font-weight: 700; cursor: pointer; }\n.ewr-demo__help { font-size: 12px; color: var(--accent); font-weight: 600; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ewr-tw-badge{{#if fixed}} ewr-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: error without recovery{{/unless}}</span>\n  <div class=\"p-3.5 rounded-lg border-l-4\" style=\"background:#b3261e0f;border-color:#b3261e\">\n    <p class=\"m-0 mb-1 font-bold\">{{errorTitle}}</p>\n    {{unless fixed}}<p class=\"m-0 text-xs text-[#241430aa]\">That's all we know. No cause, no next step.</p>{{/unless}}\n    {{#if fixed}}\n    <p class=\"m-0 mb-2 text-xs text-[#241430cc]\">The payment service didn't respond in time.</p>\n    {{#if showDetails}}<code class=\"block mb-2.5 text-[11px] font-mono text-[#241430aa]\">Error 504 &mdash; gateway timeout at 14:02:11</code>{{/if}}\n    <div class=\"flex items-center gap-3\">\n      <button type=\"button\" class=\"px-4 py-2 rounded-md border-0 font-bold cursor-pointer\" style=\"background:{{accent}}\">Try again</button>\n      <a href=\"#\" class=\"text-xs font-semibold\" style=\"color:{{accent}}\">Contact support</a>\n    </div>\n    {{/if}}\n  </div>\n</div>\n<style>\n.ewr-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ewr-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function ErrorWithoutRecovery({\n  errorTitle = \"{{errorTitle}}\",\n  fixed = {{fixed}},\n  showDetails = {{showDetails}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: error without recovery\"}\n      </span>\n      <div style={{ padding: 14, borderRadius: 10, background: \"#b3261e0f\", borderLeft: \"4px solid #b3261e\" }}>\n        <p style={{ margin: \"0 0 4px\", fontWeight: 700 }}>{errorTitle}</p>\n        {!fixed && <p style={{ margin: 0, color: \"#241430aa\", fontSize: 12 }}>That's all we know. No cause, no next step.</p>}\n        {fixed && (\n          <>\n            <p style={{ margin: \"0 0 8px\", color: \"#241430cc\", fontSize: 12 }}>The payment service didn't respond in time.</p>\n            {showDetails && <code style={{ display: \"block\", marginBottom: 10, fontSize: 11, fontFamily: \"ui-monospace, monospace\", color: \"#241430aa\" }}>Error 504 \\u2014 gateway timeout at 14:02:11</code>}\n            <div style={{ display: \"flex\", alignItems: \"center\", gap: 12 }}>\n              <button type=\"button\" style={{ padding: \"8px 16px\", borderRadius: 7, border: \"none\", background: accent, fontWeight: 700, cursor: \"pointer\" }}>Try again</button>\n              <a href=\"#\" style={{ fontSize: 12, color: accent, fontWeight: 600 }}>Contact support</a>\n            </div>\n          </>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

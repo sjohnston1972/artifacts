@@ -1,0 +1,39 @@
+{
+  "slug": "lottie-animation",
+  "controls_schema": [
+    {
+      "id": "scene",
+      "type": "select",
+      "label": "Scene",
+      "default": "spin",
+      "options": ["spin", "morph", "bounce"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 1500,
+      "min": 500,
+      "max": 3500,
+      "step": 100
+    },
+    {
+      "id": "loop",
+      "type": "toggle",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-lot-stage\" data-scene=\"{{scene}}\">\n  <svg class=\"mot-lot-svg{{#if loop}} mot-lot-svg--loop{{/if}}\" viewBox=\"0 0 100 100\" width=\"90\" height=\"90\" aria-hidden=\"true\">\n    <path class=\"mot-lot-shape\" fill=\"{{accent}}\" d=\"M50 10 L90 90 L10 90 Z\"/>\n  </svg>\n  <p class=\"mot-lot-caption\">Vector scene: {{scene}} &middot; approximates a Lottie-style JSON animation, played from inline SVG</p>\n</div>\n<style>\n.mot-lot-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.mot-lot-svg { transform-origin: 50% 50%; }\n.mot-lot-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-scene=\"spin\"] .mot-lot-svg { animation: mot-lot-spin {{duration}}ms linear; }\n  [data-scene=\"morph\"] .mot-lot-shape { animation: mot-lot-morph {{duration}}ms ease-in-out; }\n  [data-scene=\"bounce\"] .mot-lot-svg { animation: mot-lot-bounce {{duration}}ms ease-in-out; }\n  .mot-lot-svg--loop { animation-iteration-count: infinite !important; }\n  @keyframes mot-lot-spin { to { transform: rotate(360deg); } }\n  @keyframes mot-lot-morph { 0%,100% { d: path(\"M50 10 L90 90 L10 90 Z\"); } 50% { d: path(\"M50 20 C80 20 80 80 50 80 C20 80 20 20 50 20 Z\"); } }\n  @keyframes mot-lot-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70 text-center\" data-scene=\"{{scene}}\">\n  <svg class=\"tw-lot-svg{{#if loop}} tw-lot-loop{{/if}} mx-auto\" viewBox=\"0 0 100 100\" width=\"90\" height=\"90\" aria-hidden=\"true\">\n    <path class=\"tw-lot-shape\" fill=\"{{accent}}\" d=\"M50 10 L90 90 L10 90 Z\"/>\n  </svg>\n  <p class=\"mt-2.5\">Vector scene: {{scene}} &middot; approximates a Lottie-style JSON animation, played from inline SVG</p>\n</div>\n<style>\n.tw-lot-svg { transform-origin: 50% 50%; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-scene=\"spin\"] .tw-lot-svg { animation: mot-lot-tw-spin {{duration}}ms linear; }\n  [data-scene=\"morph\"] .tw-lot-shape { animation: mot-lot-tw-morph {{duration}}ms ease-in-out; }\n  [data-scene=\"bounce\"] .tw-lot-svg { animation: mot-lot-tw-bounce {{duration}}ms ease-in-out; }\n  .tw-lot-loop { animation-iteration-count: infinite !important; }\n  @keyframes mot-lot-tw-spin { to { transform: rotate(360deg); } }\n  @keyframes mot-lot-tw-morph { 0%,100% { d: path(\"M50 10 L90 90 L10 90 Z\"); } 50% { d: path(\"M50 20 C80 20 80 80 50 80 C20 80 20 20 50 20 Z\"); } }\n  @keyframes mot-lot-tw-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }\n}\n</style>",
+    "react": "export function LottieAnimation({\n  scene = \"{{scene}}\",\n  duration = {{duration}},\n  loop = {{loop}},\n  accent = \"{{accent}}\",\n}) {\n  const names = { spin: \"mot-lot-spin\", morph: \"mot-lot-morph\", bounce: \"mot-lot-bounce\" };\n  const target = scene === \"morph\" ? \"path\" : \"svg\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\", textAlign: \"center\" }}>\n      <svg viewBox=\"0 0 100 100\" width=\"90\" height=\"90\" aria-hidden=\"true\" className={target === \"svg\" ? \"scene\" : undefined} style={{ margin: \"0 auto\", display: \"block\", transformOrigin: \"50% 50%\" }}>\n        <path fill={accent} d=\"M50 10 L90 90 L10 90 Z\" className={target === \"path\" ? \"scene\" : undefined} />\n      </svg>\n      <p style={{ margin: \"10px 0 0\" }}>Vector scene: {scene} &middot; approximates a Lottie-style JSON animation, played from inline SVG</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .scene { animation: ${names[scene]} ${duration}ms ease-in-out ${loop ? \"infinite\" : 1}; }\n          @keyframes mot-lot-spin { to { transform: rotate(360deg); } }\n          @keyframes mot-lot-morph { 0%,100% { d: path(\"M50 10 L90 90 L10 90 Z\"); } 50% { d: path(\"M50 20 C80 20 80 80 50 80 C20 80 20 20 50 20 Z\"); } }\n          @keyframes mot-lot-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

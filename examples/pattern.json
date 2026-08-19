@@ -1,0 +1,30 @@
+{
+  "slug": "pattern",
+  "controls_schema": [
+    {
+      "id": "kind",
+      "type": "select",
+      "label": "Pattern",
+      "default": "confirmation",
+      "options": ["confirmation", "progressive-disclosure"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    },
+    {
+      "id": "showNumbers",
+      "type": "toggle",
+      "label": "Number the steps",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-pat-stage\" data-kind=\"{{kind}}\">\n  <ol class=\"uif-pat-steps{{#if showNumbers}} uif-pat-steps--numbered{{/if}}\">\n    <li class=\"uif-pat-step uif-pat-step--confirmation\">User clicks Delete</li>\n    <li class=\"uif-pat-step uif-pat-step--confirmation\">A dialog asks to confirm</li>\n    <li class=\"uif-pat-step uif-pat-step--confirmation\">Action proceeds only after Yes</li>\n    <li class=\"uif-pat-step uif-pat-step--progressive-disclosure\">Summary shown by default</li>\n    <li class=\"uif-pat-step uif-pat-step--progressive-disclosure\">\"Show more\" reveals detail</li>\n    <li class=\"uif-pat-step uif-pat-step--progressive-disclosure\">Advanced options stay hidden until asked for</li>\n  </ol>\n  <p class=\"uif-pat-caption\">A reusable solution &mdash; the {{kind}} pattern, applied wherever it fits</p>\n</div>\n<style>\n.uif-pat-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430; }\n.uif-pat-steps { margin: 0; padding-left: 20px; }\n.uif-pat-steps:not(.uif-pat-steps--numbered) { list-style: none; padding-left: 0; }\n.uif-pat-step { display: none; padding: 6px 0; border-bottom: 1px dashed #24143022; }\n[data-kind=\"confirmation\"] .uif-pat-step--confirmation,\n[data-kind=\"progressive-disclosure\"] .uif-pat-step--progressive-disclosure { display: list-item; }\n.uif-pat-steps--numbered .uif-pat-step::marker { color: {{accent}}; font-weight: 700; }\n.uif-pat-caption { margin: 12px 0 0; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]\" data-kind=\"{{kind}}\">\n  <ol class=\"tw-pat-steps{{#if showNumbers}} tw-pat-numbered{{/if}} m-0 pl-5\">\n    <li class=\"tw-pat-confirmation hidden py-1.5 border-b border-dashed border-[#24143022]\">User clicks Delete</li>\n    <li class=\"tw-pat-confirmation hidden py-1.5 border-b border-dashed border-[#24143022]\">A dialog asks to confirm</li>\n    <li class=\"tw-pat-confirmation hidden py-1.5 border-b border-dashed border-[#24143022]\">Action proceeds only after Yes</li>\n    <li class=\"tw-pat-progressive-disclosure hidden py-1.5 border-b border-dashed border-[#24143022]\">Summary shown by default</li>\n    <li class=\"tw-pat-progressive-disclosure hidden py-1.5 border-b border-dashed border-[#24143022]\">\"Show more\" reveals detail</li>\n    <li class=\"tw-pat-progressive-disclosure hidden py-1.5 border-b border-dashed border-[#24143022]\">Advanced options stay hidden until asked for</li>\n  </ol>\n  <p class=\"mt-3 text-xs text-[#241430]/70\">A reusable solution &mdash; the {{kind}} pattern, applied wherever it fits</p>\n</div>\n<style>\n.tw-pat-steps:not(.tw-pat-numbered) { list-style: none; padding-left: 0; }\n[data-kind=\"confirmation\"] .tw-pat-confirmation,\n[data-kind=\"progressive-disclosure\"] .tw-pat-progressive-disclosure { display: list-item; }\n.tw-pat-numbered li::marker { color: {{accent}}; font-weight: 700; }\n</style>",
+    "react": "export function Pattern({\n  kind = \"{{kind}}\",\n  accent = \"{{accent}}\",\n  showNumbers = {{showNumbers}},\n}) {\n  const steps = {\n    confirmation: [\"User clicks Delete\", \"A dialog asks to confirm\", \"Action proceeds only after Yes\"],\n    \"progressive-disclosure\": [\"Summary shown by default\", '\"Show more\" reveals detail', \"Advanced options stay hidden until asked for\"],\n  }[kind];\n  const Tag = showNumbers ? \"ol\" : \"ul\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <Tag style={{ margin: 0, paddingLeft: showNumbers ? 20 : 0, listStyle: showNumbers ? \"decimal\" : \"none\" }}>\n        {steps.map((s) => (\n          <li key={s} style={{ padding: \"6px 0\", borderBottom: \"1px dashed #24143022\" }}>{s}</li>\n        ))}\n      </Tag>\n      <p style={{ margin: \"12px 0 0\", fontSize: 12, color: \"#241430aa\" }}>A reusable solution &mdash; the {kind} pattern, applied wherever it fits</p>\n    </div>\n  );\n}"
+  }
+}

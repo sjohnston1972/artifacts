@@ -1,0 +1,47 @@
+{
+  "slug": "semantic-token",
+  "controls_schema": [
+    {
+      "id": "semanticName",
+      "type": "text",
+      "label": "Semantic name",
+      "default": "color-danger"
+    },
+    {
+      "id": "rawToken",
+      "type": "text",
+      "label": "Maps to raw token",
+      "default": "red-500"
+    },
+    {
+      "id": "value",
+      "type": "color",
+      "label": "Value",
+      "default": "#E8A020",
+      "presets": [
+        "#E8A020",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#241430"
+      ]
+    },
+    {
+      "id": "context",
+      "type": "select",
+      "label": "Used in",
+      "default": "alert",
+      "options": [
+        "alert",
+        "button",
+        "border"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"semtok semtok--{{context}}\">\n  <p class=\"semtok__chain\"><code>{{semanticName}}</code> &rarr; <code>{{rawToken}}</code> &rarr; <span class=\"semtok__swatch\" style=\"background:{{value}};\"></span></p>\n  <div class=\"semtok__use semtok__use--alert\" style=\"border-left:4px solid {{value}};\">Something needs attention</div>\n  <div class=\"semtok__use semtok__use--button\" style=\"background:{{value}};\">Delete account</div>\n  <div class=\"semtok__use semtok__use--border\" style=\"border:2px solid {{value}};\">Invalid field</div>\n</div>\n<style>\n.semtok { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 280px; box-sizing: border-box; }\n.semtok__chain { margin: 0 0 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }\n.semtok__chain code { background: #24143012; padding: 2px 6px; border-radius: 4px; font: 11px ui-monospace, monospace; }\n.semtok__swatch { display: inline-block; width: 16px; height: 16px; border-radius: 4px; }\n.semtok__use { display: none; padding: 10px 12px; border-radius: 8px; background: #ffffff; box-sizing: border-box; font-size: 13px; }\n.semtok--alert .semtok__use--alert, .semtok--button .semtok__use--button, .semtok--border .semtok__use--border { display: block; }\n.semtok__use--button { color: #FAF7F2; font-weight: 600; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"semtoktw semtoktw--{{context}} font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[280px] box-border\">\n  <p class=\"m-0 mb-3.5 flex items-center gap-1.5 flex-wrap\"><code class=\"bg-[#24143012] px-1.5 py-0.5 rounded text-[11px] font-mono\">{{semanticName}}</code> &rarr; <code class=\"bg-[#24143012] px-1.5 py-0.5 rounded text-[11px] font-mono\">{{rawToken}}</code> &rarr; <span class=\"inline-block w-4 h-4 rounded\" style=\"background:{{value}};\"></span></p>\n  <div class=\"semtoktw__use semtoktw__use--alert hidden py-2.5 px-3 rounded-lg bg-white box-border text-[13px]\" style=\"border-left:4px solid {{value}};\">Something needs attention</div>\n  <div class=\"semtoktw__use semtoktw__use--button hidden py-2.5 px-3 rounded-lg box-border text-[13px] text-[#FAF7F2] font-semibold text-center\" style=\"background:{{value}};\">Delete account</div>\n  <div class=\"semtoktw__use semtoktw__use--border hidden py-2.5 px-3 rounded-lg bg-white box-border text-[13px]\" style=\"border:2px solid {{value}};\">Invalid field</div>\n</div>\n<style>\n.semtoktw--alert .semtoktw__use--alert, .semtoktw--button .semtoktw__use--button, .semtoktw--border .semtoktw__use--border { display: block; }\n</style>",
+    "react": "export function SemanticToken({\n  semanticName = \"{{semanticName}}\",\n  rawToken = \"{{rawToken}}\",\n  value = \"{{value}}\",\n  context = \"{{context}}\",\n}) {\n  let use;\n  if (context === \"alert\") use = <div style={{ padding: \"10px 12px\", borderRadius: 8, background: \"#ffffff\", boxSizing: \"border-box\", fontSize: 13, borderLeft: `4px solid ${value}` }}>Something needs attention</div>;\n  else if (context === \"button\") use = <div style={{ padding: \"10px 12px\", borderRadius: 8, boxSizing: \"border-box\", fontSize: 13, background: value, color: \"#FAF7F2\", fontWeight: 600, textAlign: \"center\" }}>Delete account</div>;\n  else use = <div style={{ padding: \"10px 12px\", borderRadius: 8, background: \"#ffffff\", boxSizing: \"border-box\", fontSize: 13, border: `2px solid ${value}` }}>Invalid field</div>;\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 280, boxSizing: \"border-box\" }}>\n      <p style={{ margin: \"0 0 14px\", display: \"flex\", alignItems: \"center\", gap: 6, flexWrap: \"wrap\" }}>\n        <code style={{ background: \"#24143012\", padding: \"2px 6px\", borderRadius: 4, fontSize: 11 }}>{semanticName}</code> &rarr;\n        <code style={{ background: \"#24143012\", padding: \"2px 6px\", borderRadius: 4, fontSize: 11 }}>{rawToken}</code> &rarr;\n        <span style={{ display: \"inline-block\", width: 16, height: 16, borderRadius: 4, background: value }} />\n      </p>\n      {use}\n    </div>\n  );\n}"
+  }
+}

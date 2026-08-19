@@ -1,0 +1,39 @@
+{
+  "slug": "view-transition",
+  "controls_schema": [
+    {
+      "id": "view",
+      "type": "toggle",
+      "label": "Show view B",
+      "default": false
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Transition style",
+      "default": "morph",
+      "options": ["morph", "fade", "slide"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 500,
+      "min": 150,
+      "max": 1200,
+      "step": 50
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-vt-stage\" data-style=\"{{style}}\">\n  <div class=\"mot-vt-view mot-vt-view--a{{#unless view}} mot-vt-view--active{{/unless}}\" style=\"background:{{accent}};\">List view</div>\n  <div class=\"mot-vt-view mot-vt-view--b{{#if view}} mot-vt-view--active{{/if}}\">Detail view</div>\n  <p class=\"mot-vt-caption\">{{style}} &middot; {{duration}}ms &middot; approximates the native View Transitions API with a CSS crossfade</p>\n</div>\n<style>\n.mot-vt-stage { position: relative; width: 100%; max-width: 320px; height: 90px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-vt-view { position: absolute; inset: 0; display: grid; place-items: center; font: 700 14px system-ui, sans-serif; color: #241430; opacity: 0; }\n.mot-vt-view--b { background: #fff; border: 2px dashed #24143033; }\n.mot-vt-view--active { opacity: 1; }\n.mot-vt-caption { position: absolute; bottom: -24px; left: 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"morph\"] .mot-vt-view--active { animation: mot-vt-morph {{duration}}ms ease-out; }\n  [data-style=\"fade\"] .mot-vt-view--active { animation: mot-vt-fade {{duration}}ms ease-out; }\n  [data-style=\"slide\"] .mot-vt-view--active { animation: mot-vt-slide {{duration}}ms ease-out; }\n  @keyframes mot-vt-morph { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }\n  @keyframes mot-vt-fade { from { opacity: 0; } to { opacity: 1; } }\n  @keyframes mot-vt-slide { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }\n}\n</style>",
+    "tailwind": "<div class=\"relative w-full max-w-[320px] h-[90px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-xs text-[#241430]/70\" data-style=\"{{style}}\">\n  <div class=\"tw-vt-a{{#unless view}} tw-vt-active{{/unless}} absolute inset-0 grid place-items-center font-bold text-sm text-[#241430] opacity-0\" style=\"background:{{accent}};\">List view</div>\n  <div class=\"tw-vt-b{{#if view}} tw-vt-active{{/if}} absolute inset-0 grid place-items-center font-bold text-sm text-[#241430] opacity-0 bg-white border-2 border-dashed border-[#24143033]\">Detail view</div>\n  <p class=\"absolute -bottom-6 left-0\">{{style}} &middot; {{duration}}ms &middot; approximates the native View Transitions API with a CSS crossfade</p>\n</div>\n<style>\n.tw-vt-active { opacity: 1 !important; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-style=\"morph\"] .tw-vt-active { animation: mot-vt-tw-morph {{duration}}ms ease-out; }\n  [data-style=\"fade\"] .tw-vt-active { animation: mot-vt-tw-fade {{duration}}ms ease-out; }\n  [data-style=\"slide\"] .tw-vt-active { animation: mot-vt-tw-slide {{duration}}ms ease-out; }\n  @keyframes mot-vt-tw-morph { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }\n  @keyframes mot-vt-tw-fade { from { opacity: 0; } to { opacity: 1; } }\n  @keyframes mot-vt-tw-slide { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }\n}\n</style>",
+    "react": "export function ViewTransition({\n  view = {{view}},\n  style = \"{{style}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const anim = { morph: \"mot-vt-morph\", fade: \"mot-vt-fade\", slide: \"mot-vt-slide\" }[style];\n  return (\n    <div style={{ position: \"relative\", width: \"100%\", maxWidth: 320, height: 90, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div className={!view ? \"view active\" : \"view\"} style={{ position: \"absolute\", inset: 0, display: \"grid\", placeItems: \"center\", fontWeight: 700, fontSize: 14, color: \"#241430\", background: accent, opacity: view ? 0 : undefined }}>List view</div>\n      <div className={view ? \"view active\" : \"view\"} style={{ position: \"absolute\", inset: 0, display: \"grid\", placeItems: \"center\", fontWeight: 700, fontSize: 14, color: \"#241430\", background: \"#fff\", border: \"2px dashed #24143033\", opacity: view ? undefined : 0 }}>Detail view</div>\n      <p style={{ position: \"absolute\", bottom: -24, left: 0 }}>{style} &middot; {duration}ms &middot; approximates the native View Transitions API with a CSS crossfade</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .view.active { animation: ${anim} ${duration}ms ease-out; }\n          @keyframes mot-vt-morph { from { opacity: 0; transform: scale(.9) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }\n          @keyframes mot-vt-fade { from { opacity: 0; } to { opacity: 1; } }\n          @keyframes mot-vt-slide { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

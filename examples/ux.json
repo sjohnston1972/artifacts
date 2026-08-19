@@ -1,0 +1,30 @@
+{
+  "slug": "ux",
+  "controls_schema": [
+    {
+      "id": "friction",
+      "type": "select",
+      "label": "Friction",
+      "default": "high",
+      "options": ["low", "high"]
+    },
+    {
+      "id": "showTimings",
+      "type": "toggle",
+      "label": "Show time estimate",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-ux-stage\" data-friction=\"{{friction}}\">\n  <ol class=\"uif-ux-path\">\n    <li>Find product</li>\n    <li>Add to basket</li>\n    <li class=\"uif-ux-extra\">Create an account</li>\n    <li class=\"uif-ux-extra\">Verify email</li>\n    <li class=\"uif-ux-extra\">Enter address twice</li>\n    <li>Checkout</li>\n  </ol>\n  {{#if showTimings}}<p class=\"uif-ux-time\" style=\"color:{{accent}};\">Estimated task time: <span class=\"uif-ux-low\">40s</span><span class=\"uif-ux-high\">4 min</span></p>{{/if}}\n  <p class=\"uif-ux-caption\">The same task, {{friction}} friction &mdash; how it feels to accomplish, not just how it looks</p>\n</div>\n<style>\n.uif-ux-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430; }\n.uif-ux-path { margin: 0; padding-left: 18px; }\n.uif-ux-path li { padding: 3px 0; }\n.uif-ux-extra { display: none; }\n[data-friction=\"high\"] .uif-ux-extra { display: list-item; }\n.uif-ux-low, .uif-ux-high { display: none; font-weight: 700; }\n[data-friction=\"low\"] .uif-ux-low { display: inline; }\n[data-friction=\"high\"] .uif-ux-high { display: inline; }\n.uif-ux-time { margin: 10px 0 0; font-weight: 600; }\n.uif-ux-caption { margin: 8px 0 0; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]\" data-friction=\"{{friction}}\">\n  <ol class=\"m-0 pl-[18px]\">\n    <li class=\"py-0.5\">Find product</li>\n    <li class=\"py-0.5\">Add to basket</li>\n    <li class=\"tw-ux-extra hidden py-0.5\">Create an account</li>\n    <li class=\"tw-ux-extra hidden py-0.5\">Verify email</li>\n    <li class=\"tw-ux-extra hidden py-0.5\">Enter address twice</li>\n    <li class=\"py-0.5\">Checkout</li>\n  </ol>\n  {{#if showTimings}}<p class=\"mt-2.5 font-semibold\" style=\"color:{{accent}};\">Estimated task time: <span class=\"tw-ux-low hidden font-bold\">40s</span><span class=\"tw-ux-high hidden font-bold\">4 min</span></p>{{/if}}\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">The same task, {{friction}} friction &mdash; how it feels to accomplish, not just how it looks</p>\n</div>\n<style>\n[data-friction=\"high\"] .tw-ux-extra { display: list-item; }\n[data-friction=\"low\"] .tw-ux-low { display: inline; }\n[data-friction=\"high\"] .tw-ux-high { display: inline; }\n</style>",
+    "react": "export function UX({\n  friction = \"{{friction}}\",\n  showTimings = {{showTimings}},\n  accent = \"{{accent}}\",\n}) {\n  const steps = [\"Find product\", \"Add to basket\"];\n  if (friction === \"high\") steps.push(\"Create an account\", \"Verify email\", \"Enter address twice\");\n  steps.push(\"Checkout\");\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\" }}>\n      <ol style={{ margin: 0, paddingLeft: 18 }}>\n        {steps.map((s) => (<li key={s} style={{ padding: \"3px 0\" }}>{s}</li>))}\n      </ol>\n      {showTimings && <p style={{ margin: \"10px 0 0\", fontWeight: 600, color: accent }}>Estimated task time: <strong>{friction === \"low\" ? \"40s\" : \"4 min\"}</strong></p>}\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>The same task, {friction} friction &mdash; how it feels to accomplish, not just how it looks</p>\n    </div>\n  );\n}"
+  }
+}

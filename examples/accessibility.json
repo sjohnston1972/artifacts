@@ -1,0 +1,42 @@
+{
+  "slug": "accessibility",
+  "controls_schema": [
+    {
+      "id": "altOn",
+      "type": "toggle",
+      "label": "Alt text present",
+      "default": true
+    },
+    {
+      "id": "contrastOn",
+      "type": "toggle",
+      "label": "Sufficient contrast",
+      "default": true
+    },
+    {
+      "id": "labelOn",
+      "type": "toggle",
+      "label": "Icon button labelled",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"a11y-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"a11y-demo__row\">\n    <span class=\"a11y-demo__img\" role=\"img\"{{#if altOn}} aria-label=\"Mountain sunset\"{{/if}}>{{#unless altOn}}?{{/unless}}{{#if altOn}}&#9633;{{/if}}</span>\n    <p class=\"a11y-demo__note\">{{#if altOn}}alt=\"Mountain sunset\"{{/if}}{{#unless altOn}}alt missing{{/unless}}</p>\n  </div>\n  <p class=\"a11y-demo__text{{#unless contrastOn}} a11y-demo__text--low{{/unless}}\">Body copy people can actually read</p>\n  <button type=\"button\" class=\"a11y-demo__icon-btn\"{{#if labelOn}} aria-label=\"Close\"{{/if}}>&times;</button>\n  <p class=\"a11y-demo__note\">{{#if labelOn}}button has aria-label=\"Close\"{{/if}}{{#unless labelOn}}button has no accessible name{{/unless}}</p>\n</div>\n<style>\n.a11y-demo { width: 340px; font: 14px/1.5 system-ui, sans-serif; color: #241430; display: flex; flex-direction: column; gap: 10px; }\n.a11y-demo__row { display: flex; align-items: center; gap: 10px; }\n.a11y-demo__img { width: 40px; height: 40px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; font-weight: 700; }\n.a11y-demo__text { color: #241430; }\n.a11y-demo__text--low { color: #FAF7F2; background: #FAF7F2; text-shadow: 0 0 0 #d8d2c8; }\n.a11y-demo__icon-btn { width: 32px; height: 32px; border: none; border-radius: 8px; background: var(--accent); cursor: pointer; font-size: 16px; }\n.a11y-demo__note { margin: 0; font-size: 12px; color: #241430aa; font-family: ui-monospace, monospace; }\n</style>",
+    "tailwind": "<div class=\"flex flex-col gap-2.5\" style=\"width:340px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"flex items-center gap-2.5\">\n    <span role=\"img\"{{#if altOn}} aria-label=\"Mountain sunset\"{{/if}} class=\"w-10 h-10 rounded-lg grid place-items-center font-bold\" style=\"background:{{accent}}\">{{#unless altOn}}?{{/unless}}{{#if altOn}}&#9633;{{/if}}</span>\n    <p class=\"text-xs font-mono m-0 text-[#241430aa]\">{{#if altOn}}alt=\"Mountain sunset\"{{/if}}{{#unless altOn}}alt missing{{/unless}}</p>\n  </div>\n  <p class=\"a11y-tw-text{{#unless contrastOn}} a11y-tw-text--low{{/unless}}\">Body copy people can actually read</p>\n  <button type=\"button\" class=\"w-8 h-8 border-0 rounded-lg cursor-pointer text-base\" style=\"background:{{accent}}\"{{#if labelOn}} aria-label=\"Close\"{{/if}}>&times;</button>\n  <p class=\"text-xs font-mono m-0 text-[#241430aa]\">{{#if labelOn}}button has aria-label=\"Close\"{{/if}}{{#unless labelOn}}button has no accessible name{{/unless}}</p>\n</div>\n<style>\n.a11y-tw-text--low { color: #FAF7F2; background: #FAF7F2; text-shadow: 0 0 0 #d8d2c8; }\n</style>",
+    "react": "export function AccessibilityDemo({\n  altOn = {{altOn}},\n  contrastOn = {{contrastOn}},\n  labelOn = {{labelOn}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 340, display: \"flex\", flexDirection: \"column\", gap: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", gap: 10 }}>\n        <span role=\"img\" aria-label={altOn ? \"Mountain sunset\" : undefined}\n          style={{ width: 40, height: 40, borderRadius: 8, background: accent, display: \"grid\", placeItems: \"center\", fontWeight: 700 }}>{altOn ? \"\\u25A1\" : \"?\"}</span>\n        <p style={{ margin: 0, fontSize: 12, fontFamily: \"ui-monospace, monospace\", color: \"#241430aa\" }}>{altOn ? 'alt=\"Mountain sunset\"' : \"alt missing\"}</p>\n      </div>\n      <p style={contrastOn ? {} : { color: \"#FAF7F2\", background: \"#FAF7F2\", textShadow: \"0 0 0 #d8d2c8\" }}>Body copy people can actually read</p>\n      <button type=\"button\" aria-label={labelOn ? \"Close\" : undefined}\n        style={{ width: 32, height: 32, border: \"none\", borderRadius: 8, background: accent, cursor: \"pointer\", fontSize: 16 }}>&times;</button>\n      <p style={{ margin: 0, fontSize: 12, fontFamily: \"ui-monospace, monospace\", color: \"#241430aa\" }}>{labelOn ? 'button has aria-label=\"Close\"' : \"button has no accessible name\"}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "scroll-reveal",
+  "controls_schema": [
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Reveal from",
+      "default": "up",
+      "options": ["up", "left", "scale"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 600,
+      "min": 200,
+      "max": 1500,
+      "step": 100
+    },
+    {
+      "id": "stagger",
+      "type": "toggle",
+      "label": "Stagger items",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-rev-stage\" data-direction=\"{{direction}}\">\n  <div class=\"mot-rev-item{{#if stagger}} mot-rev-item--s1{{/if}}\" style=\"border-color:{{accent}};\">Card one</div>\n  <div class=\"mot-rev-item{{#if stagger}} mot-rev-item--s2{{/if}}\" style=\"border-color:{{accent}};\">Card two</div>\n  <div class=\"mot-rev-item{{#if stagger}} mot-rev-item--s3{{/if}}\" style=\"border-color:{{accent}};\">Card three</div>\n  <p class=\"mot-rev-caption\">Reveals from {{direction}} as each card enters the viewport &middot; {{duration}}ms</p>\n</div>\n<style>\n.mot-rev-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; }\n.mot-rev-item { background: #fff; border: 1.5px solid; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; color: #241430; }\n.mot-rev-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"up\"] .mot-rev-item { animation: mot-rev-up {{duration}}ms ease-out both; }\n  [data-direction=\"left\"] .mot-rev-item { animation: mot-rev-left {{duration}}ms ease-out both; }\n  [data-direction=\"scale\"] .mot-rev-item { animation: mot-rev-scale {{duration}}ms ease-out both; }\n  .mot-rev-item--s1 { animation-delay: 0ms; }\n  .mot-rev-item--s2 { animation-delay: 150ms; }\n  .mot-rev-item--s3 { animation-delay: 300ms; }\n  @keyframes mot-rev-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }\n  @keyframes mot-rev-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }\n  @keyframes mot-rev-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70\" data-direction=\"{{direction}}\">\n  <div class=\"tw-rev-item{{#if stagger}} tw-rev-s1{{/if}} bg-white border-[1.5px] rounded-lg px-3 py-2.5 mb-2 text-sm text-[#241430]\" style=\"border-color:{{accent}};\">Card one</div>\n  <div class=\"tw-rev-item{{#if stagger}} tw-rev-s2{{/if}} bg-white border-[1.5px] rounded-lg px-3 py-2.5 mb-2 text-sm text-[#241430]\" style=\"border-color:{{accent}};\">Card two</div>\n  <div class=\"tw-rev-item{{#if stagger}} tw-rev-s3{{/if}} bg-white border-[1.5px] rounded-lg px-3 py-2.5 mb-2 text-sm text-[#241430]\" style=\"border-color:{{accent}};\">Card three</div>\n  <p class=\"mt-2.5\">Reveals from {{direction}} as each card enters the viewport &middot; {{duration}}ms</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-direction=\"up\"] .tw-rev-item { animation: mot-rev-tw-up {{duration}}ms ease-out both; }\n  [data-direction=\"left\"] .tw-rev-item { animation: mot-rev-tw-left {{duration}}ms ease-out both; }\n  [data-direction=\"scale\"] .tw-rev-item { animation: mot-rev-tw-scale {{duration}}ms ease-out both; }\n  .tw-rev-s1 { animation-delay: 0ms; }\n  .tw-rev-s2 { animation-delay: 150ms; }\n  .tw-rev-s3 { animation-delay: 300ms; }\n  @keyframes mot-rev-tw-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }\n  @keyframes mot-rev-tw-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }\n  @keyframes mot-rev-tw-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n}\n</style>",
+    "react": "export function ScrollReveal({\n  direction = \"{{direction}}\",\n  duration = {{duration}},\n  stagger = {{stagger}},\n  accent = \"{{accent}}\",\n}) {\n  const anim = { up: \"mot-rev-up\", left: \"mot-rev-left\", scale: \"mot-rev-scale\" }[direction];\n  const items = [\"Card one\", \"Card two\", \"Card three\"];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      {items.map((label, i) => (\n        <div key={label} className={`item s${i + 1}`} style={{ background: \"#fff\", border: `1.5px solid ${accent}`, borderRadius: 8, padding: \"10px 12px\", marginBottom: 8, fontSize: 13, color: \"#241430\" }}>\n          {label}\n        </div>\n      ))}\n      <p style={{ margin: \"10px 0 0\" }}>Reveals from {direction} as each card enters the viewport &middot; {duration}ms</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .item { animation: ${anim} ${duration}ms ease-out both; }\n          .s1 { animation-delay: ${stagger ? 0 : 0}ms; }\n          .s2 { animation-delay: ${stagger ? 150 : 0}ms; }\n          .s3 { animation-delay: ${stagger ? 300 : 0}ms; }\n          @keyframes mot-rev-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }\n          @keyframes mot-rev-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }\n          @keyframes mot-rev-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

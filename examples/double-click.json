@@ -1,0 +1,47 @@
+{
+  "slug": "double-click",
+  "controls_schema": [
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "File name",
+      "default": "quarterly-report.pdf"
+    },
+    {
+      "id": "icon",
+      "type": "select",
+      "label": "Icon",
+      "default": "file",
+      "options": [
+        "file",
+        "folder",
+        "image"
+      ]
+    },
+    {
+      "id": "triggered",
+      "type": "toggle",
+      "label": "Opened (double-clicked)",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dbl-demo\" data-icon=\"{{icon}}\" style=\"--accent:{{accent}};\">\n  <div class=\"dbl-demo__item{{#if triggered}} is-selected{{/if}}\">\n    <span class=\"dbl-demo__icon dbl-demo__icon--file\">&#128196;</span>\n    <span class=\"dbl-demo__icon dbl-demo__icon--folder\">&#128193;</span>\n    <span class=\"dbl-demo__icon dbl-demo__icon--image\">&#128444;</span>\n    <span class=\"dbl-demo__label\">{{itemLabel}}</span>\n  </div>\n  {{#if triggered}}<div class=\"dbl-demo__window\"><p>Opening {{itemLabel}}&hellip;</p></div>{{/if}}\n  <p class=\"dbl-demo__caption\">{{#if triggered}}double-click triggered open &mdash; a single click only selects{{/if}}{{unless triggered}}single click selects &middot; double-click opens{{/unless}}</p>\n</div>\n<style>\n.dbl-demo { width: 300px; font: 14px system-ui, sans-serif; color: #241430; }\n.dbl-demo__item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; width: fit-content; }\n.dbl-demo__item.is-selected { background: var(--accent); }\n.dbl-demo__icon { display: none; font-size: 20px; }\n.dbl-demo[data-icon=\"file\"] .dbl-demo__icon--file { display: inline; }\n.dbl-demo[data-icon=\"folder\"] .dbl-demo__icon--folder { display: inline; }\n.dbl-demo[data-icon=\"image\"] .dbl-demo__icon--image { display: inline; }\n.dbl-demo__window { margin-top: 10px; padding: 14px; border-radius: 8px; background: #FAF7F2; border: 1.5px solid var(--accent); box-shadow: 0 8px 20px rgba(36,20,48,.15); font-size: 13px; }\n.dbl-demo__window p { margin: 0; }\n.dbl-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"dbl-tw dbl-tw--{{icon}}\" style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"dbl-tw__item{{#if triggered}} is-selected{{/if}} flex items-center gap-2 px-2.5 py-2 rounded-lg w-fit\">\n    <span class=\"dbl-tw__icon dbl-tw__icon--file text-xl\">&#128196;</span>\n    <span class=\"dbl-tw__icon dbl-tw__icon--folder text-xl\">&#128193;</span>\n    <span class=\"dbl-tw__icon dbl-tw__icon--image text-xl\">&#128444;</span>\n    <span>{{itemLabel}}</span>\n  </div>\n  {{#if triggered}}<div class=\"mt-2.5 p-3.5 rounded-lg text-[13px]\" style=\"background:#FAF7F2;border:1.5px solid {{accent}};box-shadow:0 8px 20px rgba(36,20,48,.15)\"><p class=\"m-0\">Opening {{itemLabel}}&hellip;</p></div>{{/if}}\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if triggered}}double-click triggered open &mdash; a single click only selects{{/if}}{{unless triggered}}single click selects &middot; double-click opens{{/unless}}</p>\n</div>\n<style>\n.dbl-tw__item.is-selected { background: {{accent}}; }\n.dbl-tw__icon { display: none; }\n.dbl-tw--file .dbl-tw__icon--file { display: inline; }\n.dbl-tw--folder .dbl-tw__icon--folder { display: inline; }\n.dbl-tw--image .dbl-tw__icon--image { display: inline; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function DoubleClick({\n  itemLabel = \"{{itemLabel}}\",\n  icon = \"{{icon}}\",\n  triggered: initialTriggered = {{triggered}},\n  accent = \"{{accent}}\",\n}) {\n  const [triggered, setTriggered] = useState(initialTriggered);\n  const icons = { file: \"\\ud83d\\udcc4\", folder: \"\\ud83d\\udcc1\", image: \"\\ud83d\\uddbc\" };\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div onDoubleClick={() => setTriggered(true)}\n        style={{ display: \"flex\", alignItems: \"center\", gap: 8, padding: \"8px 10px\", borderRadius: 8, width: \"fit-content\", background: triggered ? accent : \"transparent\" }}>\n        <span style={{ fontSize: 20 }}>{icons[icon]}</span><span>{itemLabel}</span>\n      </div>\n      {triggered && <div style={{ marginTop: 10, padding: 14, borderRadius: 8, background: \"#FAF7F2\", border: \"1.5px solid \" + accent, boxShadow: \"0 8px 20px rgba(36,20,48,.15)\", fontSize: 13 }}>\n        <p style={{ margin: 0 }}>Opening {itemLabel}&hellip;</p>\n      </div>}\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{triggered ? \"double-click triggered open \\u2014 a single click only selects\" : \"single click selects \\u00b7 double-click opens\"}</p>\n    </div>\n  );\n}"
+  }
+}

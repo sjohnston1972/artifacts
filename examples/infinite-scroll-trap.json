@@ -1,0 +1,45 @@
+{
+  "slug": "infinite-scroll-trap",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Section title",
+      "default": "Feed"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (paginated)",
+      "default": false
+    },
+    {
+      "id": "count",
+      "type": "number",
+      "label": "Items loaded so far",
+      "default": 240,
+      "min": 20,
+      "max": 999,
+      "step": 20
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"ist-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"ist-demo__badge{{#if fixed}} ist-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: infinite scroll trap{{/unless}}</span>\n  <p class=\"ist-demo__title\">{{title}}</p>\n  <div class=\"ist-demo__list\">\n    <div class=\"ist-demo__row\">Post</div>\n    <div class=\"ist-demo__row\">Post</div>\n    <div class=\"ist-demo__row\">Post</div>\n  </div>\n  {{unless fixed}}<p class=\"ist-demo__loading\">Loading more&hellip; ({{count}} shown, footer unreachable)</p>{{/unless}}\n  {{#if fixed}}\n  <div class=\"ist-demo__pager\">\n    <button type=\"button\" class=\"ist-demo__page is-active\">1</button>\n    <button type=\"button\" class=\"ist-demo__page\">2</button>\n    <button type=\"button\" class=\"ist-demo__page\">3</button>\n    <span class=\"ist-demo__pagemore\">&hellip;</span>\n  </div>\n  <p class=\"ist-demo__footer\">Site footer &mdash; reachable</p>\n  {{/if}}\n</div>\n<style>\n.ist-demo { width: 280px; font: 13px system-ui, sans-serif; color: #241430; }\n.ist-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.ist-demo__badge--good { background: #1a7a44; }\n.ist-demo__title { margin: 0 0 6px; font-weight: 700; }\n.ist-demo__list { display: flex; flex-direction: column; gap: 6px; }\n.ist-demo__row { padding: 12px; border-radius: 8px; background: #24143010; }\n.ist-demo__loading { margin: 10px 0 0; font-size: 11px; color: #b3261e; font-weight: 600; }\n.ist-demo__pager { margin-top: 10px; display: flex; align-items: center; gap: 6px; }\n.ist-demo__page { width: 26px; height: 26px; border-radius: 6px; border: 1.5px solid #24143033; background: transparent; cursor: pointer; }\n.ist-demo__page.is-active { background: var(--accent); border-color: var(--accent); font-weight: 700; }\n.ist-demo__pagemore { color: #241430aa; }\n.ist-demo__footer { margin: 10px 0 0; font-size: 11px; color: #1a7a44; font-weight: 600; }\n</style>",
+    "tailwind": "<div style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"ist-tw-badge{{#if fixed}} ist-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: infinite scroll trap{{/unless}}</span>\n  <p class=\"m-0 mb-1.5 font-bold\">{{title}}</p>\n  <div class=\"flex flex-col gap-1.5\">\n    <div class=\"p-3 rounded-lg bg-[#24143010]\">Post</div>\n    <div class=\"p-3 rounded-lg bg-[#24143010]\">Post</div>\n    <div class=\"p-3 rounded-lg bg-[#24143010]\">Post</div>\n  </div>\n  {{unless fixed}}<p class=\"mt-2.5 text-[11px] font-semibold\" style=\"color:#b3261e\">Loading more&hellip; ({{count}} shown, footer unreachable)</p>{{/unless}}\n  {{#if fixed}}\n  <div class=\"mt-2.5 flex items-center gap-1.5\">\n    <button type=\"button\" class=\"ist-tw-page is-active w-[26px] h-[26px] rounded-md border-[1.5px] cursor-pointer\" style=\"border-color:#24143033\">1</button>\n    <button type=\"button\" class=\"w-[26px] h-[26px] rounded-md border-[1.5px] bg-transparent cursor-pointer\" style=\"border-color:#24143033\">2</button>\n    <button type=\"button\" class=\"w-[26px] h-[26px] rounded-md border-[1.5px] bg-transparent cursor-pointer\" style=\"border-color:#24143033\">3</button>\n    <span class=\"text-[#241430aa]\">&hellip;</span>\n  </div>\n  <p class=\"mt-2.5 text-[11px] font-semibold\" style=\"color:#1a7a44\">Site footer &mdash; reachable</p>\n  {{/if}}\n</div>\n<style>\n.ist-tw-badge { background: #b3261e; color: #FAF7F2; }\n.ist-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n.ist-tw-page.is-active { background: {{accent}}; border-color: {{accent}}; font-weight: 700; }\n</style>",
+    "react": "export function InfiniteScrollTrap({\n  title = \"{{title}}\",\n  fixed = {{fixed}},\n  count = {{count}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: infinite scroll trap\"}\n      </span>\n      <p style={{ margin: \"0 0 6px\", fontWeight: 700 }}>{title}</p>\n      <div style={{ display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {[\"Post\", \"Post\", \"Post\"].map((p, i) => <div key={i} style={{ padding: 12, borderRadius: 8, background: \"#24143010\" }}>{p}</div>)}\n      </div>\n      {!fixed && <p style={{ margin: \"10px 0 0\", fontSize: 11, color: \"#b3261e\", fontWeight: 600 }}>Loading more\\u2026 ({count} shown, footer unreachable)</p>}\n      {fixed && (\n        <>\n          <div style={{ marginTop: 10, display: \"flex\", alignItems: \"center\", gap: 6 }}>\n            <button type=\"button\" style={{ width: 26, height: 26, borderRadius: 6, border: \"1.5px solid \" + accent, background: accent, fontWeight: 700, cursor: \"pointer\" }}>1</button>\n            <button type=\"button\" style={{ width: 26, height: 26, borderRadius: 6, border: \"1.5px solid #24143033\", background: \"transparent\", cursor: \"pointer\" }}>2</button>\n            <button type=\"button\" style={{ width: 26, height: 26, borderRadius: 6, border: \"1.5px solid #24143033\", background: \"transparent\", cursor: \"pointer\" }}>3</button>\n            <span style={{ color: \"#241430aa\" }}>&hellip;</span>\n          </div>\n          <p style={{ margin: \"10px 0 0\", fontSize: 11, color: \"#1a7a44\", fontWeight: 600 }}>Site footer \\u2014 reachable</p>\n        </>\n      )}\n    </div>\n  );\n}"
+  }
+}

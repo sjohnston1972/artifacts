@@ -1,0 +1,40 @@
+{
+  "slug": "enter-exit-animation",
+  "controls_schema": [
+    {
+      "id": "state",
+      "type": "select",
+      "label": "State",
+      "default": "entering",
+      "options": ["entering", "exiting"]
+    },
+    {
+      "id": "style",
+      "type": "select",
+      "label": "Style",
+      "default": "fade-slide",
+      "options": ["fade-slide", "scale"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 500,
+      "min": 150,
+      "max": 1500,
+      "step": 50
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-eea-stage\" data-state=\"{{state}}\" data-style=\"{{style}}\">\n  <div class=\"mot-eea-card\" style=\"border-color:{{accent}};\">\n    <strong>Toast notification</strong>\n    <p>Saved successfully.</p>\n  </div>\n  <p class=\"mot-eea-caption\">{{state}} &middot; {{style}} &middot; replays each time the panel re-renders</p>\n</div>\n<style>\n.mot-eea-stage { width: 100%; max-width: 320px; min-height: 130px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.mot-eea-card { background: #fff; border: 2px solid; border-radius: 10px; padding: 12px 14px; color: #241430; font-size: 14px; }\n.mot-eea-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  [data-state=\"entering\"][data-style=\"fade-slide\"] .mot-eea-card { animation: mot-eea-enter-slide {{duration}}ms ease-out both; }\n  [data-state=\"exiting\"][data-style=\"fade-slide\"] .mot-eea-card { animation: mot-eea-exit-slide {{duration}}ms ease-in both; }\n  [data-state=\"entering\"][data-style=\"scale\"] .mot-eea-card { animation: mot-eea-enter-scale {{duration}}ms ease-out both; }\n  [data-state=\"exiting\"][data-style=\"scale\"] .mot-eea-card { animation: mot-eea-exit-scale {{duration}}ms ease-in both; }\n  @keyframes mot-eea-enter-slide { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }\n  @keyframes mot-eea-exit-slide { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(14px); } }\n  @keyframes mot-eea-enter-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n  @keyframes mot-eea-exit-scale { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(.85); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] min-h-[130px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-state=\"{{state}}\" data-style=\"{{style}}\">\n  <div class=\"bg-white border-2 rounded-lg px-3.5 py-3 text-[#241430] text-sm\" style=\"border-color:{{accent}};\">\n    <strong>Toast notification</strong>\n    <p>Saved successfully.</p>\n  </div>\n  <p class=\"mt-2.5\">{{state}} &middot; {{style}} &middot; replays each time the panel re-renders</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  [data-state=\"entering\"][data-style=\"fade-slide\"] div > div { animation: mot-eea-tw-enter-slide {{duration}}ms ease-out both; }\n  [data-state=\"exiting\"][data-style=\"fade-slide\"] div > div { animation: mot-eea-tw-exit-slide {{duration}}ms ease-in both; }\n  [data-state=\"entering\"][data-style=\"scale\"] div > div { animation: mot-eea-tw-enter-scale {{duration}}ms ease-out both; }\n  [data-state=\"exiting\"][data-style=\"scale\"] div > div { animation: mot-eea-tw-exit-scale {{duration}}ms ease-in both; }\n  @keyframes mot-eea-tw-enter-slide { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }\n  @keyframes mot-eea-tw-exit-slide { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(14px); } }\n  @keyframes mot-eea-tw-enter-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n  @keyframes mot-eea-tw-exit-scale { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(.85); } }\n}\n</style>",
+    "react": "export function EnterExitAnimation({\n  state = \"{{state}}\",\n  style = \"{{style}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const anims = {\n    \"entering-fade-slide\": \"mot-eea-enter-slide\",\n    \"exiting-fade-slide\": \"mot-eea-exit-slide\",\n    \"entering-scale\": \"mot-eea-enter-scale\",\n    \"exiting-scale\": \"mot-eea-exit-scale\",\n  };\n  const name = anims[`${state}-${style}`];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, minHeight: 130, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div className=\"card\" style={{ background: \"#fff\", border: `2px solid ${accent}`, borderRadius: 10, padding: \"12px 14px\", color: \"#241430\", fontSize: 14 }}>\n        <strong>Toast notification</strong>\n        <p>Saved successfully.</p>\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>{state} &middot; {style} &middot; replays each time the panel re-renders</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .card { animation: ${name} ${duration}ms ${state === \"entering\" ? \"ease-out\" : \"ease-in\"} both; }\n          @keyframes mot-eea-enter-slide { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }\n          @keyframes mot-eea-exit-slide { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(14px); } }\n          @keyframes mot-eea-enter-scale { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }\n          @keyframes mot-eea-exit-scale { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(.85); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

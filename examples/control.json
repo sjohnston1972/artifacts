@@ -1,0 +1,30 @@
+{
+  "slug": "control",
+  "controls_schema": [
+    {
+      "id": "highlight",
+      "type": "select",
+      "label": "Highlighted control",
+      "default": "button",
+      "options": ["button", "checkbox", "slider"]
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Submit"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-ctl-stage\" data-highlight=\"{{highlight}}\">\n  <div class=\"uif-ctl-item uif-ctl-item--button\"><button type=\"button\" style=\"--accent:{{accent}};\">{{label}}</button></div>\n  <div class=\"uif-ctl-item uif-ctl-item--checkbox\"><label><input type=\"checkbox\" checked disabled /> Agree</label></div>\n  <div class=\"uif-ctl-item uif-ctl-item--slider\"><input type=\"range\" min=\"0\" max=\"10\" value=\"6\" disabled style=\"accent-color:{{accent}};\" /></div>\n  <p class=\"uif-ctl-caption\">A control lets someone perform an action or change a value &mdash; the highlighted one is annotated below</p>\n</div>\n<style>\n.uif-ctl-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430aa; display: flex; flex-direction: column; gap: 10px; }\n.uif-ctl-item { padding: 8px; border-radius: 8px; border: 2px solid transparent; }\n[data-highlight=\"button\"] .uif-ctl-item--button,\n[data-highlight=\"checkbox\"] .uif-ctl-item--checkbox,\n[data-highlight=\"slider\"] .uif-ctl-item--slider { border-color: var(--accent, #241430); background: #24143008; }\n.uif-ctl-item button { font: 600 13px system-ui, sans-serif; padding: 7px 14px; border-radius: 7px; border: none; background: var(--accent); color: #241430; cursor: pointer; }\n.uif-ctl-caption { margin: 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]/70 flex flex-col gap-2.5\" data-highlight=\"{{highlight}}\">\n  <div class=\"tw-ctl-button p-2 rounded-lg border-2 border-transparent\"><button type=\"button\" class=\"font-semibold text-sm px-3.5 py-1.5 rounded-md border-0 cursor-pointer text-[#241430]\" style=\"background:{{accent}};\">{{label}}</button></div>\n  <div class=\"tw-ctl-checkbox p-2 rounded-lg border-2 border-transparent\"><label><input type=\"checkbox\" checked disabled /> Agree</label></div>\n  <div class=\"tw-ctl-slider p-2 rounded-lg border-2 border-transparent\"><input type=\"range\" min=\"0\" max=\"10\" value=\"6\" disabled style=\"accent-color:{{accent}};\" /></div>\n  <p class=\"m-0\">A control lets someone perform an action or change a value &mdash; the highlighted one is annotated below</p>\n</div>\n<style>\n[data-highlight=\"button\"] .tw-ctl-button,\n[data-highlight=\"checkbox\"] .tw-ctl-checkbox,\n[data-highlight=\"slider\"] .tw-ctl-slider { border-color: #241430; background: #24143008; }\n</style>",
+    "react": "export function Control({\n  highlight = \"{{highlight}}\",\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  const box = (key) => ({ padding: 8, borderRadius: 8, border: highlight === key ? \"2px solid #241430\" : \"2px solid transparent\", background: highlight === key ? \"#24143008\" : \"transparent\" });\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\", display: \"flex\", flexDirection: \"column\", gap: 10 }}>\n      <div style={box(\"button\")}><button type=\"button\" style={{ fontWeight: 600, fontSize: 13, padding: \"7px 14px\", borderRadius: 7, border: \"none\", background: accent, color: \"#241430\", cursor: \"pointer\" }}>{label}</button></div>\n      <div style={box(\"checkbox\")}><label><input type=\"checkbox\" checked readOnly disabled /> Agree</label></div>\n      <div style={box(\"slider\")}><input type=\"range\" min=\"0\" max=\"10\" defaultValue={6} disabled style={{ accentColor: accent }} /></div>\n      <p style={{ margin: 0 }}>A control lets someone perform an action or change a value &mdash; the highlighted one is annotated below</p>\n    </div>\n  );\n}"
+  }
+}

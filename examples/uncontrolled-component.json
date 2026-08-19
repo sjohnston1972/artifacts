@@ -1,0 +1,42 @@
+{
+  "slug": "uncontrolled-component",
+  "controls_schema": [
+    {
+      "id": "inputLabel",
+      "type": "text",
+      "label": "Field label",
+      "default": "Nickname"
+    },
+    {
+      "id": "defaultValue",
+      "type": "text",
+      "label": "defaultValue prop",
+      "default": "Ada"
+    },
+    {
+      "id": "showRefNote",
+      "type": "toggle",
+      "label": "Show ref-read note",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"unctrl\">\n  <label class=\"unctrl__label\">{{inputLabel}}</label>\n  <input class=\"unctrl__input\" style=\"border-color:{{accent}};\" type=\"text\" value=\"{{defaultValue}}\" placeholder=\"{{defaultValue}}\" />\n  <p class=\"unctrl__note\">Editable freely &mdash; the DOM node owns this value.{{#if showRefNote}} A parent can only read it later via a ref.{{/if}}</p>\n</div>\n<style>\n.unctrl { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 280px; box-sizing: border-box; }\n.unctrl__label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 4px; }\n.unctrl__input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 2px solid; border-radius: 6px; font-size: 13px; background: #ffffff; color: #241430; }\n.unctrl__note { margin: 8px 0 0; font-size: 10px; color: #24143099; }\n</style>",
+    "tailwind": "<div class=\"font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[280px] box-border\">\n  <label class=\"block text-[11px] font-semibold mb-1\">{{inputLabel}}</label>\n  <input class=\"w-full box-border py-2 px-2.5 border-2 rounded-md text-[13px] bg-white text-[#241430]\" style=\"border-color:{{accent}};\" type=\"text\" value=\"{{defaultValue}}\" placeholder=\"{{defaultValue}}\" />\n  <p class=\"mt-2 text-[10px] text-[#24143099]\">Editable freely &mdash; the DOM node owns this value.{{#if showRefNote}} A parent can only read it later via a ref.{{/if}}</p>\n</div>",
+    "react": "export function UncontrolledComponent({\n  inputLabel = \"{{inputLabel}}\",\n  defaultValue = \"{{defaultValue}}\",\n  showRefNote = {{showRefNote}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 280, boxSizing: \"border-box\" }}>\n      <label style={{ display: \"block\", fontSize: 11, fontWeight: 600, marginBottom: 4 }}>{inputLabel}</label>\n      <input type=\"text\" defaultValue={defaultValue}\n        style={{ width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", border: `2px solid ${accent}`, borderRadius: 6, fontSize: 13, background: \"#ffffff\", color: \"#241430\" }} />\n      <p style={{ margin: \"8px 0 0\", fontSize: 10, color: \"#24143099\" }}>Editable freely &mdash; the DOM node owns this value.{showRefNote && \" A parent can only read it later via a ref.\"}</p>\n    </div>\n  );\n}"
+  }
+}

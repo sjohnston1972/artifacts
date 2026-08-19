@@ -1,0 +1,42 @@
+{
+  "slug": "destructive-action-without-confirmation",
+  "controls_schema": [
+    {
+      "id": "actionLabel",
+      "type": "text",
+      "label": "Action",
+      "default": "Delete account"
+    },
+    {
+      "id": "itemName",
+      "type": "text",
+      "label": "Item name",
+      "default": "your account"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (confirms first)",
+      "default": false
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Danger colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"dc-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"dc-demo__badge{{#if fixed}} dc-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: no confirmation{{/unless}}</span>\n  <button type=\"button\" class=\"dc-demo__btn\">{{actionLabel}}</button>\n  {{unless fixed}}<p class=\"dc-demo__result\">&#10003; Deleted immediately &mdash; one click, no way back</p>{{/unless}}\n  {{#if fixed}}\n  <div class=\"dc-demo__confirm\">\n    <p class=\"dc-demo__confirm-text\">Delete {{itemName}}? This can't be undone.</p>\n    <div class=\"dc-demo__confirm-row\">\n      <button type=\"button\" class=\"dc-demo__cancel\">Cancel</button>\n      <button type=\"button\" class=\"dc-demo__danger\">Yes, delete</button>\n    </div>\n  </div>\n  {{/if}}\n</div>\n<style>\n.dc-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.dc-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.dc-demo__badge--good { background: #1a7a44; }\n.dc-demo__btn { padding: 10px 18px; border-radius: 8px; border: none; background: var(--accent); color: #241430; font-weight: 700; cursor: pointer; }\n.dc-demo__result { margin-top: 10px; font-size: 12px; color: #b3261e; font-weight: 600; }\n.dc-demo__confirm { margin-top: 12px; padding: 14px; border-radius: 10px; background: #FAF7F2; border: 1.5px solid var(--accent); }\n.dc-demo__confirm-text { margin: 0 0 10px; font-size: 12px; }\n.dc-demo__confirm-row { display: flex; gap: 8px; }\n.dc-demo__cancel { flex: 1; padding: 8px; border-radius: 7px; border: 1.5px solid #24143033; background: transparent; cursor: pointer; }\n.dc-demo__danger { flex: 1; padding: 8px; border-radius: 7px; border: none; background: #b3261e; color: #FAF7F2; font-weight: 700; cursor: pointer; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"dc-tw-badge{{#if fixed}} dc-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: no confirmation{{/unless}}</span>\n  <button type=\"button\" class=\"px-4.5 py-2.5 rounded-lg border-0 font-bold cursor-pointer\" style=\"background:{{accent}};color:#241430\">{{actionLabel}}</button>\n  {{unless fixed}}<p class=\"mt-2.5 text-xs font-semibold\" style=\"color:#b3261e\">&#10003; Deleted immediately &mdash; one click, no way back</p>{{/unless}}\n  {{#if fixed}}\n  <div class=\"mt-3 p-3.5 rounded-[10px]\" style=\"background:#FAF7F2;border:1.5px solid {{accent}}\">\n    <p class=\"m-0 mb-2.5 text-xs\">Delete {{itemName}}? This can't be undone.</p>\n    <div class=\"flex gap-2\">\n      <button type=\"button\" class=\"flex-1 p-2 rounded-md border-[1.5px] bg-transparent cursor-pointer\" style=\"border-color:#24143033\">Cancel</button>\n      <button type=\"button\" class=\"flex-1 p-2 rounded-md border-0 font-bold cursor-pointer\" style=\"background:#b3261e;color:#FAF7F2\">Yes, delete</button>\n    </div>\n  </div>\n  {{/if}}\n</div>\n<style>\n.dc-tw-badge { background: #b3261e; color: #FAF7F2; }\n.dc-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function DestructiveNoConfirm({\n  actionLabel = \"{{actionLabel}}\",\n  itemName = \"{{itemName}}\",\n  fixed = {{fixed}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: no confirmation\"}\n      </span>\n      <button type=\"button\" style={{ padding: \"10px 18px\", borderRadius: 8, border: \"none\", background: accent, color: \"#241430\", fontWeight: 700, cursor: \"pointer\" }}>{actionLabel}</button>\n      {!fixed && <p style={{ marginTop: 10, fontSize: 12, color: \"#b3261e\", fontWeight: 600 }}>&#10003; Deleted immediately \\u2014 one click, no way back</p>}\n      {fixed && (\n        <div style={{ marginTop: 12, padding: 14, borderRadius: 10, background: \"#FAF7F2\", border: \"1.5px solid \" + accent }}>\n          <p style={{ margin: \"0 0 10px\", fontSize: 12 }}>Delete {itemName}? This can't be undone.</p>\n          <div style={{ display: \"flex\", gap: 8 }}>\n            <button type=\"button\" style={{ flex: 1, padding: 8, borderRadius: 7, border: \"1.5px solid #24143033\", background: \"transparent\", cursor: \"pointer\" }}>Cancel</button>\n            <button type=\"button\" style={{ flex: 1, padding: 8, borderRadius: 7, border: \"none\", background: \"#b3261e\", color: \"#FAF7F2\", fontWeight: 700, cursor: \"pointer\" }}>Yes, delete</button>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "colour-contrast",
+  "controls_schema": [
+    {
+      "id": "sampleText",
+      "type": "text",
+      "label": "Sample text",
+      "default": "The quick brown fox jumps"
+    },
+    {
+      "id": "pairing",
+      "type": "select",
+      "label": "Colour pairing",
+      "default": "pass",
+      "options": [
+        "pass",
+        "borderline",
+        "fail"
+      ]
+    },
+    {
+      "id": "fontSize",
+      "type": "number",
+      "label": "Font size (px)",
+      "default": 18,
+      "min": 12,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "id": "bold",
+      "type": "toggle",
+      "label": "Bold",
+      "default": false
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"contrast-demo\" data-pairing=\"{{pairing}}\">\n  <p class=\"contrast-demo__sample\" style=\"font-size:{{fontSize}}px;\"{{#if bold}} data-bold=\"true\"{{/if}}>{{sampleText}}</p>\n  <p class=\"contrast-demo__caption\"></p>\n</div>\n<style>\n.contrast-demo { width: 320px; padding: 24px; border-radius: 12px; font-family: system-ui, sans-serif; background: #FAF7F2; box-sizing: border-box; }\n.contrast-demo__sample { margin: 0 0 12px; line-height: 1.4; }\n.contrast-demo__sample[data-bold=\"true\"] { font-weight: 700; }\n.contrast-demo[data-pairing=\"pass\"] .contrast-demo__sample { color: #241430; }\n.contrast-demo[data-pairing=\"borderline\"] .contrast-demo__sample { color: #909090; }\n.contrast-demo[data-pairing=\"fail\"] .contrast-demo__sample { color: #E8A020; }\n.contrast-demo__caption { margin: 0; font-size: 13px; color: #241430; border-top: 1px solid #24143022; padding-top: 10px; }\n.contrast-demo[data-pairing=\"pass\"] .contrast-demo__caption::after { content: \"16.1 : 1 \\2014 passes AAA\"; font-weight: 600; color: #1a7a44; }\n.contrast-demo[data-pairing=\"borderline\"] .contrast-demo__caption::after { content: \"3.0 : 1 \\2014 large text only, fails AA body text\"; font-weight: 600; color: #a06a00; }\n.contrast-demo[data-pairing=\"fail\"] .contrast-demo__caption::after { content: \"2.1 : 1 \\2014 fails AA\"; font-weight: 600; color: #b3261e; }\n</style>",
+    "tailwind": "<div class=\"contrast-tw contrast-tw--{{pairing}} rounded-xl box-border\" data-pairing=\"{{pairing}}\" style=\"width:320px;padding:24px;background:#FAF7F2;font-family:system-ui,sans-serif\">\n  <p class=\"contrast-tw__sample m-0 mb-3 leading-normal\" style=\"font-size:{{fontSize}}px;{{#if bold}}font-weight:700;{{/if}}\">{{sampleText}}</p>\n  <p class=\"contrast-tw__caption m-0 text-[13px] border-t pt-2.5\" style=\"border-color:#24143022\"></p>\n</div>\n<style>\n.contrast-tw--pass .contrast-tw__sample { color: #241430; }\n.contrast-tw--borderline .contrast-tw__sample { color: #909090; }\n.contrast-tw--fail .contrast-tw__sample { color: #E8A020; }\n.contrast-tw--pass .contrast-tw__caption::after { content: \"16.1 : 1 \\2014 passes AAA\"; font-weight: 600; color: #1a7a44; }\n.contrast-tw--borderline .contrast-tw__caption::after { content: \"3.0 : 1 \\2014 large text only, fails AA body text\"; font-weight: 600; color: #a06a00; }\n.contrast-tw--fail .contrast-tw__caption::after { content: \"2.1 : 1 \\2014 fails AA\"; font-weight: 600; color: #b3261e; }\n</style>",
+    "react": "export function ColourContrast({\n  sampleText = \"{{sampleText}}\",\n  pairing = \"{{pairing}}\",\n  fontSize = {{fontSize}},\n  bold = {{bold}},\n}) {\n  const info = {\n    pass: { color: \"#241430\", label: \"16.1 : 1 \\u2014 passes AAA\", note: \"#1a7a44\" },\n    borderline: { color: \"#909090\", label: \"3.0 : 1 \\u2014 large text only, fails AA body text\", note: \"#a06a00\" },\n    fail: { color: \"#E8A020\", label: \"2.1 : 1 \\u2014 fails AA\", note: \"#b3261e\" },\n  }[pairing];\n  return (\n    <div style={{ width: 320, padding: 24, borderRadius: 12, background: \"#FAF7F2\", boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\" }}>\n      <p style={{ margin: \"0 0 12px\", lineHeight: 1.4, fontSize, fontWeight: bold ? 700 : 400, color: info.color }}>{sampleText}</p>\n      <p style={{ margin: 0, fontSize: 13, borderTop: \"1px solid #24143022\", paddingTop: 10, fontWeight: 600, color: info.note }}>{info.label}</p>\n    </div>\n  );\n}"
+  }
+}

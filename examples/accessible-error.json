@@ -1,0 +1,42 @@
+{
+  "slug": "accessible-error",
+  "controls_schema": [
+    {
+      "id": "fieldLabel",
+      "type": "text",
+      "label": "Field label",
+      "default": "Email address"
+    },
+    {
+      "id": "errorMessage",
+      "type": "text",
+      "label": "Error message",
+      "default": "Enter a valid email address"
+    },
+    {
+      "id": "associated",
+      "type": "toggle",
+      "label": "Programmatically associated",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Error colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"err-demo\" style=\"--accent:{{accent}};\">\n  <label class=\"err-demo__label\" for=\"err-demo-field\">{{fieldLabel}}</label>\n  <input id=\"err-demo-field\" class=\"err-demo__input\" type=\"text\" value=\"not-an-email\"{{#if associated}} aria-invalid=\"true\" aria-describedby=\"err-demo-msg\"{{/if}} />\n  <p id=\"err-demo-msg\" class=\"err-demo__msg\">{{errorMessage}}</p>\n  {{#if associated}}<p class=\"err-demo__note\">aria-invalid + aria-describedby wired up &mdash; the error is announced with the field</p>{{/if}}\n  {{unless associated}}<p class=\"err-demo__note err-demo__note--bad\">only a red border &mdash; a screen reader user never hears this message</p>{{/unless}}\n</div>\n<style>\n.err-demo { width: 320px; font: 14px/1.5 system-ui, sans-serif; color: #241430; display: flex; flex-direction: column; gap: 6px; }\n.err-demo__label { font-weight: 600; font-size: 13px; }\n.err-demo__input { padding: 10px 12px; border-radius: 8px; border: 2px solid var(--accent); font: inherit; }\n.err-demo__msg { margin: 0; color: var(--accent); font-size: 13px; font-weight: 600; }\n.err-demo__note { margin: 4px 0 0; font-size: 12px; color: #1a7a44; }\n.err-demo__note--bad { color: #b3261e; }\n</style>",
+    "tailwind": "<div class=\"flex flex-col gap-1.5\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <label for=\"err-demo-field-tw\" class=\"font-semibold text-[13px]\">{{fieldLabel}}</label>\n  <input id=\"err-demo-field-tw\" type=\"text\" value=\"not-an-email\" class=\"px-3 py-2.5 rounded-lg border-2\" style=\"border-color:{{accent}}\"{{#if associated}} aria-invalid=\"true\" aria-describedby=\"err-demo-msg-tw\"{{/if}} />\n  <p id=\"err-demo-msg-tw\" class=\"m-0 text-[13px] font-semibold\" style=\"color:{{accent}}\">{{errorMessage}}</p>\n  {{#if associated}}<p class=\"mt-1 text-xs\" style=\"color:#1a7a44\">aria-invalid + aria-describedby wired up &mdash; the error is announced with the field</p>{{/if}}\n  {{unless associated}}<p class=\"mt-1 text-xs\" style=\"color:#b3261e\">only a red border &mdash; a screen reader user never hears this message</p>{{/unless}}\n</div>",
+    "react": "export function AccessibleError({\n  fieldLabel = \"{{fieldLabel}}\",\n  errorMessage = \"{{errorMessage}}\",\n  associated = {{associated}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: 320, display: \"flex\", flexDirection: \"column\", gap: 6, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <label htmlFor=\"err-demo-field-r\" style={{ fontWeight: 600, fontSize: 13 }}>{fieldLabel}</label>\n      <input id=\"err-demo-field-r\" type=\"text\" defaultValue=\"not-an-email\"\n        aria-invalid={associated ? \"true\" : undefined}\n        aria-describedby={associated ? \"err-demo-msg-r\" : undefined}\n        style={{ padding: \"10px 12px\", borderRadius: 8, border: \"2px solid \" + accent, font: \"inherit\" }} />\n      <p id=\"err-demo-msg-r\" style={{ margin: 0, color: accent, fontSize: 13, fontWeight: 600 }}>{errorMessage}</p>\n      {associated\n        ? <p style={{ margin: \"4px 0 0\", fontSize: 12, color: \"#1a7a44\" }}>aria-invalid + aria-describedby wired up &mdash; the error is announced with the field</p>\n        : <p style={{ margin: \"4px 0 0\", fontSize: 12, color: \"#b3261e\" }}>only a red border &mdash; a screen reader user never hears this message</p>}\n    </div>\n  );\n}"
+  }
+}

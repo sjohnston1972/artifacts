@@ -1,0 +1,47 @@
+{
+  "slug": "page-component",
+  "controls_schema": [
+    {
+      "id": "route",
+      "type": "select",
+      "label": "Route",
+      "default": "home",
+      "options": [
+        "home",
+        "settings",
+        "profile"
+      ]
+    },
+    {
+      "id": "siteName",
+      "type": "text",
+      "label": "Site name",
+      "default": "Atlas"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#F5C2E0",
+        "#A8E6C1",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    },
+    {
+      "id": "showChrome",
+      "type": "toggle",
+      "label": "Show browser chrome",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"pagec pagec--{{route}}\">\n  {{#if showChrome}}<div class=\"pagec__chrome\"><span></span><span></span><span></span><span class=\"pagec__url\">{{siteName}}.app/{{route}}</span></div>{{/if}}\n  <div class=\"pagec__header\" style=\"background:{{accent}};\">{{siteName}}</div>\n  <div class=\"pagec__body pagec__body--home\">Home feed</div>\n  <div class=\"pagec__body pagec__body--settings\">Settings form</div>\n  <div class=\"pagec__body pagec__body--profile\">Profile card</div>\n</div>\n<style>\n.pagec { font: 12px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; border-radius: 12px; width: 300px; box-sizing: border-box; overflow: hidden; border: 1.5px solid #24143020; }\n.pagec__chrome { display: flex; align-items: center; gap: 5px; padding: 8px 10px; background: #24143010; }\n.pagec__chrome span { width: 7px; height: 7px; border-radius: 50%; background: #24143030; display: block; }\n.pagec__url { margin-left: 8px; font-size: 10px; color: #24143099; background: #ffffff; padding: 2px 8px; border-radius: 4px; }\n.pagec__header { padding: 12px; font-weight: 700; }\n.pagec__body { display: none; padding: 24px 12px; text-align: center; color: #24143099; }\n.pagec--home .pagec__body--home, .pagec--settings .pagec__body--settings, .pagec--profile .pagec__body--profile { display: block; }\n</style>",
+    "tailwind": "<div class=\"pagectw pagectw--{{route}} font-sans text-[#241430] bg-[#FAF7F2] rounded-xl w-[300px] box-border overflow-hidden border border-[#24143020]\">\n  {{#if showChrome}}<div class=\"flex items-center gap-1 py-2 px-2.5 bg-[#24143010]\"><span class=\"w-1.5 h-1.5 rounded-full bg-[#24143030] block\"></span><span class=\"w-1.5 h-1.5 rounded-full bg-[#24143030] block\"></span><span class=\"w-1.5 h-1.5 rounded-full bg-[#24143030] block\"></span><span class=\"ml-2 text-[10px] text-[#24143099] bg-white py-0.5 px-2 rounded\">{{siteName}}.app/{{route}}</span></div>{{/if}}\n  <div class=\"p-3 font-bold\" style=\"background:{{accent}};\">{{siteName}}</div>\n  <div class=\"pagectw__body pagectw__body--home hidden py-6 px-3 text-center text-[#24143099]\">Home feed</div>\n  <div class=\"pagectw__body pagectw__body--settings hidden py-6 px-3 text-center text-[#24143099]\">Settings form</div>\n  <div class=\"pagectw__body pagectw__body--profile hidden py-6 px-3 text-center text-[#24143099]\">Profile card</div>\n</div>\n<style>\n.pagectw--home .pagectw__body--home, .pagectw--settings .pagectw__body--settings, .pagectw--profile .pagectw__body--profile { display: block; }\n</style>",
+    "react": "export function PageComponent({\n  route = \"{{route}}\",\n  siteName = \"{{siteName}}\",\n  accent = \"{{accent}}\",\n  showChrome = {{showChrome}},\n}) {\n  const bodies = { home: \"Home feed\", settings: \"Settings form\", profile: \"Profile card\" };\n  return (\n    <div style={{ font: \"12px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", borderRadius: 12, width: 300, boxSizing: \"border-box\", overflow: \"hidden\", border: \"1.5px solid #24143020\" }}>\n      {showChrome && (\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 5, padding: \"8px 10px\", background: \"#24143010\" }}>\n          <span style={{ width: 7, height: 7, borderRadius: \"50%\", background: \"#24143030\", display: \"block\" }} />\n          <span style={{ width: 7, height: 7, borderRadius: \"50%\", background: \"#24143030\", display: \"block\" }} />\n          <span style={{ width: 7, height: 7, borderRadius: \"50%\", background: \"#24143030\", display: \"block\" }} />\n          <span style={{ marginLeft: 8, fontSize: 10, color: \"#24143099\", background: \"#ffffff\", padding: \"2px 8px\", borderRadius: 4 }}>{siteName}.app/{route}</span>\n        </div>\n      )}\n      <div style={{ padding: 12, fontWeight: 700, background: accent }}>{siteName}</div>\n      <div style={{ padding: \"24px 12px\", textAlign: \"center\", color: \"#24143099\" }}>{bodies[route]}</div>\n    </div>\n  );\n}"
+  }
+}

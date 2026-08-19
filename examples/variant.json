@@ -1,0 +1,14 @@
+{
+  "slug": "variant",
+  "controls_schema": [
+    { "id": "label", "type": "text", "label": "Label", "default": "Confirm" },
+    { "id": "variant", "type": "select", "label": "Variant", "default": "primary", "options": ["primary", "secondary", "ghost"] },
+    { "id": "accent", "type": "color", "label": "Accent colour", "default": "#A8E6C1", "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"] },
+    { "id": "rounded", "type": "toggle", "label": "Fully rounded", "default": false }
+  ],
+  "templates": {
+    "html": "<button type=\"button\" class=\"vbtn vbtn--{{variant}}{{#if rounded}} vbtn--pill{{/if}}\" style=\"--accent:{{accent}};\">{{label}}</button>\n<style>\n.vbtn { font: 600 14px system-ui, sans-serif; padding: 10px 20px; border-radius: 8px; cursor: pointer; box-sizing: border-box; }\n.vbtn--pill { border-radius: 999px; }\n.vbtn--primary { background: var(--accent); color: #241430; border: none; }\n.vbtn--secondary { background: transparent; color: #241430; border: 2px solid var(--accent); }\n.vbtn--ghost { background: transparent; color: var(--accent); border: none; text-decoration: underline; }\n.vbtn:focus-visible { outline: 2px solid #241430; outline-offset: 2px; }\n</style>",
+    "tailwind": "<button type=\"button\" class=\"vbtntw vbtntw--{{variant}}{{#if rounded}} vbtntw--pill{{/if}} font-semibold text-sm py-2.5 px-5 rounded-lg cursor-pointer box-border\" style=\"--accent:{{accent}};\">{{label}}</button>\n<style>\n.vbtntw--pill { border-radius: 999px; }\n.vbtntw--primary { background: var(--accent); color: #241430; border: none; }\n.vbtntw--secondary { background: transparent; color: #241430; border: 2px solid var(--accent); }\n.vbtntw--ghost { background: transparent; color: var(--accent); border: none; text-decoration: underline; }\n</style>",
+    "react": "export function Variant({\n  label = \"{{label}}\",\n  variant = \"{{variant}}\",\n  accent = \"{{accent}}\",\n  rounded = {{rounded}},\n}) {\n  const styles = {\n    primary: { background: accent, color: \"#241430\", border: \"none\" },\n    secondary: { background: \"transparent\", color: \"#241430\", border: `2px solid ${accent}` },\n    ghost: { background: \"transparent\", color: accent, border: \"none\", textDecoration: \"underline\" },\n  }[variant];\n  return (\n    <button type=\"button\" style={{ font: \"600 14px system-ui, sans-serif\", padding: \"10px 20px\", borderRadius: rounded ? 999 : 8, cursor: \"pointer\", boxSizing: \"border-box\", ...styles }}>\n      {label}\n    </button>\n  );\n}"
+  }
+}

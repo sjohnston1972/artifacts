@@ -1,0 +1,36 @@
+{
+  "slug": "screen",
+  "controls_schema": [
+    {
+      "id": "screenType",
+      "type": "select",
+      "label": "Screen",
+      "default": "list",
+      "options": ["list", "detail"]
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Screen title",
+      "default": "Inbox"
+    },
+    {
+      "id": "showStatusBar",
+      "type": "toggle",
+      "label": "Show status bar",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-scr-frame\">\n  {{#if showStatusBar}}<div class=\"uif-scr-status\">9:41</div>{{/if}}\n  <div class=\"uif-scr-nav\" style=\"background:{{accent}};\">{{title}}</div>\n  <div class=\"uif-scr-body\" data-screen=\"{{screenType}}\">\n    <div class=\"uif-scr-row uif-scr-row--list\"></div>\n    <div class=\"uif-scr-row uif-scr-row--list\"></div>\n    <div class=\"uif-scr-row uif-scr-row--list\"></div>\n    <div class=\"uif-scr-row uif-scr-row--detail\" style=\"height:60px;\"></div>\n    <div class=\"uif-scr-row uif-scr-row--detail\" style=\"height:14px; width:60%;\"></div>\n    <div class=\"uif-scr-row uif-scr-row--detail\" style=\"height:60px; margin-top:10px;\"></div>\n  </div>\n</div>\n<style>\n.uif-scr-frame { width: 160px; margin: 0 auto; background: #FAF7F2; border: 6px solid #241430; border-radius: 20px; overflow: hidden; font: 10px system-ui, sans-serif; color: #241430aa; }\n.uif-scr-status { text-align: right; padding: 4px 8px; font-size: 9px; }\n.uif-scr-nav { padding: 8px; color: #fff; font-weight: 700; text-align: center; }\n.uif-scr-body { padding: 8px; min-height: 130px; }\n.uif-scr-row { display: none; background: #24143014; border-radius: 6px; margin-bottom: 6px; }\n.uif-scr-row--list { height: 22px; }\n[data-screen=\"list\"] .uif-scr-row--list { display: block; }\n[data-screen=\"detail\"] .uif-scr-row--detail { display: block; }\n</style>",
+    "tailwind": "<div class=\"w-40 mx-auto bg-[#FAF7F2] border-[6px] border-[#241430] rounded-[20px] overflow-hidden font-sans text-[10px] text-[#241430]/70\">\n  {{#if showStatusBar}}<div class=\"text-right px-2 py-1 text-[9px]\">9:41</div>{{/if}}\n  <div class=\"p-2 text-white font-bold text-center\" style=\"background:{{accent}};\">{{title}}</div>\n  <div class=\"p-2 min-h-[130px]\" data-screen=\"{{screenType}}\">\n    <div class=\"tw-scr-list hidden h-[22px] bg-[#24143014] rounded-md mb-1.5\"></div>\n    <div class=\"tw-scr-list hidden h-[22px] bg-[#24143014] rounded-md mb-1.5\"></div>\n    <div class=\"tw-scr-list hidden h-[22px] bg-[#24143014] rounded-md mb-1.5\"></div>\n    <div class=\"tw-scr-detail hidden bg-[#24143014] rounded-md mb-1.5\" style=\"height:60px;\"></div>\n    <div class=\"tw-scr-detail hidden bg-[#24143014] rounded-md mb-1.5\" style=\"height:14px; width:60%;\"></div>\n    <div class=\"tw-scr-detail hidden bg-[#24143014] rounded-md\" style=\"height:60px; margin-top:10px;\"></div>\n  </div>\n</div>\n<style>\n[data-screen=\"list\"] .tw-scr-list { display: block; }\n[data-screen=\"detail\"] .tw-scr-detail { display: block; }\n</style>",
+    "react": "export function Screen({\n  screenType = \"{{screenType}}\",\n  title = \"{{title}}\",\n  showStatusBar = {{showStatusBar}},\n  accent = \"{{accent}}\",\n}) {\n  const row = { background: \"#24143014\", borderRadius: 6, marginBottom: 6 };\n  return (\n    <div style={{ width: 160, margin: \"0 auto\", background: \"#FAF7F2\", border: \"6px solid #241430\", borderRadius: 20, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 10, color: \"#241430aa\" }}>\n      {showStatusBar && <div style={{ textAlign: \"right\", padding: \"4px 8px\", fontSize: 9 }}>9:41</div>}\n      <div style={{ padding: 8, color: \"#fff\", fontWeight: 700, textAlign: \"center\", background: accent }}>{title}</div>\n      <div style={{ padding: 8, minHeight: 130 }}>\n        {screenType === \"list\" ? (\n          <>\n            <div style={{ ...row, height: 22 }} />\n            <div style={{ ...row, height: 22 }} />\n            <div style={{ ...row, height: 22 }} />\n          </>\n        ) : (\n          <>\n            <div style={{ ...row, height: 60 }} />\n            <div style={{ ...row, height: 14, width: \"60%\" }} />\n            <div style={{ ...row, height: 60, marginTop: 10 }} />\n          </>\n        )}\n      </div>\n    </div>\n  );\n}"
+  }
+}

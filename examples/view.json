@@ -1,0 +1,30 @@
+{
+  "slug": "view",
+  "controls_schema": [
+    {
+      "id": "viewType",
+      "type": "select",
+      "label": "View",
+      "default": "list",
+      "options": ["list", "grid", "table"]
+    },
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item label",
+      "default": "Invoice"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-vw-stage\" data-view=\"{{viewType}}\">\n  <div class=\"uif-vw-list\"><div>{{itemLabel}} 1</div><div>{{itemLabel}} 2</div><div>{{itemLabel}} 3</div></div>\n  <div class=\"uif-vw-grid\"><span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span></div>\n  <table class=\"uif-vw-table\"><tr><th>{{itemLabel}}</th><th>Amount</th></tr><tr><td>1</td><td style=\"color:{{accent}};\">&pound;40</td></tr><tr><td>2</td><td style=\"color:{{accent}};\">&pound;18</td></tr></table>\n  <p class=\"uif-vw-caption\">Same data, {{viewType}} view</p>\n</div>\n<style>\n.uif-vw-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430; }\n.uif-vw-list, .uif-vw-grid, .uif-vw-table { display: none; }\n[data-view=\"list\"] .uif-vw-list { display: block; }\n[data-view=\"grid\"] .uif-vw-grid { display: flex; gap: 8px; }\n[data-view=\"table\"] .uif-vw-table { display: table; width: 100%; border-collapse: collapse; }\n.uif-vw-list div { padding: 6px 0; border-bottom: 1px solid #24143014; }\n.uif-vw-grid span { flex: 1; height: 50px; border-radius: 8px; }\n.uif-vw-table th, .uif-vw-table td { text-align: left; padding: 5px 4px; border-bottom: 1px solid #24143014; }\n.uif-vw-caption { margin: 10px 0 0; font-size: 11px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]\" data-view=\"{{viewType}}\">\n  <div class=\"tw-vw-list hidden\"><div class=\"py-1.5 border-b border-[#24143014]\">{{itemLabel}} 1</div><div class=\"py-1.5 border-b border-[#24143014]\">{{itemLabel}} 2</div><div class=\"py-1.5 border-b border-[#24143014]\">{{itemLabel}} 3</div></div>\n  <div class=\"tw-vw-grid hidden gap-2\"><span class=\"flex-1 h-[50px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"flex-1 h-[50px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"flex-1 h-[50px] rounded-lg\" style=\"background:{{accent}};\"></span></div>\n  <table class=\"tw-vw-table hidden w-full border-collapse\"><tr><th class=\"text-left py-1 px-1 border-b border-[#24143014]\">{{itemLabel}}</th><th class=\"text-left py-1 px-1 border-b border-[#24143014]\">Amount</th></tr><tr><td class=\"py-1 px-1 border-b border-[#24143014]\">1</td><td class=\"py-1 px-1 border-b border-[#24143014]\" style=\"color:{{accent}};\">&pound;40</td></tr></table>\n  <p class=\"mt-2.5 text-[11px] text-[#241430]/70\">Same data, {{viewType}} view</p>\n</div>\n<style>\n[data-view=\"list\"] .tw-vw-list { display: block; }\n[data-view=\"grid\"] .tw-vw-grid { display: flex; }\n[data-view=\"table\"] .tw-vw-table { display: table; }\n</style>",
+    "react": "export function View({\n  viewType = \"{{viewType}}\",\n  itemLabel = \"{{itemLabel}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\" }}>\n      {viewType === \"list\" && (\n        <div>{[1, 2, 3].map((n) => (<div key={n} style={{ padding: \"6px 0\", borderBottom: \"1px solid #24143014\" }}>{itemLabel} {n}</div>))}</div>\n      )}\n      {viewType === \"grid\" && (\n        <div style={{ display: \"flex\", gap: 8 }}>{[1, 2, 3].map((n) => (<span key={n} style={{ flex: 1, height: 50, borderRadius: 8, background: accent }} />))}</div>\n      )}\n      {viewType === \"table\" && (\n        <table style={{ width: \"100%\", borderCollapse: \"collapse\" }}>\n          <tbody>\n            <tr><th style={{ textAlign: \"left\", padding: \"5px 4px\", borderBottom: \"1px solid #24143014\" }}>{itemLabel}</th><th style={{ textAlign: \"left\", padding: \"5px 4px\", borderBottom: \"1px solid #24143014\" }}>Amount</th></tr>\n            <tr><td style={{ padding: \"5px 4px\", borderBottom: \"1px solid #24143014\" }}>1</td><td style={{ padding: \"5px 4px\", borderBottom: \"1px solid #24143014\", color: accent }}>&pound;40</td></tr>\n          </tbody>\n        </table>\n      )}\n      <p style={{ margin: \"10px 0 0\", fontSize: 11, color: \"#241430aa\" }}>Same data, {viewType} view</p>\n    </div>\n  );\n}"
+  }
+}

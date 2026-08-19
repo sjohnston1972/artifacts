@@ -1,0 +1,42 @@
+{
+  "slug": "quick-edit",
+  "controls_schema": [
+    {
+      "id": "fieldLabel",
+      "type": "text",
+      "label": "Field",
+      "default": "Due date"
+    },
+    {
+      "id": "value",
+      "type": "text",
+      "label": "Value",
+      "default": "Aug 22"
+    },
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Popover open",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#E8A020",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"qe-demo\" style=\"--accent:{{accent}};\">\n  <div class=\"qe-demo__row\">\n    <span class=\"qe-demo__field\">{{fieldLabel}}</span>\n    <button type=\"button\" class=\"qe-demo__chip{{#if open}} is-active{{/if}}\">{{value}} <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg></button>\n  </div>\n  {{#if open}}\n  <div class=\"qe-demo__popover\">\n    <input class=\"qe-demo__input\" type=\"text\" value=\"{{value}}\" />\n    <button type=\"button\" class=\"qe-demo__done\">Done</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.qe-demo { width: 260px; font: 14px system-ui, sans-serif; color: #241430; position: relative; }\n.qe-demo__row { display: flex; align-items: center; justify-content: space-between; }\n.qe-demo__field { color: #241430aa; font-size: 13px; }\n.qe-demo__chip { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid transparent; background: #24143010; border-radius: 999px; padding: 5px 12px; font: inherit; cursor: pointer; }\n.qe-demo__chip.is-active { border-color: var(--accent); background: #FAF7F2; }\n.qe-demo__chip svg { opacity: .6; }\n.qe-demo__popover { margin-top: 8px; padding: 10px; border-radius: 10px; background: #FAF7F2; border: 1.5px solid var(--accent); box-shadow: 0 10px 22px rgba(36,20,48,.16); display: flex; gap: 6px; }\n.qe-demo__input { flex: 1; padding: 7px 9px; border-radius: 6px; border: 1.5px solid #24143033; font: inherit; }\n.qe-demo__done { background: var(--accent); border: none; border-radius: 6px; padding: 6px 12px; font-weight: 600; cursor: pointer; }\n</style>",
+    "tailwind": "<div class=\"relative\" style=\"width:260px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"flex items-center justify-between\">\n    <span class=\"text-[13px] text-[#241430aa]\">{{fieldLabel}}</span>\n    <button type=\"button\" class=\"qe-tw{{#if open}} is-active{{/if}} inline-flex items-center gap-1.5 border-[1.5px] border-transparent rounded-full px-3 py-1.5 bg-[#24143010] cursor-pointer\">{{value}} <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg></button>\n  </div>\n  {{#if open}}\n  <div class=\"mt-2 p-2.5 rounded-[10px] flex gap-1.5\" style=\"background:#FAF7F2;border:1.5px solid {{accent}};box-shadow:0 10px 22px rgba(36,20,48,.16)\">\n    <input type=\"text\" value=\"{{value}}\" class=\"flex-1 px-2 py-1.5 rounded-md border-[1.5px]\" style=\"border-color:#24143033\" />\n    <button type=\"button\" class=\"rounded-md px-3 py-1.5 font-semibold border-0 cursor-pointer\" style=\"background:{{accent}}\">Done</button>\n  </div>\n  {{/if}}\n</div>\n<style>\n.qe-tw.is-active { border-color: {{accent}}; background: #FAF7F2; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function QuickEdit({\n  fieldLabel = \"{{fieldLabel}}\",\n  value: initialValue = \"{{value}}\",\n  open: initialOpen = {{open}},\n  accent = \"{{accent}}\",\n}) {\n  const [open, setOpen] = useState(initialOpen);\n  const [value, setValue] = useState(initialValue);\n  return (\n    <div style={{ width: 260, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\", position: \"relative\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\" }}>\n        <span style={{ fontSize: 13, color: \"#241430aa\" }}>{fieldLabel}</span>\n        <button type=\"button\" onClick={() => setOpen((o) => !o)} style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, border: \"1.5px solid \" + (open ? accent : \"transparent\"), background: open ? \"#FAF7F2\" : \"#24143010\", borderRadius: 999, padding: \"5px 12px\", cursor: \"pointer\" }}>\n          {value} <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" aria-hidden=\"true\"><path d=\"M16 3l5 5-11 11H5v-5z\" /></svg>\n        </button>\n      </div>\n      {open && (\n        <div style={{ marginTop: 8, padding: 10, borderRadius: 10, background: \"#FAF7F2\", border: \"1.5px solid \" + accent, boxShadow: \"0 10px 22px rgba(36,20,48,.16)\", display: \"flex\", gap: 6 }}>\n          <input type=\"text\" value={value} onChange={(e) => setValue(e.target.value)} style={{ flex: 1, padding: \"7px 9px\", borderRadius: 6, border: \"1.5px solid #24143033\", font: \"inherit\" }} />\n          <button type=\"button\" onClick={() => setOpen(false)} style={{ background: accent, border: \"none\", borderRadius: 6, padding: \"6px 12px\", fontWeight: 600, cursor: \"pointer\" }}>Done</button>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

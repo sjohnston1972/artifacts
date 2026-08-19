@@ -1,0 +1,45 @@
+{
+  "slug": "excessive-nesting",
+  "controls_schema": [
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Content",
+      "default": "Total: $42.00"
+    },
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (flattened)",
+      "default": false
+    },
+    {
+      "id": "depth",
+      "type": "number",
+      "label": "Nesting depth (anti-pattern)",
+      "default": 6,
+      "min": 3,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#D9C8F0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"en-demo\" style=\"--accent:{{accent}};\">\n  <span class=\"en-demo__badge{{#if fixed}} en-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: excessive nesting ({{depth}} levels){{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"en-demo__nest\"><div class=\"en-demo__nest\"><div class=\"en-demo__nest\"><div class=\"en-demo__nest\"><div class=\"en-demo__nest\"><div class=\"en-demo__nest en-demo__nest--inner\">{{label}}</div></div></div></div></div></div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"en-demo__flat\">{{label}}</div>\n  {{/if}}\n</div>\n<style>\n.en-demo { width: 300px; font: 13px system-ui, sans-serif; color: #241430; }\n.en-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.en-demo__badge--good { background: #1a7a44; }\n.en-demo__nest { border: 1.5px dashed #24143033; border-radius: 6px; padding: 8px; }\n.en-demo__nest--inner { border-color: var(--accent); background: #FAF7F2; font-weight: 700; text-align: center; }\n.en-demo__flat { padding: 14px; border-radius: 10px; background: var(--accent); font-weight: 700; text-align: center; }\n</style>",
+    "tailwind": "<div style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"en-tw-badge{{#if fixed}} en-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: excessive nesting ({{depth}} levels){{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"border-[1.5px] border-dashed rounded-md p-2\" style=\"border-color:#24143033\"><div class=\"border-[1.5px] border-dashed rounded-md p-2\" style=\"border-color:#24143033\"><div class=\"border-[1.5px] border-dashed rounded-md p-2\" style=\"border-color:#24143033\"><div class=\"border-[1.5px] border-dashed rounded-md p-2\" style=\"border-color:#24143033\"><div class=\"border-[1.5px] border-dashed rounded-md p-2\" style=\"border-color:#24143033\"><div class=\"rounded-md p-2 font-bold text-center\" style=\"border:1.5px solid {{accent}};background:#FAF7F2\">{{label}}</div></div></div></div></div></div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"p-3.5 rounded-[10px] font-bold text-center\" style=\"background:{{accent}}\">{{label}}</div>\n  {{/if}}\n</div>\n<style>\n.en-tw-badge { background: #b3261e; color: #FAF7F2; }\n.en-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function ExcessiveNesting({\n  label = \"{{label}}\",\n  fixed = {{fixed}},\n  depth = {{depth}},\n  accent = \"{{accent}}\",\n}) {\n  const wrap = { border: \"1.5px dashed #24143033\", borderRadius: 6, padding: 8 };\n  let nested = <div style={{ border: \"1.5px solid \" + accent, borderRadius: 6, padding: 8, background: \"#FAF7F2\", fontWeight: 700, textAlign: \"center\" }}>{label}</div>;\n  for (let i = 0; i < 5; i++) nested = <div style={wrap}>{nested}</div>;\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: excessive nesting (\" + depth + \" levels)\"}\n      </span>\n      {!fixed && nested}\n      {fixed && <div style={{ padding: 14, borderRadius: 10, background: accent, fontWeight: 700, textAlign: \"center\" }}>{label}</div>}\n    </div>\n  );\n}"
+  }
+}

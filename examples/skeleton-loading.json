@@ -1,0 +1,30 @@
+{
+  "slug": "skeleton-loading",
+  "controls_schema": [
+    {
+      "id": "loaded",
+      "type": "toggle",
+      "label": "Content loaded",
+      "default": false
+    },
+    {
+      "id": "shape",
+      "type": "select",
+      "label": "Shape",
+      "default": "card",
+      "options": ["card", "profile"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"lod-skl-stage\" data-shape=\"{{shape}}\">\n  {{#unless loaded}}\n  <div class=\"lod-skl-body\" aria-hidden=\"true\">\n    <span class=\"lod-skl-avatar\"></span>\n    <span class=\"lod-skl-bar lod-skl-bar--w\"></span>\n    <span class=\"lod-skl-bar lod-skl-bar--m\"></span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\">Loading profile&hellip;</p>\n  {{/unless}}\n  {{#if loaded}}\n  <div class=\"lod-skl-loaded\">\n    <span class=\"lod-skl-photo\" style=\"background:{{accent}};\"></span>\n    <strong>Amara Cole</strong>\n    <p>Product designer</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n.lod-skl-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; }\n.lod-skl-avatar { display: block; width: 44px; height: 44px; border-radius: 999px; background: #24143014; margin-bottom: 10px; }\n[data-shape=\"card\"] .lod-skl-avatar { border-radius: 8px; width: 100%; height: 60px; }\n.lod-skl-bar { display: block; height: 11px; background: #24143014; border-radius: 6px; margin-bottom: 8px; }\n.lod-skl-bar--w { width: 100%; } .lod-skl-bar--m { width: 55%; }\n.lod-skl-loaded { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }\n.lod-skl-photo { width: 44px; height: 44px; border-radius: 999px; margin-bottom: 8px; }\n.lod-skl-loaded p { margin: 0; color: #241430aa; font-size: 12px; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70\" data-shape=\"{{shape}}\">\n  {{#unless loaded}}\n  <div aria-hidden=\"true\">\n    <span class=\"tw-skl-avatar block w-11 h-11 rounded-full bg-[#24143014] mb-2.5\"></span>\n    <span class=\"block h-[11px] bg-[#24143014] rounded-md mb-2 w-full\"></span>\n    <span class=\"block h-[11px] bg-[#24143014] rounded-md mb-2 w-[55%]\"></span>\n  </div>\n  <p role=\"status\" aria-live=\"polite\">Loading profile&hellip;</p>\n  {{/unless}}\n  {{#if loaded}}\n  <div class=\"flex flex-col items-start gap-0.5\">\n    <span class=\"w-11 h-11 rounded-full mb-2\" style=\"background:{{accent}};\"></span>\n    <strong>Amara Cole</strong>\n    <p class=\"m-0 text-xs text-[#241430]/70\">Product designer</p>\n  </div>\n  {{/if}}\n</div>\n<style>\n[data-shape=\"card\"] .tw-skl-avatar { border-radius: 8px; width: 100%; height: 60px; }\n</style>",
+    "react": "export function SkeletonLoading({\n  loaded = {{loaded}},\n  shape = \"{{shape}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      {!loaded && (\n        <>\n          <div aria-hidden=\"true\">\n            <span style={{ display: \"block\", width: shape === \"card\" ? \"100%\" : 44, height: shape === \"card\" ? 60 : 44, borderRadius: shape === \"card\" ? 8 : 999, background: \"#24143014\", marginBottom: 10 }} />\n            <span style={{ display: \"block\", height: 11, background: \"#24143014\", borderRadius: 6, marginBottom: 8, width: \"100%\" }} />\n            <span style={{ display: \"block\", height: 11, background: \"#24143014\", borderRadius: 6, marginBottom: 8, width: \"55%\" }} />\n          </div>\n          <p role=\"status\" aria-live=\"polite\">Loading profile&hellip;</p>\n        </>\n      )}\n      {loaded && (\n        <div style={{ display: \"flex\", flexDirection: \"column\", alignItems: \"flex-start\", gap: 2 }}>\n          <span style={{ width: 44, height: 44, borderRadius: 999, marginBottom: 8, background: accent }} />\n          <strong>Amara Cole</strong>\n          <p style={{ margin: 0, color: \"#241430aa\", fontSize: 12 }}>Product designer</p>\n        </div>\n      )}\n    </div>\n  );\n}"
+  }
+}

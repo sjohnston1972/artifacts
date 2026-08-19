@@ -1,0 +1,47 @@
+{
+  "slug": "wcag",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Feature name",
+      "default": "Colour contrast"
+    },
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Conformance level",
+      "default": "AA",
+      "options": [
+        "A",
+        "AA",
+        "AAA"
+      ]
+    },
+    {
+      "id": "showChecklist",
+      "type": "toggle",
+      "label": "Show checklist",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"wcag-demo\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <div class=\"wcag-demo__head\">\n    <p class=\"wcag-demo__title\">{{title}}</p>\n    <span class=\"wcag-demo__badge\">WCAG {{level}}</span>\n  </div>\n  <div class=\"wcag-demo__bar\"><div class=\"wcag-demo__fill\"></div></div>\n  {{#if showChecklist}}\n  <ul class=\"wcag-demo__list\">\n    <li class=\"wcag-demo__item wcag-demo__item--a\">Perceivable basics met</li>\n    <li class=\"wcag-demo__item wcag-demo__item--aa\">Enhanced contrast &amp; resize met</li>\n    <li class=\"wcag-demo__item wcag-demo__item--aaa\">Highest-tier support met</li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.wcag-demo { width: 300px; font: 14px system-ui, sans-serif; color: #241430; }\n.wcag-demo__head { display: flex; align-items: center; justify-content: space-between; }\n.wcag-demo__title { margin: 0; font-weight: 700; }\n.wcag-demo__badge { padding: 3px 10px; border-radius: 999px; background: var(--accent); font-size: 11px; font-weight: 700; }\n.wcag-demo__bar { margin-top: 10px; height: 8px; border-radius: 999px; background: #24143014; overflow: hidden; }\n.wcag-demo__fill { height: 100%; background: var(--accent); width: 33%; }\n.wcag-demo[data-level=\"AA\"] .wcag-demo__fill { width: 66%; }\n.wcag-demo[data-level=\"AAA\"] .wcag-demo__fill { width: 100%; }\n.wcag-demo__list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }\n.wcag-demo__item { font-size: 12px; color: #241430aa; opacity: .4; }\n.wcag-demo__item::before { content: \"\\2713  \"; }\n.wcag-demo[data-level=\"A\"] .wcag-demo__item--a { opacity: 1; color: #241430; }\n.wcag-demo[data-level=\"AA\"] .wcag-demo__item--a, .wcag-demo[data-level=\"AA\"] .wcag-demo__item--aa { opacity: 1; color: #241430; }\n.wcag-demo[data-level=\"AAA\"] .wcag-demo__item { opacity: 1; color: #241430; }\n</style>",
+    "tailwind": "<div class=\"wcag-tw wcag-tw--{{level}}\" style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"flex items-center justify-between\">\n    <p class=\"m-0 font-bold\">{{title}}</p>\n    <span class=\"px-2.5 py-0.5 rounded-full text-[11px] font-bold\" style=\"background:{{accent}}\">WCAG {{level}}</span>\n  </div>\n  <div class=\"mt-2.5 h-2 rounded-full bg-[#24143014] overflow-hidden\">\n    <div class=\"wcag-tw__fill h-full\" style=\"background:{{accent}}\"></div>\n  </div>\n  {{#if showChecklist}}\n  <ul class=\"list-none m-0 mt-3 p-0 flex flex-col gap-1\">\n    <li class=\"wcag-tw__item wcag-tw__item--a text-xs text-[#241430aa]\">&#10003; Perceivable basics met</li>\n    <li class=\"wcag-tw__item wcag-tw__item--aa text-xs text-[#241430aa]\">&#10003; Enhanced contrast &amp; resize met</li>\n    <li class=\"wcag-tw__item wcag-tw__item--aaa text-xs text-[#241430aa]\">&#10003; Highest-tier support met</li>\n  </ul>\n  {{/if}}\n</div>\n<style>\n.wcag-tw--A .wcag-tw__fill { width: 33%; }\n.wcag-tw--AA .wcag-tw__fill { width: 66%; }\n.wcag-tw--AAA .wcag-tw__fill { width: 100%; }\n.wcag-tw__item { opacity: .4; }\n.wcag-tw--A .wcag-tw__item--a { opacity: 1; color: #241430; }\n.wcag-tw--AA .wcag-tw__item--a, .wcag-tw--AA .wcag-tw__item--aa { opacity: 1; color: #241430; }\n.wcag-tw--AAA .wcag-tw__item { opacity: 1; color: #241430; }\n</style>",
+    "react": "export function WcagBadge({\n  title = \"{{title}}\",\n  level = \"{{level}}\",\n  showChecklist = {{showChecklist}},\n  accent = \"{{accent}}\",\n}) {\n  const fillWidth = { A: \"33%\", AA: \"66%\", AAA: \"100%\" }[level];\n  const items = [\n    { key: \"a\", label: \"Perceivable basics met\" },\n    { key: \"aa\", label: \"Enhanced contrast & resize met\" },\n    { key: \"aaa\", label: \"Highest-tier support met\" },\n  ];\n  const active = { A: [\"a\"], AA: [\"a\", \"aa\"], AAA: [\"a\", \"aa\", \"aaa\"] }[level];\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\" }}>\n        <p style={{ margin: 0, fontWeight: 700 }}>{title}</p>\n        <span style={{ padding: \"3px 10px\", borderRadius: 999, background: accent, fontSize: 11, fontWeight: 700 }}>WCAG {level}</span>\n      </div>\n      <div style={{ marginTop: 10, height: 8, borderRadius: 999, background: \"#24143014\", overflow: \"hidden\" }}>\n        <div style={{ height: \"100%\", background: accent, width: fillWidth }} />\n      </div>\n      {showChecklist && (\n        <ul style={{ listStyle: \"none\", margin: \"12px 0 0\", padding: 0, display: \"flex\", flexDirection: \"column\", gap: 4 }}>\n          {items.map((it) => (\n            <li key={it.key} style={{ fontSize: 12, color: \"#241430aa\", opacity: active.includes(it.key) ? 1 : 0.4 }}>&#10003; {it.label}</li>\n          ))}\n        </ul>\n      )}\n    </div>\n  );\n}"
+  }
+}

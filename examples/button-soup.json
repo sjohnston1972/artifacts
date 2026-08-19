@@ -1,0 +1,45 @@
+{
+  "slug": "button-soup",
+  "controls_schema": [
+    {
+      "id": "fixed",
+      "type": "toggle",
+      "label": "Fixed (clear hierarchy)",
+      "default": false
+    },
+    {
+      "id": "primaryLabel",
+      "type": "text",
+      "label": "Primary action",
+      "default": "Save"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    },
+    {
+      "id": "size",
+      "type": "number",
+      "label": "Button height (px)",
+      "default": 30,
+      "min": 26,
+      "max": 40,
+      "step": 2
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"bs-demo\">\n  <span class=\"bs-demo__badge{{#if fixed}} bs-demo__badge--good{{/if}}\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: button soup{{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"bs-demo__soup\">\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">{{primaryLabel}}</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Cancel</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Export</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Share</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Duplicate</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Archive</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">Delete</button>\n    <button type=\"button\" class=\"bs-demo__soupbtn\" style=\"height:{{size}}px;\">More</button>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"bs-demo__clear\" style=\"--accent:{{accent}};\">\n    <button type=\"button\" class=\"bs-demo__primary\" style=\"height:{{size}}px;\">{{primaryLabel}}</button>\n    <button type=\"button\" class=\"bs-demo__secondary\" style=\"height:{{size}}px;\">Cancel</button>\n    <button type=\"button\" class=\"bs-demo__tertiary\" style=\"height:{{size}}px;\">More&hellip;</button>\n  </div>\n  {{/if}}\n  <p class=\"bs-demo__caption\">{{#if fixed}}one clear primary action, one secondary, the rest tucked away{{/if}}{{unless fixed}}eight identical buttons, no visual priority &mdash; which one matters?{{/unless}}</p>\n</div>\n<style>\n.bs-demo { width: 320px; font: 13px system-ui, sans-serif; color: #241430; }\n.bs-demo__badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 10px; background: #b3261e; color: #FAF7F2; }\n.bs-demo__badge--good { background: #1a7a44; }\n.bs-demo__soup { display: flex; flex-wrap: wrap; gap: 6px; }\n.bs-demo__soupbtn { padding: 0 12px; border-radius: 6px; border: 1.5px solid #24143033; background: #FAF7F2; font: inherit; cursor: pointer; }\n.bs-demo__clear { display: flex; align-items: center; gap: 8px; }\n.bs-demo__primary { padding: 0 18px; border-radius: 7px; border: none; background: var(--accent); color: #FAF7F2; font-weight: 700; cursor: pointer; }\n.bs-demo__secondary { padding: 0 18px; border-radius: 7px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }\n.bs-demo__tertiary { padding: 0 12px; border: none; background: transparent; color: #241430aa; cursor: pointer; }\n.bs-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <span class=\"bs-tw-badge{{#if fixed}} bs-tw-badge--good{{/if}} inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold mb-2.5\">{{#if fixed}}&#10003; Better{{/if}}{{unless fixed}}&#10007; Anti-pattern: button soup{{/unless}}</span>\n  {{unless fixed}}\n  <div class=\"flex flex-wrap gap-1.5\">\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">{{primaryLabel}}</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Cancel</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Export</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Share</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Duplicate</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Archive</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">Delete</button>\n    <button type=\"button\" class=\"px-3 rounded-md border-[1.5px] cursor-pointer\" style=\"height:{{size}}px;border-color:#24143033;background:#FAF7F2\">More</button>\n  </div>\n  {{/unless}}\n  {{#if fixed}}\n  <div class=\"flex items-center gap-2\">\n    <button type=\"button\" class=\"px-4.5 rounded-md border-0 font-bold cursor-pointer\" style=\"height:{{size}}px;background:{{accent}};color:#FAF7F2\">{{primaryLabel}}</button>\n    <button type=\"button\" class=\"px-4.5 rounded-md border-[1.5px] bg-transparent cursor-pointer\" style=\"height:{{size}}px;border-color:{{accent}};color:{{accent}}\">Cancel</button>\n    <button type=\"button\" class=\"px-3 border-0 bg-transparent cursor-pointer text-[#241430aa]\" style=\"height:{{size}}px\">More&hellip;</button>\n  </div>\n  {{/if}}\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">{{#if fixed}}one clear primary action, one secondary, the rest tucked away{{/if}}{{unless fixed}}eight identical buttons, no visual priority &mdash; which one matters?{{/unless}}</p>\n</div>\n<style>\n.bs-tw-badge { background: #b3261e; color: #FAF7F2; }\n.bs-tw-badge--good { background: #1a7a44; color: #FAF7F2; }\n</style>",
+    "react": "export function ButtonSoup({\n  fixed = {{fixed}},\n  primaryLabel = \"{{primaryLabel}}\",\n  accent = \"{{accent}}\",\n  size = {{size}},\n}) {\n  const soupBtn = { padding: \"0 12px\", height: size, borderRadius: 6, border: \"1.5px solid #24143033\", background: \"#FAF7F2\", cursor: \"pointer\" };\n  const soupLabels = [\"Cancel\", \"Export\", \"Share\", \"Duplicate\", \"Archive\", \"Delete\", \"More\"];\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n      <span style={{ display: \"inline-block\", padding: \"3px 10px\", borderRadius: 999, fontSize: 11, fontWeight: 700, marginBottom: 10, background: fixed ? \"#1a7a44\" : \"#b3261e\", color: \"#FAF7F2\" }}>\n        {fixed ? \"\\u2713 Better\" : \"\\u2717 Anti-pattern: button soup\"}\n      </span>\n      {!fixed && (\n        <div style={{ display: \"flex\", flexWrap: \"wrap\", gap: 6 }}>\n          <button type=\"button\" style={soupBtn}>{primaryLabel}</button>\n          {soupLabels.map((l) => <button key={l} type=\"button\" style={soupBtn}>{l}</button>)}\n        </div>\n      )}\n      {fixed && (\n        <div style={{ display: \"flex\", alignItems: \"center\", gap: 8 }}>\n          <button type=\"button\" style={{ padding: \"0 18px\", height: size, borderRadius: 7, border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 700, cursor: \"pointer\" }}>{primaryLabel}</button>\n          <button type=\"button\" style={{ padding: \"0 18px\", height: size, borderRadius: 7, border: \"1.5px solid \" + accent, background: \"transparent\", color: accent, cursor: \"pointer\" }}>Cancel</button>\n          <button type=\"button\" style={{ padding: \"0 12px\", height: size, border: \"none\", background: \"transparent\", color: \"#241430aa\", cursor: \"pointer\" }}>More&hellip;</button>\n        </div>\n      )}\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>{fixed ? \"one clear primary action, one secondary, the rest tucked away\" : \"eight identical buttons, no visual priority \\u2014 which one matters?\"}</p>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "page",
+  "controls_schema": [
+    {
+      "id": "layout",
+      "type": "select",
+      "label": "Layout",
+      "default": "standard",
+      "options": ["standard", "with-sidebar"]
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Route label",
+      "default": "/dashboard"
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Show region labels",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"uif-pg-stage\" data-layout=\"{{layout}}\">\n  <div class=\"uif-pg-bar\">{{title}}</div>\n  <div class=\"uif-pg-header\" style=\"background:{{accent}};\">{{#if showLabels}}header{{/if}}</div>\n  <div class=\"uif-pg-body\">\n    <div class=\"uif-pg-side\">{{#if showLabels}}nav{{/if}}</div>\n    <div class=\"uif-pg-main\">{{#if showLabels}}main content{{/if}}</div>\n  </div>\n  <div class=\"uif-pg-footer\">{{#if showLabels}}footer{{/if}}</div>\n</div>\n<style>\n.uif-pg-stage { width: 100%; max-width: 320px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 11px system-ui, sans-serif; color: #241430aa; }\n.uif-pg-bar { padding: 4px 10px; background: #24143011; font-size: 10px; }\n.uif-pg-header { padding: 10px; text-align: center; color: #241430; font-weight: 600; }\n.uif-pg-body { display: flex; min-height: 70px; }\n.uif-pg-side { display: none; width: 60px; background: #24143011; padding: 10px; box-sizing: border-box; }\n[data-layout=\"with-sidebar\"] .uif-pg-side { display: block; }\n.uif-pg-main { flex: 1; padding: 10px; background: #fff; }\n.uif-pg-footer { padding: 8px 10px; background: #24143011; text-align: center; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-[11px] text-[#241430]/70\" data-layout=\"{{layout}}\">\n  <div class=\"px-2.5 py-1 bg-[#24143011] text-[10px]\">{{title}}</div>\n  <div class=\"p-2.5 text-center font-semibold text-[#241430]\" style=\"background:{{accent}};\">{{#if showLabels}}header{{/if}}</div>\n  <div class=\"flex min-h-[70px]\">\n    <div class=\"tw-pg-side hidden w-[60px] bg-[#24143011] p-2.5 box-border\">{{#if showLabels}}nav{{/if}}</div>\n    <div class=\"flex-1 p-2.5 bg-white\">{{#if showLabels}}main content{{/if}}</div>\n  </div>\n  <div class=\"px-2.5 py-2 bg-[#24143011] text-center\">{{#if showLabels}}footer{{/if}}</div>\n</div>\n<style>\n[data-layout=\"with-sidebar\"] .tw-pg-side { display: block; }\n</style>",
+    "react": "export function Page({\n  layout = \"{{layout}}\",\n  title = \"{{title}}\",\n  showLabels = {{showLabels}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 11, color: \"#241430aa\" }}>\n      <div style={{ padding: \"4px 10px\", background: \"#24143011\", fontSize: 10 }}>{title}</div>\n      <div style={{ padding: 10, textAlign: \"center\", color: \"#241430\", fontWeight: 600, background: accent }}>{showLabels && \"header\"}</div>\n      <div style={{ display: \"flex\", minHeight: 70 }}>\n        {layout === \"with-sidebar\" && <div style={{ width: 60, background: \"#24143011\", padding: 10, boxSizing: \"border-box\" }}>{showLabels && \"nav\"}</div>}\n        <div style={{ flex: 1, padding: 10, background: \"#fff\" }}>{showLabels && \"main content\"}</div>\n      </div>\n      <div style={{ padding: \"8px 10px\", background: \"#24143011\", textAlign: \"center\" }}>{showLabels && \"footer\"}</div>\n    </div>\n  );\n}"
+  }
+}

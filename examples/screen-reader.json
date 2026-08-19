@@ -1,0 +1,42 @@
+{
+  "slug": "screen-reader",
+  "controls_schema": [
+    {
+      "id": "customText",
+      "type": "text",
+      "label": "Content text",
+      "default": "Subscribe"
+    },
+    {
+      "id": "content",
+      "type": "select",
+      "label": "Element type",
+      "default": "button",
+      "options": [
+        "heading",
+        "button",
+        "link",
+        "image"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#241430",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"sr-demo\" data-content=\"{{content}}\" style=\"--accent:{{accent}};\">\n  <div class=\"sr-demo__el\">\n    <span class=\"sr-demo__el--heading\">{{customText}}</span>\n    <button type=\"button\" class=\"sr-demo__el--button\">{{customText}}</button>\n    <a href=\"#\" class=\"sr-demo__el--link\">{{customText}}</a>\n    <span class=\"sr-demo__el--image\" role=\"img\" aria-label=\"{{customText}}\">&#9633;</span>\n  </div>\n  <div class=\"sr-demo__bubble\">\n    <svg class=\"sr-demo__wave\" viewBox=\"0 0 40 16\" width=\"28\" height=\"12\" aria-hidden=\"true\"><rect x=\"0\" y=\"4\" width=\"3\" height=\"8\" fill=\"var(--accent)\" /><rect x=\"6\" y=\"0\" width=\"3\" height=\"16\" fill=\"var(--accent)\" /><rect x=\"12\" y=\"5\" width=\"3\" height=\"6\" fill=\"var(--accent)\" /><rect x=\"18\" y=\"2\" width=\"3\" height=\"12\" fill=\"var(--accent)\" /><rect x=\"24\" y=\"6\" width=\"3\" height=\"4\" fill=\"var(--accent)\" /></svg>\n    <p class=\"sr-demo__say\" data-x=\"{{customText}}\"></p>\n  </div>\n</div>\n<style>\n.sr-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; }\n.sr-demo__el--heading, .sr-demo__el--button, .sr-demo__el--link, .sr-demo__el--image { display: none; }\n.sr-demo[data-content=\"heading\"] .sr-demo__el--heading { display: block; font-size: 20px; font-weight: 800; }\n.sr-demo[data-content=\"button\"] .sr-demo__el--button { display: inline-block; padding: 10px 20px; border-radius: 999px; border: none; background: var(--accent); color: #FAF7F2; font-weight: 600; cursor: pointer; }\n.sr-demo[data-content=\"link\"] .sr-demo__el--link { display: inline-block; color: var(--accent); text-decoration: underline; font-weight: 600; }\n.sr-demo[data-content=\"image\"] .sr-demo__el--image { display: grid; width: 40px; height: 40px; border-radius: 8px; background: var(--accent); color: #FAF7F2; place-items: center; font-size: 20px; }\n.sr-demo__bubble { margin-top: 14px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #24143010; }\n.sr-demo__say { margin: 0; font-size: 13px; font-style: italic; }\n.sr-demo[data-content=\"heading\"] .sr-demo__say::after { content: \"Heading level 2, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-demo[data-content=\"button\"] .sr-demo__say::after { content: \"Button, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-demo[data-content=\"link\"] .sr-demo__say::after { content: \"Link, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-demo[data-content=\"image\"] .sr-demo__say::after { content: \"Image, \\201C\" attr(data-x) \"\\201D\"; }\n</style>",
+    "tailwind": "<div class=\"sr-tw sr-tw--{{content}}\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <div>\n    <span class=\"sr-tw__heading hidden text-xl font-extrabold\">{{customText}}</span>\n    <button type=\"button\" class=\"sr-tw__button hidden px-5 py-2.5 rounded-full border-0 font-semibold cursor-pointer\" style=\"background:{{accent}};color:#FAF7F2\">{{customText}}</button>\n    <a href=\"#\" class=\"sr-tw__link hidden underline font-semibold\" style=\"color:{{accent}}\">{{customText}}</a>\n    <span role=\"img\" aria-label=\"{{customText}}\" class=\"sr-tw__image hidden w-10 h-10 rounded-lg place-items-center text-xl\" style=\"background:{{accent}};color:#FAF7F2\">&#9633;</span>\n  </div>\n  <div class=\"mt-3.5 flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-[#24143010]\">\n    <svg width=\"28\" height=\"12\" viewBox=\"0 0 40 16\" aria-hidden=\"true\"><rect x=\"0\" y=\"4\" width=\"3\" height=\"8\" fill=\"{{accent}}\" /><rect x=\"6\" y=\"0\" width=\"3\" height=\"16\" fill=\"{{accent}}\" /><rect x=\"12\" y=\"5\" width=\"3\" height=\"6\" fill=\"{{accent}}\" /><rect x=\"18\" y=\"2\" width=\"3\" height=\"12\" fill=\"{{accent}}\" /><rect x=\"24\" y=\"6\" width=\"3\" height=\"4\" fill=\"{{accent}}\" /></svg>\n    <p class=\"sr-tw__say m-0 text-[13px] italic\" data-x=\"{{customText}}\"></p>\n  </div>\n</div>\n<style>\n.sr-tw--heading .sr-tw__heading { display: block; }\n.sr-tw--button .sr-tw__button { display: inline-block; }\n.sr-tw--link .sr-tw__link { display: inline-block; }\n.sr-tw--image .sr-tw__image { display: grid; }\n.sr-tw--heading .sr-tw__say::after { content: \"Heading level 2, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-tw--button .sr-tw__say::after { content: \"Button, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-tw--link .sr-tw__say::after { content: \"Link, \\201C\" attr(data-x) \"\\201D\"; }\n.sr-tw--image .sr-tw__say::after { content: \"Image, \\201C\" attr(data-x) \"\\201D\"; }\n</style>",
+    "react": "export function ScreenReaderDemo({\n  customText = \"{{customText}}\",\n  content = \"{{content}}\",\n  accent = \"{{accent}}\",\n}) {\n  const say = {\n    heading: \"Heading level 2, \\u201C\" + customText + \"\\u201D\",\n    button: \"Button, \\u201C\" + customText + \"\\u201D\",\n    link: \"Link, \\u201C\" + customText + \"\\u201D\",\n    image: \"Image, \\u201C\" + customText + \"\\u201D\",\n  }[content];\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div>\n        {content === \"heading\" && <span style={{ fontSize: 20, fontWeight: 800 }}>{customText}</span>}\n        {content === \"button\" && <button type=\"button\" style={{ padding: \"10px 20px\", borderRadius: 999, border: \"none\", background: accent, color: \"#FAF7F2\", fontWeight: 600, cursor: \"pointer\" }}>{customText}</button>}\n        {content === \"link\" && <a href=\"#\" style={{ color: accent, textDecoration: \"underline\", fontWeight: 600 }}>{customText}</a>}\n        {content === \"image\" && <span role=\"img\" aria-label={customText} style={{ display: \"grid\", width: 40, height: 40, borderRadius: 8, background: accent, color: \"#FAF7F2\", placeItems: \"center\", fontSize: 20 }}>&#9633;</span>}\n      </div>\n      <div style={{ marginTop: 14, display: \"flex\", alignItems: \"center\", gap: 10, padding: \"10px 12px\", borderRadius: 10, background: \"#24143010\" }}>\n        <svg width=\"28\" height=\"12\" viewBox=\"0 0 40 16\" aria-hidden=\"true\"><rect x=\"0\" y=\"4\" width=\"3\" height=\"8\" fill={accent} /><rect x=\"6\" y=\"0\" width=\"3\" height=\"16\" fill={accent} /><rect x=\"12\" y=\"5\" width=\"3\" height=\"6\" fill={accent} /><rect x=\"18\" y=\"2\" width=\"3\" height=\"12\" fill={accent} /><rect x=\"24\" y=\"6\" width=\"3\" height=\"4\" fill={accent} /></svg>\n        <p style={{ margin: 0, fontSize: 13, fontStyle: \"italic\" }}>{say}</p>\n      </div>\n    </div>\n  );\n}"
+  }
+}

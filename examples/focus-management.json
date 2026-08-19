@@ -1,0 +1,41 @@
+{
+  "slug": "focus-management",
+  "controls_schema": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Panel title",
+      "default": "Add teammate"
+    },
+    {
+      "id": "target",
+      "type": "select",
+      "label": "Focus moves to",
+      "default": "heading",
+      "options": [
+        "heading",
+        "firstField",
+        "closeButton"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"fm-demo\" data-target=\"{{target}}\" style=\"--accent:{{accent}};\">\n  <div class=\"fm-demo__panel\">\n    <div class=\"fm-demo__head\">\n      <h3 class=\"fm-demo__title fm-demo__ring\">{{title}}</h3>\n      <button type=\"button\" class=\"fm-demo__close fm-demo__ring\" aria-label=\"Close\">&times;</button>\n    </div>\n    <label class=\"fm-demo__field-label\">Email\n      <input class=\"fm-demo__field fm-demo__ring\" type=\"email\" placeholder=\"name@example.com\" />\n    </label>\n  </div>\n  <p class=\"fm-demo__caption\">On open, focus moves to the {{target}}</p>\n</div>\n<style>\n.fm-demo { width: 320px; font: 14px system-ui, sans-serif; color: #241430; }\n.fm-demo__panel { border-radius: 12px; border: 1.5px solid #24143022; padding: 16px; background: #FAF7F2; }\n.fm-demo__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }\n.fm-demo__title { margin: 0; font-size: 16px; }\n.fm-demo__close { border: none; background: transparent; font-size: 18px; cursor: pointer; }\n.fm-demo__field-label { display: block; font-size: 12px; font-weight: 600; }\n.fm-demo__field { display: block; margin-top: 6px; width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px; border: 1.5px solid #24143033; font: inherit; }\n.fm-demo__ring { outline: none; border-radius: 6px; }\n.fm-demo[data-target=\"heading\"] .fm-demo__title.fm-demo__ring { outline: 3px solid var(--accent); outline-offset: 3px; }\n.fm-demo[data-target=\"closeButton\"] .fm-demo__close.fm-demo__ring { outline: 3px solid var(--accent); outline-offset: 2px; }\n.fm-demo[data-target=\"firstField\"] .fm-demo__field.fm-demo__ring { outline: 3px solid var(--accent); outline-offset: 1px; }\n.fm-demo__caption { margin-top: 10px; font-size: 12px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"fm-tw fm-tw--{{target}}\" style=\"width:320px;font-family:system-ui,sans-serif;color:#241430\">\n  <div class=\"rounded-xl border p-4\" style=\"border-color:#24143022;background:#FAF7F2\">\n    <div class=\"flex items-center justify-between mb-3\">\n      <h3 class=\"fm-tw__title m-0 text-base rounded-md\">{{title}}</h3>\n      <button type=\"button\" aria-label=\"Close\" class=\"fm-tw__close border-0 bg-transparent text-lg cursor-pointer rounded-md\">&times;</button>\n    </div>\n    <label class=\"block text-xs font-semibold\">Email\n      <input type=\"email\" placeholder=\"name@example.com\" class=\"fm-tw__field block mt-1.5 w-full box-border px-2.5 py-2 rounded-md border\" style=\"border-color:#24143033\" />\n    </label>\n  </div>\n  <p class=\"mt-2.5 text-xs text-[#241430aa]\">On open, focus moves to the {{target}}</p>\n</div>\n<style>\n.fm-tw--heading .fm-tw__title { outline: 3px solid {{accent}}; outline-offset: 3px; }\n.fm-tw--closeButton .fm-tw__close { outline: 3px solid {{accent}}; outline-offset: 2px; }\n.fm-tw--firstField .fm-tw__field { outline: 3px solid {{accent}}; outline-offset: 1px; }\n</style>",
+    "react": "export function FocusManagement({\n  title = \"{{title}}\",\n  target = \"{{target}}\",\n  accent = \"{{accent}}\",\n}) {\n  const ring = { outline: \"3px solid \" + accent, outlineOffset: 2, borderRadius: 6 };\n  return (\n    <div style={{ width: 320, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <div style={{ borderRadius: 12, border: \"1.5px solid #24143022\", padding: 16, background: \"#FAF7F2\" }}>\n        <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"space-between\", marginBottom: 12 }}>\n          <h3 style={{ margin: 0, fontSize: 16, ...(target === \"heading\" ? ring : {}) }}>{title}</h3>\n          <button type=\"button\" aria-label=\"Close\" style={{ border: \"none\", background: \"transparent\", fontSize: 18, cursor: \"pointer\", ...(target === \"closeButton\" ? ring : {}) }}>&times;</button>\n        </div>\n        <label style={{ display: \"block\", fontSize: 12, fontWeight: 600 }}>Email\n          <input type=\"email\" placeholder=\"name@example.com\" style={{ display: \"block\", marginTop: 6, width: \"100%\", boxSizing: \"border-box\", padding: \"8px 10px\", borderRadius: 6, border: \"1.5px solid #24143033\", font: \"inherit\", ...(target === \"firstField\" ? ring : {}) }} />\n        </label>\n      </div>\n      <p style={{ marginTop: 10, fontSize: 12, color: \"#241430aa\" }}>On open, focus moves to the {target}</p>\n    </div>\n  );\n}"
+  }
+}

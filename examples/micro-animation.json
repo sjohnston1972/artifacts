@@ -1,0 +1,39 @@
+{
+  "slug": "micro-animation",
+  "controls_schema": [
+    {
+      "id": "feedback",
+      "type": "select",
+      "label": "Feedback style",
+      "default": "scale",
+      "options": ["scale", "ripple", "colour-flash"]
+    },
+    {
+      "id": "simulate",
+      "type": "toggle",
+      "label": "Simulate press (try a real click too)",
+      "default": false
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 220,
+      "min": 80,
+      "max": 600,
+      "step": 20
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"mot-mic-stage\">\n  <button type=\"button\" class=\"mot-mic-btn mot-mic-btn--{{feedback}}{{#if simulate}} mot-mic-btn--sim{{/if}}\" style=\"--accent:{{accent}};\">&hearts; Like</button>\n  <p class=\"mot-mic-caption\">{{feedback}} &middot; {{duration}}ms &middot; a small nudge of feedback, not a full animation</p>\n</div>\n<style>\n.mot-mic-stage { width: 100%; max-width: 320px; padding: 24px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; text-align: center; }\n.mot-mic-btn { position: relative; overflow: hidden; font: 600 14px system-ui, sans-serif; padding: 10px 18px; border-radius: 999px; border: 1.5px solid #24143022; background: #fff; color: #241430; cursor: pointer; }\n.mot-mic-caption { margin: 14px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  .mot-mic-btn { transition: transform {{duration}}ms ease-out, background {{duration}}ms ease-out, box-shadow {{duration}}ms ease-out; }\n}\n.mot-mic-btn--scale:active, .mot-mic-btn--scale.mot-mic-btn--sim { transform: scale(.9); }\n.mot-mic-btn--ripple:active, .mot-mic-btn--ripple.mot-mic-btn--sim { box-shadow: 0 0 0 8px var(--accent); }\n.mot-mic-btn--colour-flash:active, .mot-mic-btn--colour-flash.mot-mic-btn--sim { background: var(--accent); }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-6 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 text-center\">\n  <button type=\"button\" class=\"tw-mic tw-mic--{{feedback}}{{#if simulate}} tw-mic--sim{{/if}} relative overflow-hidden font-semibold px-4.5 py-2.5 rounded-full border border-[#24143022] bg-white text-[#241430] cursor-pointer\" style=\"--accent:{{accent}};\">&hearts; Like</button>\n  <p class=\"mt-3.5\">{{feedback}} &middot; {{duration}}ms &middot; a small nudge of feedback, not a full animation</p>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  .tw-mic { transition: transform {{duration}}ms ease-out, background {{duration}}ms ease-out, box-shadow {{duration}}ms ease-out; }\n}\n.tw-mic--scale:active, .tw-mic--scale.tw-mic--sim { transform: scale(.9); }\n.tw-mic--ripple:active, .tw-mic--ripple.tw-mic--sim { box-shadow: 0 0 0 8px var(--accent); }\n.tw-mic--colour-flash:active, .tw-mic--colour-flash.tw-mic--sim { background: var(--accent); }\n</style>",
+    "react": "export function MicroAnimation({\n  feedback = \"{{feedback}}\",\n  simulate = {{simulate}},\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const active = {\n    scale: { transform: \"scale(.9)\" },\n    ripple: { boxShadow: `0 0 0 8px ${accent}` },\n    \"colour-flash\": { background: accent },\n  }[feedback];\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 24, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", textAlign: \"center\" }}>\n      <button type=\"button\" className=\"btn\" style={{ position: \"relative\", overflow: \"hidden\", fontWeight: 600, fontSize: 14, padding: \"10px 18px\", borderRadius: 999, border: \"1.5px solid #24143022\", background: \"#fff\", color: \"#241430\", cursor: \"pointer\", ...(simulate ? active : {}) }}>\n        &hearts; Like\n      </button>\n      <p style={{ margin: \"14px 0 0\" }}>{feedback} &middot; {duration}ms &middot; a small nudge of feedback, not a full animation</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .btn { transition: transform ${duration}ms ease-out, background ${duration}ms ease-out, box-shadow ${duration}ms ease-out; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

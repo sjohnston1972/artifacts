@@ -1,0 +1,47 @@
+{
+  "slug": "deselect",
+  "controls_schema": [
+    {
+      "id": "itemLabel",
+      "type": "text",
+      "label": "Item label",
+      "default": "Blue"
+    },
+    {
+      "id": "selected",
+      "type": "toggle",
+      "label": "Selected",
+      "default": true
+    },
+    {
+      "id": "method",
+      "type": "select",
+      "label": "Deselect method",
+      "default": "click-again",
+      "options": [
+        "click-again",
+        "clear-button",
+        "escape-key"
+      ]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#F5C2E0",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"deselect-demo\" data-method=\"{{method}}\" style=\"--accent:{{accent}};\">\n  <div class=\"deselect-demo__row\">\n    <button type=\"button\" class=\"deselect-demo__chip{{#if selected}} is-selected{{/if}}\" aria-pressed=\"{{selected}}\">\n      {{#if selected}}<span class=\"deselect-demo__check\">&#10003;</span>{{/if}}{{itemLabel}}\n      {{#if selected}}<span class=\"deselect-demo__x\">&times;</span>{{/if}}\n    </button>\n  </div>\n  <p class=\"deselect-demo__hint\"></p>\n</div>\n<style>\n.deselect-demo { width: 280px; font: 14px system-ui, sans-serif; color: #241430; }\n.deselect-demo__chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #24143033; background: #FAF7F2; font: inherit; cursor: pointer; }\n.deselect-demo__chip.is-selected { background: var(--accent); border-color: var(--accent); font-weight: 600; }\n.deselect-demo__x { opacity: .6; }\n.deselect-demo__hint { margin-top: 12px; font-size: 12px; color: #241430aa; }\n.deselect-demo[data-method=\"click-again\"] .deselect-demo__hint::after { content: \"click the chip again to deselect it\"; }\n.deselect-demo[data-method=\"clear-button\"] .deselect-demo__hint::after { content: \"the \\00d7 clears the selection\"; }\n.deselect-demo[data-method=\"escape-key\"] .deselect-demo__hint::after { content: \"press Escape while focused to deselect\"; }\n</style>",
+    "tailwind": "<div class=\"deselect-tw deselect-tw--{{method}}\" style=\"width:280px;font-family:system-ui,sans-serif;color:#241430\">\n  <button type=\"button\" aria-pressed=\"{{selected}}\" class=\"deselect-tw__chip{{#if selected}} is-selected{{/if}} inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border-[1.5px]\" style=\"border-color:#24143033;background:#FAF7F2\">\n    {{#if selected}}<span>&#10003;</span>{{/if}}{{itemLabel}}{{#if selected}}<span class=\"opacity-60\">&times;</span>{{/if}}\n  </button>\n  <p class=\"deselect-tw__hint mt-3 text-xs text-[#241430aa]\"></p>\n</div>\n<style>\n.deselect-tw__chip.is-selected { background: {{accent}}; border-color: {{accent}}; font-weight: 600; }\n.deselect-tw--click-again .deselect-tw__hint::after { content: \"click the chip again to deselect it\"; }\n.deselect-tw--clear-button .deselect-tw__hint::after { content: \"the \\00d7 clears the selection\"; }\n.deselect-tw--escape-key .deselect-tw__hint::after { content: \"press Escape while focused to deselect\"; }\n</style>",
+    "react": "import { useState } from \"react\";\n\nexport function Deselect({\n  itemLabel = \"{{itemLabel}}\",\n  selected: initialSelected = {{selected}},\n  method = \"{{method}}\",\n  accent = \"{{accent}}\",\n}) {\n  const [selected, setSelected] = useState(initialSelected);\n  const hints = {\n    \"click-again\": \"click the chip again to deselect it\",\n    \"clear-button\": \"the \\u00d7 clears the selection\",\n    \"escape-key\": \"press Escape while focused to deselect\",\n  };\n  return (\n    <div style={{ width: 280, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <button type=\"button\" aria-pressed={selected} onClick={() => setSelected((s) => !s)}\n        style={{ display: \"inline-flex\", alignItems: \"center\", gap: 6, padding: \"8px 14px\", borderRadius: 999,\n          border: \"1.5px solid \" + (selected ? accent : \"#24143033\"), background: selected ? accent : \"#FAF7F2\",\n          fontWeight: selected ? 600 : 400, cursor: \"pointer\" }}>\n        {selected && <span>&#10003;</span>}{itemLabel}{selected && <span style={{ opacity: .6 }}>&times;</span>}\n      </button>\n      <p style={{ marginTop: 12, fontSize: 12, color: \"#241430aa\" }}>{hints[method]}</p>\n    </div>\n  );\n}"
+  }
+}

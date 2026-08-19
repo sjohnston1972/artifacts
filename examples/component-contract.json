@@ -1,0 +1,42 @@
+{
+  "slug": "component-contract",
+  "controls_schema": [
+    {
+      "id": "componentName",
+      "type": "text",
+      "label": "Component",
+      "default": "Avatar"
+    },
+    {
+      "id": "requiredProp",
+      "type": "text",
+      "label": "Required prop",
+      "default": "src"
+    },
+    {
+      "id": "satisfied",
+      "type": "toggle",
+      "label": "Contract satisfied",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020",
+        "#241430"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"contract contract--{{satisfied}}\">\n  <table class=\"contract__table\">\n    <tr><th>{{componentName}} contract</th><th>status</th></tr>\n    <tr><td>requires <code>{{requiredProp}}</code></td><td class=\"contract__status contract__status--ok\">satisfied</td></tr>\n    <tr><td>requires <code>{{requiredProp}}</code></td><td class=\"contract__status contract__status--bad\">missing</td></tr>\n  </table>\n  <div class=\"contract__instance contract__instance--ok\" style=\"background:{{accent}};\">renders</div>\n  <div class=\"contract__instance contract__instance--bad\">contract broken</div>\n</div>\n<style>\n.contract { font: 13px/1.5 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 18px; border-radius: 12px; width: 300px; box-sizing: border-box; }\n.contract__table { border-collapse: collapse; width: 100%; font-size: 12px; margin-bottom: 14px; }\n.contract__table th, .contract__table td { text-align: left; padding: 5px 6px; border-bottom: 1px solid #24143018; }\n.contract__table code { font: 11px ui-monospace, monospace; background: #24143012; padding: 1px 4px; border-radius: 3px; }\n.contract__status { display: none; font-weight: 700; }\n.contract__status--ok { color: #241430; }\n.contract__status--bad { color: #E8A020; }\n\n.contract__instance { display: none; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600; }\n.contract__instance--bad { border: 2px dashed #E8A020; color: #E8A020; background: #E8A02012; }\n.contract--true .contract__status--ok, .contract--true .contract__instance--ok { display: table-cell; }\n.contract--true .contract__instance--ok { display: block; }\n.contract--false .contract__status--bad, .contract--false .contract__instance--bad { display: table-cell; }\n.contract--false .contract__instance--bad { display: block; }\n</style>",
+    "tailwind": "<div class=\"contracttw contracttw--{{satisfied}} font-sans text-[#241430] bg-[#FAF7F2] p-4.5 rounded-xl w-[300px] box-border\">\n  <table class=\"border-collapse w-full text-xs mb-3.5\">\n    <tr><th class=\"text-left py-1.5 px-1.5 border-b border-[#24143018]\">{{componentName}} contract</th><th class=\"text-left py-1.5 px-1.5 border-b border-[#24143018]\">status</th></tr>\n    <tr><td class=\"py-1.5 px-1.5\">requires <code class=\"font-mono text-[11px] bg-[#24143012] px-1 rounded\">{{requiredProp}}</code></td><td class=\"contracttw__status contracttw__status--ok hidden py-1.5 px-1.5 font-bold\">satisfied</td><td class=\"contracttw__status contracttw__status--bad hidden py-1.5 px-1.5 font-bold text-[#E8A020]\">missing</td></tr>\n  </table>\n  <div class=\"contracttw__instance contracttw__instance--ok hidden p-3 rounded-lg text-center font-semibold\" style=\"background:{{accent}};\">renders</div>\n  <div class=\"contracttw__instance contracttw__instance--bad hidden p-3 rounded-lg text-center font-semibold border-2 border-dashed border-[#E8A020] text-[#E8A020] bg-[#E8A02012]\">contract broken</div>\n</div>\n<style>\n.contracttw--true .contracttw__status--ok, .contracttw--true .contracttw__instance--ok { display: block; }\n.contracttw--false .contracttw__status--bad, .contracttw--false .contracttw__instance--bad { display: block; }\n</style>",
+    "react": "export function ComponentContract({\n  componentName = \"{{componentName}}\",\n  requiredProp = \"{{requiredProp}}\",\n  satisfied = {{satisfied}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ font: \"13px/1.5 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 18, borderRadius: 12, width: 300, boxSizing: \"border-box\" }}>\n      <table style={{ borderCollapse: \"collapse\", width: \"100%\", fontSize: 12, marginBottom: 14 }}>\n        <tbody>\n          <tr><th style={{ textAlign: \"left\", padding: \"5px 6px\" }}>{componentName} contract</th><th style={{ textAlign: \"left\", padding: \"5px 6px\" }}>status</th></tr>\n          <tr>\n            <td style={{ padding: \"5px 6px\" }}>requires <code style={{ fontFamily: \"ui-monospace, monospace\", fontSize: 11, background: \"#24143012\", padding: \"1px 4px\", borderRadius: 3 }}>{requiredProp}</code></td>\n            <td style={{ padding: \"5px 6px\", fontWeight: 700, color: satisfied ? \"#241430\" : \"#E8A020\" }}>{satisfied ? \"satisfied\" : \"missing\"}</td>\n          </tr>\n        </tbody>\n      </table>\n      {satisfied\n        ? <div style={{ padding: 12, borderRadius: 8, textAlign: \"center\", fontWeight: 600, background: accent }}>renders</div>\n        : <div style={{ padding: 12, borderRadius: 8, textAlign: \"center\", fontWeight: 600, border: \"2px dashed #E8A020\", color: \"#E8A020\", background: \"#E8A02012\" }}>contract broken</div>}\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "drill-down",
+  "controls_schema": [
+    {
+      "id": "level",
+      "type": "select",
+      "label": "Depth",
+      "default": "summary",
+      "options": [
+        "summary",
+        "category",
+        "detail"
+      ]
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Root label",
+      "default": "Regions"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Accent colour",
+      "default": "#A8E6C1",
+      "presets": [
+        "#241430",
+        "#A8E6C1",
+        "#F5C2E0",
+        "#BFD9F2",
+        "#D9C8F0",
+        "#E8A020"
+      ]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"drill-demo\" data-level=\"{{level}}\" style=\"--accent:{{accent}};\">\n  <nav class=\"drill-demo__crumbs\">\n    <span class=\"drill-demo__crumb drill-demo__crumb--summary\">{{title}}</span>\n    <span class=\"drill-demo__crumb drill-demo__crumb--category\">&rsaquo; Europe</span>\n    <span class=\"drill-demo__crumb drill-demo__crumb--detail\">&rsaquo; France</span>\n  </nav>\n  <ul class=\"drill-demo__list drill-demo__list--summary\">\n    <li>Europe &rsaquo;</li><li>Americas &rsaquo;</li><li>Asia Pacific &rsaquo;</li>\n  </ul>\n  <ul class=\"drill-demo__list drill-demo__list--category\">\n    <li>France &rsaquo;</li><li>Germany &rsaquo;</li><li>Spain &rsaquo;</li>\n  </ul>\n  <ul class=\"drill-demo__list drill-demo__list--detail\">\n    <li>Paris &mdash; 2,190 orders</li><li>Lyon &mdash; 640 orders</li>\n  </ul>\n</div>\n<style>\n.drill-demo { width: 300px; font: 14px system-ui, sans-serif; color: #241430; }\n.drill-demo__crumbs { font-size: 12px; color: #241430aa; margin-bottom: 10px; }\n.drill-demo__crumb { display: none; }\n.drill-demo__crumb--summary { display: inline; color: var(--accent); font-weight: 700; }\n.drill-demo[data-level=\"category\"] .drill-demo__crumb--category { display: inline; font-weight: 700; color: var(--accent); }\n.drill-demo[data-level=\"detail\"] .drill-demo__crumb--category, .drill-demo[data-level=\"detail\"] .drill-demo__crumb--detail { display: inline; }\n.drill-demo[data-level=\"detail\"] .drill-demo__crumb--detail { font-weight: 700; color: var(--accent); }\n.drill-demo__list { list-style: none; margin: 0; padding: 0; display: none; flex-direction: column; gap: 6px; }\n.drill-demo__list li { padding: 10px 12px; border-radius: 8px; background: #24143010; }\n.drill-demo[data-level=\"summary\"] .drill-demo__list--summary { display: flex; }\n.drill-demo[data-level=\"category\"] .drill-demo__list--category { display: flex; }\n.drill-demo[data-level=\"detail\"] .drill-demo__list--detail { display: flex; }\n</style>",
+    "tailwind": "<div class=\"drill-tw drill-tw--{{level}}\" style=\"width:300px;font-family:system-ui,sans-serif;color:#241430\">\n  <nav class=\"text-xs text-[#241430aa] mb-2.5\">\n    <span class=\"drill-tw__crumb drill-tw__crumb--summary font-bold\" style=\"color:{{accent}}\">{{title}}</span>\n    <span class=\"drill-tw__crumb drill-tw__crumb--category hidden\">&rsaquo; Europe</span>\n    <span class=\"drill-tw__crumb drill-tw__crumb--detail hidden\">&rsaquo; France</span>\n  </nav>\n  <ul class=\"drill-tw__list drill-tw__list--summary hidden list-none m-0 p-0 flex-col gap-1.5\"><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Europe &rsaquo;</li><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Americas &rsaquo;</li><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Asia Pacific &rsaquo;</li></ul>\n  <ul class=\"drill-tw__list drill-tw__list--category hidden list-none m-0 p-0 flex-col gap-1.5\"><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">France &rsaquo;</li><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Germany &rsaquo;</li><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Spain &rsaquo;</li></ul>\n  <ul class=\"drill-tw__list drill-tw__list--detail hidden list-none m-0 p-0 flex-col gap-1.5\"><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Paris &mdash; 2,190 orders</li><li class=\"px-3 py-2.5 rounded-lg bg-[#24143010]\">Lyon &mdash; 640 orders</li></ul>\n</div>\n<style>\n.drill-tw--summary .drill-tw__list--summary { display: flex; }\n.drill-tw--category .drill-tw__list--category, .drill-tw--category .drill-tw__crumb--category { display: flex; }\n.drill-tw--detail .drill-tw__list--detail, .drill-tw--detail .drill-tw__crumb--category, .drill-tw--detail .drill-tw__crumb--detail { display: flex; }\n.drill-tw--category .drill-tw__crumb--category, .drill-tw--detail .drill-tw__crumb--category, .drill-tw--detail .drill-tw__crumb--detail { display: inline; font-weight: 700; color: {{accent}}; }\n</style>",
+    "react": "export function DrillDown({\n  level = \"{{level}}\",\n  title = \"{{title}}\",\n  accent = \"{{accent}}\",\n}) {\n  const lists = {\n    summary: [\"Europe \\u203a\", \"Americas \\u203a\", \"Asia Pacific \\u203a\"],\n    category: [\"France \\u203a\", \"Germany \\u203a\", \"Spain \\u203a\"],\n    detail: [\"Paris \\u2014 2,190 orders\", \"Lyon \\u2014 640 orders\"],\n  };\n  return (\n    <div style={{ width: 300, fontFamily: \"system-ui, sans-serif\", fontSize: 14, color: \"#241430\" }}>\n      <nav style={{ fontSize: 12, color: \"#241430aa\", marginBottom: 10 }}>\n        <span style={{ fontWeight: level === \"summary\" ? 700 : 400, color: level === \"summary\" ? accent : \"inherit\" }}>{title}</span>\n        {level !== \"summary\" && <span style={{ fontWeight: level === \"category\" ? 700 : 400, color: level === \"category\" ? accent : \"inherit\" }}> &rsaquo; Europe</span>}\n        {level === \"detail\" && <span style={{ fontWeight: 700, color: accent }}> &rsaquo; France</span>}\n      </nav>\n      <ul style={{ listStyle: \"none\", margin: 0, padding: 0, display: \"flex\", flexDirection: \"column\", gap: 6 }}>\n        {lists[level].map((it) => <li key={it} style={{ padding: \"10px 12px\", borderRadius: 8, background: \"#24143010\" }}>{it}</li>)}\n      </ul>\n    </div>\n  );\n}"
+  }
+}

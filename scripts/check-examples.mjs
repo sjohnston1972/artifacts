@@ -63,6 +63,32 @@ function insideTag(source, offset) {
   return inTag;
 }
 
+// Motion inside a <style> block must sit within
+// @media (prefers-reduced-motion: no-preference). The media feature applies
+// inside the specimen iframe too, so a reader who asked for less motion still
+// gets animation otherwise -- and the copied CSS teaches the same mistake.
+function ungatedMotion(css) {
+  const blocks = [];
+  const re = /@media[^{]*prefers-reduced-motion:\s*no-preference[^{]*\{/g;
+  let m;
+  while ((m = re.exec(css))) {
+    let depth = 1;
+    for (let j = m.index + m[0].length; j < css.length; j++) {
+      if (css[j] === "{") depth++;
+      else if (css[j] === "}") {
+        depth--;
+        if (!depth) { blocks.push([m.index, j]); break; }
+      }
+    }
+  }
+  const inside = (pos) => blocks.some(([a, b]) => pos >= a && pos <= b);
+  const hits = [];
+  const rx = /(?<![-\w])(transition|animation)(-[\w-]+)?\s*:/g;
+  let k;
+  while ((k = rx.exec(css))) if (!inside(k.index)) hits.push(k[1]);
+  return [...new Set(hits)];
+}
+
 const dir = "examples";
 const files = fs
   .readdirSync(dir)
@@ -141,6 +167,16 @@ for (const file of files) {
     const jsxStyle = /style=\{\{/.test(t) && /(animation|transition)[A-Za-z]*\s*:\s*["'`]/.test(t);
     if (inlineAttr || jsxStyle) {
       problems.push([label, `${fmt}: motion in an inline style cannot be gated by prefers-reduced-motion; use a class + <style>`]);
+    }
+  }
+
+  for (const [fmt, tpl] of Object.entries(ex.templates)) {
+    const css = [...String(tpl).matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
+      .map((m) => m[1]).join("\n");
+    if (!css) continue;
+    const hits = ungatedMotion(css);
+    if (hits.length) {
+      problems.push([label, `${fmt}: ${hits.join(", ")} in <style> is outside @media (prefers-reduced-motion: no-preference)`]);
     }
   }
 

@@ -1,0 +1,38 @@
+{
+  "slug": "responsive-table",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 280,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "showLabels",
+      "type": "toggle",
+      "label": "Show field labels when stacked",
+      "default": true
+    },
+    {
+      "id": "productName",
+      "type": "text",
+      "label": "Product",
+      "default": "Wireless mouse"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-rt-viewport\" data-labels=\"{{showLabels}}\">\n  <div class=\"rsp-rt-container\" style=\"width:{{width}}px;\">\n    <div class=\"rsp-rt-table\">\n      <div class=\"rsp-rt-head\"><span>Product</span><span>Qty</span><span>Price</span></div>\n      <div class=\"rsp-rt-row\">\n        <span class=\"rsp-rt-cell\" data-label=\"Product: \" style=\"border-left-color:{{accent}};\">{{productName}}</span>\n        <span class=\"rsp-rt-cell\" data-label=\"Qty: \">2</span>\n        <span class=\"rsp-rt-cell\" data-label=\"Price: \">&pound;18.00</span>\n      </div>\n    </div>\n  </div>\n  <p class=\"rsp-rt-caption\">{{width}}px &mdash; rows stack into labelled fields below the container's threshold</p>\n</div>\n<style>\n.rsp-rt-viewport { width: 100%; max-width: 660px; }\n.rsp-rt-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 4px; box-sizing: border-box; }\n.rsp-rt-head { display: none; }\n.rsp-rt-row { display: flex; flex-direction: column; padding: 10px; font: 13px system-ui, sans-serif; color: #241430; background: #fff; border-radius: 8px; }\n.rsp-rt-cell { padding: 3px 0; border-left: 3px solid transparent; padding-left: 8px; }\n[data-labels=\"true\"] .rsp-rt-cell::before { content: attr(data-label); font-weight: 700; }\n@container (min-width: 380px) {\n  .rsp-rt-head { display: flex; justify-content: space-between; padding: 8px 10px; font: 700 11px system-ui, sans-serif; color: #241430aa; text-transform: uppercase; }\n  .rsp-rt-row { flex-direction: row; justify-content: space-between; }\n  .rsp-rt-cell { border-left: none; padding-left: 0; }\n  .rsp-rt-cell::before { content: none !important; }\n}\n.rsp-rt-caption { margin: 8px 0 0; font: 11px system-ui, sans-serif; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\" data-labels=\"{{showLabels}}\">\n  <div class=\"tw-rt-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-1 box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <div class=\"tw-rt-head hidden justify-between px-2.5 py-2 font-bold text-[11px] uppercase text-[#241430]/70\"><span>Product</span><span>Qty</span><span>Price</span></div>\n    <div class=\"tw-rt-row flex flex-col p-2.5 font-sans text-sm text-[#241430] bg-white rounded-lg\">\n      <span class=\"tw-rt-cell pl-2 border-l-[3px]\" data-label=\"Product: \" style=\"border-left-color:{{accent}};\">{{productName}}</span>\n      <span class=\"tw-rt-cell pl-2 border-l-[3px] border-transparent\" data-label=\"Qty: \">2</span>\n      <span class=\"tw-rt-cell pl-2 border-l-[3px] border-transparent\" data-label=\"Price: \">&pound;18.00</span>\n    </div>\n  </div>\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">{{width}}px &mdash; rows stack into labelled fields below the container's threshold</p>\n</div>\n<style>\n[data-labels=\"true\"] .tw-rt-cell::before { content: attr(data-label); font-weight: 700; }\n@container (min-width: 380px) {\n  .tw-rt-head { display: flex; }\n  .tw-rt-row { flex-direction: row; justify-content: space-between; }\n  .tw-rt-cell { border-left: none !important; padding-left: 0 !important; }\n  .tw-rt-cell::before { content: none !important; }\n}\n</style>",
+    "react": "export function ResponsiveTable({\n  width = {{width}},\n  showLabels = {{showLabels}},\n  productName = \"{{productName}}\",\n  accent = \"{{accent}}\",\n}) {\n  const cellLabel = (text) => showLabels ? `${text}` : \"\";\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 4, boxSizing: \"border-box\" }}>\n        <div className=\"head\" style={{ display: \"none\", justifyContent: \"space-between\", padding: \"8px 10px\", fontWeight: 700, fontSize: 11, color: \"#241430aa\", textTransform: \"uppercase\" }}>\n          <span>Product</span><span>Qty</span><span>Price</span>\n        </div>\n        <div className=\"row\" style={{ display: \"flex\", flexDirection: \"column\", padding: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\", background: \"#fff\", borderRadius: 8 }}>\n          <span style={{ paddingLeft: 8, borderLeft: `3px solid ${accent}` }}>{cellLabel(\"Product: \")}{productName}</span>\n          <span style={{ paddingLeft: 8, borderLeft: \"3px solid transparent\" }}>{cellLabel(\"Qty: \")}2</span>\n          <span style={{ paddingLeft: 8, borderLeft: \"3px solid transparent\" }}>{cellLabel(\"Price: \")}&pound;18.00</span>\n        </div>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{width}px &mdash; rows stack into labelled fields below the container's threshold</p>\n      <style>{`\n        @container (min-width: 380px) {\n          .head { display: flex !important; }\n          .row { flex-direction: row; justify-content: space-between; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

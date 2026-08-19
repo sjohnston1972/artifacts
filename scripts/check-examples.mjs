@@ -130,6 +130,20 @@ for (const file of files) {
     }
   }
 
+  // Motion declared in an inline style attribute or a JSX style object cannot
+  // be wrapped in @media (prefers-reduced-motion: no-preference) -- inline
+  // styles are not reachable by a media query. Copied code would then animate
+  // regardless of the reader's setting, which is the opposite of what this
+  // catalogue should teach. Motion must live in a class plus a gated <style>.
+  for (const [fmt, tpl] of Object.entries(ex.templates)) {
+    const t = String(tpl);
+    const inlineAttr = /style\s*=\s*["'][^"']*(animation|transition)\s*:/i.test(t);
+    const jsxStyle = /style=\{\{/.test(t) && /(animation|transition)[A-Za-z]*\s*:\s*["'`]/.test(t);
+    if (inlineAttr || jsxStyle) {
+      problems.push([label, `${fmt}: motion in an inline style cannot be gated by prefers-reduced-motion; use a class + <style>`]);
+    }
+  }
+
   for (const c of ex.controls_schema.filter((c) => c.type === "select")) {
     for (const [fmt, tpl] of Object.entries(ex.templates)) {
       const outs = new Set(c.options.map((o) => render(tpl, { ...values, [c.id]: o }).output));

@@ -1,0 +1,38 @@
+{
+  "slug": "mobile-card",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 280,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "rowLabel",
+      "type": "text",
+      "label": "Record label",
+      "default": "Invoice #4021"
+    },
+    {
+      "id": "amount",
+      "type": "text",
+      "label": "Amount",
+      "default": "£212.00"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-mc-viewport\">\n  <div class=\"rsp-mc-container\" style=\"width:{{width}}px;\">\n    <div class=\"rsp-mc-record\">\n      <span class=\"rsp-mc-cell rsp-mc-cell--label\">{{rowLabel}}</span>\n      <span class=\"rsp-mc-cell rsp-mc-cell--status\" style=\"color:{{accent}};\">Paid</span>\n      <span class=\"rsp-mc-cell rsp-mc-cell--amount\">{{amount}}</span>\n    </div>\n  </div>\n  <p class=\"rsp-mc-caption\">{{width}}px &mdash; a table row becomes a card once the container narrows</p>\n</div>\n<style>\n.rsp-mc-viewport { width: 100%; max-width: 660px; }\n.rsp-mc-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 4px; box-sizing: border-box; }\n.rsp-mc-record { display: flex; flex-direction: column; gap: 4px; padding: 12px; background: #fff; border-radius: 8px; font: 13px system-ui, sans-serif; color: #241430; }\n.rsp-mc-cell--label::before { content: \"Invoice \"; font-weight: 700; }\n.rsp-mc-cell--status::before { content: \"Status: \"; color: #241430; }\n.rsp-mc-cell--amount::before { content: \"Amount: \"; color: #241430; }\n@container (min-width: 380px) {\n  .rsp-mc-record { flex-direction: row; align-items: center; justify-content: space-between; }\n  .rsp-mc-cell--label::before, .rsp-mc-cell--status::before, .rsp-mc-cell--amount::before { content: none; }\n}\n.rsp-mc-caption { margin: 8px 0 0; font: 11px system-ui, sans-serif; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\">\n  <div class=\"tw-mc-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-1 box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <div class=\"tw-mc-record flex flex-col gap-1 p-3 bg-white rounded-lg font-sans text-sm text-[#241430]\">\n      <span class=\"tw-mc-label\">{{rowLabel}}</span>\n      <span class=\"tw-mc-status\" style=\"color:{{accent}};\">Paid</span>\n      <span class=\"tw-mc-amount\">{{amount}}</span>\n    </div>\n  </div>\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">{{width}}px &mdash; a table row becomes a card once the container narrows</p>\n</div>\n<style>\n.tw-mc-label::before { content: \"Invoice \"; font-weight: 700; }\n.tw-mc-status::before { content: \"Status: \"; }\n.tw-mc-amount::before { content: \"Amount: \"; }\n@container (min-width: 380px) {\n  .tw-mc-record { flex-direction: row; align-items: center; justify-content: space-between; }\n  .tw-mc-label::before, .tw-mc-status::before, .tw-mc-amount::before { content: none; }\n}\n</style>",
+    "react": "export function MobileCard({\n  width = {{width}},\n  rowLabel = \"{{rowLabel}}\",\n  amount = \"{{amount}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 4, boxSizing: \"border-box\" }}>\n        <div className=\"record\" style={{ display: \"flex\", flexDirection: \"column\", gap: 4, padding: 12, background: \"#fff\", borderRadius: 8, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n          <span className=\"label\">{rowLabel}</span>\n          <span className=\"status\" style={{ color: accent }}>Paid</span>\n          <span className=\"amount\">{amount}</span>\n        </div>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{width}px &mdash; a table row becomes a card once the container narrows</p>\n      <style>{`\n        .label::before { content: \"Invoice \"; font-weight: 700; }\n        .status::before { content: \"Status: \"; }\n        .amount::before { content: \"Amount: \"; }\n        @container (min-width: 380px) {\n          .record { flex-direction: row; align-items: center; justify-content: space-between; }\n          .label::before, .status::before, .amount::before { content: none; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

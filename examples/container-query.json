@@ -1,0 +1,38 @@
+{
+  "slug": "container-query",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 260,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "cardTitle",
+      "type": "text",
+      "label": "Card title",
+      "default": "Weekly summary"
+    },
+    {
+      "id": "showRuler",
+      "type": "toggle",
+      "label": "Show width ruler",
+      "default": true
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-cq-viewport\">\n  {{#if showRuler}}<div class=\"rsp-cq-ruler\" style=\"width:{{width}}px;\">{{width}}px</div>{{/if}}\n  <div class=\"rsp-cq-container\" style=\"width:{{width}}px;\">\n    <div class=\"rsp-cq-card\">\n      <span class=\"rsp-cq-thumb\" style=\"background:{{accent}};\"></span>\n      <div class=\"rsp-cq-text\">\n        <strong>{{cardTitle}}</strong>\n        <p>Layout is driven by the CARD's own width, not the viewport.</p>\n      </div>\n    </div>\n  </div>\n</div>\n<style>\n.rsp-cq-viewport { width: 100%; max-width: 660px; }\n.rsp-cq-ruler { font: 11px system-ui, sans-serif; color: #241430aa; border-bottom: 1px dashed #24143044; padding-bottom: 4px; margin-bottom: 8px; text-align: right; }\n.rsp-cq-container { container-type: inline-size; container-name: cq-demo; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 14px; box-sizing: border-box; }\n.rsp-cq-card { display: flex; flex-direction: column; gap: 10px; font: 13px system-ui, sans-serif; color: #241430; }\n.rsp-cq-thumb { width: 100%; height: 60px; border-radius: 8px; }\n.rsp-cq-text p { margin: 4px 0 0; color: #241430aa; font-size: 12px; }\n@container cq-demo (min-width: 340px) {\n  .rsp-cq-card { flex-direction: row; align-items: center; }\n  .rsp-cq-thumb { width: 72px; height: 72px; flex: none; }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\">\n  {{#if showRuler}}<div class=\"text-[11px] text-[#241430]/70 border-b border-dashed border-[#24143044] pb-1 mb-2 text-right\" style=\"width:{{width}}px;\">{{width}}px</div>{{/if}}\n  <div class=\"tw-cq-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-3.5 box-border\" style=\"width:{{width}}px; container-type:inline-size; container-name:cq-tw-demo;\">\n    <div class=\"tw-cq-card flex flex-col gap-2.5 font-sans text-sm text-[#241430]\">\n      <span class=\"w-full h-[60px] rounded-lg\" style=\"background:{{accent}};\"></span>\n      <div>\n        <strong>{{cardTitle}}</strong>\n        <p class=\"mt-1 text-xs text-[#241430]/70\">Layout is driven by the CARD's own width, not the viewport.</p>\n      </div>\n    </div>\n  </div>\n</div>\n<style>\n@container cq-tw-demo (min-width: 340px) {\n  .tw-cq-card { flex-direction: row; align-items: center; }\n  .tw-cq-card > span { width: 72px; height: 72px; flex: none; }\n}\n</style>",
+    "react": "export function ContainerQuery({\n  width = {{width}},\n  cardTitle = \"{{cardTitle}}\",\n  showRuler = {{showRuler}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      {showRuler && <div style={{ width, fontSize: 11, color: \"#241430aa\", borderBottom: \"1px dashed #24143044\", paddingBottom: 4, marginBottom: 8, textAlign: \"right\" }}>{width}px</div>}\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 14, boxSizing: \"border-box\" }}>\n        <div className=\"card\" style={{ display: \"flex\", flexDirection: \"column\", gap: 10, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430\" }}>\n          <span className=\"thumb\" style={{ width: \"100%\", height: 60, borderRadius: 8, background: accent }} />\n          <div>\n            <strong>{cardTitle}</strong>\n            <p style={{ margin: \"4px 0 0\", color: \"#241430aa\", fontSize: 12 }}>Layout is driven by the CARD's own width, not the viewport.</p>\n          </div>\n        </div>\n      </div>\n      <style>{`\n        @container (min-width: 340px) {\n          .card { flex-direction: row; align-items: center; }\n          .thumb { width: 72px; height: 72px; flex: none; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

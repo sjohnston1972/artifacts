@@ -1,0 +1,39 @@
+{
+  "slug": "swipe",
+  "controls_schema": [
+    {
+      "id": "swiped",
+      "type": "toggle",
+      "label": "Swiped away",
+      "default": false
+    },
+    {
+      "id": "direction",
+      "type": "select",
+      "label": "Direction",
+      "default": "left",
+      "options": ["left", "right"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 300,
+      "min": 100,
+      "max": 700,
+      "step": 50
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-sw-stage\" data-direction=\"{{direction}}\">\n  <div class=\"rsp-sw-action\" style=\"background:{{accent}};\">Delete</div>\n  <div class=\"rsp-sw-card{{#if swiped}} rsp-sw-card--swiped{{/if}}\">Swipe {{direction}} to reveal</div>\n  <p class=\"rsp-sw-caption\">{{#if swiped}}Revealed{{/if}}{{#unless swiped}}Resting{{/unless}} &mdash; a horizontal drag gesture</p>\n</div>\n<style>\n.rsp-sw-stage { position: relative; width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 13px system-ui, sans-serif; color: #241430aa; overflow: hidden; }\n.rsp-sw-action { position: absolute; top: 16px; right: 16px; bottom: 40px; width: 70px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; color: #241430; }\n[data-direction=\"right\"] .rsp-sw-action { right: auto; left: 16px; }\n.rsp-sw-card { position: relative; background: #fff; border: 1px solid #24143022; border-radius: 8px; padding: 16px; text-align: center; color: #241430; transform: translateX(0); }\n[data-direction=\"left\"] .rsp-sw-card--swiped { transform: translateX(-70px); }\n[data-direction=\"right\"] .rsp-sw-card--swiped { transform: translateX(70px); }\n.rsp-sw-caption { margin: 10px 0 0; }\n@media (prefers-reduced-motion: no-preference) {\n  .rsp-sw-card { transition: transform {{duration}}ms ease-out; }\n}\n</style>",
+    "tailwind": "<div class=\"relative w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-sm text-[#241430]/70 overflow-hidden\" data-direction=\"{{direction}}\">\n  <div class=\"tw-sw-action absolute top-4 right-4 bottom-10 w-[70px] rounded-lg grid place-items-center font-bold text-[#241430]\" style=\"background:{{accent}};\">Delete</div>\n  <div class=\"tw-sw-card{{#if swiped}} tw-sw-swiped{{/if}} relative bg-white border border-[#24143022] rounded-lg p-4 text-center text-[#241430]\">Swipe {{direction}} to reveal</div>\n  <p class=\"mt-2.5\">{{#if swiped}}Revealed{{/if}}{{#unless swiped}}Resting{{/unless}} &mdash; a horizontal drag gesture</p>\n</div>\n<style>\n[data-direction=\"right\"] .tw-sw-action { right: auto; left: 16px; }\n[data-direction=\"left\"] .tw-sw-swiped { transform: translateX(-70px); }\n[data-direction=\"right\"] .tw-sw-swiped { transform: translateX(70px); }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-sw-card { transition: transform {{duration}}ms ease-out; }\n}\n</style>",
+    "react": "export function Swipe({\n  swiped = {{swiped}},\n  direction = \"{{direction}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const offset = direction === \"left\" ? -70 : 70;\n  return (\n    <div style={{ position: \"relative\", width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\", overflow: \"hidden\" }}>\n      <div style={{ position: \"absolute\", top: 16, bottom: 40, [direction === \"left\" ? \"right\" : \"left\"]: 16, width: 70, borderRadius: 8, display: \"grid\", placeItems: \"center\", fontWeight: 700, color: \"#241430\", background: accent }}>Delete</div>\n      <div className=\"card\" style={{ position: \"relative\", background: \"#fff\", border: \"1px solid #24143022\", borderRadius: 8, padding: 16, textAlign: \"center\", color: \"#241430\", transform: swiped ? `translateX(${offset}px)` : \"translateX(0)\" }}>\n        Swipe {direction} to reveal\n      </div>\n      <p style={{ margin: \"10px 0 0\" }}>{swiped ? \"Revealed\" : \"Resting\"} &mdash; a horizontal drag gesture</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .card { transition: transform ${duration}ms ease-out; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

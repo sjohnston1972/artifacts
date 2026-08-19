@@ -1,0 +1,34 @@
+{
+  "slug": "bidirectional-text",
+  "controls_schema": [
+    {
+      "id": "leadText",
+      "type": "text",
+      "label": "Leading Latin text",
+      "default": "Invoice"
+    },
+    {
+      "id": "rtlPhrase",
+      "type": "text",
+      "label": "Embedded Arabic phrase",
+      "default": "شركة الأمل"
+    },
+    {
+      "id": "trailText",
+      "type": "text",
+      "label": "Trailing Latin text",
+      "default": "was approved."
+    },
+    {
+      "id": "isolate",
+      "type": "toggle",
+      "label": "Isolate the embedded phrase (bdi)",
+      "default": true
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"bidi bidi--{{isolate}}\">\n  <p class=\"bidi__line bidi__line--isolated\">{{leadText}} &mdash; <bdi>{{rtlPhrase}}</bdi> &mdash; {{trailText}}</p>\n  <p class=\"bidi__line bidi__line--plain\">{{leadText}} &mdash; <span>{{rtlPhrase}}</span> &mdash; {{trailText}}</p>\n  <p class=\"bidi__note\">{{#if isolate}}&lt;bdi&gt; isolates the Arabic run so surrounding Latin punctuation keeps its own order.{{/if}}{{#unless isolate}}Without &lt;bdi&gt;, the Unicode bidi algorithm can pull neighbouring punctuation into the Arabic run.{{/unless}}</p>\n</div>\n<style>\n.bidi { font: 16px/1.7 system-ui, sans-serif; color: #241430; background: #FAF7F2; padding: 20px; border-radius: 12px; width: 320px; box-sizing: border-box; }\n.bidi__line { margin: 0 0 10px; padding: 10px 12px; border-radius: 8px; background: #ffffff; border: 1px solid #24143018; display: none; }\n.bidi__note { margin: 8px 0 0; font-size: 11px; color: #24143099; }\n.bidi--true .bidi__line--isolated { display: block; }\n.bidi--false .bidi__line--plain { display: block; }\n</style>",
+    "tailwind": "<div class=\"biditw biditw--{{isolate}} font-sans text-base leading-7 text-[#241430] bg-[#FAF7F2] p-5 rounded-xl w-[320px] box-border\">\n  <p class=\"biditw__line biditw__line--isolated hidden m-0 mb-2.5 py-2.5 px-3 rounded-lg bg-white border border-[#24143018]\">{{leadText}} &mdash; <bdi>{{rtlPhrase}}</bdi> &mdash; {{trailText}}</p>\n  <p class=\"biditw__line biditw__line--plain hidden m-0 mb-2.5 py-2.5 px-3 rounded-lg bg-white border border-[#24143018]\">{{leadText}} &mdash; <span>{{rtlPhrase}}</span> &mdash; {{trailText}}</p>\n  <p class=\"m-0 mt-2 text-[11px] text-[#24143099]\">{{#if isolate}}&lt;bdi&gt; isolates the Arabic run so surrounding Latin punctuation keeps its own order.{{/if}}{{#unless isolate}}Without &lt;bdi&gt;, the Unicode bidi algorithm can pull neighbouring punctuation into the Arabic run.{{/unless}}</p>\n</div>\n<style>\n.biditw--true .biditw__line--isolated { display: block; }\n.biditw--false .biditw__line--plain { display: block; }\n</style>",
+    "react": "export function BidirectionalText({\n  leadText = \"{{leadText}}\",\n  rtlPhrase = \"{{rtlPhrase}}\",\n  trailText = \"{{trailText}}\",\n  isolate = {{isolate}},\n}) {\n  const lineStyle = { margin: \"0 0 10px\", padding: \"10px 12px\", borderRadius: 8, background: \"#ffffff\", border: \"1px solid #24143018\" };\n  return (\n    <div style={{ font: \"16px/1.7 system-ui, sans-serif\", color: \"#241430\", background: \"#FAF7F2\", padding: 20, borderRadius: 12, width: 320, boxSizing: \"border-box\" }}>\n      {isolate\n        ? <p style={lineStyle}>{leadText} &mdash; <bdi>{rtlPhrase}</bdi> &mdash; {trailText}</p>\n        : <p style={lineStyle}>{leadText} &mdash; <span>{rtlPhrase}</span> &mdash; {trailText}</p>}\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#24143099\" }}>\n        {isolate ? \"<bdi> isolates the Arabic run so surrounding Latin punctuation keeps its own order.\" : \"Without <bdi>, the Unicode bidi algorithm can pull neighbouring punctuation into the Arabic run.\"}\n      </p>\n    </div>\n  );\n}"
+  }
+}

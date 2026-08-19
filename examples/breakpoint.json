@@ -1,0 +1,41 @@
+{
+  "slug": "breakpoint",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 300,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "breakpointValue",
+      "type": "number",
+      "label": "Breakpoint (px)",
+      "default": 400,
+      "min": 200,
+      "max": 600,
+      "step": 20
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Layout label",
+      "default": "Sidebar layout"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#E8A020",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-bp-viewport\">\n  <div class=\"rsp-bp-ruler\">{{label}} &mdash; {{width}}px wide, breakpoint at {{breakpointValue}}px</div>\n  <div class=\"rsp-bp-container\" style=\"width:{{width}}px; --bp:{{breakpointValue}}px;\">\n    <div class=\"rsp-bp-layout\">\n      <div class=\"rsp-bp-block\" style=\"background:{{accent}};\">A</div>\n      <div class=\"rsp-bp-block\" style=\"background:{{accent}};\">B</div>\n    </div>\n    <p class=\"rsp-bp-state\"></p>\n  </div>\n</div>\n<style>\n.rsp-bp-viewport { width: 100%; max-width: 660px; }\n.rsp-bp-ruler { font: 11px system-ui, sans-serif; color: #241430aa; margin-bottom: 8px; }\n.rsp-bp-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 14px; box-sizing: border-box; }\n.rsp-bp-layout { display: flex; flex-direction: column; gap: 8px; }\n.rsp-bp-block { padding: 14px; border-radius: 8px; color: #241430; font-weight: 700; text-align: center; }\n.rsp-bp-state::before { content: \"Stacked (below breakpoint)\"; font: 12px system-ui, sans-serif; color: #241430aa; }\n@container (min-width: 400px) {\n  .rsp-bp-layout { flex-direction: row; }\n  .rsp-bp-block { flex: 1; }\n  .rsp-bp-state::before { content: \"Side by side (breakpoint reached)\"; }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\">\n  <div class=\"text-[11px] text-[#241430]/70 mb-2\">{{label}} &mdash; {{width}}px wide, breakpoint at {{breakpointValue}}px</div>\n  <div class=\"tw-bp-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-3.5 box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <div class=\"tw-bp-layout flex flex-col gap-2\">\n      <div class=\"flex-1 p-3.5 rounded-lg text-[#241430] font-bold text-center\" style=\"background:{{accent}};\">A</div>\n      <div class=\"flex-1 p-3.5 rounded-lg text-[#241430] font-bold text-center\" style=\"background:{{accent}};\">B</div>\n    </div>\n    <p class=\"tw-bp-state text-xs text-[#241430]/70 mt-2\"></p>\n  </div>\n</div>\n<style>\n.tw-bp-state::before { content: \"Stacked (below breakpoint)\"; }\n@container (min-width: 400px) {\n  .tw-bp-layout { flex-direction: row; }\n  .tw-bp-state::before { content: \"Side by side (breakpoint reached)\"; }\n}\n</style>",
+    "react": "export function Breakpoint({\n  width = {{width}},\n  breakpointValue = {{breakpointValue}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      <div style={{ fontSize: 11, color: \"#241430aa\", marginBottom: 8 }}>{label} &mdash; {width}px wide, breakpoint at {breakpointValue}px</div>\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 14, boxSizing: \"border-box\" }}>\n        <div className=\"layout\" style={{ display: \"flex\", flexDirection: \"column\", gap: 8 }}>\n          <div style={{ flex: 1, padding: 14, borderRadius: 8, color: \"#241430\", fontWeight: 700, textAlign: \"center\", background: accent }}>A</div>\n          <div style={{ flex: 1, padding: 14, borderRadius: 8, color: \"#241430\", fontWeight: 700, textAlign: \"center\", background: accent }}>B</div>\n        </div>\n        <p className=\"state\" style={{ fontSize: 12, color: \"#241430aa\", marginTop: 8 }} />\n      </div>\n      <style>{`\n        .state::before { content: \"Stacked (below breakpoint)\"; }\n        @container (min-width: ${breakpointValue}px) {\n          .layout { flex-direction: row; }\n          .state::before { content: \"Side by side (breakpoint reached)\"; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

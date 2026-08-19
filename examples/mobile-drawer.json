@@ -1,0 +1,39 @@
+{
+  "slug": "mobile-drawer",
+  "controls_schema": [
+    {
+      "id": "open",
+      "type": "toggle",
+      "label": "Drawer open",
+      "default": true
+    },
+    {
+      "id": "edge",
+      "type": "select",
+      "label": "Slides from",
+      "default": "left",
+      "options": ["left", "right"]
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Duration (ms)",
+      "default": 300,
+      "min": 100,
+      "max": 700,
+      "step": 50
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-dr-stage\" data-edge=\"{{edge}}\">\n  <div class=\"rsp-dr-scrim{{#if open}} rsp-dr-scrim--visible{{/if}}\"></div>\n  <nav class=\"rsp-dr-panel{{#if open}} rsp-dr-panel--open{{/if}}\" style=\"background:{{accent}};\">\n    <a href=\"#\">Home</a><a href=\"#\">Reports</a><a href=\"#\">Settings</a>\n  </nav>\n  <p class=\"rsp-dr-caption\">{{#if open}}Open{{/if}}{{#unless open}}Closed{{/unless}} &mdash; slides in from the {{edge}}</p>\n</div>\n<style>\n.rsp-dr-stage { position: relative; width: 100%; max-width: 320px; height: 140px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 13px system-ui, sans-serif; color: #241430aa; }\n.rsp-dr-scrim { position: absolute; inset: 0; background: rgba(36,20,48,.35); opacity: 0; }\n.rsp-dr-scrim--visible { opacity: 1; }\n.rsp-dr-panel { position: absolute; top: 0; bottom: 0; width: 62%; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }\n.rsp-dr-panel a { color: #FAF7F2; text-decoration: none; font-weight: 600; }\n[data-edge=\"left\"] .rsp-dr-panel { left: 0; transform: translateX(-100%); }\n[data-edge=\"left\"] .rsp-dr-panel--open { transform: translateX(0); }\n[data-edge=\"right\"] .rsp-dr-panel { right: 0; transform: translateX(100%); }\n[data-edge=\"right\"] .rsp-dr-panel--open { transform: translateX(0); }\n.rsp-dr-caption { position: absolute; bottom: -24px; left: 0; }\n@media (prefers-reduced-motion: no-preference) {\n  .rsp-dr-panel, .rsp-dr-scrim { transition: transform {{duration}}ms ease-out, opacity {{duration}}ms ease-out; }\n}\n</style>",
+    "tailwind": "<div class=\"relative w-full max-w-[320px] h-[140px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-sm text-[#241430]/70\" data-edge=\"{{edge}}\">\n  <div class=\"tw-dr-scrim{{#if open}} tw-dr-scrim-on{{/if}} absolute inset-0 bg-[#241430]/35 opacity-0\"></div>\n  <nav class=\"tw-dr-panel{{#if open}} tw-dr-open{{/if}} absolute top-0 bottom-0 w-[62%] p-4 flex flex-col gap-2.5 box-border\" style=\"background:{{accent}};\">\n    <a href=\"#\" class=\"text-[#FAF7F2] no-underline font-semibold\">Home</a><a href=\"#\" class=\"text-[#FAF7F2] no-underline font-semibold\">Reports</a><a href=\"#\" class=\"text-[#FAF7F2] no-underline font-semibold\">Settings</a>\n  </nav>\n  <p class=\"absolute -bottom-6 left-0\">{{#if open}}Open{{/if}}{{#unless open}}Closed{{/unless}} &mdash; slides in from the {{edge}}</p>\n</div>\n<style>\n.tw-dr-scrim-on { opacity: 1; }\n[data-edge=\"left\"] .tw-dr-panel { left: 0; transform: translateX(-100%); }\n[data-edge=\"left\"] .tw-dr-open { transform: translateX(0); }\n[data-edge=\"right\"] .tw-dr-panel { right: 0; transform: translateX(100%); }\n[data-edge=\"right\"] .tw-dr-open { transform: translateX(0); }\n@media (prefers-reduced-motion: no-preference) {\n  .tw-dr-panel, .tw-dr-scrim { transition: transform {{duration}}ms ease-out, opacity {{duration}}ms ease-out; }\n}\n</style>",
+    "react": "export function MobileDrawer({\n  open = {{open}},\n  edge = \"{{edge}}\",\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  const closedX = edge === \"left\" ? \"-100%\" : \"100%\";\n  return (\n    <div style={{ position: \"relative\", width: \"100%\", maxWidth: 320, height: 140, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 13, color: \"#241430aa\" }}>\n      <div className=\"scrim\" style={{ position: \"absolute\", inset: 0, background: \"rgba(36,20,48,.35)\", opacity: open ? 1 : 0 }} />\n      <nav className=\"panel\" style={{ position: \"absolute\", top: 0, bottom: 0, [edge]: 0, width: \"62%\", padding: 16, display: \"flex\", flexDirection: \"column\", gap: 10, boxSizing: \"border-box\", background: accent, transform: open ? \"translateX(0)\" : `translateX(${closedX})` }}>\n        <a href=\"#\" style={{ color: \"#FAF7F2\", textDecoration: \"none\", fontWeight: 600 }}>Home</a>\n        <a href=\"#\" style={{ color: \"#FAF7F2\", textDecoration: \"none\", fontWeight: 600 }}>Reports</a>\n        <a href=\"#\" style={{ color: \"#FAF7F2\", textDecoration: \"none\", fontWeight: 600 }}>Settings</a>\n      </nav>\n      <p style={{ position: \"absolute\", bottom: -24, left: 0 }}>{open ? \"Open\" : \"Closed\"} &mdash; slides in from the {edge}</p>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .panel, .scrim { transition: transform ${duration}ms ease-out, opacity ${duration}ms ease-out; }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

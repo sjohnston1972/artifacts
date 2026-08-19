@@ -1,0 +1,38 @@
+{
+  "slug": "desktop-first",
+  "controls_schema": [
+    {
+      "id": "mobileOverride",
+      "type": "toggle",
+      "label": "Apply mobile override",
+      "default": false
+    },
+    {
+      "id": "columns",
+      "type": "number",
+      "label": "Default columns",
+      "default": 3,
+      "min": 2,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Panel label",
+      "default": "Dashboard widgets"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-df-stage\">\n  <p class=\"rsp-df-label\">{{label}}</p>\n  <div class=\"rsp-df-grid{{#if mobileOverride}} rsp-df-grid--override{{/if}}\" style=\"grid-template-columns:repeat({{columns}}, 1fr);\">\n    <span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span>\n  </div>\n  <p class=\"rsp-df-code\">{{#unless mobileOverride}}base: grid-template-columns: repeat({{columns}}, 1fr);{{/unless}}{{#if mobileOverride}}@media (max-width: 480px) override applied: 1 column{{/if}}</p>\n</div>\n<style>\n.rsp-df-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 12px system-ui, sans-serif; color: #241430; }\n.rsp-df-label { margin: 0 0 8px; font-weight: 600; }\n.rsp-df-grid { display: grid; gap: 8px; }\n.rsp-df-grid span { height: 40px; border-radius: 8px; }\n.rsp-df-grid--override { grid-template-columns: 1fr !important; }\n.rsp-df-code { margin: 10px 0 0; font-family: ui-monospace, monospace; font-size: 10px; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-xs text-[#241430]\">\n  <p class=\"m-0 mb-2 font-semibold\">{{label}}</p>\n  <div class=\"tw-df-grid{{#if mobileOverride}} tw-df-override{{/if}} grid gap-2\" style=\"grid-template-columns:repeat({{columns}}, 1fr);\">\n    <span class=\"h-10 rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"h-10 rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"h-10 rounded-lg\" style=\"background:{{accent}};\"></span>\n  </div>\n  <p class=\"mt-2.5 font-mono text-[10px] text-[#241430]/70\">{{#unless mobileOverride}}base: grid-template-columns: repeat({{columns}}, 1fr);{{/unless}}{{#if mobileOverride}}@media (max-width: 480px) override applied: 1 column{{/if}}</p>\n</div>\n<style>\n.tw-df-override { grid-template-columns: 1fr !important; }\n</style>",
+    "react": "export function DesktopFirst({\n  mobileOverride = {{mobileOverride}},\n  columns = {{columns}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430\" }}>\n      <p style={{ margin: \"0 0 8px\", fontWeight: 600 }}>{label}</p>\n      <div style={{ display: \"grid\", gap: 8, gridTemplateColumns: mobileOverride ? \"1fr\" : `repeat(${columns}, 1fr)` }}>\n        <span style={{ height: 40, borderRadius: 8, background: accent }} />\n        <span style={{ height: 40, borderRadius: 8, background: accent }} />\n        <span style={{ height: 40, borderRadius: 8, background: accent }} />\n      </div>\n      <p style={{ margin: \"10px 0 0\", fontFamily: \"ui-monospace, monospace\", fontSize: 10, color: \"#241430aa\" }}>\n        {mobileOverride ? \"@media (max-width: 480px) override applied: 1 column\" : `base: grid-template-columns: repeat(${columns}, 1fr);`}\n      </p>\n    </div>\n  );\n}"
+  }
+}

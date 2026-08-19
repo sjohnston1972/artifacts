@@ -1,0 +1,42 @@
+{
+  "slug": "responsive-layout",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 300,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap (px)",
+      "default": 10,
+      "min": 4,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "itemCount",
+      "type": "select",
+      "label": "Items",
+      "default": "three",
+      "options": ["two", "three"]
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-rl-viewport\" data-items=\"{{itemCount}}\">\n  <div class=\"rsp-rl-container\" style=\"width:{{width}}px;\">\n    <div class=\"rsp-rl-row\" style=\"gap:{{gap}}px;\">\n      <span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span><span class=\"rsp-rl-third\" style=\"background:{{accent}};\"></span>\n    </div>\n  </div>\n  <p class=\"rsp-rl-caption\">{{width}}px &mdash; wraps to fit the available space, no fixed breakpoint list</p>\n</div>\n<style>\n.rsp-rl-viewport { width: 100%; max-width: 660px; }\n.rsp-rl-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 14px; box-sizing: border-box; }\n.rsp-rl-row { display: flex; flex-wrap: wrap; }\n.rsp-rl-row span { flex: 1 1 120px; height: 46px; border-radius: 8px; }\n.rsp-rl-third { display: none; }\n[data-items=\"three\"] .rsp-rl-third { display: block; }\n.rsp-rl-caption { margin: 8px 0 0; font: 11px system-ui, sans-serif; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\" data-items=\"{{itemCount}}\">\n  <div class=\"tw-rl-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-3.5 box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <div class=\"flex flex-wrap\" style=\"gap:{{gap}}px;\">\n      <span class=\"flex-[1_1_120px] h-[46px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"flex-[1_1_120px] h-[46px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"tw-rl-third flex-[1_1_120px] h-[46px] rounded-lg hidden\" style=\"background:{{accent}};\"></span>\n    </div>\n  </div>\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">{{width}}px &mdash; wraps to fit the available space, no fixed breakpoint list</p>\n</div>\n<style>\n[data-items=\"three\"] .tw-rl-third { display: block; }\n</style>",
+    "react": "export function ResponsiveLayout({\n  width = {{width}},\n  gap = {{gap}},\n  itemCount = \"{{itemCount}}\",\n  accent = \"{{accent}}\",\n}) {\n  const box = { flex: \"1 1 120px\", height: 46, borderRadius: 8, background: accent };\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 14, boxSizing: \"border-box\" }}>\n        <div style={{ display: \"flex\", flexWrap: \"wrap\", gap }}>\n          <span style={box} /><span style={box} />{itemCount === \"three\" && <span style={box} />}\n        </div>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{width}px &mdash; wraps to fit the available space, no fixed breakpoint list</p>\n    </div>\n  );\n}"
+  }
+}

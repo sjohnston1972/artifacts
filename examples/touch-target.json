@@ -1,0 +1,38 @@
+{
+  "slug": "touch-target",
+  "controls_schema": [
+    {
+      "id": "undersizedSize",
+      "type": "number",
+      "label": "Counter-example size (px)",
+      "default": 24,
+      "min": 16,
+      "max": 43,
+      "step": 1
+    },
+    {
+      "id": "showGuide",
+      "type": "toggle",
+      "label": "Show 44px guide ring",
+      "default": true
+    },
+    {
+      "id": "label",
+      "type": "text",
+      "label": "Button label",
+      "default": "Delete"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#F5C2E0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-tt-stage\">\n  <div class=\"rsp-tt-col\">\n    <div class=\"rsp-tt-frame{{#if showGuide}} rsp-tt-frame--guide{{/if}}\" style=\"width:44px; height:44px;\">\n      <button type=\"button\" class=\"rsp-tt-btn\" style=\"background:{{accent}};\">&#10003;</button>\n    </div>\n    <p>44&times;44px &mdash; meets the minimum</p>\n  </div>\n  <div class=\"rsp-tt-col\">\n    <div class=\"rsp-tt-frame{{#if showGuide}} rsp-tt-frame--guide{{/if}}\" style=\"width:44px; height:44px;\">\n      <button type=\"button\" class=\"rsp-tt-btn rsp-tt-btn--small\" style=\"width:{{undersizedSize}}px; height:{{undersizedSize}}px; background:{{accent}};\">&#10003;</button>\n    </div>\n    <p>{{undersizedSize}}&times;{{undersizedSize}}px &mdash; too small to tap reliably</p>\n  </div>\n  <p class=\"rsp-tt-caption\">\"{{label}}\" as two hit-target sizes, guide ring shows the 44px reference</p>\n</div>\n<style>\n.rsp-tt-stage { width: 100%; max-width: 320px; padding: 16px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; font: 11px system-ui, sans-serif; color: #241430aa; display: flex; gap: 20px; flex-wrap: wrap; }\n.rsp-tt-col { text-align: center; }\n.rsp-tt-frame { display: grid; place-items: center; }\n.rsp-tt-frame--guide { outline: 1.5px dashed #24143066; outline-offset: 2px; }\n.rsp-tt-btn { border: none; border-radius: 999px; color: #241430; font-weight: 700; cursor: pointer; width: 44px; height: 44px; }\n.rsp-tt-btn--small { border-radius: 999px; }\n.rsp-tt-col p { margin: 8px 0 0; max-width: 100px; }\n.rsp-tt-caption { flex-basis: 100%; margin: 0; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] p-4 bg-[#FAF7F2] border border-[#24143022] rounded-xl font-sans text-[11px] text-[#241430]/70 flex gap-5 flex-wrap\">\n  <div class=\"text-center\">\n    <div class=\"tw-tt-frame{{#if showGuide}} tw-tt-guide{{/if}} grid place-items-center\" style=\"width:44px; height:44px;\">\n      <button type=\"button\" class=\"w-11 h-11 rounded-full border-0 text-[#241430] font-bold cursor-pointer\" style=\"background:{{accent}};\">&#10003;</button>\n    </div>\n    <p class=\"mt-2 max-w-[100px]\">44&times;44px &mdash; meets the minimum</p>\n  </div>\n  <div class=\"text-center\">\n    <div class=\"tw-tt-frame{{#if showGuide}} tw-tt-guide{{/if}} grid place-items-center\" style=\"width:44px; height:44px;\">\n      <button type=\"button\" class=\"rounded-full border-0 text-[#241430] font-bold cursor-pointer\" style=\"width:{{undersizedSize}}px; height:{{undersizedSize}}px; background:{{accent}};\">&#10003;</button>\n    </div>\n    <p class=\"mt-2 max-w-[100px]\">{{undersizedSize}}&times;{{undersizedSize}}px &mdash; too small to tap reliably</p>\n  </div>\n  <p class=\"basis-full m-0\">\"{{label}}\" as two hit-target sizes, guide ring shows the 44px reference</p>\n</div>\n<style>\n.tw-tt-guide { outline: 1.5px dashed #24143066; outline-offset: 2px; }\n</style>",
+    "react": "export function TouchTarget({\n  undersizedSize = {{undersizedSize}},\n  showGuide = {{showGuide}},\n  label = \"{{label}}\",\n  accent = \"{{accent}}\",\n}) {\n  const frame = (guide) => ({ display: \"grid\", placeItems: \"center\", width: 44, height: 44, outline: guide ? \"1.5px dashed #24143066\" : \"none\", outlineOffset: 2 });\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, padding: 16, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, fontFamily: \"system-ui, sans-serif\", fontSize: 11, color: \"#241430aa\", display: \"flex\", gap: 20, flexWrap: \"wrap\" }}>\n      <div style={{ textAlign: \"center\" }}>\n        <div style={frame(showGuide)}><button type=\"button\" style={{ width: 44, height: 44, borderRadius: 999, border: \"none\", color: \"#241430\", fontWeight: 700, cursor: \"pointer\", background: accent }}>&#10003;</button></div>\n        <p style={{ margin: \"8px 0 0\", maxWidth: 100 }}>44&times;44px &mdash; meets the minimum</p>\n      </div>\n      <div style={{ textAlign: \"center\" }}>\n        <div style={frame(showGuide)}><button type=\"button\" style={{ width: undersizedSize, height: undersizedSize, borderRadius: 999, border: \"none\", color: \"#241430\", fontWeight: 700, cursor: \"pointer\", background: accent }}>&#10003;</button></div>\n        <p style={{ margin: \"8px 0 0\", maxWidth: 100 }}>{undersizedSize}&times;{undersizedSize}px &mdash; too small to tap reliably</p>\n      </div>\n      <p style={{ flexBasis: \"100%\", margin: 0 }}>\"{label}\" as two hit-target sizes, guide ring shows the 44px reference</p>\n    </div>\n  );\n}"
+  }
+}

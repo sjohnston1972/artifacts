@@ -1,0 +1,41 @@
+{
+  "slug": "adaptive-layout",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 280,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "showGuide",
+      "type": "toggle",
+      "label": "Show config guide",
+      "default": true
+    },
+    {
+      "id": "gap",
+      "type": "number",
+      "label": "Gap (px)",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 2
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#D9C8F0",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-ad-viewport\">\n  {{#if showGuide}}<p class=\"rsp-ad-guide\">Jumps between 3 fixed configs: 1-col below 260px, 2-col below 460px, 3-col above</p>{{/if}}\n  <div class=\"rsp-ad-container\" style=\"width:{{width}}px;\">\n    <div class=\"rsp-ad-grid\" style=\"gap:{{gap}}px;\">\n      <span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span><span style=\"background:{{accent}};\"></span>\n    </div>\n  </div>\n</div>\n<style>\n.rsp-ad-viewport { width: 100%; max-width: 660px; }\n.rsp-ad-guide { font: 11px system-ui, sans-serif; color: #241430aa; margin: 0 0 8px; }\n.rsp-ad-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 14px; box-sizing: border-box; }\n.rsp-ad-grid { display: grid; grid-template-columns: 1fr; }\n.rsp-ad-grid span { height: 46px; border-radius: 8px; }\n@container (min-width: 260px) { .rsp-ad-grid { grid-template-columns: 1fr 1fr; } }\n@container (min-width: 460px) { .rsp-ad-grid { grid-template-columns: 1fr 1fr 1fr; } }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\">\n  {{#if showGuide}}<p class=\"text-[11px] text-[#241430]/70 m-0 mb-2\">Jumps between 3 fixed configs: 1-col below 260px, 2-col below 460px, 3-col above</p>{{/if}}\n  <div class=\"tw-ad-container max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-3.5 box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <div class=\"tw-ad-grid grid grid-cols-1\" style=\"gap:{{gap}}px;\">\n      <span class=\"h-[46px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"h-[46px] rounded-lg\" style=\"background:{{accent}};\"></span><span class=\"h-[46px] rounded-lg\" style=\"background:{{accent}};\"></span>\n    </div>\n  </div>\n</div>\n<style>\n@container (min-width: 260px) { .tw-ad-grid { grid-template-columns: 1fr 1fr; } }\n@container (min-width: 460px) { .tw-ad-grid { grid-template-columns: 1fr 1fr 1fr; } }\n</style>",
+    "react": "export function AdaptiveLayout({\n  width = {{width}},\n  showGuide = {{showGuide}},\n  gap = {{gap}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      {showGuide && <p style={{ fontSize: 11, color: \"#241430aa\", margin: \"0 0 8px\" }}>Jumps between 3 fixed configs: 1-col below 260px, 2-col below 460px, 3-col above</p>}\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 14, boxSizing: \"border-box\" }}>\n        <div className=\"grid\" style={{ display: \"grid\", gridTemplateColumns: \"1fr\", gap }}>\n          <span style={{ height: 46, borderRadius: 8, background: accent }} />\n          <span style={{ height: 46, borderRadius: 8, background: accent }} />\n          <span style={{ height: 46, borderRadius: 8, background: accent }} />\n        </div>\n      </div>\n      <style>{`\n        @container (min-width: 260px) { .grid { grid-template-columns: 1fr 1fr; } }\n        @container (min-width: 460px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

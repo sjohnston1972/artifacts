@@ -1,0 +1,36 @@
+{
+  "slug": "safe-area",
+  "controls_schema": [
+    {
+      "id": "respectSafeArea",
+      "type": "toggle",
+      "label": "Respect safe area",
+      "default": true
+    },
+    {
+      "id": "device",
+      "type": "select",
+      "label": "Device cutout",
+      "default": "notch",
+      "options": ["notch", "pill"]
+    },
+    {
+      "id": "content",
+      "type": "text",
+      "label": "Content text",
+      "default": "Account settings"
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#BFD9F2",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-sa-frame\" data-device=\"{{device}}\">\n  <div class=\"rsp-sa-cutout rsp-sa-cutout--notch\"></div>\n  <div class=\"rsp-sa-cutout rsp-sa-cutout--pill\"></div>\n  <div class=\"rsp-sa-content{{#if respectSafeArea}} rsp-sa-content--safe{{/if}}\" style=\"background:{{accent}};\">{{content}}</div>\n  <p class=\"rsp-sa-caption\">{{#if respectSafeArea}}Padded clear of the {{device}}{{/if}}{{#unless respectSafeArea}}Ignoring the safe area &mdash; text sits under the {{device}}{{/unless}}</p>\n</div>\n<style>\n.rsp-sa-frame { position: relative; width: 160px; height: 200px; margin: 0 auto; background: #241430; border-radius: 24px; padding: 10px; box-sizing: border-box; font: 10px system-ui, sans-serif; color: #241430aa; }\n.rsp-sa-cutout { display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: #000; z-index: 2; }\n.rsp-sa-cutout--notch { width: 60px; height: 16px; border-radius: 0 0 10px 10px; }\n.rsp-sa-cutout--pill { width: 40px; height: 10px; border-radius: 999px; }\n[data-device=\"notch\"] .rsp-sa-cutout--notch,\n[data-device=\"pill\"] .rsp-sa-cutout--pill { display: block; }\n.rsp-sa-content { margin-top: 10px; padding: 10px; border-radius: 8px; color: #241430; font-weight: 600; text-align: center; }\n.rsp-sa-content--safe { margin-top: 34px; }\n.rsp-sa-caption { position: absolute; bottom: -30px; left: 0; right: 0; text-align: center; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"relative w-40 h-[200px] mx-auto bg-[#241430] rounded-3xl p-2.5 box-border font-sans text-[10px] text-[#241430]/70\" data-device=\"{{device}}\">\n  <div class=\"tw-sa-notch hidden absolute top-2.5 left-1/2 -translate-x-1/2 bg-black z-10 w-[60px] h-4 rounded-b-[10px]\"></div>\n  <div class=\"tw-sa-pill hidden absolute top-2.5 left-1/2 -translate-x-1/2 bg-black z-10 w-10 h-2.5 rounded-full\"></div>\n  <div class=\"tw-sa-content{{#if respectSafeArea}} tw-sa-safe{{/if}} mt-2.5 p-2.5 rounded-lg text-[#241430] font-semibold text-center\" style=\"background:{{accent}};\">{{content}}</div>\n  <p class=\"absolute -bottom-[30px] left-0 right-0 text-center\">{{#if respectSafeArea}}Padded clear of the {{device}}{{/if}}{{#unless respectSafeArea}}Ignoring the safe area &mdash; text sits under the {{device}}{{/unless}}</p>\n</div>\n<style>\n[data-device=\"notch\"] .tw-sa-notch,\n[data-device=\"pill\"] .tw-sa-pill { display: block; }\n.tw-sa-safe { margin-top: 34px !important; }\n</style>",
+    "react": "export function SafeArea({\n  respectSafeArea = {{respectSafeArea}},\n  device = \"{{device}}\",\n  content = \"{{content}}\",\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ position: \"relative\", width: 160, height: 200, margin: \"0 auto\", background: \"#241430\", borderRadius: 24, padding: 10, boxSizing: \"border-box\", fontFamily: \"system-ui, sans-serif\", fontSize: 10, color: \"#241430aa\" }}>\n      <div style={{ position: \"absolute\", top: 10, left: \"50%\", transform: \"translateX(-50%)\", background: \"#000\", zIndex: 2, width: device === \"notch\" ? 60 : 40, height: device === \"notch\" ? 16 : 10, borderRadius: device === \"notch\" ? \"0 0 10px 10px\" : 999 }} />\n      <div style={{ marginTop: respectSafeArea ? 34 : 10, padding: 10, borderRadius: 8, color: \"#241430\", fontWeight: 600, textAlign: \"center\", background: accent }}>{content}</div>\n      <p style={{ position: \"absolute\", bottom: -30, left: 0, right: 0, textAlign: \"center\" }}>\n        {respectSafeArea ? `Padded clear of the ${device}` : `Ignoring the safe area \\u2014 text sits under the ${device}`}\n      </p>\n    </div>\n  );\n}"
+  }
+}

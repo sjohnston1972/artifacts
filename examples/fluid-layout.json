@@ -1,0 +1,44 @@
+{
+  "slug": "fluid-layout",
+  "controls_schema": [
+    {
+      "id": "width",
+      "type": "number",
+      "label": "Container width (px)",
+      "default": 320,
+      "min": 160,
+      "max": 640,
+      "step": 10
+    },
+    {
+      "id": "minSize",
+      "type": "number",
+      "label": "Min font size (px)",
+      "default": 14,
+      "min": 10,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "id": "maxSize",
+      "type": "number",
+      "label": "Max font size (px)",
+      "default": 28,
+      "min": 20,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#241430",
+      "presets": ["#241430", "#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-fl-viewport\">\n  <div class=\"rsp-fl-container\" style=\"width:{{width}}px;\">\n    <p class=\"rsp-fl-text\" style=\"font-size:clamp({{minSize}}px, 8cqw, {{maxSize}}px); color:{{accent}};\">Scales smoothly, no jumps</p>\n  </div>\n  <p class=\"rsp-fl-caption\">{{width}}px container &mdash; font uses clamp({{minSize}}px, 8cqw, {{maxSize}}px)</p>\n</div>\n<style>\n.rsp-fl-viewport { width: 100%; max-width: 660px; }\n.rsp-fl-container { container-type: inline-size; max-width: 100%; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; padding: 18px; box-sizing: border-box; }\n.rsp-fl-text { margin: 0; font-weight: 800; font-family: system-ui, sans-serif; line-height: 1.15; }\n.rsp-fl-caption { margin: 8px 0 0; font: 11px system-ui, sans-serif; color: #241430aa; }\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[660px]\">\n  <div class=\"max-w-full bg-[#FAF7F2] border border-[#24143022] rounded-xl p-[18px] box-border\" style=\"width:{{width}}px; container-type:inline-size;\">\n    <p class=\"m-0 font-extrabold font-sans\" style=\"font-size:clamp({{minSize}}px, 8cqw, {{maxSize}}px); color:{{accent}}; line-height:1.15;\">Scales smoothly, no jumps</p>\n  </div>\n  <p class=\"mt-2 text-[11px] text-[#241430]/70\">{{width}}px container &mdash; font uses clamp({{minSize}}px, 8cqw, {{maxSize}}px)</p>\n</div>",
+    "react": "export function FluidLayout({\n  width = {{width}},\n  minSize = {{minSize}},\n  maxSize = {{maxSize}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 660 }}>\n      <div style={{ width, maxWidth: \"100%\", containerType: \"inline-size\", background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, padding: 18, boxSizing: \"border-box\" }}>\n        <p style={{ margin: 0, fontWeight: 800, fontFamily: \"system-ui, sans-serif\", lineHeight: 1.15, fontSize: `clamp(${minSize}px, 8cqw, ${maxSize}px)`, color: accent }}>Scales smoothly, no jumps</p>\n      </div>\n      <p style={{ margin: \"8px 0 0\", fontSize: 11, color: \"#241430aa\" }}>{width}px container &mdash; font uses clamp({minSize}px, 8cqw, {maxSize}px)</p>\n    </div>\n  );\n}"
+  }
+}

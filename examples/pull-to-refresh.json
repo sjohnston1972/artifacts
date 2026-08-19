@@ -1,0 +1,41 @@
+{
+  "slug": "pull-to-refresh",
+  "controls_schema": [
+    {
+      "id": "released",
+      "type": "toggle",
+      "label": "Released past threshold",
+      "default": false
+    },
+    {
+      "id": "pullDistance",
+      "type": "number",
+      "label": "Pull distance (px)",
+      "default": 40,
+      "min": 0,
+      "max": 80,
+      "step": 5
+    },
+    {
+      "id": "duration",
+      "type": "number",
+      "label": "Spinner cycle (ms)",
+      "default": 800,
+      "min": 400,
+      "max": 1600,
+      "step": 100
+    },
+    {
+      "id": "accent",
+      "type": "color",
+      "label": "Colour",
+      "default": "#A8E6C1",
+      "presets": ["#A8E6C1", "#F5C2E0", "#BFD9F2", "#D9C8F0", "#E8A020", "#241430"]
+    }
+  ],
+  "templates": {
+    "html": "<div class=\"rsp-pr-stage\">\n  <div class=\"rsp-pr-pull\" style=\"height:{{#unless released}}{{pullDistance}}{{/unless}}{{#if released}}50{{/if}}px;\">\n    {{#if released}}<span class=\"rsp-pr-spin\" role=\"status\" aria-live=\"polite\" style=\"border-top-color:{{accent}};\"><span class=\"rsp-pr-sr\">Refreshing&hellip;</span></span>{{/if}}\n    {{#unless released}}<span class=\"rsp-pr-arrow\">&darr; pull {{pullDistance}}px</span>{{/unless}}\n  </div>\n  <div class=\"rsp-pr-list\"><div>Item one</div><div>Item two</div></div>\n</div>\n<style>\n.rsp-pr-stage { width: 100%; max-width: 320px; background: #FAF7F2; border: 1px solid #24143022; border-radius: 12px; overflow: hidden; font: 12px system-ui, sans-serif; color: #241430aa; }\n.rsp-pr-pull { display: flex; align-items: center; justify-content: center; background: #24143008; }\n.rsp-pr-spin { width: 22px; height: 22px; border: 3px solid #24143022; border-radius: 999px; }\n.rsp-pr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; }\n.rsp-pr-list div { padding: 12px; border-top: 1px solid #24143014; color: #241430; }\n@media (prefers-reduced-motion: no-preference) {\n  .rsp-pr-spin { animation: rsp-pr-spin {{duration}}ms linear infinite; }\n  @keyframes rsp-pr-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "tailwind": "<div class=\"w-full max-w-[320px] bg-[#FAF7F2] border border-[#24143022] rounded-xl overflow-hidden font-sans text-xs text-[#241430]/70\">\n  <div class=\"flex items-center justify-center bg-[#24143008]\" style=\"height:{{#unless released}}{{pullDistance}}{{/unless}}{{#if released}}50{{/if}}px;\">\n    {{#if released}}<span role=\"status\" aria-live=\"polite\" class=\"tw-pr-spin w-[22px] h-[22px] border-[3px] border-[#24143022] rounded-full\" style=\"border-top-color:{{accent}};\"><span class=\"sr-only\">Refreshing&hellip;</span></span>{{/if}}\n    {{#unless released}}<span>&darr; pull {{pullDistance}}px</span>{{/unless}}\n  </div>\n  <div><div class=\"p-3 border-t border-[#24143014] text-[#241430]\">Item one</div><div class=\"p-3 border-t border-[#24143014] text-[#241430]\">Item two</div></div>\n</div>\n<style>\n@media (prefers-reduced-motion: no-preference) {\n  .tw-pr-spin { animation: rsp-pr-tw-spin {{duration}}ms linear infinite; }\n  @keyframes rsp-pr-tw-spin { to { transform: rotate(360deg); } }\n}\n</style>",
+    "react": "export function PullToRefresh({\n  released = {{released}},\n  pullDistance = {{pullDistance}},\n  duration = {{duration}},\n  accent = \"{{accent}}\",\n}) {\n  return (\n    <div style={{ width: \"100%\", maxWidth: 320, background: \"#FAF7F2\", border: \"1px solid #24143022\", borderRadius: 12, overflow: \"hidden\", fontFamily: \"system-ui, sans-serif\", fontSize: 12, color: \"#241430aa\" }}>\n      <div style={{ display: \"flex\", alignItems: \"center\", justifyContent: \"center\", background: \"#24143008\", height: released ? 50 : pullDistance }}>\n        {released ? (\n          <span role=\"status\" aria-live=\"polite\" className=\"spin\" style={{ width: 22, height: 22, border: \"3px solid #24143022\", borderTopColor: accent, borderRadius: 999 }}>\n            <span style={{ position: \"absolute\", width: 1, height: 1, overflow: \"hidden\" }}>Refreshing&hellip;</span>\n          </span>\n        ) : (\n          <span>&darr; pull {pullDistance}px</span>\n        )}\n      </div>\n      <div>\n        <div style={{ padding: 12, borderTop: \"1px solid #24143014\", color: \"#241430\" }}>Item one</div>\n        <div style={{ padding: 12, borderTop: \"1px solid #24143014\", color: \"#241430\" }}>Item two</div>\n      </div>\n      <style>{`\n        @media (prefers-reduced-motion: no-preference) {\n          .spin { animation: rsp-pr-spin ${duration}ms linear infinite; }\n          @keyframes rsp-pr-spin { to { transform: rotate(360deg); } }\n        }\n      `}</style>\n    </div>\n  );\n}"
+  }
+}

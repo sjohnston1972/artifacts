@@ -164,7 +164,11 @@ for (const file of files) {
   for (const [fmt, tpl] of Object.entries(ex.templates)) {
     const t = String(tpl);
     const inlineAttr = /style\s*=\s*["'][^"']*(animation|transition)\s*:/i.test(t);
-    const jsxStyle = /style=\{\{/.test(t) && /(animation|transition)[A-Za-z]*\s*:\s*["'`]/.test(t);
+    // Inspect inside each JSX style object rather than anywhere in the file:
+    // `style={{ animation: on ? "pulse 1s" : "none" }}` has no quote after the
+    // colon, so a value-shaped test misses it while the defect is identical.
+    const jsxStyle = [...t.matchAll(/style=\{\{([^}]*)\}\}/g)]
+      .some((m) => /(animation|transition)[A-Za-z]*\s*:/.test(m[1]));
     if (inlineAttr || jsxStyle) {
       problems.push([label, `${fmt}: motion in an inline style cannot be gated by prefers-reduced-motion; use a class + <style>`]);
     }

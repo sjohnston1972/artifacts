@@ -184,6 +184,20 @@ for (const file of files) {
     }
   }
 
+  // Tailwind motion utilities animate unless prefixed `motion-safe:`, which
+  // compiles to @media (prefers-reduced-motion: no-preference). Without it the
+  // copied Tailwind ignores the reader's setting, exactly as ungated CSS does.
+  {
+    const tw = String(ex.templates.tailwind || "");
+    const classes = [...tw.matchAll(/class="([^"]*)"/g)].map((m) => m[1]).join(" ");
+    const bad = classes.match(
+      /(?<!motion-safe:)(?<!motion-reduce:)\b(animate-(?!none)[a-z-]+|transition(?:-[a-z]+)?|duration-\d+)\b/g
+    );
+    if (bad) {
+      problems.push([label, `tailwind: ${[...new Set(bad)].join(" ")} needs the motion-safe: prefix`]);
+    }
+  }
+
   for (const c of ex.controls_schema.filter((c) => c.type === "select")) {
     for (const [fmt, tpl] of Object.entries(ex.templates)) {
       const outs = new Set(c.options.map((o) => render(tpl, { ...values, [c.id]: o }).output));

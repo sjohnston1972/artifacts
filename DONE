@@ -65,3 +65,22 @@ control is referenced by every format and that no template emits a warning.
 Before that, one decision worth taking deliberately: whether to set `EDIT_KEY`.
 The site is currently world-editable, which was your explicit choice, but it is
 worth re-confirming now that it is actually public rather than hypothetical.
+
+---
+
+## Status update — 2026-08-19 (verified, not new work)
+
+Two of the "needs attention" items above were resolved by the runs that
+followed, and are now verified directly:
+
+- **Item 1 (R2 backup) — RESOLVED.** `backups/2026-08-19.json` exists in
+  `compendium-backups`, `exported_at` `2026-08-19T03:00:28Z`. The cron fired.
+  Durability story is complete.
+- **Item 2 (908 definition-only) — STALE, now 918/918.** Every entry has a
+  `controls_schema` and all three templates, locally and live:
+  `/api/index.json` flags all 918 as having an example;
+  `check-examples.mjs` → 918 clean; `render-examples.mjs` → 918 render in a
+  real browser.
+
+Items 3 (`EDIT_KEY` unset, site world-editable) and 4 (deferred niceties)
+still stand and are still decisions for Steven.
